@@ -1,4 +1,4 @@
-# crypto
+# cryptohash
 
 A Kotlin Multiplatform Mobile library to provide a set of cryptographic (and
 not so cryptographic) hashing functions.

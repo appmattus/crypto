@@ -1,20 +1,14 @@
-# multiplatform-utils
+# crypto
 
 A collection of Kotlin Multiplatform Mobile libraries to aid in mobile app
 development.
 
-[battery](battery/README.md): Access various information about the battery of
-the device the app is running on.
-
-[connectivity](connectivity/README.md): Discover network connectivity and
-distinguish between cellular vs WiFi connection.
-
-[package-info](package-info/README.md): An API for querying information about
-an application package.
+[cryptohash](cryptohash/README.md): A set of cryptographic (and
+not so cryptographic) hashing functions.
 
 ## Contributing
 
-Please fork this repository and contribute back using [pull requests](https://github.com/appmattus/multiplatform-utils/pulls).
+Please fork this repository and contribute back using [pull requests](https://github.com/appmattus/crypto/pulls).
 
 All contributions, large or small, major features, bug fixes, additional
 language translations, unit/integration tests are welcomed.
