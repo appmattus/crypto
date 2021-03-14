@@ -72,7 +72,7 @@ dependencies {
 android {
     compileSdkVersion(30)
     defaultConfig {
-        applicationId = "com.appmattus.multiplatformutils.samples"
+        applicationId = "com.appmattus.crypto.samples"
         minSdkVersion(21)
         targetSdkVersion(30)
         versionCode = 1

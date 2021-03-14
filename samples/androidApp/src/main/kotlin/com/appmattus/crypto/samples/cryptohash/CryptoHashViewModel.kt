@@ -14,35 +14,40 @@
  * limitations under the License.
  */
 
-package com.appmattus.multiplatformutils.samples.battery
+package com.appmattus.crypto.samples.cryptohash
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.appmattus.battery.Battery
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
 
 @HiltViewModel
-class BatteryViewModel @Inject constructor(
-    private val battery: Battery,
+class CryptoHashViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
-) : ViewModel(), ContainerHost<BatteryState, Unit> {
+) : ViewModel(), ContainerHost<CryptoHashState, Unit> {
 
-    override val container: Container<BatteryState, Unit> = container(BatteryState(), savedStateHandle) {
-        loadBattery()
+    override val container: Container<CryptoHashState, Unit> = container(CryptoHashState(), savedStateHandle) {
+        if (it.appName.isEmpty()) loadPackageInfo()
     }
 
-    private fun loadBattery() = intent(registerIdling = false) {
-        battery.chargingStatus.collect {
-            reduce {
-                state.copy(batteryLevel = battery.batteryLevel, chargingStatus = it)
-            }
+    private fun loadPackageInfo() = intent {
+        val appName = "n/a"
+        val packageName = "n/a"
+        val version = "n/a"
+        val buildNumber = "n/a"
+
+        reduce {
+            state.copy(
+                appName = appName,
+                packageName = packageName,
+                version = version,
+                buildNumber = buildNumber,
+            )
         }
     }
 }

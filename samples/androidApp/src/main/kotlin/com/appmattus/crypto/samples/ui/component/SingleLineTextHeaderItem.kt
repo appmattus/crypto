@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.appmattus.multiplatformutils.samples.ui.component
+package com.appmattus.crypto.samples.ui.component
 
 import android.view.View
-import com.appmattus.multiplatformutils.samples.R
-import com.appmattus.multiplatformutils.samples.databinding.SingleLineTextHeaderItemBinding
+import com.appmattus.crypto.samples.R
+import com.appmattus.crypto.samples.databinding.SingleLineTextHeaderItemBinding
 import com.xwray.groupie.Item
 import com.xwray.groupie.viewbinding.BindableItem
 

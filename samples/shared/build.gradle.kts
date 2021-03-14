@@ -27,10 +27,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                export(project(":battery"))
-                export(project(":connectivity"))
-                export(project(":crypto"))
-                export(project(":package-info"))
+                export(project(":cryptohash"))
                 baseName = "shared"
             }
         }
@@ -38,10 +35,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":battery"))
-                api(project(":connectivity"))
-                api(project(":crypto"))
-                api(project(":package-info"))
+                api(project(":cryptohash"))
             }
         }
         val commonTest by getting

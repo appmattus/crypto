@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package com.appmattus.multiplatformutils.flow
+package com.appmattus.crypto.samples.ui
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-fun Flow<*>.subscribe(onEach: (item: Any) -> Unit, onComplete: () -> Unit, onThrow: (error: Throwable) -> Unit): Job =
-    this.onEach { onEach(it as Any) }
-        .catch { onThrow(it) }
-        .onCompletion { onComplete() }
-        .launchIn(CoroutineScope(Job() + Dispatchers.Main))
+fun debounce(
+    delayMillis: Long = 300L,
+    scope: CoroutineScope,
+    action: () -> Unit
+): () -> Unit {
+    var debounceJob: Job? = null
+    return {
+        if (debounceJob == null) {
+            debounceJob = scope.launch {
+                action()
+                delay(delayMillis)
+                debounceJob = null
+            }
+        }
+    }
+}

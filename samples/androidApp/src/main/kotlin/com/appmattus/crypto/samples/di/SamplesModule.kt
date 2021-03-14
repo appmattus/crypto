@@ -14,28 +14,14 @@
  * limitations under the License.
  */
 
-package com.appmattus.multiplatformutils.samples.di
+package com.appmattus.crypto.samples.di
 
-import android.content.Context
-import com.appmattus.battery.Battery
-import com.appmattus.connectivity.Connectivity
-import com.appmattus.packageinfo.PackageInfo
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
 object SamplesModule {
 
-    @Provides
-    fun provideBattery(@ApplicationContext context: Context) = Battery(context)
-
-    @Provides
-    fun provideConnectivity(@ApplicationContext context: Context) = Connectivity(context)
-
-    @Provides
-    fun providePackageInfo(@ApplicationContext context: Context) = PackageInfo(context)
 }

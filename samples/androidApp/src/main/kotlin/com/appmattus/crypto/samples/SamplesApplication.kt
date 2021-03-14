@@ -14,26 +14,10 @@
  * limitations under the License.
  */
 
-package com.appmattus.multiplatformutils.samples.ui
+package com.appmattus.crypto.samples
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-fun debounce(
-    delayMillis: Long = 300L,
-    scope: CoroutineScope,
-    action: () -> Unit
-): () -> Unit {
-    var debounceJob: Job? = null
-    return {
-        if (debounceJob == null) {
-            debounceJob = scope.launch {
-                action()
-                delay(delayMillis)
-                debounceJob = null
-            }
-        }
-    }
-}
+@HiltAndroidApp
+class SamplesApplication : Application()

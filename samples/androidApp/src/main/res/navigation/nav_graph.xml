@@ -6,28 +6,14 @@
 
     <fragment
         android:id="@+id/samplesFragment"
-        android:name="com.appmattus.multiplatformutils.samples.SamplesFragment"
+        android:name="com.appmattus.crypto.samples.SamplesFragment"
         android:label="SamplesFragment">
         <action
-            android:id="@+id/action_samplesFragment_to_packageInfoFragment"
-            app:destination="@id/packageInfoFragment" />
-        <action
-            android:id="@+id/action_samplesFragment_to_batteryFragment"
-            app:destination="@id/batteryFragment" />
-        <action
-            android:id="@+id/action_samplesFragment_to_connectivityFragment"
-            app:destination="@id/connectivityFragment" />
+            android:id="@+id/action_samplesFragment_to_cryptoHashFragment"
+            app:destination="@id/cryptoHashFragment" />
     </fragment>
     <fragment
-        android:id="@+id/packageInfoFragment"
-        android:name="com.appmattus.multiplatformutils.samples.packageinfo.PackageInfoFragment"
-        android:label="PackageInfoFragment" />
-    <fragment
-        android:id="@+id/batteryFragment"
-        android:name="com.appmattus.multiplatformutils.samples.battery.BatteryFragment"
-        android:label="BatteryFragment" />
-    <fragment
-        android:id="@+id/connectivityFragment"
-        android:name="com.appmattus.multiplatformutils.samples.connectivity.ConnectivityFragment"
-        android:label="ConnectivityFragment" />
+        android:id="@+id/cryptoHashFragment"
+        android:name="com.appmattus.crypto.samples.cryptohash.CryptoHashFragment"
+        android:label="CryptoHashFragment" />
 </navigation>

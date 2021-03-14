@@ -32,7 +32,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation(project(":ignore-test"))
+                implementation("com.appmattus.mpu:ignore-test:0.2.0")
             }
         }
         val jvmMain by getting {

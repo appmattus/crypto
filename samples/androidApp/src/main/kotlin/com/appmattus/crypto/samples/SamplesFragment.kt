@@ -14,33 +14,25 @@
  * limitations under the License.
  */
 
-package com.appmattus.multiplatformutils.samples.battery
+package com.appmattus.crypto.samples
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.appmattus.multiplatformutils.samples.databinding.RecyclerViewFragmentBinding
-import com.appmattus.multiplatformutils.samples.ui.component.SingleLineTextHeaderItem
-import com.appmattus.multiplatformutils.samples.ui.component.TwoLineTextItem
+import com.appmattus.crypto.samples.ui.component.SingleLineTextHeaderItem
+import com.appmattus.crypto.samples.ui.component.SingleLineTextItem
+import com.appmattus.crypto.samples.databinding.RecyclerViewFragmentBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BatteryFragment : Fragment() {
-
-    private val batteryViewModel by viewModels<BatteryViewModel>()
-
-    private val batterySection = Section()
+class SamplesFragment : Fragment() {
 
     private lateinit var binding: RecyclerViewFragmentBinding
 
@@ -53,13 +45,11 @@ class BatteryFragment : Fragment() {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = GroupAdapter<GroupieViewHolder>().apply {
-                add(SingleLineTextHeaderItem("Samples > battery"))
-                add(batterySection)
+                add(SingleLineTextHeaderItem("Samples"))
+                add(SingleLineTextItem("cryptohash") {
+                    findNavController().navigate(R.id.action_samplesFragment_to_cryptoHashFragment)
+                })
             }
-        }
-
-        lifecycleScope.launch {
-            batteryViewModel.container.stateFlow.collect(::render)
         }
     }
 
@@ -67,12 +57,5 @@ class BatteryFragment : Fragment() {
         super.onDestroyView()
         // Fix memory leak with RecyclerView
         binding.recyclerView.adapter = null
-    }
-
-    private fun render(state: BatteryState) {
-        listOf(
-            TwoLineTextItem("batteryLevel", state.batteryLevel.toString()),
-            TwoLineTextItem("chargingStatus", state.chargingStatus.status.name),
-        ).let(batterySection::update)
     }
 }

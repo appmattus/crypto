@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.appmattus.multiplatformutils.samples
+package com.appmattus.crypto.samples
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

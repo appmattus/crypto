@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.appmattus.multiplatformutils.samples.test.HiltTestActivity"
+            android:name="com.appmattus.crypto.samples.test.HiltTestActivity"
             android:exported="false" />
     </application>
 
