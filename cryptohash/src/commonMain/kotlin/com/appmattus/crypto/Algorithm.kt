@@ -32,7 +32,7 @@ sealed class Algorithm(val algorithmName: String, internal val blockLength: Int)
     object Blake2s_224 : Algorithm("BLAKE2S-224", 64)
     object Blake2s_256 : Algorithm("BLAKE2S-256", 64)
 
-    open class Blake2s(val outputSizeBits: Int = 256) : Algorithm("Blake2s-$outputSizeBits-internal", 64) {
+    open class Blake2s(val outputSizeBits: Int = 256) : Algorithm("Blake2s-$outputSizeBits", 64) {
         class Keyed(
             val key: ByteArray,
             val salt: ByteArray? = null,
@@ -46,7 +46,7 @@ sealed class Algorithm(val algorithmName: String, internal val blockLength: Int)
     object Blake2b_384 : Algorithm("BLAKE2B-384", 128)
     object Blake2b_512 : Algorithm("BLAKE2B-512", 128)
 
-    open class Blake2b(val outputSizeBits: Int = 512) : Algorithm("Blake2b-$outputSizeBits-internal", 128) {
+    open class Blake2b(val outputSizeBits: Int = 512) : Algorithm("Blake2b-$outputSizeBits", 128) {
         class Keyed(
             val key: ByteArray,
             val salt: ByteArray? = null,
@@ -55,7 +55,7 @@ sealed class Algorithm(val algorithmName: String, internal val blockLength: Int)
         ) : Blake2b(outputSizeBits)
     }
 
-    open class Blake3(val digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Algorithm("Blake3-${digestLength shl 3}-internal", 64) {
+    open class Blake3(val digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Algorithm("Blake3-${digestLength shl 3}", 64) {
         class Keyed(val key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength)
         class DeriveKey(val context: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength)
     }
@@ -70,12 +70,12 @@ sealed class Algorithm(val algorithmName: String, internal val blockLength: Int)
     class cSHAKE128(
         val customisation: ByteArray? = null,
         val functionName: ByteArray? = null
-    ) : Algorithm("CRC32", 64)
+    ) : Algorithm("cSHAKE128", 64)
 
     class cSHAKE256(
         val customisation: ByteArray? = null,
         val functionName: ByteArray? = null
-    ) : Algorithm("CRC32", 128)
+    ) : Algorithm("cSHAKE256", 128)
 
     object CubeHash224 : Algorithm("CubeHash-224", 32)
     object CubeHash256 : Algorithm("CubeHash-256", 32)
@@ -208,7 +208,7 @@ sealed class Algorithm(val algorithmName: String, internal val blockLength: Int)
     object Skein1024_1024 : Algorithm("Skein-1024-1024", 128)
 
     open class Skein(val blockSizeBits: Int, val outputSizeBits: Int) :
-        Algorithm("Skein-$blockSizeBits-$outputSizeBits-internal", blockSizeBits shr 3) {
+        Algorithm("Skein-$blockSizeBits-$outputSizeBits", blockSizeBits shr 3) {
         class Keyed(
             blockSizeBits: Int,
             outputSizeBits: Int,

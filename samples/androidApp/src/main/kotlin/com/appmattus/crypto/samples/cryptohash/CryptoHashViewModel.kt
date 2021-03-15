@@ -16,8 +16,9 @@
 
 package com.appmattus.crypto.samples.cryptohash
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -27,27 +28,79 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class CryptoHashViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
-) : ViewModel(), ContainerHost<CryptoHashState, Unit> {
+class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<CryptoHashState, Unit> {
 
-    override val container: Container<CryptoHashState, Unit> = container(CryptoHashState(), savedStateHandle) {
-        if (it.appName.isEmpty()) loadPackageInfo()
+    private var currentAlgorithm: Algorithm? = null
+    private var inputText: String = ""
+
+    override val container: Container<CryptoHashState, Unit> = container(CryptoHashState(algorithms = algorithms.map { it.algorithmName })) {
+        generateHash()
     }
 
-    private fun loadPackageInfo() = intent {
-        val appName = "n/a"
-        val packageName = "n/a"
-        val version = "n/a"
-        val buildNumber = "n/a"
+    fun selectAlgorithm(name: String) = intent {
+        currentAlgorithm = algorithms.firstOrNull { it.algorithmName == name }
+        generateHash()
+    }
+
+    fun setInputText(input: String) = intent {
+        inputText = input
+        generateHash()
+    }
+
+    private fun generateHash() = intent {
+        val digest = try {
+            currentAlgorithm?.let { Digest.create(it) }?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
+        } catch (expected: Exception) {
+            expected.message ?: expected.toString()
+        }
 
         reduce {
             state.copy(
-                appName = appName,
-                packageName = packageName,
-                version = version,
-                buildNumber = buildNumber,
+                hash = digest
             )
+        }
+    }
+
+    companion object {
+        private val algorithms = listOf(
+            Algorithm.Adler32,
+            Algorithm.BLAKE512,
+            Algorithm.Blake2b_512,
+            Algorithm.Blake2s_256,
+            Algorithm.Blake3(),
+            Algorithm.BMW512,
+            Algorithm.CRC32,
+            Algorithm.cSHAKE256(),
+            Algorithm.CubeHash512,
+            Algorithm.DSTU7564_512,
+            Algorithm.ECHO512,
+            Algorithm.Fugue512,
+            Algorithm.GOST3411_2012_512,
+            Algorithm.Groestl512,
+            Algorithm.Hamsi512,
+            Algorithm.Haraka512_256,
+            Algorithm.HAVAL_3_256,
+            Algorithm.JH512,
+            Algorithm.Keccak512,
+            Algorithm.Luffa512,
+            Algorithm.MD5,
+            Algorithm.PANAMA,
+            Algorithm.RadioGatun64,
+            Algorithm.RipeMD256,
+            Algorithm.SHA_512_256,
+            Algorithm.SHA3_512,
+            Algorithm.Shabal512,
+            Algorithm.SHAKE256,
+            Algorithm.SHAvite512,
+            Algorithm.SIMD512,
+            Algorithm.Skein1024_512,
+            Algorithm.SM3,
+            Algorithm.Tiger,
+            Algorithm.Whirlpool,
+        )
+
+        private fun ByteArray.toHexString(): String {
+            return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
         }
     }
 }

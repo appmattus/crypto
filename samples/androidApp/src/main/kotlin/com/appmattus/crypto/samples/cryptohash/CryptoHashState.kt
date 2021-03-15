@@ -21,8 +21,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CryptoHashState(
-    val appName: String = "",
-    val packageName: String = "",
-    val version: String = "",
-    val buildNumber: String = ""
+    val algorithms: List<String>,
+    val hash: String = ""
 ) : Parcelable

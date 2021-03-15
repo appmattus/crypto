@@ -26,6 +26,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.appmattus.crypto.samples.databinding.RecyclerViewFragmentBinding
+import com.appmattus.crypto.samples.ui.component.AutoCompleteTextViewItem
+import com.appmattus.crypto.samples.ui.component.EditTextItem
 import com.appmattus.crypto.samples.ui.component.SingleLineTextHeaderItem
 import com.appmattus.crypto.samples.ui.component.TwoLineTextItem
 import com.xwray.groupie.GroupAdapter
@@ -40,7 +42,8 @@ class CryptoHashFragment : Fragment() {
 
     private val viewModel by viewModels<CryptoHashViewModel>()
 
-    private val cryptoHashSection = Section()
+    private val inputSection = Section()
+    private val outputSection = Section()
 
     private lateinit var binding: RecyclerViewFragmentBinding
 
@@ -54,7 +57,8 @@ class CryptoHashFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(SingleLineTextHeaderItem("Samples > cryptohash"))
-                add(cryptoHashSection)
+                add(inputSection)
+                add(outputSection)
             }
         }
 
@@ -69,12 +73,21 @@ class CryptoHashFragment : Fragment() {
         binding.recyclerView.adapter = null
     }
 
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     private fun render(state: CryptoHashState) {
+        if (inputSection.itemCount == 0) {
+            buildList {
+                add(AutoCompleteTextViewItem("Algorithm", state.algorithms) {
+                    viewModel.selectAlgorithm(it)
+                })
+                add(EditTextItem("Input") {
+                    viewModel.setInputText(it)
+                })
+            }.let(inputSection::update)
+        }
+
         listOf(
-            TwoLineTextItem("appName", state.appName),
-            TwoLineTextItem("packageName", state.packageName),
-            TwoLineTextItem("version", state.version),
-            TwoLineTextItem("buildNumber", state.buildNumber)
-        ).let(cryptoHashSection::update)
+            TwoLineTextItem("Hash", state.hash),
+        ).let(outputSection::update)
     }
 }
