@@ -85,7 +85,7 @@ allprojects {
 
                     sourceLink {
                         localDirectory.set(rootDir)
-                        remoteUrl.set(java.net.URL("https://github.com/appmattus/multiplatform-utils/blob/main"))
+                        remoteUrl.set(java.net.URL("https://github.com/appmattus/crypto/blob/main"))
                         remoteLineSuffix.set("#L")
                     }
                 }
