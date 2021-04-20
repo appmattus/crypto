@@ -99,6 +99,7 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
             Algorithm.Whirlpool,
         )
 
+        @Suppress("MagicNumber")
         private fun ByteArray.toHexString(): String {
             return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
         }
