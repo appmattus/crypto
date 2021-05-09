@@ -21,7 +21,7 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 kotlinDslPluginOptions {

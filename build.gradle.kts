@@ -26,7 +26,6 @@ plugins {
 buildscript {
     repositories {
         gradlePluginPortal()
-        jcenter()
         google()
         mavenCentral()
     }
@@ -44,7 +43,6 @@ allprojects {
     repositories {
         gradlePluginPortal()
         google()
-        jcenter()
         mavenCentral()
         maven(url = "https://kotlin.bintray.com/kotlinx/")
     }
