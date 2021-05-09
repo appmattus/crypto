@@ -61,10 +61,8 @@ dependencies {
     implementation("com.squareup.leakcanary:plumber-android:${Versions.leakCanary}")
 
     // Dependency Injection
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:${Versions.AndroidX.hilt}")
-    kapt("androidx.hilt:hilt-compiler:${Versions.AndroidX.hilt}")
     implementation("com.google.dagger:hilt-android:${Versions.Google.dagger}")
-    kapt("com.google.dagger:hilt-android-compiler:${Versions.Google.dagger}")
+    kapt("com.google.dagger:hilt-compiler:${Versions.Google.dagger}")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.desugar}")
 }
