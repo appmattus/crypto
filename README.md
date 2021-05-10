@@ -1,5 +1,9 @@
 # crypto
 
+[![CI status](https://github.com/appmattus/crypto/workflows/Build/badge.svg)](https://github.com/appmattus/crypto/actions)
+[![codecov](https://codecov.io/gh/appmattus/crypto/branch/main/graph/badge.svg)](https://codecov.io/gh/appmattus/crypto)
+[![Maven Central](https://img.shields.io/maven-central/v/com.appmattus.crypto/cryptohash)](https://search.maven.org/search?q=g:com.appmattus.crypto)
+
 A collection of Kotlin Multiplatform Mobile libraries to aid in mobile app
 development.
 
