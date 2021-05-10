@@ -44,6 +44,34 @@ The following hashing algorithms are supported
 - Tiger, Tiger2
 - Whirlpool, Whirlpool-0, Whirlpool-T
 
+## Getting started
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.appmattus.crypto/cryptohash)](https://search.maven.org/search?q=g:com.appmattus.crypto)
+
+Include the following dependency in your *build.gradle.kts* file:
+
+```kotlin
+testImplementation("com.appmattus.crypto:cryptohash:<latest-version>")
+```
+
+To create a hash first create a digest with `Digest.create` providing the name
+of the hash you wish to use, then update with `update` and create the hash with
+`digest`:
+
+```kotlin
+// Create a digest
+val digest = Digest.create(Algorithm.Blake2b_512)
+
+// Update the digest with data and generate the hash
+digest.update(byteArray)
+val hash: ByteArray = digest.digest()
+
+// Alternatively use the shorthand form to update and generate with one function
+digest.digest(byteArray)
+```
+
+---
+
 Inspired by the Flutter [crypto](https://pub.dev/packages/crypto)
 package. Pure Kotlin implementations based on [saphir](https://github.com/sfuhrm/saphir-hash),
 [Bouncy Castle](https://github.com/bcgit/bc-java/) and [blake3](https://github.com/rctcwyvrn/blake3).
