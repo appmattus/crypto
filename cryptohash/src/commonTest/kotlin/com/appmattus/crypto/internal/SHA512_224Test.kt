@@ -20,50 +20,12 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
-import com.appmattus.ignore.IgnoreIos
 import com.appmattus.crypto.internal.core.sphlib.testKat
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.fail
 
 class SHA512_224CoreTest : SHA512_224Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SHA_512_224)
-
-    @Test
-    fun hasImplementation() {
-        assertNotNull(digest())
-    }
-}
-
-// Crashes on iOS
-@IgnoreIos
-class SHA512_224PlatformTest : SHA512_224Test() {
-    override fun digest(): Digest<*> = PlatformDigest().create(Algorithm.SHA_512_224) ?: fail()
-
-    @Test
-    fun hasImplementation() {
-        assertNotNull(digest())
-    }
-}
-
-// On iOS this test is equivalent to the "...PlatformTest"
-// Crashes on iOS
-@IgnoreIos
-class SHA512_224InstalledProviderTest : SHA512_224Test() {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    override fun digest(): Digest<*> = PlatformDigest().create(Algorithm.SHA_512_224) ?: fail()
 
     @Test
     fun hasImplementation() {

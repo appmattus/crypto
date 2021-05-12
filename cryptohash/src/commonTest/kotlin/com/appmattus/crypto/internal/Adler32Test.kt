@@ -18,25 +18,12 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
-import com.appmattus.ignore.IgnoreIos
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.fail
 
 class Adler32CoreTest : Adler32Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Adler32)
-
-    @Test
-    fun hasImplementation() {
-        assertNotNull(digest())
-    }
-}
-
-// No built-in iOS support
-@IgnoreIos
-class Adler32PlatformTest : Adler32Test() {
-    override fun digest(): Digest<*> = PlatformDigest().create(Algorithm.Adler32) ?: fail()
 
     @Test
     fun hasImplementation() {

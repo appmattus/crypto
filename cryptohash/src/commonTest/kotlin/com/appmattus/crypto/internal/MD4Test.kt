@@ -21,13 +21,8 @@ import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testCollision
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatMillionA
-import com.appmattus.ignore.IgnoreIos
-import com.appmattus.ignore.IgnoreJunit4
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class MD4CoreTest : MD4Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.MD4)
@@ -35,31 +30,6 @@ class MD4CoreTest : MD4Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-class MD4InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    @IgnoreJunit4
-    fun hasImplementation() {
-        assertNotNull(PlatformDigest().create(Algorithm.MD4))
-    }
-
-    @Test
-    @IgnoreIos
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.MD4))
     }
 }
 

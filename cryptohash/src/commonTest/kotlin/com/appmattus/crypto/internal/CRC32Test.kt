@@ -21,19 +21,9 @@ import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.fail
 
 class CRC32CoreTest : CRC32Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.CRC32)
-
-    @Test
-    fun hasImplementation() {
-        assertNotNull(digest())
-    }
-}
-
-class CRC32PlatformTest : CRC32Test() {
-    override fun digest(): Digest<*> = PlatformDigest().create(Algorithm.CRC32) ?: fail()
 
     @Test
     fun hasImplementation() {
