@@ -36,25 +36,6 @@ class Keccak256CoreTest : Keccak256Test() {
     }
 }
 
-// No built-in support
-class Keccak256InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.Keccak256))
-    }
-}
-
 /**
  * Test Keccak-256 implementation.
  */

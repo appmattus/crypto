@@ -19,11 +19,8 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class RadioGatun64CoreTest : RadioGatun64Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.RadioGatun64)
@@ -31,24 +28,6 @@ class RadioGatun64CoreTest : RadioGatun64Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-class RadioGatun64InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.RadioGatun64))
     }
 }
 

@@ -19,11 +19,8 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKatHex
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class Fugue224CoreTest : Fugue224Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Fugue224)
@@ -31,24 +28,6 @@ class Fugue224CoreTest : Fugue224Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-class Fugue224InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.Fugue224))
     }
 }
 
