@@ -19,10 +19,10 @@ package com.appmattus.crypto.internal
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.Security
 
-actual fun installPlatformProvider() {
+fun installPlatformProvider() {
     Security.insertProviderAt(BouncyCastleProvider(), 0)
 }
 
-actual fun removePlatformProvider() {
+fun removePlatformProvider() {
     Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
 }
