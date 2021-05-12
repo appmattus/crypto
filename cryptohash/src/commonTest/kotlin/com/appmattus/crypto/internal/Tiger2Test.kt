@@ -20,11 +20,8 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatMillionA
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class Tiger2CoreTest : Tiger2Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Tiger2)
@@ -32,24 +29,6 @@ class Tiger2CoreTest : Tiger2Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-class Tiger2InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.Tiger2))
     }
 }
 
