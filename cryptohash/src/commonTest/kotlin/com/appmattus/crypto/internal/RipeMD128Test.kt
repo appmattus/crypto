@@ -20,11 +20,8 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatMillionA
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class RipeMD128CoreTest : RipeMD128Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.RipeMD128)
@@ -32,25 +29,6 @@ class RipeMD128CoreTest : RipeMD128Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-// No built-in support
-class RipeMD128InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.RipeMD128))
     }
 }
 

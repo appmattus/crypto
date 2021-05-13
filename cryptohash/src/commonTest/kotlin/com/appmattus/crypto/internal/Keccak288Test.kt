@@ -21,11 +21,8 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class Keccak288CoreTest : Keccak288Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Keccak288)
@@ -33,25 +30,6 @@ class Keccak288CoreTest : Keccak288Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-// No built-in support
-class Keccak288InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun hasImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.Keccak288))
     }
 }
 

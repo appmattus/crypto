@@ -22,12 +22,8 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatHex
-import com.appmattus.ignore.IgnoreIos
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class GOST3411_2012_256CoreTest : GOST3411_2012_256Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.GOST3411_2012_256)
@@ -35,26 +31,6 @@ class GOST3411_2012_256CoreTest : GOST3411_2012_256Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-// No built-in support
-@IgnoreIos
-class GOST3411_2012_256InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.GOST3411_2012_256))
     }
 }
 

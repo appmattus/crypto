@@ -23,11 +23,8 @@ import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.strtobin
 import com.appmattus.crypto.internal.core.sphlib.testKatHex
 import com.appmattus.crypto.internal.core.sphlib.toHexString
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class cSHAKE128CoreTest : cSHAKE128Test() {
     override fun digest(algorithm: Algorithm.cSHAKE128): Digest<*> = CoreDigest.create(algorithm)
@@ -45,25 +42,6 @@ class cSHAKE128asShakeTest : SHAKE128Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-// Bouncy castle v1.68 implementation broken but issue already fixed
-class cSHAKE128InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.cSHAKE128()))
     }
 }
 

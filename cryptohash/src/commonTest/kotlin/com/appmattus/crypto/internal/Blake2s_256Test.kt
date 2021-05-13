@@ -22,12 +22,8 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.strtobin
 import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.ignore.IgnoreIos
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class Blake2s_256CoreTest : Blake2s_256Test() {
 
@@ -36,26 +32,6 @@ class Blake2s_256CoreTest : Blake2s_256Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest(Algorithm.Blake2s_256))
-    }
-}
-
-// No built-in support
-@IgnoreIos
-class Blake2s_256InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.Blake2s_256))
     }
 }
 

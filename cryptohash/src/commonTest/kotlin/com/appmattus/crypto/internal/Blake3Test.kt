@@ -19,11 +19,8 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class Blake3CoreTest : Blake3Test(Algorithm.Blake3(131)) {
     override fun digest(): Digest<*> = CoreDigest.create(algorithm)
@@ -49,24 +46,6 @@ class Blake3DeriveKeyTest : Blake3Test(Algorithm.Blake3.DeriveKey("BLAKE3 2019-1
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-class Blake3InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.Blake3()))
     }
 }
 

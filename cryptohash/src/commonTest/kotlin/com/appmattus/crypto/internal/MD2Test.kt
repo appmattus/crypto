@@ -20,44 +20,11 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatMillionA
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.fail
 
 class MD2CoreTest : MD2Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.MD2)
-
-    @Test
-    fun hasImplementation() {
-        assertNotNull(digest())
-    }
-}
-
-class MD2PlatformTest : MD2Test() {
-    override fun digest(): Digest<*> = PlatformDigest().create(Algorithm.MD2) ?: fail()
-
-    @Test
-    fun hasImplementation() {
-        assertNotNull(digest())
-    }
-}
-
-// On iOS this test is equivalent to the "...PlatformTest"
-class MD2InstalledProviderTest : MD2Test() {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    override fun digest(): Digest<*> = PlatformDigest().create(Algorithm.MD2) ?: fail()
 
     @Test
     fun hasImplementation() {

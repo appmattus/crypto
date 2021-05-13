@@ -20,11 +20,8 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.Hamsi256
 import com.appmattus.crypto.internal.core.sphlib.testKatHex
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class Hamsi256CoreTest : Hamsi256Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Hamsi256)
@@ -32,24 +29,6 @@ class Hamsi256CoreTest : Hamsi256Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest())
-    }
-}
-
-class Hamsi256InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.Hamsi256))
     }
 }
 

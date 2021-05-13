@@ -21,11 +21,8 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class Blake2b_384CoreTest : Blake2b_384Test() {
 
@@ -34,25 +31,6 @@ class Blake2b_384CoreTest : Blake2b_384Test() {
     @Test
     fun hasImplementation() {
         assertNotNull(digest(Algorithm.Blake2b_384))
-    }
-}
-
-// No built-in support
-class Blake2b_384InstalledProviderTest {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    @Test
-    fun noImplementation() {
-        assertNull(PlatformDigest().create(Algorithm.Blake2b_384))
     }
 }
 

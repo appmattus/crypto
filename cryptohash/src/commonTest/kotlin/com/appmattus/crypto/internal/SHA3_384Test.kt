@@ -23,37 +23,12 @@ import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatExtremelyLong
 import com.appmattus.crypto.internal.core.sphlib.testKatMillionA
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.fail
 
 class SHA3_384CoreTest : SHA3_384Test() {
     override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SHA3_384)
-
-    @Test
-    fun hasImplementation() {
-        assertNotNull(digest())
-    }
-}
-
-// Only supported in Java 9+ and no built-in support on iOS
-@Ignore
-class SHA3_384InstalledProviderTest : SHA3_384Test() {
-
-    @BeforeTest
-    fun beforeTest() {
-        installPlatformProvider()
-    }
-
-    @AfterTest
-    fun afterTest() {
-        removePlatformProvider()
-    }
-
-    override fun digest(): Digest<*> = PlatformDigest().create(Algorithm.SHA3_384) ?: fail()
 
     @Test
     fun hasImplementation() {
