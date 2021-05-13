@@ -18,7 +18,6 @@ package com.appmattus.crypto.samples.cryptohash
 
 import androidx.lifecycle.ViewModel
 import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -49,7 +48,7 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
 
     private fun generateHash() = intent {
         val digest = try {
-            currentAlgorithm?.let { Digest.create(it) }?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
+            currentAlgorithm?.let { it.createDigest() }?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
         } catch (expected: Exception) {
             expected.message ?: expected.toString()
         }

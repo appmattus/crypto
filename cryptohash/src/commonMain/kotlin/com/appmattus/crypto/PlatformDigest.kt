@@ -20,7 +20,7 @@ package com.appmattus.crypto
  * Digests are secure one-way hash functions that take arbitrary-sized
  * data and output a fixed-length hash value.
  *
- * A [Digest] object starts out initialized. The data is
+ * A [PlatformDigest] object starts out initialized. The data is
  * processed through it using the [update]
  * methods. At any point [reset] can be called
  * to reset the digest. Once all the data to be updated has been
@@ -28,7 +28,7 @@ package com.appmattus.crypto
  * be called to complete the hash computation.
  *
  * The [digest] method can be called once for a given number
- * of updates. After [digest] has been called, the [Digest]
+ * of updates. After [digest] has been called, the [PlatformDigest]
  * object is reset to its initialized state.
  *
  * ```kotlin
@@ -41,7 +41,7 @@ package com.appmattus.crypto
  * ... etc.
  * ```
  */
-interface Digest<D : Digest<D>> {
+interface PlatformDigest<D : Digest<D>> {
 
     /**
      * Updates the digest using the specified byte.
@@ -55,7 +55,7 @@ interface Digest<D : Digest<D>> {
      *
      * @param input the array of bytes.
      */
-    fun update(input: ByteArray)
+    fun update(input: PlatformData)
 
     /**
      * Updates the digest using the specified array of bytes, starting
@@ -67,7 +67,7 @@ interface Digest<D : Digest<D>> {
      *
      * @param length the number of bytes to use, starting at [offset]
      */
-    fun update(input: ByteArray, offset: Int, length: Int)
+    fun update(input: PlatformData, offset: Int, length: Int)
 
     /**
      * Completes the hash computation by performing final operations
@@ -75,7 +75,7 @@ interface Digest<D : Digest<D>> {
      *
      * @return the array of bytes for the resulting hash value.
      */
-    fun digest(): ByteArray
+    fun digest(): PlatformData
 
     /**
      * Performs a final update on the digest using the specified array
@@ -88,7 +88,7 @@ interface Digest<D : Digest<D>> {
      *
      * @return the array of bytes for the resulting hash value.
      */
-    fun digest(input: ByteArray): ByteArray
+    fun digest(input: PlatformData): PlatformData
 
     /**
      * Completes the hash computation by performing final operations
@@ -102,7 +102,7 @@ interface Digest<D : Digest<D>> {
      *
      * @return the number of bytes placed into [output]
      */
-    fun digest(output: ByteArray, offset: Int, length: Int): Int
+    fun digest(output: PlatformData, offset: Int, length: Int): Int
 
     /**
      * Get the natural hash function output length (in bytes).
@@ -122,7 +122,7 @@ interface Digest<D : Digest<D>> {
      *
      * @return the clone
      */
-    fun copy(): D
+    fun copy(): PlatformDigest<D>
 
     /**
      * Return the "block length" for the hash function. This
@@ -150,9 +150,4 @@ interface Digest<D : Digest<D>> {
      * for SHA-1).
      */
     override fun toString(): String
-
-    fun platform(): PlatformDigest<*> = toPlatform()
 }
-
-// fun ByteArray.hmac(digest: Digest<*>, key: ByteArray): ByteArray = HMAC(digest, key).digest(this)
-// fun ByteArray.hmac(digest: Digest<*>, key: ByteArray, outputLength: Int): ByteArray = HMAC(digest, key, outputLength).digest(this)
