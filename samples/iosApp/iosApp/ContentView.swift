@@ -22,14 +22,8 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: BatteryView()) {
-                    SingleLineTextRow(primaryText: "battery")
-                }
-                NavigationLink(destination: ConnectivityView()) {
-                    SingleLineTextRow(primaryText: "connectivity")
-                }
-                NavigationLink(destination: PackageInfoView()) {
-                    SingleLineTextRow(primaryText: "package-info")
+                NavigationLink(destination: CryptoHashView()) {
+                    SingleLineTextRow(primaryText: "cryptohash")
                 }
             }
             .navigationTitle("Samples")
