@@ -96,11 +96,11 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
         val bytes = ByteArray(32)
 
         init {
-            // 0..3 = ASCII SHA3
-            bytes[0] = 'S'.toByte()
-            bytes[1] = 'H'.toByte()
-            bytes[2] = 'A'.toByte()
-            bytes[3] = '3'.toByte()
+            // 0..3 = ASCII 'SHA3'
+            bytes[0] = 0x53 // 'S'
+            bytes[1] = 0x48 // 'H'
+            bytes[2] = 0x41 // 'A'
+            bytes[3] = 0x33 // '3'
 
             // 4..5 = version number in LSB order
             bytes[4] = 1

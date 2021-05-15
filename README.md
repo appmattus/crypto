@@ -11,6 +11,9 @@ development.
 not so cryptographic) hashing functions.  
 ![badge][badge-android]
 ![badge][badge-ios]
+![badge][badge-watchos]
+![badge][badge-tvos]
+![badge][badge-mac]
 ![badge][badge-jvm]
 
 ## Contributing

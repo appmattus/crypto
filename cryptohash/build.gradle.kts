@@ -22,9 +22,36 @@ plugins {
     id("org.jetbrains.dokka")
 }
 
+// val hostOs = System.getProperty("os.name")
+// val isLinux = hostOs == "Linux"
+// val isWindows = hostOs.startsWith("Windows")
+// val isMacOs = hostOs == "Mac OS X"
+
 kotlin {
     jvm()
-    ios()
+
+    // Darwin
+    iosArm64()
+    iosX64()
+    tvosArm64()
+    tvosX64()
+    watchosArm32()
+    watchosArm64()
+    watchosX64()
+    macosX64()
+
+    //js {
+    //    browser()
+    //    nodejs()
+    //}
+    /*macosX64()
+    mingwX64()
+    mingwX86()
+    linuxX64()
+    linuxArm32Hfp()
+    linuxArm64()
+    linuxMips32()
+    linuxMipsel32()*/
 
     sourceSets {
         val commonMain by getting
@@ -45,8 +72,78 @@ kotlin {
                 implementation("org.bouncycastle:bcprov-jdk15to18:1.68")
             }
         }
-        val iosMain by getting
-        val iosTest by getting
+
+        val nativeMain by creating {
+            dependsOn(commonMain)
+        }
+        val nativeTest by creating {
+            dependsOn(commonTest)
+        }
+
+        // Darwin
+        val nativeDarwin64Main by creating {
+            dependsOn(nativeMain)
+        }
+        val nativeDarwin64Test by creating {
+            dependsOn(nativeTest)
+        }
+        val nativeDarwin32Main by creating {
+            dependsOn(nativeMain)
+        }
+        val nativeDarwin32Test by creating {
+            dependsOn(nativeTest)
+        }
+        // ios
+        val iosArm64Main by getting {
+            dependsOn(nativeDarwin64Main)
+        }
+        val iosArm64Test by getting {
+            dependsOn(nativeDarwin64Test)
+        }
+        val iosX64Main by getting {
+            dependsOn(nativeDarwin64Main)
+        }
+        val iosX64Test by getting {
+            dependsOn(nativeDarwin64Test)
+        }
+        // tvos
+        val tvosArm64Main by getting {
+            dependsOn(nativeDarwin64Main)
+        }
+        val tvosArm64Test by getting {
+            dependsOn(nativeDarwin64Test)
+        }
+        val tvosX64Main by getting {
+            dependsOn(nativeDarwin64Main)
+        }
+        val tvosX64Test by getting {
+            dependsOn(nativeDarwin64Test)
+        }
+        // watchos
+        val watchosArm32Main by getting {
+            dependsOn(nativeDarwin32Main)
+        }
+        val watchosArm32Test by getting {
+            dependsOn(nativeDarwin32Test)
+        }
+        val watchosArm64Main by getting {
+            dependsOn(nativeDarwin32Main)
+        }
+        val watchosArm64Test by getting {
+            dependsOn(nativeDarwin32Test)
+        }
+        val watchosX64Main by getting {
+            dependsOn(nativeDarwin64Main)
+        }
+        val watchosX64Test by getting {
+            dependsOn(nativeDarwin64Test)
+        }
+        val macosX64Main by getting {
+            dependsOn(nativeDarwin64Main)
+        }
+        val macosX64Test by getting {
+            dependsOn(nativeDarwin64Test)
+        }
     }
 }
 

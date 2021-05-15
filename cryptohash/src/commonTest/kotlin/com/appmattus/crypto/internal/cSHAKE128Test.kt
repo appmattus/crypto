@@ -127,6 +127,7 @@ abstract class cSHAKE128Test {
         )
     }
 
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     private fun testKatLen(dig: Digest<*>, data: ByteArray, ref: String) {
         val buffer = ByteArray(ref.length / 2)
 
@@ -135,14 +136,14 @@ abstract class cSHAKE128Test {
          */
         dig.update(data)
         dig.digest(buffer, 0, buffer.size)
-        kotlin.test.assertEquals(ref.toLowerCase(), buffer.toHexString().toLowerCase())
+        kotlin.test.assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
         /*
          * Now the update() API; this also exercises auto-reset.
          */
         for (i in data.indices) dig.update(data[i])
         dig.digest(buffer, 0, buffer.size)
-        kotlin.test.assertEquals(ref.toLowerCase(), buffer.toHexString().toLowerCase())
+        kotlin.test.assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
         /*
          * The cloning API.
@@ -152,9 +153,9 @@ abstract class cSHAKE128Test {
         val dig2 = dig.copy()
         dig.update(data, blen / 2, blen - blen / 2)
         dig.digest(buffer, 0, buffer.size)
-        kotlin.test.assertEquals(ref.toLowerCase(), buffer.toHexString().toLowerCase())
+        kotlin.test.assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
         dig2.update(data, blen / 2, blen - blen / 2)
         dig2.digest(buffer, 0, buffer.size)
-        kotlin.test.assertEquals(ref.toLowerCase(), buffer.toHexString().toLowerCase())
+        kotlin.test.assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
     }
 }

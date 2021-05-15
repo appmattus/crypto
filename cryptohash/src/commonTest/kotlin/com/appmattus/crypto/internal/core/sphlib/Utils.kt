@@ -3,18 +3,19 @@ package com.appmattus.crypto.internal.core.sphlib
 import com.appmattus.crypto.Digest
 import kotlin.test.fail
 
+@Suppress("EXPERIMENTAL_API_USAGE_ERROR")
 fun testKat(dig: Digest<*>, data: ByteArray, ref: String) {
     /*
      * First test the hashing itself.
      */
     val out = dig.digest(data)
-    kotlin.test.assertEquals(ref.toLowerCase(), out.toHexString().toLowerCase())
+    kotlin.test.assertEquals(ref.lowercase(), out.toHexString().lowercase())
 
     /*
      * Now the update() API; this also exercises auto-reset.
      */
     for (i in data.indices) dig.update(data[i])
-    kotlin.test.assertEquals(ref.toLowerCase(), dig.digest().toHexString().toLowerCase())
+    kotlin.test.assertEquals(ref.lowercase(), dig.digest().toHexString().lowercase())
 
     /*
      * The cloning API.
@@ -23,9 +24,9 @@ fun testKat(dig: Digest<*>, data: ByteArray, ref: String) {
     dig.update(data, 0, blen / 2)
     val dig2 = dig.copy()
     dig.update(data, blen / 2, blen - blen / 2)
-    kotlin.test.assertEquals(ref.toLowerCase(), dig.digest().toHexString().toLowerCase())
+    kotlin.test.assertEquals(ref.lowercase(), dig.digest().toHexString().lowercase())
     dig2.update(data, blen / 2, blen - blen / 2)
-    kotlin.test.assertEquals(ref.toLowerCase(), dig2.digest().toHexString().toLowerCase())
+    kotlin.test.assertEquals(ref.lowercase(), dig2.digest().toHexString().lowercase())
 }
 
 fun testKat(dig: Digest<*>, data: String, ref: String) {
@@ -36,9 +37,10 @@ fun testKatHex(dig: Digest<*>, data: String, ref: String) {
     testKat(dig, strtobin(data), ref)
 }
 
+@Suppress("EXPERIMENTAL_API_USAGE_ERROR")
 fun testKatMillionA(dig: Digest<*>, ref: String) {
     val buf = ByteArray(1000)
-    for (i in 0..999) buf[i] = 'a'.toByte()
+    for (i in 0..999) buf[i] = 'a'.code.toByte()
     for (i in 0..999) dig.update(buf)
     assertEquals(dig.digest(), strtobin(ref))
 }
@@ -68,10 +70,11 @@ fun strtobin(str: String): ByteArray {
     return buf
 }
 
+@Suppress("EXPERIMENTAL_API_USAGE_ERROR")
 fun encodeLatin1(str: String): ByteArray {
     val blen = str.length
     val buf = ByteArray(blen)
-    for (i in 0 until blen) buf[i] = str[i].toByte()
+    for (i in 0 until blen) buf[i] = str[i].code.toByte()
     return buf
 }
 

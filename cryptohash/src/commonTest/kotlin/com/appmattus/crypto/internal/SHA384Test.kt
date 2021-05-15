@@ -150,19 +150,21 @@ abstract class SHA384Test {
     }
 
     @Test
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000xA() {
         testKat(
             digest(),
-            ByteArray(1000) { 'A'.toByte() },
+            ByteArray(1000) { 'A'.code.toByte() },
             "7df01148677b7f18617eee3a23104f0eed6bb8c90a6046f715c9445ff43c30d69e9e7082de39c3452fd1d3afd9ba0689"
         )
     }
 
     @Test
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1005xU() {
         testKat(
             digest(),
-            ByteArray(1005) { 'U'.toByte() },
+            ByteArray(1005) { 'U'.code.toByte() },
             "1bb8e256da4a0d1e87453528254f223b4cb7e49c4420dbfa766bba4adba44eeca392ff6a9f565bc347158cc970ce44ec"
         )
     }
@@ -178,10 +180,11 @@ abstract class SHA384Test {
 
     @Test
     @Ignore
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist536870912xZ() {
         testKat(
             digest(),
-            ByteArray(0x20000000) { 'Z'.toByte() },
+            ByteArray(0x20000000) { 'Z'.code.toByte() },
             "18aded227cc6b562cc7fb259e8f404549e52914531aa1c5d85167897c779cc4b25d0425fd1590e40bd763ec3f4311c1a"
         )
     }
@@ -198,10 +201,11 @@ abstract class SHA384Test {
 
     @Test
     @Ignore
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1610612798xB() {
         testKat(
             digest(),
-            ByteArray(0x6000003e) { 'B'.toByte() },
+            ByteArray(0x6000003e) { 'B'.code.toByte() },
             "cf852304f8d80209351b37ce69ca7dcf34972b4edb7817028ec55ab67ad3bc96eecb8241734258a85d2afce65d4571e2"
         )
     }

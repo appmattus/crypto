@@ -5,6 +5,7 @@ import kotlin.test.Ignore
 
 // Crashes on iOS
 @Ignore
+@Suppress("ClassName")
 internal class SHA512_256PlatformTest : SHA512_256Test() {
     override fun digest() = SHA512_256()
 }
