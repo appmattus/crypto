@@ -40,18 +40,23 @@ kotlin {
     watchosX64()
     macosX64()
 
-    //js {
-    //    browser()
-    //    nodejs()
-    //}
-    /*macosX64()
+    /* Disabled - Unit test failures, Blake, CubeHash, Haval, Luffa, SHA3, SHAKE, Tiger, cShake, HMac
+    js {
+        browser()
+        nodejs()
+        binaries.executable()
+    }
+    */
+
+    /*
     mingwX64()
     mingwX86()
     linuxX64()
     linuxArm32Hfp()
     linuxArm64()
     linuxMips32()
-    linuxMipsel32()*/
+    linuxMipsel32()
+    */
 
     sourceSets {
         val commonMain by getting
@@ -72,6 +77,14 @@ kotlin {
                 implementation("org.bouncycastle:bcprov-jdk15to18:1.68")
             }
         }
+
+        /* Disabled - See reason above
+        val jsMain by getting
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }*/
 
         val nativeMain by creating {
             dependsOn(commonMain)
