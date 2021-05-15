@@ -16,6 +16,7 @@
 
 package com.appmattus.crypto
 
+import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.blake3.Hasher
 
 @Suppress("MagicNumber", "ClassName")
@@ -224,4 +225,8 @@ sealed class Algorithm(val algorithmName: String, internal val blockLength: Int)
     object Whirlpool : Algorithm("Whirlpool", 64)
     object Whirlpool0 : Algorithm("Whirlpool-0", 64)
     object WhirlpoolT : Algorithm("Whirlpool-T", 64)
+
+    fun createDigest(): Digest<*> = CoreDigest.create(this)
+
+    fun hash(input: ByteArray): ByteArray = createDigest().digest(input)
 }

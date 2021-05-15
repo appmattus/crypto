@@ -13,17 +13,13 @@
 		7555FF85242A565B00829871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF84242A565B00829871 /* Assets.xcassets */; };
 		7555FF88242A565B00829871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF87242A565B00829871 /* Preview Assets.xcassets */; };
 		7555FF8B242A565B00829871 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7555FF89242A565B00829871 /* LaunchScreen.storyboard */; };
-		C5D0B55D25CD8A9A000FAA1A /* PackageInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B55C25CD8A9A000FAA1A /* PackageInfoView.swift */; };
 		C5D0B56125CD8C04000FAA1A /* SingleLineTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B56025CD8C04000FAA1A /* SingleLineTextRow.swift */; };
 		C5D0B56525CD8DB9000FAA1A /* TwoLineTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B56425CD8DB9000FAA1A /* TwoLineTextRow.swift */; };
-		C5D0B57625CD9D4D000FAA1A /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B57525CD9D4D000FAA1A /* Publisher.swift */; };
-		C5D0B57A25CD9DB5000FAA1A /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B57925CD9DB5000FAA1A /* BatteryView.swift */; };
+		C5D0B57A25CD9DB5000FAA1A /* CryptoHashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B57925CD9DB5000FAA1A /* CryptoHashView.swift */; };
 		C5D0B58225CDA472000FAA1A /* shared.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D0B58125CDA472000FAA1A /* shared.xcframework */; };
 		C5D0B58325CDA472000FAA1A /* shared.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C5D0B58125CDA472000FAA1A /* shared.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C5D0B58A25CDA73D000FAA1A /* BatteryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B58925CDA73D000FAA1A /* BatteryViewModel.swift */; };
-		C5D0B59725CDB183000FAA1A /* ConnectivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B59625CDB183000FAA1A /* ConnectivityView.swift */; };
-		C5D0B59925CDB194000FAA1A /* ConnectivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B59825CDB194000FAA1A /* ConnectivityViewModel.swift */; };
-		C5D0B59B25CEB230000FAA1A /* PackageInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B59A25CEB230000FAA1A /* PackageInfoViewModel.swift */; };
+		C5D0B58A25CDA73D000FAA1A /* CryptoHashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B58925CDA73D000FAA1A /* CryptoHashViewModel.swift */; };
+		C64875EE264DC19E00C7B999 /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64875ED264DC19E00C7B999 /* DataExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,7 +38,7 @@
 
 /* Begin PBXFileReference section */
 		446563EA2538941000A6AB4D /* Accessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accessibility.framework; path = System/Library/Frameworks/Accessibility.framework; sourceTree = SDKROOT; };
-		7555FF7B242A565900829871 /* MPU Samples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MPU Samples.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7555FF7B242A565900829871 /* Crypto Samples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crypto Samples.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF7E242A565900829871 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7555FF80242A565900829871 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -50,16 +46,12 @@
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7555FF8A242A565B00829871 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C5D0B55C25CD8A9A000FAA1A /* PackageInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PackageInfoView.swift; sourceTree = "<group>"; };
 		C5D0B56025CD8C04000FAA1A /* SingleLineTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLineTextRow.swift; sourceTree = "<group>"; };
 		C5D0B56425CD8DB9000FAA1A /* TwoLineTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineTextRow.swift; sourceTree = "<group>"; };
-		C5D0B57525CD9D4D000FAA1A /* Publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
-		C5D0B57925CD9DB5000FAA1A /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
+		C5D0B57925CD9DB5000FAA1A /* CryptoHashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHashView.swift; sourceTree = "<group>"; };
 		C5D0B58125CDA472000FAA1A /* shared.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = shared.xcframework; path = "../shared/build/xcode-frameworks/shared.xcframework"; sourceTree = "<group>"; };
-		C5D0B58925CDA73D000FAA1A /* BatteryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryViewModel.swift; sourceTree = "<group>"; };
-		C5D0B59625CDB183000FAA1A /* ConnectivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityView.swift; sourceTree = "<group>"; };
-		C5D0B59825CDB194000FAA1A /* ConnectivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityViewModel.swift; sourceTree = "<group>"; };
-		C5D0B59A25CEB230000FAA1A /* PackageInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageInfoViewModel.swift; sourceTree = "<group>"; };
+		C5D0B58925CDA73D000FAA1A /* CryptoHashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHashViewModel.swift; sourceTree = "<group>"; };
+		C64875ED264DC19E00C7B999 /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +78,7 @@
 		7555FF7C242A565900829871 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7555FF7B242A565900829871 /* MPU Samples.app */,
+				7555FF7B242A565900829871 /* Crypto Samples.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -94,9 +86,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				C5D0B58825CDA71A000FAA1A /* battery */,
-				C5D0B59525CDB16E000FAA1A /* connectivity */,
-				C5D0B58F25CDAAE7000FAA1A /* package-info */,
+				C5D0B58825CDA71A000FAA1A /* cryptohash */,
 				C5D0B59225CDADCE000FAA1A /* ui */,
 				7555FF7E242A565900829871 /* AppDelegate.swift */,
 				7555FF80242A565900829871 /* SceneDelegate.swift */,
@@ -104,7 +94,6 @@
 				7555FF84242A565B00829871 /* Assets.xcassets */,
 				7555FF89242A565B00829871 /* LaunchScreen.storyboard */,
 				7555FF8C242A565B00829871 /* Info.plist */,
-				C5D0B57525CD9D4D000FAA1A /* Publisher.swift */,
 				7555FF86242A565B00829871 /* Preview Content */,
 			);
 			path = iosApp;
@@ -127,22 +116,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C5D0B58825CDA71A000FAA1A /* battery */ = {
+		C5D0B58825CDA71A000FAA1A /* cryptohash */ = {
 			isa = PBXGroup;
 			children = (
-				C5D0B57925CD9DB5000FAA1A /* BatteryView.swift */,
-				C5D0B58925CDA73D000FAA1A /* BatteryViewModel.swift */,
+				C5D0B57925CD9DB5000FAA1A /* CryptoHashView.swift */,
+				C5D0B58925CDA73D000FAA1A /* CryptoHashViewModel.swift */,
+				C64875ED264DC19E00C7B999 /* DataExtensions.swift */,
 			);
-			path = battery;
-			sourceTree = "<group>";
-		};
-		C5D0B58F25CDAAE7000FAA1A /* package-info */ = {
-			isa = PBXGroup;
-			children = (
-				C5D0B55C25CD8A9A000FAA1A /* PackageInfoView.swift */,
-				C5D0B59A25CEB230000FAA1A /* PackageInfoViewModel.swift */,
-			);
-			path = "package-info";
+			path = cryptohash;
 			sourceTree = "<group>";
 		};
 		C5D0B59225CDADCE000FAA1A /* ui */ = {
@@ -154,21 +135,12 @@
 			path = ui;
 			sourceTree = "<group>";
 		};
-		C5D0B59525CDB16E000FAA1A /* connectivity */ = {
-			isa = PBXGroup;
-			children = (
-				C5D0B59625CDB183000FAA1A /* ConnectivityView.swift */,
-				C5D0B59825CDB194000FAA1A /* ConnectivityViewModel.swift */,
-			);
-			path = connectivity;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7555FF7A242A565900829871 /* MPU Samples */ = {
+		7555FF7A242A565900829871 /* Crypto Samples */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "MPU Samples" */;
+			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "Crypto Samples" */;
 			buildPhases = (
 				7555FFB5242A651A00829871 /* ShellScript */,
 				7555FF77242A565900829871 /* Sources */,
@@ -181,9 +153,9 @@
 			);
 			dependencies = (
 			);
-			name = "MPU Samples";
+			name = "Crypto Samples";
 			productName = iosApp;
-			productReference = 7555FF7B242A565900829871 /* MPU Samples.app */;
+			productReference = 7555FF7B242A565900829871 /* Crypto Samples.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -214,7 +186,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7555FF7A242A565900829871 /* MPU Samples */,
+				7555FF7A242A565900829871 /* Crypto Samples */,
 			);
 		};
 /* End PBXProject section */
@@ -275,17 +247,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5D0B56525CD8DB9000FAA1A /* TwoLineTextRow.swift in Sources */,
+				C64875EE264DC19E00C7B999 /* DataExtensions.swift in Sources */,
 				C5D0B56125CD8C04000FAA1A /* SingleLineTextRow.swift in Sources */,
-				C5D0B58A25CDA73D000FAA1A /* BatteryViewModel.swift in Sources */,
-				C5D0B57A25CD9DB5000FAA1A /* BatteryView.swift in Sources */,
+				C5D0B58A25CDA73D000FAA1A /* CryptoHashViewModel.swift in Sources */,
+				C5D0B57A25CD9DB5000FAA1A /* CryptoHashView.swift in Sources */,
 				7555FF7F242A565900829871 /* AppDelegate.swift in Sources */,
-				C5D0B59B25CEB230000FAA1A /* PackageInfoViewModel.swift in Sources */,
 				7555FF81242A565900829871 /* SceneDelegate.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
-				C5D0B59725CDB183000FAA1A /* ConnectivityView.swift in Sources */,
-				C5D0B55D25CD8A9A000FAA1A /* PackageInfoView.swift in Sources */,
-				C5D0B59925CDB194000FAA1A /* ConnectivityViewModel.swift in Sources */,
-				C5D0B57625CD9D4D000FAA1A /* Publisher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,7 +403,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.appmattus.multiplatformutils.samples;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appmattus.crypto.samples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -456,7 +424,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.appmattus.multiplatformutils.samples;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appmattus.crypto.samples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -475,7 +443,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "MPU Samples" */ = {
+		7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "Crypto Samples" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7555FFA6242A565B00829871 /* Debug */,
