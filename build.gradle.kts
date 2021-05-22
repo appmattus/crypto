@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost.DEFAULT
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
@@ -88,6 +90,12 @@ allprojects {
                     }
                 }
             }
+        }
+    }
+
+    plugins.withId("com.vanniktech.maven.publish.base") {
+        configure<MavenPublishBaseExtension> {
+            publishToMavenCentral(DEFAULT, "multiplatform")
         }
     }
 }

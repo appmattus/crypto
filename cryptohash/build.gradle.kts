@@ -27,6 +27,8 @@ plugins {
 // val isWindows = hostOs.startsWith("Windows")
 // val isMacOs = hostOs == "Mac OS X"
 
+val hostOs = System.getProperty("os.name")
+
 kotlin {
     jvm()
 
@@ -50,18 +52,19 @@ kotlin {
 
     /*
     mingwX64()
-    mingwX86()
+    mingwX86()*/
     linuxX64()
-    linuxArm32Hfp()
+    /*linuxArm32Hfp()
     linuxArm64()
     linuxMips32()
-    linuxMipsel32()
-    */
+    linuxMipsel32()*/
+
 
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
             dependencies {
+                implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -95,16 +98,16 @@ kotlin {
 
         // Darwin
         val nativeDarwin64Main by creating {
-            dependsOn(nativeMain)
+            dependsOn(commonMain)
         }
         val nativeDarwin64Test by creating {
-            dependsOn(nativeTest)
+            dependsOn(commonTest)
         }
         val nativeDarwin32Main by creating {
-            dependsOn(nativeMain)
+            dependsOn(commonMain)
         }
         val nativeDarwin32Test by creating {
-            dependsOn(nativeTest)
+            dependsOn(commonTest)
         }
         // ios
         val iosArm64Main by getting {
@@ -157,7 +160,21 @@ kotlin {
         val macosX64Test by getting {
             dependsOn(nativeDarwin64Test)
         }
+
+        // Linux
+        val linuxX64Main by getting {
+            dependsOn(nativeMain)
+        }
+        val linuxX64Test by getting {
+            dependsOn(nativeTest)
+        }
+
+        // Windows
     }
 }
 
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString() }
+
+tasks.withType<AbstractPublishToMaven>()
+    .matching { it.publication.name in listOf("jvm", "js", "kotlinMultiplatform") }
+    .configureEach { onlyIf { hostOs == "Linux" } }
