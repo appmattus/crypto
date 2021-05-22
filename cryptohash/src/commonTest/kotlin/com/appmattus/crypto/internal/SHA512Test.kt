@@ -150,19 +150,21 @@ abstract class SHA512Test {
     }
 
     @Test
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000xA() {
         testKat(
             digest(),
-            ByteArray(1000) { 'A'.toByte() },
+            ByteArray(1000) { 'A'.code.toByte() },
             "329c52ac62d1fe731151f2b895a00475445ef74f50b979c6f7bb7cae349328c1d4cb4f7261a0ab43f936a24b000651d4a824fcdd577f211aef8f806b16afe8af"
         )
     }
 
     @Test
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1005xU() {
         testKat(
             digest(),
-            ByteArray(1005) { 'U'.toByte() },
+            ByteArray(1005) { 'U'.code.toByte() },
             "59f5e54fe299c6a8764c6b199e44924a37f59e2b56c3ebad939b7289210dc8e4c21b9720165b0f4d4374c90f1bf4fb4a5ace17a1161798015052893a48c3d161"
         )
     }
@@ -178,10 +180,11 @@ abstract class SHA512Test {
 
     @Test
     @Ignore
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist536870912xZ() {
         testKat(
             digest(),
-            ByteArray(0x20000000) { 'Z'.toByte() },
+            ByteArray(0x20000000) { 'Z'.code.toByte() },
             "da172279f3ebbda95f6b6e1e5f0ebec682c25d3d93561a1624c2fa9009d64c7e9923f3b46bcaf11d39a531f43297992ba4155c7e827bd0f1e194ae7ed6de4cac"
         )
     }
@@ -198,10 +201,11 @@ abstract class SHA512Test {
 
     @Test
     @Ignore
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1610612798xB() {
         testKat(
             digest(),
-            ByteArray(0x6000003e) { 'B'.toByte() },
+            ByteArray(0x6000003e) { 'B'.code.toByte() },
             "fd05e13eb771f05190bd97d62647157ea8f1f6949a52bb6daaedbad5f578ec59b1b8d6c4a7ecb2feca6892b4dc138771670a0f3bd577eea326aed40ab7dd58b1"
         )
     }

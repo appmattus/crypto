@@ -120,19 +120,21 @@ abstract class SHA224Test {
     }
 
     @Test
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000Q() {
         testKat(
             digest(),
-            ByteArray(1000) { 'Q'.toByte() },
+            ByteArray(1000) { 'Q'.code.toByte() },
             "3706197f66890a41779dc8791670522e136fafa24874685715bd0a8a"
         )
     }
 
     @Test
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000A() {
         testKat(
             digest(),
-            ByteArray(1000) { 'A'.toByte() },
+            ByteArray(1000) { 'A'.code.toByte() },
             "a8d0c66b5c6fdfd836eb3c6d04d32dfe66c3b1f168b488bf4c9c66ce"
         )
     }
@@ -157,10 +159,11 @@ abstract class SHA224Test {
 
     @Test
     @Ignore
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist536870912A() {
         testKat(
             digest(),
-            ByteArray(0x20000000) { 'A'.toByte() },
+            ByteArray(0x20000000) { 'A'.code.toByte() },
             "c4250083cf8230bf21065b3014baaaf9f76fecefc21f91cf237dedc9"
         )
     }

@@ -20,7 +20,10 @@ jobs:
 
   build:
     needs: [validation]
-    runs-on: macOS-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+        matrix:
+            os: [ macOS-latest, ubuntu-latest ]
     steps:
       - uses: actions/checkout@v2
 
@@ -46,6 +49,10 @@ jobs:
         run: ./gradlew publish --no-daemon --no-parallel -Psigning.secretKeyRingFile=$(echo ~/.gradle/sonatype-appmattus-keys.gpg)
         if: startsWith(github.ref, 'refs/tags/')
 
+  close:
+      needs: [build]
+      runs-on: ubuntu-latest
+      steps:
       - name: Close and release tag
         run: ./gradlew closeAndReleaseRepository
         if: startsWith(github.ref, 'refs/tags/')

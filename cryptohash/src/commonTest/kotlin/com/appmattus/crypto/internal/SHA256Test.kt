@@ -160,19 +160,21 @@ abstract class SHA256Test {
     }
 
     @Test
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000xA() {
         testKat(
             digest(),
-            ByteArray(1000) { 'A'.toByte() },
+            ByteArray(1000) { 'A'.code.toByte() },
             "c2e686823489ced2017f6059b8b239318b6364f6dcd835d0a519105a1eadd6e4"
         )
     }
 
     @Test
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1005xU() {
         testKat(
             digest(),
-            ByteArray(1005) { 'U'.toByte() },
+            ByteArray(1005) { 'U'.code.toByte() },
             "f4d62ddec0f3dd90ea1380fa16a5ff8dc4c54b21740650f24afc4120903552b0"
         )
     }
@@ -188,10 +190,11 @@ abstract class SHA256Test {
 
     @Test
     @Ignore
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist536870912xZ() {
         testKat(
             digest(),
-            ByteArray(0x20000000) { 'Z'.toByte() },
+            ByteArray(0x20000000) { 'Z'.code.toByte() },
             "15a1868c12cc53951e182344277447cd0979536badcc512ad24c67e9b2d4f3dd"
         )
     }
@@ -208,10 +211,11 @@ abstract class SHA256Test {
 
     @Test
     @Ignore
+    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1610612798xB() {
         testKat(
             digest(),
-            ByteArray(0x6000003e) { 'B'.toByte() },
+            ByteArray(0x6000003e) { 'B'.code.toByte() },
             "c23ce8a7895f4b21ec0daf37920ac0a262a220045a03eb2dfed48ef9b05aabea"
         )
     }

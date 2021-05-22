@@ -69,9 +69,13 @@ android {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
+val hostOs = System.getProperty("os.name")
+
 val xcFrameworkPath = "$buildDir/xcode-frameworks/${project.name}.xcframework"
 
-tasks.create<Delete>("deleteXcFramework") { delete = setOf(xcFrameworkPath) }
+if (hostOs == "Mac OS X") {
+    tasks.create<Delete>("deleteXcFramework") { delete = setOf(xcFrameworkPath) }
+}
 
 val buildXcFramework by tasks.registering {
     dependsOn("deleteXcFramework")
@@ -101,4 +105,6 @@ fun Task.buildXcFramework(frameworks: List<org.jetbrains.kotlin.gradle.plugin.mp
     }
 }
 
-tasks.getByName("build").dependsOn(buildXcFramework)
+if (hostOs == "Mac OS X") {
+    tasks.getByName("build").dependsOn(buildXcFramework)
+}
