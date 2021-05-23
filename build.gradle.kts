@@ -95,7 +95,7 @@ allprojects {
 
     plugins.withId("com.vanniktech.maven.publish.base") {
         configure<MavenPublishBaseExtension> {
-            val stagingRepositoryId = project.findProperty("sonatypeRepositoryId")?.toString()
+            val stagingRepositoryId = System.getenv("SONATYPE_REPOSITORY_ID") ?: error("Missing env variable: SONATYPE_REPOSITORY_ID")
             publishToMavenCentral(DEFAULT, stagingRepositoryId)
         }
     }
