@@ -95,7 +95,8 @@ allprojects {
 
     plugins.withId("com.vanniktech.maven.publish.base") {
         configure<MavenPublishBaseExtension> {
-            publishToMavenCentral(DEFAULT, "multiplatform")
+            val stagingRepositoryId = project.findProperty("sonatypeRepositoryId")?.toString()
+            publishToMavenCentral(DEFAULT, stagingRepositoryId)
         }
     }
 }
