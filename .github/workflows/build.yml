@@ -29,7 +29,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: nexus-actions/create-nexus-staging-repo@v1.1
         with:
-          username: ${{ secrets.SONATYPE_USERNAME }}
+          username: appmattus
           password: ${{ secrets.SONATYPE_PASSWORD }}
           staging_profile_id: ${{ secrets.SONATYPE_PROFILE_ID }}
           description: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}
