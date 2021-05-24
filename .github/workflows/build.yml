@@ -1,45 +1,45 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - '**'
-  pull_request:
-    branches:
-      - main
+    push:
+        branches:
+            - main
+        tags:
+            - '**'
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  create_staging_repository:
-    runs-on: ubuntu-latest
-    name: Create staging repository
-    outputs:
-      repository_id: ${{ steps.create.outputs.repository_id }}
-    steps:
-      - id: create
-        uses: nexus-actions/create-nexus-staging-repo@main
-        with:
-          username: ${{ secrets.SONATYPE_USERNAME }}
-          password: ${{ secrets.SONATYPE_PASSWORD }}
-          staging_profile_id: ${{ secrets.SONATYPE_PROFILE_ID }}
-          description: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}
+    create_staging_repository:
+        runs-on: ubuntu-latest
+        name: Create staging repository
+        outputs:
+            repository_id: ${{ steps.create.outputs.repository_id }}
+        steps:
+            -   id: create
+                uses: nexus-actions/create-nexus-staging-repo@v1.1
+                with:
+                    username: ${{ secrets.SONATYPE_USERNAME }}
+                    password: ${{ secrets.SONATYPE_PASSWORD }}
+                    staging_profile_id: ${{ secrets.SONATYPE_PROFILE_ID }}
+                    description: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}
 
-  build:
-    needs: [create_staging_repository]
-    runs-on: ${{ matrix.os }}
-    strategy:
-        matrix:
-            os: [ macOS-latest, ubuntu-latest ]
-    steps:
-      - name: Upload tag
-        run: |
-          echo "$SONATYPE_REPOSITORY_ID"
-            printenv
-        env:
-          SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
-      - name: env
-        run: |
-          printenv
-        env:
-          SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
+    build:
+        needs: [ create_staging_repository ]
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ macOS-latest, ubuntu-latest ]
+        steps:
+            -   name: Upload tag
+                run: |
+                    echo "$SONATYPE_REPOSITORY_ID"
+                    echo "${{ needs.create_staging_repository.outputs.repository_id }}"
+                env:
+                    SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
+            -   name: env
+                run: |
+                    printenv
+                env:
+                    SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
