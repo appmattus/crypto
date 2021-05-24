@@ -34,6 +34,12 @@ jobs:
     steps:
       - name: Upload tag
         run: |
-            echo "$SONATYPE_REPOSITORY_ID"
+          echo "$SONATYPE_REPOSITORY_ID"
+            printenv
         env:
-             SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
+          SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
+      - name: env
+        run: |
+          printenv
+        env:
+          SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
