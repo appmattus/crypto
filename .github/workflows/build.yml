@@ -34,4 +34,6 @@ jobs:
     steps:
       - name: Upload tag
         run: |
-            echo "${{needs.create_staging_repository.outputs.repository_id}}"
+            echo "$SONATYPE_REPOSITORY_ID"
+        env:
+             SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
