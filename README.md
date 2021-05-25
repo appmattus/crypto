@@ -14,6 +14,8 @@ not so cryptographic) hashing functions.
 ![badge][badge-watchos]
 ![badge][badge-tvos]
 ![badge][badge-mac]
+![badge][badge-linux]
+![badge][badge-windows]
 ![badge][badge-jvm]
 
 ## Contributing
