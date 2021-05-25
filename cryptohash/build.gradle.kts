@@ -50,15 +50,16 @@ kotlin {
     }
     */
 
-    /*
-    mingwX64()
-    mingwX86()*/
+    // Linux
     linuxX64()
-    /*linuxArm32Hfp()
+    linuxArm32Hfp()
     linuxArm64()
     linuxMips32()
-    linuxMipsel32()*/
+    linuxMipsel32()
 
+    // Windows
+    mingwX64()
+    mingwX86()
 
     sourceSets {
         val commonMain by getting
@@ -168,8 +169,44 @@ kotlin {
         val linuxX64Test by getting {
             dependsOn(nativeTest)
         }
+        val linuxArm32HfpMain by getting {
+            dependsOn(nativeMain)
+        }
+        val linuxArm32HfpTest by getting {
+            dependsOn(nativeTest)
+        }
+        val linuxArm64Main by getting {
+            dependsOn(nativeMain)
+        }
+        val linuxArm64Test by getting {
+            dependsOn(nativeTest)
+        }
+        val linuxMips32Main by getting {
+            dependsOn(nativeMain)
+        }
+        val linuxMips32Test by getting {
+            dependsOn(nativeTest)
+        }
+        val linuxMipsel32Main by getting {
+            dependsOn(nativeMain)
+        }
+        val linuxMipsel32Test by getting {
+            dependsOn(nativeTest)
+        }
 
         // Windows
+        val mingwX64Main by getting {
+            dependsOn(nativeMain)
+        }
+        val mingwX64Test by getting {
+            dependsOn(nativeTest)
+        }
+        val mingwX86Main by getting {
+            dependsOn(nativeMain)
+        }
+        val mingwX86Test by getting {
+            dependsOn(nativeTest)
+        }
     }
 }
 

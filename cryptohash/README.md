@@ -51,6 +51,8 @@ The following hashing algorithms are supported
 ![badge][badge-watchos]
 ![badge][badge-tvos]
 ![badge][badge-mac]
+![badge][badge-linux]
+![badge][badge-windows]
 ![badge][badge-jvm]
 [![Maven Central](https://img.shields.io/maven-central/v/com.appmattus.crypto/cryptohash)](https://search.maven.org/search?q=g:com.appmattus.crypto)
 

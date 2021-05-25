@@ -16,7 +16,7 @@
 
 object Versions {
 
-    const val kotlin = "1.5.0"
+    const val kotlin = "1.4.32"
 
     const val androidGradlePlugin = "4.2.0"
     const val detektGradlePlugin = "1.16.0"
@@ -26,8 +26,8 @@ object Versions {
     const val dokkaPlugin = "1.4.32"
 
     const val coil = "1.2.1"
-    const val coroutines = "1.5.0-RC"
-    const val coroutinesNative = "1.5.0-RC-native-mt"
+    const val coroutines = "1.4.3"
+    const val coroutinesNative = "1.4.3-native-mt"
     const val groupie = "2.9.0"
     const val orbitMvi = "3.1.1"
 
