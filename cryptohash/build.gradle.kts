@@ -30,6 +30,8 @@ plugins {
 val hostOs = System.getProperty("os.name")
 
 kotlin {
+    explicitApi()
+
     jvm()
 
     // Darwin
