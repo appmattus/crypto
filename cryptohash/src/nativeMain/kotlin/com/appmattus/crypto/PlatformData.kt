@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto
 
-actual typealias PlatformData = ByteArray
+public actual typealias PlatformData = ByteArray
 
 internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = object : PlatformDigest<D> {
     override fun update(input: Byte) = this@toPlatform.update(input)

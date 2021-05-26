@@ -16,6 +16,6 @@
 
 package com.appmattus.crypto
 
-expect class PlatformData
+public expect class PlatformData
 
 internal expect fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D>

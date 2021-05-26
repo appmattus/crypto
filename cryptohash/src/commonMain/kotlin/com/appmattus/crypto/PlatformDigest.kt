@@ -41,21 +41,21 @@ package com.appmattus.crypto
  * ... etc.
  * ```
  */
-interface PlatformDigest<D : Digest<D>> {
+public interface PlatformDigest<D : Digest<D>> {
 
     /**
      * Updates the digest using the specified byte.
      *
      * @param input the byte with which to update the digest.
      */
-    fun update(input: Byte)
+    public fun update(input: Byte)
 
     /**
      * Updates the digest using the specified array of bytes.
      *
      * @param input the array of bytes.
      */
-    fun update(input: PlatformData)
+    public fun update(input: PlatformData)
 
     /**
      * Updates the digest using the specified array of bytes, starting
@@ -67,7 +67,7 @@ interface PlatformDigest<D : Digest<D>> {
      *
      * @param length the number of bytes to use, starting at [offset]
      */
-    fun update(input: PlatformData, offset: Int, length: Int)
+    public fun update(input: PlatformData, offset: Int, length: Int)
 
     /**
      * Completes the hash computation by performing final operations
@@ -75,7 +75,7 @@ interface PlatformDigest<D : Digest<D>> {
      *
      * @return the array of bytes for the resulting hash value.
      */
-    fun digest(): PlatformData
+    public fun digest(): PlatformData
 
     /**
      * Performs a final update on the digest using the specified array
@@ -88,7 +88,7 @@ interface PlatformDigest<D : Digest<D>> {
      *
      * @return the array of bytes for the resulting hash value.
      */
-    fun digest(input: PlatformData): PlatformData
+    public fun digest(input: PlatformData): PlatformData
 
     /**
      * Completes the hash computation by performing final operations
@@ -102,19 +102,19 @@ interface PlatformDigest<D : Digest<D>> {
      *
      * @return the number of bytes placed into [output]
      */
-    fun digest(output: PlatformData, offset: Int, length: Int): Int
+    public fun digest(output: PlatformData, offset: Int, length: Int): Int
 
     /**
      * Get the natural hash function output length (in bytes).
      *
      * @return the digest output length (in bytes)
      */
-    val digestLength: Int
+    public val digestLength: Int
 
     /**
      * Resets the digest for further use.
      */
-    fun reset()
+    public fun reset()
 
     /**
      * Clone the current state. The returned object evolves independently
@@ -122,7 +122,7 @@ interface PlatformDigest<D : Digest<D>> {
      *
      * @return the clone
      */
-    fun copy(): PlatformDigest<D>
+    public fun copy(): PlatformDigest<D>
 
     /**
      * Return the "block length" for the hash function. This
@@ -142,12 +142,12 @@ interface PlatformDigest<D : Digest<D>> {
      *
      * @return the internal block length (in bytes), or `-n`
      */
-    val blockLength: Int
+    public val blockLength: Int
 
     /**
      *
      * Get the display name for this function (e.g. `"SHA-1"`
      * for SHA-1).
      */
-    override fun toString(): String
+    public override fun toString(): String
 }

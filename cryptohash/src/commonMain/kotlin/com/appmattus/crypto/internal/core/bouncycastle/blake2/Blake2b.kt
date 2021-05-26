@@ -79,7 +79,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * between 1 and 64 bytes.
  */
 @Suppress("MagicNumber", "LongParameterList", "TooManyFunctions")
-class Blake2b : Digest<Blake2b> {
+internal class Blake2b : Digest<Blake2b> {
     /**
      * return the size, in bytes, of the digest produced by this message digest.
      *

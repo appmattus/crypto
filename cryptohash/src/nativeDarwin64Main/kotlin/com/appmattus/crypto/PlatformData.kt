@@ -18,7 +18,7 @@ package com.appmattus.crypto
 
 import platform.Foundation.NSData
 
-actual typealias PlatformData = NSData
+public actual typealias PlatformData = NSData
 
 internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = object : PlatformDigest<D> {
     override fun update(input: Byte) = this@toPlatform.update(input)
