@@ -32,7 +32,7 @@ import com.appmattus.crypto.internal.core.SHA512_256
 import com.appmattus.crypto.internal.core.SM3
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
 import com.appmattus.crypto.internal.core.blake3.Blake3
-import com.appmattus.crypto.internal.core.bouncycastle.DSTU7564
+import com.appmattus.crypto.internal.core.bouncycastle.Kupyna
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_256
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_512
@@ -160,10 +160,6 @@ internal object CoreDigest {
             Algorithm.CubeHash384 -> CubeHash384()
             Algorithm.CubeHash512 -> CubeHash512()
 
-            Algorithm.DSTU7564_256 -> DSTU7564(256)
-            Algorithm.DSTU7564_384 -> DSTU7564(384)
-            Algorithm.DSTU7564_512 -> DSTU7564(512)
-
             Algorithm.ECHO224 -> ECHO224()
             Algorithm.ECHO256 -> ECHO256()
             Algorithm.ECHO384 -> ECHO384()
@@ -217,6 +213,10 @@ internal object CoreDigest {
             Algorithm.Keccak288 -> Keccak288()
             Algorithm.Keccak384 -> Keccak384()
             Algorithm.Keccak512 -> Keccak512()
+
+            Algorithm.Kupyna_256 -> Kupyna(256)
+            Algorithm.Kupyna_384 -> Kupyna(384)
+            Algorithm.Kupyna_512 -> Kupyna(512)
 
             Algorithm.Luffa224 -> Luffa224()
             Algorithm.Luffa256 -> Luffa256()

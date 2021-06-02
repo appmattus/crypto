@@ -51,7 +51,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * https://github.com/Roman-Oliynykov/Kupyna-reference
  */
 @Suppress("TooManyFunctions", "MagicNumber", "LargeClass")
-internal class DSTU7564 : Digest<DSTU7564> {
+internal class Kupyna : Digest<Kupyna> {
     override var digestLength = 0
         private set
     private var byteLength = 0
@@ -66,11 +66,11 @@ internal class DSTU7564 : Digest<DSTU7564> {
     private var bufOff = 0
     private lateinit var buf: ByteArray
 
-    constructor(digest: DSTU7564) {
+    constructor(digest: Kupyna) {
         copyIn(digest)
     }
 
-    private fun copyIn(digest: DSTU7564) {
+    private fun copyIn(digest: Kupyna) {
         digestLength = digest.digestLength
         byteLength = digest.byteLength
         rounds = digest.rounds
@@ -455,11 +455,11 @@ internal class DSTU7564 : Digest<DSTU7564> {
         }
     }
 
-    override fun copy(): DSTU7564 {
-        return DSTU7564(this)
+    override fun copy(): Kupyna {
+        return Kupyna(this)
     }
 
-    fun reset(other: DSTU7564) {
+    fun reset(other: Kupyna) {
         copyIn(other)
     }
 
@@ -1583,6 +1583,6 @@ internal class DSTU7564 : Digest<DSTU7564> {
         get() = byteLength
 
     override fun toString(): String {
-        return "DSTU7564-${digestLength ushr 3}"
+        return "Kupyna-${digestLength ushr 3}"
     }
 }

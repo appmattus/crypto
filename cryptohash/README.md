@@ -3,18 +3,31 @@
 A Kotlin Multiplatform Mobile library to provide a set of cryptographic (and
 not so cryptographic) hashing functions.
 
-The following hashing algorithms are supported
+The following algorithms are supported:
+
+## Cyclic redundancy checks
+
+- CRC32
+
+## Checksums
 
 - Adler32
+
+# Keyed cryptographic hash functions
+
+- Blake2b, Blake2s
+- Blake3
+- Skein
+
+# Unkeyed cryptographic hash functions
+
 - BLAKE-224, BLAKE-256, BLAKE-384, BLAKE-512
 - Blake2b-160, Blake2b-256, Blake2b-384, Blake2b-512, Blake2s-128, Blake2s-160,
   Blake2s-224, Blake2s-256
 - Blake3
 - BMW-224, BMW-256, BMW-384, BMW-512
-- CRC32
 - cSHAKE
 - CubeHash-224, CubeHash-256, CubeHash-384, CubeHash-512
-- DSTU7564-256, DSTU7564-384, DSTU7564-512
 - ECHO-224, ECHO-256, ECHO-384, ECHO-512
 - Fugue-224, Fugue-256, Fugue-384, Fugue-512
 - GOST3411-94, GOST3411-2012-256, GOST3411-2012-512
@@ -26,6 +39,7 @@ The following hashing algorithms are supported
   HAVAL-256-3, HAVAL-256-4, HAVAL-256-5
 - JH-224, JH-256, JH-384, JH-512
 - Keccak-224, Keccak-256, Keccak-288, Keccak-384, Keccak-512
+- Kupyna-256 (aka DSTU7564-256), Kupyna-384 (aka DSTU7564-384), Kupyna-512 (aka DSTU7564-512)
 - Luffa-224, Luffa-256, Luffa-384, Luffa-512
 - MD2, MD4, MD5
 - PANAMA

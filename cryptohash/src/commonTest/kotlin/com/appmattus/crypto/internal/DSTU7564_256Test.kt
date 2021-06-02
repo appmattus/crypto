@@ -26,7 +26,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class DSTU7564_256CoreTest : DSTU7564_256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.DSTU7564_256)
+    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Kupyna_256)
 
     @Test
     fun hasImplementation() {
@@ -40,6 +40,21 @@ class DSTU7564_256CoreTest : DSTU7564_256Test() {
 abstract class DSTU7564_256Test {
 
     abstract fun digest(): Digest<*>
+
+    // From https://en.wikipedia.org/wiki/Kupyna
+    @Test
+    fun quickBrownFox() {
+        testKat(
+            digest(),
+            "The quick brown fox jumps over the lazy dog",
+            "996899f2d7422ceaf552475036b2dc120607eff538abf2b8dff471a98a4740c6"
+        )
+        testKat(
+            digest(),
+            "The quick brown fox jumps over the lazy dog.",
+            "88ea8ce988fe67eb83968cdc0f6f3ca693baa502612086c0dcec761a98e2fb1f"
+        )
+    }
 
     // From https://github.com/bcgit/bc-java/blob/master/core/src/test/java/org/bouncycastle/crypto/test/DSTU7564Test.java
     @Test
