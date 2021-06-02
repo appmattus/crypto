@@ -17,6 +17,10 @@
 package com.appmattus.crypto
 
 /**
+ * [PlatformDigest] is a platform specific implementation of [Digest]
+ * using [PlatformData] in place of [ByteArray] for easier direct native
+ * integration.
+ *
  * Digests are secure one-way hash functions that take arbitrary-sized
  * data and output a fixed-length hash value.
  *

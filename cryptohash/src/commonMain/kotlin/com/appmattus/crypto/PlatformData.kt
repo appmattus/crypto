@@ -16,6 +16,12 @@
 
 package com.appmattus.crypto
 
+/**
+ * Represents the native platforms data type for Array like data
+ */
 public expect class PlatformData
 
+/**
+ * Convert this [Digest] into a platform specific [PlatformDigest]
+ */
 internal expect fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D>
