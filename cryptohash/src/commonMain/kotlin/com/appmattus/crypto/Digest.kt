@@ -151,6 +151,9 @@ public interface Digest<D : Digest<D>> {
      */
     public override fun toString(): String
 
+    /**
+     * A platform specific implementation of this [Digest]. For example, uses [NSData] instead of [ByteArray] on iOS.
+     */
     public fun platform(): PlatformDigest<*> = toPlatform()
 }
 

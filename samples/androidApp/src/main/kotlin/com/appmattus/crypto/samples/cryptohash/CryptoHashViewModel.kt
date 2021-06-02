@@ -71,7 +71,7 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
             Algorithm.CRC32,
             Algorithm.cSHAKE256(),
             Algorithm.CubeHash512,
-            Algorithm.DSTU7564_512,
+            Algorithm.Kupyna_512,
             Algorithm.ECHO512,
             Algorithm.Fugue512,
             Algorithm.GOST3411_2012_512,

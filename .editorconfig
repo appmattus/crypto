@@ -42,3 +42,4 @@ ij_kotlin_wrap_expression_body_functions = 1
 indent_style = space
 indent_size = 4
 trim_trailing_whitespace = false
+max_line_length = 80

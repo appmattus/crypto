@@ -16,8 +16,14 @@
 
 package com.appmattus.crypto
 
+/**
+ * Represents the native platforms data type for Array like data. For JVM we are using [ByteArray]
+ */
 public actual typealias PlatformData = ByteArray
 
+/**
+ * Convert this [Digest] into a platform specific [PlatformDigest]
+ */
 internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = object : PlatformDigest<D> {
     override fun update(input: Byte) = this@toPlatform.update(input)
     override fun update(input: PlatformData) = this@toPlatform.update(input)
