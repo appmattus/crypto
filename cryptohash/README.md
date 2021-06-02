@@ -13,13 +13,13 @@ The following algorithms are supported:
 
 - Adler32
 
-# Keyed cryptographic hash functions
+## Keyed cryptographic hash functions
 
 - Blake2b, Blake2s
 - Blake3
 - Skein
 
-# Unkeyed cryptographic hash functions
+## Unkeyed cryptographic hash functions
 
 - BLAKE-224, BLAKE-256, BLAKE-384, BLAKE-512
 - Blake2b-160, Blake2b-256, Blake2b-384, Blake2b-512, Blake2s-128, Blake2s-160,
@@ -39,7 +39,8 @@ The following algorithms are supported:
   HAVAL-256-3, HAVAL-256-4, HAVAL-256-5
 - JH-224, JH-256, JH-384, JH-512
 - Keccak-224, Keccak-256, Keccak-288, Keccak-384, Keccak-512
-- Kupyna-256 (aka DSTU7564-256), Kupyna-384 (aka DSTU7564-384), Kupyna-512 (aka DSTU7564-512)
+- Kupyna-256 (aka DSTU7564-256), Kupyna-384 (aka DSTU7564-384), Kupyna-512 (aka
+  DSTU7564-512)
 - Luffa-224, Luffa-256, Luffa-384, Luffa-512
 - MD2, MD4, MD5
 - PANAMA
