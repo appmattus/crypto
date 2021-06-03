@@ -71,6 +71,7 @@ jobs:
             echo $HOME/.gradle/sonatype-appmattus-keys.gpg
             ls $HOME/.gradle/
 #            echo ~/.gradle/gradle.properties
+        if: runner.os != 'Windows'
 
 #        if: startsWith(github.ref, 'refs/tags/')
 
