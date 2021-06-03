@@ -89,7 +89,7 @@ of the hash you wish to use, then update with `update` and create the hash with
 
 ```kotlin
 // Create a digest
-val digest = Digest.create(Algorithm.Blake2b_512)
+val digest = Algorithm.Blake2b_512.createDigest()
 
 // Update the digest with data and generate the hash
 digest.update(byteArray)
@@ -99,11 +99,29 @@ val hash: ByteArray = digest.digest()
 digest.digest(byteArray)
 ```
 
+To use the library directly with Swift on iOS, macOS, tvOS or watchOS, follow
+the same pattern as above. To interact with Darwin's [Data](https://developer.apple.com/documentation/foundation/data)
+class instead of Kotlin's [ByteArray](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/),
+convert the digest into a platform specific implementation with `platform()`:
+
+```swift
+// Create a digest
+let digest = Algorithm.Blake2b_512().createDigest().platform()
+
+// Update the digest with data and generate the hash
+digest.update(data)
+let hash: Data = digest.digest()
+
+// Alternatively use the shorthand form to update and generate with one function
+digest.digest(data)
+```
+
 ---
 
 Inspired by the Flutter [crypto](https://pub.dev/packages/crypto)
 package. Pure Kotlin implementations based on [saphir](https://github.com/sfuhrm/saphir-hash),
-[Bouncy Castle](https://github.com/bcgit/bc-java/) and [blake3](https://github.com/rctcwyvrn/blake3).
+[Bouncy Castle](https://github.com/bcgit/bc-java/), [blake3](https://github.com/rctcwyvrn/blake3).
+and [HighwayHash](https://github.com/google/highwayhash/).
 
 [badge-android]: http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat
 [badge-ios]: http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat
