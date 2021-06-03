@@ -43,7 +43,7 @@ fun testKatMillionA(dig: Digest<*>, ref: String) {
     val buf = ByteArray(1000)
     for (i in 0..999) buf[i] = 'a'.code.toByte()
     for (i in 0..999) dig.update(buf)
-    assertEquals(dig.digest(), strtobin(ref))
+    assertContentEquals(dig.digest(), strtobin(ref))
 }
 
 fun testKatExtremelyLong(dig: Digest<*>, ref: String) {
@@ -51,14 +51,14 @@ fun testKatExtremelyLong(dig: Digest<*>, ref: String) {
     repeat(16777216) {
         dig.update(buf)
     }
-    assertEquals(dig.digest(), strtobin(ref))
+    assertContentEquals(dig.digest(), strtobin(ref))
 }
 
 fun testCollision(dig: Digest<*>, s1: String, s2: String) {
     val msg1 = strtobin(s1)
     val msg2 = strtobin(s2)
-    assertNotEquals(msg1, msg2)
-    assertEquals(dig.digest(msg1), dig.digest(msg2))
+    assertContentNotEquals(msg1, msg2)
+    assertContentEquals(dig.digest(msg1), dig.digest(msg2))
 }
 
 fun strtobin(str: String): ByteArray {
@@ -79,11 +79,11 @@ fun encodeLatin1(str: String): ByteArray {
     return buf
 }
 
-fun assertEquals(b1: ByteArray, b2: ByteArray) {
+fun assertContentEquals(b1: ByteArray, b2: ByteArray) {
     if (!b1.contentEquals(b2)) fail("byte streams are not equal")
 }
 
-fun assertNotEquals(b1: ByteArray, b2: ByteArray) {
+fun assertContentNotEquals(b1: ByteArray, b2: ByteArray) {
     if (b1.contentEquals(b2)) fail("byte streams are equal")
 }
 
