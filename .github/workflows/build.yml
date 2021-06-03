@@ -57,7 +57,7 @@ jobs:
       - name: Prepare tag properties (1)
         uses: kitek/decode-base64-into-file-action@1.0
         with:
-          destination-file: ~/.gradle/sonatype-appmattus-keys.gpg
+          destination-file: $HOME/sonatype-appmattus-keys.gpg
           encoded-value: ${{ secrets.GPG_SIGNING_SECRET_KEY_RING_FILE_BASE64 }}
 #        if: startsWith(github.ref, 'refs/tags/')
 
@@ -67,7 +67,8 @@ jobs:
 
       - name: Prepare tag properties (2)
         run: |
-            more ~/.gradle/sonatype-appmattus-keys.gpg
+            echo $HOME/.gradle/sonatype-appmattus-keys.gpg
+            ls $HOME/.gradle/
 #            echo ~/.gradle/gradle.properties
 
 #        if: startsWith(github.ref, 'refs/tags/')
