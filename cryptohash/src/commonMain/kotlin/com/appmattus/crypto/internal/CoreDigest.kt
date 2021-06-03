@@ -32,16 +32,17 @@ import com.appmattus.crypto.internal.core.SHA512_256
 import com.appmattus.crypto.internal.core.SM3
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
 import com.appmattus.crypto.internal.core.blake3.Blake3
-import com.appmattus.crypto.internal.core.bouncycastle.Kupyna
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_256
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_512
+import com.appmattus.crypto.internal.core.bouncycastle.Kupyna
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2b
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2s
 import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka256_256
 import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka512_256
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.SHAKEDigest
+import com.appmattus.crypto.internal.core.google.HighwayHash
 import com.appmattus.crypto.internal.core.sphlib.BLAKE224
 import com.appmattus.crypto.internal.core.sphlib.BLAKE256
 import com.appmattus.crypto.internal.core.sphlib.BLAKE384
@@ -202,6 +203,10 @@ internal object CoreDigest {
             Algorithm.HAVAL_5_192 -> HAVALCore(192, 5)
             Algorithm.HAVAL_5_224 -> HAVALCore(224, 5)
             Algorithm.HAVAL_5_256 -> HAVALCore(256, 5)
+
+            is Algorithm.HighwayHash64 -> HighwayHash(algorithm.key, 64)
+            is Algorithm.HighwayHash128 -> HighwayHash(algorithm.key, 128)
+            is Algorithm.HighwayHash256 -> HighwayHash(algorithm.key, 256)
 
             Algorithm.JH224 -> JH224()
             Algorithm.JH256 -> JH256()

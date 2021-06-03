@@ -24,6 +24,7 @@ import com.appmattus.crypto.internal.core.sphlib.strtobin
 import com.appmattus.crypto.internal.core.sphlib.testKatHex
 import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class cSHAKE128CoreTest : cSHAKE128Test() {
@@ -136,14 +137,14 @@ abstract class cSHAKE128Test {
          */
         dig.update(data)
         dig.digest(buffer, 0, buffer.size)
-        kotlin.test.assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
         /*
          * Now the update() API; this also exercises auto-reset.
          */
         for (i in data.indices) dig.update(data[i])
         dig.digest(buffer, 0, buffer.size)
-        kotlin.test.assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
         /*
          * The cloning API.
@@ -153,9 +154,9 @@ abstract class cSHAKE128Test {
         val dig2 = dig.copy()
         dig.update(data, blen / 2, blen - blen / 2)
         dig.digest(buffer, 0, buffer.size)
-        kotlin.test.assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
         dig2.update(data, blen / 2, blen - blen / 2)
         dig2.digest(buffer, 0, buffer.size)
-        kotlin.test.assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
     }
 }
