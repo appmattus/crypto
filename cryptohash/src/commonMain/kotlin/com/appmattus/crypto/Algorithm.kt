@@ -379,6 +379,27 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public object HAVAL_5_256 : Algorithm("HAVAL-5-256", 128)
 
     /**
+     * [HighwayHash](https://github.com/google/highwayhash) with output size 64 bits
+     */
+    public class HighwayHash64(
+        internal val key: LongArray
+    ) : Algorithm("HighwayHash-64", 64)
+
+    /**
+     * [HighwayHash](https://github.com/google/highwayhash) with output size 128 bits
+     */
+    public class HighwayHash128(
+        internal val key: LongArray
+    ) : Algorithm("HighwayHash-128", 128)
+
+    /**
+     * [HighwayHash](https://github.com/google/highwayhash) with output size 256 bits
+     */
+    public class HighwayHash256(
+        internal val key: LongArray
+    ) : Algorithm("HighwayHash-256", 256)
+
+    /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 224 bits
      */
     public object JH224 : Algorithm("JH-224", 64)

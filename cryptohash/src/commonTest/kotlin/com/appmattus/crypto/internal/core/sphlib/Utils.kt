@@ -1,6 +1,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Digest
+import kotlin.test.assertEquals
 import kotlin.test.fail
 
 @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
@@ -9,13 +10,13 @@ fun testKat(dig: Digest<*>, data: ByteArray, ref: String) {
      * First test the hashing itself.
      */
     val out = dig.digest(data)
-    kotlin.test.assertEquals(ref.lowercase(), out.toHexString().lowercase())
+    assertEquals(ref.lowercase(), out.toHexString().lowercase())
 
     /*
      * Now the update() API; this also exercises auto-reset.
      */
     for (i in data.indices) dig.update(data[i])
-    kotlin.test.assertEquals(ref.lowercase(), dig.digest().toHexString().lowercase())
+    assertEquals(ref.lowercase(), dig.digest().toHexString().lowercase())
 
     /*
      * The cloning API.
@@ -24,9 +25,9 @@ fun testKat(dig: Digest<*>, data: ByteArray, ref: String) {
     dig.update(data, 0, blen / 2)
     val dig2 = dig.copy()
     dig.update(data, blen / 2, blen - blen / 2)
-    kotlin.test.assertEquals(ref.lowercase(), dig.digest().toHexString().lowercase())
+    assertEquals(ref.lowercase(), dig.digest().toHexString().lowercase())
     dig2.update(data, blen / 2, blen - blen / 2)
-    kotlin.test.assertEquals(ref.lowercase(), dig2.digest().toHexString().lowercase())
+    assertEquals(ref.lowercase(), dig2.digest().toHexString().lowercase())
 }
 
 fun testKat(dig: Digest<*>, data: String, ref: String) {

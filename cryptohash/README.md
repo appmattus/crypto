@@ -13,6 +13,10 @@ The following algorithms are supported:
 
 - Adler32
 
+## Non-cryptographic hash functions
+
+- HighwayHash-64, HighwayHash-128, HighwayHash-256
+
 ## Keyed cryptographic hash functions
 
 - Blake2b, Blake2s
