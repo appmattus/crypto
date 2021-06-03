@@ -74,7 +74,7 @@ jobs:
 #                env:
 #                    SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository_id }}
 #                run: ./gradlew publish --no-daemon --no-parallel -Psigning.secretKeyRingFile=$(echo ~/.gradle/sonatype-appmattus-keys.gpg)
-                run: ./gradlew tasks -P"signing.secretKeyRingFile=%HOME%/.gradle/sonatype-appmattus-keys.gpg"
+                run: ./gradlew tasks -P"signing.secretKeyRingFile=$(echo ~/.gradle/sonatype-appmattus-keys.gpg)"
 
 #    close:
 #        needs: [ build ]
