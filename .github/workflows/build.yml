@@ -68,7 +68,7 @@ jobs:
             mkdir -p $HOME/.gradle
             echo "${{secrets.GPG_SIGNING_SECRET_KEY_RING_FILE_BASE64}}" > $HOME/.gradle/sonatype-appmattus-keys.gpg.b64
 
-            certutil -decode $HOME/.gradle/sonatype-appmattus-keys.gpg.b64 HOME/.gradle/sonatype-appmattus-keys.gpg
+            certutil -decode $HOME/.gradle/sonatype-appmattus-keys.gpg.b64 $HOME/.gradle/sonatype-appmattus-keys.gpg
 
 
 
