@@ -73,7 +73,8 @@ tasks.maybeCreate("check").dependsOn(tasks.named("detekt"))
 tasks.maybeCreate("check").dependsOn(tasks.named("markdownlint"))
 
 allprojects {
-    version = System.getenv("GITHUB_REF")?.substring(10) ?: System.getProperty("GITHUB_REF")?.substring(10) ?: "unknown"
+    version = "4.0.0"
+    //System.getenv("GITHUB_REF")?.substring(10) ?: System.getProperty("GITHUB_REF")?.substring(10) ?: "unknown"
 
     plugins.withType<org.jetbrains.dokka.gradle.DokkaPlugin> {
         tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
