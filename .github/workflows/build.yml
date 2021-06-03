@@ -56,21 +56,12 @@ jobs:
 
       - name: Prepare tag properties (1)
         run: |
-            mkdir $HOME/.gradle/
+            mkdir -p $HOME/.gradle
             echo "${{secrets.GPG_SIGNING_SECRET_KEY_RING_FILE_BASE64}}" > $HOME/.gradle/sonatype-appmattus-keys.gpg.b64
-        if: runner.os != 'Windows'
-        #        if: startsWith(github.ref, 'refs/tags/')
-
-      - name: Prepare tag properties (1b)
-        run: |
             base64 -d $HOME/.gradle/sonatype-appmattus-keys.gpg.b64 > $HOME/.gradle/sonatype-appmattus-keys.gpg
-        if: runner.os != 'Windows'
-
-      - name: Prepare tag properties (1c)
-        run: |
             echo "${{secrets.GPG_GRADLE_PROPERTIES}}" > $HOME/.gradle/gradle.properties
         if: runner.os != 'Windows'
-
+        #        if: startsWith(github.ref, 'refs/tags/')
 
 
 #      - name: Prepare tag properties (2)
