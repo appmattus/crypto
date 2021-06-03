@@ -55,12 +55,12 @@ jobs:
 #        run: ./gradlew build -x check -x lintVitalRelease
 
       - name: Prepare tag properties (1)
-        uses: davidSchuppa/base64Secret-toFile-action@v1
-        with:
-          secret: ${{ secrets.GPG_SIGNING_SECRET_KEY_RING_FILE_BASE64 }}
-          filename: sonatype-appmattus-keys.gpg
-          destination-path: ~/.gradle
-#        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+            echo "${{secrets.GPG_SIGNING_SECRET_KEY_RING_FILE_BASE64}}" > ~/.gradle/sonatype-appmattus-keys.gpg.b64
+            base64 -d ~/.gradle/sonatype-appmattus-keys.gpg.b64 > ~/.gradle/sonatype-appmattus-keys.gpg
+            echo "${{secrets.GPG_GRADLE_PROPERTIES}}" > ~/.gradle/gradle.properties
+        if: runner.os != 'Windows'
+        #        if: startsWith(github.ref, 'refs/tags/')
 
 #      - name: Prepare tag properties (2)
 #        run: |
