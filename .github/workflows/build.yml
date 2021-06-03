@@ -67,7 +67,7 @@ jobs:
 
       - name: Prepare tag properties (2)
         run: |
-            echo ~/.gradle/sonatype-appmattus-keys.gpg
+            more ~/.gradle/sonatype-appmattus-keys.gpg
 #            echo ~/.gradle/gradle.properties
 
 #        if: startsWith(github.ref, 'refs/tags/')
