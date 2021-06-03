@@ -61,14 +61,14 @@ jobs:
           encoded-value: ${{ secrets.GPG_SIGNING_SECRET_KEY_RING_FILE_BASE64 }}
 #        if: startsWith(github.ref, 'refs/tags/')
 
-      - name: Prepare tag properties (2)
-        run: |
-          echo "${{secrets.GPG_GRADLE_PROPERTIES}}" > ~/.gradle/gradle.properties
+#      - name: Prepare tag properties (2)
+#        run: |
+#          echo "${{secrets.GPG_GRADLE_PROPERTIES}}" > ~/.gradle/gradle.properties
 
       - name: Prepare tag properties (2)
         run: |
             echo ~/.gradle/sonatype-appmattus-keys.gpg
-            echo ~/.gradle/gradle.properties
+#            echo ~/.gradle/gradle.properties
 
 #        if: startsWith(github.ref, 'refs/tags/')
 
