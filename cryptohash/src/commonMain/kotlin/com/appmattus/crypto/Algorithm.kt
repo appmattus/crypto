@@ -383,21 +383,21 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      */
     public class HighwayHash64(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-64", 64)
+    ) : Algorithm("HighwayHash-64", 32)
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 128 bits
      */
     public class HighwayHash128(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-128", 128)
+    ) : Algorithm("HighwayHash-128", 32)
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 256 bits
      */
     public class HighwayHash256(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-256", 256)
+    ) : Algorithm("HighwayHash-256", 32)
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 224 bits
