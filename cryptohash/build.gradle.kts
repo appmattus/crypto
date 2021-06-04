@@ -63,6 +63,9 @@ kotlin {
     mingwX64()
     mingwX86()
 
+    // WebAssembly
+    wasm32()
+
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -207,6 +210,14 @@ kotlin {
             dependsOn(nativeMain)
         }
         val mingwX86Test by getting {
+            dependsOn(nativeTest)
+        }
+
+        // WebAssembly
+        val wasm32Main by getting {
+            dependsOn(nativeMain)
+        }
+        val wasm32Test by getting {
             dependsOn(nativeTest)
         }
     }
