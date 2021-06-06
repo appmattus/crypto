@@ -20,7 +20,7 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
 @Suppress("MagicNumber")
-internal class CRC32 : Digest<CRC32> {
+internal class CRC32B : Digest<CRC32B> {
 
     private var checksum = 0
 
@@ -93,16 +93,16 @@ internal class CRC32 : Digest<CRC32> {
         checksum = 0
     }
 
-    override fun copy(): CRC32 {
-        return CRC32().also {
+    override fun copy(): CRC32B {
+        return CRC32B().also {
             it.checksum = checksum
         }
     }
 
     override val blockLength: Int
-        get() = Algorithm.CRC32.blockLength
+        get() = Algorithm.CRC32B.blockLength
 
-    override fun toString() = Algorithm.CRC32.algorithmName
+    override fun toString() = Algorithm.CRC32B.algorithmName
 
     companion object {
 

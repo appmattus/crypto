@@ -122,9 +122,9 @@ internal class Adler32 : Digest<Adler32> {
     }
 
     override val blockLength: Int
-        get() = Algorithm.CRC32.blockLength
+        get() = Algorithm.Adler32.blockLength
 
-    override fun toString() = Algorithm.CRC32.algorithmName
+    override fun toString() = Algorithm.Adler32.algorithmName
 
     companion object {
 

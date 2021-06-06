@@ -26,7 +26,7 @@ import platform.zlib.crc32
 import platform.zlib.uBytefVar
 
 @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS", "MagicNumber")
-internal class CRC32 : Digest<CRC32> {
+internal class CRC32B : Digest<CRC32B> {
 
     private var crc: ULong = 0UL
 
@@ -95,14 +95,14 @@ internal class CRC32 : Digest<CRC32> {
         crc = 0UL
     }
 
-    override fun copy(): CRC32 {
-        val digest = CRC32()
+    override fun copy(): CRC32B {
+        val digest = CRC32B()
         digest.crc = crc
         return digest
     }
 
     override val blockLength: Int
-        get() = Algorithm.CRC32.blockLength
+        get() = Algorithm.CRC32B.blockLength
 
-    override fun toString() = Algorithm.CRC32.algorithmName
+    override fun toString() = Algorithm.CRC32B.algorithmName
 }

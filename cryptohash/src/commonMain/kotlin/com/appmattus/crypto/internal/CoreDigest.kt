@@ -19,7 +19,8 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.Adler32
-import com.appmattus.crypto.internal.core.CRC32
+import com.appmattus.crypto.internal.core.CRC32B
+import com.appmattus.crypto.internal.core.CRC32C
 import com.appmattus.crypto.internal.core.Keccak288
 import com.appmattus.crypto.internal.core.RipeMD256
 import com.appmattus.crypto.internal.core.RipeMD320
@@ -147,7 +148,8 @@ internal object CoreDigest {
             Algorithm.BMW384 -> BMW384()
             Algorithm.BMW512 -> BMW512()
 
-            Algorithm.CRC32 -> CRC32()
+            Algorithm.CRC32B -> CRC32B()
+            Algorithm.CRC32C -> CRC32C()
 
             is Algorithm.cSHAKE128 -> {
                 CSHAKEDigest(128, algorithm.functionName, algorithm.customisation)
