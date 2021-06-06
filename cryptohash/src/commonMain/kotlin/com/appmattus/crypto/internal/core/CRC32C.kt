@@ -100,9 +100,9 @@ internal class CRC32C : Digest<CRC32C> {
     }
 
     override val blockLength: Int
-        get() = Algorithm.CRC32B.blockLength
+        get() = Algorithm.CRC32C.blockLength
 
-    override fun toString() = Algorithm.CRC32B.algorithmName
+    override fun toString() = Algorithm.CRC32C.algorithmName
 
     companion object {
 

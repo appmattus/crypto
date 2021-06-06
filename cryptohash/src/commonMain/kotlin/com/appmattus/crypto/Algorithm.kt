@@ -159,6 +159,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
 
     /**
      * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
+     * Used by bzip.
+     */
+    public object CRC32 : Algorithm("CRC32", 32)
+
+    /**
+     * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Used by ethernet (IEEE 802.3), gzip, zip, png, etc.
      */
     public object CRC32B : Algorithm("CRC32B", 32)

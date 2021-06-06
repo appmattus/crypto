@@ -7,7 +7,7 @@ The following algorithms are supported:
 
 ## Cyclic redundancy checks
 
-- CRC32
+- CRC32, CRC32B, CRC32C
 
 ## Checksums
 
