@@ -14,43 +14,36 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.ios
+package com.appmattus.crypto.internal.core.jvm
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.encodeBEInt
-import kotlinx.cinterop.CPointer
-import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.usePinned
-import platform.zlib.crc32
-import platform.zlib.uBytefVar
 
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS", "MagicNumber")
-internal class CRC32 : Digest<CRC32> {
+@Suppress("MagicNumber")
+internal class CRC32B : Digest<CRC32B> {
 
-    private var crc: ULong = 0UL
+    private var crc = java.util.zip.CRC32()
 
     override fun update(input: Byte) {
-        update(ByteArray(1) { input })
+        crc.update(input.toInt())
     }
 
     override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+        crc.update(input)
     }
 
     override fun update(input: ByteArray, offset: Int, length: Int) {
-        if (length > 0) {
-            input.usePinned {
-                @Suppress("UNCHECKED_CAST")
-                crc = crc32(crc, it.addressOf(offset) as CPointer<uBytefVar>, length.toUInt())
-            }
-        }
+        crc.update(input, offset, length)
     }
 
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
-        encodeBEInt(crc.toInt(), digest, 0)
+
+        encodeBEInt(crc.value.toInt(), digest, 0)
+
         reset()
+
         return digest
     }
 
@@ -67,7 +60,7 @@ internal class CRC32 : Digest<CRC32> {
      *
      * @param offset offset to start from in the output buffer
      *
-     * @param length number of bytes within buf allotted for the digest. This
+     * @param length number of bytes within [output] allotted for the digest. This
      * implementation does not return partial digests. The presence of this
      * parameter is solely for consistency in our API's. If the value of this
      * parameter is less than the actual digest length, the method will throw
@@ -92,17 +85,28 @@ internal class CRC32 : Digest<CRC32> {
         get() = 4
 
     override fun reset() {
-        crc = 0UL
+        crc.reset()
     }
 
-    override fun copy(): CRC32 {
-        val digest = CRC32()
-        digest.crc = crc
+    override fun copy(): CRC32B {
+        val digest = CRC32B()
+
+        val internalCrc = java.util.zip.CRC32()
+        crcValueField.setInt(internalCrc, crc.value.toInt())
+
+        digest.crc = internalCrc
         return digest
     }
 
     override val blockLength: Int
-        get() = Algorithm.CRC32.blockLength
+        get() = Algorithm.CRC32B.blockLength
 
-    override fun toString() = Algorithm.CRC32.algorithmName
+    override fun toString() = Algorithm.CRC32B.algorithmName
+
+    companion object {
+
+        private val crcValueField = java.util.zip.CRC32::class.java.getDeclaredField("crc").apply {
+            isAccessible = true
+        }
+    }
 }
