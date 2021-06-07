@@ -1,6 +1,7 @@
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.internal.core.sphlib.encodeLatin1
 import com.appmattus.crypto.internal.core.sphlib.strtobin
 import com.appmattus.crypto.internal.core.sphlib.testHmac
 import com.appmattus.crypto.internal.core.sphlib.testHmacHex
@@ -115,6 +116,38 @@ class HmacSHA256Test {
             "4a656665",
             "7768617420646f2079612077616e74207768617420646f2079612077616e7420",
             "83038173da2181cc0c8c0f92e79c4810e33a6aaad6d09c127cda8cb29d10b734"
+        )
+
+        // From https://github.com/peazip/PeaZip/blob/welcome/peazip-sources/t_hmac.pas
+        testHmac(
+            Algorithm.SHA_256,
+            ByteArray(32) { (it + 1).toByte() },
+            encodeLatin1("abc"),
+            "a21b1f5d4cf4f73a4dd939750f7a066a7f98cc131cb16a6692759021cfab8181"
+        )
+        testHmac(
+            Algorithm.SHA_256,
+            ByteArray(32) { (it + 1).toByte() },
+            encodeLatin1("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"),
+            "104fdc1257328f08184ba73131c53caee698e36119421149ea8c712456697d30"
+        )
+        testHmac(
+            Algorithm.SHA_256,
+            ByteArray(32) { (it + 1).toByte() },
+            encodeLatin1("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopqabcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"),
+            "470305fc7e40fe34d3eeb3e773d95aab73acf0fd060447a5eb4595bf33a9d1a3"
+        )
+        testHmac(
+            Algorithm.SHA_256,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            encodeLatin1("Test Using Larger Than Block-Size Key - Hash Key First"),
+            "6953025ed96f0c09f80a96f78e6538dbe2e7b820e3dd970e7ddd39091b32352f"
+        )
+        testHmac(
+            Algorithm.SHA_256,
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            encodeLatin1("Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data"),
+            "6355ac22e890d0a3c8481a5ca4825bc884d3e7a1ff98a2fc2ac7d8e064c3b2e6"
         )
     }
 
