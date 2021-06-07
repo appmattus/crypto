@@ -15,40 +15,28 @@ class HmacSHA3_256Test {
             Algorithm.SHA3_256,
             "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
             "Hi There",
-            "ba85192310dffa96"
-                    + "e2a3a40e69774351"
-                    + "140bb7185e1202cd"
-                    + "cc917589f95e16bb"
+            "ba85192310dffa96e2a3a40e69774351140bb7185e1202cdcc917589f95e16bb"
         )
 
         testHmac(
             Algorithm.SHA3_256,
             "4a656665",
             "what do ya want for nothing?",
-            "c7d4072e788877ae"
-                    + "3596bbb0da73b887"
-                    + "c9171f93095b294a"
-                    + "e857fbe2645e1ba5"
+            "c7d4072e788877ae3596bbb0da73b887c9171f93095b294ae857fbe2645e1ba5"
         )
 
         testHmac(
             Algorithm.SHA3_256,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "Test Using Larger Than Block-Size Key - Hash Key First",
-            "ed73a374b96c0052"
-                    + "35f948032f09674a"
-                    + "58c0ce555cfc1f22"
-                    + "3b02356560312c3b"
+            "ed73a374b96c005235f948032f09674a58c0ce555cfc1f223b02356560312c3b"
         )
 
         testHmac(
             Algorithm.SHA3_256,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "This is a test using a larger than block-size key and a larger than block-size data. The key needs to be hashed before being used by the HMAC algorithm.",
-            "65c5b06d4c3de32a"
-                    + "7aef8763261e49ad"
-                    + "b6e2293ec8e7c61e"
-                    + "8de61701fc63e123"
+            "65c5b06d4c3de32a7aef8763261e49adb6e2293ec8e7c61e8de61701fc63e123"
         )
 
         testHmac(

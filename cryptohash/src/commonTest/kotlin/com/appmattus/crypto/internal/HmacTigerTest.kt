@@ -17,6 +17,15 @@ class HmacTigerTest {
             "The quick brown fox jumps over the lazy dog",
             "fba544227e1471d8d47dd9d68c5008d554c6de6072ca2e2a"
         )
+
+        // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/HMacTest.java
+
+        testHmac(
+            Algorithm.Tiger,
+            "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+            "Hi There",
+            "1d7a658c75f8f004916e7b07e2a2e10aec7de2ae124d3647"
+        )
     }
 
     @Test

@@ -259,12 +259,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [GOST R 34.11-2012](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 256 bits
      */
-    public object GOST3411_2012_256 : Algorithm("GOST3411-2012-256", 64)
+    public object GOST3411_2012_256 : Algorithm("GOST3411-2012-256", 64), Hmac
 
     /**
      * [GOST R 34.11-2012](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 512 bits
      */
-    public object GOST3411_2012_512 : Algorithm("GOST3411-2012-512", 64)
+    public object GOST3411_2012_512 : Algorithm("GOST3411-2012-512", 64), Hmac
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 224 bits
@@ -445,7 +445,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 288 bits
      */
-    public object Keccak288 : Algorithm("Keccak-288", 64)
+    public object Keccak288 : Algorithm("Keccak-288", 64), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 384 bits
@@ -460,17 +460,17 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 256 bits
      */
-    public object Kupyna_256 : Algorithm("Kupyna-256", 64)
+    public object Kupyna_256 : Algorithm("Kupyna-256", 64), Hmac
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 384 bits
      */
-    public object Kupyna_384 : Algorithm("Kupyna-384", 128)
+    public object Kupyna_384 : Algorithm("Kupyna-384", 128), Hmac
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 512 bits
      */
-    public object Kupyna_512 : Algorithm("Kupyna-512", 128)
+    public object Kupyna_512 : Algorithm("Kupyna-512", 128), Hmac
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 224 bits
@@ -580,12 +580,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 224 bits
      */
-    public object SHA_512_224 : Algorithm("SHA-512/224", 128)
+    public object SHA_512_224 : Algorithm("SHA-512/224", 128), Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 256 bits
      */
-    public object SHA_512_256 : Algorithm("SHA-512/256", 128)
+    public object SHA_512_256 : Algorithm("SHA-512/256", 128), Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 224 bits
@@ -766,7 +766,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [SM3](https://en.wikipedia.org/wiki/SM3_(hash_function)) with output size of 256 bits
      */
-    public object SM3 : Algorithm("SM3", 64)
+    public object SM3 : Algorithm("SM3", 64), Hmac
 
     /**
      * [Tiger](https://www.cs.technion.ac.il/~biham/Reports/Tiger/) with output size of 192 bits

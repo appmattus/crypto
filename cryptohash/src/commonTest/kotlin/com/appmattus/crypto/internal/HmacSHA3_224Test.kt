@@ -15,40 +15,28 @@ class HmacSHA3_224Test {
             Algorithm.SHA3_224,
             "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
             "Hi There",
-            "3b16546bbc7be270"
-                    + "6a031dcafd56373d"
-                    + "9884367641d8c59a"
-                    + "f3c860f7",
+            "3b16546bbc7be2706a031dcafd56373d9884367641d8c59af3c860f7",
         )
 
         testHmac(
             Algorithm.SHA3_224,
             "4a656665",
             "what do ya want for nothing?",
-            "7fdb8dd88bd2f60d"
-                    + "1b798634ad386811"
-                    + "c2cfc85bfaf5d52b"
-                    + "bace5e66"
+            "7fdb8dd88bd2f60d1b798634ad386811c2cfc85bfaf5d52bbace5e66"
         )
 
         testHmac(
             Algorithm.SHA3_224,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "Test Using Larger Than Block-Size Key - Hash Key First",
-            "b4a1f04c00287a9b"
-                    + "7f6075b313d279b8"
-                    + "33bc8f75124352d0"
-                    + "5fb9995f"
+            "b4a1f04c00287a9b7f6075b313d279b833bc8f75124352d05fb9995f"
         )
 
         testHmac(
             Algorithm.SHA3_224,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "This is a test using a larger than block-size key and a larger than block-size data. The key needs to be hashed before being used by the HMAC algorithm.",
-            "05d8cd6d00faea8d"
-                    + "1eb68ade28730bbd"
-                    + "3cbab6929f0a086b"
-                    + "29cd62a0"
+            "05d8cd6d00faea8d1eb68ade28730bbd3cbab6929f0a086b29cd62a0"
         )
 
         testHmac(

@@ -15,56 +15,28 @@ class HmacSHA3_512Test {
             Algorithm.SHA3_512,
             "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
             "Hi There",
-            "eb3fbd4b2eaab8f5"
-                    + "c504bd3a41465aac"
-                    + "ec15770a7cabac53"
-                    + "1e482f860b5ec7ba"
-                    + "47ccb2c6f2afce8f"
-                    + "88d22b6dc61380f2"
-                    + "3a668fd3888bb805"
-                    + "37c0a0b86407689e"
+            "eb3fbd4b2eaab8f5c504bd3a41465aacec15770a7cabac531e482f860b5ec7ba47ccb2c6f2afce8f88d22b6dc61380f23a668fd3888bb80537c0a0b86407689e"
         )
 
         testHmac(
             Algorithm.SHA3_512,
             "4a656665",
             "what do ya want for nothing?",
-            "5a4bfeab6166427c"
-                    + "7a3647b747292b83"
-                    + "84537cdb89afb3bf"
-                    + "5665e4c5e709350b"
-                    + "287baec921fd7ca0"
-                    + "ee7a0c31d022a95e"
-                    + "1fc92ba9d77df883"
-                    + "960275beb4e62024"
+            "5a4bfeab6166427c7a3647b747292b8384537cdb89afb3bf5665e4c5e709350b287baec921fd7ca0ee7a0c31d022a95e1fc92ba9d77df883960275beb4e62024"
         )
 
         testHmac(
             Algorithm.SHA3_512,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "Test Using Larger Than Block-Size Key - Hash Key First",
-            "00f751a9e50695b0"
-                    + "90ed6911a4b65524"
-                    + "951cdc15a73a5d58"
-                    + "bb55215ea2cd839a"
-                    + "c79d2b44a39bafab"
-                    + "27e83fde9e11f634"
-                    + "0b11d991b1b91bf2"
-                    + "eee7fc872426c3a4"
+            "00f751a9e50695b090ed6911a4b65524951cdc15a73a5d58bb55215ea2cd839ac79d2b44a39bafab27e83fde9e11f6340b11d991b1b91bf2eee7fc872426c3a4"
         )
 
         testHmac(
             Algorithm.SHA3_512,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "This is a test using a larger than block-size key and a larger than block-size data. The key needs to be hashed before being used by the HMAC algorithm.",
-            "38a456a004bd10d3"
-                    + "2c9ab83366841128"
-                    + "62c3db61adcca318"
-                    + "29355eaf46fd5c73"
-                    + "d06a1f0d13fec9a6"
-                    + "52fb3811b577b1b1"
-                    + "d1b9789f97ae5b83"
-                    + "c6f44dfcf1d67eba"
+            "38a456a004bd10d32c9ab8336684112862c3db61adcca31829355eaf46fd5c73d06a1f0d13fec9a652fb3811b577b1b1d1b9789f97ae5b83c6f44dfcf1d67eba"
         )
 
         testHmac(

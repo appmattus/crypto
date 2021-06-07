@@ -8,6 +8,16 @@ import kotlin.test.Test
 class HmacMD2Test {
 
     @Test
+    fun testFromBc() {
+        testHmac(
+            Algorithm.MD2,
+            "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+            "Hi There",
+            "dc1923ef5f161d35bef839ca8c807808"
+        )
+    }
+
+    @Test
     fun testMd2Seq() {
         val expectedOutput = listOf(
             "D39AD9DDE006587A8BE949B11B9288F8",
