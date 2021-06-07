@@ -2,6 +2,7 @@ package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hmac
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
@@ -92,26 +93,22 @@ fun ByteArray.toHexString(): String {
     return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
 }
 
-fun testHmac(algorithm: Algorithm, key: String, input: String, output: String, outputLength: Int = -1) {
-    val hmac = if (outputLength == -1) HMAC(algorithm.createDigest(), strtobin(key)) else HMAC(
-        algorithm.createDigest(),
-        strtobin(key),
-        outputLength
-    )
+fun <T> testHmac(algorithm: T, key: String, input: String, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
+    val hmac = algorithm.createHmac(strtobin(key), outputLength)
     testKat(hmac, input, output)
 }
 
-fun testHmacHex(algorithm: Algorithm, key: String, input: String, output: String) {
-    val hmac = HMAC(algorithm.createDigest(), strtobin(key))
+fun <T> testHmacHex(algorithm: T, key: String, input: String, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
+    val hmac = algorithm.createHmac(strtobin(key), outputLength)
     testKatHex(hmac, input, output)
 }
 
-fun testHmac(algorithm: Algorithm, key: String, input: ByteArray, output: String) {
-    val hmac = HMAC(algorithm.createDigest(), strtobin(key))
+fun <T> testHmac(algorithm: T, key: String, input: ByteArray, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
+    val hmac = algorithm.createHmac(strtobin(key), outputLength)
     testKat(hmac, input, output)
 }
 
-fun testHmac(algorithm: Algorithm, key: ByteArray, input: ByteArray, output: String) {
-    val hmac = HMAC(algorithm.createDigest(), key)
+fun <T> testHmac(algorithm: T, key: ByteArray, input: ByteArray, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
+    val hmac = algorithm.createHmac(key, outputLength)
     testKat(hmac, input, output)
 }
