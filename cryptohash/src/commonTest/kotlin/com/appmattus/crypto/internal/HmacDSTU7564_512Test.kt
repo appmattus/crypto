@@ -2,11 +2,11 @@ package com.appmattus.crypto.internal
 
 // HMAC for Kupyna disabled as the results don't match with the tests in BC even though algorithm code is based on BC implementation
 
-//import com.appmattus.crypto.Algorithm
-//import com.appmattus.crypto.internal.core.sphlib.testHmac
-//import kotlin.test.Test
+// import com.appmattus.crypto.Algorithm
+// import com.appmattus.crypto.internal.core.sphlib.testHmac
+// import kotlin.test.Test
 //
-//class HmacDSTU7564_512Test {
+// class HmacDSTU7564_512Test {
 //
 //    @Test
 //    fun misc2() {
@@ -19,4 +19,4 @@ package com.appmattus.crypto.internal
 //            "5b7acf633a7551b8410fa66a60c74a494e46a87e70fcd2ccfb4433a8eaec68991a96b11085c5d5484db71af51bac469c03f76e1f721843c8e8667708fe41a48d"
 //        )
 //    }
-//}
+// }

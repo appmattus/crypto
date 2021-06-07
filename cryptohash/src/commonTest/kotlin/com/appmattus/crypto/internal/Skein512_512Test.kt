@@ -1675,8 +1675,6 @@ abstract class Skein512_512Test {
         )
     }
 
-
-
     @Test
     fun testMac() {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java

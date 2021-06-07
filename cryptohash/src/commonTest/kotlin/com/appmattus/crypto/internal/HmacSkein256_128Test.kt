@@ -1,7 +1,6 @@
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.testHmac
 import com.appmattus.crypto.internal.core.sphlib.testHmacHex
 import kotlin.test.Test
 

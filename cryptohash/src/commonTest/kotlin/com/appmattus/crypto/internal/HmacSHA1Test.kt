@@ -115,7 +115,6 @@ class HmacSHA1Test {
             "effcdf6ae5eb2fa2d27416d5f184df9c259a7c79"
         )
 
-
         testHmac(
             Algorithm.SHA_1,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
