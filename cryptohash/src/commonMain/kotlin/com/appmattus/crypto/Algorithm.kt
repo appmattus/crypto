@@ -460,17 +460,17 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 256 bits
      */
-    public object Kupyna_256 : Algorithm("Kupyna-256", 64), Hmac
+    public object Kupyna_256 : Algorithm("Kupyna-256", 64)
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 384 bits
      */
-    public object Kupyna_384 : Algorithm("Kupyna-384", 128), Hmac
+    public object Kupyna_384 : Algorithm("Kupyna-384", 128)
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 512 bits
      */
-    public object Kupyna_512 : Algorithm("Kupyna-512", 128), Hmac
+    public object Kupyna_512 : Algorithm("Kupyna-512", 128)
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 224 bits
