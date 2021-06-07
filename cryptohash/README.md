@@ -21,6 +21,7 @@ The following algorithms are supported:
 
 - Blake2b, Blake2s
 - Blake3
+- HMAC
 - Skein
 
 ## Unkeyed cryptographic hash functions
@@ -97,6 +98,10 @@ val hash: ByteArray = digest.digest()
 
 // Alternatively use the shorthand form to update and generate with one function
 digest.digest(byteArray)
+
+// HMAC - For algorithms that support HMAC you can create an HMAC digest with a
+// key and then use as above
+val hmac = Algorithm.SHA3_256.createHmac(key)
 ```
 
 To use the library directly with Swift on iOS, macOS, tvOS or watchOS, follow
