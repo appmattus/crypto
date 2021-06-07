@@ -21,13 +21,12 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.sphlib.strtobin
-import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatHex
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
-class Skein256_128CoreTest : Skein256_128Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Skein256_128)
+class Skein512_128CoreTest : Skein512_128Test() {
+    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Skein512_128)
 
     @Test
     fun hasImplementation() {
@@ -36,20 +35,11 @@ class Skein256_128CoreTest : Skein256_128Test() {
 }
 
 /**
- * Test Skein-256-128 implementation.
+ * Test Skein-512-128 implementation.
  */
-abstract class Skein256_128Test {
+abstract class Skein512_128Test {
 
     abstract fun digest(): Digest<*>
-
-    @Test
-    fun testSkein256_128() {
-        testKat(
-            digest(),
-            "abc",
-            "fd90216b2b58a9ec050e88032c4f64ef"
-        )
-    }
 
     // From https://github.com/bcgit/bc-java/blob/master/core/src/test/java/org/bouncycastle/crypto/test/SkeinDigestTest.java
     @Test
@@ -57,7 +47,7 @@ abstract class Skein256_128Test {
         testKatHex(
             digest(),
             "",
-            "07e8ff2191c5052e1a25914c7c213078"
+            "7c9aff5c3738e3faadc7a5265768def1"
         )
 
         testKatHex(
@@ -66,7 +56,7 @@ abstract class Skein256_128Test {
                     "78bb393a1a5f79bef30995a85a12923339ba8ab7d8fc6dc5fec6f4ed22c122bb" +
                     "e7eb61981892966de5cef576f71fc7a80d14dab2d0c03940b95b9fb3a727c66a" +
                     "6e1ff0dc311b9aa21a3054484802154c1826c2a27a0914152aeb76f1168d4410",
-            "9703382ea27dc2913e9d02cd976c582f"
+            "c901b1c04af3da4dce05d7975c419224"
         )
     }
 
@@ -75,9 +65,9 @@ abstract class Skein256_128Test {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
 
         testKatHex(
-            Algorithm.Skein.Keyed(256, 128, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            Algorithm.Skein.Keyed(512, 128, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
             "d3090c72167517f7",
-            "738f8b23541d50f691ab60af664c1583"
+            "6d34f46f2033947da7a9dfb068f4102d"
         )
     }
 }

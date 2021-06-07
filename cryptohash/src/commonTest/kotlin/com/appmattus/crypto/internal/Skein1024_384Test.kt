@@ -20,6 +20,7 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.internal.core.sphlib.strtobin
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatHex
 import kotlin.test.Test
@@ -77,12 +78,29 @@ abstract class Skein1024_384Test {
     fun bouncy() {
         testKatHex(
             digest(),
+            "",
+            "1fdb081963b960e89eaa11b87dda55e8a55a3e1066b30e38d8ae2a45242f7dadfaf06d80ca8a73cd8242ce5eab84c164"
+        )
+
+        testKatHex(
+            digest(),
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8" +
                     "78bb393a1a5f79bef30995a85a12923339ba8ab7d8fc6dc5fec6f4ed22c122bb" +
                     "e7eb61981892966de5cef576f71fc7a80d14dab2d0c03940b95b9fb3a727c66a" +
                     "6e1ff0dc311b9aa21a3054484802154c1826c2a27a0914152aeb76f1168d4410",
             "9c3d0648c11f31c18395d5e6c8ebd73f43d189843fc45235e2c35e345e12d62b" +
                     "c21a41f65896ddc6a04969654c2e2ce9"
+        )
+    }
+
+    @Test
+    fun testMac() {
+        // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
+
+        testKatHex(
+            Algorithm.Skein.Keyed(1024, 384, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            "d3090c72167517f7",
+            "490dbbd049403e602ee3535181a70ee2eb5ade6d83b519953dd0d93c45729f098b679efcd64b5e3f03cd2fa9f1e70d69"
         )
     }
 }

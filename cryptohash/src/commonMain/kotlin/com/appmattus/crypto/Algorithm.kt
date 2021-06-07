@@ -685,67 +685,67 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 128 bits
      */
-    public object Skein256_128 : Algorithm("Skein-256-128", 32)
+    public object Skein256_128 : Algorithm("Skein-256-128", 32), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 160 bits
      */
-    public object Skein256_160 : Algorithm("Skein-256-160", 32)
+    public object Skein256_160 : Algorithm("Skein-256-160", 32), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 224 bits
      */
-    public object Skein256_224 : Algorithm("Skein-256-224", 32)
+    public object Skein256_224 : Algorithm("Skein-256-224", 32), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 256 bits
      */
-    public object Skein256_256 : Algorithm("Skein-256-256", 32)
+    public object Skein256_256 : Algorithm("Skein-256-256", 32), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 128 bits
      */
-    public object Skein512_128 : Algorithm("Skein-512-128", 64)
+    public object Skein512_128 : Algorithm("Skein-512-128", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 160 bits
      */
-    public object Skein512_160 : Algorithm("Skein-512-160", 64)
+    public object Skein512_160 : Algorithm("Skein-512-160", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 224 bits
      */
-    public object Skein512_224 : Algorithm("Skein-512-224", 64)
+    public object Skein512_224 : Algorithm("Skein-512-224", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 256 bits
      */
-    public object Skein512_256 : Algorithm("Skein-512-256", 64)
+    public object Skein512_256 : Algorithm("Skein-512-256", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 384 bits
      */
-    public object Skein512_384 : Algorithm("Skein-512-384", 64)
+    public object Skein512_384 : Algorithm("Skein-512-384", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 512 bits
      */
-    public object Skein512_512 : Algorithm("Skein-512-512", 64)
+    public object Skein512_512 : Algorithm("Skein-512-512", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 384 bits
      */
-    public object Skein1024_384 : Algorithm("Skein-1024-384", 128)
+    public object Skein1024_384 : Algorithm("Skein-1024-384", 128), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 512 bits
      */
-    public object Skein1024_512 : Algorithm("Skein-1024-512", 128)
+    public object Skein1024_512 : Algorithm("Skein-1024-512", 128), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 1024 bits
      */
-    public object Skein1024_1024 : Algorithm("Skein-1024-1024", 128)
+    public object Skein1024_1024 : Algorithm("Skein-1024-1024", 128), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of [blockSizeBits] bits and output size of [outputSizeBits] bits
