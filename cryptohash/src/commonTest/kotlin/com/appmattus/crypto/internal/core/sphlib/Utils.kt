@@ -1,5 +1,6 @@
 package com.appmattus.crypto.internal.core.sphlib
 
+import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import kotlin.test.assertEquals
 import kotlin.test.fail
@@ -89,4 +90,28 @@ fun assertContentNotEquals(b1: ByteArray, b2: ByteArray) {
 
 fun ByteArray.toHexString(): String {
     return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
+}
+
+fun testHmac(algorithm: Algorithm, key: String, input: String, output: String, outputLength: Int = -1) {
+    val hmac = if (outputLength == -1) HMAC(algorithm.createDigest(), strtobin(key)) else HMAC(
+        algorithm.createDigest(),
+        strtobin(key),
+        outputLength
+    )
+    testKat(hmac, input, output)
+}
+
+fun testHmacHex(algorithm: Algorithm, key: String, input: String, output: String) {
+    val hmac = HMAC(algorithm.createDigest(), strtobin(key))
+    testKatHex(hmac, input, output)
+}
+
+fun testHmac(algorithm: Algorithm, key: String, input: ByteArray, output: String) {
+    val hmac = HMAC(algorithm.createDigest(), strtobin(key))
+    testKat(hmac, input, output)
+}
+
+fun testHmac(algorithm: Algorithm, key: ByteArray, input: ByteArray, output: String) {
+    val hmac = HMAC(algorithm.createDigest(), key)
+    testKat(hmac, input, output)
 }
