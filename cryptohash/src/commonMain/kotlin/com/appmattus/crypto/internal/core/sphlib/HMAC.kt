@@ -59,13 +59,16 @@ internal class HMAC : DigestEngine<HMAC> {
      * Build the object. The provided digest algorithm will be used
      * internally; it MUST NOT be directly accessed afterwards. The
      * `key` array holds the MAC key; the key is copied
-     * internally, which means that the caller may modify the `key` array afterwards.
+     * internally, which means that the caller may modify the
+     * `key` array afterwards. The provided output length
+     * is the maximum HMAC output length, in bytes: the digest
+     * output will be truncated, if needed, to respect that limit.
      *
-     * @param dig   the underlying hash function
-     * @param key   the MAC key
+     * @param dig            the underlying hash function
+     * @param key            the MAC key
+     * @param outputLength   (optional) the HMAC output length (in bytes)
      */
-    @Suppress("NAME_SHADOWING")
-    constructor(dig: Digest<*>, key: ByteArray) {
+    constructor(dig: Digest<*>, key: ByteArray, outputLength: Int? = null) {
         var key = key
         dig.reset()
         this.dig = dig
@@ -91,26 +94,13 @@ internal class HMAC : DigestEngine<HMAC> {
 		 * hence the key padding is already done.
 		 */
         processKey(keyB)
-        outputLength = -1
+        this.outputLength = -1
         tmpOut = ByteArray(dig.digestLength)
         reset()
-    }
 
-    /**
-     * Build the object. The provided digest algorithm will be used
-     * internally; it MUST NOT be directly accessed afterwards. The
-     * `key` array holds the MAC key; the key is copied
-     * internally, which means that the caller may modify the
-     * `key` array afterwards. The provided output length
-     * is the maximum HMAC output length, in bytes: the digest
-     * output will be truncated, if needed, to respect that limit.
-     *
-     * @param dig            the underlying hash function
-     * @param key            the MAC key
-     * @param outputLength   the HMAC output length (in bytes)
-     */
-    constructor(dig: Digest<*>, key: ByteArray, outputLength: Int) : this(dig, key) {
-        if (outputLength < dig.digestLength) this.outputLength = outputLength
+        if (outputLength != null && outputLength < dig.digestLength) {
+            this.outputLength = outputLength
+        }
     }
 
     /**

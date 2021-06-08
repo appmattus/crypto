@@ -20,6 +20,7 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.internal.core.sphlib.strtobin
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.testKatHex
 import kotlin.test.Test
@@ -513,6 +514,17 @@ abstract class Skein1024_1024Test {
                     "e6ed804fe38f05135fe769cc56240ddda5098f620865ce4a4278c77fa2ec6bc3" +
                     "1c0f354ca78c7ca81665bfcc5dc54258c3b8310ed421d9157f36c093814d9b25" +
                     "103d83e0ddd89c52d0050e13a64c6140e6388431961685734b1f138fe2243086"
+        )
+    }
+
+    @Test
+    fun testMac() {
+        // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
+
+        testKatHex(
+            Algorithm.Skein.Keyed(1024, 1024, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            "d3090c72167517f7",
+            "60cd8c755b331bcefe97be5a9fe6f63146d12520ca7b20dbc5c5370dae2ff9815c95fab564329a01eced76f0ecb1944ad52a74e89fa1b6cdcdcee4c71c2c18909c4d1324d279fac5ca2280eea0fa70521cf4ea8c616a3ac6082c2244bec5c1ab3a173faf29d84bec7fb852e278ed57785535c979b33b81465c437cd998c04b95"
         )
     }
 }
