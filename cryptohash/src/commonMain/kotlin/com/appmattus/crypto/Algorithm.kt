@@ -794,6 +794,16 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public object WhirlpoolT : Algorithm("Whirlpool-T", 64)
 
     /**
+     * [xxHash](https://github.com/Cyan4973/xxHash) with output size of 32 bits
+     */
+    public data class XXHash32(val seed: Int = 0) : Algorithm("XXH32", 32)
+
+    /**
+     * [xxHash](https://github.com/Cyan4973/xxHash) with output size of 64 bits
+     */
+    public data class XXHash64(val seed: Long = 0) : Algorithm("XXH64", 64)
+
+    /**
      * Create a [Digest] of the [Algorithm] for creating hashes
      */
     public fun createDigest(): Digest<*> = CoreDigest.create(this)

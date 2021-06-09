@@ -33,6 +33,8 @@ import com.appmattus.crypto.internal.core.SHA512_224
 import com.appmattus.crypto.internal.core.SHA512_256
 import com.appmattus.crypto.internal.core.SM3
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
+import com.appmattus.crypto.internal.core.XXHash32
+import com.appmattus.crypto.internal.core.XXHash64
 import com.appmattus.crypto.internal.core.blake3.Blake3
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_256
@@ -304,6 +306,9 @@ internal object CoreDigest {
             Algorithm.Whirlpool -> Whirlpool()
             Algorithm.Whirlpool0 -> Whirlpool0()
             Algorithm.WhirlpoolT -> WhirlpoolT()
+
+            is Algorithm.XXHash32 -> XXHash32(algorithm.seed)
+            is Algorithm.XXHash64 -> XXHash64(algorithm.seed)
         }
     }
 }
