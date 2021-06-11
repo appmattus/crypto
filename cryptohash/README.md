@@ -16,6 +16,7 @@ The following algorithms are supported:
 ## Non-cryptographic hash functions
 
 - HighwayHash-64, HighwayHash-128, HighwayHash-256
+- xxHash-32, xxHash-64
 
 ## Keyed cryptographic hash functions
 
