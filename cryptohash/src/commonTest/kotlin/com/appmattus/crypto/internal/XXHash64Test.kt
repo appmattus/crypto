@@ -7,6 +7,172 @@ import kotlin.test.Test
 class XXHash64Test {
 
     @Test
+    fun test64OneShotWithSeed() {
+        // From https://github.com/daisuke-t-jp/xxHash-Swift/blob/master/Tests/xxHashTests/xxHashTests.swift
+
+        val seed = 0x000000007fffffffL
+
+        testKat(XXHash64(0), "", "ef46db3751d8e999")
+        testKat(XXHash64(1), "", "d5afba1336a3be4b")
+        testKat(XXHash64(seed), "", "2655611cbf9cdb34")
+        testKat(XXHash64(0), "1", "b7b41276360564d4")
+        testKat(XXHash64(1), "1", "192aba5fd13fb67d")
+        testKat(XXHash64(seed), "1", "00c633803a4aecc9")
+        testKat(XXHash64(0), "12", "5460f49adbe7aba2")
+        testKat(XXHash64(1), "12", "75b53fdb7dce12fa")
+        testKat(XXHash64(seed), "12", "b16cec1417b322a0")
+        testKat(XXHash64(0), "123", "3c697d223fa7e885")
+        testKat(XXHash64(1), "123", "4b805d862c3b7497")
+        testKat(XXHash64(seed), "123", "19a2f46434bc317a")
+        testKat(XXHash64(0), "1234", "d8316e61d84f6ba4")
+        testKat(XXHash64(1), "1234", "e9feb3476d8788cb")
+        testKat(XXHash64(seed), "1234", "f46ec96a022e8572")
+        testKat(XXHash64(0), "12345", "c6f2d2dd0ad64fb6")
+        testKat(XXHash64(1), "12345", "8b4dc636e784c7e5")
+        testKat(XXHash64(seed), "12345", "ef98a836c0097965")
+        testKat(XXHash64(0), "123456", "2b2dc38aaa53c322")
+        testKat(XXHash64(1), "123456", "baf38605878c2322")
+        testKat(XXHash64(seed), "123456", "4ae897dc1885851d")
+        testKat(XXHash64(0), "1234567", "d3a46e9108289359")
+        testKat(XXHash64(1), "1234567", "3a9b3211fb1bcbd2")
+        testKat(XXHash64(seed), "1234567", "743513f8fd9ef9d6")
+        testKat(XXHash64(0), "12345678", "d2d02f08cf7cfd4a")
+        testKat(XXHash64(1), "12345678", "339c66ff536000b7")
+        testKat(XXHash64(seed), "12345678", "e19d2db01f7df4ff")
+        testKat(XXHash64(0), "123456789", "8cb841db40e6ae83")
+        testKat(XXHash64(1), "123456789", "1a4cc2c9e8079790")
+        testKat(XXHash64(seed), "123456789", "05d3bba73949569e")
+        testKat(XXHash64(0), "123456789A", "d86259788ea6d316")
+        testKat(XXHash64(1), "123456789A", "67549dd3d13a19a6")
+        testKat(XXHash64(seed), "123456789A", "d29f40df8a0945ad")
+        testKat(XXHash64(0), "123456789AB", "1d1615d71699db6b")
+        testKat(XXHash64(1), "123456789AB", "9dce50837f267a20")
+        testKat(XXHash64(seed), "123456789AB", "cdd1136284934a05")
+        testKat(XXHash64(0), "123456789ABC", "226a8b511223db6c")
+        testKat(XXHash64(1), "123456789ABC", "3fe87cbe38e1a2ad")
+        testKat(XXHash64(seed), "123456789ABC", "ae28ae51e1e3be34")
+        testKat(XXHash64(0), "123456789ABCD", "007e32a5bf7d4d75")
+        testKat(XXHash64(1), "123456789ABCD", "80473dfc05bbd680")
+        testKat(XXHash64(seed), "123456789ABCD", "f7a2dfc5fc75df85")
+        testKat(XXHash64(0), "123456789ABCDE", "1167004bac2411de")
+        testKat(XXHash64(1), "123456789ABCDE", "864bb1086f4c841b")
+        testKat(XXHash64(seed), "123456789ABCDE", "e26a852901bc6a8e")
+        testKat(XXHash64(0), "123456789ABCDEF", "a66df83f00e9202d")
+        testKat(XXHash64(1), "123456789ABCDEF", "907979bf155f0506")
+        testKat(XXHash64(seed), "123456789ABCDEF", "e8d84202a16e482f")
+        testKat(XXHash64(0), "123456789ABCDEF1", "2ff14a9841f54cc3")
+        testKat(XXHash64(1), "123456789ABCDEF1", "78440c0674f9217c")
+        testKat(XXHash64(seed), "123456789ABCDEF1", "512e1dc62a511c58")
+        testKat(XXHash64(0), "123456789ABCDEF12", "880a293145b975a0")
+        testKat(XXHash64(1), "123456789ABCDEF12", "844b03a36096e2bd")
+        testKat(XXHash64(seed), "123456789ABCDEF12", "bd8f1f044ed860af")
+        testKat(XXHash64(0), "123456789ABCDEF123", "03603bb1378bc6e4")
+        testKat(XXHash64(1), "123456789ABCDEF123", "2c484ce6531e25e1")
+        testKat(XXHash64(seed), "123456789ABCDEF123", "0e0e6ea8b26e9a6c")
+        testKat(XXHash64(0), "123456789ABCDEF1234", "d69038e0b455d27d")
+        testKat(XXHash64(1), "123456789ABCDEF1234", "1c48ab3fba020831")
+        testKat(XXHash64(seed), "123456789ABCDEF1234", "6f0cf5820cbd2945")
+        testKat(XXHash64(0), "123456789ABCDEF12345", "839bef46d1cc406e")
+        testKat(XXHash64(1), "123456789ABCDEF12345", "5206c93016d025bc")
+        testKat(XXHash64(seed), "123456789ABCDEF12345", "c53b26dde6f71382")
+        testKat(XXHash64(0), "123456789ABCDEF123456", "bfcee7c87dc610f2")
+        testKat(XXHash64(1), "123456789ABCDEF123456", "bebecdf4d2eb9f48")
+        testKat(XXHash64(seed), "123456789ABCDEF123456", "f97bb2678f244b9c")
+        testKat(XXHash64(0), "123456789ABCDEF1234567", "847978aeb0358851")
+        testKat(XXHash64(1), "123456789ABCDEF1234567", "79879b775fedbd51")
+        testKat(XXHash64(seed), "123456789ABCDEF1234567", "ba70754ad76be81f")
+        testKat(XXHash64(0), "123456789ABCDEF12345678", "f4a1b421125fdee9")
+        testKat(XXHash64(1), "123456789ABCDEF12345678", "51659a820d8610fa")
+        testKat(XXHash64(seed), "123456789ABCDEF12345678", "ef8537faf7c7c182")
+        testKat(XXHash64(0), "123456789ABCDEF123456789", "750e688c4b9af2dc")
+        testKat(XXHash64(1), "123456789ABCDEF123456789", "1f3125a8a879c501")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789", "986070aff72bea1b")
+        testKat(XXHash64(0), "123456789ABCDEF123456789A", "3c716f0adf23155a")
+        testKat(XXHash64(1), "123456789ABCDEF123456789A", "b011c4db008eb4ac")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789A", "054bf4a755b395b5")
+        testKat(XXHash64(0), "123456789ABCDEF123456789AB", "b4341041c376bcbc")
+        testKat(XXHash64(1), "123456789ABCDEF123456789AB", "31abea712c37dce4")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789AB", "09c36e051f0ea20e")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABC", "9dc881e927f41d54")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABC", "855d91114e1d447e")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABC", "4a13510496452e3f")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCD", "13a738537e5a21cf")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCD", "7bca4ec0a21232ad")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCD", "d5fc2bb8b7b8d906")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDE", "e62e7ea8a35d2671")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDE", "9e652322691608f2")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDE", "2390f5c3ff42cba2")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF", "69074f0a41e0947f")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF", "7bac1e680bbb2305")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF", "8758f66a18880d67")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF1", "107dc0d6700d877b")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF1", "59ede552138d5ed3")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF1", "6a5a540379caf9a5")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF12", "c5b09bebb8cd6667")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF12", "d32893db8294a189")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF12", "92b54be29186551b")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF123", "b5709dfccee2dd11")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF123", "5446339f8ae59264")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF123", "0fdd056a930bdf8a")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF1234", "c7eecc402cd62f18")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF1234", "47ebdbdd53feefdb")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF1234", "cb27b8b377efaa6c")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF12345", "19cff736468f5288")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF12345", "05f09f42282f48a2")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF12345", "efe1db5b42a81c5b")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF123456", "c25632894289e3ba")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF123456", "5c1ef24f682e9d7f")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF123456", "360c8e1663649507")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF1234567", "cd9a7970503a478a")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF1234567", "15ea38a7c910cb48")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF1234567", "c42fd82e489b804e")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF12345678", "77f6c19e210a70ff")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF12345678", "971d7434bcb3ded2")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF12345678", "66b4dd9f9d8ea045")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF123456789", "c42d1e348e671d65")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF123456789", "c755455a09041192")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF123456789", "4b4382cf42fde13f")
+        testKat(XXHash64(0), "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF", "098dcb2f96b684fd")
+        testKat(XXHash64(1), "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF", "4d823c20c29c1d5a")
+        testKat(XXHash64(seed), "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF", "25ef94dd16691661")
+        testKat(
+            XXHash64(0),
+            "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF",
+            "452ab884e50e0411"
+        )
+        testKat(
+            XXHash64(1),
+            "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF",
+            "f49c4f4baff7a07e"
+        )
+        testKat(
+            XXHash64(seed),
+            "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF",
+            "454ab2da4d045c8e"
+        )
+        testKat(
+            XXHash64(0),
+            "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF",
+            "afc27fb9850d0722"
+        )
+        testKat(
+            XXHash64(1),
+            "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF",
+            "0514d6c09181b27f"
+        )
+        testKat(
+            XXHash64(seed),
+            "123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF123456789ABCDEF",
+            "99114d4c16314564"
+        )
+
+        val hundredKB = ByteArray(1024 * 100) { 0xff.toByte() }
+        testKat(XXHash64(0), hundredKB, "2f1bb6aa5d0cabcc")
+        testKat(XXHash64(1), hundredKB, "720573348b580c1c")
+        testKat(XXHash64(seed), hundredKB, "6b9c0e11ff19b7fc")
+    }
+
+    @Test
     fun xxh64a() {
         // From https://github.com/ekpyron/xxhashct/blob/master/test.cpp
         testKat(
@@ -54,6 +220,48 @@ class XXHash64Test {
             XXHash64(1),
             "I want an unsigned 64-bit seed!",
             "ce5087f12470d961"
+        )
+
+        // From https://github.com/ssg/HashDepot/blob/main/test/XXHashTest.cs
+        testKat(
+            XXHash64(),
+            "a",
+            "d24ec4f1a98c6e5b"
+        )
+        testKat(
+            XXHash64(),
+            "123",
+            "3c697d223fa7e885"
+        )
+        testKat(
+            XXHash64(),
+            "1234",
+            "d8316e61d84f6ba4"
+        )
+        testKat(
+            XXHash64(),
+            "123456789012345",
+            "c377d78ade001a3c"
+        )
+        testKat(
+            XXHash64(),
+            "1234567890123456123456789012345",
+            "8947ecb58263b70f"
+        )
+        testKat(
+            XXHash64(),
+            "Nobody inspects the spammish repetition",
+            "fbcea83c8a378bf1"
+        )
+        testKat(
+            XXHash64(123),
+            "Nobody inspects the spammish repetition",
+            "a8ba45551f24b7ae"
+        )
+        testKat(
+            XXHash64(),
+            "The quick brown fox jumps over the lazy dog",
+            "0b242d361fda71bc"
         )
     }
 
