@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.core.xxh3
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.core.AbstractDigest
 
-@Suppress("ClassName")
+@Suppress("ClassName", "MagicNumber")
 internal class XXH3_128(val parameters: Algorithm.XXH3_128) : AbstractDigest<XXH3_128>() {
     private var state = XXH3_createState()
 
