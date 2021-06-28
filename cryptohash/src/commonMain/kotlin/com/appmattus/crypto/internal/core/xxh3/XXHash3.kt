@@ -1,11 +1,19 @@
 @file:Suppress("FunctionName")
 
-package com.appmattus.crypto.internal.core
+package com.appmattus.crypto.internal.core.xxh3
 
-import com.appmattus.crypto.internal.core.XXH3Family.Companion.XXH3_INTERNALBUFFER_SIZE
-import com.appmattus.crypto.internal.core.XXH3Family.Companion.XXH3_SECRET_SIZE_MIN
-import com.appmattus.crypto.internal.core.XXH3Family.XXH128_canonical_t
-import com.appmattus.crypto.internal.core.XXH3Family.XXH128_hash_t
+import com.appmattus.crypto.internal.core.circularLeftInt
+import com.appmattus.crypto.internal.core.circularLeftLong
+import com.appmattus.crypto.internal.core.decodeBEInt
+import com.appmattus.crypto.internal.core.decodeBELong
+import com.appmattus.crypto.internal.core.decodeLEInt
+import com.appmattus.crypto.internal.core.decodeLELong
+import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.xxh3.XXH3Family.Companion.XXH3_INTERNALBUFFER_SIZE
+import com.appmattus.crypto.internal.core.xxh3.XXH3Family.Companion.XXH3_SECRET_SIZE_MIN
+import com.appmattus.crypto.internal.core.xxh3.XXH3Family.XXH128_canonical_t
+import com.appmattus.crypto.internal.core.xxh3.XXH3Family.XXH128_hash_t
 
 /**
  * XXH3 is a more recent hash algorithm featuring:

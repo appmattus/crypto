@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.xxh3
 
-import com.appmattus.crypto.internal.core.XXH3Family
-import com.appmattus.crypto.internal.core.XXH3Impl
+import com.appmattus.crypto.internal.core.xxh3.XXH3Family
+import com.appmattus.crypto.internal.core.xxh3.XXH3Impl
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
