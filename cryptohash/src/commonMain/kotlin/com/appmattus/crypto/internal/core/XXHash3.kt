@@ -4,6 +4,7 @@ package com.appmattus.crypto.internal.core
 
 import com.appmattus.crypto.internal.core.XXH3Family.Companion.XXH3_INTERNALBUFFER_SIZE
 import com.appmattus.crypto.internal.core.XXH3Family.Companion.XXH3_SECRET_SIZE_MIN
+import com.appmattus.crypto.internal.core.XXH3Family.XXH128_canonical_t
 import com.appmattus.crypto.internal.core.XXH3Family.XXH128_hash_t
 
 /**
@@ -123,8 +124,8 @@ public interface XXH3Family {
      *  XXH3 128-bit variant
      ************************************************************************/
 
-    /*!
-     * @brief The return value from 128-bit hashes.
+    /**
+     * The return value from 128-bit hashes.
      *
      * Stored in little endian order, although the fields themselves are in native
      * endianness.
@@ -134,12 +135,9 @@ public interface XXH3Family {
         val high64: XXH64_hash_t  /*!< `value >> 64` */
     )
 
-// TODO re-enable
-//    public fun XXH3_128bits(data: ByteArray, dataOffset: Int, len: size_t): XXH128_hash_t
-// TODO re-enable
-//    public fun XXH3_128bits_withSeed(data: ByteArray, dataOffset: Int, len: size_t, seed: XXH64_hash_t): XXH128_hash_t
-// TODO re-enable
-//    public fun XXH3_128bits_withSecret(data: ByteArray, dataOffset: Int, len: size_t, secret: ByteArray, secretSize: size_t): XXH128_hash_t
+    public fun XXH3_128bits(data: ByteArray, dataOffset: Int, len: size_t): XXH128_hash_t
+    public fun XXH3_128bits_withSeed(data: ByteArray, dataOffset: Int, len: size_t, seed: XXH64_hash_t): XXH128_hash_t
+    public fun XXH3_128bits_withSecret(data: ByteArray, dataOffset: Int, len: size_t, secret: ByteArray, secretSize: size_t): XXH128_hash_t
 
     /*-******   Streaming   *******/
     /*
@@ -154,17 +152,12 @@ public interface XXH3Family {
      * All reset and streaming functions have same meaning as their 64-bit counterpart.
      */
 
-// TODO re-enable
-//    public fun XXH3_128bits_reset(statePtr: XXH3_state_t): XXH_errorcode
-// TODO re-enable
-//    public fun XXH3_128bits_reset_withSeed(statePtr: XXH3_state_t, seed: XXH64_hash_t): XXH_errorcode
-// TODO re-enable
-//    public fun XXH3_128bits_reset_withSecret(statePtr: XXH3_state_t, secret: ByteArray, secretSize: size_t): XXH_errorcode
+    public fun XXH3_128bits_reset(statePtr: XXH3_state_t): XXH_errorcode
+    public fun XXH3_128bits_reset_withSeed(statePtr: XXH3_state_t, seed: XXH64_hash_t): XXH_errorcode
+    public fun XXH3_128bits_reset_withSecret(statePtr: XXH3_state_t, secret: ByteArray, secretSize: size_t): XXH_errorcode
 
-// TODO re-enable
-//    public fun XXH3_128bits_update(statePtr: XXH3_state_t, input: ByteArray, inputOffset: Int, length: size_t): XXH_errorcode
-// TODO re-enable
-//    public fun XXH3_128bits_digest(statePtr: XXH3_state_t): XXH128_hash_t
+    public fun XXH3_128bits_update(statePtr: XXH3_state_t, input: ByteArray, inputOffset: Int, length: size_t): XXH_errorcode
+    public fun XXH3_128bits_digest(statePtr: XXH3_state_t): XXH128_hash_t
 
     /* Following helper functions make it possible to compare XXH128_hast_t values.
      * Since XXH128_hash_t is a structure, this capability is not offered by the language.
@@ -174,8 +167,7 @@ public interface XXH3Family {
      * XXH128_isEqual():
      * Return: 1 if `h1` and `h2` are equal, 0 if they are not.
      */
-// TODO re-enable
-//    public fun XXH128_isEqual(h1: XXH128_hash_t, h2: XXH128_hash_t): Boolean
+    public fun XXH128_isEqual(h1: XXH128_hash_t, h2: XXH128_hash_t): Boolean
 
     /**
      * XXH128_cmp():
@@ -186,17 +178,13 @@ public interface XXH3Family {
      *         =0 if *h128_1 == *h128_2
      *         <0 if *h128_1  < *h128_2
      */
-// TODO re-enable
-//    public fun XXH128_cmp(h128_1: XXH128_hash_t, h128_2: XXH128_hash_t): Int
+    public fun XXH128_cmp(h128_1: XXH128_hash_t, h128_2: XXH128_hash_t): Int
 
     /*******   Canonical representation   *******/
-// TODO re-enable
-//    public class XXH128_canonical_t(public val digest: ByteArray = ByteArray(16))
+    public class XXH128_canonical_t(public val digest: ByteArray = ByteArray(16))
 
-// TODO re-enable
-//    public fun XXH128_canonicalFromHash(hash: XXH128_hash_t): XXH128_canonical_t
-// TODO re-enable
-//    public fun XXH128_hashFromCanonical(src: XXH128_canonical_t): XXH128_hash_t
+    public fun XXH128_canonicalFromHash(hash: XXH128_hash_t): XXH128_canonical_t
+    public fun XXH128_hashFromCanonical(src: XXH128_canonical_t): XXH128_hash_t
 
     /* *************************************
      *  Version
@@ -230,41 +218,8 @@ public interface XXH3Family {
     /* ===   Experimental API   === */
     /* Symbols defined below must be considered tied to a specific library version. */
 
-    /**
-     * XXH3_generateSecret():
-     *
-     * Derive a high-entropy secret from any user-defined content, named customSeed.
-     * The generated secret can be used in combination with `*_withSecret()` functions.
-     * The `_withSecret()` variants are useful to provide a higher level of protection than 64-bit seed,
-     * as it becomes much more difficult for an external actor to guess how to impact the calculation logic.
-     *
-     * The function accepts as input a custom seed of any length and any content,
-     * and derives from it a high-entropy secret of length XXH3_SECRET_DEFAULT_SIZE
-     * into an already allocated buffer secretBuffer.
-     * The generated secret is _always_ XXH_SECRET_DEFAULT_SIZE bytes long.
-     *
-     * The generated secret can then be used with any `*_withSecret()` variant.
-     * Functions `XXH3_128bits_withSecret()`, `XXH3_64bits_withSecret()`,
-     * `XXH3_128bits_reset_withSecret()` and `XXH3_64bits_reset_withSecret()`
-     * are part of this list. They all accept a `secret` parameter
-     * which must be very long for implementation reasons (>= XXH3_SECRET_SIZE_MIN)
-     * _and_ feature very high entropy (consist of random-looking bytes).
-     * These conditions can be a high bar to meet, so
-     * this function can be used to generate a secret of proper quality.
-     *
-     * customSeed can be anything. It can have any size, even small ones,
-     * and its content can be anything, even stupidly "low entropy" source such as a bunch of zeroes.
-     * The resulting `secret` will nonetheless provide all expected qualities.
-     *
-     * Supplying NULL as the customSeed copies the default secret into `secretBuffer`.
-     * When customSeedSize > 0, supplying NULL as customSeed is undefined behavior.
-     */
-// TODO re-enable
-//    public fun XXH3_generateSecret(secretBuffer: ByteArray, customSeed: ByteArray, customSeedSize: size_t)
-
     /** simple short-cut to pre-selected XXH3_128bits variant */
-// TODO re-enable
-//    public fun XXH128(data: ByteArray, dataOffset: Int, len: size_t, seed: XXH64_hash_t): XXH128_hash_t
+    public fun XXH128(data: ByteArray, dataOffset: Int, len: size_t, seed: XXH64_hash_t): XXH128_hash_t
 
     public companion object {
 
@@ -394,7 +349,10 @@ private typealias XXH3_state_t = XXH3_state_s
  * which can then be linked into the final binary.
  ************************************************************************/
 
-@Suppress("UnnecessaryVariable", "LocalVariableName", "unused", "UNUSED_PARAMETER", "PrivatePropertyName", "PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+@Suppress(
+    "UnnecessaryVariable", "LocalVariableName", "unused", "UNUSED_PARAMETER", "PrivatePropertyName", "PARAMETER_NAME_CHANGED_ON_OVERRIDE",
+    "KDocUnresolvedReference"
+)
 public class XXH3Impl : XXH3Family {
 
     /**
@@ -430,8 +388,7 @@ public class XXH3Impl : XXH3Family {
      * @see XXH_isLittleEndian() for the runtime check.
      */
     private fun XXH_isLittleEndian(): Boolean {
-        // TODO Use platform definition
-        // return kotlin.native.Platform.isLittleEndian()
+        // Ignoring that this could run on a big endian system
         return false
     }
 
@@ -531,7 +488,6 @@ public class XXH3Impl : XXH3Family {
      * @return 64-bit product of the low 32 bits of [x] and [y].
      */
     private fun XXH_mult32to64(x: Int, y: Int): Long {
-        // TODO Is there a more efficient implementation
         /*
          * Downcast + upcast is usually better than masking on older compilers like
          * GCC 4.2 (especially 32-bit ones), all without affecting newer compilers.
@@ -551,30 +507,6 @@ public class XXH3Impl : XXH3Family {
      */
     @Suppress("EXPERIMENTAL_API_USAGE")
     private fun XXH_mult64to128(lhs: xxh_u64, rhs: xxh_u64): XXH128_hash_t {
-        /*val h1 = (lhs ushr 32).toInt()
-        val h2 = (rhs ushr 32).toInt()
-        val l1 = (lhs and 0x00000000FFFFFFFF).toInt()
-        val l2 = (rhs and 0x00000000FFFFFFFF).toInt()
-
-        val llh: Long = XXH_mult32to64(h1, h2)
-        val llm1: Long = XXH_mult32to64(l1, h2)
-        val llm2: Long = XXH_mult32to64(h1, l2)
-        val lll: Long = XXH_mult32to64(l1, l2)
-
-        val t: Long = lll + (llm1 shl 32)
-        val carry1: Long = if (t.toULong() < lll.toULong()) 1L else 0L
-
-        val lllow: Long = t + (llm2 shl 32)
-        val carry2: Long = if (lllow.toULong() < t.toULong()) 1L else 0L
-
-        val llm1l: Long = llm1 ushr 32
-        val llm2l: Long = llm2 ushr 32
-
-        val llhigh = llh + (llm1l + llm2l + carry1 + carry2)
-
-
-        return XXH128_hash_t(lllow, llhigh)*/
-
         /*
          * Portable scalar method. Optimized for 32-bit and 64-bit ALUs.
          *
@@ -1179,7 +1111,7 @@ public class XXH3Impl : XXH3Family {
      * there must be a guarantee that at least one more byte must be consumed from input
      * so that the function can blindly consume all stripes using the "normal" secret segment
      */
-    // TODO nbStripesSoFarPtr is mutable
+    // As nbStripesSoFarPtr is mutable in the originl implementation we return the new value
     private fun XXH3_consumeStripes(
         acc: LongArray, nbStripesSoFarPtr: size_t, nbStripesPerBlock: size_t,
         input: ByteArray, inputOffset: Int, nbStripes: size_t,
@@ -1343,44 +1275,6 @@ public class XXH3Impl : XXH3Family {
     @Suppress("EXPERIMENTAL_API_USAGE")
     private fun XXH_MIN(x: size_t, y: size_t): size_t = if (x.toUInt() > y.toUInt()) y else x
 
-    /*override fun XXH3_generateSecret(secretBuffer: ByteArray, customSeed: ByteArray, customSeedSize: size_t) {
-        if (customSeedSize == 0) {
-            XXH_memcpy(secretBuffer, 0, XXH3_kSecret, 0, XXH_SECRET_DEFAULT_SIZE)
-            return
-        }
-
-        val segmentSize: size_t = sizeof(XXH128_hash_t)
-        val nbSegments: size_t = XXH_SECRET_DEFAULT_SIZE / segmentSize
-        val scrambler: XXH128_canonical_t
-        XXH64_hash_t seeds [12]
-        val segnb: size_t
-        require(nbSegments == 12)
-        require(segmentSize * nbSegments == XXH_SECRET_DEFAULT_SIZE) /* exact multiple */
-        scrambler = XXH128_canonicalFromHash(XXH128(customSeed, customSeedSize, 0))
-
-        /*
-        * Copy customSeed to seeds[], truncating or repeating as necessary.
-        */
-        val toFill: size_t = XXH_MIN(customSeedSize, sizeof(seeds))
-        val filled: size_t = toFill
-        memcpy(seeds, customSeed, toFill)
-        while (filled < sizeof(seeds)) {
-            toFill = XXH_MIN(filled, sizeof(seeds) - filled)
-            memcpy((char *) seeds +filled, seeds, toFill)
-            filled += toFill
-        }
-
-        /* generate secret */
-        memcpy(secretBuffer, & scrambler, sizeof(scrambler))
-        for (segnb= 1; segnb < nbSegments; segnb++) {
-            size_t const segmentStart = segnb * segmentSize
-            XXH128_canonical_t segment
-                    XXH128_canonicalFromHash(& segment,
-            XXH128(& scrambler, sizeof(scrambler), XXH_readLE64(seeds+segnb)+segnb))
-            memcpy((char *) secretBuffer +segmentStart, & segment, sizeof(segment))
-        }
-    }*/
-
     /* ==========================================
      * XXH3 128 bits (a.k.a XXH128)
      * ==========================================
@@ -1412,14 +1306,440 @@ public class XXH3Impl : XXH3Family {
         val combinedl: xxh_u32 = ((c1.toInt() and 0xff) shl 16) or ((c2.toInt() and 0xff) shl 24) or
                 ((c3.toInt() and 0xff) shl 0) or (len shl 8)
         val combinedh: xxh_u32 = XXH_rotl32(XXH_swap32(combinedl), 13)
-        val bitflipl: xxh_u64 = (XXH_readLE32(secret, 0) xor XXH_readLE32(secret, 4)) + seed
-        val bitfliph: xxh_u64 = (XXH_readLE32(secret, 8) xor XXH_readLE32(secret, 12)) - seed
+        val bitflipl: xxh_u64 = ((XXH_readLE32(secret, 0).toLong() and 0xffffffff) xor (XXH_readLE32(secret, 4).toLong() and 0xffffffff)) + seed
+        val bitfliph: xxh_u64 = ((XXH_readLE32(secret, 8).toLong() and 0xffffffff) xor (XXH_readLE32(secret, 12).toLong() and 0xffffffff)) - seed
         val keyed_lo: xxh_u64 = (combinedl.toLong() and 0xffffffff) xor bitflipl
         val keyed_hi: xxh_u64 = (combinedh.toLong() and 0xffffffff) xor bitfliph
 
         return XXH128_hash_t(
             low64 = XXH64_avalanche(keyed_lo),
             high64 = XXH64_avalanche(keyed_hi)
+        )
+    }
+
+    private fun XXH3_len_4to8_128b(input: ByteArray, inputOffset: Int, len: size_t, secret: ByteArray, seed: XXH64_hash_t): XXH128_hash_t {
+        require(len in 4..8)
+        val seed = seed xor ((XXH_swap32(seed.toInt()).toLong() and 0xffffffff) shl 32)
+        val input_lo: xxh_u32 = XXH_readLE32(input, inputOffset)
+        val input_hi: xxh_u32 = XXH_readLE32(input, inputOffset + len - 4)
+        val input_64: xxh_u64 = (input_lo.toLong() and 0xffffffff) + ((input_hi.toLong() and 0xffffffff) shl 32)
+        val bitflip: xxh_u64 = (XXH_readLE64(secret, 16) xor XXH_readLE64(secret, 24)) + seed
+        val keyed: xxh_u64 = input_64 xor bitflip
+
+        /* Shift len to the left to ensure it is even, this avoids even multiplies. */
+        val m128: XXH128_hash_t = XXH_mult64to128(keyed, XXH_PRIME64_1 + (len shl 2))
+        var low64 = m128.low64
+        var high64 = m128.high64
+
+        high64 += (low64 shl 1)
+        low64 = low64 xor (high64 ushr 3)
+
+        low64 = XXH_xorshift64(low64, 35)
+        @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
+        low64 *= 0x9FB21C651E98DF25UL.toLong()
+        low64 = XXH_xorshift64(low64, 28)
+        high64 = XXH3_avalanche(high64)
+        return XXH128_hash_t(low64, high64)
+    }
+
+    private fun XXH3_len_9to16_128b(input: ByteArray, inputOffset: Int, len: size_t, secret: ByteArray, seed: XXH64_hash_t): XXH128_hash_t {
+        require(len in 9..16)
+        val bitflipl: xxh_u64 = (XXH_readLE64(secret, 32) xor XXH_readLE64(secret, 40)) - seed
+        val bitfliph: xxh_u64 = (XXH_readLE64(secret, 48) xor XXH_readLE64(secret, 56)) + seed
+        val input_lo: xxh_u64 = XXH_readLE64(input, inputOffset)
+        var input_hi: xxh_u64 = XXH_readLE64(input, inputOffset + len - 8)
+        val m128: XXH128_hash_t = XXH_mult64to128(input_lo xor input_hi xor bitflipl, XXH_PRIME64_1)
+        var low64 = m128.low64
+        var high64 = m128.high64
+
+        /*
+         * Put len in the middle of m128 to ensure that the length gets mixed to
+         * both the low and high bits in the 128x64 multiply below.
+         */
+        low64 += (len.toLong() - 1L) shl 54
+        input_hi = input_hi xor bitfliph
+        /*
+         * Add the high 32 bits of input_hi to the high 32 bits of m128, then
+         * add the long product of the low 32 bits of input_hi and XXH_PRIME32_2 to
+         * the high 64 bits of m128.
+         *
+         * The best approach to this operation is different on 32-bit and 64-bit.
+         */
+        /*
+         * 64-bit optimized (albeit more confusing) version.
+         *
+         * Uses some properties of addition and multiplication to remove the mask:
+         *
+         * Let:
+         *    a = input_hi.lo = (input_hi & 0x00000000FFFFFFFF)
+         *    b = input_hi.hi = (input_hi & 0xFFFFFFFF00000000)
+         *    c = XXH_PRIME32_2
+         *
+         *    a + (b * c)
+         * Inverse Property: x + y - x == y
+         *    a + (b * (1 + c - 1))
+         * Distributive Property: x * (y + z) == (x * y) + (x * z)
+         *    a + (b * 1) + (b * (c - 1))
+         * Identity Property: x * 1 == x
+         *    a + b + (b * (c - 1))
+         *
+         * Substitute a, b, and c:
+         *    input_hi.hi + input_hi.lo + ((xxh_u64)input_hi.lo * (XXH_PRIME32_2 - 1))
+         *
+         * Since input_hi.hi + input_hi.lo == input_hi, we get this:
+         *    input_hi + ((xxh_u64)input_hi.lo * (XXH_PRIME32_2 - 1))
+         */
+        high64 += input_hi + XXH_mult32to64(input_hi.toInt(), XXH_PRIME32_2 - 1)
+        /* m128 ^= XXH_swap64(m128 >> 64); */
+        low64 = low64 xor XXH_swap64(high64)
+
+        /* 128x64 multiply: h128 = m128 * XXH_PRIME64_2; */
+        val h128: XXH128_hash_t = XXH_mult64to128(low64, XXH_PRIME64_2)
+        var hlow64 = h128.low64
+        var hhigh64 = h128.high64
+
+        hhigh64 += high64 * XXH_PRIME64_2
+
+        hlow64 = XXH3_avalanche(hlow64)
+        hhigh64 = XXH3_avalanche(hhigh64)
+        return XXH128_hash_t(hlow64, hhigh64)
+    }
+
+    /**
+     * Assumption: `secret` size is >= XXH3_SECRET_SIZE_MIN
+     */
+    private fun XXH3_len_0to16_128b(input: ByteArray, inputOffset: Int, len: size_t, secret: ByteArray, seed: XXH64_hash_t): XXH128_hash_t {
+        require(len <= 16)
+        if (len > 8) return XXH3_len_9to16_128b(input, inputOffset, len, secret, seed)
+        if (len >= 4) return XXH3_len_4to8_128b(input, inputOffset, len, secret, seed)
+        if (len > 0) return XXH3_len_1to3_128b(input, inputOffset, len, secret, seed)
+
+        val bitflipl: xxh_u64 = XXH_readLE64(secret, 64) xor XXH_readLE64(secret, 72)
+        val bitfliph: xxh_u64 = XXH_readLE64(secret, 80) xor XXH_readLE64(secret, 88)
+        return XXH128_hash_t(
+            low64 = XXH64_avalanche(seed xor bitflipl),
+            high64 = XXH64_avalanche(seed xor bitfliph)
+        )
+    }
+
+    /**
+     * A bit slower than XXH3_mix16B, but handles multiply by zero better.
+     */
+    private fun XXH128_mix32B(
+        acc: XXH128_hash_t, input_1: ByteArray, input_1Offset: Int, input_2: ByteArray, input_2Offset: Int,
+        secret: ByteArray, secretOffset: Int, seed: XXH64_hash_t
+    ): XXH128_hash_t {
+        var low64 = acc.low64
+        var high64 = acc.high64
+
+        low64 += XXH3_mix16B(input_1, input_1Offset, secret, secretOffset + 0, seed)
+        low64 = low64 xor (XXH_readLE64(input_2, input_2Offset) + XXH_readLE64(input_2, input_2Offset + 8))
+        high64 += XXH3_mix16B(input_2, input_2Offset, secret, secretOffset + 16, seed)
+        high64 = high64 xor (XXH_readLE64(input_1, input_1Offset) + XXH_readLE64(input_1, input_1Offset + 8))
+        return XXH128_hash_t(low64, high64)
+    }
+
+    private fun XXH3_len_17to128_128b(
+        input: ByteArray, inputOffset: Int, len: size_t,
+        secret: ByteArray, secretSize: size_t, seed: XXH64_hash_t
+    ): XXH128_hash_t {
+        require(secretSize >= XXH3_SECRET_SIZE_MIN)
+        require(len in 17..128)
+
+        var acc = XXH128_hash_t(
+            low64 = len * XXH_PRIME64_1,
+            high64 = 0
+        )
+        if (len > 32) {
+            if (len > 64) {
+                if (len > 96) {
+                    acc = XXH128_mix32B(acc, input, inputOffset + 48, input, inputOffset + len - 64, secret, 96, seed)
+                }
+                acc = XXH128_mix32B(acc, input, inputOffset + 32, input, inputOffset + len - 48, secret, 64, seed)
+            }
+            acc = XXH128_mix32B(acc, input, inputOffset + 16, input, inputOffset + len - 32, secret, 32, seed)
+        }
+        acc = XXH128_mix32B(acc, input, inputOffset, input, inputOffset + len - 16, secret, 0, seed)
+        // XXH128_hash_t h128;
+        var low64 = acc.low64 + acc.high64
+        var high64 = (acc.low64 * XXH_PRIME64_1) + (acc.high64 * XXH_PRIME64_4) + ((len - seed) * XXH_PRIME64_2)
+        low64 = XXH3_avalanche(low64)
+        high64 = 0L - XXH3_avalanche(high64)
+        return XXH128_hash_t(low64, high64)
+    }
+
+    private fun XXH3_len_129to240_128b(
+        input: ByteArray, inputOffset: Int, len: size_t,
+        secret: ByteArray, secretSize: size_t, seed: XXH64_hash_t
+    ): XXH128_hash_t {
+        require(secretSize >= XXH3_SECRET_SIZE_MIN)
+        require(len in 129..XXH3_MIDSIZE_MAX)
+
+        val nbRounds: Int = len / 32
+        var acc = XXH128_hash_t(
+            low64 = len * XXH_PRIME64_1,
+            high64 = 0
+        )
+        for (i in 0 until 4) {
+            acc = XXH128_mix32B(
+                acc,
+                input, (32 * i),
+                input, (32 * i) + 16,
+                secret, (32 * i),
+                seed
+            )
+        }
+        acc = XXH128_hash_t(
+            low64 = XXH3_avalanche(acc.low64),
+            high64 = XXH3_avalanche(acc.high64)
+        )
+        require(nbRounds >= 4)
+        for (i in 4 until nbRounds) {
+            acc = XXH128_mix32B(
+                acc,
+                input, (32 * i),
+                input, (32 * i) + 16,
+                secret, XXH3_MIDSIZE_STARTOFFSET + (32 * (i - 4)),
+                seed
+            )
+        }
+        /* last bytes */
+        acc = XXH128_mix32B(
+            acc,
+            input, len - 16,
+            input, len - 32,
+            secret, XXH3_SECRET_SIZE_MIN - XXH3_MIDSIZE_LASTOFFSET - 16,
+            0L - seed
+        )
+
+        var low64 = acc.low64 + acc.high64
+        var high64 = (acc.low64 * XXH_PRIME64_1) + (acc.high64 * XXH_PRIME64_4) + ((len - seed) * XXH_PRIME64_2)
+        low64 = XXH3_avalanche(low64)
+        high64 = 0L - XXH3_avalanche(high64)
+        return XXH128_hash_t(low64, high64)
+    }
+
+    private fun XXH3_hashLong_128b_internal(
+        input: ByteArray, inputOffset: Int, len: size_t,
+        secret: ByteArray, secretSize: size_t,
+        f_acc512: XXH3_f_accumulate_512,
+        f_scramble: XXH3_f_scrambleAcc
+    ): XXH128_hash_t {
+        val acc = LongArray(XXH_ACC_NB).also { XXH3_INIT_ACC(it) }
+
+        XXH3_hashLong_internal_loop(acc, input, inputOffset, len, secret, secretSize, f_acc512, f_scramble)
+
+        /* converge into final hash */
+        require(secretSize >= 64 + XXH_SECRET_MERGEACCS_START)
+        return XXH128_hash_t(
+            low64 = XXH3_mergeAccs(
+                acc,
+                secret, XXH_SECRET_MERGEACCS_START,
+                len.toLong() * XXH_PRIME64_1
+            ),
+            high64 = XXH3_mergeAccs(
+                acc,
+                secret, secretSize
+                        - 64 - XXH_SECRET_MERGEACCS_START,
+                (len.toLong() * XXH_PRIME64_2).inv()
+            )
+        )
+    }
+
+    /**
+     * It's important for performance that XXH3_hashLong is not inlined.
+     */
+    private fun XXH3_hashLong_128b_default(
+        input: ByteArray,
+        inputOffset: Int,
+        len: size_t,
+        seed64: XXH64_hash_t,
+        secret: ByteArray,
+        secretLen: size_t
+    ): XXH128_hash_t {
+        return XXH3_hashLong_128b_internal(input, inputOffset, len, XXH3_kSecret, XXH3_kSecret.size, XXH3_accumulate_512, XXH3_scrambleAcc)
+    }
+
+    /**
+     * It's important for performance that XXH3_hashLong is not inlined.
+     */
+    private fun XXH3_hashLong_128b_withSecret(
+        input: ByteArray,
+        inputOffset: Int,
+        len: size_t,
+        seed64: XXH64_hash_t,
+        secret: ByteArray,
+        secretLen: size_t
+    ): XXH128_hash_t {
+        return XXH3_hashLong_128b_internal(input, inputOffset, len, secret, secretLen, XXH3_accumulate_512, XXH3_scrambleAcc)
+    }
+
+    private fun XXH3_hashLong_128b_withSeed_internal(
+        input: ByteArray,
+        inputOffset: Int,
+        len: size_t,
+        seed64: XXH64_hash_t,
+        f_acc512: XXH3_f_accumulate_512,
+        f_scramble: XXH3_f_scrambleAcc,
+        f_initSec: XXH3_f_initCustomSecret
+    ): XXH128_hash_t {
+        if (seed64 == 0L)
+            return XXH3_hashLong_128b_internal(input, inputOffset, len, XXH3_kSecret, XXH3_kSecret.size, f_acc512, f_scramble)
+
+        val secret = ByteArray(XXH_SECRET_DEFAULT_SIZE)
+        f_initSec(secret, seed64)
+
+        return XXH3_hashLong_128b_internal(input, inputOffset, len, secret, secret.size, f_acc512, f_scramble)
+    }
+
+    /**
+     * It's important for performance that XXH3_hashLong is not inlined.
+     */
+    private fun XXH3_hashLong_128b_withSeed(
+        input: ByteArray,
+        inputOffset: Int,
+        len: size_t,
+        seed64: XXH64_hash_t,
+        secret: ByteArray,
+        secretLen: size_t
+    ): XXH128_hash_t {
+        return XXH3_hashLong_128b_withSeed_internal(
+            input,
+            inputOffset,
+            len,
+            seed64,
+            XXH3_accumulate_512,
+            XXH3_scrambleAcc,
+            XXH3_initCustomSecret
+        )
+    }
+
+    private fun XXH3_128bits_internal(
+        input: ByteArray,
+        inputOffset: Int,
+        len: size_t,
+        seed64: XXH64_hash_t,
+        secret: ByteArray,
+        secretLen: size_t,
+        f_hl128: XXH3_hashLong128_f
+    ): XXH128_hash_t {
+        require(secretLen >= XXH3_SECRET_SIZE_MIN)
+        /*
+         * If an action is to be taken if `secret` conditions are not respected,
+         * it should be done here.
+         * For now, it's a contract pre-condition.
+         * Adding a check and a branch here would cost performance at every hash.
+         */
+        if (len <= 16)
+            return XXH3_len_0to16_128b(input, inputOffset, len, secret, seed64)
+        if (len <= 128)
+            return XXH3_len_17to128_128b(input, inputOffset, len, secret, secretLen, seed64)
+        if (len <= XXH3_MIDSIZE_MAX)
+            return XXH3_len_129to240_128b(input, inputOffset, len, secret, secretLen, seed64)
+        return f_hl128(input, inputOffset, len, seed64, secret, secretLen)
+    }
+
+    /* ===   Public XXH128 API   === */
+
+    override fun XXH3_128bits(input: ByteArray, inputOffset: Int, len: size_t): XXH128_hash_t {
+        return XXH3_128bits_internal(input, inputOffset, len, 0, XXH3_kSecret, XXH3_kSecret.size, ::XXH3_hashLong_128b_default)
+    }
+
+    override fun XXH3_128bits_withSecret(input: ByteArray, inputOffset: Int, len: size_t, secret: ByteArray, secretSize: size_t): XXH128_hash_t {
+        return XXH3_128bits_internal(input, inputOffset, len, 0, secret, secretSize, ::XXH3_hashLong_128b_withSecret)
+    }
+
+    override fun XXH3_128bits_withSeed(input: ByteArray, inputOffset: Int, len: size_t, seed: XXH64_hash_t): XXH128_hash_t {
+        return XXH3_128bits_internal(input, inputOffset, len, seed, XXH3_kSecret, XXH3_kSecret.size, ::XXH3_hashLong_128b_withSeed)
+    }
+
+    override fun XXH128(input: ByteArray, inputOffset: Int, len: size_t, seed: XXH64_hash_t): XXH128_hash_t {
+        return XXH3_128bits_withSeed(input, inputOffset, len, seed)
+    }
+
+    /* ===   XXH3 128-bit streaming   === */
+
+    /*
+     * All the functions are actually the same as for 64-bit streaming variant.
+     * The only difference is the finalization routine.
+     */
+
+    override fun XXH3_128bits_reset(statePtr: XXH3_state_t): XXH_errorcode {
+        XXH3_reset_internal(statePtr, 0, XXH3_kSecret, XXH_SECRET_DEFAULT_SIZE)
+        return XXH_errorcode.XXH_OK
+    }
+
+    override fun XXH3_128bits_reset_withSecret(statePtr: XXH3_state_t, secret: ByteArray, secretSize: size_t): XXH_errorcode {
+        XXH3_reset_internal(statePtr, 0, secret, secretSize)
+        if (secretSize < XXH3_SECRET_SIZE_MIN) return XXH_errorcode.XXH_ERROR
+        return XXH_errorcode.XXH_OK
+    }
+
+    override fun XXH3_128bits_reset_withSeed(statePtr: XXH3_state_t, seed: XXH64_hash_t): XXH_errorcode {
+        if (seed == 0L) return XXH3_128bits_reset(statePtr)
+        if (seed != statePtr.seed) XXH3_initCustomSecret(statePtr.customSecret, seed)
+        XXH3_reset_internal(statePtr, seed, null, XXH_SECRET_DEFAULT_SIZE)
+        return XXH_errorcode.XXH_OK
+    }
+
+    override fun XXH3_128bits_update(state: XXH3_state_t, input: ByteArray, inputOffset: Int, len: size_t): XXH_errorcode {
+        return XXH3_update(state, input, inputOffset, len, XXH3_accumulate_512, XXH3_scrambleAcc)
+    }
+
+    override fun XXH3_128bits_digest(state: XXH3_state_t): XXH128_hash_t {
+        val secret = state.extSecret ?: state.customSecret
+        if (state.totalLen > XXH3_MIDSIZE_MAX) {
+            val acc = LongArray(XXH_ACC_NB)
+            XXH3_digest_long(acc, state, secret)
+            require(state.secretLimit + XXH_STRIPE_LEN >= 64 + XXH_SECRET_MERGEACCS_START)
+            return XXH128_hash_t(
+                low64 = XXH3_mergeAccs(acc, secret, XXH_SECRET_MERGEACCS_START, state.totalLen * XXH_PRIME64_1),
+                high64 = XXH3_mergeAccs(
+                    acc,
+                    secret,
+                    state.secretLimit + XXH_STRIPE_LEN - 64 - XXH_SECRET_MERGEACCS_START, (state.totalLen * XXH_PRIME64_2).inv()
+                )
+            )
+        }
+        /* len <= XXH3_MIDSIZE_MAX : short code */
+        if (state.seed != 0L)
+            return XXH3_128bits_withSeed(state.buffer, 0, state.totalLen.toInt(), state.seed)
+        return XXH3_128bits_withSecret(state.buffer, 0, state.totalLen.toInt(), secret, state.secretLimit + XXH_STRIPE_LEN)
+    }
+
+    override fun XXH128_isEqual(h1: XXH128_hash_t, h2: XXH128_hash_t): Boolean {
+        /* note : XXH128_hash_t is compact, it has no padding byte */
+        return h1 == h2
+    }
+
+    /**
+     * This prototype is compatible with stdlib's qsort().
+     * return : >0 if *h128_1  > *h128_2
+     *          <0 if *h128_1  < *h128_2
+     *          =0 if *h128_1 == *h128_2
+     */
+    override fun XXH128_cmp(h128_1: XXH128_hash_t, h128_2: XXH128_hash_t): Int {
+        val hcmp = h128_1.high64.compareTo(h128_2.high64)
+        /* note : bets that, in most cases, hash values are different */
+        if (hcmp != 0) return hcmp
+        return h128_1.low64.compareTo(h128_2.low64)
+    }
+
+    /*======   Canonical representation   ======*/
+
+    override fun XXH128_canonicalFromHash(hash: XXH128_hash_t): XXH128_canonical_t {
+        val dst = XXH128_canonical_t()
+
+        encodeBELong(hash.high64, dst.digest, 0)
+        encodeBELong(hash.low64, dst.digest, 8)
+
+        return dst
+    }
+
+    override fun XXH128_hashFromCanonical(src: XXH128_canonical_t): XXH128_hash_t {
+        return XXH128_hash_t(
+            high64 = XXH_readBE64(src.digest, 0),
+            low64 = XXH_readBE64(src.digest, 8)
         )
     }
 
@@ -1532,6 +1852,7 @@ private typealias XXH3_f_scrambleAcc = (acc: LongArray, secret: ByteArray, secre
 private typealias XXH3_f_initCustomSecret = (customSecret: ByteArray, seed64: xxh_u64) -> Unit
 
 private typealias XXH3_hashLong64_f = (input: ByteArray, inputOffset: Int, len: size_t, seed64: XXH64_hash_t, secret: ByteArray, secretLen: size_t) -> XXH64_hash_t
+private typealias XXH3_hashLong128_f = (input: ByteArray, inputOffset: Int, len: size_t, seed64: XXH64_hash_t, secret: ByteArray, secretLen: size_t) -> XXH128_hash_t
 
 //////// DELETE below code
 

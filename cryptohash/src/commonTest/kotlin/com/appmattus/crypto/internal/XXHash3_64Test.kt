@@ -33,13 +33,8 @@ class XXHash3_64Test {
     )
 
     @Test
-    fun test() {
-        testXXH3_64(buffer(6), PRIME64, "84589C116AB59AB9")
-    }
-
-    @Test
     fun xxh3_64bits_seeded() {
-        val XSUM_XXH3_testdata = listOf(
+        listOf(
             TestCase(0, 0, "2D06800538D394C2"),  /* empty string */
             TestCase(0, PRIME64, "A8A6B918B2F0364A"),  /* empty string */
             TestCase(1, 0, "C44BDFF4074EECDB"),  /*  1 -  3 */
@@ -67,9 +62,7 @@ class XXHash3_64Test {
             TestCase(2240, PRIME64, "757BA8487D1B5247"),  /* 3 blocks, finishing at stripe boundary */
             TestCase(2367, 0, "CB37AEB9E5D361ED"),  /* 3 blocks, last stripe is overlapping */
             TestCase(2367, PRIME64, "D2DB3415B942B42A")   /* 3 blocks, last stripe is overlapping */
-        )
-
-        XSUM_XXH3_testdata.forEach {
+        ).forEach {
             try {
                 testXXH3_64(buffer(it.len), it.seed, it.Nresult)
             } catch (expected: Error) {
@@ -81,7 +74,9 @@ class XXHash3_64Test {
 
     @Test
     fun xxh3_64bits_customSecret() {
-        val XSUM_XXH3_withSecret_testdata = listOf(
+        val secret = buffer(XXH3Family.XXH3_SECRET_SIZE_MIN + 11 + 7).copyOfRange(7, XXH3Family.XXH3_SECRET_SIZE_MIN + 11 + 7)
+
+        listOf(
             TestCase(0, 0, "3559D64878C5C66C"),  /* empty string */
             TestCase(1, 0, "8A52451418B2DA4D"),  /*  1 -  3 */
             TestCase(6, 0, "82C90AB0519369AD"),  /*  4 -  8 */
@@ -97,11 +92,7 @@ class XXHash3_64Test {
             TestCase(2367, 0, "293FA8E5173BB5E7"),  /* >= 2 blocks, at least one scrambling, last stripe unaligned */
 
             TestCase(64 * 10 * 3, 0, "751D2EC54BC6038B")   /* exactly 3 full blocks, not a multiple of 256 */
-        )
-
-        val secret = buffer(XXH3Family.XXH3_SECRET_SIZE_MIN + 11 + 7).copyOfRange(7, XXH3Family.XXH3_SECRET_SIZE_MIN + 11 + 7)
-
-        XSUM_XXH3_withSecret_testdata.forEach {
+        ).forEach {
             try {
                 testXXH3_64_withSecret(buffer(it.len), secret, it.Nresult)
             } catch (expected: Error) {
@@ -143,11 +134,8 @@ class XXHash3_64Test {
 
             val state = xxh.XXH3_createState()
             xxh.XXH3_64bits_reset_withSeed(state, seed)
-            println(state)
 
             xxh.XXH3_64bits_update(state, input, 0, input.size)
-
-            println(state)
 
             val digest = ByteArray(8).apply {
                 encodeBELong(xxh.XXH3_64bits_digest(state), this, 0)
@@ -164,11 +152,8 @@ class XXHash3_64Test {
 
             val state = xxh.XXH3_createState()
             xxh.XXH3_64bits_reset_withSecret(state, secret, secret.size)
-            println(state)
 
             xxh.XXH3_64bits_update(state, input, 0, input.size)
-
-            println(state)
 
             val digest = ByteArray(8).apply {
                 encodeBELong(xxh.XXH3_64bits_digest(state), this, 0)
