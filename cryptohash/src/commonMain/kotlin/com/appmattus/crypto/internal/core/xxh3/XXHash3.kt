@@ -1,4 +1,4 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "ClassName", "unused", "LocalVariableName")
 
 package com.appmattus.crypto.internal.core.xxh3
 
@@ -64,7 +64,7 @@ internal class XXH128_canonical_t(val digest: ByteArray = ByteArray(16))
  *
  * When the [XXH3_state_t] structure is merely emplaced on stack,
  * it should be initialized with [XXH3_INITSTATE]
- * in case its first reset uses [XXH3_NNbits_reset_withSeed].
+ * in case its first reset uses `XXH3_NNbits_reset_withSeed`.
  * This init can be omitted if the first reset uses default or _withSecret mode.
  * This operation isn't necessary when the state is created with [XXH3_createState].
  * Note that this doesn't prepare the state for a streaming operation,
@@ -204,8 +204,6 @@ private fun XXH_read32(ptr: ByteArray, offset: Int): xxh_u32 {
  *
  * @note
  *   This is not necessarily defined to an integer constant.
- *
- * @see XXH_isLittleEndian() for the runtime check.
  */
 private fun XXH_isLittleEndian(): Boolean {
     // Ignoring that this could run on a big endian system
@@ -295,6 +293,7 @@ private fun XXH_readBE64(ptr: ByteArray, offset: Int): xxh_u64 = decodeBELong(pt
 /*******   xxh64   *******/
 
 private fun XXH64_avalanche(h64: xxh_u64): xxh_u64 {
+    @Suppress("NAME_SHADOWING")
     var h64 = h64
     h64 = h64 xor (h64 ushr 33)
     h64 *= XXH_PRIME64_2
@@ -403,6 +402,7 @@ private fun XXH_xorshift64(v64: xxh_u64, shift: Int): xxh_u64 {
  */
 @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private fun XXH3_avalanche(h64: xxh_u64): XXH64_hash_t {
+    @Suppress("NAME_SHADOWING")
     var h64: xxh_u64 = XXH_xorshift64(h64, 37)
     h64 *= 0x165667919E3779F9UL.toLong()
     h64 = XXH_xorshift64(h64, 32)
@@ -416,6 +416,7 @@ private fun XXH3_avalanche(h64: xxh_u64): XXH64_hash_t {
  */
 @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private fun XXH3_rrmxmx(h64: xxh_u64, len: xxh_u64): XXH64_hash_t {
+    @Suppress("NAME_SHADOWING")
     var h64: xxh_u64 = h64
     /* this mix is inspired by Pelle Evensen's rrmxmx */
     h64 = h64 xor (XXH_rotl64(h64, 49) xor XXH_rotl64(h64, 24))
@@ -479,6 +480,7 @@ private fun XXH3_len_1to3_64b(input: ByteArray, inputOffset: Int, len: size_t, s
 private fun XXH3_len_4to8_64b(input: ByteArray, inputOffset: Int, len: size_t, secret: ByteArray, seed: XXH64_hash_t): XXH64_hash_t {
     require(len in 4..8)
 
+    @Suppress("NAME_SHADOWING")
     val seed = seed xor ((XXH_swap32(seed.toInt()).toLong() and 0xffffffff) shl 32)
     val input1: xxh_u32 = XXH_readLE32(input, inputOffset + 0)
     val input2: xxh_u32 = XXH_readLE32(input, inputOffset + len - 4)
@@ -630,14 +632,11 @@ private fun XXH_writeLE64(dst: ByteArray, dstOffset: Int, v64: xxh_u64) = encode
 /* scalar variants - universal */
 
 private fun XXH3_accumulate_512_scalar(acc: LongArray, input: ByteArray, inputOffset: Int, secret: ByteArray, secretOffset: Int) {
-    val xacc = acc /* presumed aligned */
-    val xinput = input  /* no alignment restriction */
-    val xsecret = secret   /* no alignment restriction */
     for (i in 0 until XXH_ACC_NB) {
-        val data_val: xxh_u64 = XXH_readLE64(xinput, inputOffset + 8 * i)
-        val data_key: xxh_u64 = data_val xor XXH_readLE64(xsecret, secretOffset + i * 8)
-        xacc[i xor 1] += data_val /* swap adjacent lanes */
-        xacc[i] += XXH_mult32to64((data_key and 0xffffffff).toInt(), (data_key ushr 32).toInt())
+        val data_val: xxh_u64 = XXH_readLE64(input, inputOffset + 8 * i)
+        val data_key: xxh_u64 = data_val xor XXH_readLE64(secret, secretOffset + i * 8)
+        acc[i xor 1] += data_val /* swap adjacent lanes */
+        acc[i] += XXH_mult32to64((data_key and 0xffffffff).toInt(), (data_key ushr 32).toInt())
     }
 }
 
@@ -834,7 +833,9 @@ private fun XXH3_hashLong_64b_withSeed(
     inputOffset: Int,
     len: size_t,
     seed: XXH64_hash_t,
+    @Suppress("UNUSED_PARAMETER")
     secret: ByteArray,
+    @Suppress("UNUSED_PARAMETER")
     secretLen: size_t
 ): XXH64_hash_t {
     return XXH3_hashLong_64b_withSeed_internal(input, inputOffset, len, seed, XXH3_accumulate_512, XXH3_scrambleAcc, XXH3_initCustomSecret)
@@ -908,7 +909,7 @@ internal fun XXH3_64bits_withSeed(input: ByteArray, inputOffset: Int, len: size_
 
 internal fun XXH3_createState(): XXH3_state_t = XXH3_state_t()
 
-internal fun XXH3_freeState(statePtr: XXH3_state_t): XXH_errorcode {
+internal fun XXH3_freeState(@Suppress("UNUSED_PARAMETER") statePtr: XXH3_state_t): XXH_errorcode {
     return XXH_errorcode.XXH_OK
 }
 
@@ -992,6 +993,7 @@ private fun XXH3_consumeStripes(
     f_acc512: XXH3_f_accumulate_512,
     f_scramble: XXH3_f_scrambleAcc
 ): size_t {
+    @Suppress("NAME_SHADOWING")
     var nbStripesSoFarPtr = nbStripesSoFarPtr
     require(nbStripes <= nbStripesPerBlock)  /* can handle max 1 scramble per invocation */
     require(nbStripesSoFarPtr < nbStripesPerBlock)
@@ -1035,7 +1037,6 @@ private fun XXH3_update(
     }
     /* total input is now > XXH3_INTERNALBUFFER_SIZE */
 
-    val XXH3_INTERNALBUFFER_STRIPES = (XXH3_INTERNALBUFFER_SIZE / XXH_STRIPE_LEN)
     require(XXH3_INTERNALBUFFER_SIZE % XXH_STRIPE_LEN == 0)   /* clean multiple */
 
     /*
@@ -1168,9 +1169,9 @@ private fun XXH3_len_1to3_128b(input: ByteArray, inputOffset: Int, len: size_t, 
      * len = 2: combinedl = { input[1], 0x02, input[0], input[1] }
      * len = 3: combinedl = { input[2], 0x03, input[0], input[1] }
      */
-    val c1: xxh_u8 = input[0]
-    val c2: xxh_u8 = input[len ushr 1]
-    val c3: xxh_u8 = input[len - 1]
+    val c1: xxh_u8 = input[inputOffset + 0]
+    val c2: xxh_u8 = input[inputOffset + len ushr 1]
+    val c3: xxh_u8 = input[inputOffset + len - 1]
     val combinedl: xxh_u32 = ((c1.toInt() and 0xff) shl 16) or ((c2.toInt() and 0xff) shl 24) or
             ((c3.toInt() and 0xff) shl 0) or (len shl 8)
     val combinedh: xxh_u32 = XXH_rotl32(XXH_swap32(combinedl), 13)
@@ -1187,6 +1188,7 @@ private fun XXH3_len_1to3_128b(input: ByteArray, inputOffset: Int, len: size_t, 
 
 private fun XXH3_len_4to8_128b(input: ByteArray, inputOffset: Int, len: size_t, secret: ByteArray, seed: XXH64_hash_t): XXH128_hash_t {
     require(len in 4..8)
+    @Suppress("NAME_SHADOWING")
     val seed = seed xor ((XXH_swap32(seed.toInt()).toLong() and 0xffffffff) shl 32)
     val input_lo: xxh_u32 = XXH_readLE32(input, inputOffset)
     val input_hi: xxh_u32 = XXH_readLE32(input, inputOffset + len - 4)
@@ -1294,8 +1296,14 @@ private fun XXH3_len_0to16_128b(input: ByteArray, inputOffset: Int, len: size_t,
  * A bit slower than XXH3_mix16B, but handles multiply by zero better.
  */
 private fun XXH128_mix32B(
-    acc: XXH128_hash_t, input_1: ByteArray, input_1Offset: Int, input_2: ByteArray, input_2Offset: Int,
-    secret: ByteArray, secretOffset: Int, seed: XXH64_hash_t
+    acc: XXH128_hash_t,
+    input_1: ByteArray,
+    input_1Offset: Int,
+    input_2: ByteArray,
+    input_2Offset: Int,
+    secret: ByteArray,
+    secretOffset: Int,
+    seed: XXH64_hash_t
 ): XXH128_hash_t {
     var low64 = acc.low64
     var high64 = acc.high64
@@ -1308,8 +1316,12 @@ private fun XXH128_mix32B(
 }
 
 private fun XXH3_len_17to128_128b(
-    input: ByteArray, inputOffset: Int, len: size_t,
-    secret: ByteArray, secretSize: size_t, seed: XXH64_hash_t
+    input: ByteArray,
+    inputOffset: Int,
+    len: size_t,
+    secret: ByteArray,
+    secretSize: size_t,
+    seed: XXH64_hash_t
 ): XXH128_hash_t {
     require(secretSize >= XXH3_SECRET_SIZE_MIN)
     require(len in 17..128)
@@ -1337,8 +1349,12 @@ private fun XXH3_len_17to128_128b(
 }
 
 private fun XXH3_len_129to240_128b(
-    input: ByteArray, inputOffset: Int, len: size_t,
-    secret: ByteArray, secretSize: size_t, seed: XXH64_hash_t
+    input: ByteArray,
+    inputOffset: Int,
+    len: size_t,
+    secret: ByteArray,
+    secretSize: size_t,
+    seed: XXH64_hash_t
 ): XXH128_hash_t {
     require(secretSize >= XXH3_SECRET_SIZE_MIN)
     require(len in 129..XXH3_MIDSIZE_MAX)
@@ -1351,8 +1367,8 @@ private fun XXH3_len_129to240_128b(
     for (i in 0 until 4) {
         acc = XXH128_mix32B(
             acc,
-            input, (32 * i),
-            input, (32 * i) + 16,
+            input, inputOffset + (32 * i),
+            input, inputOffset + (32 * i) + 16,
             secret, (32 * i),
             seed
         )
@@ -1365,8 +1381,8 @@ private fun XXH3_len_129to240_128b(
     for (i in 4 until nbRounds) {
         acc = XXH128_mix32B(
             acc,
-            input, (32 * i),
-            input, (32 * i) + 16,
+            input, inputOffset + (32 * i),
+            input, inputOffset + (32 * i) + 16,
             secret, XXH3_MIDSIZE_STARTOFFSET + (32 * (i - 4)),
             seed
         )
@@ -1374,8 +1390,8 @@ private fun XXH3_len_129to240_128b(
     /* last bytes */
     acc = XXH128_mix32B(
         acc,
-        input, len - 16,
-        input, len - 32,
+        input, inputOffset + len - 16,
+        input, inputOffset + len - 32,
         secret, XXH3_SECRET_SIZE_MIN - XXH3_MIDSIZE_LASTOFFSET - 16,
         0L - seed
     )
@@ -1421,8 +1437,11 @@ private fun XXH3_hashLong_128b_default(
     input: ByteArray,
     inputOffset: Int,
     len: size_t,
+    @Suppress("UNUSED_PARAMETER")
     seed64: XXH64_hash_t,
+    @Suppress("UNUSED_PARAMETER")
     secret: ByteArray,
+    @Suppress("UNUSED_PARAMETER")
     secretLen: size_t
 ): XXH128_hash_t {
     return XXH3_hashLong_128b_internal(input, inputOffset, len, XXH3_kSecret, XXH3_kSecret.size, XXH3_accumulate_512, XXH3_scrambleAcc)
@@ -1435,6 +1454,7 @@ private fun XXH3_hashLong_128b_withSecret(
     input: ByteArray,
     inputOffset: Int,
     len: size_t,
+    @Suppress("UNUSED_PARAMETER")
     seed64: XXH64_hash_t,
     secret: ByteArray,
     secretLen: size_t
@@ -1468,7 +1488,9 @@ private fun XXH3_hashLong_128b_withSeed(
     inputOffset: Int,
     len: size_t,
     seed64: XXH64_hash_t,
+    @Suppress("UNUSED_PARAMETER")
     secret: ByteArray,
+    @Suppress("UNUSED_PARAMETER")
     secretLen: size_t
 ): XXH128_hash_t {
     return XXH3_hashLong_128b_withSeed_internal(
@@ -1729,6 +1751,8 @@ private const val XXH3_MIDSIZE_LASTOFFSET: Int = 17
 private const val XXH_STRIPE_LEN: Int = 64
 private const val XXH_SECRET_CONSUME_RATE: Int = 8   /* nb of secret bytes consumed at each accumulation */
 private const val XXH_ACC_NB: Int = (XXH_STRIPE_LEN / 8)
+
+private const val XXH3_INTERNALBUFFER_STRIPES = (XXH3_INTERNALBUFFER_SIZE / XXH_STRIPE_LEN)
 
 /* not aligned on 8, last secret is different from acc & scrambler */
 private const val XXH_SECRET_LASTACC_START = 7
