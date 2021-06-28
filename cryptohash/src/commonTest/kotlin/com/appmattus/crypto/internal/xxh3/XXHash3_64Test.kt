@@ -16,10 +16,15 @@
 
 package com.appmattus.crypto.internal.xxh3
 
-import com.appmattus.crypto.internal.core.xxh3.XXH3Family
-import com.appmattus.crypto.internal.core.xxh3.XXH3Impl
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.sphlib.toHexString
+import com.appmattus.crypto.internal.core.xxh3.XXH3_64bits_digest
+import com.appmattus.crypto.internal.core.xxh3.XXH3_64bits_reset_withSecret
+import com.appmattus.crypto.internal.core.xxh3.XXH3_64bits_reset_withSeed
+import com.appmattus.crypto.internal.core.xxh3.XXH3_64bits_update
+import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
+import com.appmattus.crypto.internal.core.xxh3.XXH3_createState
+import com.appmattus.crypto.internal.core.xxh3.XXH3_freeState
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -74,7 +79,7 @@ class XXHash3_64Test {
 
     @Test
     fun xxh3_64bits_customSecret() {
-        val secret = buffer(XXH3Family.XXH3_SECRET_SIZE_MIN + 11 + 7).copyOfRange(7, XXH3Family.XXH3_SECRET_SIZE_MIN + 11 + 7)
+        val secret = buffer(XXH3_SECRET_SIZE_MIN + 11 + 7).copyOfRange(7, XXH3_SECRET_SIZE_MIN + 11 + 7)
 
         listOf(
             TestCase(0, 0, "3559D64878C5C66C"),  /* empty string */
@@ -124,44 +129,37 @@ class XXHash3_64Test {
                 byteGen *= PRIME64
             }
 
-            println(buffer.toHexString())
-
             return buffer
         }
 
         private fun testXXH3_64(input: ByteArray, seed: Long, expected: String) {
-            val xxh = XXH3Impl()
+            val state = XXH3_createState()
+            XXH3_64bits_reset_withSeed(state, seed)
 
-            val state = xxh.XXH3_createState()
-            xxh.XXH3_64bits_reset_withSeed(state, seed)
-
-            xxh.XXH3_64bits_update(state, input, 0, input.size)
+            XXH3_64bits_update(state, input, 0, input.size)
 
             val digest = ByteArray(8).apply {
-                encodeBELong(xxh.XXH3_64bits_digest(state), this, 0)
+                encodeBELong(XXH3_64bits_digest(state), this, 0)
             }
 
             assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
 
-            xxh.XXH3_freeState(state)
+            XXH3_freeState(state)
         }
 
         private fun testXXH3_64_withSecret(input: ByteArray, secret: ByteArray, expected: String) {
+            val state = XXH3_createState()
+            XXH3_64bits_reset_withSecret(state, secret, secret.size)
 
-            val xxh = XXH3Impl()
-
-            val state = xxh.XXH3_createState()
-            xxh.XXH3_64bits_reset_withSecret(state, secret, secret.size)
-
-            xxh.XXH3_64bits_update(state, input, 0, input.size)
+            XXH3_64bits_update(state, input, 0, input.size)
 
             val digest = ByteArray(8).apply {
-                encodeBELong(xxh.XXH3_64bits_digest(state), this, 0)
+                encodeBELong(XXH3_64bits_digest(state), this, 0)
             }
 
             assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
 
-            xxh.XXH3_freeState(state)
+            XXH3_freeState(state)
         }
     }
 }
