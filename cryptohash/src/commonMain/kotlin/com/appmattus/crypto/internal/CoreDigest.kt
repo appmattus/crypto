@@ -117,6 +117,8 @@ import com.appmattus.crypto.internal.core.sphlib.Tiger2
 import com.appmattus.crypto.internal.core.sphlib.Whirlpool
 import com.appmattus.crypto.internal.core.sphlib.Whirlpool0
 import com.appmattus.crypto.internal.core.sphlib.WhirlpoolT
+import com.appmattus.crypto.internal.core.xxh3.XXH3_128
+import com.appmattus.crypto.internal.core.xxh3.XXH3_64
 
 internal object CoreDigest {
 
@@ -309,6 +311,8 @@ internal object CoreDigest {
 
             is Algorithm.XXHash32 -> XXHash32(algorithm.seed)
             is Algorithm.XXHash64 -> XXHash64(algorithm.seed)
+            is Algorithm.XXH3_64 -> XXH3_64(algorithm)
+            is Algorithm.XXH3_128 -> XXH3_128(algorithm)
         }
     }
 }

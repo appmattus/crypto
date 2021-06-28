@@ -16,20 +16,14 @@
 
 package com.appmattus.crypto.internal.xxh3
 
-import com.appmattus.crypto.internal.core.sphlib.toHexString
-import com.appmattus.crypto.internal.core.xxh3.XXH128_canonicalFromHash
-import com.appmattus.crypto.internal.core.xxh3.XXH3_128bits_digest
-import com.appmattus.crypto.internal.core.xxh3.XXH3_128bits_reset_withSecret
-import com.appmattus.crypto.internal.core.xxh3.XXH3_128bits_reset_withSeed
-import com.appmattus.crypto.internal.core.xxh3.XXH3_128bits_update
+import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.internal.CoreDigest
+import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
-import com.appmattus.crypto.internal.core.xxh3.XXH3_createState
-import com.appmattus.crypto.internal.core.xxh3.XXH3_freeState
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 @Suppress("ClassName")
-class XXHash3_128Test {
+class XXH3_128Test {
 
     data class TestCase(
         val len: Int,
@@ -66,14 +60,17 @@ class XXHash3_128Test {
             TestCase(2240, 0, "CCB134FBFA7CE49D6E73A90539CF2948"), /* 3 blocks, finishing at stripe boundary */
             TestCase(2240, PRIME32, "50A1FE17B338995FED385111126FBA6F"), /* 3 blocks, finishing at stripe boundary */
             TestCase(2367, 0, "E89C0F6FF369B427CB37AEB9E5D361ED"), /* 3 blocks, last stripe is overlapping */
-            TestCase(2367, PRIME32, "D23AAE4B76C31ECB6F5360AE69C2F406") /* 3 blocks, last stripe is overlapping */
+            TestCase(
+                2367,
+                PRIME32,
+                "D23AAE4B76C31ECB6F5360AE69C2F406"
+            ) /* 3 blocks, last stripe is overlapping */
         ).forEach {
-            try {
-                testXXH3_128(buffer(it.len), it.seed, it.Nresult)
-            } catch (expected: Error) {
-                println(it)
-                throw expected
-            }
+            testKat(
+                if (it.seed == 0L) CoreDigest.create(Algorithm.XXH3_128()) else CoreDigest.create(Algorithm.XXH3_128.Seeded(it.seed)),
+                buffer(it.len),
+                it.Nresult
+            )
         }
     }
 
@@ -87,12 +84,11 @@ class XXHash3_128Test {
             TestCase(6, 0, "376BD91B6432F36D0B61C8ACA7D4778F"), /*  4 -  8 */
             TestCase(12, 0, "90A3C2D839F57D0FAF82F6EBA263D7D8") /*  9 - 16 */
         ).forEach {
-            try {
-                testXXH3_128_withSecret(buffer(it.len), secret, it.Nresult)
-            } catch (expected: Error) {
-                println(it)
-                throw expected
-            }
+            testKat(
+                CoreDigest.create(Algorithm.XXH3_128.Secret(secret)),
+                buffer(it.len),
+                it.Nresult
+            )
         }
     }
 
@@ -119,32 +115,6 @@ class XXHash3_128Test {
             }
 
             return buffer
-        }
-
-        private fun testXXH3_128(input: ByteArray, seed: Long, expected: String) {
-            val state = XXH3_createState()
-            XXH3_128bits_reset_withSeed(state, seed)
-
-            XXH3_128bits_update(state, input, 0, input.size)
-
-            val digest = XXH128_canonicalFromHash(XXH3_128bits_digest(state)).digest
-
-            assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
-
-            XXH3_freeState(state)
-        }
-
-        private fun testXXH3_128_withSecret(input: ByteArray, secret: ByteArray, expected: String) {
-            val state = XXH3_createState()
-            XXH3_128bits_reset_withSecret(state, secret, secret.size)
-
-            XXH3_128bits_update(state, input, 0, input.size)
-
-            val digest = XXH128_canonicalFromHash(XXH3_128bits_digest(state)).digest
-
-            assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
-
-            XXH3_freeState(state)
         }
     }
 }

@@ -16,20 +16,14 @@
 
 package com.appmattus.crypto.internal.xxh3
 
-import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.sphlib.toHexString
-import com.appmattus.crypto.internal.core.xxh3.XXH3_64bits_digest
-import com.appmattus.crypto.internal.core.xxh3.XXH3_64bits_reset_withSecret
-import com.appmattus.crypto.internal.core.xxh3.XXH3_64bits_reset_withSeed
-import com.appmattus.crypto.internal.core.xxh3.XXH3_64bits_update
+import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.internal.CoreDigest
+import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
-import com.appmattus.crypto.internal.core.xxh3.XXH3_createState
-import com.appmattus.crypto.internal.core.xxh3.XXH3_freeState
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 @Suppress("ClassName")
-class XXHash3_64Test {
+class XXH3_64Test {
 
     data class TestCase(
         val len: Int,
@@ -68,12 +62,11 @@ class XXHash3_64Test {
             TestCase(2367, 0, "CB37AEB9E5D361ED"), /* 3 blocks, last stripe is overlapping */
             TestCase(2367, PRIME64, "D2DB3415B942B42A") /* 3 blocks, last stripe is overlapping */
         ).forEach {
-            try {
-                testXXH3_64(buffer(it.len), it.seed, it.Nresult)
-            } catch (expected: Error) {
-                println(it)
-                throw expected
-            }
+            testKat(
+                if (it.seed == 0L) CoreDigest.create(Algorithm.XXH3_64()) else CoreDigest.create(Algorithm.XXH3_64.Seeded(it.seed)),
+                buffer(it.len),
+                it.Nresult
+            )
         }
     }
 
@@ -98,12 +91,11 @@ class XXHash3_64Test {
 
             TestCase(64 * 10 * 3, 0, "751D2EC54BC6038B") /* exactly 3 full blocks, not a multiple of 256 */
         ).forEach {
-            try {
-                testXXH3_64_withSecret(buffer(it.len), secret, it.Nresult)
-            } catch (expected: Error) {
-                println(it)
-                throw expected
-            }
+            testKat(
+                CoreDigest.create(Algorithm.XXH3_64.Secret(secret)),
+                buffer(it.len),
+                it.Nresult
+            )
         }
     }
 
@@ -130,36 +122,6 @@ class XXHash3_64Test {
             }
 
             return buffer
-        }
-
-        private fun testXXH3_64(input: ByteArray, seed: Long, expected: String) {
-            val state = XXH3_createState()
-            XXH3_64bits_reset_withSeed(state, seed)
-
-            XXH3_64bits_update(state, input, 0, input.size)
-
-            val digest = ByteArray(8).apply {
-                encodeBELong(XXH3_64bits_digest(state), this, 0)
-            }
-
-            assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
-
-            XXH3_freeState(state)
-        }
-
-        private fun testXXH3_64_withSecret(input: ByteArray, secret: ByteArray, expected: String) {
-            val state = XXH3_createState()
-            XXH3_64bits_reset_withSecret(state, secret, secret.size)
-
-            XXH3_64bits_update(state, input, 0, input.size)
-
-            val digest = ByteArray(8).apply {
-                encodeBELong(XXH3_64bits_digest(state), this, 0)
-            }
-
-            assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
-
-            XXH3_freeState(state)
         }
     }
 }

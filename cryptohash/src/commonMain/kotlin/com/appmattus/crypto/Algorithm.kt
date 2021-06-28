@@ -804,6 +804,36 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data class XXHash64(val seed: Long = 0) : Algorithm("XXH64", 64)
 
     /**
+     * [xxHash3](https://github.com/Cyan4973/xxHash) with output size of 64 bits
+     */
+    public open class XXH3_64 : Algorithm("XXH3-64", 128) {
+        /**
+         * [XXH3_64] using [seed] with output size of 64 bits
+         */
+        public class Seeded(internal val seed: Long) : XXH3_64()
+
+        /**
+         * [XXH3_64] using [secret] with output size of 64 bits
+         */
+        public class Secret(internal val secret: ByteArray) : XXH3_64()
+    }
+
+    /**
+     * [xxHash3](https://github.com/Cyan4973/xxHash) with output size of 128 bits
+     */
+    public open class XXH3_128 : Algorithm("XXH3-128", 128) {
+        /**
+         * [XXH3_128] using [seed] with output size of 128 bits
+         */
+        public class Seeded(internal val seed: Long) : XXH3_128()
+
+        /**
+         * [XXH3_128] using [secret] with output size of 128 bits
+         */
+        public class Secret(internal val secret: ByteArray) : XXH3_128()
+    }
+
+    /**
      * Create a [Digest] of the [Algorithm] for creating hashes
      */
     public fun createDigest(): Digest<*> = CoreDigest.create(this)
