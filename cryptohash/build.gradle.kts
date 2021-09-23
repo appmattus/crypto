@@ -37,11 +37,13 @@ kotlin {
     // Darwin
     iosArm64()
     iosX64()
+    iosSimulatorArm64()
     tvosArm64()
     tvosX64()
     watchosArm32()
     watchosArm64()
     watchosX64()
+    macosArm64()
     macosX64()
 
     /* Disabled - Unit test failures, Blake, CubeHash, Haval, Luffa, SHA3, SHAKE, Tiger, cShake, HMac
@@ -74,13 +76,13 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                compileOnly("org.bouncycastle:bcprov-jdk15to18:1.68")
+                compileOnly("org.bouncycastle:bcprov-jdk15to18:1.69")
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("org.bouncycastle:bcprov-jdk15to18:1.68")
+                implementation("org.bouncycastle:bcprov-jdk15to18:1.69")
             }
         }
 
@@ -125,6 +127,12 @@ kotlin {
         val iosX64Test by getting {
             dependsOn(nativeDarwin64Test)
         }
+        val iosSimulatorArm64Main by getting {
+            dependsOn(nativeDarwin64Main)
+        }
+        val iosSimulatorArm64Test by getting {
+            dependsOn(nativeDarwin64Test)
+        }
         // tvos
         val tvosArm64Main by getting {
             dependsOn(nativeDarwin64Main)
@@ -155,6 +163,12 @@ kotlin {
             dependsOn(nativeDarwin64Main)
         }
         val watchosX64Test by getting {
+            dependsOn(nativeDarwin64Test)
+        }
+        val macosArm64Main by getting {
+            dependsOn(nativeDarwin64Main)
+        }
+        val macosArm64Test by getting {
             dependsOn(nativeDarwin64Test)
         }
         val macosX64Main by getting {
