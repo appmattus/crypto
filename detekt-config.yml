@@ -13,6 +13,8 @@ formatting:
     MaximumLineLength:
         maxLineLength: 145
         excludes: "**/resources/**,**/commonTest/**/internal/**"
+    Indentation:
+        active: false
 
 complexity:
     LargeClass:
