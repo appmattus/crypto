@@ -23,16 +23,16 @@ object Versions {
     const val gradleVersionsPlugin = "0.36.0"
     const val markdownlintGradlePlugin = "0.6.0"
     const val gradleMavenPublishPlugin = "0.18.0"
-    const val dokkaPlugin = "1.5.30"
+    const val dokkaPlugin = "1.6.10"
 
     const val coil = "1.3.2"
     const val coroutines = "1.6.0"
     const val coroutinesNative = "1.6.0-native-mt"
     const val groupie = "2.9.0"
-    const val orbitMvi = "4.2.0"
+    const val orbitMvi = "4.3.0"
 
     const val desugar = "1.1.1"
-    const val leakCanary = "2.7"
+    const val leakCanary = "2.8"
 
     object AndroidX {
         const val appCompat = "1.3.1"

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +73,6 @@ class CryptoHashFragment : Fragment() {
         binding.recyclerView.adapter = null
     }
 
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     private fun render(state: CryptoHashState) {
         if (inputSection.itemCount == 0) {
             buildList {

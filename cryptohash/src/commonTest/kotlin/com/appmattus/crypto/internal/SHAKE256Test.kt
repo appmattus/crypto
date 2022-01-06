@@ -159,7 +159,6 @@ abstract class SHAKE256Test {
         )
     }
 
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     private fun testKatLen(dig: () -> Digest<*>, data: ByteArray, ref: String) {
         executeInBackground {
             val digest = dig()

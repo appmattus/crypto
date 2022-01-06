@@ -166,7 +166,6 @@ internal data class XXH3_state_s(
     /** Reference to an external secret for the _withSecret variants, `null` for other variants. */
     var extSecret: ByteArray? = null
 ) {
-    @Suppress("EXPERIMENTAL_API_USAGE")
     override fun toString(): String {
         fun ByteArray.toHexString(): String {
             return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
@@ -293,7 +292,6 @@ private fun XXH_rotl64(x: Long, r: Int) = circularLeftLong(x, r)
  * @param x The 32-bit integer to byteswap.
  * @return @p x, byteswapped.
  */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private fun XXH_swap32(x: xxh_u32): xxh_u32 {
     return x shl 24 and 0xff000000u.toInt() or
             (x shl 8 and 0x00ff0000) or
@@ -305,7 +303,6 @@ private fun XXH_swap32(x: xxh_u32): xxh_u32 {
  *  Memory reads
  *****************************/
 
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private fun XXH_swap64(x: xxh_u64): xxh_u64 {
     return ((x shl 56) and 0xff00000000000000UL.toLong()) or
             ((x shl 40) and 0x00ff000000000000UL.toLong()) or
@@ -393,7 +390,6 @@ private fun XXH_mult32to64(x: Int, y: Int): Long {
  * @param rhs The 64-bit integers to be multiplied
  * @return The 128-bit result represented in an [XXH128_hash_t].
  */
-@Suppress("EXPERIMENTAL_API_USAGE")
 private fun XXH_mult64to128(lhs: xxh_u64, rhs: xxh_u64): XXH128_hash_t {
     /*
      * Portable scalar method. Optimized for 32-bit and 64-bit ALUs.
@@ -445,7 +441,6 @@ private fun XXH_mult64to128(lhs: xxh_u64, rhs: xxh_u64): XXH128_hash_t {
  * @return The low 64 bits of the product XOR'd by the high 64 bits.
  * @see [XXH_mult64to128]
  */
-@Suppress("EXPERIMENTAL_API_USAGE")
 private fun XXH3_mul128_fold64(lhs: xxh_u64, rhs: xxh_u64): xxh_u64 {
     val product = XXH_mult64to128(lhs, rhs)
     return product.low64 xor product.high64
@@ -461,7 +456,6 @@ private fun XXH_xorshift64(v64: xxh_u64, shift: Int): xxh_u64 {
  * This is a fast avalanche stage,
  * suitable when input bits are already partially mixed
  */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private fun XXH3_avalanche(h64: xxh_u64): XXH64_hash_t {
     @Suppress("NAME_SHADOWING")
     var h64: xxh_u64 = XXH_xorshift64(h64, 37)
@@ -475,7 +469,6 @@ private fun XXH3_avalanche(h64: xxh_u64): XXH64_hash_t {
  * inspired by Pelle Evensen's rrmxmx
  * preferable when input has not been previously mixed
  */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private fun XXH3_rrmxmx(h64: xxh_u64, len: xxh_u64): XXH64_hash_t {
     @Suppress("NAME_SHADOWING")
     var h64: xxh_u64 = h64
@@ -1218,7 +1211,6 @@ internal fun XXH3_64bits_digest(state: XXH3_state_t): XXH64_hash_t {
     )
 }
 
-@Suppress("EXPERIMENTAL_API_USAGE")
 private fun XXH_MIN(x: size_t, y: size_t): size_t = if (x.toUInt() > y.toUInt()) y else x
 
 /* ==========================================
@@ -1282,7 +1274,6 @@ private fun XXH3_len_4to8_128b(input: ByteArray, inputOffset: Int, len: size_t, 
     low64 = low64 xor (high64 ushr 3)
 
     low64 = XXH_xorshift64(low64, 35)
-    @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
     low64 *= 0x9FB21C651E98DF25UL.toLong()
     low64 = XXH_xorshift64(low64, 28)
     high64 = XXH3_avalanche(high64)
@@ -1756,43 +1747,33 @@ private const val XXH_VERSION_NUMBER: Long =
     (XXH_VERSION_MAJOR.toLong() * 100 * 100 + XXH_VERSION_MINOR.toLong() * 100 + XXH_VERSION_RELEASE.toLong())
 
 /** 0b10011110001101110111100110110001 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME32_1: Int = 0x9E3779B1U.toInt()
 
 /** 0b10000101111010111100101001110111 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME32_2: Int = 0x85EBCA77U.toInt()
 
 /** 0b11000010101100101010111000111101 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME32_3: Int = 0xC2B2AE3DU.toInt()
 
 /** 0b00100111110101001110101100101111 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME32_4: Int = 0x27D4EB2FU.toInt()
 
 /** 0b00010110010101100110011110110001 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME32_5: Int = 0x165667B1U.toInt()
 
 /** 0b1001111000110111011110011011000110000101111010111100101010000111 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME64_1: Long = 0x9E3779B185EBCA87UL.toLong()
 
 /** 0b1100001010110010101011100011110100100111110101001110101101001111 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME64_2: Long = 0xC2B2AE3D27D4EB4FUL.toLong()
 
 /** 0b0001011001010110011001111011000110011110001101110111100111111001 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME64_3: Long = 0x165667B19E3779F9UL.toLong()
 
 /** 0b1000010111101011110010100111011111000010101100101010111001100011 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME64_4: Long = 0x85EBCA77C2B2AE63UL.toLong()
 
 /** 0b0010011111010100111010110010111100010110010101100110011111000101 */
-@Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
 private val XXH_PRIME64_5: Long = 0x27D4EB2F165667C5UL.toLong()
 
 /* ==========================================

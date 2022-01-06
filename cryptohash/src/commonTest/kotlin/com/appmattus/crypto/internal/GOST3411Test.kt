@@ -52,7 +52,6 @@ abstract class GOST3411Test {
 
     // From https://en.wikipedia.org/wiki/GOST_(hash_function)#GOST_hash_test_vectors
     @Test
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun wikipedia() {
         testKat(
             { digest() },

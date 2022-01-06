@@ -23,7 +23,6 @@ import com.appmattus.crypto.internal.executeInBackground
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
-@Suppress("EXPERIMENTAL_API_USAGE_ERROR")
 fun testKat(dig: () -> Digest<*>, data: ByteArray, ref: String, inBackground: Boolean = true) {
     executeInBackground(inBackground) {
         val digest = dig()
@@ -60,7 +59,6 @@ fun testKatHex(dig: () -> Digest<*>, data: String, ref: String, inBackground: Bo
     testKat(dig, strtobin(data), ref, inBackground)
 }
 
-@Suppress("EXPERIMENTAL_API_USAGE_ERROR")
 fun testKatMillionA(dig: () -> Digest<*>, ref: String) {
     executeInBackground {
         val digest = dig()
@@ -102,7 +100,6 @@ fun strtobin(str: String): ByteArray {
     return buf
 }
 
-@Suppress("EXPERIMENTAL_API_USAGE_ERROR")
 fun encodeLatin1(str: String): ByteArray {
     val blen = str.length
     val buf = ByteArray(blen)

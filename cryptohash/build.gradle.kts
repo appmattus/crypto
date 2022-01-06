@@ -74,15 +74,11 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val jvmMain by getting {
-            dependencies {
-                compileOnly("org.bouncycastle:bcprov-jdk15to18:1.69")
-            }
-        }
+        val jvmMain by getting
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("org.bouncycastle:bcprov-jdk15to18:1.69")
+                implementation("org.bouncycastle:bcprov-jdk15to18:1.70")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
             }
         }

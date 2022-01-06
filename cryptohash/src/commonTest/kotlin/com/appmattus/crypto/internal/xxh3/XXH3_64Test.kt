@@ -100,10 +100,8 @@ class XXH3_64Test {
     }
 
     companion object {
-        @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
         private val PRIME64 = 11400714785074694797u.toLong()
 
-        @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
         private val PRIME32 = 2654435761u.toLong() and 0xffffffff
 
         private fun buffer(size: Int): ByteArray {
