@@ -28,7 +28,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,6 +65,7 @@ import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.encodeLELong
+import kotlin.native.concurrent.SharedImmutable
 
 /**
  * XXH3 is a more recent hash algorithm featuring:
@@ -723,8 +724,13 @@ private fun XXH3_initCustomSecret_scalar(customSecret: ByteArray, seed64: xxh_u6
     }
 }
 
+@SharedImmutable
 private val XXH3_accumulate_512 = ::XXH3_accumulate_512_scalar
+
+@SharedImmutable
 private val XXH3_scrambleAcc = ::XXH3_scrambleAcc_scalar
+
+@SharedImmutable
 private val XXH3_initCustomSecret = ::XXH3_initCustomSecret_scalar
 
 private fun XXH3_accumulate(
@@ -1796,6 +1802,7 @@ private val XXH_PRIME64_5: Long = 0x27D4EB2F165667C5UL.toLong()
 private const val XXH_SECRET_DEFAULT_SIZE: Int = 192 /* minimum XXH3_SECRET_SIZE_MIN */
 
 /** Pseudorandom secret taken directly from FARSH. */
+@SharedImmutable
 private val XXH3_kSecret: ByteArray = byteArrayOf(
     0xb8.toByte(), 0xfe.toByte(), 0x6c.toByte(), 0x39.toByte(), 0x23.toByte(), 0xa4.toByte(), 0x4b.toByte(), 0xbe.toByte(),
     0x7c.toByte(), 0x01.toByte(), 0x81.toByte(), 0x2c.toByte(), 0xf7.toByte(), 0x21.toByte(), 0xad.toByte(), 0x1c.toByte(),

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ abstract class Skein256_128Test {
     @Test
     fun testSkein256_128() {
         testKat(
-            digest(),
+            { digest() },
             "abc",
             "fd90216b2b58a9ec050e88032c4f64ef"
         )
@@ -55,13 +55,13 @@ abstract class Skein256_128Test {
     @Test
     fun bouncy() {
         testKatHex(
-            digest(),
+            { digest() },
             "",
             "07e8ff2191c5052e1a25914c7c213078"
         )
 
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8" +
                     "78bb393a1a5f79bef30995a85a12923339ba8ab7d8fc6dc5fec6f4ed22c122bb" +
                     "e7eb61981892966de5cef576f71fc7a80d14dab2d0c03940b95b9fb3a727c66a" +
@@ -75,7 +75,7 @@ abstract class Skein256_128Test {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
 
         testKatHex(
-            Algorithm.Skein.Keyed(256, 128, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            { Algorithm.Skein.Keyed(256, 128, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest() },
             "d3090c72167517f7",
             "738f8b23541d50f691ab60af664c1583"
         )

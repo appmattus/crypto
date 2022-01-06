@@ -1,66 +1,95 @@
+/*
+ * Copyright 2022 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Hmac
+import com.appmattus.crypto.internal.executeInBackground
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
 @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
-fun testKat(dig: Digest<*>, data: ByteArray, ref: String) {
-    /*
-     * First test the hashing itself.
-     */
-    val out = dig.digest(data)
-    assertEquals(ref.lowercase(), out.toHexString().lowercase())
+fun testKat(dig: () -> Digest<*>, data: ByteArray, ref: String, inBackground: Boolean = true) {
+    executeInBackground(inBackground) {
+        val digest = dig()
+        /*
+         * First test the hashing itself.
+         */
+        val out = digest.digest(data)
+        assertEquals(ref.lowercase(), out.toHexString().lowercase())
 
-    /*
-     * Now the update() API; this also exercises auto-reset.
-     */
-    for (i in data.indices) dig.update(data[i])
-    assertEquals(ref.lowercase(), dig.digest().toHexString().lowercase())
+        /*
+         * Now the update() API; this also exercises auto-reset.
+         */
+        for (i in data.indices) digest.update(data[i])
+        assertEquals(ref.lowercase(), digest.digest().toHexString().lowercase())
 
-    /*
-     * The cloning API.
-     */
-    val blen = data.size
-    dig.update(data, 0, blen / 2)
-    val dig2 = dig.copy()
-    dig.update(data, blen / 2, blen - blen / 2)
-    assertEquals(ref.lowercase(), dig.digest().toHexString().lowercase())
-    dig2.update(data, blen / 2, blen - blen / 2)
-    assertEquals(ref.lowercase(), dig2.digest().toHexString().lowercase())
+        /*
+         * The cloning API.
+         */
+        val blen = data.size
+        digest.update(data, 0, blen / 2)
+        val dig2 = digest.copy()
+        digest.update(data, blen / 2, blen - blen / 2)
+        assertEquals(ref.lowercase(), digest.digest().toHexString().lowercase())
+        dig2.update(data, blen / 2, blen - blen / 2)
+        assertEquals(ref.lowercase(), dig2.digest().toHexString().lowercase())
+    }
 }
 
-fun testKat(dig: Digest<*>, data: String, ref: String) {
-    testKat(dig, encodeLatin1(data), ref)
+fun testKat(dig: () -> Digest<*>, data: String, ref: String, inBackground: Boolean = true) {
+    testKat(dig, encodeLatin1(data), ref, inBackground)
 }
 
-fun testKatHex(dig: Digest<*>, data: String, ref: String) {
-    testKat(dig, strtobin(data), ref)
+fun testKatHex(dig: () -> Digest<*>, data: String, ref: String, inBackground: Boolean = true) {
+    testKat(dig, strtobin(data), ref, inBackground)
 }
 
 @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
-fun testKatMillionA(dig: Digest<*>, ref: String) {
-    val buf = ByteArray(1000)
-    for (i in 0..999) buf[i] = 'a'.code.toByte()
-    for (i in 0..999) dig.update(buf)
-    assertContentEquals(dig.digest(), strtobin(ref))
-}
-
-fun testKatExtremelyLong(dig: Digest<*>, ref: String) {
-    val buf = encodeLatin1("abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmno")
-    repeat(16777216) {
-        dig.update(buf)
+fun testKatMillionA(dig: () -> Digest<*>, ref: String) {
+    executeInBackground {
+        val digest = dig()
+        val buf = ByteArray(1000)
+        for (i in 0..999) buf[i] = 'a'.code.toByte()
+        for (i in 0..999) digest.update(buf)
+        assertContentEquals(digest.digest(), strtobin(ref))
     }
-    assertContentEquals(dig.digest(), strtobin(ref))
 }
 
-fun testCollision(dig: Digest<*>, s1: String, s2: String) {
-    val msg1 = strtobin(s1)
-    val msg2 = strtobin(s2)
-    assertContentNotEquals(msg1, msg2)
-    assertContentEquals(dig.digest(msg1), dig.digest(msg2))
+fun testKatExtremelyLong(dig: () -> Digest<*>, ref: String) {
+    executeInBackground {
+        val digest = dig()
+        val buf = encodeLatin1("abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmno")
+        repeat(16777216) {
+            digest.update(buf)
+        }
+        assertContentEquals(digest.digest(), strtobin(ref))
+    }
+}
+
+fun testCollision(dig: () -> Digest<*>, s1: String, s2: String) {
+    executeInBackground {
+        val digest = dig()
+        val msg1 = strtobin(s1)
+        val msg2 = strtobin(s2)
+        assertContentNotEquals(msg1, msg2)
+        assertContentEquals(digest.digest(msg1), digest.digest(msg2))
+    }
 }
 
 fun strtobin(str: String): ByteArray {
@@ -94,21 +123,25 @@ fun ByteArray.toHexString(): String {
 }
 
 fun <T> testHmac(algorithm: T, key: String, input: String, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
-    val hmac = algorithm.createHmac(strtobin(key), outputLength)
-    testKat(hmac, input, output)
+    executeInBackground {
+        testKat({ algorithm.createHmac(strtobin(key), outputLength) }, input, output, inBackground = false)
+    }
 }
 
 fun <T> testHmacHex(algorithm: T, key: String, input: String, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
-    val hmac = algorithm.createHmac(strtobin(key), outputLength)
-    testKatHex(hmac, input, output)
+    executeInBackground {
+        testKatHex({ algorithm.createHmac(strtobin(key), outputLength) }, input, output, inBackground = false)
+    }
 }
 
 fun <T> testHmac(algorithm: T, key: String, input: ByteArray, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
-    val hmac = algorithm.createHmac(strtobin(key), outputLength)
-    testKat(hmac, input, output)
+    executeInBackground {
+        testKat({ algorithm.createHmac(strtobin(key), outputLength) }, input, output, inBackground = false)
+    }
 }
 
 fun <T> testHmac(algorithm: T, key: ByteArray, input: ByteArray, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
-    val hmac = algorithm.createHmac(key, outputLength)
-    testKat(hmac, input, output)
+    executeInBackground {
+        testKat({ algorithm.createHmac(key, outputLength) }, input, output, inBackground = false)
+    }
 }

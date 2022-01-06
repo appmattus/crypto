@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,13 +47,13 @@ abstract class SHA256Test {
      */
     @Test
     fun empty() {
-        testKat(digest(), "", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+        testKat({ digest() }, "", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
     }
 
     @Test
     fun oneMillionA() {
         testKatMillionA(
-            digest(),
+            { digest() },
             "cdc76e5c9914fb9281a1c7e284d73e67f1809a48a497200e046d39ccc7112cd0"
         )
     }
@@ -62,7 +62,7 @@ abstract class SHA256Test {
     @Ignore
     fun reallyLong() {
         testKatExtremelyLong(
-            digest(),
+            { digest() },
             "50e72a0e26442fe2552dc3938ac58658228c0cbfb1d2ca872ae435266fcd055e"
         )
     }
@@ -73,7 +73,7 @@ abstract class SHA256Test {
     @Test
     fun nistAbc() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abc",
             ref = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
         )
@@ -82,7 +82,7 @@ abstract class SHA256Test {
     @Test
     fun nist56chars() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
             ref = "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
         )
@@ -91,7 +91,7 @@ abstract class SHA256Test {
     @Test
     fun nist112chars() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
             ref = "cf5b16a778af8380036ce59e7b0492370b249b11e8f07a51afac45037afee9d1"
         )
@@ -103,7 +103,7 @@ abstract class SHA256Test {
     @Test
     fun nist1Byte() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = ByteArray(1) { 0xbd.toByte() },
             ref = "68325720aabd7c82f30f554b313d0570c95accbb7dc4b5aae11204c08ffe732b"
         )
@@ -111,13 +111,13 @@ abstract class SHA256Test {
 
     @Test
     fun nist4Bytes() {
-        testKatHex(digest(), "c98c8e55", "7abc22c0ae5af26ce93dbb94433a0e0b2e119d014f8e7f65bd56c61ccccd9504")
+        testKatHex({ digest() }, "c98c8e55", "7abc22c0ae5af26ce93dbb94433a0e0b2e119d014f8e7f65bd56c61ccccd9504")
     }
 
     @Test
     fun nist55BytesOfZero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(55) { 0 },
             "02779466cdec163811d078815c633f21901413081449002f24aa3e80f0b88ef7"
         )
@@ -126,7 +126,7 @@ abstract class SHA256Test {
     @Test
     fun nist56BytesOfZero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(56) { 0 },
             "d4817aa5497628e7c77e6b606107042bbba3130888c5f47a375e6179be789fbb"
         )
@@ -135,7 +135,7 @@ abstract class SHA256Test {
     @Test
     fun nist57BytesOfZero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(57) { 0 },
             "65a16cb7861335d5ace3c60718b5052e44660726da4cd13bb745381b235a1785"
         )
@@ -144,7 +144,7 @@ abstract class SHA256Test {
     @Test
     fun nist64BytesOfZero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(64) { 0 },
             "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b"
         )
@@ -153,7 +153,7 @@ abstract class SHA256Test {
     @Test
     fun nist1000x00() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(1000) { 0 },
             "541b3e9daa09b20bf85fa273e5cbd3e80185aa4ec298e765db87742b70138a53"
         )
@@ -163,7 +163,7 @@ abstract class SHA256Test {
     @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000xA() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(1000) { 'A'.code.toByte() },
             "c2e686823489ced2017f6059b8b239318b6364f6dcd835d0a519105a1eadd6e4"
         )
@@ -173,7 +173,7 @@ abstract class SHA256Test {
     @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1005xU() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(1005) { 'U'.code.toByte() },
             "f4d62ddec0f3dd90ea1380fa16a5ff8dc4c54b21740650f24afc4120903552b0"
         )
@@ -182,7 +182,7 @@ abstract class SHA256Test {
     @Test
     fun nist1million() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(1000000) { 0 },
             "d29751f2649b32ff572b5e0a9f541ea660a50f94ff0beedfb0b692b924cc8025"
         )
@@ -193,7 +193,7 @@ abstract class SHA256Test {
     @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist536870912xZ() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(0x20000000) { 'Z'.code.toByte() },
             "15a1868c12cc53951e182344277447cd0979536badcc512ad24c67e9b2d4f3dd"
         )
@@ -203,7 +203,7 @@ abstract class SHA256Test {
     @Ignore
     fun nist1090519040x00() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(0x41000000) { 0 },
             "461c19a93bd4344f9215f5ec64357090342bc66b15a148317d276e31cbc20b53"
         )
@@ -214,7 +214,7 @@ abstract class SHA256Test {
     @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1610612798xB() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(0x6000003e) { 'B'.code.toByte() },
             "c23ce8a7895f4b21ec0daf37920ac0a262a220045a03eb2dfed48ef9b05aabea"
         )

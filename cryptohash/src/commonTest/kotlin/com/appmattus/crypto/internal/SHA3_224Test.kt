@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ abstract class SHA3_224Test {
     @Test
     fun nistAbc() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abc",
             ref = "e642824c3f8cf24ad09234ee7d3c766fc9a3a5168d0c94ad73b46fdf"
         )
@@ -59,7 +59,7 @@ abstract class SHA3_224Test {
     @Test
     fun empty() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "",
             ref = "6b4e03423667dbb73b6e15454f0eb1abd4597f9a1b078e3f5b5a6bc7"
         )
@@ -68,7 +68,7 @@ abstract class SHA3_224Test {
     @Test
     fun nist56chars() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
             ref = "8a24108b154ada21c9fd5574494479ba5c7e7ab76ef264ead0fcce33"
         )
@@ -77,7 +77,7 @@ abstract class SHA3_224Test {
     @Test
     fun nist112chars() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
             ref = "543e6868e1666c1a643630df77367ae5a62a85070a51c14cbf665cbc"
         )
@@ -86,7 +86,7 @@ abstract class SHA3_224Test {
     @Test
     fun oneMillionA() {
         testKatMillionA(
-            digest(),
+            { digest() },
             "d69335b93325192e516a912e6d19a15cb51c6ed5c15243e7a7fd653c"
         )
     }
@@ -95,7 +95,7 @@ abstract class SHA3_224Test {
     @Ignore
     fun reallyLong() {
         testKatExtremelyLong(
-            digest(),
+            { digest() },
             "c6d66e77ae289566afb2ce39277752d6da2a3c46010f1e0a0970ff60"
         )
     }

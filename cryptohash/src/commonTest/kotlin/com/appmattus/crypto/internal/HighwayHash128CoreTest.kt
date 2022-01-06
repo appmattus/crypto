@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,7 +123,7 @@ abstract class HighwayHash128Test {
 
         for (i in 0..64) {
             testKat(
-                digest(),
+                { digest() },
                 data.copyOfRange(0, i),
                 expected[i]
             )

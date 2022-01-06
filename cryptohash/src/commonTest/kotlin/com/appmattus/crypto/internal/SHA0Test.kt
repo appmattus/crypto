@@ -1,3 +1,19 @@
+/*
+ * Copyright 2022 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -26,23 +42,22 @@ abstract class SHA0Test {
 
     @Test
     fun testSHA0() {
-        val dig = digest()
         testKat(
-            dig,
+            { digest() },
             "abc",
             "0164b8a914cd2a5e74c4f7ff082c4d97f1edf880"
         )
         testKat(
-            dig,
+            { digest() },
             "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
             "d2516ee1acfa5baf33dfc1c471e438449ef134c8"
         )
         testKatMillionA(
-            dig,
+            { digest() },
             "3232affa48628a26653b5aaa44541fd90d690603"
         )
         testCollision(
-            dig,
+            { digest() },
             "a766a602b65cffe773bcf25826b322b3d01b1a972684ef533e" +
                     "3b4b7f53fe376224c08e47e959b2bc3b519880b928656824" +
                     "7d110f70f5c5e2b4590ca3f55f52feeffd4c8fe68de83532" +

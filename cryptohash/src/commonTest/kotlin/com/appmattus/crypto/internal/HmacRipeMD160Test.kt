@@ -1,3 +1,19 @@
+/*
+ * Copyright 2022 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -116,7 +132,7 @@ class HmacRipeMD160Test {
             "31be3cc98cee37b79b0619e3e1c2be4f1aa56e6c"
         )
         testKatMillionA(
-            HMAC(Algorithm.RipeMD160.createDigest(), strtobin("00112233445566778899aabbccddeeff01234567")),
+            { HMAC(Algorithm.RipeMD160.createDigest(), strtobin("00112233445566778899aabbccddeeff01234567")) },
             "c2aa88c6405658dc225e485488371fb2433fa735"
         )
 
@@ -169,7 +185,7 @@ class HmacRipeMD160Test {
             "85f164703e61a63131be7e45958e0794123904f9"
         )
         testKatMillionA(
-            HMAC(Algorithm.RipeMD160.createDigest(), strtobin("0123456789abcdeffedcba987654321000112233")),
+            { HMAC(Algorithm.RipeMD160.createDigest(), strtobin("0123456789abcdeffedcba987654321000112233")) },
             "82a504a002ba6e6c67f3cd67cedb66dc169bab7a"
         )
     }

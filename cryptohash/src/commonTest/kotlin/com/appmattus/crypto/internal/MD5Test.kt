@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,33 +42,32 @@ abstract class MD5Test {
 
     @Test
     fun testMD5() {
-        val dig = digest()
-        testKat(dig, "", "d41d8cd98f00b204e9800998ecf8427e")
-        testKat(dig, "a", "0cc175b9c0f1b6a831c399e269772661")
-        testKat(dig, "abc", "900150983cd24fb0d6963f7d28e17f72")
+        testKat({ digest() }, "", "d41d8cd98f00b204e9800998ecf8427e")
+        testKat({ digest() }, "a", "0cc175b9c0f1b6a831c399e269772661")
+        testKat({ digest() }, "abc", "900150983cd24fb0d6963f7d28e17f72")
         testKat(
-            dig,
+            { digest() },
             "message digest",
             "f96b697d7cb7938d525a2f31aaf161d0"
         )
         testKat(
-            dig,
+            { digest() },
             "abcdefghijklmnopqrstuvwxyz",
             "c3fcd3d76192e4007dfb496cca67e13b"
         )
         testKat(
-            dig,
+            { digest() },
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
             "d174ab98d277d9f5a5611c2c9f419d9f"
         )
         testKat(
-            dig,
+            { digest() },
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890",
             "57edf4a22be3c955ac49da2e2107b67a"
         )
-        testKatMillionA(dig, "7707d6ae4e027c70eea2a935c2296f21")
+        testKatMillionA({ digest() }, "7707d6ae4e027c70eea2a935c2296f21")
         testCollision(
-            dig,
+            { digest() },
             "d131dd02c5e6eec4693d9a0698aff95c2fcab58712467eab40" +
                     "04583eb8fb7f8955ad340609f4b30283e488832571415a08" +
                     "5125e8f7cdc99fd91dbdf280373c5b960b1dd1dc417b9ce4" +
@@ -83,7 +82,7 @@ abstract class MD5Test {
                     "9b0a5835cca7e3")
         )
         testCollision(
-            dig,
+            { digest() },
             ("d131dd02c5e6eec4693d9a0698aff95c2fcab58712467eab40" +
                     "04583eb8fb7f8955ad340609f4b30283e488832571415a08" +
                     "5125e8f7cdc99fd91dbdf280373c5bd8823e3156348f5bae" +

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ abstract class Whirlpool0Test {
     @Test
     fun empty() {
         testKat(
-            digest(),
+            { digest() },
             "",
             "B3E1AB6EAF640A34F784593F2074416ACCD3B8E62C620175FCA0997B1BA2347339AA0D79E754C308209EA36811DFA40C1C32F1A2B9004725D987D3635165D3C8"
         )
@@ -50,12 +50,12 @@ abstract class Whirlpool0Test {
     @Test
     fun quickBrownFox() {
         testKat(
-            digest(),
+            { digest() },
             "The quick brown fox jumps over the lazy dog",
             "4F8F5CB531E3D49A61CF417CD133792CCFA501FD8DA53EE368FED20E5FE0248C3A0B64F98A6533CEE1DA614C3A8DDEC791FF05FEE6D971D57C1348320F4EB42D"
         )
         testKat(
-            digest(),
+            { digest() },
             "The quick brown fox jumps over the lazy eog",
             "228FBF76B2A93469D4B25929836A12B7D7F2A0803E43DABA0C7FC38BC11C8F2A9416BBCF8AB8392EB2AB7BCB565A64AC50C26179164B26084A253CAF2E012676"
         )

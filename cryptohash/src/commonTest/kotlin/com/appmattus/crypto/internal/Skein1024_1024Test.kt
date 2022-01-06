@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ abstract class Skein1024_1024Test {
     @Test
     fun zero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(1),
             "CC666DD82A8D4DA48800265F75ED5C08" +
                     "94E597122F6B5547A9392F2D25AD5562" +
@@ -58,7 +58,7 @@ abstract class Skein1024_1024Test {
                     "3C568167490AC546B4A6AEA3F6303191"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(4),
             "B4C6A5C23108573B3A4F0E0692B9BE53" +
                     "E6E01644C5152148FE93B3B281E3450D" +
@@ -70,7 +70,7 @@ abstract class Skein1024_1024Test {
                     "B6EE2153920112ABBD6A660FE8C949E0"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(8),
             "BB8034F441A82D5A143D19FFE552B796" +
                     "25134E9DBE14DC514FECFE7C3312F30C" +
@@ -82,7 +82,7 @@ abstract class Skein1024_1024Test {
                     "6DC722B6FFA7E5950C65892B551E187F"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(16),
             "B690A309B7AC0EF468F9C47D4A50F7AA" +
                     "3A782426DA68F96A2AE7FBA5E889206A" +
@@ -94,7 +94,7 @@ abstract class Skein1024_1024Test {
                     "1EDB27FC6E8E32860C5B8B046E0A7511"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(24),
             "567D7DE94379FA5F83266FFFC20945FD" +
                     "84B3D7965D56B6A2AC843B2C7A24E492" +
@@ -106,7 +106,7 @@ abstract class Skein1024_1024Test {
                     "AB49C42D185FEF4F25F2479FCDE2295F"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(32),
             "3273087467488578330FF2DEC29F6910" +
                     "89BC95C770F5AC37571AF40C092AE6E1" +
@@ -118,7 +118,7 @@ abstract class Skein1024_1024Test {
                     "1ED9338A3D32C9F706C028E2DAA87BCA"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(48),
             "1802D705C24181EAA31BA8B46AE81806" +
                     "C1F3E92DAE65AAB9254A1F99C2F31089" +
@@ -130,7 +130,7 @@ abstract class Skein1024_1024Test {
                     "268C1BD6E84B0E997EC99348A6ABA7E2"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(64),
             "B001536BA6C8FB700049B2E8F62F9331" +
                     "94F13AC3E96E9942F854C959510D417A" +
@@ -142,7 +142,7 @@ abstract class Skein1024_1024Test {
                     "DB99FAF95A7BD91C42FA6F6525A52B34"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(96),
             "F855173813D124CE9966142DF64DC4F2" +
                     "F882B59FAC63AD512E2A6F69F0BEF5C2" +
@@ -154,7 +154,7 @@ abstract class Skein1024_1024Test {
                     "A6C963BBEE9AA648997B2C599069FC74"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(128),
             "8118D174A0BC09505A2F677C6DCBC1B8" +
                     "C5A7C6720F6C59D60AFBC7CD6F64E20A" +
@@ -166,7 +166,7 @@ abstract class Skein1024_1024Test {
                     "54787C867BE8141A56E8D1145865CCB9"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(256),
             "4AC1251B3D816488C78171D93318F144" +
                     "C6962615297FDD337AC22880791C4190" +
@@ -183,7 +183,7 @@ abstract class Skein1024_1024Test {
     @Test
     fun incrementing() {
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFC",
             "F87717086D37BE00FA045048F1BFECC8" +
                     "CE7859EEA850B06D381148949D82ACD7" +
@@ -195,7 +195,7 @@ abstract class Skein1024_1024Test {
                     "45F1E162D17561F205B7E6D2E4FD9BF0"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8",
             "AFCAE632CBCDDE0F98E6E0C02F97AA12" +
                     "9033042D557766E8319D0F1E48839C38" +
@@ -207,7 +207,7 @@ abstract class Skein1024_1024Test {
                     "5C239657F6B76CB84A5B30C09D85D8BB"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0",
             "D736BD0E3A4EDAEFF13D263CF2784A25" +
                     "AAB0CD6A1EFE453206D728FFFD93AE8D" +
@@ -219,7 +219,7 @@ abstract class Skein1024_1024Test {
                     "B2E75A815E6F0BEE1994B7608F432E2E"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8",
             "92E1A3B1D8A30E359A93810068B21072" +
@@ -232,7 +232,7 @@ abstract class Skein1024_1024Test {
                     "E8E5F48C33B3257E5C0893EA8A83CE0C"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0",
             "D9F381EAADA57D8F407A01D876E6B3C2" +
@@ -245,7 +245,7 @@ abstract class Skein1024_1024Test {
                     "8D3FC21BBA49D46B9F75A07B2208673C"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0",
@@ -259,7 +259,7 @@ abstract class Skein1024_1024Test {
                     "659E2FD216CED258DD3CD3781C7CFAA2"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -274,7 +274,7 @@ abstract class Skein1024_1024Test {
                     "432BB5214E4A95EB160F9ADF20A5E806"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -296,7 +296,7 @@ abstract class Skein1024_1024Test {
     @Test
     fun random() {
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26",
             "8E34DDD70713DDE244A6E32BBAE2966C" +
                     "557B643159E479D11A219D8736B62E86" +
@@ -308,7 +308,7 @@ abstract class Skein1024_1024Test {
                     "4223125F760ADDBF89CDC346696D5B48"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E1",
             "5AFA09A948A732FCBFEA7C05CD52469B" +
                     "5EA3D72CEF6749827FDFA1BE85AEF4D3" +
@@ -320,7 +320,7 @@ abstract class Skein1024_1024Test {
                     "21B4175FF68BF3AA2ACC43A7DD285094"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9",
             "1B47DBA3B971451805DC69D2A40B3DA9" +
                     "42CEAD2A9637F7AFD43F902AE94466D1" +
@@ -332,7 +332,7 @@ abstract class Skein1024_1024Test {
                     "9EB31FCD65FE5856C7307612EECDDF6B"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9" +
                     "1AB4837DFF22B39B",
             "304995062FEC834F07A7B3CB78AF73E2" +
@@ -345,7 +345,7 @@ abstract class Skein1024_1024Test {
                     "1984E94723E4766368C658FD3BCC1E0A"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9" +
                     "1AB4837DFF22B39B78439430CDFC5DC8" +
                     "78BB393A1A5F79BEF30995A85A129233" +
@@ -360,7 +360,7 @@ abstract class Skein1024_1024Test {
                     "54BC20738E8BB072F3A37D9CDB30D080"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9" +
                     "1AB4837DFF22B39B78439430CDFC5DC8" +
                     "78BB393A1A5F79BEF30995A85A129233" +
@@ -377,7 +377,7 @@ abstract class Skein1024_1024Test {
                     "E42904578AD18461CFA07DD2BED32A0B"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9" +
                     "1AB4837DFF22B39B78439430CDFC5DC8" +
                     "78BB393A1A5F79BEF30995A85A129233" +
@@ -409,7 +409,7 @@ abstract class Skein1024_1024Test {
     @Test
     fun goldenKatShort() {
         testKatHex(
-            digest(),
+            { digest() },
             "FF",
             "E62C05802EA0152407CDD8787FDA9E35" +
                     "703DE862A4FBC119CFF8590AFE79250B" +
@@ -421,7 +421,7 @@ abstract class Skein1024_1024Test {
                     "15D437D2BDA33BCEC001C67FFDE15BA8"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -440,7 +440,7 @@ abstract class Skein1024_1024Test {
                     "76080985F907574F995EC6A37153A578"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -472,7 +472,7 @@ abstract class Skein1024_1024Test {
     @Test
     fun bouncy() {
         testKatHex(
-            digest(),
+            { digest() },
             "",
             "0fff9563bb3279289227ac77d319b6fff8d7e9f09da1247b72a0a265cd6d2a62" +
                     "645ad547ed8193db48cff847c06494a03f55666d3b47eb4c20456c9373c86297" +
@@ -480,7 +480,7 @@ abstract class Skein1024_1024Test {
                     "bec1b189b7f52cb2a783ebb7d823d725b0b4a71f6824e88f68f982eefc6d19c6"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "fb",
             "6426bdc57b2771a6ef1b0dd39f8096a9a07554565743ac3de851d28258fcff22" +
                     "9993e11c4e6bebc8b6ecb0ad1b140276081aa390ec3875960336119427827473" +
@@ -488,7 +488,7 @@ abstract class Skein1024_1024Test {
                     "00ddc476f25865b8748253173187d81da971c027d91d32fb390301c2110d2db2"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8",
             "140e93726ab0b0467c0b8a834ad8cda4d1769d273661902b70db0dcb5ee692ac" +
                     "b3f852d03b11f857850f2428432811309c1dcbe5724f00267ea3667e89fadb4e" +
@@ -496,7 +496,7 @@ abstract class Skein1024_1024Test {
                     "7071fdd4bfa5076d4b3253f8de479ebdf5357676f1641b2f097e9b785e9e528e"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8" +
                     "78bb393a1a5f79bef30995a85a129233",
             "31105e1ef042c30b95b16e0f6e6a1a19172bb7d54a0597dd0c711194888efe1d" +
@@ -505,7 +505,7 @@ abstract class Skein1024_1024Test {
                     "117d3221894c48012bf6e2219de91e064b01523517420a1e00f71c4cc04bab62"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8" +
                     "78bb393a1a5f79bef30995a85a12923339ba8ab7d8fc6dc5fec6f4ed22c122bb" +
                     "e7eb61981892966de5cef576f71fc7a80d14dab2d0c03940b95b9fb3a727c66a" +
@@ -522,7 +522,7 @@ abstract class Skein1024_1024Test {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
 
         testKatHex(
-            Algorithm.Skein.Keyed(1024, 1024, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            { Algorithm.Skein.Keyed(1024, 1024, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest() },
             "d3090c72167517f7",
             "60cd8c755b331bcefe97be5a9fe6f63146d12520ca7b20dbc5c5370dae2ff9815c95fab564329a01eced76f0ecb1944ad52a74e89fa1b6cdcdcee4c71c2c18909c4d1324d279fac5ca2280eea0fa70521cf4ea8c616a3ac6082c2244bec5c1ab3a173faf29d84bec7fb852e278ed57785535c979b33b81465c437cd998c04b95"
         )

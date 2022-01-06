@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ abstract class SHA3_256Test {
     @Test
     fun nistAbc() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abc",
             ref = "3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532"
         )
@@ -59,7 +59,7 @@ abstract class SHA3_256Test {
     @Test
     fun empty() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "",
             ref = "a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a"
         )
@@ -68,7 +68,7 @@ abstract class SHA3_256Test {
     @Test
     fun nist56chars() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
             ref = "41c0dba2a9d6240849100376a8235e2c82e1b9998a999e21db32dd97496d3376"
         )
@@ -77,7 +77,7 @@ abstract class SHA3_256Test {
     @Test
     fun nist112chars() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
             ref = "916f6061fe879741ca6469b43971dfdb28b1a32dc36cb3254e812be27aad1d18"
         )
@@ -86,7 +86,7 @@ abstract class SHA3_256Test {
     @Test
     fun oneMillionA() {
         testKatMillionA(
-            digest(),
+            { digest() },
             "5c8875ae474a3634ba4fd55ec85bffd661f32aca75c6d699d0cdcb6c115891c1"
         )
     }
@@ -95,7 +95,7 @@ abstract class SHA3_256Test {
     @Ignore
     fun reallyLong() {
         testKatExtremelyLong(
-            digest(),
+            { digest() },
             "ecbbc42cbf296603acb2c6bc0410ef4378bafb24b710357f12df607758b33e2b"
         )
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ plugins {
 // val isWindows = hostOs.startsWith("Windows")
 // val isMacOs = hostOs == "Mac OS X"
 
-val hostOs = System.getProperty("os.name")
+val hostOs: String = System.getProperty("os.name")
 
 kotlin {
     explicitApi()
@@ -83,6 +83,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("org.bouncycastle:bcprov-jdk15to18:1.69")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
             }
         }
 
@@ -101,18 +102,28 @@ kotlin {
             dependsOn(commonTest)
         }
 
+        val nativeAltTest by creating {
+            dependsOn(nativeTest)
+        }
+
         // Darwin
         val nativeDarwin64Main by creating {
             dependsOn(commonMain)
         }
         val nativeDarwin64Test by creating {
             dependsOn(commonTest)
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}")
+            }
         }
         val nativeDarwin32Main by creating {
             dependsOn(commonMain)
         }
         val nativeDarwin32Test by creating {
             dependsOn(commonTest)
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}")
+            }
         }
         // ios
         val iosArm64Main by getting {
@@ -183,31 +194,31 @@ kotlin {
             dependsOn(nativeMain)
         }
         val linuxX64Test by getting {
-            dependsOn(nativeTest)
+            dependsOn(nativeAltTest)
         }
         val linuxArm32HfpMain by getting {
             dependsOn(nativeMain)
         }
         val linuxArm32HfpTest by getting {
-            dependsOn(nativeTest)
+            dependsOn(nativeAltTest)
         }
         val linuxArm64Main by getting {
             dependsOn(nativeMain)
         }
         val linuxArm64Test by getting {
-            dependsOn(nativeTest)
+            dependsOn(nativeAltTest)
         }
         val linuxMips32Main by getting {
             dependsOn(nativeMain)
         }
         val linuxMips32Test by getting {
-            dependsOn(nativeTest)
+            dependsOn(nativeAltTest)
         }
         val linuxMipsel32Main by getting {
             dependsOn(nativeMain)
         }
         val linuxMipsel32Test by getting {
-            dependsOn(nativeTest)
+            dependsOn(nativeAltTest)
         }
 
         // Windows
@@ -215,13 +226,13 @@ kotlin {
             dependsOn(nativeMain)
         }
         val mingwX64Test by getting {
-            dependsOn(nativeTest)
+            dependsOn(nativeAltTest)
         }
         val mingwX86Main by getting {
             dependsOn(nativeMain)
         }
         val mingwX86Test by getting {
-            dependsOn(nativeTest)
+            dependsOn(nativeAltTest)
         }
     }
 }

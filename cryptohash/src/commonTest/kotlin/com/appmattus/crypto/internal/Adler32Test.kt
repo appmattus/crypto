@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ abstract class Adler32Test {
     @Test
     fun empty() {
         testKat(
-            digest(),
+            { digest() },
             "",
             "00000001"
         )
@@ -54,7 +54,7 @@ abstract class Adler32Test {
     @Test
     fun a() {
         testKat(
-            digest(),
+            { digest() },
             "a",
             "00620062"
         )
@@ -63,7 +63,7 @@ abstract class Adler32Test {
     @Test
     fun abc() {
         testKat(
-            digest(),
+            { digest() },
             "abc",
             "024d0127"
         )
@@ -72,7 +72,7 @@ abstract class Adler32Test {
     @Test
     fun messageDigest() {
         testKat(
-            digest(),
+            { digest() },
             "message digest",
             "29750586"
         )
@@ -81,7 +81,7 @@ abstract class Adler32Test {
     @Test
     fun alphabet() {
         testKat(
-            digest(),
+            { digest() },
             "abcdefghijklmnopqrstuvwxyz",
             "90860b20"
         )
@@ -90,7 +90,7 @@ abstract class Adler32Test {
     @Test
     fun alphabetAndNumbers() {
         testKat(
-            digest(),
+            { digest() },
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
             "8adb150c"
         )
@@ -99,7 +99,7 @@ abstract class Adler32Test {
     @Test
     fun numbers() {
         testKat(
-            digest(),
+            { digest() },
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890",
             "97b61069"
         )

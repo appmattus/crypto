@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,62 +46,62 @@ abstract class Skein256_256Test {
     @Test
     fun zero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(1),
             "34E2B65BF0BE667CA5DEBA82C37CB253EB9F8474F3426BA622A25219FD182433"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(4),
             "6960426D85F4F10DAA23213DE5ADD210" +
                     "1F4C1B790B530BF7AA66F0930BB6B906"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(8),
             "76E48CFDE0177EC9B118E7DF8F0C63E6" +
                     "6039B76994646D327F7ADB6CEEA4D0E3"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(16),
             "73EC7807DDE987D69600D138255E4AF0" +
                     "585C6CA90A6C7A4ADF8BC025A2FAC394"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(24),
             "CBC26DE4C8212B6C7BC4E0CA43790A55FB19A6E47C64A77D8F8FB324DB126841"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(32),
             "0FED47EF57B61379E4A406A8FA3F8FB9D380DAFADA318FF1491D1108D6600A50"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(48),
             "FBF567B14234F140C06454EB26B83968DF8A8CFCCE69AFDE33A232EB2226137C"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(64),
             "3E0CA29E4863E8BE4D9F28777A7FDC676032C4D9F6904B1CB6AABB029F33741A"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(96),
             "8B0913FE583AF838E745EC9011978482" +
                     "FB83A3C58EDA5FA04FF70832B1AC639A"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(128),
             "35DA44B91BFB020E6E85592E3310A6E6" +
                     "D8939A64C778913003A61BC13583EDAF"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(256),
             "E00FA9CB56046CC2D2556E2ADF24E92F" +
                     "681AE3FE9BD8C2103780C29938D64FFE"
@@ -112,45 +112,45 @@ abstract class Skein256_256Test {
     @Test
     fun incrementing() {
         testKatHex(
-            digest(),
+            { digest() },
             "FF",
             "0B98DCD198EA0E50A7A244C444E25C23" +
                     "DA30C10FC9A1F270A6637F1F34E67ED2"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFC",
             "AFB92D1E32FA99493DE9276C6CA528CB" +
                     "6B33FF0AD200F339C0781002A13734BF"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8",
             "0B5CA56712AC0D9450BD8398479E2824" +
                     "6C329647138D2BDB45E163778F8308D4"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0",
             "53403B16A293104A517BCCCDD136FF71" +
                     "F584F7FFB057A849133AF3D25002A01D"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8",
             "167D17E8C206EC9A30D3B709CC51AD33" +
                     "D0CE4F8D0A3434E602A83F62121028F4"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0",
             "8D0FA4EF777FD759DFD4044E6F6A5AC3" +
                     "C774AEC943DCFC07927B723B5DBF408B"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0",
@@ -158,7 +158,7 @@ abstract class Skein256_256Test {
                     "EDA8197707749CECC7772402B2FEA0C5"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -167,7 +167,7 @@ abstract class Skein256_256Test {
                     "07CB30F732318256B15D865AC4AE162F"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -178,7 +178,7 @@ abstract class Skein256_256Test {
                     "C2284D03B4D24610928521448E6C4A1B"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -191,7 +191,7 @@ abstract class Skein256_256Test {
                     "36DFD88D90F2D3352E0EB255AFB6DB63"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -217,32 +217,32 @@ abstract class Skein256_256Test {
     @Test
     fun random() {
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26",
             "2E8B4A3613EE4EB54230E14CC0D84056" +
                     "C7C2E3D91AE2F9435E78FB3E93336BEC"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E1",
             "B1DD13CF629C2D7BEF08E7BD0975366D" +
                     "D766894EA34C793F9CD420010D25864C"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9",
             "E0EEA1CBEDC26AA6F6B06AA6BE839CE4" +
                     "B2C725CCB5BC0D7162BB1D442E582503"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9" +
                     "1AB4837DFF22B39B",
             "9D0BD975A84EE365CCA8F2E81A8290C3" +
                     "ECE8D5ACBAB8CC4DD3BB74C403A39C8F"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9" +
                     "1AB4837DFF22B39B78439430CDFC5DC8" +
                     "78BB393A1A5F79BEF30995A85A129233" +
@@ -251,7 +251,7 @@ abstract class Skein256_256Test {
                     "8D082F57AF1C091269292CF1F5B69A87"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9" +
                     "1AB4837DFF22B39B78439430CDFC5DC8" +
                     "78BB393A1A5F79BEF30995A85A129233" +
@@ -262,7 +262,7 @@ abstract class Skein256_256Test {
                     "E805DF19CA6659782C1273CE44798957"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FBD17C26B61A82E12E125F0D459B96C9" +
                     "1AB4837DFF22B39B78439430CDFC5DC8" +
                     "78BB393A1A5F79BEF30995A85A129233" +
@@ -288,27 +288,27 @@ abstract class Skein256_256Test {
     @Test
     fun testSkein256_256() {
         testKatHex(
-            digest(),
+            { digest() },
             "",
             "c8877087da56e072870daa843f176e9453115929094c3a40c463a196c29bf7ba"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "fb",
             "088eb23cc2bccfb8171aa64e966d4af937325167dfcd170700ffd21f8a4cbdac"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8",
             "5c3002ff57a627089ea2f97a5000d5678416389019e80e45a3bbcab118315d26"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc878bb393a1a5f79bef30995a85a129233",
             "640c894a4bba6574c83e920ddf7dd2982fc634881bbbcb9d774eae0a285e89ce"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8" +
                     "78bb393a1a5f79bef30995a85a12923339ba8ab7d8fc6dc5fec6f4ed22c122bb" +
                     "e7eb61981892966de5cef576f71fc7a80d14dab2d0c03940b95b9fb3a727c66a" +
@@ -321,20 +321,20 @@ abstract class Skein256_256Test {
     @Test
     fun goldenKatShort() {
         testKatHex(
-            digest(),
+            { digest() },
             "FF",
             "0B98DCD198EA0E50A7A244C444E25C23" +
                     "DA30C10FC9A1F270A6637F1F34E67ED2"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0",
             "8D0FA4EF777FD759DFD4044E6F6A5AC3" +
                     "C774AEC943DCFC07927B723B5DBF408B"
         )
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -349,7 +349,7 @@ abstract class Skein256_256Test {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
 
         testKatHex(
-            Algorithm.Skein.Keyed(256, 256, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            { Algorithm.Skein.Keyed(256, 256, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest() },
             "d3090c72167517f7",
             "9837ba53d23afcdabd9fcd614ce9e51c0ebecec7a210df4d3724ed591f026ef1"
         )

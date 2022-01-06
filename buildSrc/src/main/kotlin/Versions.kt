@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 object Versions {
 
-    const val kotlin = "1.5.31"
+    const val kotlin = "1.6.10"
 
     const val androidGradlePlugin = "7.0.2"
     const val detektGradlePlugin = "1.18.1"
@@ -26,8 +26,8 @@ object Versions {
     const val dokkaPlugin = "1.5.30"
 
     const val coil = "1.3.2"
-    const val coroutines = "1.5.2"
-    const val coroutinesNative = "1.5.2-native-mt"
+    const val coroutines = "1.6.0"
+    const val coroutinesNative = "1.6.0-native-mt"
     const val groupie = "2.9.0"
     const val orbitMvi = "4.2.0"
 

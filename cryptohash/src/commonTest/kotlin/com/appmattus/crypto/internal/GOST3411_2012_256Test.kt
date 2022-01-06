@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ abstract class GOST3411_2012_256Test {
     @Test
     fun abc() {
         testKat(
-            digest(),
+            { digest() },
             "abc",
             "4e2919cf137ed41ec4fb6270c61826cc4fffb660341e0af3688cd0626d23b481"
         )
@@ -53,7 +53,7 @@ abstract class GOST3411_2012_256Test {
     @Test
     fun quickBrownFox() {
         testKat(
-            digest(),
+            { digest() },
             "The quick brown fox",
             "2a47e26fb8fd4b46668fb8835b3f8966a692ad062d17398a907f025ba4762aa7"
         )
@@ -66,7 +66,7 @@ abstract class GOST3411_2012_256Test {
     @Test
     fun hex1() {
         testKatHex(
-            digest(),
+            { digest() },
             "303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132",
             "9d151eefd8590b89daa6ba6cb74af9275dd051026bb149a452fd84e5e57b5500"
         )
@@ -75,7 +75,7 @@ abstract class GOST3411_2012_256Test {
     @Test
     fun hex2() {
         testKatHex(
-            digest(),
+            { digest() },
             "d1e520e2e5f2f0e82c20d1f2f0e8e1eee6e820e2edf3f6e82c20e2e5fef2fa20f120eceef0ff20f1f2f0e5ebe0ece820ede020f5f0e0e1f0fbff20efebfaeafb20c8e3eef0e5e2fb",
             "9dd2fe4e90409e5da87f53976d7405b0c0cac628fc669a741d50063c557e8f50"
         )

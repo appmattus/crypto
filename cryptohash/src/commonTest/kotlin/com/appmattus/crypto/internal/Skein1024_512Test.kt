@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ abstract class Skein1024_512Test {
     @Test
     fun zero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(128),
             "2DF89E1021071C136CA68C020D0A670D" +
                     "980DC7750D23BB084D7BFF10CA2F2F51" +
@@ -59,7 +59,7 @@ abstract class Skein1024_512Test {
     @Test
     fun goldenKatShort() {
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -79,13 +79,13 @@ abstract class Skein1024_512Test {
     @Test
     fun bouncy() {
         testKatHex(
-            digest(),
+            { digest() },
             "",
             "e2943eb0bc0efabd49503a76edf7cfcf072db25bad94ed44fe537284163f3119c47ac6f78699b4272255966e0aba65c75a0a64bd23df6996d1bc3174afd9fa8b"
         )
 
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8" +
                     "78bb393a1a5f79bef30995a85a12923339ba8ab7d8fc6dc5fec6f4ed22c122bb" +
                     "e7eb61981892966de5cef576f71fc7a80d14dab2d0c03940b95b9fb3a727c66a" +
@@ -100,7 +100,7 @@ abstract class Skein1024_512Test {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
 
         testKatHex(
-            Algorithm.Skein.Keyed(1024, 512, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            { Algorithm.Skein.Keyed(1024, 512, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest() },
             "d3090c72167517f7",
             "ce7f1052fa486309d73058d1d4986f886d966a849c72d196bb2b97fc9fb0b1e69f43a521ebd979f5a5581bd12a0dbd0d1ee27af0929881f1d35c875cc0542ecf"
         )

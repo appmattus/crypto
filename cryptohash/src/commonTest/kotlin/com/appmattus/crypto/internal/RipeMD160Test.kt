@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,49 +45,48 @@ abstract class RipeMD160Test {
 
     @Test
     fun testRIPEMD160() {
-        val dig = digest()
         testKat(
-            dig,
+            { digest() },
             "",
             "9c1185a5c5e9fc54612808977ee8f548b2258d31"
         )
         testKat(
-            dig,
+            { digest() },
             "a",
             "0bdc9d2d256b3ee9daae347be6f4dc835a467ffe"
         )
         testKat(
-            dig,
+            { digest() },
             "abc",
             "8eb208f7e05d987a9b044a8e98c6b087f15a0bfc"
         )
         testKat(
-            dig,
+            { digest() },
             "message digest",
             "5d0689ef49d2fae572b881b123a85ffa21595f36"
         )
         testKat(
-            dig,
+            { digest() },
             "abcdefghijklmnopqrstuvwxyz",
             "f71c27109c692c1b56bbdceb5b9d2865b3708dbc"
         )
         testKat(
-            dig,
+            { digest() },
             "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
             "12a053384a9c0c88e405a06c27dcf49ada62eb2b"
         )
         testKat(
-            dig,
+            { digest() },
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
             "b0e20b6e3116640286ed3a87a5713079b21f5189"
         )
         testKat(
-            dig,
+            { digest() },
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890",
             "9b752e45573d4b39f4dbd3323cab82bf63326bfb"
         )
         testKatMillionA(
-            dig,
+            { digest() },
             "52783243c1697bdbe16d37f97f68f08325dc1528"
         )
     }

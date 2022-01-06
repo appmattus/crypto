@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ abstract class SHA512_256Test {
     @Test
     fun nistAbc() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abc",
             ref = "53048e2681941ef99b2e29b76b4c7dabe4c2d0c634fc6d46e0e2f13107e7af23"
         )
@@ -55,7 +55,7 @@ abstract class SHA512_256Test {
     @Test
     fun nist112chars() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
             ref = "3928e184fb8690f840da3988121d31be65cb9d3ef83ee6146feac861e19b563a"
         )

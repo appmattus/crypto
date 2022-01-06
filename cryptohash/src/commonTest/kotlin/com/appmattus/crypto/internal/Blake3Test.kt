@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -276,7 +276,7 @@ abstract class Blake3Test(val algorithm: Algorithm.Blake3) {
         val bytes = ByteArray(length) { (it % 251).toByte() }
 
         testKat(
-            digest(),
+            { digest() },
             bytes,
             when (algorithm) {
                 is Algorithm.Blake3.Keyed -> keyedHash

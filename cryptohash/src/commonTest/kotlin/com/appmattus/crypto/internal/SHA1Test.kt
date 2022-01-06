@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,13 +47,13 @@ abstract class SHA1Test {
      */
     @Test
     fun empty() {
-        testKat(digest(), "", "da39a3ee5e6b4b0d3255bfef95601890afd80709")
+        testKat({ digest() }, "", "da39a3ee5e6b4b0d3255bfef95601890afd80709")
     }
 
     @Test
     fun nist112chars() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
             ref = "a49b2446a02c645bf419f995b67091253a04a259"
         )
@@ -62,7 +62,7 @@ abstract class SHA1Test {
     @Test
     fun oneMillionA() {
         testKatMillionA(
-            digest(),
+            { digest() },
             "34aa973cd4c4daa4f61eeb2bdbad27316534016f"
         )
     }
@@ -71,7 +71,7 @@ abstract class SHA1Test {
     @Ignore
     fun reallyLong() {
         testKatExtremelyLong(
-            digest(),
+            { digest() },
             "7789f0c9ef7bfc40d93311143dfbe69e2017f592"
         )
     }
@@ -82,13 +82,13 @@ abstract class SHA1Test {
 
     @Test
     fun nistAbc() {
-        testKat(digest(), "abc", "a9993e364706816aba3e25717850c26c9cd0d89d")
+        testKat({ digest() }, "abc", "a9993e364706816aba3e25717850c26c9cd0d89d")
     }
 
     @Test
     fun nist56chars() {
         testKat(
-            digest(),
+            { digest() },
             "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
             "84983e441c3bd26ebaae4aa1f95129e5e54670f1"
         )
@@ -99,7 +99,7 @@ abstract class SHA1Test {
      */
     @Test
     fun shatteredCollision() {
-        testCollision(digest(), goodPdf, badPdf)
+        testCollision({ digest() }, goodPdf, badPdf)
     }
 
     /**
@@ -108,7 +108,7 @@ abstract class SHA1Test {
     @Test
     fun shamblesCollision() {
         testCollision(
-            dig = digest(),
+            dig = { digest() },
             s1 = "99040d047fe81780012000ff4b65792069732070617274206f6620612063" +
                     "6f6c6c6973696f6e212049742773206120747261702179c61af0afcc0545" +
                     "15d9274e7307624b1dc7fb23988bb8de8b575dba7b9eab31c1674b6d9743" +

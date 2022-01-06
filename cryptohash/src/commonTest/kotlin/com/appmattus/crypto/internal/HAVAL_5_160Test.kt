@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,29 +42,28 @@ abstract class HAVAL_5_160Test {
 
     @Test
     fun testHAVAL_5_160() {
-        val digest = digest()
         testKat(
-            digest, "",
+            { digest() }, "",
             "255158CFC1EED1A7BE7C55DDD64D9790415B933B"
         )
         testKat(
-            digest, "a",
+            { digest() }, "a",
             "F5147DF7ABC5E3C81B031268927C2B5761B5A2B5"
         )
         testKat(
-            digest, "HAVAL",
+            { digest() }, "HAVAL",
             "7730CA184CEA2272E88571A7D533E035F33B1096"
         )
         testKat(
-            digest, "0123456789",
+            { digest() }, "0123456789",
             "41CC7C1267E88CEF0BB93697D0B6C8AFE59061E6"
         )
         testKat(
-            digest, "abcdefghijklmnopqrstuvwxyz",
+            { digest() }, "abcdefghijklmnopqrstuvwxyz",
             "917836A9D27EED42D406F6002E7D11A0F87C404C"
         )
         testKat(
-            digest, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+            { digest() }, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                     "abcdefghijklmnopqrstuvwxyz0123456789",
             "6DDBDE98EA1C4F8C7F360FB9163C7C952680AA70"
         )
