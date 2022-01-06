@@ -68,11 +68,11 @@ dependencies {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 31
     defaultConfig {
         applicationId = "com.appmattus.crypto.samples"
-        minSdkVersion(21)
-        targetSdkVersion(30)
+        minSdk = 21
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
         vectorDrawables.useSupportLibrary = true
