@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -310,7 +310,6 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
 
-            @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
             initialState(
                 SKEIN_1024, 384, longArrayOf(
                     0x5102B6B8C1894A35UL.toLong(),
@@ -331,7 +330,6 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                     0x2D136947D4CBAFEAUL.toLong(),
                 )
             )
-            @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
             initialState(
                 SKEIN_1024, 512, longArrayOf(
                     0xCAEC0E5D7C1B1B18UL.toLong(),
@@ -352,7 +350,6 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                     0x0E2940B815804974UL.toLong(),
                 )
             )
-            @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_UNSIGNED_LITERALS")
             initialState(
                 SKEIN_1024, 1024, longArrayOf(
                     0xD593DA0741E72355UL.toLong(),

@@ -160,7 +160,6 @@ abstract class SHA256Test {
     }
 
     @Test
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000xA() {
         testKat(
             { digest() },
@@ -170,7 +169,6 @@ abstract class SHA256Test {
     }
 
     @Test
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1005xU() {
         testKat(
             { digest() },
@@ -190,7 +188,6 @@ abstract class SHA256Test {
 
     @Test
     @Ignore
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist536870912xZ() {
         testKat(
             { digest() },
@@ -211,7 +208,6 @@ abstract class SHA256Test {
 
     @Test
     @Ignore
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1610612798xB() {
         testKat(
             { digest() },

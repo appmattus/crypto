@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,7 +128,6 @@ internal class SM3 : MDHelper<SM3>(false, 8) {
 
     companion object {
         /** The initial value for SM3.  */
-        @Suppress("EXPERIMENTAL_UNSIGNED_LITERALS", "EXPERIMENTAL_API_USAGE")
         private val initVal = intArrayOf(
             0x7380166fU.toInt(),
             0x4914b2b9U.toInt(),

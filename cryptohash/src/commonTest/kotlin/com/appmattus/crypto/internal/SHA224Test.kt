@@ -120,7 +120,6 @@ abstract class SHA224Test {
     }
 
     @Test
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000Q() {
         testKat(
             { digest() },
@@ -130,7 +129,6 @@ abstract class SHA224Test {
     }
 
     @Test
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist1000A() {
         testKat(
             { digest() },
@@ -159,7 +157,6 @@ abstract class SHA224Test {
 
     @Test
     @Ignore
-    @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun nist536870912A() {
         testKat(
             { digest() },

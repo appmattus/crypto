@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.appmattus.crypto.samples.databinding.RecyclerViewFragmentBinding
 import com.appmattus.crypto.samples.ui.component.SingleLineTextHeaderItem
 import com.appmattus.crypto.samples.ui.component.SingleLineTextItem
-import com.appmattus.crypto.samples.databinding.RecyclerViewFragmentBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
