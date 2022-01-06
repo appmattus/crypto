@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ abstract class Haraka512_256Test {
     @Test
     fun testHaraka512_256() {
         testKatHex(
-            digest(),
+            { digest() },
             "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
             "be7f723b4e80a99813b292287f306f625a6d57331cae5f34dd9277b0945be2aa"
         )

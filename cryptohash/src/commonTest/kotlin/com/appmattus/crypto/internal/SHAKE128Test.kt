@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ abstract class SHAKE128Test {
     @Test
     fun sixteenHundred() {
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = ByteArray(200) { 0xa3.toByte() },
             ref = "131AB8D2B594946B9C81333F9BB6E0CE" +
                     "75C3B93104FA3469D3917457385DA037" +
@@ -88,7 +88,7 @@ abstract class SHAKE128Test {
     @Test
     fun emptyShake() {
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = "",
             ref = "7F9C2BA4E88F827D616045507605853E" +
                     "D73B8093F6EFBC88EB1A6EACFA66EF26" +
@@ -128,7 +128,7 @@ abstract class SHAKE128Test {
     @Test
     fun abc() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abc",
             ref = "5881092dd818bf5cf8a3ddb793fbcba74097d5c526a6d35f97b83351940f2cc8"
         )
@@ -139,59 +139,62 @@ abstract class SHAKE128Test {
     fun length() {
         // 8-byte
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = "hello123",
             ref = "1b85861510bc4d8e"
         )
 
         // 1-byte
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = "hello123",
             ref = "1b"
         )
 
         // 32-byte
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = "hello123",
             ref = "1b85861510bc4d8e467d6f8a92270533cbaa7ba5e06c2d2a502854bac468b8b9"
         )
     }
 
     @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
-    private fun testKatLen(dig: Digest<*>, data: ByteArray, ref: String) {
-        val buffer = ByteArray(ref.length / 2)
+    private fun testKatLen(dig: () -> Digest<*>, data: ByteArray, ref: String) {
+        executeInBackground {
+            val digest = dig()
+            val buffer = ByteArray(ref.length / 2)
 
-        /*
+            /*
          * First test the hashing itself.
          */
-        dig.update(data)
-        dig.digest(buffer, 0, buffer.size)
-        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+            digest.update(data)
+            digest.digest(buffer, 0, buffer.size)
+            assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
-        /*
+            /*
          * Now the update() API; this also exercises auto-reset.
          */
-        for (i in data.indices) dig.update(data[i])
-        dig.digest(buffer, 0, buffer.size)
-        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+            for (i in data.indices) digest.update(data[i])
+            digest.digest(buffer, 0, buffer.size)
+            assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
-        /*
+            /*
          * The cloning API.
          */
-        val blen = data.size
-        dig.update(data, 0, blen / 2)
-        val dig2 = dig.copy()
-        dig.update(data, blen / 2, blen - blen / 2)
-        dig.digest(buffer, 0, buffer.size)
-        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
-        dig2.update(data, blen / 2, blen - blen / 2)
-        dig2.digest(buffer, 0, buffer.size)
-        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+            val blen = data.size
+            digest.update(data, 0, blen / 2)
+            val dig2 = digest.copy()
+            digest.update(data, blen / 2, blen - blen / 2)
+            digest.digest(buffer, 0, buffer.size)
+            assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+            dig2.update(data, blen / 2, blen - blen / 2)
+            dig2.digest(buffer, 0, buffer.size)
+            assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+        }
     }
 
-    private fun testKatLen(dig: Digest<*>, data: String, ref: String) {
+    private fun testKatLen(dig: () -> Digest<*>, data: String, ref: String) {
         testKatLen(dig, encodeLatin1(data), ref)
     }
 }

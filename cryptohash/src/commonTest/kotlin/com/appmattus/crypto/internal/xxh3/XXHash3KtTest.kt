@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -210,7 +210,7 @@ class XXHash3KtTest {
                 encodeBELong(XXH3_64bits_digest(state), this, 0)
             }
 
-            assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
+            assertEquals(expected.lowercase(), digest.toHexString().lowercase())
 
             XXH3_freeState(state)
         }
@@ -225,7 +225,7 @@ class XXHash3KtTest {
                 encodeBELong(XXH3_64bits_digest(state), this, 0)
             }
 
-            assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
+            assertEquals(expected.lowercase(), digest.toHexString().lowercase())
 
             XXH3_freeState(state)
         }
@@ -238,7 +238,7 @@ class XXHash3KtTest {
 
             val digest = XXH128_canonicalFromHash(XXH3_128bits_digest(state)).digest
 
-            assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
+            assertEquals(expected.lowercase(), digest.toHexString().lowercase())
 
             XXH3_freeState(state)
         }
@@ -251,7 +251,7 @@ class XXHash3KtTest {
 
             val digest = XXH128_canonicalFromHash(XXH3_128bits_digest(state)).digest
 
-            assertEquals(expected.toLowerCase(), digest.toHexString().toLowerCase())
+            assertEquals(expected.lowercase(), digest.toHexString().lowercase())
 
             XXH3_freeState(state)
         }

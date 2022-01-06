@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ abstract class Skein512_160Test {
     @Test
     fun zero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(128),
             "9CC1810DDFE971CF71FED0815DF86292" +
                     "6C85CA6E"
@@ -57,7 +57,7 @@ abstract class Skein512_160Test {
     @Test
     fun incrementing() {
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -75,13 +75,13 @@ abstract class Skein512_160Test {
     @Test
     fun bouncy() {
         testKatHex(
-            digest(),
+            { digest() },
             "",
             "49daf1ccebb3544bc93cb5019ba91b0eea8876ee"
         )
 
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8" +
                     "78bb393a1a5f79bef30995a85a12923339ba8ab7d8fc6dc5fec6f4ed22c122bb" +
                     "e7eb61981892966de5cef576f71fc7a80d14dab2d0c03940b95b9fb3a727c66a" +
@@ -95,7 +95,7 @@ abstract class Skein512_160Test {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
 
         testKatHex(
-            Algorithm.Skein.Keyed(512, 160, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            { Algorithm.Skein.Keyed(512, 160, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest() },
             "d3090c72167517f7",
             "83cb2effecaa60674c2f9fb2fb6771a9899708ba"
         )

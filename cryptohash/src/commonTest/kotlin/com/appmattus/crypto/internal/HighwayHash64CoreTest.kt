@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ abstract class HighwayHash64Test {
         key = longArrayOf(1, 2, 3, 4)
 
         testKat(
-            digest(),
+            { digest() },
             byteArrayOf(-1),
             "7858f24d2d79b2b2"
         )
@@ -56,7 +56,7 @@ abstract class HighwayHash64Test {
             (128 + it).toByte()
         }
         testKat(
-            digest(),
+            { digest() },
             b,
             "53c516cce478cad7"
         )
@@ -101,7 +101,7 @@ abstract class HighwayHash64Test {
 
         for (i in 0..64) {
             testKat(
-                digest(),
+                { digest() },
                 data.copyOfRange(0, i),
                 expected[i]
             )

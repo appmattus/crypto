@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ abstract class SHAKE256Test {
     @Test
     fun sixteenHundred() {
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = ByteArray(200) { 0xa3.toByte() },
             ref = "CD8A920ED141AA0407A22D59288652E9" +
                     "D9F1A7EE0C1E7C1CA699424DA84A904D" +
@@ -87,7 +87,7 @@ abstract class SHAKE256Test {
     @Test
     fun abc() {
         testKat(
-            dig = digest(),
+            dig = { digest() },
             data = "abc",
             ref = "483366601360a8771c6863080cc4114d8db44530f8f1e1ee4f94ea37e78b5739d5a15bef186a5386c75744c0527e1faa9f8726e462a12a4feb06bd8801e751e4"
         )
@@ -97,7 +97,7 @@ abstract class SHAKE256Test {
     @Test
     fun emptyShake() {
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = "",
             ref = "46B9DD2B0BA88D13233B3FEB743EEB24" +
                     "3FCD52EA62B81B82B50C27646ED5762F" +
@@ -139,59 +139,62 @@ abstract class SHAKE256Test {
     fun length() {
         // 8-byte
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = "hello123",
             ref = "ade612ba265f92de"
         )
 
         // 1-byte
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = "hello123",
             ref = "ad"
         )
 
         // 32-byte
         testKatLen(
-            dig = digest(),
+            dig = { digest() },
             data = "hello123",
             ref = "ade612ba265f92de4a37db5e252906218b453f68b57479ef2ec41db0db6b1855"
         )
     }
 
     @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
-    private fun testKatLen(dig: Digest<*>, data: ByteArray, ref: String) {
-        val buffer = ByteArray(ref.length / 2)
+    private fun testKatLen(dig: () -> Digest<*>, data: ByteArray, ref: String) {
+        executeInBackground {
+            val digest = dig()
+            val buffer = ByteArray(ref.length / 2)
 
-        /*
-         * First test the hashing itself.
-         */
-        dig.update(data)
-        dig.digest(buffer, 0, buffer.size)
-        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+            /*
+             * First test the hashing itself.
+             */
+            digest.update(data)
+            digest.digest(buffer, 0, buffer.size)
+            assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
-        /*
-         * Now the update() API; this also exercises auto-reset.
-         */
-        for (i in data.indices) dig.update(data[i])
-        dig.digest(buffer, 0, buffer.size)
-        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+            /*
+             * Now the update() API; this also exercises auto-reset.
+             */
+            for (i in data.indices) digest.update(data[i])
+            digest.digest(buffer, 0, buffer.size)
+            assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
-        /*
-         * The cloning API.
-         */
-        val blen = data.size
-        dig.update(data, 0, blen / 2)
-        val dig2 = dig.copy()
-        dig.update(data, blen / 2, blen - blen / 2)
-        dig.digest(buffer, 0, buffer.size)
-        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
-        dig2.update(data, blen / 2, blen - blen / 2)
-        dig2.digest(buffer, 0, buffer.size)
-        assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+            /*
+             * The cloning API.
+             */
+            val blen = data.size
+            digest.update(data, 0, blen / 2)
+            val dig2 = digest.copy()
+            digest.update(data, blen / 2, blen - blen / 2)
+            digest.digest(buffer, 0, buffer.size)
+            assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+            dig2.update(data, blen / 2, blen - blen / 2)
+            dig2.digest(buffer, 0, buffer.size)
+            assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
+        }
     }
 
-    private fun testKatLen(dig: Digest<*>, data: String, ref: String) {
+    private fun testKatLen(dig: () -> Digest<*>, data: String, ref: String) {
         testKatLen(dig, encodeLatin1(data), ref)
     }
 }

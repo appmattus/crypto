@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,42 +51,42 @@ abstract class Blake2s_256Test {
     @Test
     fun testBlake2s_256() {
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "blake2",
             "03ff98699d53d8c2680f98e2557bd96c2e4e1f4610fedabba50c266d0988c74b"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "hello world",
             "9aec6806794561107e594b1f6a8a6b0c92a0cba9acf5e5e93cca06f781813b0b"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "verystrongandlongpassword",
             "d49abeeced4a85ee685a98a29a5ff3a46ad41bfdf6b8e5088716699a30c52265"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "The quick brown fox jumps over the lazy dog",
             "606beeec743ccbeff6cbcdf5d5302aa855c256c29b88c8ed331ea1a6bf3c8812"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "",
             "69217a3079908094e11121d042354a7c1f55b6482ca1a51e1b250dfd1ed0eef9"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "abc",
             "508c5e8c327c14e2e1a72ba34eeb452f37458b209ed63a294d999b4c86675982"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "UPPERCASE",
             "8939a0dff88b336033bedf5da5ca536984c4e4865dc5d6ecea17e6c7e8df212a"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "123456789",
             "7acc2dd21a2909140507f37396acce906864b5f118dfa766b107962b7a82a0d4"
         )
@@ -355,7 +355,7 @@ abstract class Blake2s_256Test {
         ).forEachIndexed { length, hash ->
             val bytes = ByteArray(length) { it.toByte() }
             testKat(
-                digest(keyedAlgorithm),
+                { digest(keyedAlgorithm) },
                 bytes,
                 hash
             )

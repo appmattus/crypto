@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ class XXH3_64Test {
             TestCase(2367, PRIME64, "D2DB3415B942B42A") /* 3 blocks, last stripe is overlapping */
         ).forEach {
             testKat(
-                if (it.seed == 0L) CoreDigest.create(Algorithm.XXH3_64()) else CoreDigest.create(Algorithm.XXH3_64.Seeded(it.seed)),
+                { if (it.seed == 0L) CoreDigest.create(Algorithm.XXH3_64()) else CoreDigest.create(Algorithm.XXH3_64.Seeded(it.seed)) },
                 buffer(it.len),
                 it.Nresult
             )
@@ -92,7 +92,7 @@ class XXH3_64Test {
             TestCase(64 * 10 * 3, 0, "751D2EC54BC6038B") /* exactly 3 full blocks, not a multiple of 256 */
         ).forEach {
             testKat(
-                CoreDigest.create(Algorithm.XXH3_64.Secret(secret)),
+                { CoreDigest.create(Algorithm.XXH3_64.Secret(secret)) },
                 buffer(it.len),
                 it.Nresult
             )

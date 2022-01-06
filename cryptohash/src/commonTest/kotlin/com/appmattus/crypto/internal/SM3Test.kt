@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,21 +44,21 @@ abstract class SM3Test {
     fun specification() {
         // Example 1, From GB/T 32905-2016
         testKat(
-            digest(),
+            { digest() },
             "abc",
             "66c7f0f462eeedd9d1f2d46bdc10e4e24167c4875cf2f7a2297da02b8f4ba8e0"
         )
 
         // Example 2, From GB/T 32905-2016
         testKat(
-            digest(),
+            { digest() },
             "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd",
             "debe9ff92275b8a138604889c18e5a4d6fdb70e5387e5765293dcba39c0c5732"
         )
 
         // GB/T 32918.2-2016 A.2 Example 1
         testKatHex(
-            digest(),
+            { digest() },
             "0090414C494345313233405941484F4F2E434F4D" +
                     "787968B4FA32C3FD2417842E73BBFEFF2F3C848B6831D7E0EC65228B3937E498" +
                     "63E4C6D3B23B0C849CF84241484BFE48F61D59A5B16BA06E6E12D1DA27C5249A" +
@@ -71,14 +71,14 @@ abstract class SM3Test {
 
         // GB/T 32918.2-2016 A.2 Example 2
         testKatHex(
-            digest(),
+            { digest() },
             "F4A38489E32B45B6F876E3AC2168CA392362DC8F23459C1D1146FC3DBFB7BC9A6D65737361676520646967657374",
             "B524F552CD82B8B028476E005C377FB19A87E6FC682D48BB5D42E3D9B9EFFE76"
         )
 
         // GB/T 32918.2-2016 A.3 Example 1
         testKatHex(
-            digest(),
+            { digest() },
             "0090414C494345313233405941484F4F2E434F4D00" +
                     "000000000000000000000000000000000000000000000000000000000000000000" +
                     "E78BCD09746C202378A7E72B12BCE00266B9627ECB0B5A25367AD1AD4CC6242B00" +
@@ -91,7 +91,7 @@ abstract class SM3Test {
 
         // GB/T 32918.2-2016 A.3 Example 2
         testKatHex(
-            digest(),
+            { digest() },
             "26352AF82EC19F207BBC6F9474E11E90CE0F7DDACE03B27F801817E897A81FD5" +
                     "6D65737361676520646967657374",
             "AD673CBDA311417129A9EAA5F9AB1AA1633AD47718A84DFD46C17C6FA0AA3B12"
@@ -99,7 +99,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.2 Example 1
         testKatHex(
-            digest(),
+            { digest() },
             "0090414C494345313233405941484F4F2E434F4D" +
                     "787968B4FA32C3FD2417842E73BBFEFF2F3C848B6831D7E0EC65228B3937E498" +
                     "63E4C6D3B23B0C849CF84241484BFE48F61D59A5B16BA06E6E12D1DA27C5249A" +
@@ -112,7 +112,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.2 Example 2
         testKatHex(
-            digest(),
+            { digest() },
             "008842494C4C343536405941484F4F2E434F4D" +
                     "787968B4FA32C3FD2417842E73BBFEFF2F3C848B6831D7E0EC65228B3937E498" +
                     "63E4C6D3B23B0C849CF84241484BFE48F61D59A5B16BA06E6E12D1DA27C5249A" +
@@ -125,7 +125,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.2 Example 3
         testKatHex(
-            digest(),
+            { digest() },
             "47C826534DC2F6F1FBF28728DD658F21E174F48179ACEF2900F8B7F566E40905" +
                     "E4D1D0C3CA4C7F11BC8FF8CB3F4C02A78F108FA098E51A668487240F75E20F31" +
                     "6B4B6D0E276691BD4A11BF72F4FB501AE309FDACB72FA6CC336E6656119ABD67" +
@@ -138,7 +138,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.2 Example 4
         testKatHex(
-            digest(),
+            { digest() },
             "02" +
                     "2AF86EFE732CF12AD0E09A1F2556CC650D9CCCE3E249866BBB5C6846A4C4A295" +
                     "FF49D95BD45FCE99ED54A8AD7A7091109F51394442916BD154D1DE4379D97647",
@@ -147,7 +147,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.2 Example 5
         testKatHex(
-            digest(),
+            { digest() },
             "03" +
                     "2AF86EFE732CF12AD0E09A1F2556CC650D9CCCE3E249866BBB5C6846A4C4A295" +
                     "FF49D95BD45FCE99ED54A8AD7A7091109F51394442916BD154D1DE4379D97647",
@@ -156,7 +156,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.3 Example 2
         testKatHex(
-            digest(),
+            { digest() },
             "008842494C4C343536405941484F4F2E434F4D" +
                     "00" +
                     "0000000000000000000000000000000000000000000000000000000000000000" +
@@ -175,7 +175,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.3 Example 3
         testKatHex(
-            digest(),
+            { digest() },
             "00DADD087406221D657BC3FA79FF329BB022E9CB7DDFCFCCFE277BE8CD4AE9B9" +
                     "54ECF0080215977B2E5D6D61B98A99442F03E8803DC39E349F8DCA5621A9ACDF" +
                     "2B557BAD30E183559AEEC3B2256E1C7C11F870D22B165D015ACF9465B09B87B5" +
@@ -189,7 +189,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.3 Example 4
         testKatHex(
-            digest(),
+            { digest() },
             "02" +
                     "01" +
                     "F0464B1E81684E5ED6EF281B55624EF46CAA3B2D37484372D91610B698252CC9" +
@@ -199,7 +199,7 @@ abstract class SM3Test {
 
         // GB/T 32918.3-2016 A.3 Example 5
         testKatHex(
-            digest(),
+            { digest() },
             "03" +
                     "01" +
                     "F0464B1E81684E5ED6EF281B55624EF46CAA3B2D37484372D91610B698252CC9" +
@@ -209,7 +209,7 @@ abstract class SM3Test {
 
         // GB/T 32918.4-2016 A.2 Example 1
         testKatHex(
-            digest(),
+            { digest() },
             "57E7B63623FAE5F08CDA468E872A20AFA03DED41BF140377656E637279707469" +
                     "6F6E207374616E646172640E040DC83AF31A67991F2B01EBF9EFD8881F0A0493" +
                     "000603",
@@ -218,7 +218,7 @@ abstract class SM3Test {
 
         // GB/T 32918.4-2016 A.2 Example 2
         testKatHex(
-            digest(),
+            { digest() },
             "64D20D27D0632957F8028C1E024F6B02EDF23102A566C932AE8BD613A8E865FE" +
                     "656E6372797074696F6E207374616E6461726458D225ECA784AE300A81A2D482" +
                     "81A828E1CEDF11C4219099840265375077BF78",
@@ -227,7 +227,7 @@ abstract class SM3Test {
 
         // GB/T 32918.4-2016 A.3 Example 1
         testKatHex(
-            digest(),
+            { digest() },
             "01C6271B31F6BE396A4166C0616CF4A8ACDA5BEF4DCBF2DD42656E6372797074" +
                     "696F6E207374616E646172640147AF35DFA1BFE2F161521BCF59BAB83564868D" +
                     "9295881735",
@@ -236,7 +236,7 @@ abstract class SM3Test {
 
         // GB/T 32918.4-2016 A.3 Example 2
         testKatHex(
-            digest(),
+            { digest() },
             "0083E628CF701EE3141E8873FE55936ADF24963F5DC9C6480566C80F8A1D8CC5" +
                     "1B656E6372797074696F6E207374616E6461726401524C647F0C0412DEFD468B" +
                     "DA3AE0E5A80FCC8F5C990FEE11602929232DCD9F36",

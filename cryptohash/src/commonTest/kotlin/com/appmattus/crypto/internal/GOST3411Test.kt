@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ abstract class GOST3411Test {
     @Test
     fun empty() {
         testKat(
-            digest(),
+            { digest() },
             "",
             "981e5f3ca30c841487830f84fb433e13ac1101569b9c13584ac483234cd656c0"
         )
@@ -55,47 +55,47 @@ abstract class GOST3411Test {
     @Suppress("EXPERIMENTAL_API_USAGE_ERROR")
     fun wikipedia() {
         testKat(
-            digest(),
+            { digest() },
             "a",
             "e74c52dd282183bf37af0079c9f78055715a103f17e3133ceff1aacf2f403011"
         )
         testKat(
-            digest(),
+            { digest() },
             "abc",
             "b285056dbf18d7392d7677369524dd14747459ed8143997e163b2986f92fd42c"
         )
         testKat(
-            digest(),
+            { digest() },
             "message digest",
             "bc6041dd2aa401ebfa6e9886734174febdb4729aa972d60f549ac39b29721ba0"
         )
         testKat(
-            digest(),
+            { digest() },
             "The quick brown fox jumps over the lazy dog",
             "9004294a361a508c586fe53d1f1b02746765e71b765472786e4770d565830a76"
         )
         testKat(
-            digest(),
+            { digest() },
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
             "73b70a39497de53a6e08c67b6d4db853540f03e9389299d9b0156ef7e85d0f61"
         )
         testKat(
-            digest(),
+            { digest() },
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890",
             "6bc7b38989b28cf93ae8842bf9d752905910a7528a61e5bce0782de43e610c90"
         )
         testKat(
-            digest(),
+            { digest() },
             "This is message, length=32 bytes",
             "2cefc2f7b7bdc514e18ea57fa74ff357e7fa17d652c75f69cb1be7893ede48eb"
         )
         testKat(
-            digest(),
+            { digest() },
             "Suppose the original message has length = 50 bytes",
             "c3730c5cbccacf915ac292676f21e8bd4ef75331d9405e5f1a61dc3130a65011"
         )
         testKat(
-            digest(),
+            { digest() },
             ByteArray(128) { 'U'.code.toByte() },
             "1c4ac7614691bbf427fa2316216be8f10d92edfd37cd1027514c1008f649c4e8"
         )
@@ -104,12 +104,12 @@ abstract class GOST3411Test {
     @Test
     fun misc() {
         testKat(
-            digest(),
+            { digest() },
             "The quick brown fox",
             "4ffab0480add23e6018a46fc7f6696298ef714a9a97f6353e3d2925a177542bd"
         )
         testKat(
-            digest(),
+            { digest() },
             "Hello World",
             "75ED15D84DF84291C67FE07BF234AC69E92A9C2A378EE62F342AF739E829EBA9"
         )
@@ -118,7 +118,7 @@ abstract class GOST3411Test {
     @Test
     fun thirtyTwoBytes() {
         testKat(
-            digest(),
+            { digest() },
             "This is message, length=32 bytes",
             "2cefc2f7b7bdc514e18ea57fa74ff357e7fa17d652c75f69cb1be7893ede48eb"
         )
@@ -127,7 +127,7 @@ abstract class GOST3411Test {
     @Test
     fun fiftyBytes() {
         testKat(
-            digest(),
+            { digest() },
             "Suppose the original message has length = 50 bytes",
             "c3730c5cbccacf915ac292676f21e8bd4ef75331d9405e5f1a61dc3130a65011"
         )
@@ -136,7 +136,7 @@ abstract class GOST3411Test {
     @Test
     fun alphabetAndNumbers() {
         testKat(
-            digest(),
+            { digest() },
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
             "73b70a39497de53a6e08c67b6d4db853540f03e9389299d9b0156ef7e85d0f61"
         )
@@ -145,7 +145,7 @@ abstract class GOST3411Test {
     @Test
     fun millionA() {
         testKatMillionA(
-            digest(),
+            { digest() },
             "8693287aa62f9478f7cb312ec0866b6c4e4a0f11160441e8f4ffcd2715dd554f"
         )
     }

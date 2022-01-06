@@ -1,3 +1,19 @@
+/*
+ * Copyright 2022 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -15,8 +31,6 @@ class HmacSHA1Test {
      */
     @Test
     fun testHmacSha1() {
-        var hmac: HMAC
-
         // HMAC tests from NIST test data
 
         testHmac(
@@ -43,51 +57,55 @@ class HmacSHA1Test {
         /*
 		 * From FIPS 198a.
 		 */
-        hmac = HMAC(
-            SHA1(),
-            strtobin(
-                "000102030405060708090A0B0C0D0E0F101112131" +
-                        "415161718191A1B1C1D1E1F20212223242526272" +
-                        "8292A2B2C2D2E2F303132333435363738393A3B3" +
-                        "C3D3E3F"
-            )
-        )
         testKat(
-            hmac, "Sample #1",
+            {
+                HMAC(
+                    SHA1(),
+                    strtobin(
+                        "000102030405060708090A0B0C0D0E0F101112131" +
+                                "415161718191A1B1C1D1E1F20212223242526272" +
+                                "8292A2B2C2D2E2F303132333435363738393A3B3" +
+                                "C3D3E3F"
+                    )
+                )
+            }, "Sample #1",
             "4F4CA3D5D68BA7CC0A1208C9C61E9C5DA0403C0A"
         )
-        hmac = HMAC(
-            SHA1(),
-            strtobin("303132333435363738393A3B3C3D3E3F40414243")
-        )
         testKat(
-            hmac, "Sample #2",
+            {
+                HMAC(
+                    SHA1(),
+                    strtobin("303132333435363738393A3B3C3D3E3F40414243")
+                )
+            }, "Sample #2",
             "0922D3405FAA3D194F82A45830737D5CC6C75D24"
         )
-        hmac = HMAC(
-            SHA1(),
-            strtobin(
-                ("505152535455565758595A5B5C5D5E5F606162636" +
-                        "465666768696A6B6C6D6E6F70717273747576777" +
-                        "8797A7B7C7D7E7F808182838485868788898A8B8" +
-                        "C8D8E8F909192939495969798999A9B9C9D9E9FA" +
-                        "0A1A2A3A4A5A6A7A8A9AAABACADAEAFB0B1B2B3")
-            )
-        )
         testKat(
-            hmac, "Sample #3",
+            {
+                HMAC(
+                    SHA1(),
+                    strtobin(
+                        ("505152535455565758595A5B5C5D5E5F606162636" +
+                                "465666768696A6B6C6D6E6F70717273747576777" +
+                                "8797A7B7C7D7E7F808182838485868788898A8B8" +
+                                "C8D8E8F909192939495969798999A9B9C9D9E9FA" +
+                                "0A1A2A3A4A5A6A7A8A9AAABACADAEAFB0B1B2B3")
+                    )
+                )
+            }, "Sample #3",
             "BCF41EAB8BB2D802F3D05CAF7CB092ECF8D1A3AA"
         )
-        hmac = HMAC(
-            SHA1(),
-            strtobin(
-                ("707172737475767778797A7B7C7D7E7F808182838" +
-                        "485868788898A8B8C8D8E8F90919293949596979" +
-                        "8999A9B9C9D9E9FA0")
-            ), 12
-        )
         testKat(
-            hmac, "Sample #4",
+            {
+                HMAC(
+                    SHA1(),
+                    strtobin(
+                        ("707172737475767778797A7B7C7D7E7F808182838" +
+                                "485868788898A8B8C8D8E8F90919293949596979" +
+                                "8999A9B9C9D9E9FA0")
+                    ), 12
+                )
+            }, "Sample #4",
             "9EA886EFE268DBECCE420C75"
         )
 

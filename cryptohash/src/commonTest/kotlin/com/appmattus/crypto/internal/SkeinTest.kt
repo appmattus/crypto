@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -521,7 +521,7 @@ abstract class SkeinTest {
 
     private fun testSkeinKat(blockSizeBits: Int, outputSizeBits: Int, message: String, key: String, output: String) {
         testKatHex(
-            digest(Algorithm.Skein.Keyed(blockSizeBits, outputSizeBits, strtobin(key))),
+            { digest(Algorithm.Skein.Keyed(blockSizeBits, outputSizeBits, strtobin(key))) },
             message,
             output
         )

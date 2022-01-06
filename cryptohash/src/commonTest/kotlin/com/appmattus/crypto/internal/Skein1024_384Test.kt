@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ abstract class Skein1024_384Test {
     @Test
     fun zero() {
         testKat(
-            digest(),
+            { digest() },
             ByteArray(128),
             "B40D9E5110DF88376AA744D65544D26E" +
                     "8C5705B2D461EFF6FAED65EBCE94583F" +
@@ -58,7 +58,7 @@ abstract class Skein1024_384Test {
     @Test
     fun goldenKatShort() {
         testKatHex(
-            digest(),
+            { digest() },
             "FFFEFDFCFBFAF9F8F7F6F5F4F3F2F1F0" +
                     "EFEEEDECEBEAE9E8E7E6E5E4E3E2E1E0" +
                     "DFDEDDDCDBDAD9D8D7D6D5D4D3D2D1D0" +
@@ -77,13 +77,13 @@ abstract class Skein1024_384Test {
     @Test
     fun bouncy() {
         testKatHex(
-            digest(),
+            { digest() },
             "",
             "1fdb081963b960e89eaa11b87dda55e8a55a3e1066b30e38d8ae2a45242f7dadfaf06d80ca8a73cd8242ce5eab84c164"
         )
 
         testKatHex(
-            digest(),
+            { digest() },
             "fbd17c26b61a82e12e125f0d459b96c91ab4837dff22b39b78439430cdfc5dc8" +
                     "78bb393a1a5f79bef30995a85a12923339ba8ab7d8fc6dc5fec6f4ed22c122bb" +
                     "e7eb61981892966de5cef576f71fc7a80d14dab2d0c03940b95b9fb3a727c66a" +
@@ -98,7 +98,7 @@ abstract class Skein1024_384Test {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/SkeinTest.java
 
         testKatHex(
-            Algorithm.Skein.Keyed(1024, 384, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest(),
+            { Algorithm.Skein.Keyed(1024, 384, strtobin("cb41f1706cde09651203c2d0efbaddf8")).createDigest() },
             "d3090c72167517f7",
             "490dbbd049403e602ee3535181a70ee2eb5ade6d83b519953dd0d93c45729f098b679efcd64b5e3f03cd2fa9f1e70d69"
         )

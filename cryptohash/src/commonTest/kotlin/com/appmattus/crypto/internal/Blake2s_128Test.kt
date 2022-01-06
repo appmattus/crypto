@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,42 +50,42 @@ abstract class Blake2s_128Test {
     @Test
     fun testBlake2s_128() {
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "blake2",
             "13212c0218c995a400ec9da5ee76ab0a"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "hello world",
             "37deae0226c30da2ab424a7b8ee14e83"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "verystrongandlongpassword",
             "f1a8e54c1008db40683e5afd8dad6535"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "The quick brown fox jumps over the lazy dog",
             "96fd07258925748a0d2fb1c8a1167a73"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "",
             "64550d6ffe2c0a01a14aba1eade0200c"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "abc",
             "aa4938119b1dc7b87cbad0ffd200d0ae"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "UPPERCASE",
             "c509c829bc8319d5ea8e5ebf7aa743ca"
         )
         testKat(
-            digest(mainAlgorithm),
+            { digest(mainAlgorithm) },
             "123456789",
             "dce1c41568c6aa166e2f8eafce34e617"
         )
@@ -94,17 +94,17 @@ abstract class Blake2s_128Test {
     @Test
     fun keyed() {
         testKat(
-            digest(keyedAlgorithm),
+            { digest(keyedAlgorithm) },
             "",
             "db9067ccc6f4249e6543ee804e199671"
         )
         testKat(
-            digest(keyedAlgorithm),
+            { digest(keyedAlgorithm) },
             "A",
             "991e2d9986b2b5e86ca1ca46129fc062"
         )
         testKat(
-            digest(keyedAlgorithm),
+            { digest(keyedAlgorithm) },
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
             "947032cabd450e085d4b66c5ebf4a23c"
         )
