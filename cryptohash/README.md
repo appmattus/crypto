@@ -16,6 +16,7 @@ The following algorithms are supported:
 ## Non-cryptographic hash functions
 
 - HighwayHash-64, HighwayHash-128, HighwayHash-256
+- MurmurHash3-x86-32, MurmurHash3-x86-128, MurmurHash3-x64-128
 - xxHash-32, xxHash-64
 - xxHash3-64, xxHash3-128
 

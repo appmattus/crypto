@@ -52,7 +52,7 @@ fun testKat(dig: () -> Digest<*>, data: ByteArray, ref: String, inBackground: Bo
 }
 
 fun testKat(dig: () -> Digest<*>, data: String, ref: String, inBackground: Boolean = true) {
-    testKat(dig, encodeLatin1(data), ref, inBackground)
+    testKat(dig, data.encodeToByteArray(), ref, inBackground)
 }
 
 fun testKatHex(dig: () -> Digest<*>, data: String, ref: String, inBackground: Boolean = true) {
@@ -72,7 +72,7 @@ fun testKatMillionA(dig: () -> Digest<*>, ref: String) {
 fun testKatExtremelyLong(dig: () -> Digest<*>, ref: String) {
     executeInBackground {
         val digest = dig()
-        val buf = encodeLatin1("abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmno")
+        val buf = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmno".encodeToByteArray()
         repeat(16777216) {
             digest.update(buf)
         }
@@ -97,13 +97,6 @@ fun strtobin(str: String): ByteArray {
         val bs = str.substring(i * 2, i * 2 + 2)
         buf[i] = bs.toInt(16).toByte()
     }
-    return buf
-}
-
-fun encodeLatin1(str: String): ByteArray {
-    val blen = str.length
-    val buf = ByteArray(blen)
-    for (i in 0 until blen) buf[i] = str[i].code.toByte()
     return buf
 }
 

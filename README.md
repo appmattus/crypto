@@ -29,7 +29,7 @@ language translations, unit/integration tests are welcomed.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-Copyright 2021 Appmattus Limited
+Copyright 2021-2022 Appmattus Limited
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the

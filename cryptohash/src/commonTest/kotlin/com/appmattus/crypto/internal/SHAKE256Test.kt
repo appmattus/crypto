@@ -20,7 +20,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.sphlib.encodeLatin1
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
@@ -194,6 +193,6 @@ abstract class SHAKE256Test {
     }
 
     private fun testKatLen(dig: () -> Digest<*>, data: String, ref: String) {
-        testKatLen(dig, encodeLatin1(data), ref)
+        testKatLen(dig, data.encodeToByteArray(), ref)
     }
 }
