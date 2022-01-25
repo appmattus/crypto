@@ -47,6 +47,7 @@ import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka512_256
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.SHAKEDigest
 import com.appmattus.crypto.internal.core.google.HighwayHash
+import com.appmattus.crypto.internal.core.murmur.MurmurHash2A
 import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x64_128
 import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_128
 import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_32
@@ -317,6 +318,7 @@ internal object CoreDigest {
             is Algorithm.XXH3_64 -> XXH3_64(algorithm)
             is Algorithm.XXH3_128 -> XXH3_128(algorithm)
 
+            is Algorithm.MurmurHash2A -> MurmurHash2A(algorithm.seed)
             is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
             is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
             is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
