@@ -508,6 +508,11 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public object MD5 : Algorithm("MD5", 64), Hmac
 
     /**
+     * [MurmurHash2A](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp) for x86 platform with output size of 32 bits
+     */
+    public data class MurmurHash2A(val seed: UInt = 0u) : Algorithm("MurmurHash2A", 4)
+
+    /**
      * [MurmurHash3](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp) for x86 platform with output size of 32 bits
      */
     public data class MurmurHash3_X86_32(val seed: UInt = 0u) : Algorithm("MurmurHash3-x86-32", 4)
