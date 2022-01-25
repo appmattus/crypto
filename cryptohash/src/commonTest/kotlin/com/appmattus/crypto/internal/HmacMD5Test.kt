@@ -1,7 +1,6 @@
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.encodeLatin1
 import com.appmattus.crypto.internal.core.sphlib.strtobin
 import com.appmattus.crypto.internal.core.sphlib.testHmac
 import com.appmattus.crypto.internal.core.sphlib.testHmacHex
@@ -32,8 +31,8 @@ class HmacMD5Test {
         )
         testHmac(
             Algorithm.MD5,
-            encodeLatin1("Jefe"),
-            encodeLatin1("what do ya want for nothing?"),
+            "Jefe".encodeToByteArray(),
+            "what do ya want for nothing?".encodeToByteArray(),
             "750C783E6AB0B503EAA86E310A5DB738"
         )
         testHmacHex(

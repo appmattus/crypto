@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,6 +47,9 @@ import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka512_256
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.SHAKEDigest
 import com.appmattus.crypto.internal.core.google.HighwayHash
+import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x64_128
+import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_128
+import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_32
 import com.appmattus.crypto.internal.core.sphlib.BLAKE224
 import com.appmattus.crypto.internal.core.sphlib.BLAKE256
 import com.appmattus.crypto.internal.core.sphlib.BLAKE384
@@ -313,6 +316,10 @@ internal object CoreDigest {
             is Algorithm.XXHash64 -> XXHash64(algorithm.seed)
             is Algorithm.XXH3_64 -> XXH3_64(algorithm)
             is Algorithm.XXH3_128 -> XXH3_128(algorithm)
+
+            is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
+            is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
+            is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
         }
     }
 }
