@@ -21,6 +21,10 @@ package com.appmattus.crypto
  */
 public actual typealias PlatformData = ByteArray
 
+internal actual fun PlatformData.asByteArray(): ByteArray = this
+
+internal actual fun ByteArray.asPlatformData(): PlatformData = this
+
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */

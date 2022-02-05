@@ -21,6 +21,10 @@ package com.appmattus.crypto
  */
 public expect class PlatformData
 
+internal expect fun PlatformData.asByteArray(): ByteArray
+
+internal expect fun ByteArray.asPlatformData(): PlatformData
+
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */

@@ -24,52 +24,54 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Adler-32](https://en.wikipedia.org/wiki/Adler-32) with output size of 32 bits
      */
-    public object Adler32 : Algorithm("Adler32", 32)
+    public object Adler32 : Algorithm("Adler32", 32), Incremental
 
     /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 224 bits
      */
-    public object BLAKE224 : Algorithm("BLAKE-224", 64)
+    public object BLAKE224 : Algorithm("BLAKE-224", 64), Incremental
 
     /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 256 bits
      */
-    public object BLAKE256 : Algorithm("BLAKE-256", 64)
+    public object BLAKE256 : Algorithm("BLAKE-256", 64), Incremental
 
     /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 384 bits
      */
-    public object BLAKE384 : Algorithm("BLAKE-384", 128)
+    public object BLAKE384 : Algorithm("BLAKE-384", 128), Incremental
 
     /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 512 bits
      */
-    public object BLAKE512 : Algorithm("BLAKE-512", 128)
+    public object BLAKE512 : Algorithm("BLAKE-512", 128), Incremental
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 128 bits
      */
-    public object Blake2s_128 : Algorithm("BLAKE2S-128", 64)
+    public object Blake2s_128 : Algorithm("BLAKE2S-128", 64), Incremental
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 160 bits
      */
-    public object Blake2s_160 : Algorithm("BLAKE2S-160", 64)
+    public object Blake2s_160 : Algorithm("BLAKE2S-160", 64), Incremental
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 224 bits
      */
-    public object Blake2s_224 : Algorithm("BLAKE2S-224", 64)
+    public object Blake2s_224 : Algorithm("BLAKE2S-224", 64), Incremental
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 256 bits
      */
-    public object Blake2s_256 : Algorithm("BLAKE2S-256", 64)
+    public object Blake2s_256 : Algorithm("BLAKE2S-256", 64), Incremental
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of [outputSizeBits] bits (default: 256 bits)
      */
-    public open class Blake2s(internal val outputSizeBits: Int = 256) : Algorithm("Blake2s-$outputSizeBits", 64) {
+    public open class Blake2s(
+        internal val outputSizeBits: Int = 256
+    ) : Algorithm("Blake2s-$outputSizeBits", 64), Incremental {
         /**
          * [Blake2s] tuned to your specific requirements, such as [key]ed hashing, hashing with a [salt], or
          * [personalisation], or any combination thereof with output size of [outputSizeBits] bits (default: 256 bits)
@@ -85,27 +87,29 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 160 bits
      */
-    public object Blake2b_160 : Algorithm("BLAKE2B-160", 128)
+    public object Blake2b_160 : Algorithm("BLAKE2B-160", 128), Incremental
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 256 bits
      */
-    public object Blake2b_256 : Algorithm("BLAKE2B-256", 128)
+    public object Blake2b_256 : Algorithm("BLAKE2B-256", 128), Incremental
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 384 bits
      */
-    public object Blake2b_384 : Algorithm("BLAKE2B-384", 128)
+    public object Blake2b_384 : Algorithm("BLAKE2B-384", 128), Incremental
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 512 bits
      */
-    public object Blake2b_512 : Algorithm("BLAKE2B-512", 128)
+    public object Blake2b_512 : Algorithm("BLAKE2B-512", 128), Incremental
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of [outputSizeBits] bits (default: 512 bits)
      */
-    public open class Blake2b(internal val outputSizeBits: Int = 512) : Algorithm("Blake2b-$outputSizeBits", 128) {
+    public open class Blake2b(
+        internal val outputSizeBits: Int = 512
+    ) : Algorithm("Blake2b-$outputSizeBits", 128), Incremental {
         /**
          * [Blake2b] tuned to your specific requirements, such as [key]ed hashing, hashing with a [salt], or
          * [personalisation], or any combination thereof with output size of [outputSizeBits] bits (default: 512 bits)
@@ -121,7 +125,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [BLAKE3](https://github.com/BLAKE3-team/BLAKE3) with output size of [digestLength] bytes (default: 32 bytes)
      */
-    public open class Blake3(internal val digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Algorithm("Blake3-${digestLength shl 3}", 64) {
+    public open class Blake3(
+        internal val digestLength: Int = Hasher.DEFAULT_HASH_LEN
+    ) : Algorithm("Blake3-${digestLength shl 3}", 64), Incremental {
         /**
          * [Blake3] using [key]ed hashing with output size of [digestLength] bytes (default: 32 bytes)
          */
@@ -137,43 +143,43 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [Blue Midnight Wish](http://people.item.ntnu.no/~danilog/Hash/BMW-SecondRound/Supporting_Documentation/BlueMidnightWishDocumentation.pdf)
      * with output size of 224 bits
      */
-    public object BMW224 : Algorithm("BMW-224", 64), Hmac
+    public object BMW224 : Algorithm("BMW-224", 64), Incremental, Hmac
 
     /**
      * [Blue Midnight Wish](http://people.item.ntnu.no/~danilog/Hash/BMW-SecondRound/Supporting_Documentation/BlueMidnightWishDocumentation.pdf)
      * with output size of 256 bits
      */
-    public object BMW256 : Algorithm("BMW-256", 64), Hmac
+    public object BMW256 : Algorithm("BMW-256", 64), Incremental, Hmac
 
     /**
      * [Blue Midnight Wish](http://people.item.ntnu.no/~danilog/Hash/BMW-SecondRound/Supporting_Documentation/BlueMidnightWishDocumentation.pdf)
      * with output size of 384 bits
      */
-    public object BMW384 : Algorithm("BMW-384", 128), Hmac
+    public object BMW384 : Algorithm("BMW-384", 128), Incremental, Hmac
 
     /**
      * [Blue Midnight Wish](http://people.item.ntnu.no/~danilog/Hash/BMW-SecondRound/Supporting_Documentation/BlueMidnightWishDocumentation.pdf)
      * with output size of 512 bits
      */
-    public object BMW512 : Algorithm("BMW-512", 128), Hmac
+    public object BMW512 : Algorithm("BMW-512", 128), Incremental, Hmac
 
     /**
      * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Used by bzip.
      */
-    public object CRC32 : Algorithm("CRC32", 32)
+    public object CRC32 : Algorithm("CRC32", 32), Incremental
 
     /**
      * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Used by ethernet (IEEE 802.3), gzip, zip, png, etc.
      */
-    public object CRC32B : Algorithm("CRC32B", 32)
+    public object CRC32B : Algorithm("CRC32B", 32), Incremental
 
     /**
      * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Castagnoli's CRC, used by iSCSI, SCTP, Btrfs, ext4, etc.
      */
-    public object CRC32C : Algorithm("CRC32C", 32)
+    public object CRC32C : Algorithm("CRC32C", 32), Incremental
 
     /**
      * [cSHAKE](https://keccak.team/keccak.html) with output size of 128 bits
@@ -181,7 +187,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public class cSHAKE128(
         internal val customisation: ByteArray? = null,
         internal val functionName: ByteArray? = null
-    ) : Algorithm("cSHAKE128", 64)
+    ) : Algorithm("cSHAKE128", 64), Incremental
 
     /**
      * [cSHAKE](https://keccak.team/keccak.html) with output size of 256 bits
@@ -189,589 +195,589 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public class cSHAKE256(
         internal val customisation: ByteArray? = null,
         internal val functionName: ByteArray? = null
-    ) : Algorithm("cSHAKE256", 128)
+    ) : Algorithm("cSHAKE256", 128), Incremental
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 224 bits
      */
-    public object CubeHash224 : Algorithm("CubeHash-224", 32)
+    public object CubeHash224 : Algorithm("CubeHash-224", 32), Incremental
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 256 bits
      */
-    public object CubeHash256 : Algorithm("CubeHash-256", 32)
+    public object CubeHash256 : Algorithm("CubeHash-256", 32), Incremental
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 384 bits
      */
-    public object CubeHash384 : Algorithm("CubeHash-384", 32)
+    public object CubeHash384 : Algorithm("CubeHash-384", 32), Incremental
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 512 bits
      */
-    public object CubeHash512 : Algorithm("CubeHash-512", 32)
+    public object CubeHash512 : Algorithm("CubeHash-512", 32), Incremental
 
     /**
      * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 224 bits
      */
-    public object ECHO224 : Algorithm("ECHO-224", 192)
+    public object ECHO224 : Algorithm("ECHO-224", 192), Incremental
 
     /**
      * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 256 bits
      */
-    public object ECHO256 : Algorithm("ECHO-256", 192)
+    public object ECHO256 : Algorithm("ECHO-256", 192), Incremental
 
     /**
      * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 384 bits
      */
-    public object ECHO384 : Algorithm("ECHO-384", 128)
+    public object ECHO384 : Algorithm("ECHO-384", 128), Incremental
 
     /**
      * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 512 bits
      */
-    public object ECHO512 : Algorithm("ECHO-512", 128)
+    public object ECHO512 : Algorithm("ECHO-512", 128), Incremental
 
     /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 224 bits
      */
-    public object Fugue224 : Algorithm("Fugue-224", 28)
+    public object Fugue224 : Algorithm("Fugue-224", 28), Incremental
 
     /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 256 bits
      */
-    public object Fugue256 : Algorithm("Fugue-256", 32)
+    public object Fugue256 : Algorithm("Fugue-256", 32), Incremental
 
     /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 384 bits
      */
-    public object Fugue384 : Algorithm("Fugue-384", 48)
+    public object Fugue384 : Algorithm("Fugue-384", 48), Incremental
 
     /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 512 bits
      */
-    public object Fugue512 : Algorithm("Fugue-512", 64)
+    public object Fugue512 : Algorithm("Fugue-512", 64), Incremental
 
     /**
      * [GOST R 34.11-94](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 256 bits
      */
-    public object GOST3411_94 : Algorithm("GOST3411", 32), Hmac
+    public object GOST3411_94 : Algorithm("GOST3411", 32), Incremental, Hmac
 
     /**
      * [GOST R 34.11-2012](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 256 bits
      */
-    public object GOST3411_2012_256 : Algorithm("GOST3411-2012-256", 64), Hmac
+    public object GOST3411_2012_256 : Algorithm("GOST3411-2012-256", 64), Incremental, Hmac
 
     /**
      * [GOST R 34.11-2012](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 512 bits
      */
-    public object GOST3411_2012_512 : Algorithm("GOST3411-2012-512", 64), Hmac
+    public object GOST3411_2012_512 : Algorithm("GOST3411-2012-512", 64), Incremental, Hmac
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 224 bits
      */
-    public object Groestl224 : Algorithm("Groestl-224", 64)
+    public object Groestl224 : Algorithm("Groestl-224", 64), Incremental
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 256 bits
      */
-    public object Groestl256 : Algorithm("Groestl-256", 64)
+    public object Groestl256 : Algorithm("Groestl-256", 64), Incremental
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 384 bits
      */
-    public object Groestl384 : Algorithm("Groestl-384", 128)
+    public object Groestl384 : Algorithm("Groestl-384", 128), Incremental
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 512 bits
      */
-    public object Groestl512 : Algorithm("Groestl-512", 128)
+    public object Groestl512 : Algorithm("Groestl-512", 128), Incremental
 
     /**
      * [Hamsi](https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf) with output size 224 bits
      */
-    public object Hamsi224 : Algorithm("Hamsi-224", 32)
+    public object Hamsi224 : Algorithm("Hamsi-224", 32), Incremental
 
     /**
      * [Hamsi](https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf) with output size 256 bits
      */
-    public object Hamsi256 : Algorithm("Hamsi-256", 32)
+    public object Hamsi256 : Algorithm("Hamsi-256", 32), Incremental
 
     /**
      * [Hamsi](https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf) with output size 384 bits
      */
-    public object Hamsi384 : Algorithm("Hamsi-384", 32)
+    public object Hamsi384 : Algorithm("Hamsi-384", 32), Incremental
 
     /**
      * [Hamsi](https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf) with output size 512 bits
      */
-    public object Hamsi512 : Algorithm("Hamsi-512", 32)
+    public object Hamsi512 : Algorithm("Hamsi-512", 32), Incremental
 
     /**
      * [Haraka v2](https://github.com/kste/haraka) with output size 256 bits
      */
-    public object Haraka256_256 : Algorithm("Haraka-256", 32)
+    public object Haraka256_256 : Algorithm("Haraka-256", 32), Incremental
 
     /**
      * [Haraka v2](https://github.com/kste/haraka) with output size 256 bits
      */
-    public object Haraka512_256 : Algorithm("Haraka-512", 64)
+    public object Haraka512_256 : Algorithm("Haraka-512", 64), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 128 bits
      */
-    public object HAVAL_3_128 : Algorithm("HAVAL-3-128", 128)
+    public object HAVAL_3_128 : Algorithm("HAVAL-3-128", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 160 bits
      */
-    public object HAVAL_3_160 : Algorithm("HAVAL-3-160", 128)
+    public object HAVAL_3_160 : Algorithm("HAVAL-3-160", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 192 bits
      */
-    public object HAVAL_3_192 : Algorithm("HAVAL-3-192", 128)
+    public object HAVAL_3_192 : Algorithm("HAVAL-3-192", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 224 bits
      */
-    public object HAVAL_3_224 : Algorithm("HAVAL-3-224", 128)
+    public object HAVAL_3_224 : Algorithm("HAVAL-3-224", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 256 bits
      */
-    public object HAVAL_3_256 : Algorithm("HAVAL-3-256", 128)
+    public object HAVAL_3_256 : Algorithm("HAVAL-3-256", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 128 bits
      */
-    public object HAVAL_4_128 : Algorithm("HAVAL-4-128", 128)
+    public object HAVAL_4_128 : Algorithm("HAVAL-4-128", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 160 bits
      */
-    public object HAVAL_4_160 : Algorithm("HAVAL-4-160", 128)
+    public object HAVAL_4_160 : Algorithm("HAVAL-4-160", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 192 bits
      */
-    public object HAVAL_4_192 : Algorithm("HAVAL-4-192", 128)
+    public object HAVAL_4_192 : Algorithm("HAVAL-4-192", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 224 bits
      */
-    public object HAVAL_4_224 : Algorithm("HAVAL-4-224", 128)
+    public object HAVAL_4_224 : Algorithm("HAVAL-4-224", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 256 bits
      */
-    public object HAVAL_4_256 : Algorithm("HAVAL-4-256", 128)
+    public object HAVAL_4_256 : Algorithm("HAVAL-4-256", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 128 bits
      */
-    public object HAVAL_5_128 : Algorithm("HAVAL-5-128", 128)
+    public object HAVAL_5_128 : Algorithm("HAVAL-5-128", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 160 bits
      */
-    public object HAVAL_5_160 : Algorithm("HAVAL-5-160", 128)
+    public object HAVAL_5_160 : Algorithm("HAVAL-5-160", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 192 bits
      */
-    public object HAVAL_5_192 : Algorithm("HAVAL-5-192", 128)
+    public object HAVAL_5_192 : Algorithm("HAVAL-5-192", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 224 bits
      */
-    public object HAVAL_5_224 : Algorithm("HAVAL-5-224", 128)
+    public object HAVAL_5_224 : Algorithm("HAVAL-5-224", 128), Incremental
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 256 bits
      */
-    public object HAVAL_5_256 : Algorithm("HAVAL-5-256", 128)
+    public object HAVAL_5_256 : Algorithm("HAVAL-5-256", 128), Incremental
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 64 bits
      */
     public class HighwayHash64(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-64", 32)
+    ) : Algorithm("HighwayHash-64", 32), Incremental
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 128 bits
      */
     public class HighwayHash128(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-128", 32)
+    ) : Algorithm("HighwayHash-128", 32), Incremental
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 256 bits
      */
     public class HighwayHash256(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-256", 32)
+    ) : Algorithm("HighwayHash-256", 32), Incremental
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 224 bits
      */
-    public object JH224 : Algorithm("JH-224", 64)
+    public object JH224 : Algorithm("JH-224", 64), Incremental
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 256 bits
      */
-    public object JH256 : Algorithm("JH-256", 64)
+    public object JH256 : Algorithm("JH-256", 64), Incremental
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 384 bits
      */
-    public object JH384 : Algorithm("JH-384", 64)
+    public object JH384 : Algorithm("JH-384", 64), Incremental
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 512 bits
      */
-    public object JH512 : Algorithm("JH-512", 64)
+    public object JH512 : Algorithm("JH-512", 64), Incremental
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 224 bits
      */
-    public object Keccak224 : Algorithm("Keccak-224", 64), Hmac
+    public object Keccak224 : Algorithm("Keccak-224", 64), Incremental, Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 256 bits
      */
-    public object Keccak256 : Algorithm("Keccak-256", 64), Hmac
+    public object Keccak256 : Algorithm("Keccak-256", 64), Incremental, Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 288 bits
      */
-    public object Keccak288 : Algorithm("Keccak-288", 64), Hmac
+    public object Keccak288 : Algorithm("Keccak-288", 64), Incremental, Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 384 bits
      */
-    public object Keccak384 : Algorithm("Keccak-384", 128), Hmac
+    public object Keccak384 : Algorithm("Keccak-384", 128), Incremental, Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 512 bits
      */
-    public object Keccak512 : Algorithm("Keccak-512", 128), Hmac
+    public object Keccak512 : Algorithm("Keccak-512", 128), Incremental, Hmac
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 256 bits
      */
-    public object Kupyna_256 : Algorithm("Kupyna-256", 64)
+    public object Kupyna_256 : Algorithm("Kupyna-256", 64), Incremental
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 384 bits
      */
-    public object Kupyna_384 : Algorithm("Kupyna-384", 128)
+    public object Kupyna_384 : Algorithm("Kupyna-384", 128), Incremental
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 512 bits
      */
-    public object Kupyna_512 : Algorithm("Kupyna-512", 128)
+    public object Kupyna_512 : Algorithm("Kupyna-512", 128), Incremental
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 224 bits
      */
-    public object Luffa224 : Algorithm("Luffa-224", 32)
+    public object Luffa224 : Algorithm("Luffa-224", 32), Incremental
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 256 bits
      */
-    public object Luffa256 : Algorithm("Luffa-256", 32)
+    public object Luffa256 : Algorithm("Luffa-256", 32), Incremental
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 384 bits
      */
-    public object Luffa384 : Algorithm("Luffa-384", 32)
+    public object Luffa384 : Algorithm("Luffa-384", 32), Incremental
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 512 bits
      */
-    public object Luffa512 : Algorithm("Luffa-512", 32)
+    public object Luffa512 : Algorithm("Luffa-512", 32), Incremental
 
     /**
      * [MD2](https://en.wikipedia.org/wiki/MD2_(hash_function)) with output size of 128 bits
      */
-    public object MD2 : Algorithm("MD2", 16), Hmac
+    public object MD2 : Algorithm("MD2", 16), Incremental, Hmac
 
     /**
      * [MD4](https://en.wikipedia.org/wiki/MD4) with output size of 128 bits
      */
-    public object MD4 : Algorithm("MD4", 64), Hmac
+    public object MD4 : Algorithm("MD4", 64), Incremental, Hmac
 
     /**
      * [MD5](https://en.wikipedia.org/wiki/MD5) with output size of 128 bits
      */
-    public object MD5 : Algorithm("MD5", 64), Hmac
+    public object MD5 : Algorithm("MD5", 64), Incremental, Hmac
 
     /**
      * [MurmurHash2A](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp) for x86 platform with output size of 32 bits
      */
-    public data class MurmurHash2A(val seed: UInt = 0u) : Algorithm("MurmurHash2A", 4)
+    public data class MurmurHash2A(val seed: UInt = 0u) : Algorithm("MurmurHash2A", 4), Incremental
 
     /**
      * [MurmurHash3](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp) for x86 platform with output size of 32 bits
      */
-    public data class MurmurHash3_X86_32(val seed: UInt = 0u) : Algorithm("MurmurHash3-x86-32", 4)
+    public data class MurmurHash3_X86_32(val seed: UInt = 0u) : Algorithm("MurmurHash3-x86-32", 4), Incremental
 
     /**
      * [MurmurHash3](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp) for x86 platform with output size of 128 bits
      */
-    public data class MurmurHash3_X86_128(val seed: UInt = 0u) : Algorithm("MurmurHash3-x86-128", 16)
+    public data class MurmurHash3_X86_128(val seed: UInt = 0u) : Algorithm("MurmurHash3-x86-128", 16), Incremental
 
     /**
      * [MurmurHash3](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp) for x64 platform with output size of 128 bits
      */
-    public data class MurmurHash3_X64_128(val seed: UInt = 0u) : Algorithm("MurmurHash3-x64-128", 16)
+    public data class MurmurHash3_X64_128(val seed: UInt = 0u) : Algorithm("MurmurHash3-x64-128", 16), Incremental
 
     /**
      * [Panama](https://en.wikipedia.org/wiki/Panama_(cryptography)) with output size of 256 bits
      */
-    public object PANAMA : Algorithm("PANAMA", 32)
+    public object PANAMA : Algorithm("PANAMA", 32), Incremental
 
     /**
      * [RadioGatún](https://en.wikipedia.org/wiki/RadioGatún) with 32-bit word width and output size of 256 bits
      */
-    public object RadioGatun32 : Algorithm("RadioGatún[32]", 156)
+    public object RadioGatun32 : Algorithm("RadioGatún[32]", 156), Incremental
 
     /**
      * [RadioGatún](https://en.wikipedia.org/wiki/RadioGatún) with 64-bit word width and output size of 256 bits
      */
-    public object RadioGatun64 : Algorithm("RadioGatún[64]", 312)
+    public object RadioGatun64 : Algorithm("RadioGatún[64]", 312), Incremental
 
     /**
      * Original [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 128 bits
      */
-    public object RipeMD : Algorithm("RipeMD", 64)
+    public object RipeMD : Algorithm("RipeMD", 64), Incremental
 
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 128 bits
      */
-    public object RipeMD128 : Algorithm("RipeMD128", 64), Hmac
+    public object RipeMD128 : Algorithm("RipeMD128", 64), Incremental, Hmac
 
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 160 bits
      */
-    public object RipeMD160 : Algorithm("RipeMD160", 64), Hmac
+    public object RipeMD160 : Algorithm("RipeMD160", 64), Incremental, Hmac
 
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 256 bits
      */
-    public object RipeMD256 : Algorithm("RipeMD256", 64), Hmac
+    public object RipeMD256 : Algorithm("RipeMD256", 64), Incremental, Hmac
 
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 320 bits
      */
-    public object RipeMD320 : Algorithm("RipeMD320", 64), Hmac
+    public object RipeMD320 : Algorithm("RipeMD320", 64), Incremental, Hmac
 
     /**
      * [SHA-0](https://en.wikipedia.org/wiki/SHA-1#Development) with output size of 160 bits
      */
-    public object SHA_0 : Algorithm("SHA-0", 64), Hmac
+    public object SHA_0 : Algorithm("SHA-0", 64), Incremental, Hmac
 
     /**
      * [SHA-1](https://en.wikipedia.org/wiki/SHA-1) with output size of 160 bits
      */
-    public object SHA_1 : Algorithm("SHA-1", 64), Hmac
+    public object SHA_1 : Algorithm("SHA-1", 64), Incremental, Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 224 bits
      */
-    public object SHA_224 : Algorithm("SHA-224", 64), Hmac
+    public object SHA_224 : Algorithm("SHA-224", 64), Incremental, Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 256 bits
      */
-    public object SHA_256 : Algorithm("SHA-256", 64), Hmac
+    public object SHA_256 : Algorithm("SHA-256", 64), Incremental, Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 384 bits
      */
-    public object SHA_384 : Algorithm("SHA-384", 128), Hmac
+    public object SHA_384 : Algorithm("SHA-384", 128), Incremental, Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 512 bits
      */
-    public object SHA_512 : Algorithm("SHA-512", 128), Hmac
+    public object SHA_512 : Algorithm("SHA-512", 128), Incremental, Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 224 bits
      */
-    public object SHA_512_224 : Algorithm("SHA-512/224", 128), Hmac
+    public object SHA_512_224 : Algorithm("SHA-512/224", 128), Incremental, Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 256 bits
      */
-    public object SHA_512_256 : Algorithm("SHA-512/256", 128), Hmac
+    public object SHA_512_256 : Algorithm("SHA-512/256", 128), Incremental, Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 224 bits
      */
-    public object SHA3_224 : Algorithm("SHA3-224", 64), Hmac
+    public object SHA3_224 : Algorithm("SHA3-224", 64), Incremental, Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 256 bits
      */
-    public object SHA3_256 : Algorithm("SHA3-256", 64), Hmac
+    public object SHA3_256 : Algorithm("SHA3-256", 64), Incremental, Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 384 bits
      */
-    public object SHA3_384 : Algorithm("SHA3-384", 128), Hmac
+    public object SHA3_384 : Algorithm("SHA3-384", 128), Incremental, Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 512 bits
      */
-    public object SHA3_512 : Algorithm("SHA3-512", 128), Hmac
+    public object SHA3_512 : Algorithm("SHA3-512", 128), Incremental, Hmac
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 192 bits
      */
-    public object Shabal192 : Algorithm("Shabal-192", 64)
+    public object Shabal192 : Algorithm("Shabal-192", 64), Incremental
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 224 bits
      */
-    public object Shabal224 : Algorithm("Shabal-224", 64)
+    public object Shabal224 : Algorithm("Shabal-224", 64), Incremental
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 256 bits
      */
-    public object Shabal256 : Algorithm("Shabal-256", 64)
+    public object Shabal256 : Algorithm("Shabal-256", 64), Incremental
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 384 bits
      */
-    public object Shabal384 : Algorithm("Shabal-384", 64)
+    public object Shabal384 : Algorithm("Shabal-384", 64), Incremental
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 512 bits
      */
-    public object Shabal512 : Algorithm("Shabal-512", 64)
+    public object Shabal512 : Algorithm("Shabal-512", 64), Incremental
 
     /**
      * [SHAKE](https://keccak.team/keccak.html) with output size of 128 bits
      */
-    public object SHAKE128 : Algorithm("SHAKE128", 64)
+    public object SHAKE128 : Algorithm("SHAKE128", 64), Incremental
 
     /**
      * [SHAKE](https://keccak.team/keccak.html) with output size of 256 bits
      */
-    public object SHAKE256 : Algorithm("SHAKE256", 128)
+    public object SHAKE256 : Algorithm("SHAKE256", 128), Incremental
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 224 bits
      */
-    public object SHAvite224 : Algorithm("SHAvite-224", 64)
+    public object SHAvite224 : Algorithm("SHAvite-224", 64), Incremental
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 256 bits
      */
-    public object SHAvite256 : Algorithm("SHAvite-256", 64)
+    public object SHAvite256 : Algorithm("SHAvite-256", 64), Incremental
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 384 bits
      */
-    public object SHAvite384 : Algorithm("SHAvite-384", 128)
+    public object SHAvite384 : Algorithm("SHAvite-384", 128), Incremental
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 512 bits
      */
-    public object SHAvite512 : Algorithm("SHAvite-512", 128)
+    public object SHAvite512 : Algorithm("SHAvite-512", 128), Incremental
 
     /**
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 224 bits
      */
-    public object SIMD224 : Algorithm("SIMD-224", 64)
+    public object SIMD224 : Algorithm("SIMD-224", 64), Incremental
 
     /**
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 256 bits
      */
-    public object SIMD256 : Algorithm("SIMD-256", 64)
+    public object SIMD256 : Algorithm("SIMD-256", 64), Incremental
 
     /**
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 384 bits
      */
-    public object SIMD384 : Algorithm("SIMD-384", 128)
+    public object SIMD384 : Algorithm("SIMD-384", 128), Incremental
 
     /**
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 512 bits
      */
-    public object SIMD512 : Algorithm("SIMD-512", 128)
+    public object SIMD512 : Algorithm("SIMD-512", 128), Incremental
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 128 bits
      */
-    public object Skein256_128 : Algorithm("Skein-256-128", 32), Hmac
+    public object Skein256_128 : Algorithm("Skein-256-128", 32), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 160 bits
      */
-    public object Skein256_160 : Algorithm("Skein-256-160", 32), Hmac
+    public object Skein256_160 : Algorithm("Skein-256-160", 32), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 224 bits
      */
-    public object Skein256_224 : Algorithm("Skein-256-224", 32), Hmac
+    public object Skein256_224 : Algorithm("Skein-256-224", 32), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 256 bits
      */
-    public object Skein256_256 : Algorithm("Skein-256-256", 32), Hmac
+    public object Skein256_256 : Algorithm("Skein-256-256", 32), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 128 bits
      */
-    public object Skein512_128 : Algorithm("Skein-512-128", 64), Hmac
+    public object Skein512_128 : Algorithm("Skein-512-128", 64), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 160 bits
      */
-    public object Skein512_160 : Algorithm("Skein-512-160", 64), Hmac
+    public object Skein512_160 : Algorithm("Skein-512-160", 64), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 224 bits
      */
-    public object Skein512_224 : Algorithm("Skein-512-224", 64), Hmac
+    public object Skein512_224 : Algorithm("Skein-512-224", 64), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 256 bits
      */
-    public object Skein512_256 : Algorithm("Skein-512-256", 64), Hmac
+    public object Skein512_256 : Algorithm("Skein-512-256", 64), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 384 bits
      */
-    public object Skein512_384 : Algorithm("Skein-512-384", 64), Hmac
+    public object Skein512_384 : Algorithm("Skein-512-384", 64), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 512 bits
      */
-    public object Skein512_512 : Algorithm("Skein-512-512", 64), Hmac
+    public object Skein512_512 : Algorithm("Skein-512-512", 64), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 384 bits
      */
-    public object Skein1024_384 : Algorithm("Skein-1024-384", 128), Hmac
+    public object Skein1024_384 : Algorithm("Skein-1024-384", 128), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 512 bits
      */
-    public object Skein1024_512 : Algorithm("Skein-1024-512", 128), Hmac
+    public object Skein1024_512 : Algorithm("Skein-1024-512", 128), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 1024 bits
      */
-    public object Skein1024_1024 : Algorithm("Skein-1024-1024", 128), Hmac
+    public object Skein1024_1024 : Algorithm("Skein-1024-1024", 128), Incremental, Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of [blockSizeBits] bits and output size of [outputSizeBits] bits
      */
     public open class Skein(internal val blockSizeBits: Int, internal val outputSizeBits: Int) :
-        Algorithm("Skein-$blockSizeBits-$outputSizeBits", blockSizeBits shr 3) {
+        Algorithm("Skein-$blockSizeBits-$outputSizeBits", blockSizeBits shr 3), Incremental {
 
         /**
          * [Skein] as [key]ed hash with internal state of [blockSizeBits] bits and output size of [outputSizeBits] bits
@@ -786,47 +792,47 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [SM3](https://en.wikipedia.org/wiki/SM3_(hash_function)) with output size of 256 bits
      */
-    public object SM3 : Algorithm("SM3", 64), Hmac
+    public object SM3 : Algorithm("SM3", 64), Incremental, Hmac
 
     /**
      * [Tiger](https://www.cs.technion.ac.il/~biham/Reports/Tiger/) with output size of 192 bits
      */
-    public object Tiger : Algorithm("Tiger", 64), Hmac
+    public object Tiger : Algorithm("Tiger", 64), Incremental, Hmac
 
     /**
      * [Tiger2](https://www.cs.technion.ac.il/~biham/Reports/Tiger/) with output size of 192 bits
      */
-    public object Tiger2 : Algorithm("Tiger2", 64)
+    public object Tiger2 : Algorithm("Tiger2", 64), Incremental
 
     /**
      * Latest version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
      */
-    public object Whirlpool : Algorithm("Whirlpool", 64), Hmac
+    public object Whirlpool : Algorithm("Whirlpool", 64), Incremental, Hmac
 
     /**
      * Original version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
      */
-    public object Whirlpool0 : Algorithm("Whirlpool-0", 64)
+    public object Whirlpool0 : Algorithm("Whirlpool-0", 64), Incremental
 
     /**
      * First version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
      */
-    public object WhirlpoolT : Algorithm("Whirlpool-T", 64)
+    public object WhirlpoolT : Algorithm("Whirlpool-T", 64), Incremental
 
     /**
      * [xxHash](https://github.com/Cyan4973/xxHash) with output size of 32 bits
      */
-    public data class XXHash32(val seed: Int = 0) : Algorithm("XXH32", 32)
+    public data class XXHash32(val seed: Int = 0) : Algorithm("XXH32", 32), Incremental
 
     /**
      * [xxHash](https://github.com/Cyan4973/xxHash) with output size of 64 bits
      */
-    public data class XXHash64(val seed: Long = 0) : Algorithm("XXH64", 64)
+    public data class XXHash64(val seed: Long = 0) : Algorithm("XXH64", 64), Incremental
 
     /**
      * [xxHash3](https://github.com/Cyan4973/xxHash) with output size of 64 bits
      */
-    public open class XXH3_64 : Algorithm("XXH3-64", 128) {
+    public open class XXH3_64 : Algorithm("XXH3-64", 128), Incremental {
         /**
          * [XXH3_64] using [seed] with output size of 64 bits
          */
@@ -841,7 +847,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [xxHash3](https://github.com/Cyan4973/xxHash) with output size of 128 bits
      */
-    public open class XXH3_128 : Algorithm("XXH3-128", 128) {
+    public open class XXH3_128 : Algorithm("XXH3-128", 128), Incremental {
         /**
          * [XXH3_128] using [seed] with output size of 128 bits
          */
@@ -854,12 +860,26 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     }
 
     /**
-     * Create a [Digest] of the [Algorithm] for creating hashes
-     */
-    public fun createDigest(): Digest<*> = CoreDigest.create(this)
-
-    /**
      * Create a hash of [input] using the [Algorithm]
      */
-    public fun hash(input: ByteArray): ByteArray = createDigest().digest(input)
+    public fun hash(input: ByteArray): ByteArray = CoreDigest.create(this).digest(input)
+
+    public fun hashPlatform(input: PlatformData): PlatformData = CoreDigest.create(this).digest(input.asByteArray()).asPlatformData()
+
+    /**
+     * Completes the hash computation by performing final operations
+     * such as padding. The digest is reset after this call is made.
+     *
+     * @param output output buffer for the computed digest
+     *
+     * @param offset offset into the output buffer to begin storing the digest
+     *
+     * @param length number of bytes within buf allotted for the digest
+     *
+     * @return the number of bytes placed into [output]
+     */
+    public fun hash(input: ByteArray, output: ByteArray, offset: Int =  0, length: Int): Int = CoreDigest.create(this).run {
+        update(input)
+        digest(output, offset, length)
+    }
 }

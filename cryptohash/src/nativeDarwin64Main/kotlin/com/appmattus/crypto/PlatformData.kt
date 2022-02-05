@@ -23,6 +23,10 @@ import platform.Foundation.NSData
  */
 public actual typealias PlatformData = NSData
 
+internal actual fun PlatformData.asByteArray(): ByteArray = this.toByteArray()
+
+internal actual fun ByteArray.asPlatformData(): PlatformData = this.toData()
+
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
