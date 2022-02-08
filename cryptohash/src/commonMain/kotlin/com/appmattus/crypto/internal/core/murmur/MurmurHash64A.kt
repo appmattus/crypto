@@ -45,7 +45,6 @@ internal class MurmurHash64A(private val seed: ULong = 0u) : NonIncrementalDiges
         while (len >= 8) {
             var k = input.decodeLELong(pos).toULong()
 
-
             k *= m
             k = k xor (k shr r)
             k *= m
