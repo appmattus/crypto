@@ -508,6 +508,29 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public object MD5 : Algorithm("MD5", 64), Hmac
 
     /**
+     * [MurmurHash1](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash1.cpp) for x86 platform with output size of 32 bits
+     */
+    public data class MurmurHash1(val seed: UInt = 0u) : Algorithm("MurmurHash1", 4)
+
+    /**
+     * [MurmurHash2](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp) for x86 platform with output size of 32 bits
+     * The algorithm is non-incremental in nature so calling update adds the data to an internal buffer.
+     */
+    public data class MurmurHash2(val seed: UInt = 0u) : Algorithm("MurmurHash2", 4)
+
+    /**
+     * [MurmurHash64A](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp) for x64 platform with output size of 64 bits
+     * The algorithm is non-incremental in nature so calling update adds the data to an internal buffer.
+     */
+    public data class MurmurHash64A(val seed: ULong = 0u) : Algorithm("MurmurHash64A", 8)
+
+    /**
+     * [MurmurHash64B](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp) for x86 platform with output size of 64 bits
+     * The algorithm is non-incremental in nature so calling update adds the data to an internal buffer.
+     */
+    public data class MurmurHash64B(val seed: ULong = 0u) : Algorithm("MurmurHash64B", 8)
+
+    /**
      * [MurmurHash2A](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp) for x86 platform with output size of 32 bits
      */
     public data class MurmurHash2A(val seed: UInt = 0u) : Algorithm("MurmurHash2A", 4)

@@ -27,6 +27,20 @@ class MurmurHash2ATest {
 
     private fun digest(seed: UInt = 0u) = CoreDigest.create(Algorithm.MurmurHash2A(seed))
 
+    @Test
+    fun basic() {
+        // From https://github.com/flier/rust-fasthash/blob/master/fasthash/src/murmur2.rs
+        testKat({ digest(0u) }, "hello", "0F7E3BDA")
+        testKat({ digest(123u) }, "hello", "1E5E84B0")
+        testKat({ digest(0u) }, "helloworld", "1813B705")
+
+        // From https://github.com/rryqszq4/php-murmurhash/blob/master/tests/003-murmurhash2.phpt
+        testKat({ digest(0x12345678u) }, "foo", "846C40FD")
+
+        testKat({ digest(0x12345678u) }, "foofoo", "39E03F52")
+        testKat({ digest(0x12345678u) }, "foofoofoofoofoofoofoofoo", "0F98EA05")
+    }
+
     // From https://github.com/jaysoo/murmurhashjs/blob/master/tests.js
     @Test
     fun hashes() {
