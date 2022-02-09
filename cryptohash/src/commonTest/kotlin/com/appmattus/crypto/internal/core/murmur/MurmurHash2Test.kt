@@ -69,8 +69,6 @@ class MurmurHash2Test {
     // From https://github.com/rlpark/rlpark/blob/master/rlpark.plugin.rltoys/jvsrctests/rlpark/plugin/rltoys/junit/algorithms/representations/tilescoding/hashing/MurmurHash2Test.java
     @Test
     fun testChangingKey() {
-        val key = ByteArray(133)
-
         listOf(
             "d743ae0b", "f1b461c6", "a45a6ceb", "db15e003",
             "877721a4", "c30465f1", "fb658ba4", "1adf93b2",
@@ -78,6 +76,7 @@ class MurmurHash2Test {
             "e628c1dd", "9a0344df", "901c99fc", "5ae1aa44"
         ).forEachIndexed { index, expectedHash ->
             // keep seed constant, generate a known key pattern
+            val key = ByteArray(133)
             setKey(key, index)
             testKat({ MurmurHash2(0x1234ABCDu) }, key, expectedHash)
         }
