@@ -47,10 +47,14 @@ import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka512_256
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.SHAKEDigest
 import com.appmattus.crypto.internal.core.google.HighwayHash
+import com.appmattus.crypto.internal.core.murmur.MurmurHash1
+import com.appmattus.crypto.internal.core.murmur.MurmurHash2
 import com.appmattus.crypto.internal.core.murmur.MurmurHash2A
 import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x64_128
 import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_128
 import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_32
+import com.appmattus.crypto.internal.core.murmur.MurmurHash64A
+import com.appmattus.crypto.internal.core.murmur.MurmurHash64B
 import com.appmattus.crypto.internal.core.sphlib.BLAKE224
 import com.appmattus.crypto.internal.core.sphlib.BLAKE256
 import com.appmattus.crypto.internal.core.sphlib.BLAKE384
@@ -322,6 +326,11 @@ internal object CoreDigest {
             is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
             is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
             is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
+
+            is Algorithm.MurmurHash1 -> MurmurHash1(algorithm.seed)
+            is Algorithm.MurmurHash2 -> MurmurHash2(algorithm.seed)
+            is Algorithm.MurmurHash64A -> MurmurHash64A(algorithm.seed)
+            is Algorithm.MurmurHash64B -> MurmurHash64B(algorithm.seed)
         }
     }
 }

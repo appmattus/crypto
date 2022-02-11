@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2022 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 @file:Suppress("TooManyFunctions", "MagicNumber")
 
 package com.appmattus.crypto.internal.core
+
+import com.appmattus.crypto.internal.bytes.ByteBuffer
 
 /**
  * Encode the 32-bit word [value] into the array
@@ -49,6 +51,13 @@ internal fun decodeLEInt(buf: ByteArray, off: Int): Int {
             or (buf[off].toInt() and 0xFF))
 }
 
+internal fun ByteBuffer.decodeLEInt(off: Int): Int {
+    return (this[off + 3].toInt() and 0xFF shl 24
+            or (this[off + 2].toInt() and 0xFF shl 16)
+            or (this[off + 1].toInt() and 0xFF shl 8)
+            or (this[off].toInt() and 0xFF))
+}
+
 /**
  * Decode a 64-bit little-endian integer.
  *
@@ -65,6 +74,17 @@ internal fun decodeLELong(buf: ByteArray, off: Int): Long {
             or ((buf[off + 5].toLong() and 0xFF) shl 40)
             or ((buf[off + 6].toLong() and 0xFF) shl 48)
             or ((buf[off + 7].toLong() and 0xFF) shl 56))
+}
+
+internal fun ByteBuffer.decodeLELong(off: Int): Long {
+    return (this[off + 0].toLong() and 0xFF
+            or ((this[off + 1].toLong() and 0xFF) shl 8)
+            or ((this[off + 2].toLong() and 0xFF) shl 16)
+            or ((this[off + 3].toLong() and 0xFF) shl 24)
+            or ((this[off + 4].toLong() and 0xFF) shl 32)
+            or ((this[off + 5].toLong() and 0xFF) shl 40)
+            or ((this[off + 6].toLong() and 0xFF) shl 48)
+            or ((this[off + 7].toLong() and 0xFF) shl 56))
 }
 
 /**
