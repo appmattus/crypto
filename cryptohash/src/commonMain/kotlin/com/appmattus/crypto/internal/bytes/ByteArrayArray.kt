@@ -80,7 +80,6 @@ internal class ByteArrayArray : ByteBuffer {
             println("len: $len")
             println("index: $index")
 
-
             val pos = position(index)
             println("pos: $pos")
 

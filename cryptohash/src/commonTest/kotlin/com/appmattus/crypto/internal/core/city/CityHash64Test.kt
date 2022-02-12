@@ -27,4 +27,3 @@ internal class CityHash64Test : CityHashTest() {
         testKat({ Algorithm.CityHash64.Seeds(kSeed0, kSeed1).createDigest() }, bytes, expected.hash64WithSeeds)
     }
 }
-

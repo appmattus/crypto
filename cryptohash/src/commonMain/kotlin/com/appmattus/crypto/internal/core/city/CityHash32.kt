@@ -35,7 +35,7 @@ internal class CityHash32 : CityHashBase<CityHash32>() {
     override fun process(input: ByteBuffer, offset: Int, length: Int) {
         h = cityHash32(input)
 
-        //h = CityHash2.hash32(input, offset, length)
+        // h = CityHash2.hash32(input, offset, length)
     }
 
     override fun digest(): ByteArray {

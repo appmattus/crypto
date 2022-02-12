@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.core.city
 
-@Suppress("FunctionName")
+@Suppress("FunctionName", "MagicNumber")
 internal fun crc32_u64(crc: ULong, value: ULong): ULong {
     var crc = crc
 

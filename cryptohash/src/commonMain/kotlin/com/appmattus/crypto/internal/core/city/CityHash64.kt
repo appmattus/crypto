@@ -18,7 +18,6 @@ package com.appmattus.crypto.internal.core.city
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.bytes.ByteBuffer
-import com.appmattus.crypto.internal.core.encodeBEInt
 import com.appmattus.crypto.internal.core.encodeBELong
 
 @Suppress("MagicNumber")

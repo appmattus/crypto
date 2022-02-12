@@ -190,7 +190,7 @@ internal fun decodeBELong(buf: ByteArray, off: Int): Long {
  */
 internal fun circularLeftInt(x: Int, n: Int): Int {
     return x.rotateLeft(n)
-    //return x shl n or (x ushr -n)
+    // return x shl n or (x ushr -n)
 }
 
 /**
@@ -204,7 +204,7 @@ internal fun circularLeftInt(x: Int, n: Int): Int {
  */
 internal fun circularRightInt(x: Int, n: Int): Int {
     return x.rotateRight(n)
-    //return x ushr n or (x shl -n)
+    // return x ushr n or (x shl -n)
 }
 
 /**
@@ -218,7 +218,7 @@ internal fun circularRightInt(x: Int, n: Int): Int {
  */
 internal fun circularLeftLong(x: Long, n: Int): Long {
     return x.rotateLeft(n)
-    //return (x shl n) or (x ushr -n)
+    // return (x shl n) or (x ushr -n)
 }
 
 /**
@@ -232,7 +232,7 @@ internal fun circularLeftLong(x: Long, n: Int): Long {
  */
 internal fun circularRightLong(x: Long, n: Int): Long {
     return x.rotateRight(n)
-    //return x ushr n or (x shl -n)
+    // return x ushr n or (x shl -n)
 }
 
 internal fun UInt.reverseByteOrder(): UInt {

@@ -343,7 +343,6 @@ internal object CoreDigest {
             is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
             is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
             is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
-
         }
     }
 }
