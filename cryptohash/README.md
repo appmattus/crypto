@@ -15,6 +15,7 @@ The following algorithms are supported:
 
 ## Non-cryptographic hash functions
 
+- CityHash32, CityHash64, CityHash128, CityHashCrc128, CityHashCrc256
 - HighwayHash-64, HighwayHash-128, HighwayHash-256
 - MurmurHash1
 - MurmurHash2, MurmurHash64A, MurmurHash64B, MurmurHash2A (aka CMurmurHash2A)
