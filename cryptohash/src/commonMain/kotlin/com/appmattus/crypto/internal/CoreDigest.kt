@@ -46,6 +46,11 @@ import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka256_256
 import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka512_256
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.SHAKEDigest
+import com.appmattus.crypto.internal.core.city.CityHash128
+import com.appmattus.crypto.internal.core.city.CityHash32
+import com.appmattus.crypto.internal.core.city.CityHash64
+import com.appmattus.crypto.internal.core.city.CityHashCrc128
+import com.appmattus.crypto.internal.core.city.CityHashCrc256
 import com.appmattus.crypto.internal.core.google.HighwayHash
 import com.appmattus.crypto.internal.core.murmur.MurmurHash1
 import com.appmattus.crypto.internal.core.murmur.MurmurHash2
@@ -160,6 +165,12 @@ internal object CoreDigest {
             Algorithm.BMW256 -> BMW256()
             Algorithm.BMW384 -> BMW384()
             Algorithm.BMW512 -> BMW512()
+
+            Algorithm.CityHash32 -> CityHash32()
+            is Algorithm.CityHash64 -> CityHash64(algorithm)
+            is Algorithm.CityHash128 -> CityHash128(algorithm)
+            is Algorithm.CityHashCrc128 -> CityHashCrc128(algorithm)
+            Algorithm.CityHashCrc256 -> CityHashCrc256()
 
             Algorithm.CRC32 -> CRC32()
             Algorithm.CRC32B -> CRC32B()
@@ -322,15 +333,17 @@ internal object CoreDigest {
             is Algorithm.XXH3_64 -> XXH3_64(algorithm)
             is Algorithm.XXH3_128 -> XXH3_128(algorithm)
 
-            is Algorithm.MurmurHash2A -> MurmurHash2A(algorithm.seed)
-            is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
-            is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
-            is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
-
             is Algorithm.MurmurHash1 -> MurmurHash1(algorithm.seed)
             is Algorithm.MurmurHash2 -> MurmurHash2(algorithm.seed)
             is Algorithm.MurmurHash64A -> MurmurHash64A(algorithm.seed)
             is Algorithm.MurmurHash64B -> MurmurHash64B(algorithm.seed)
+
+            is Algorithm.MurmurHash2A -> MurmurHash2A(algorithm.seed)
+
+            is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
+            is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
+            is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
+
         }
     }
 }

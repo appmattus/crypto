@@ -100,4 +100,60 @@ class ByteArrayArrayTest {
 
         assertContentEquals(listOf(3, 4, 5, 7), baa.iterator().asSequence().toList())
     }
+
+    @Test
+    fun copyIntoAll() {
+        val baa = ByteArrayArray().apply {
+            add(byteArrayOf(2, 3, 4))
+            add(byteArrayOf(5, 6))
+            add(byteArrayOf(7))
+        }
+
+        val bytes = ByteArray(6)
+
+        // copy all bytes
+        baa.copyInto(bytes)
+
+        assertContentEquals(listOf(2, 3, 4, 5, 6, 7), bytes.toList())
+    }
+
+    @Test
+    fun copyIntoPartial() {
+        val baa = ByteArrayArray().apply {
+            add(byteArrayOf(2, 3, 4))
+            add(byteArrayOf(5, 6, 7))
+        }
+
+        val bytes = ByteArray(4)
+
+        // copy partial bytes
+        baa.copyInto(
+            destination = bytes,
+            destinationOffset = 0,
+            startIndex = 1,
+            endIndex = 5
+        )
+
+        assertContentEquals(listOf(3, 4, 5, 6), bytes.toList())
+    }
+
+    @Test
+    fun copyIntoPartialWithOffset() {
+        val baa = ByteArrayArray().apply {
+            add(byteArrayOf(2, 3, 4))
+            add(byteArrayOf(5, 6, 7))
+        }
+
+        val bytes = ByteArray(8) { i -> (i + 10).toByte() }
+
+        // copy partial bytes
+        baa.copyInto(
+            destination = bytes,
+            destinationOffset = 2,
+            startIndex = 1,
+            endIndex = 5
+        )
+
+        assertContentEquals(listOf(10, 11, 3, 4, 5, 6, 16, 17), bytes.toList())
+    }
 }

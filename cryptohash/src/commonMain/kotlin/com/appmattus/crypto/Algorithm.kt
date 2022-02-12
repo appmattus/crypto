@@ -158,6 +158,51 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public object BMW512 : Algorithm("BMW-512", 128), Hmac
 
     /**
+     * [CityHash](https://github.com/google/cityhash) with output size of 32 bits
+     */
+    public object CityHash32 : Algorithm("CityHash32", 4)
+
+    /**
+     * [CityHash](https://github.com/google/cityhash) with output size of 64 bits
+     */
+    public open class CityHash64 : Algorithm("CityHash64", 8) {
+        /**
+         * [CityHash64] using [seed] with output size of 64 bits
+         */
+        public class Seed(internal val seed: ULong) : CityHash64()
+
+        /**
+         * [CityHash64] using [seed1] and [seed2] with output size of 64 bits
+         */
+        public class Seeds(internal val seed1: ULong, internal val seed2: ULong) : CityHash64()
+    }
+
+    /**
+     * [CityHash](https://github.com/google/cityhash) with output size of 128 bits
+     */
+    public open class CityHash128 : Algorithm("CityHash128", 16) {
+        /**
+         * [CityHash128] using seed ([seedLow] & [seedHigh]) with output size of 128 bits
+         */
+        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : CityHash128()
+    }
+
+    /**
+     * [CityHash](https://github.com/google/cityhash) with output size of 128 bits
+     */
+    public open class CityHashCrc128 : Algorithm("CityHashCrc128", 16) {
+        /**
+         * [CityHash128] using seed ([seedLow] & [seedHigh]) with output size of 128 bits
+         */
+        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : CityHashCrc128()
+    }
+
+    /**
+     * [CityHash](https://github.com/google/cityhash) with output size of 256 bits
+     */
+    public object CityHashCrc256 : Algorithm("CityHashCrc256", 32)
+
+    /**
      * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Used by bzip.
      */

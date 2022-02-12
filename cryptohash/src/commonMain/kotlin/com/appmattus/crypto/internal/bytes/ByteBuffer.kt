@@ -24,6 +24,8 @@ internal interface ByteBuffer : Iterable<Byte> {
 
     fun add(value: ByteArray, offset: Int, length: Int)
 
+    fun copyOf(): ByteBuffer
+
     /**
      * Returns the array element at the given [index].  This method can be called using the index operator.
      *
@@ -38,4 +40,6 @@ internal interface ByteBuffer : Iterable<Byte> {
             yield(get(it))
         }
     }
+
+    fun copyInto(destination: ByteArray, destinationOffset: Int = 0, startIndex: Int = 0, endIndex: Int = size): ByteArray
 }

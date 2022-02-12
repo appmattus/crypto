@@ -19,6 +19,8 @@ package com.appmattus.crypto.internal.core.sphlib
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Hmac
+import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.executeInBackground
 import kotlin.test.assertEquals
 import kotlin.test.fail
@@ -111,6 +113,18 @@ fun assertContentNotEquals(b1: ByteArray, b2: ByteArray) {
 fun ByteArray.toHexString(): String {
     return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
 }
+
+fun Int.toHexString(): String = ByteArray(4).also {
+    encodeBEInt(this, it, 0)
+}.toHexString()
+
+fun UInt.toHexString(): String = toInt().toHexString()
+
+fun Long.toHexString(): String = ByteArray(8).also {
+    encodeBELong(this, it, 0)
+}.toHexString()
+
+fun ULong.toHexString(): String = toLong().toHexString()
 
 fun <T> testHmac(algorithm: T, key: String, input: String, output: String, outputLength: Int? = null) where T : Algorithm, T : Hmac {
     executeInBackground {
