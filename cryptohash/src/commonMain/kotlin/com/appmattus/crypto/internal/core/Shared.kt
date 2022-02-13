@@ -45,14 +45,20 @@ internal fun encodeLEInt(value: Int, buf: ByteArray, off: Int) {
  * @return the decoded value
  */
 internal fun decodeLEInt(buf: ByteArray, off: Int): Int {
-    return (buf[off + 3].toInt() and 0xFF shl 24
+    return ((buf[off + 3].toInt() and 0xFF shl 24)
             or (buf[off + 2].toInt() and 0xFF shl 16)
             or (buf[off + 1].toInt() and 0xFF shl 8)
             or (buf[off].toInt() and 0xFF))
 }
 
+internal fun ByteArray.decodeLEShort(off: Int): Short {
+    return ((this[off + 1].toInt() and 0xFF shl 8)
+            or (this[off].toInt() and 0xFF)).toShort()
+}
+
+
 internal fun ByteBuffer.decodeLEInt(off: Int): Int {
-    return (this[off + 3].toInt() and 0xFF shl 24
+    return ((this[off + 3].toInt() and 0xFF shl 24)
             or (this[off + 2].toInt() and 0xFF shl 16)
             or (this[off + 1].toInt() and 0xFF shl 8)
             or (this[off].toInt() and 0xFF))
