@@ -25,27 +25,23 @@ import com.appmattus.crypto.internal.bytes.ByteBuffer
  */
 internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Digest<D> {
 
-    private var internalBuffer = ByteArray(0)
+    private var internalBuffer = ByteArrayArray()
 
     final override fun update(input: Byte) {
-        internalBuffer += input
+        internalBuffer.add(byteArrayOf(input))
     }
 
     final override fun update(input: ByteArray) {
-        internalBuffer += input
+        internalBuffer.add(input)
     }
 
     final override fun update(input: ByteArray, offset: Int, length: Int) {
-        internalBuffer += input.sliceArray(offset until (offset + length))
+        internalBuffer.add(input, offset, length)
     }
 
     final override fun digest(input: ByteArray): ByteArray {
-        val buffer = ByteArrayArray().apply {
-            add(internalBuffer)
-            add(input)
-        }
-
-        process(buffer, 0, buffer.size)
+        internalBuffer.add(input)
+        process(internalBuffer, 0, internalBuffer.size)
 
         return digest()
     }
@@ -64,7 +60,7 @@ internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Dige
     abstract fun process(input: ByteBuffer, offset: Int, length: Int)
 
     final override fun reset() {
-        internalBuffer = ByteArray(0)
+        internalBuffer = ByteArrayArray()
     }
 
     /**

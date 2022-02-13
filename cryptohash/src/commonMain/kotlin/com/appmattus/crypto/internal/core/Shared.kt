@@ -58,6 +58,8 @@ internal fun ByteBuffer.decodeLEInt(off: Int): Int {
             or (this[off].toInt() and 0xFF))
 }
 
+internal fun ByteBuffer.decodeLEUInt(off: Int): UInt = decodeLEInt(off).toUInt()
+
 /**
  * Decode a 64-bit little-endian integer.
  *
@@ -86,6 +88,8 @@ internal fun ByteBuffer.decodeLELong(off: Int): Long {
             or ((this[off + 6].toLong() and 0xFF) shl 48)
             or ((this[off + 7].toLong() and 0xFF) shl 56))
 }
+
+internal fun ByteBuffer.decodeLEULong(off: Int): ULong = decodeLELong(off).toULong()
 
 /**
  * Encode a 64-bit integer with little-endian convention.
@@ -185,7 +189,8 @@ internal fun decodeBELong(buf: ByteArray, off: Int): Long {
  * @return the rotated value
  */
 internal fun circularLeftInt(x: Int, n: Int): Int {
-    return x shl n or (x ushr -n)
+    return x.rotateLeft(n)
+    // return x shl n or (x ushr -n)
 }
 
 /**
@@ -198,7 +203,8 @@ internal fun circularLeftInt(x: Int, n: Int): Int {
  * @return the rotated value
  */
 internal fun circularRightInt(x: Int, n: Int): Int {
-    return x ushr n or (x shl -n)
+    return x.rotateRight(n)
+    // return x ushr n or (x shl -n)
 }
 
 /**
@@ -211,7 +217,8 @@ internal fun circularRightInt(x: Int, n: Int): Int {
  * @return the rotated value
  */
 internal fun circularLeftLong(x: Long, n: Int): Long {
-    return (x shl n) or (x ushr -n)
+    return x.rotateLeft(n)
+    // return (x shl n) or (x ushr -n)
 }
 
 /**
@@ -224,5 +231,23 @@ internal fun circularLeftLong(x: Long, n: Int): Long {
  * @return the rotated value
  */
 internal fun circularRightLong(x: Long, n: Int): Long {
-    return x ushr n or (x shl -n)
+    return x.rotateRight(n)
+    // return x ushr n or (x shl -n)
+}
+
+internal fun UInt.reverseByteOrder(): UInt {
+    return this shl 24 and 0xff000000u or
+            (this shl 8 and 0x00ff0000u) or
+            (this shr 8 and 0x0000ff00u) or
+            (this shr 24 and 0x000000ffu)
+}
+internal fun ULong.reverseByteOrder(): ULong {
+    return ((this shl 56) and 0xff00000000000000UL) or
+            ((this shl 40) and 0x00ff000000000000UL) or
+            ((this shl 24) and 0x0000ff0000000000UL) or
+            ((this shl 8) and 0x000000ff00000000UL) or
+            ((this shr 8) and 0x00000000ff000000UL) or
+            ((this shr 24) and 0x0000000000ff0000UL) or
+            ((this shr 40) and 0x000000000000ff00UL) or
+            ((this shr 56) and 0x00000000000000ffUL)
 }
