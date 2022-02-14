@@ -4,7 +4,6 @@ import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.decodeLEShort
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.encodeLELong
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
 
 internal class MetroHash64(private val seed: ULong) : DigestEngine<MetroHash64>() {
@@ -122,7 +121,7 @@ internal class MetroHash64(private val seed: ULong) : DigestEngine<MetroHash64>(
         h *= k0
         h = h xor h.rotateRight(29)
 
-        encodeLELong(h.toLong(), output, outputOffset)
+        encodeBELong(h.toLong(), output, outputOffset)
     }
 
     override fun doInit() = Unit

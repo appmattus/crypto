@@ -17,6 +17,7 @@ The following algorithms are supported:
 
 - CityHash32, CityHash64, CityHash128, CityHashCrc128, CityHashCrc256
 - HighwayHash-64, HighwayHash-128, HighwayHash-256
+- MetroHash64, MetroHash128
 - MurmurHash1
 - MurmurHash2, MurmurHash64A, MurmurHash64B, MurmurHash2A (aka CMurmurHash2A)
 - MurmurHash3-x86-32, MurmurHash3-x86-128, MurmurHash3-x64-128
