@@ -52,6 +52,8 @@ import com.appmattus.crypto.internal.core.city.CityHash64
 import com.appmattus.crypto.internal.core.city.CityHashCrc128
 import com.appmattus.crypto.internal.core.city.CityHashCrc256
 import com.appmattus.crypto.internal.core.google.HighwayHash
+import com.appmattus.crypto.internal.core.metro.MetroHash128
+import com.appmattus.crypto.internal.core.metro.MetroHash64
 import com.appmattus.crypto.internal.core.murmur.MurmurHash1
 import com.appmattus.crypto.internal.core.murmur.MurmurHash2
 import com.appmattus.crypto.internal.core.murmur.MurmurHash2A
@@ -254,6 +256,9 @@ internal object CoreDigest {
             Algorithm.Luffa256 -> Luffa256()
             Algorithm.Luffa384 -> Luffa384()
             Algorithm.Luffa512 -> Luffa512()
+
+            is Algorithm.MetroHash64 -> MetroHash64(algorithm.seed)
+            is Algorithm.MetroHash128 -> MetroHash128(algorithm.seed)
 
             Algorithm.MD2 -> MD2()
             Algorithm.MD4 -> MD4()

@@ -538,6 +538,16 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public object Luffa512 : Algorithm("Luffa-512", 32)
 
     /**
+     * [MetroHash](https://github.com/jandrewrogers/MetroHash) with output size of 64 bits
+     */
+    public data class MetroHash64(val seed: ULong = 0u) : Algorithm("MetroHash64", 32)
+
+    /**
+     * [MetroHash](https://github.com/jandrewrogers/MetroHash) with output size of 128 bits
+     */
+    public data class MetroHash128(val seed: ULong = 0u) : Algorithm("MetroHash128", 32)
+
+    /**
      * [MD2](https://en.wikipedia.org/wiki/MD2_(hash_function)) with output size of 128 bits
      */
     public object MD2 : Algorithm("MD2", 16), Hmac
