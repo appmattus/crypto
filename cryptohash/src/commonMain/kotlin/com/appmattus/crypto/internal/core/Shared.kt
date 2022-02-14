@@ -56,7 +56,6 @@ internal fun ByteArray.decodeLEShort(off: Int): Short {
             or (this[off].toInt() and 0xFF)).toShort()
 }
 
-
 internal fun ByteBuffer.decodeLEInt(off: Int): Int {
     return ((this[off + 3].toInt() and 0xFF shl 24)
             or (this[off + 2].toInt() and 0xFF shl 16)

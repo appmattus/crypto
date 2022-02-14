@@ -6,6 +6,7 @@ import com.appmattus.crypto.internal.core.decodeLEShort
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
 
+@Suppress("MagicNumber")
 internal class MetroHash64(private val seed: ULong) : DigestEngine<MetroHash64>() {
 
     private var h = (seed + k2) * k0
