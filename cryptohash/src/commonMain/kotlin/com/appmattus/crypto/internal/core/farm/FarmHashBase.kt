@@ -6,7 +6,7 @@ import com.appmattus.crypto.internal.core.city.ULongLong
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 
-@Suppress("ReturnCount")
+@Suppress("ReturnCount", "MagicNumber", "TooManyFunctions")
 internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
 
     // Return an 8-byte hash for 33 to 64 bytes.
@@ -122,7 +122,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         g = g * 5u + 0xe6546b64u
         f += a4
         f = f.rotateRight(19) + 113u
-        //f = f * 5u + 0xe6546b64u
+        // f = f * 5u + 0xe6546b64u
         var iters = (len - 1) / 20
         var pos = 0
         do {
@@ -171,6 +171,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         return if (s.size <= 64) naHash64(s) else uoHash64WithSeeds(s, 81u, 0u)
     }
 
+    @Suppress("LongMethod")
     private fun uoHash64WithSeeds(s: ByteBuffer, seed0: ULong, seed1: ULong): ULong {
         val len = s.size
         if (len <= 64) {
@@ -190,7 +191,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
 
         // Set end so that after the loop we have 1 to 64 bytes left to process.
         val end = ((len - 1) / 64) * 64
-        val last64 = len - 64 //end + ((len - 1) and 63) - 63
+        val last64 = len - 64 // end + ((len - 1) and 63) - 63
         var pos = 0
 
         do {
@@ -292,6 +293,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         return (h2 * 9u + (h0 shr 17) + (h1 shr 21)) * mul1
     }
 
+    @Suppress("LongParameterList")
     private fun h32(s: ByteBuffer, offset: Int, len: Int, mul: ULong, seed0: ULong = 0u, seed1: ULong = 0u): ULong {
         var a: ULong = s.decodeLEULong(offset) * k1
         var b: ULong = s.decodeLEULong(offset + 8)
@@ -325,7 +327,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
 
         // Set end so that after the loop we have 1 to 64 bytes left to process.
         val end = ((len - 1) / 64) * 64
-        val last64 = len - 64 //end + ((len - 1) and 63) - 63
+        val last64 = len - 64 // end + ((len - 1) and 63) - 63
         var pos = 0
         do {
             x = (x + y + v.lowValue + s.decodeLEULong(pos + 8)).rotateRight(37) * k1
@@ -441,20 +443,6 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
                 (e + f).rotateRight(43) + g.rotateRight(30) + h,
                 e + (f + a).rotateRight(18) + g, mul
             )
-        }
-
-        // Hash 128 input bits down to 64 bits of output.
-        // This is intended to be a reasonably good hash function.
-        // May change from time to time, may differ on different platforms, may differ
-        // depending on NDEBUG.
-        private fun hash128to64(x: ULongLong): ULong {
-            // Murmur-inspired hashing.
-            var a: ULong = (x.lowValue xor x.highValue) * kMul
-            a = a xor (a shr 47)
-            var b: ULong = (x.highValue xor a) * kMul
-            b = b xor (b shr 47)
-            b *= kMul
-            return b
         }
     }
 }

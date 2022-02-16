@@ -17,11 +17,21 @@
 package com.appmattus.crypto.internal.core.city
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.internal.core.city.CityHashTest.data
+import com.appmattus.crypto.internal.core.city.CityHashTest.kTestSize
+import com.appmattus.crypto.internal.core.city.CityHashTest.testData
 import com.appmattus.crypto.internal.core.sphlib.testKat
+import kotlin.test.Test
 
-internal class CityHash32Test : CityHashTest() {
+internal class CityHash32Test {
 
-    override fun baseTest(expected: Expected, bytes: ByteArray) {
-        testKat({ Algorithm.CityHash32.createDigest() }, bytes, expected.hash32)
+    @Test
+    fun baseTest() {
+        for (i in 0 until kTestSize - 1) {
+            val data = data.copyOfRange(i * i, i * i + i)
+            testKat({ Algorithm.CityHash32.createDigest() }, data, testData[i].hash32)
+        }
+
+        testKat({ Algorithm.CityHash32.createDigest() }, data, testData[kTestSize - 1].hash32)
     }
 }

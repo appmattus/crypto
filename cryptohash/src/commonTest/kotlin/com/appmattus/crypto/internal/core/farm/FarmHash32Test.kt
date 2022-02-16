@@ -1,10 +1,13 @@
 package com.appmattus.crypto.internal.core.farm
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.internal.core.farm.FarmHashTest.data
+import com.appmattus.crypto.internal.core.farm.FarmHashTest.kSeed0
+import com.appmattus.crypto.internal.core.farm.FarmHashTest.kTestSize
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import kotlin.test.Test
 
-class FarmHash32Test : FarmHashTest() {
+class FarmHash32Test {
 
     @Test
     fun golden64() {

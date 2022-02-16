@@ -604,11 +604,15 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             return b + x
         }
 
-        private fun hash128to64(number128: ULongLong): ULong {
+        // Hash 128 input bits down to 64 bits of output.
+        // This is intended to be a reasonably good hash function.
+        // May change from time to time, may differ on different platforms, may differ
+        // depending on NDEBUG.
+        private fun hash128to64(x: ULongLong): ULong {
             // Murmur-inspired hashing.
-            var a: ULong = (number128.lowValue xor number128.highValue) * kMul
+            var a: ULong = (x.lowValue xor x.highValue) * kMul
             a = a xor (a shr 47)
-            var b: ULong = (number128.highValue xor a) * kMul
+            var b: ULong = (x.highValue xor a) * kMul
             b = b xor (b shr 47)
             b *= kMul
             return b
