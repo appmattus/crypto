@@ -51,6 +51,9 @@ import com.appmattus.crypto.internal.core.city.CityHash32
 import com.appmattus.crypto.internal.core.city.CityHash64
 import com.appmattus.crypto.internal.core.city.CityHashCrc128
 import com.appmattus.crypto.internal.core.city.CityHashCrc256
+import com.appmattus.crypto.internal.core.farm.FarmHash128
+import com.appmattus.crypto.internal.core.farm.FarmHash32
+import com.appmattus.crypto.internal.core.farm.FarmHash64
 import com.appmattus.crypto.internal.core.google.HighwayHash
 import com.appmattus.crypto.internal.core.metro.MetroHash128
 import com.appmattus.crypto.internal.core.metro.MetroHash64
@@ -194,6 +197,10 @@ internal object CoreDigest {
             Algorithm.ECHO256 -> ECHO256()
             Algorithm.ECHO384 -> ECHO384()
             Algorithm.ECHO512 -> ECHO512()
+
+            is Algorithm.FarmHash32 -> FarmHash32(algorithm)
+            is Algorithm.FarmHash64 -> FarmHash64(algorithm)
+            is Algorithm.FarmHash128 -> FarmHash128(algorithm)
 
             Algorithm.Fugue224 -> Fugue224()
             Algorithm.Fugue256 -> Fugue256()

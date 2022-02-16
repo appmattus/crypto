@@ -424,17 +424,17 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
     companion object {
         // Some primes between 2^63 and 2^64 for various uses.
-        private const val k0: ULong = 0xc3a5c85c97cb3127uL
-        private const val k1: ULong = 0xb492b66fbe98f273uL
-        private const val k2: ULong = 0x9ae16a3b2f90404fuL
-        private const val kMul: ULong = 0x9ddfea08eb382d69uL
+        internal const val k0: ULong = 0xc3a5c85c97cb3127uL
+        internal const val k1: ULong = 0xb492b66fbe98f273uL
+        internal const val k2: ULong = 0x9ae16a3b2f90404fuL
+        internal const val kMul: ULong = 0x9ddfea08eb382d69uL
 
         // Magic numbers for 32-bit hashing.  Copied from Murmur3.
-        private const val c1: UInt = 0xcc9e2d51u
-        private const val c2: UInt = 0x1b873593u
+        internal const val c1: UInt = 0xcc9e2d51u
+        internal const val c2: UInt = 0x1b873593u
 
         // A 32-bit to 32-bit integer hash copied from Murmur3.
-        private fun UInt.fmix(): UInt {
+        internal fun UInt.fmix(): UInt {
             var h = this
             h = h xor (h shr 16)
             h *= 0x85ebca6bu
@@ -444,7 +444,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             return h
         }
 
-        private fun mur(a: UInt, h: UInt): UInt {
+        internal fun mur(a: UInt, h: UInt): UInt {
             // Helper from Murmur3 for combining two 32-bit values.
             var a = a
             var h = h
@@ -493,15 +493,15 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             return mur(c, mur(b, mur(a, d))).fmix()
         }
 
-        private fun shiftMix(value: ULong): ULong {
+        internal fun shiftMix(value: ULong): ULong {
             return value xor (value shr 47)
         }
 
-        private fun hashLen16(u: ULong, v: ULong): ULong {
+        internal fun hashLen16(u: ULong, v: ULong): ULong {
             return hash128to64(ULongLong(u, v))
         }
 
-        private fun hashLen16(u: ULong, v: ULong, mul: ULong): ULong {
+        internal fun hashLen16(u: ULong, v: ULong, mul: ULong): ULong {
             // Murmur-inspired hashing.
             var a: ULong = (u xor v) * mul
             a = a xor (a shr 47)
@@ -512,7 +512,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         }
 
         @Suppress("ReturnCount")
-        private fun hashLen0to16(s: ByteBuffer, offset: Int = 0, len: Int = s.size): ULong {
+        internal fun hashLen0to16(s: ByteBuffer, offset: Int = 0, len: Int = s.size): ULong {
             if (len >= 8) {
                 val mul: ULong = k2 + len.toULong() * 2u
                 val a: ULong = s.decodeLEULong(offset + 0) + k2

@@ -31,4 +31,8 @@ internal class ULongLong(var lowValue: ULong, var highValue: ULong) : Number() {
     override fun toLong() = lowValue.toLong()
 
     override fun toShort() = toLong().toShort()
+
+    override fun toString(): String {
+        return "[$lowValue, $highValue]"
+    }
 }
