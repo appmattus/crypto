@@ -277,6 +277,41 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public object ECHO512 : Algorithm("ECHO-512", 128)
 
     /**
+     * [FarmHash](https://github.com/google/farmhash) with output size of 32 bits
+     */
+    public open class FarmHash32 : Algorithm("FarmHash32", 8) {
+        /**
+         * [FarmHash32] using [seed] with output size of 64 bits
+         */
+        public class Seed(internal val seed: UInt) : FarmHash32()
+    }
+
+    /**
+     * [FarmHash](https://github.com/google/farmhash) with output size of 64 bits
+     */
+    public open class FarmHash64 : Algorithm("FarmHash64", 8) {
+        /**
+         * [FarmHash64] using [seed] with output size of 64 bits
+         */
+        public class Seed(internal val seed: ULong) : FarmHash64()
+
+        /**
+         * [FarmHash64] using [seed1] and [seed2] with output size of 64 bits
+         */
+        public class Seeds(internal val seed1: ULong, internal val seed2: ULong) : FarmHash64()
+    }
+
+    /**
+     * [FarmHash](https://github.com/google/farmhash) with output size of 128 bits
+     */
+    public open class FarmHash128 : Algorithm("FarmHash128", 16) {
+        /**
+         * [FarmHash128] using seed ([seedLow] & [seedHigh]) with output size of 128 bits
+         */
+        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : FarmHash128()
+    }
+
+    /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 224 bits
      */
     public object Fugue224 : Algorithm("Fugue-224", 28)

@@ -246,6 +246,7 @@ internal fun UInt.reverseByteOrder(): UInt {
             (this shr 8 and 0x0000ff00u) or
             (this shr 24 and 0x000000ffu)
 }
+
 internal fun ULong.reverseByteOrder(): ULong {
     return ((this shl 56) and 0xff00000000000000UL) or
             ((this shl 40) and 0x00ff000000000000UL) or
@@ -256,3 +257,19 @@ internal fun ULong.reverseByteOrder(): ULong {
             ((this shr 40) and 0x000000000000ff00UL) or
             ((this shr 56) and 0x00000000000000ffUL)
 }
+
+internal fun ByteArray.toHexString(): String {
+    return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
+}
+
+internal fun Int.toHexString(): String = ByteArray(4).also {
+    encodeBEInt(this, it, 0)
+}.toHexString()
+
+internal fun UInt.toHexString(): String = toInt().toHexString()
+
+internal fun Long.toHexString(): String = ByteArray(8).also {
+    encodeBELong(this, it, 0)
+}.toHexString()
+
+internal fun ULong.toHexString(): String = toLong().toHexString()

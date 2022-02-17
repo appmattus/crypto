@@ -17,13 +17,25 @@
 package com.appmattus.crypto.internal.core.city
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.internal.core.city.CityHashTest.data
+import com.appmattus.crypto.internal.core.city.CityHashTest.kSeed0
+import com.appmattus.crypto.internal.core.city.CityHashTest.kSeed1
+import com.appmattus.crypto.internal.core.city.CityHashTest.kTestSize
+import com.appmattus.crypto.internal.core.city.CityHashTest.testData
 import com.appmattus.crypto.internal.core.sphlib.testKat
+import kotlin.test.Test
 
-internal class CityHash128Test : CityHashTest() {
+internal class CityHash128Test {
 
-    override fun baseTest(expected: Expected, bytes: ByteArray) {
-        testKat({ Algorithm.CityHash128().createDigest() }, bytes, expected.hash128)
+    @Test
+    fun baseTest() {
+        for (i in 0 until kTestSize - 1) {
+            val data = data.copyOfRange(i * i, i * i + i)
+            testKat({ Algorithm.CityHash128().createDigest() }, data, testData[i].hash128)
+            testKat({ Algorithm.CityHash128.Seed(kSeed0, kSeed1).createDigest() }, data, testData[i].hash128WithSeed)
+        }
 
-        testKat({ Algorithm.CityHash128.Seed(kSeed0, kSeed1).createDigest() }, bytes, expected.hash128WithSeed)
+        testKat({ Algorithm.CityHash128().createDigest() }, data, testData[kTestSize - 1].hash128)
+        testKat({ Algorithm.CityHash128.Seed(kSeed0, kSeed1).createDigest() }, data, testData[kTestSize - 1].hash128WithSeed)
     }
 }
