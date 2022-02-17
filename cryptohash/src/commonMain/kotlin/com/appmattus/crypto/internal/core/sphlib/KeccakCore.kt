@@ -49,7 +49,6 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * @version $Revision: 258 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal abstract class KeccakCore<D : KeccakCore<D>>(private val markByte: Byte = 0x01) : DigestEngine<D>() {
     private lateinit var a: LongArray
     private lateinit var tmpOut: ByteArray

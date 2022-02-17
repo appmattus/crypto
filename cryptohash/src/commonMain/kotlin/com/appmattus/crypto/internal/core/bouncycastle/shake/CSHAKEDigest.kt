@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.shake
 
-@Suppress("MagicNumber")
 internal class CSHAKEDigest : SHAKEDigest {
     private val diff: ByteArray?
 

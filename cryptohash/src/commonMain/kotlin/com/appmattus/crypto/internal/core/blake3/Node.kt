@@ -46,7 +46,6 @@ import com.appmattus.crypto.internal.core.encodeLEInt
 // Node of the Blake3 hash tree
 // Is either chained into the next node using chainingValue()
 // Or used to calculate the hash digest using rootOutputBytes()
-@Suppress("MagicNumber")
 internal class Node(
     private var inputChainingValue: IntArray,
     private var blockWords: IntArray,

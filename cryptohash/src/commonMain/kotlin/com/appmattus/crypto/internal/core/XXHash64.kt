@@ -19,7 +19,6 @@ package com.appmattus.crypto.internal.core
 /**
  * @property seed A seed for generate digest. Default is 0.
  */
-@Suppress("MagicNumber")
 internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>() {
 
     private var state = State64()

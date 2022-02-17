@@ -78,7 +78,7 @@ import com.appmattus.crypto.internal.core.encodeLEInt
  * BLAKE2s is optimized for 32-bit platforms and produces digests of any size
  * between 1 and 32 bytes.
  */
-@Suppress("MagicNumber", "ThrowsCount", "LongParameterList", "TooManyFunctions")
+@Suppress("ThrowsCount", "LongParameterList", "TooManyFunctions")
 internal class Blake2s : Digest<Blake2s> {
 
     /**

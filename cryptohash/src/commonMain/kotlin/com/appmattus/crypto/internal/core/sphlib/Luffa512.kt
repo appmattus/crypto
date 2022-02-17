@@ -50,7 +50,7 @@ import com.appmattus.crypto.internal.core.encodeBEInt
  * @version $Revision: 235 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber", "LargeClass")
+@Suppress("LargeClass")
 internal class Luffa512 : DigestEngine<Luffa512>() {
     private var v00 = 0
     private var v01 = 0

@@ -51,7 +51,6 @@ import com.appmattus.crypto.internal.core.encodeLELong
  *
  * @param fbyte   the first padding byte
  */
-@Suppress("MagicNumber")
 internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : MDHelper<D>(true, 8, fbyte) {
 
     private var currentA: Long = 0

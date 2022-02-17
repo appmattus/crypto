@@ -41,7 +41,7 @@ import com.appmattus.crypto.internal.core.encodeBELong
  *
  * @param key array of size 4 with the key to initialize the hash with
  */
-@Suppress("MagicNumber", "TooManyFunctions")
+@Suppress("TooManyFunctions")
 internal class HighwayHash(private val key: LongArray, private val outputLengthBits: Int) : Digest<HighwayHash> {
     private var v0 = LongArray(4)
     private var v1 = LongArray(4)

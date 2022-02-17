@@ -46,7 +46,7 @@ import com.appmattus.crypto.Algorithm
  *
  * Haraka512-256 with reference to Python Reference Impl from: https://github.com/kste/haraka
  */
-@Suppress("ClassName", "MagicNumber", "LargeClass")
+@Suppress("ClassName", "LargeClass")
 internal class Haraka512_256 : HarakaCore<Haraka512_256> {
     private val buffer: ByteArray
     private var off = 0

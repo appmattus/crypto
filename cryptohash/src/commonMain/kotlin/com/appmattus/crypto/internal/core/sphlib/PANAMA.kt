@@ -50,7 +50,6 @@ import com.appmattus.crypto.internal.core.encodeLEInt
  * @version $Revision: 214 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal class PANAMA : DigestEngine<PANAMA>() {
     private lateinit var buffer: IntArray
     private var bufferPtr = 0

@@ -48,7 +48,6 @@ import com.appmattus.crypto.internal.core.encodeBEInt
  * @version $Revision: 240 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal abstract class LuffaSmallCore<D : LuffaSmallCore<D>> : DigestEngine<D>() {
     private var v00 = 0
     private var v01 = 0

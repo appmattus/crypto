@@ -78,7 +78,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * BLAKE2b is optimized for 64-bit platforms and produces digests of any size
  * between 1 and 64 bytes.
  */
-@Suppress("MagicNumber", "LongParameterList", "TooManyFunctions")
+@Suppress("LongParameterList", "TooManyFunctions")
 internal class Blake2b : Digest<Blake2b> {
     /**
      * return the size, in bytes, of the digest produced by this message digest.

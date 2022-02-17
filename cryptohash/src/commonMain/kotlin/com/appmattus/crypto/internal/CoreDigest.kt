@@ -140,7 +140,7 @@ import com.appmattus.crypto.internal.core.xxh3.XXH3_64
 
 internal object CoreDigest {
 
-    @Suppress("MagicNumber", "LongMethod", "ComplexMethod")
+    @Suppress("LongMethod", "ComplexMethod")
     fun create(algorithm: Algorithm): Digest<*> {
         return when (algorithm) {
             Algorithm.Adler32 -> Adler32()

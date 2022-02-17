@@ -24,7 +24,7 @@ import com.appmattus.crypto.internal.core.sphlib.KeccakCore
  * This class implements the SHA3-256 digest algorithm under the
  * [Digest] API.
  */
-@Suppress("ClassName", "MagicNumber")
+@Suppress("ClassName")
 internal class SHA3_256 : KeccakCore<SHA3_256>(markByte = 0x06) {
 
     override fun copy(): SHA3_256 {

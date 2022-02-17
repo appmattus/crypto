@@ -19,7 +19,6 @@ package com.appmattus.crypto.internal.core
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
-@Suppress("MagicNumber")
 internal class CRC32C : Digest<CRC32C> {
 
     private var checksum = 0

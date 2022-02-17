@@ -50,7 +50,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * Thanks to Roman Oliynykov' native C implementation:
  * https://github.com/Roman-Oliynykov/Kupyna-reference
  */
-@Suppress("TooManyFunctions", "MagicNumber", "LargeClass")
+@Suppress("TooManyFunctions", "LargeClass")
 internal class Kupyna : Digest<Kupyna> {
     override var digestLength = 0
         private set

@@ -45,7 +45,6 @@ package com.appmattus.crypto.internal.core.bouncycastle.shake
  *
  * Following the naming conventions used in the C source code to enable easy review of the implementation.
  */
-@Suppress("MagicNumber")
 internal open class SHAKEDigest : KeccakDigest<SHAKEDigest> {
 
     constructor(bitLength: Int = 128) : super(checkBitLength(bitLength))

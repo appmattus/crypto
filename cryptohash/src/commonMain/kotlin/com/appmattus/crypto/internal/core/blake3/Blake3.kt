@@ -19,7 +19,6 @@ package com.appmattus.crypto.internal.core.blake3
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
-@Suppress("MagicNumber")
 internal class Blake3(private val parameters: Algorithm.Blake3) : Digest<Blake3> {
 
     private var hasher = when (parameters) {

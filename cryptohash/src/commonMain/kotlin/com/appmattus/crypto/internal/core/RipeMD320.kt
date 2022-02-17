@@ -19,7 +19,6 @@ package com.appmattus.crypto.internal.core
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.core.sphlib.MDHelper
 
-@Suppress("MagicNumber")
 internal class RipeMD320 : MDHelper<RipeMD320>(true, 8) {
 
     private lateinit var currentVal: IntArray

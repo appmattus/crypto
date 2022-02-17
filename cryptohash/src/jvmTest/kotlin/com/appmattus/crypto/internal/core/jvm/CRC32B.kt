@@ -20,7 +20,6 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.encodeBEInt
 
-@Suppress("MagicNumber")
 internal class CRC32B : Digest<CRC32B> {
 
     private var crc = java.util.zip.CRC32()

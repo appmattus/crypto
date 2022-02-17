@@ -18,7 +18,7 @@ package com.appmattus.crypto.internal.core.city
 
 import kotlin.native.concurrent.SharedImmutable
 
-@Suppress("FunctionName", "MagicNumber")
+@Suppress("FunctionName")
 internal fun crc32_u64(crc: ULong, value: ULong): ULong {
     var crc = crc
 

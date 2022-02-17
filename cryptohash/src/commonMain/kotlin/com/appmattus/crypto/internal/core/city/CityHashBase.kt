@@ -23,7 +23,7 @@ import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.reverseByteOrder
 
-@Suppress("MagicNumber", "TooManyFunctions")
+@Suppress("TooManyFunctions")
 internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest<D>() {
 
     @Suppress("LongMethod", "ReturnCount")

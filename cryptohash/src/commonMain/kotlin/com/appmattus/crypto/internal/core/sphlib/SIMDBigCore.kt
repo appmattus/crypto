@@ -49,7 +49,7 @@ import com.appmattus.crypto.internal.core.encodeLEInt
  * @version $Revision: 214 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber", "LargeClass")
+@Suppress("LargeClass")
 internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
     private lateinit var state: IntArray
     private lateinit var q: IntArray

@@ -24,7 +24,6 @@ import com.appmattus.crypto.internal.core.sphlib.KeccakCore
  * This class implements the Keccak-288 digest algorithm under the
  * [Digest] API.
  */
-@Suppress("MagicNumber")
 internal class Keccak288 : KeccakCore<Keccak288>() {
 
     override fun copy(): Keccak288 {

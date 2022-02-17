@@ -47,7 +47,7 @@ import com.appmattus.crypto.Digest
  * @version $Revision: 239 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("TooManyFunctions", "MagicNumber", "LargeClass")
+@Suppress("TooManyFunctions", "LargeClass")
 internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest<D> {
     private val h: IntArray = IntArray(8)
     private var bitCount: Long = 0

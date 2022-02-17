@@ -20,7 +20,6 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.encodeBEInt
 
-@Suppress("MagicNumber")
 internal class FarmHash32(private val parameters: Algorithm.FarmHash32) : FarmHashBase<FarmHash32>() {
 
     private var h: UInt = 0u

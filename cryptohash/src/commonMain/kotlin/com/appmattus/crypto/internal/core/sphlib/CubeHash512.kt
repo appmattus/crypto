@@ -47,7 +47,6 @@ package com.appmattus.crypto.internal.core.sphlib
  * @version $Revision: 183 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal class CubeHash512 : CubeHashCore<CubeHash512>() {
 
     override fun copy(): CubeHash512 {

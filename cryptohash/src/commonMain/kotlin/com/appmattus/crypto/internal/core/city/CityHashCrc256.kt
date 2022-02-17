@@ -19,7 +19,6 @@ package com.appmattus.crypto.internal.core.city
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.encodeBELong
 
-@Suppress("MagicNumber")
 internal class CityHashCrc256 : CityHashBase<CityHashCrc256>() {
 
     private var h: Array<ULong> = Array(4) { 0u }

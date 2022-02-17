@@ -48,7 +48,6 @@
     "ClassName",
     "unused",
     "LocalVariableName",
-    "MagicNumber",
     "FunctionParameterNaming",
     "VariableNaming",
     "TooManyFunctions",

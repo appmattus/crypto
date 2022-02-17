@@ -65,7 +65,6 @@ import com.appmattus.crypto.internal.core.encodeLEInt
  * be at least 8)
  * @param fbyte          the first padding byte
  */
-@Suppress("MagicNumber")
 internal abstract class MDHelper<D : MDHelper<D>>(
     private val littleEndian: Boolean,
     lenlen: Int,
