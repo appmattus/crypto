@@ -23,7 +23,6 @@ import com.appmattus.crypto.internal.core.encodeBELong
 
 // Based on the public domain https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp
 // This algorithm is non-incremental
-@Suppress("MagicNumber")
 internal class MurmurHash64A(private val seed: ULong = 0u) : NonIncrementalDigest<MurmurHash64A>() {
 
     private var h = 0uL

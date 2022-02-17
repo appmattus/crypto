@@ -46,7 +46,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
 /**
  * implementation of GOST R 34.11-94
  */
-@Suppress("TooManyFunctions", "MagicNumber")
+@Suppress("TooManyFunctions")
 internal class GOST3411() : Digest<GOST3411> {
     private val h = ByteArray(32)
     private val l = ByteArray(32)

@@ -3,7 +3,7 @@ build:
 
 style:
     MagicNumber:
-        excludes: "**/test/**,**/androidTest/**,**/commonTest/**,**/*.Test.kt,**/*.Spec.kt,**/*.Spek.kt,**/*.gradle.kts"
+        active: false
     MaxLineLength:
         active: false
 

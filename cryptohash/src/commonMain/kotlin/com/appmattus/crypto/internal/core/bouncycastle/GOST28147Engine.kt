@@ -46,7 +46,6 @@ import com.appmattus.crypto.internal.core.encodeLEInt
 /**
  * implementation of GOST 28147-89
  */
-@Suppress("MagicNumber")
 internal class GOST28147Engine {
     private var workingKey: IntArray? = null
     private var forEncryption = false

@@ -44,7 +44,7 @@ import com.appmattus.crypto.Algorithm
 /**
  * implementation of GOST R 34.11-2012 256-bit
  */
-@Suppress("ClassName", "MagicNumber")
+@Suppress("ClassName")
 internal class GOST3411_2012_256 : GOST3411_2012Core<GOST3411_2012_256>(IV) {
 
     override val digestLength: Int

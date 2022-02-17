@@ -48,7 +48,6 @@ import com.appmattus.crypto.internal.core.encodeLEInt
  * @version $Revision: 222 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal abstract class SHAviteBigCore<D : SHAviteBigCore<D>> : DigestEngine<D>() {
     private lateinit var h: IntArray
     private lateinit var rk: IntArray

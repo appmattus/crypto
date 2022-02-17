@@ -6,7 +6,7 @@ import com.appmattus.crypto.internal.core.city.ULongLong
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 
-@Suppress("ReturnCount", "MagicNumber", "TooManyFunctions")
+@Suppress("ReturnCount", "TooManyFunctions")
 internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
 
     // Return an 8-byte hash for 33 to 64 bytes.

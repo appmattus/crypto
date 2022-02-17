@@ -24,7 +24,6 @@ import com.appmattus.crypto.internal.core.bouncycastle.skein.SkeinParameters
 /**
  * This class implements the Skein-XXXX-XXX digest algorithm
  */
-@Suppress("MagicNumber")
 internal class SkeinBouncycastleCore(
     private val blockSizeBits: Int,
     private val outputSizeBits: Int,

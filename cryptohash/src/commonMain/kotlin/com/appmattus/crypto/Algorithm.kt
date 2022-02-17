@@ -19,7 +19,7 @@ package com.appmattus.crypto
 import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.blake3.Hasher
 
-@Suppress("MagicNumber", "ClassName")
+@Suppress("ClassName")
 public sealed class Algorithm(public val algorithmName: String, internal val blockLength: Int) {
     /**
      * [Adler-32](https://en.wikipedia.org/wiki/Adler-32) with output size of 32 bits

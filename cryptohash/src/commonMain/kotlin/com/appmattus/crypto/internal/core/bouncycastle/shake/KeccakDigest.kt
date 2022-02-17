@@ -50,7 +50,7 @@ import kotlin.math.min
  *
  * Following the naming conventions used in the C source code to enable easy review of the implementation.
  */
-@Suppress("MagicNumber", "TooManyFunctions")
+@Suppress("TooManyFunctions")
 internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
     protected var state = LongArray(25)
     protected var dataQueue = ByteArray(192)

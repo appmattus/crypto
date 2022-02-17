@@ -25,7 +25,6 @@ import kotlinx.cinterop.usePinned
 import platform.zlib.crc32
 import platform.zlib.uBytefVar
 
-@Suppress("MagicNumber")
 internal class CRC32B : Digest<CRC32B> {
 
     private var crc: ULong = 0UL

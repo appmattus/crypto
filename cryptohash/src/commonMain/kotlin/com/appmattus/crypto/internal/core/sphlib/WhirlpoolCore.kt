@@ -51,7 +51,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * @version $Revision: 214 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("LongParameterList", "MagicNumber")
+@Suppress("LongParameterList")
 internal abstract class WhirlpoolCore<D : WhirlpoolCore<D>>(
     private val t0: LongArray,
     private val t1: LongArray,

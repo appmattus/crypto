@@ -51,7 +51,6 @@ import com.appmattus.crypto.internal.core.encodeLEInt
  * @version $Revision: 232 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
     private lateinit var a: IntArray
     private lateinit var b: IntArray

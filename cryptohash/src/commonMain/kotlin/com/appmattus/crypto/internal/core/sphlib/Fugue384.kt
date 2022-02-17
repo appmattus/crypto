@@ -48,7 +48,6 @@ import com.appmattus.crypto.internal.core.encodeBEInt
  * @version $Revision: 159 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal class Fugue384 : FugueCore<Fugue384>() {
 
     override val digestLength: Int

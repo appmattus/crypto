@@ -21,7 +21,6 @@ import com.appmattus.crypto.internal.core.encodeBEInt
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
 
 // Based on the public domain https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp
-@Suppress("MagicNumber")
 internal class MurmurHash2A(private val seed: UInt = 0u) : DigestEngine<MurmurHash2A>() {
 
     private var h = seed

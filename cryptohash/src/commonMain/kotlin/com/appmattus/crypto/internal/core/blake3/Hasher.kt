@@ -49,7 +49,7 @@ import kotlin.math.min
  *
  * Translated by Appmattus Limited from Java to Kotlin
  */
-@Suppress("MagicNumber", "TooManyFunctions")
+@Suppress("TooManyFunctions")
 internal class Hasher(
     private val key: IntArray,
     private val flags: Int

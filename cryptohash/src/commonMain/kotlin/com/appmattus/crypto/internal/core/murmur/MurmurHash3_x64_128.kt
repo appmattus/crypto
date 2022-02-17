@@ -21,7 +21,7 @@ import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
 
 // Based on the public domain https://github.com/yonik/java_util/blob/master/src/util/hash/MurmurHash3.java
-@Suppress("ClassName", "MagicNumber")
+@Suppress("ClassName")
 internal class MurmurHash3_x64_128(private val seed: UInt = 0u) : DigestEngine<MurmurHash3_x64_128>() {
 
     private var h1 = seed.toLong() and 0x00000000FFFFFFFFL

@@ -33,7 +33,7 @@ import platform.CoreCrypto.CC_SHA384_Init
 import platform.CoreCrypto.CC_SHA384_Update
 import platform.CoreCrypto.CC_SHA512_CTX
 
-@Suppress("EXPERIMENTAL_API_USAGE", "MagicNumber")
+@Suppress("EXPERIMENTAL_API_USAGE")
 internal class SHA384 : Digest<SHA384> {
 
     private var hashObject: CC_SHA512_CTX? = null

@@ -58,7 +58,7 @@ import com.appmattus.crypto.internal.core.decodeLEInt
  *
  * @param outSize   the intended output size
  */
-@Suppress("TooManyFunctions", "MagicNumber")
+@Suppress("TooManyFunctions")
 internal class ShabalGeneric(private val outSize: Int) : Digest<ShabalGeneric> {
 
     private var outSizeW32 = outSize ushr 5

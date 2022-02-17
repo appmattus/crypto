@@ -49,7 +49,6 @@ import com.appmattus.crypto.Algorithm
  * @version $Revision: 156 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal class SHA224 : SHA2Core<SHA224>() {
 
     override val initVal: IntArray

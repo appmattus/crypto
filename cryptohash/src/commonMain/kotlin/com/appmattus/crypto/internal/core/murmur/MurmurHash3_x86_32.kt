@@ -21,7 +21,7 @@ import com.appmattus.crypto.internal.core.encodeBEInt
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
 
 // Based on the public domain https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp
-@Suppress("ClassName", "MagicNumber")
+@Suppress("ClassName")
 internal class MurmurHash3_x86_32(private val seed: UInt = 0u) : DigestEngine<MurmurHash3_x86_32>() {
 
     private var h1 = seed

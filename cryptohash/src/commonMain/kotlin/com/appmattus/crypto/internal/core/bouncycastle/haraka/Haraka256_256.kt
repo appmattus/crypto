@@ -46,7 +46,7 @@ import com.appmattus.crypto.Algorithm
  *
  * Haraka256-256 with reference to Python Reference Impl from: https://github.com/kste/haraka
  */
-@Suppress("ClassName", "MagicNumber")
+@Suppress("ClassName")
 internal class Haraka256_256 : HarakaCore<Haraka256_256> {
     private fun mix256(s1: Array<ByteArray>, s2: Array<ByteArray>) {
         s1[0].copyInto(s2[0], 0, 0, 4)

@@ -6,7 +6,6 @@ import com.appmattus.crypto.internal.core.decodeLEShort
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
 
-@Suppress("MagicNumber")
 internal class MetroHash128(private val seed: ULong) : DigestEngine<MetroHash128>() {
 
     private var v: Array<ULong> = arrayOf(

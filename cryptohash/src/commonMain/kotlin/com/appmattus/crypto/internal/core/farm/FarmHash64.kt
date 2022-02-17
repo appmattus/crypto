@@ -20,7 +20,6 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.encodeBELong
 
-@Suppress("MagicNumber")
 internal class FarmHash64(private val parameters: Algorithm.FarmHash64) : FarmHashBase<FarmHash64>() {
 
     private var h: ULong = 0u

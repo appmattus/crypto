@@ -19,7 +19,6 @@ package com.appmattus.crypto.internal.core
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
-@Suppress("MagicNumber")
 internal class Adler32 : Digest<Adler32> {
 
     private var checksum = 1

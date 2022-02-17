@@ -20,7 +20,6 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.encodeBEInt
 
-@Suppress("MagicNumber")
 internal class Adler32 : Digest<Adler32> {
 
     private var adler = java.util.zip.Adler32()

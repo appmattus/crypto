@@ -49,7 +49,6 @@ import com.appmattus.crypto.Algorithm
  * @version $Revision: 189 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal class Keccak384 : KeccakCore<Keccak384>() {
 
     override fun copy(): Keccak384 {

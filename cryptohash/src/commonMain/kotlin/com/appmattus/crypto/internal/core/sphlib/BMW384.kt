@@ -49,7 +49,6 @@ import com.appmattus.crypto.Algorithm
  * @version $Revision: 166 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-@Suppress("MagicNumber")
 internal class BMW384 : BMWBigCore<BMW384>() {
 
     override val initVal: LongArray
