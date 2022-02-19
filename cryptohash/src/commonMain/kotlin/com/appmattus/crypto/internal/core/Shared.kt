@@ -63,6 +63,13 @@ internal fun ByteBuffer.decodeLEInt(off: Int): Int {
             or (this[off].toInt() and 0xFF))
 }
 
+internal fun ByteBuffer.decodeBEInt(off: Int): Int {
+    return (this[off].toInt() and 0xFF shl 24
+            or (this[off + 1].toInt() and 0xFF shl 16)
+            or (this[off + 2].toInt() and 0xFF shl 8)
+            or (this[off + 3].toInt() and 0xFF))
+}
+
 internal fun ByteBuffer.decodeLEUInt(off: Int): UInt = decodeLEInt(off).toUInt()
 
 /**
