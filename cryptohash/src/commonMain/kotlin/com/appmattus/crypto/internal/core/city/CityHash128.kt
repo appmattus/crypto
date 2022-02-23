@@ -19,10 +19,11 @@ package com.appmattus.crypto.internal.core.city
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.uint.UInt128
 
 internal class CityHash128(private val parameters: Algorithm.CityHash128) : CityHashBase<CityHash128>() {
 
-    private var h: ULongLong = ULongLong(0u, 0u)
+    private var h: UInt128 = UInt128(0u, 0u)
 
     override val digestLength: Int
         get() = 16
@@ -34,7 +35,7 @@ internal class CityHash128(private val parameters: Algorithm.CityHash128) : City
 
     override fun process(input: ByteBuffer, offset: Int, length: Int) {
         h = when (parameters) {
-            is Algorithm.CityHash128.Seed -> cityHash128WithSeed(input, ULongLong(parameters.seedLow, parameters.seedHigh))
+            is Algorithm.CityHash128.Seed -> cityHash128WithSeed(input, UInt128(parameters.seedHigh, parameters.seedLow))
             else -> cityHash128(input)
         }
     }
@@ -42,13 +43,13 @@ internal class CityHash128(private val parameters: Algorithm.CityHash128) : City
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        encodeBELong(h.lowValue.toLong(), digest, 0)
-        encodeBELong(h.highValue.toLong(), digest, 8)
+        encodeBELong(h.lower.toLong(), digest, 0)
+        encodeBELong(h.upper.toLong(), digest, 8)
 
         return digest
     }
 
     override fun copy() = copyState(CityHash128(parameters)).also {
-        it.h = ULongLong(h.lowValue, h.highValue)
+        it.h = h
     }
 }

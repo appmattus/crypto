@@ -2,9 +2,9 @@ package com.appmattus.crypto.internal.core.farm
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.city.CityHashBase
-import com.appmattus.crypto.internal.core.city.ULongLong
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
+import com.appmattus.crypto.internal.core.uint.UInt128
 
 @Suppress("ReturnCount", "TooManyFunctions")
 internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
@@ -18,19 +18,19 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         return ((h1 * mul1) + h0) * mul1
     }
 
-    fun farmHash128(s: ByteBuffer): ULongLong {
+    fun farmHash128(s: ByteBuffer): UInt128 {
         return ccFingerprint128(s)
     }
 
-    fun farmHash128WithSeed(s: ByteBuffer, seed: ULongLong): ULongLong {
+    fun farmHash128WithSeed(s: ByteBuffer, seed: UInt128): UInt128 {
         return ccCityHash128WithSeed(s, seed)
     }
 
-    private fun ccFingerprint128(s: ByteBuffer): ULongLong {
+    private fun ccFingerprint128(s: ByteBuffer): UInt128 {
         return cityHash128(s)
     }
 
-    private fun ccCityHash128WithSeed(s: ByteBuffer, seed: ULongLong): ULongLong {
+    private fun ccCityHash128WithSeed(s: ByteBuffer, seed: UInt128): UInt128 {
         return cityHash128WithSeed(s, seed)
     }
 
@@ -183,8 +183,8 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         var x: ULong = seed0
         var y: ULong = seed1 * k2 + 113u
         var z: ULong = shiftMix(y * k2) * k2
-        var v = ULongLong(seed0, seed1)
-        var w = ULongLong(0u, 0u)
+        var v = UInt128(seed1, seed0)
+        var w = UInt128(0u, 0u)
         var u: ULong = x - z
         x *= k2
         val mul: ULong = k2 + (u and 0x82u)
@@ -207,42 +207,36 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
             x += a0 + a1
             y += a2
             z += a3
-            v.lowValue += a4
-            v.highValue += a5 + a1
-            w.lowValue += a6
-            w.highValue += a7
+            v = UInt128(v.upper + a5 + a1, v.lower + a4)
+            w = UInt128(w.upper + a7, w.lower + a6)
 
             x = x.rotateRight(26)
             x *= 9u
             y = y.rotateRight(29)
             z *= mul
-            v.lowValue = v.lowValue.rotateRight(33)
-            v.highValue = v.highValue.rotateRight(30)
-            w.lowValue = w.lowValue xor x
-            w.lowValue *= 9u
+            v = UInt128(v.upper.rotateRight(30), v.lower.rotateRight(33))
+            w = UInt128(w.upper, (w.lower xor x) * 9u)
             z = z.rotateRight(32)
-            z += w.highValue
-            w.highValue += z
+            z += w.upper
+            w = UInt128(w.upper + z, w.lower)
             z *= 9u
             val swapValue = y
             y = u
             u = swapValue
 
             z += a0 + a6
-            v.lowValue += a2
-            v.highValue += a3
-            w.lowValue += a4
-            w.highValue += a5 + a6
+            v = UInt128(v.upper + a3, v.lower + a2)
+            w = UInt128(w.upper + a5 + a6, w.lower + a4)
             x += a1
             y += a7
 
-            y += v.lowValue
-            v.lowValue += x - y
-            v.highValue += w.lowValue
-            w.lowValue += v.highValue
-            w.highValue += x - y
-            x += w.highValue
-            w.highValue = w.highValue.rotateRight(34)
+            y += v.lower
+            v = UInt128(v.upper + w.lower, v.lower + x - y)
+
+
+            w = UInt128(w.upper + x - y, w.lower + v.upper)
+            x += w.upper
+            w = UInt128(w.upper.rotateRight(34), w.lower)
             val swapValue2 = z
             z = u
             u = swapValue2
@@ -254,21 +248,20 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         pos = last64
 
         u *= 9u
-        v.highValue = v.highValue.rotateRight(28)
-        v.lowValue = v.lowValue.rotateRight(20)
-        w.lowValue += ((len.toULong() - 1u) and 63u)
+        v = UInt128(v.upper.rotateRight(28), v.lower.rotateRight(20))
+        w = UInt128(w.upper, w.lower + ((len.toULong() - 1u) and 63u))
         u += y
         y += u
-        x = (y - x + v.lowValue + s.decodeLEULong(pos + 8)).rotateRight(37) * mul
-        y = (y xor v.highValue xor s.decodeLEULong(pos + 48)).rotateRight(42) * mul
-        x = x xor w.highValue * 9u
-        y += v.lowValue + s.decodeLEULong(pos + 40)
-        z = (z + w.lowValue).rotateRight(33) * mul
-        v = weakHashLen32WithSeeds(s, pos, v.highValue * mul, x + w.lowValue)
-        w = weakHashLen32WithSeeds(s, pos + 32, z + w.highValue, y + s.decodeLEULong(pos + 16))
+        x = (y - x + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37) * mul
+        y = (y xor v.upper xor s.decodeLEULong(pos + 48)).rotateRight(42) * mul
+        x = x xor w.upper * 9u
+        y += v.lower + s.decodeLEULong(pos + 40)
+        z = (z + w.lower).rotateRight(33) * mul
+        v = weakHashLen32WithSeeds(s, pos, v.upper * mul, x + w.lower)
+        w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
         return uoH(
-            hashLen16(v.lowValue + x, w.lowValue xor y, mul) + z - u,
-            uoH(v.highValue + y, w.highValue + z, k2, 30) xor x, k2, 31
+            hashLen16(v.lower + x, w.lower xor y, mul) + z - u,
+            uoH(v.upper + y, w.upper + z, k2, 30) xor x, k2, 31
         )
     }
 
@@ -321,8 +314,8 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         var x: ULong = seed
         var y: ULong = seed * k1 + 113u
         var z: ULong = shiftMix(y * k2 + 113u) * k2
-        var v = ULongLong(0u, 0u)
-        var w = ULongLong(0u, 0u)
+        var v = UInt128(0u, 0u)
+        var w = UInt128(0u, 0u)
         x = x * k2 + s.decodeLEULong(0)
 
         // Set end so that after the loop we have 1 to 64 bytes left to process.
@@ -330,13 +323,13 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         val last64 = len - 64 // end + ((len - 1) and 63) - 63
         var pos = 0
         do {
-            x = (x + y + v.lowValue + s.decodeLEULong(pos + 8)).rotateRight(37) * k1
-            y = (y + v.highValue + s.decodeLEULong(pos + 48)).rotateRight(42) * k1
-            x = x xor w.highValue
-            y += v.lowValue + s.decodeLEULong(pos + 40)
-            z = (z + w.lowValue).rotateRight(33) * k1
-            v = weakHashLen32WithSeeds(s, pos, v.highValue * k1, x + w.lowValue)
-            w = weakHashLen32WithSeeds(s, pos + 32, z + w.highValue, y + s.decodeLEULong(pos + 16))
+            x = (x + y + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37) * k1
+            y = (y + v.upper + s.decodeLEULong(pos + 48)).rotateRight(42) * k1
+            x = x xor w.upper
+            y += v.lower + s.decodeLEULong(pos + 40)
+            z = (z + w.lower).rotateRight(33) * k1
+            v = weakHashLen32WithSeeds(s, pos, v.upper * k1, x + w.lower)
+            w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
             val swapValue = x
             x = z
             z = swapValue
@@ -346,23 +339,24 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         val mul: ULong = k1 + ((z and 0xffu) shl 1)
         // Make s point to the last 64 bytes of input.
         pos = last64
-        w.lowValue += ((len.toULong() - 1u) and 63u)
-        v.lowValue += w.lowValue
-        w.lowValue += v.lowValue
-        x = (x + y + v.lowValue + s.decodeLEULong(pos + 8)).rotateRight(37) * mul
-        y = (y + v.highValue + s.decodeLEULong(pos + 48)).rotateRight(42) * mul
-        x = x xor w.highValue * 9u
-        y += v.lowValue * 9u + s.decodeLEULong(pos + 40)
-        z = (z + w.lowValue).rotateRight(33) * mul
-        v = weakHashLen32WithSeeds(s, pos, v.highValue * mul, x + w.lowValue)
-        w = weakHashLen32WithSeeds(s, pos + 32, z + w.highValue, y + s.decodeLEULong(pos + 16))
+        w = UInt128(w.upper, w.lower + ((len.toULong() - 1u) and 63u))
+        v = UInt128(v.upper, v.lower + w.lower)
+        w = UInt128(w.upper, w.lower + v.lower)
+
+        x = (x + y + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37) * mul
+        y = (y + v.upper + s.decodeLEULong(pos + 48)).rotateRight(42) * mul
+        x = x xor w.upper * 9u
+        y += v.lower * 9u + s.decodeLEULong(pos + 40)
+        z = (z + w.lower).rotateRight(33) * mul
+        v = weakHashLen32WithSeeds(s, pos, v.upper * mul, x + w.lower)
+        w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
         val swapValue = x
         x = z
         z = swapValue
 
         return hashLen16(
-            hashLen16(v.lowValue, w.lowValue, mul) + shiftMix(y) * k0 + z,
-            hashLen16(v.highValue, w.highValue, mul) + x,
+            hashLen16(v.lower, w.lower, mul) + shiftMix(y) * k0 + z,
+            hashLen16(v.upper, w.upper, mul) + x,
             mul
         )
     }
@@ -401,7 +395,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         // Return a 16-byte hash for 48 bytes.  Quick and dirty.
         // Callers do best to use "random-looking" values for a and b.
         @Suppress("LongParameterList")
-        private fun weakHashLen32WithSeeds(w: ULong, x: ULong, y: ULong, z: ULong, a: ULong, b: ULong): ULongLong {
+        private fun weakHashLen32WithSeeds(w: ULong, x: ULong, y: ULong, z: ULong, a: ULong, b: ULong): UInt128 {
             var a: ULong = a
             var b: ULong = b
             a += w
@@ -410,11 +404,11 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
             a += x
             a += y
             b += a.rotateRight(44)
-            return ULongLong(a + z, b + c)
+            return UInt128(b + c, a + z)
         }
 
         // Return a 16-byte hash for s[0] ... s[31], a, and b.  Quick and dirty.
-        private fun weakHashLen32WithSeeds(s: ByteBuffer, offset: Int, a: ULong, b: ULong): ULongLong {
+        private fun weakHashLen32WithSeeds(s: ByteBuffer, offset: Int, a: ULong, b: ULong): UInt128 {
             return weakHashLen32WithSeeds(
                 w = s.decodeLEULong(offset),
                 x = s.decodeLEULong(offset + 8),
