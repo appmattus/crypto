@@ -21,10 +21,10 @@ package com.appmattus.crypto.internal.core.uint
  *
  * @throws IllegalArgumentException when [radix] is not a valid radix for number to string conversion.
  */
+@Suppress("ExceptionRaisedInUnexpectedLocation")
 public fun UInt128.toString(radix: Int): String {
     val chars = "0123456789abcdefghijklmnopqrstuvwxyz"
     if (radix < UInt128.MIN_RADIX || radix > UInt128.MAX_RADIX) {
-        @Suppress("ExceptionRaisedInUnexpectedLocation")
         throw IllegalArgumentException("Illegal radix: $radix")
     }
 

@@ -35,6 +35,7 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
 
     override fun toString() = "t1ha0_32le"
 
+    @Suppress("MemberNameEqualsClassName")
     private fun t1ha0_32le(data: ByteBuffer, seed: ULong): ULong {
         var len = data.size
         var a: UInt = len.toUInt().rotateRight(17) + seed.toUInt()

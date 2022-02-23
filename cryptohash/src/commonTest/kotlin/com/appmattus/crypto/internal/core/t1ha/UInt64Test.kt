@@ -81,6 +81,7 @@ class UInt64Test {
             return divmod(this, rhs).second
         }
 
+        @Suppress("ReturnCount")
         private fun divmod(lhs: UInt64, rhs: UInt64): Pair<UInt64, UInt64> {
             // Save some calculations /////////////////////
             if (rhs == UInt64(0u, 0u)) {
@@ -201,8 +202,6 @@ class UInt64Test {
         val x = UInt64(0u, UInt.MAX_VALUE)
         val y = UInt64(0u, 3u)
 
-
-
         assertEquals(UInt64(1u, 2u), x + y)
     }
 
@@ -218,8 +217,6 @@ class UInt64Test {
     fun testTimes() {
         assertEquals(UInt64(0u, 6u), UInt64(0u, 2u) * UInt64(0u, 3u))
         assertEquals(UInt64(0u, UInt.MAX_VALUE), UInt64(0u, UInt.MAX_VALUE) * UInt64(0u, 1u))
-
-
 
         assertEquals(UInt64(0u, 0u), UInt64(0u, 0u) * UInt64(0u, 1u))
         assertEquals(UInt64(0u, 0u), UInt64(0u, 1u) * UInt64(0u, 0u))
