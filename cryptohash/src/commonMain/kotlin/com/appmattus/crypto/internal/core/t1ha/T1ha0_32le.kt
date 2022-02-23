@@ -12,10 +12,10 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
 
     override val digestLength = 8
 
-    override val blockLength = 8
+    override val blockLength = 16
 
     override fun process(input: ByteBuffer, offset: Int, length: Int) {
-        hash = t1ha0_32(input, seed)
+        hash = t1ha0_32le(input, seed)
     }
 
     override fun digest(): ByteArray {
@@ -35,7 +35,7 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
 
     override fun toString() = "t1ha0_32le"
 
-    private fun t1ha0_32(data: ByteBuffer, seed: ULong): ULong {
+    private fun t1ha0_32le(data: ByteBuffer, seed: ULong): ULong {
         var len = data.size
         var a: UInt = len.toUInt().rotateRight(17) + seed.toUInt()
         var b: UInt = len.toUInt() xor (seed shr 32).toUInt()
