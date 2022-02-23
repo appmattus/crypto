@@ -16,6 +16,7 @@
 package com.appmattus.crypto.internal.core.uint
 
 /** Represents a 128-bit unsigned integer. */
+@Suppress("TooManyFunctions")
 public class UInt128(
     /** The most significant word. */
     public val upper: ULong,

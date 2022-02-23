@@ -16,10 +16,8 @@
 
 package com.appmattus.crypto.internal.core.uint
 
-import com.appmattus.crypto.internal.core.uint.UInt128
 import com.appmattus.crypto.internal.core.uint.UInt128.Companion.MAX_VALUE
 import com.appmattus.crypto.internal.core.uint.UInt128.Companion.ZERO
-import com.appmattus.crypto.internal.core.uint.until
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

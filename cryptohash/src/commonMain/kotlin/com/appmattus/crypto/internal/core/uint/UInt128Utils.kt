@@ -72,6 +72,7 @@ internal fun uint128Times(v1: UInt128, v2: UInt128): UInt128 {
     return UInt128(first32.toUInt(), second32.toUInt(), third32.toUInt(), fourth32.toUInt())
 }
 
+@Suppress("ReturnCount")
 internal fun uint128DivMod(dividend: UInt128, divisor: UInt128): Pair<UInt128, UInt128> {
     if (divisor == UInt128.ZERO) {
         throw IllegalStateException("Error: division or modulus by 0")
@@ -102,6 +103,7 @@ internal fun uint128DivMod(dividend: UInt128, divisor: UInt128): Pair<UInt128, U
     return Pair(qrFirst, qrSecond)
 }
 
+@Suppress("ReturnCount")
 internal fun uint128Shl(v: UInt128, n: Int): UInt128 {
     if (n == 0) {
         return v
@@ -121,6 +123,7 @@ internal fun uint128Shl(v: UInt128, n: Int): UInt128 {
     return UInt128(h, l)
 }
 
+@Suppress("ReturnCount")
 internal fun uint128Shr(v: UInt128, n: Int): UInt128 {
     if (n == 0) {
         return v

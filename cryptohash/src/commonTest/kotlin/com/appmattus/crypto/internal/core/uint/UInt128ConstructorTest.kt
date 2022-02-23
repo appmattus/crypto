@@ -106,7 +106,7 @@ class UInt128ConstructorTest {
     @Test
     fun testLongConstruction() {
         for (i in 0..Long.MAX_VALUE step (Long.MAX_VALUE shr 8)) {
-            //if (i % 100 == 0L) println(i)
+            // if (i % 100 == 0L) println(i)
             val value = i.toUInt128()
             assertEquals(i.toULong() and 0xFFFFFFFFFFFFFFFFuL, value.lower)
             assertEquals(0uL, value.upper)

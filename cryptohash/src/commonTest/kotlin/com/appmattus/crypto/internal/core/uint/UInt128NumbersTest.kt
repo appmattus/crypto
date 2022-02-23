@@ -16,18 +16,9 @@
 
 package com.appmattus.crypto.internal.core.uint
 
-import com.appmattus.crypto.internal.core.uint.UInt128
 import com.appmattus.crypto.internal.core.uint.UInt128.Companion.MAX_VALUE
 import com.appmattus.crypto.internal.core.uint.UInt128.Companion.ONE
 import com.appmattus.crypto.internal.core.uint.UInt128.Companion.ZERO
-import com.appmattus.crypto.internal.core.uint.countLeadingZeroBits
-import com.appmattus.crypto.internal.core.uint.countOneBits
-import com.appmattus.crypto.internal.core.uint.countTrailingZeroBits
-import com.appmattus.crypto.internal.core.uint.rotateLeft
-import com.appmattus.crypto.internal.core.uint.rotateRight
-import com.appmattus.crypto.internal.core.uint.takeHighestOneBit
-import com.appmattus.crypto.internal.core.uint.takeLowestOneBit
-import com.appmattus.crypto.internal.core.uint.toUInt128
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

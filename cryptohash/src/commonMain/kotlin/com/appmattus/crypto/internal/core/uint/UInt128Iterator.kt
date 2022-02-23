@@ -17,6 +17,7 @@
 package com.appmattus.crypto.internal.core.uint
 
 /** An iterator over a sequence of values of type [UInt128]. */
+@Suppress("IteratorNotThrowingNoSuchElementException")
 public abstract class UInt128Iterator : Iterator<UInt128> {
     final override fun next(): UInt128 = nextUInt128()
 
