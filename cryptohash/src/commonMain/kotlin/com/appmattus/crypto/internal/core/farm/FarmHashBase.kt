@@ -232,8 +232,6 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
 
             y += v.lower
             v = UInt128(v.upper + w.lower, v.lower + x - y)
-
-
             w = UInt128(w.upper + x - y, w.lower + v.upper)
             x += w.upper
             w = UInt128(w.upper.rotateRight(34), w.lower)
