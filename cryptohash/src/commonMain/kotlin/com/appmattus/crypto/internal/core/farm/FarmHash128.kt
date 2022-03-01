@@ -18,12 +18,12 @@ package com.appmattus.crypto.internal.core.farm
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.bytes.ByteBuffer
-import com.appmattus.crypto.internal.core.city.ULongLong
 import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.uint.UInt128
 
 internal class FarmHash128(private val parameters: Algorithm.FarmHash128) : FarmHashBase<FarmHash128>() {
 
-    private var h: ULongLong = ULongLong(0u, 0u)
+    private var h: UInt128 = UInt128(0u, 0u)
 
     override val digestLength: Int
         get() = 16
@@ -33,9 +33,9 @@ internal class FarmHash128(private val parameters: Algorithm.FarmHash128) : Farm
 
     override fun toString() = "FarmHash128"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
+    override fun process(input: ByteBuffer) {
         h = when (parameters) {
-            is Algorithm.FarmHash128.Seed -> farmHash128WithSeed(input, ULongLong(parameters.seedLow, parameters.seedHigh))
+            is Algorithm.FarmHash128.Seed -> farmHash128WithSeed(input, UInt128(parameters.seedHigh, parameters.seedLow))
             else -> farmHash128(input)
         }
     }
@@ -43,13 +43,13 @@ internal class FarmHash128(private val parameters: Algorithm.FarmHash128) : Farm
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        encodeBELong(h.highValue.toLong(), digest, 0)
-        encodeBELong(h.lowValue.toLong(), digest, 8)
+        encodeBELong(h.upper.toLong(), digest, 0)
+        encodeBELong(h.lower.toLong(), digest, 8)
 
         return digest
     }
 
     override fun copy() = copyState(FarmHash128(parameters)).also {
-        it.h = ULongLong(h.lowValue, h.highValue)
+        it.h = h
     }
 }

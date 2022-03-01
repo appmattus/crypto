@@ -37,12 +37,12 @@ internal class MurmurHash64B(private val seed: ULong = 0u) : NonIncrementalDiges
 
     override fun toString() = "MurmurHash64B"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
-        h1 = seed.toUInt() xor length.toUInt()
+    override fun process(input: ByteBuffer) {
+        h1 = seed.toUInt() xor input.size.toUInt()
         h2 = (seed shr 32).toUInt()
 
-        var len = length
-        var pos = offset
+        var len = input.size
+        var pos = 0
 
         while (len >= 8) {
             var k1 = input.decodeLEInt(pos).toUInt()

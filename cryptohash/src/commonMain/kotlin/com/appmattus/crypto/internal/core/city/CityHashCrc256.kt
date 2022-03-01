@@ -31,7 +31,7 @@ internal class CityHashCrc256 : CityHashBase<CityHashCrc256>() {
 
     override fun toString() = "CityHashCrc256"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
+    override fun process(input: ByteBuffer) {
         cityHashCrc256(input, h)
     }
 

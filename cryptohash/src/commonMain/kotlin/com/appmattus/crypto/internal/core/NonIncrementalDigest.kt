@@ -41,7 +41,7 @@ internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Dige
 
     final override fun digest(input: ByteArray): ByteArray {
         internalBuffer.add(input)
-        process(internalBuffer, 0, internalBuffer.size)
+        process(internalBuffer)
 
         return digest()
     }
@@ -57,7 +57,7 @@ internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Dige
         return digest.size
     }
 
-    abstract fun process(input: ByteBuffer, offset: Int, length: Int)
+    abstract fun process(input: ByteBuffer)
 
     final override fun reset() {
         internalBuffer = ByteArrayArray()

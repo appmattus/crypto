@@ -31,10 +31,8 @@ internal class CityHash32 : CityHashBase<CityHash32>() {
 
     override fun toString() = "MurmurHash1"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
+    override fun process(input: ByteBuffer) {
         h = cityHash32(input)
-
-        // h = CityHash2.hash32(input, offset, length)
     }
 
     override fun digest(): ByteArray {

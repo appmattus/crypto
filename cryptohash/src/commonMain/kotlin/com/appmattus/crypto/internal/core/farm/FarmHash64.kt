@@ -32,7 +32,7 @@ internal class FarmHash64(private val parameters: Algorithm.FarmHash64) : FarmHa
 
     override fun toString() = "FarmHash64"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
+    override fun process(input: ByteBuffer) {
         h = when (parameters) {
             is Algorithm.FarmHash64.Seed -> farmHash64WithSeed(input, parameters.seed)
             is Algorithm.FarmHash64.Seeds -> farmHash64WithSeeds(input, parameters.seed1, parameters.seed2)

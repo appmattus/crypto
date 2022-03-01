@@ -63,6 +63,13 @@ internal fun ByteBuffer.decodeLEInt(off: Int): Int {
             or (this[off].toInt() and 0xFF))
 }
 
+internal fun ByteBuffer.decodeBEInt(off: Int): Int {
+    return (this[off].toInt() and 0xFF shl 24
+            or (this[off + 1].toInt() and 0xFF shl 16)
+            or (this[off + 2].toInt() and 0xFF shl 8)
+            or (this[off + 3].toInt() and 0xFF))
+}
+
 internal fun ByteBuffer.decodeLEUInt(off: Int): UInt = decodeLEInt(off).toUInt()
 
 /**
@@ -82,6 +89,8 @@ internal fun decodeLELong(buf: ByteArray, off: Int): Long {
             or ((buf[off + 6].toLong() and 0xFF) shl 48)
             or ((buf[off + 7].toLong() and 0xFF) shl 56))
 }
+
+internal fun ByteArray.decodeLEULong(off: Int): ULong = decodeLELong(this, off).toULong()
 
 internal fun ByteBuffer.decodeLELong(off: Int): Long {
     return (this[off + 0].toLong() and 0xFF

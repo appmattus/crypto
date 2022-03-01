@@ -32,7 +32,7 @@ internal class CityHash64(private val parameters: Algorithm.CityHash64) : CityHa
 
     override fun toString() = "CityHash64"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
+    override fun process(input: ByteBuffer) {
         h = when (parameters) {
             is Algorithm.CityHash64.Seed -> cityHash64WithSeed(input, parameters.seed)
             is Algorithm.CityHash64.Seeds -> cityHash64WithSeeds(input, parameters.seed1, parameters.seed2)

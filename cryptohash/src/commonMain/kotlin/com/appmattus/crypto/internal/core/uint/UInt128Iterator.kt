@@ -14,25 +14,13 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.city
+package com.appmattus.crypto.internal.core.uint
 
-internal class ULongLong(var lowValue: ULong, var highValue: ULong) : Number() {
+/** An iterator over a sequence of values of type [UInt128]. */
+@Suppress("IteratorNotThrowingNoSuchElementException")
+public abstract class UInt128Iterator : Iterator<UInt128> {
+    final override fun next(): UInt128 = nextUInt128()
 
-    override fun toByte() = toLong().toByte()
-
-    override fun toChar() = toLong().toChar()
-
-    override fun toDouble() = toLong().toDouble()
-
-    override fun toFloat() = toLong().toFloat()
-
-    override fun toInt() = toLong().toInt()
-
-    override fun toLong() = lowValue.toLong()
-
-    override fun toShort() = toLong().toShort()
-
-    override fun toString(): String {
-        return "[$lowValue, $highValue]"
-    }
+    /** Returns the next value in the sequence. */
+    public abstract fun nextUInt128(): UInt128
 }
