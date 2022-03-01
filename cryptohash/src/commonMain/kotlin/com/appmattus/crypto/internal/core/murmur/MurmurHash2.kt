@@ -35,11 +35,11 @@ internal class MurmurHash2(private val seed: UInt = 0u) : NonIncrementalDigest<M
 
     override fun toString() = "MurmurHash2"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
-        h = seed xor length.toUInt()
+    override fun process(input: ByteBuffer) {
+        h = seed xor input.size.toUInt()
 
-        var len = length
-        var pos = offset
+        var len = input.size
+        var pos = 0
 
         while (len >= 4) {
             var k = input.decodeLEInt(pos).toUInt()

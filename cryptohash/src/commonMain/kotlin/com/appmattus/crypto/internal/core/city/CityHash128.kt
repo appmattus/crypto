@@ -33,7 +33,7 @@ internal class CityHash128(private val parameters: Algorithm.CityHash128) : City
 
     override fun toString() = "CityHash128"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
+    override fun process(input: ByteBuffer) {
         h = when (parameters) {
             is Algorithm.CityHash128.Seed -> cityHash128WithSeed(input, UInt128(parameters.seedHigh, parameters.seedLow))
             else -> cityHash128(input)

@@ -33,7 +33,7 @@ internal class FarmHash128(private val parameters: Algorithm.FarmHash128) : Farm
 
     override fun toString() = "FarmHash128"
 
-    override fun process(input: ByteBuffer, offset: Int, length: Int) {
+    override fun process(input: ByteBuffer) {
         h = when (parameters) {
             is Algorithm.FarmHash128.Seed -> farmHash128WithSeed(input, UInt128(parameters.seedHigh, parameters.seedLow))
             else -> farmHash128(input)

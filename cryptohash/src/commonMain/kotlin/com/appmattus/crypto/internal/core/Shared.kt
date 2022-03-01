@@ -90,6 +90,8 @@ internal fun decodeLELong(buf: ByteArray, off: Int): Long {
             or ((buf[off + 7].toLong() and 0xFF) shl 56))
 }
 
+internal fun ByteArray.decodeLEULong(off: Int): ULong = decodeLELong(this, off).toULong()
+
 internal fun ByteBuffer.decodeLELong(off: Int): Long {
     return (this[off + 0].toLong() and 0xFF
             or ((this[off + 1].toLong() and 0xFF) shl 8)
