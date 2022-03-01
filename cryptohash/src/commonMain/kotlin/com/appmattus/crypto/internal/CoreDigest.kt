@@ -135,6 +135,12 @@ import com.appmattus.crypto.internal.core.sphlib.Tiger2
 import com.appmattus.crypto.internal.core.sphlib.Whirlpool
 import com.appmattus.crypto.internal.core.sphlib.Whirlpool0
 import com.appmattus.crypto.internal.core.sphlib.WhirlpoolT
+import com.appmattus.crypto.internal.core.t1ha.T1ha0_32le
+import com.appmattus.crypto.internal.core.t1ha.T1ha1_le
+import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce
+import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce128
+import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream
+import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream128
 import com.appmattus.crypto.internal.core.xxh3.XXH3_128
 import com.appmattus.crypto.internal.core.xxh3.XXH3_64
 
@@ -271,6 +277,17 @@ internal object CoreDigest {
             Algorithm.MD4 -> MD4()
             Algorithm.MD5 -> MD5()
 
+            is Algorithm.MurmurHash1 -> MurmurHash1(algorithm.seed)
+            is Algorithm.MurmurHash2 -> MurmurHash2(algorithm.seed)
+            is Algorithm.MurmurHash64A -> MurmurHash64A(algorithm.seed)
+            is Algorithm.MurmurHash64B -> MurmurHash64B(algorithm.seed)
+
+            is Algorithm.MurmurHash2A -> MurmurHash2A(algorithm.seed)
+
+            is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
+            is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
+            is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
+
             Algorithm.PANAMA -> PANAMA()
 
             Algorithm.RadioGatun32 -> RadioGatun32()
@@ -333,6 +350,13 @@ internal object CoreDigest {
 
             Algorithm.SM3 -> SM3()
 
+            is Algorithm.T1ha0_32le -> T1ha0_32le(algorithm.seed)
+            is Algorithm.T1ha1_le -> T1ha1_le(algorithm.seed)
+            is Algorithm.T1ha2_AtOnce -> T1ha2_atonce(algorithm.seed)
+            is Algorithm.T1ha2_AtOnce128 -> T1ha2_atonce128(algorithm.seed)
+            is Algorithm.T1ha2_Stream -> T1ha2_stream(algorithm.seedX, algorithm.seedY)
+            is Algorithm.T1ha2_Stream128 -> T1ha2_stream128(algorithm.seedX, algorithm.seedY)
+
             Algorithm.Tiger -> Tiger()
             Algorithm.Tiger2 -> Tiger2()
 
@@ -344,17 +368,6 @@ internal object CoreDigest {
             is Algorithm.XXHash64 -> XXHash64(algorithm.seed)
             is Algorithm.XXH3_64 -> XXH3_64(algorithm)
             is Algorithm.XXH3_128 -> XXH3_128(algorithm)
-
-            is Algorithm.MurmurHash1 -> MurmurHash1(algorithm.seed)
-            is Algorithm.MurmurHash2 -> MurmurHash2(algorithm.seed)
-            is Algorithm.MurmurHash64A -> MurmurHash64A(algorithm.seed)
-            is Algorithm.MurmurHash64B -> MurmurHash64B(algorithm.seed)
-
-            is Algorithm.MurmurHash2A -> MurmurHash2A(algorithm.seed)
-
-            is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
-            is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
-            is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
         }
     }
 }

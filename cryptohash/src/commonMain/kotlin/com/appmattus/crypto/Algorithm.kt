@@ -902,6 +902,36 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public object SM3 : Algorithm("SM3", 64), Hmac
 
     /**
+     * [t1ha0-32le](https://github.com/erthink/t1ha) with output size of 64 bits
+     */
+    public class T1ha0_32le(internal val seed: ULong = 0u) : Algorithm("t1ha0-32le", 16)
+
+    /**
+     * [t1ha1-le](https://github.com/erthink/t1ha) with output size of 64 bits
+     */
+    public class T1ha1_le(internal val seed: ULong = 0u) : Algorithm("t1ha1-le", 32)
+
+    /**
+     * [t1ha2-atonce](https://github.com/erthink/t1ha) with output size of 64 bits
+     */
+    public class T1ha2_AtOnce(internal val seed: ULong = 0u) : Algorithm("t1ha2-atonce", 32)
+
+    /**
+     * [t1ha2-atonce128](https://github.com/erthink/t1ha) with output size of 128 bits
+     */
+    public class T1ha2_AtOnce128(internal val seed: ULong = 0u) : Algorithm("t1ha2-atonce128", 32)
+
+    /**
+     * [t1ha2-stream](https://github.com/erthink/t1ha) with output size of 64 bits
+     */
+    public class T1ha2_Stream(internal val seedX: ULong = 0u, internal val seedY: ULong = seedX) : Algorithm("t1ha2-stream", 32)
+
+    /**
+     * [t1ha2-stream128](https://github.com/erthink/t1ha) with output size of 128 bits
+     */
+    public class T1ha2_Stream128(internal val seedX: ULong = 0u, internal val seedY: ULong = seedX) : Algorithm("t1ha2-stream128", 32)
+
+    /**
      * [Tiger](https://www.cs.technion.ac.il/~biham/Reports/Tiger/) with output size of 192 bits
      */
     public object Tiger : Algorithm("Tiger", 64), Hmac

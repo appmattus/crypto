@@ -49,7 +49,7 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
         })
     }
 
-    override fun toString() = "t1ha0_32le"
+    override fun toString() = "t1ha0-32le"
 
     @Suppress("MemberNameEqualsClassName")
     private fun t1ha0_32le(data: ByteBuffer, seed: ULong): ULong {
