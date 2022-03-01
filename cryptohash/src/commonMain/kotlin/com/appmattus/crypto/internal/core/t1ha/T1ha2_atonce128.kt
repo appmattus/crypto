@@ -39,7 +39,7 @@ internal class T1ha2_atonce128(private val seed: ULong = 0u) : NonIncrementalDig
         })
     }
 
-    override fun toString() = "t1ha2_atonce128"
+    override fun toString() = "t1ha2-atonce128"
 
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)

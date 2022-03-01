@@ -43,7 +43,7 @@ internal class T1ha2_stream128(private val seedX: ULong = 0u, private val seedY:
         })
     }
 
-    override fun toString() = "t1ha2_stream128"
+    override fun toString() = "t1ha2-stream128"
 
     override fun engineReset() {
         state = T1haState256()

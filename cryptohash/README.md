@@ -22,6 +22,9 @@ The following algorithms are supported:
 - MurmurHash1
 - MurmurHash2, MurmurHash64A, MurmurHash64B, MurmurHash2A (aka CMurmurHash2A)
 - MurmurHash3-x86-32, MurmurHash3-x86-128, MurmurHash3-x64-128
+- t1ha0-32le
+- t1ha1-le
+- t1ha2-atonce, t1ha2-atonce128, t1ha2-stream, t1ha2-stream128
 - xxHash-32, xxHash-64
 - xxHash3-64, xxHash3-128
 

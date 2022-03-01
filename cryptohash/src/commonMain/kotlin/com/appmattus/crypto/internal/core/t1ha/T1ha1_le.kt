@@ -25,7 +25,7 @@ import com.appmattus.crypto.internal.core.uint.UInt128
 import com.appmattus.crypto.internal.core.uint.toUInt128
 
 @Suppress("ClassName", "FunctionName")
-internal class T1ha1_64le(private val seed: ULong = 0u) : NonIncrementalDigest<T1ha1_64le>() {
+internal class T1ha1_le(private val seed: ULong = 0u) : NonIncrementalDigest<T1ha1_le>() {
 
     private var hash: ULong = 0u
 
@@ -46,13 +46,13 @@ internal class T1ha1_64le(private val seed: ULong = 0u) : NonIncrementalDigest<T
         return digest
     }
 
-    override fun copy(): T1ha1_64le {
-        return copyState(T1ha1_64le().apply {
-            hash = this@T1ha1_64le.hash
+    override fun copy(): T1ha1_le {
+        return copyState(T1ha1_le().apply {
+            hash = this@T1ha1_le.hash
         })
     }
 
-    override fun toString() = "t1ha1_64le"
+    override fun toString() = "t1ha1-le"
 
     @Suppress("MemberNameEqualsClassName")
     private fun t1ha1_le(data: ByteBuffer, seed: ULong): ULong {
