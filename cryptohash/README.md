@@ -27,6 +27,7 @@ The following algorithms are supported:
 - t1ha2-atonce, t1ha2-atonce128, t1ha2-stream, t1ha2-stream128
 - xxHash-32, xxHash-64
 - xxHash3-64, xxHash3-128
+- wyhash32, wyhash (aka wyhash64)
 
 ## Keyed cryptographic hash functions
 

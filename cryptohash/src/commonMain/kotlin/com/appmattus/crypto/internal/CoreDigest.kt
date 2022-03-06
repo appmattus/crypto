@@ -141,6 +141,8 @@ import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce128
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream128
+import com.appmattus.crypto.internal.core.wyhash.Wyhash
+import com.appmattus.crypto.internal.core.wyhash.Wyhash32
 import com.appmattus.crypto.internal.core.xxh3.XXH3_128
 import com.appmattus.crypto.internal.core.xxh3.XXH3_64
 
@@ -363,6 +365,9 @@ internal object CoreDigest {
             Algorithm.Whirlpool -> Whirlpool()
             Algorithm.Whirlpool0 -> Whirlpool0()
             Algorithm.WhirlpoolT -> WhirlpoolT()
+
+            is Algorithm.Wyhash -> Wyhash(algorithm.seed, algorithm.secret, algorithm.extraProtection)
+            is Algorithm.Wyhash32 -> Wyhash32(algorithm.seed)
 
             is Algorithm.XXHash32 -> XXHash32(algorithm.seed)
             is Algorithm.XXHash64 -> XXHash64(algorithm.seed)
