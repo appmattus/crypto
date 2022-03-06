@@ -148,8 +148,9 @@ internal class Wyhash(
         @Suppress("NestedBlockDepth")
         fun makeSecret(seed: ULong): List<ULong> {
             val secret = MutableList(4) { 0uL }
-            var seed = seed
+            var newSeed = seed
 
+            @Suppress("EXPERIMENTAL_API_USAGE")
             val c = ubyteArrayOf(
                 15u, 23u, 27u, 29u, 30u, 39u, 43u, 45u, 46u, 51u, 53u, 54u, 57u, 58u, 60u, 71u, 75u, 77u, 78u, 83u, 85u, 86u, 89u, 90u, 92u,
                 99u, 101u, 102u, 105u, 106u, 108u, 113u, 114u, 116u, 120u, 135u, 139u, 141u, 142u, 147u, 149u, 150u, 153u, 154u, 156u, 163u,
@@ -163,8 +164,9 @@ internal class Wyhash(
                     ok = true
                     secret[i] = 0u
                     for (j in 0 until 64 step 8) {
-                        val (newSeed, result) = wyrand(seed)
-                        seed = newSeed
+                        val (updatedSeed, result) = wyrand(newSeed)
+                        newSeed = updatedSeed
+                        @Suppress("EXPERIMENTAL_API_USAGE")
                         secret[i] = secret[i] or ((c[(result % c.size.toULong()).toInt()].toULong()) shl j)
                     }
                     if (secret[i] % 2u == 0uL) {
@@ -186,8 +188,8 @@ internal class Wyhash(
         // The wyrand PRNG that pass BigCrush and PractRand
         // returns Pair(updated seed, result)
         private fun wyrand(seed: ULong): Pair<ULong, ULong> {
-            val seed = seed + 0xa0761d6478bd642fuL
-            return Pair(seed, wymixNormalProtection(seed, seed xor 0xe7037ed1a0b428dbuL))
+            val newSeed = seed + 0xa0761d6478bd642fuL
+            return Pair(newSeed, wymixNormalProtection(newSeed, newSeed xor 0xe7037ed1a0b428dbuL))
         }
 
         private inline fun wymixExtraProtection(a: ULong, b: ULong): ULong {
