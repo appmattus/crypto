@@ -18,6 +18,7 @@ package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.blake3.Hasher
+import com.appmattus.crypto.internal.core.wyhash.Wyhash.Companion.wyp
 
 @Suppress("ClassName")
 public sealed class Algorithm(public val algorithmName: String, internal val blockLength: Int) {
@@ -955,6 +956,25 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * First version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
      */
     public object WhirlpoolT : Algorithm("Whirlpool-T", 64)
+
+    /**
+     * [wyhash](https://github.com/wangyi-fudan/wyhash) with output size of 64 bits
+     */
+    public class Wyhash(
+        internal val seed: ULong = 0u,
+        internal val secret: List<ULong> = wyp,
+        internal val extraProtection: Boolean = false
+    ) : Algorithm("wyhash-64", 48) {
+        public companion object {
+            public fun makeSecret(seed: ULong): List<ULong> =
+                com.appmattus.crypto.internal.core.wyhash.Wyhash.makeSecret(seed)
+        }
+    }
+
+    /**
+     * [wyhash](https://github.com/wangyi-fudan/wyhash) with output size of 32 bits
+     */
+    public class Wyhash32(internal val seed: UInt = 0u) : Algorithm("wyhash-32", 8)
 
     /**
      * [xxHash](https://github.com/Cyan4973/xxHash) with output size of 32 bits
