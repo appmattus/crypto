@@ -19,6 +19,8 @@ package com.appmattus.crypto.internal.xxh3
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.internal.core.sphlib.testKatHex
+import com.appmattus.crypto.internal.core.sphlib.toHexString
 import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
 import kotlin.test.Test
 
@@ -30,6 +32,23 @@ class XXH3_64Test {
         val seed: Long,
         val Nresult: String
     )
+
+    // From https://github.com/dynatrace-oss/hash4j/blob/main/src/test/java/com/dynatrace/hash4j/hashing/XXH3ReferenceData.java
+    @Test
+    fun xxh3_64bits_dynatrace() {
+        xxh3ReferenceData.forEach {
+            testKatHex(
+                { CoreDigest.create(Algorithm.XXH3_64()) },
+                it.input,
+                it.hash0.toHexString()
+            )
+            testKatHex(
+                { CoreDigest.create(Algorithm.XXH3_64.Seeded(it.seed)) },
+                it.input,
+                it.hash1.toHexString()
+            )
+        }
+    }
 
     @Test
     fun xxh3_64bits_seeded() {
