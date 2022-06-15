@@ -524,7 +524,7 @@ private fun XXH3_len_1to3_64b(input: ByteArray, inputOffset: Int, len: size_t, s
     val c1 = input[inputOffset + 0]
     val c2 = input[inputOffset + (len ushr 1)]
     val c3 = input[inputOffset + len - 1]
-    val combined: xxh_u32 = (c1.toInt() shl 16) or (c2.toInt() shl 24) or (c3.toInt() shl 0) or ((len.toLong() and 0xffffffff).toInt() shl 8)
+    val combined: xxh_u32 = ((c1.toInt() and 0xff) shl 16) or ((c2.toInt()  and 0xff) shl 24) or ((c3.toInt() and 0xff) shl 0) or ((len.toLong() and 0xffffffff).toInt() shl 8)
     val bitflip: xxh_u64 = ((XXH_readLE32(secret, 0).toLong() and 0xffffffff) xor (XXH_readLE32(secret, 4).toLong() and 0xffffffff)) + seed
     val keyed: xxh_u64 = (combined.toLong() and 0xffffffff) xor bitflip
     return XXH64_avalanche(keyed)
