@@ -19,13 +19,13 @@ object Versions {
     const val kotlin = "1.6.10"
 
     const val androidGradlePlugin = "7.4.0"
-    const val detektGradlePlugin = "1.19.0"
+    const val detektGradlePlugin = "1.22.0"
     const val gradleVersionsPlugin = "0.36.0"
     const val markdownlintGradlePlugin = "0.6.0"
     const val gradleMavenPublishPlugin = "0.18.0"
     const val dokkaPlugin = "1.6.10"
 
-    const val coil = "1.4.0"
+    const val coil = "2.2.2"
     const val coroutines = "1.6.0"
     const val coroutinesNative = "1.6.0-native-mt"
     const val groupie = "2.9.0"
@@ -37,7 +37,7 @@ object Versions {
     object AndroidX {
         const val appCompat = "1.6.0"
         const val constraintLayout = "2.1.4"
-        const val fragment = "1.4.0"
+        const val fragment = "1.5.5"
         const val lifecycle = "2.5.1"
         const val navigation = "2.5.3"
         const val vectorDrawable = "1.1.0"
@@ -45,6 +45,6 @@ object Versions {
 
     object Google {
         const val dagger = "2.44.2"
-        const val material = "1.4.0"
+        const val material = "1.8.0"
     }
 }

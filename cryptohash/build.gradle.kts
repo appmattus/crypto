@@ -78,7 +78,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("org.bouncycastle:bcprov-jdk15to18:1.70")
+                implementation("org.bouncycastle:bcprov-jdk15to18:1.72")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
             }
         }
