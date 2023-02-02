@@ -120,7 +120,7 @@ internal class SHA1 : Digest<SHA1> {
         val digest = SHA1()
 
         hashObject?.let { hashObject ->
-            digest.hashObject = nativeHeap.alloc {
+            digest.hashObject = nativeHeap.alloc<CC_SHA1_CTX> {
                 h0 = hashObject.h0
                 h1 = hashObject.h1
                 h2 = hashObject.h2

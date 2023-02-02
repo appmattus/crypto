@@ -148,7 +148,7 @@ internal class SHA512_224 : Digest<SHA512_224> {
         val digest = SHA512_224()
 
         hashObject?.let { hashObject ->
-            digest.hashObject = nativeHeap.alloc {
+            digest.hashObject = nativeHeap.alloc<CC_SHA512_CTX> {
                 for (i in 0..2) {
                     count[i] = hashObject.count[i]
                 }
