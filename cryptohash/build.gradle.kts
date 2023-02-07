@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2023 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("org.bouncycastle:bcprov-jdk15to18:1.72")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}")
             }
         }
 
@@ -109,7 +109,7 @@ kotlin {
         val nativeDarwin64Test by creating {
             dependsOn(commonTest)
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}")
             }
         }
         val nativeDarwin32Main by creating {
@@ -118,7 +118,7 @@ kotlin {
         val nativeDarwin32Test by creating {
             dependsOn(commonTest)
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}")
             }
         }
         // ios

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2023 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,26 +25,11 @@ object Versions {
     const val gradleMavenPublishPlugin = "0.18.0"
     const val dokkaPlugin = "1.7.20"
 
-    const val coil = "2.2.2"
-    const val coroutines = "1.6.4"
-    const val coroutinesNative = "1.6.4"
-    const val groupie = "2.9.0"
-    const val orbitMvi = "4.5.0"
-
-    const val desugar = "1.1.1"
-    const val leakCanary = "2.10"
-
     object AndroidX {
-        const val appCompat = "1.6.0"
-        const val constraintLayout = "2.1.4"
-        const val fragment = "1.5.5"
-        const val lifecycle = "2.5.1"
         const val navigation = "2.5.3"
-        const val vectorDrawable = "1.1.0"
     }
 
     object Google {
         const val dagger = "2.44.2"
-        const val material = "1.8.0"
     }
 }
