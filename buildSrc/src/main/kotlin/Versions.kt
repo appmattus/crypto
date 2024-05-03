@@ -15,7 +15,6 @@
  */
 
 object Versions {
-    const val detektGradlePlugin = "1.22.0"
     const val markdownlintGradlePlugin = "0.6.0"
     const val gradleMavenPublishPlugin = "0.25.2"
     const val dokkaPlugin = "1.7.20"

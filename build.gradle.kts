@@ -17,7 +17,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
-import io.gitlab.arturbosch.detekt.Detekt
 
 buildscript {
     repositories {
@@ -34,12 +33,13 @@ buildscript {
 }
 
 plugins {
-    id("io.gitlab.arturbosch.detekt") version Versions.detektGradlePlugin
     id("com.appmattus.markdown") version Versions.markdownlintGradlePlugin
     id("com.vanniktech.maven.publish") version Versions.gradleMavenPublishPlugin apply false
     id("org.jetbrains.dokka") version Versions.dokkaPlugin
     alias(libs.plugins.gradleVersionsPlugin)
 }
+
+apply(from = "gradle/scripts/detekt.gradle.kts")
 
 tasks.withType<DependencyUpdatesTask> {
     resolutionStrategy {
@@ -74,24 +74,6 @@ allprojects {
     }
 }
 
-dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.detektGradlePlugin}")
-}
-
-tasks.withType<Detekt> {
-    jvmTarget = "1.8"
-}
-
-detekt {
-    input = files(subprojects.map { File(it.projectDir, "src") })
-
-    buildUponDefaultConfig = true
-
-    autoCorrect = true
-
-    config = files("detekt-config.yml")
-}
-
 tasks.maybeCreate("check").dependsOn(tasks.named("detekt"))
 
 tasks.maybeCreate("check").dependsOn(tasks.named("markdownlint"))
@@ -119,7 +101,7 @@ allprojects {
 
     plugins.withId("com.vanniktech.maven.publish.base") {
         configure<MavenPublishBaseExtension> {
-            val repositoryId = System.getenv("SONATYPE_REPOSITORY_ID") //?: error("Missing env variable: SONATYPE_REPOSITORY_ID")
+            val repositoryId = System.getenv("SONATYPE_REPOSITORY_ID") // ?: error("Missing env variable: SONATYPE_REPOSITORY_ID")
             val url = "https://oss.sonatype.org/service/local/staging/deployByRepositoryId/${repositoryId}/"
             publishToMavenCentral(SonatypeHost(url), false)
         }

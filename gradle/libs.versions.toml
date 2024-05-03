@@ -43,6 +43,13 @@ androidX-vectorDrawable = "1.1.0"
 google-dagger = "2.44.2"
 google-material = "1.8.0"
 
+[libraries]
+# Tools
+detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektGradlePlugin" }
+
+# Plugins
+buildscript_detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
+
 [plugins]
 
 gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionsPlugin" }
