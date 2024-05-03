@@ -455,18 +455,14 @@ internal abstract class HarakaCore<D : HarakaCore<D>> : Digest<D> {
             val out = ByteArray(s.size)
             var j = 0
             for (i in 0..3) {
-                out[j++] = (xTime(s[4 * i]).toInt() xor xTime(
-                    s[4 * i + 1]
-                ).toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] = (s[4 * i].toInt() xor xTime(s[4 * i + 1]).toInt() xor xTime(
-                    s[4 * i + 2]
-                ).toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] = (s[4 * i].toInt() xor s[4 * i + 1].toInt() xor xTime(s[4 * i + 2]).toInt() xor xTime(
-                    s[4 * i + 3]
-                ).toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] = (xTime(s[4 * i]).toInt() xor s[4 * i].toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor xTime(
-                    s[4 * i + 3]
-                ).toInt()).toByte()
+                out[j++] =
+                    (xTime(s[4 * i]).toInt() xor xTime(s[4 * i + 1]).toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
+                out[j++] =
+                    (s[4 * i].toInt() xor xTime(s[4 * i + 1]).toInt() xor xTime(s[4 * i + 2]).toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
+                out[j++] =
+                    (s[4 * i].toInt() xor s[4 * i + 1].toInt() xor xTime(s[4 * i + 2]).toInt() xor xTime(s[4 * i + 3]).toInt() xor s[4 * i + 3].toInt()).toByte()
+                out[j++] =
+                    (xTime(s[4 * i]).toInt() xor s[4 * i].toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor xTime(s[4 * i + 3]).toInt()).toByte()
             }
             return out
         }

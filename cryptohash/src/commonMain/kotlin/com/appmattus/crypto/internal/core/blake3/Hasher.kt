@@ -157,12 +157,8 @@ internal class Hasher(
         internal const val KEYED_HASH = 16
         internal const val DERIVE_KEY_CONTEXT = 32
         internal const val DERIVE_KEY_MATERIAL = 64
-        internal val IV = intArrayOf(
-            0x6A09E667, -0x4498517b, 0x3C6EF372, -0x5ab00ac6, 0x510E527F, -0x64fa9774, 0x1F83D9AB, 0x5BE0CD19
-        )
-        private val MSG_PERMUTATION = intArrayOf(
-            2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8
-        )
+        internal val IV = intArrayOf(0x6A09E667, -0x4498517b, 0x3C6EF372, -0x5ab00ac6, 0x510E527F, -0x64fa9774, 0x1F83D9AB, 0x5BE0CD19)
+        private val MSG_PERMUTATION = intArrayOf(2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8)
 
         private fun wrappingAdd(a: Int, b: Int): Int {
             return a + b

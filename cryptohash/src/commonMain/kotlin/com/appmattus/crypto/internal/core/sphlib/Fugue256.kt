@@ -61,9 +61,6 @@ internal class Fugue256 : Fugue2Core<Fugue256>() {
 
     companion object {
         /** The initial value for Fugue-256.  */
-        val iV = intArrayOf(
-            -0x16ad4222, 0x6671135f, -0x1f2b0998, -0x2d4f4a6c,
-            -0x6939de3, -0x406d622, -0x6eb61767, 0x34f8c248
-        )
+        val iV = intArrayOf(-0x16ad4222, 0x6671135f, -0x1f2b0998, -0x2d4f4a6c, -0x6939de3, -0x406d622, -0x6eb61767, 0x34f8c248)
     }
 }

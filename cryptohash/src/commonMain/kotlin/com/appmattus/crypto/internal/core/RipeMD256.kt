@@ -49,10 +49,7 @@ internal class RipeMD256 : MDHelper<RipeMD256>(true, 8) {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         makeMDPadding()
-        for (i in 0..7) encodeLEInt(
-            currentVal[i],
-            output, outputOffset + 4 * i
-        )
+        for (i in 0..7) encodeLEInt(currentVal[i], output, outputOffset + 4 * i)
     }
 
     override fun doInit() {

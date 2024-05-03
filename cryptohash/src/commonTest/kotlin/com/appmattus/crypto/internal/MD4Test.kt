@@ -66,21 +66,13 @@ abstract class MD4Test {
         testKatMillionA({ digest() }, "bbce80cc6bb65e5c6745e30d4eeca9a4")
         testCollision(
             { digest() },
-            "839c7a4d7a92cb5678a5d5b9eea5a7573c8a74deb366c3dc20" +
-                    "a083b69f5d2a3bb3719dc69891e9f95e809fd7e8b23ba631" +
-                    "8edd45e51fe39708bf9427e9c3e8b9",
-            ("839c7a4d7a92cbd678a5d529eea5a7573c8a74deb366c3dc20" +
-                    "a083b69f5d2a3bb3719dc69891e9f95e809fd7e8b23ba631" +
-                    "8edc45e51fe39708bf9427e9c3e8b9")
+            "839c7a4d7a92cb5678a5d5b9eea5a7573c8a74deb366c3dc20a083b69f5d2a3bb3719dc69891e9f95e809fd7e8b23ba6318edd45e51fe39708bf9427e9c3e8b9",
+            "839c7a4d7a92cbd678a5d529eea5a7573c8a74deb366c3dc20a083b69f5d2a3bb3719dc69891e9f95e809fd7e8b23ba6318edc45e51fe39708bf9427e9c3e8b9"
         )
         testCollision(
             { digest() },
-            ("839c7a4d7a92cb5678a5d5b9eea5a7573c8a74deb366c3dc20" +
-                    "a083b69f5d2a3bb3719dc69891e9f95e809fd7e8b23ba631" +
-                    "8edd45e51fe39740c213f769cfb8a7"),
-            ("839c7a4d7a92cbd678a5d529eea5a7573c8a74deb366c3dc20" +
-                    "a083b69f5d2a3bb3719dc69891e9f95e809fd7e8b23ba631" +
-                    "8edc45e51fe39740c213f769cfb8a7")
+            "839c7a4d7a92cb5678a5d5b9eea5a7573c8a74deb366c3dc20a083b69f5d2a3bb3719dc69891e9f95e809fd7e8b23ba6318edd45e51fe39740c213f769cfb8a7",
+            "839c7a4d7a92cbd678a5d529eea5a7573c8a74deb366c3dc20a083b69f5d2a3bb3719dc69891e9f95e809fd7e8b23ba6318edc45e51fe39740c213f769cfb8a7"
         )
     }
 }

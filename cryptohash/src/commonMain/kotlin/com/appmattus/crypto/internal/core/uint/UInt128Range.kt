@@ -34,8 +34,7 @@ public class UInt128Range(start: UInt128, endInclusive: UInt128) : UInt128Progre
     override fun isEmpty(): Boolean = first > last
 
     override fun equals(other: Any?): Boolean =
-        other is UInt128Range && (isEmpty() && other.isEmpty() ||
-                first == other.first && last == other.last)
+        other is UInt128Range && (isEmpty() && other.isEmpty() || first == other.first && last == other.last)
 
     override fun hashCode(): Int =
         if (isEmpty()) -1 else (31 * (first xor (first shr 32)).toInt() + (last xor (last shr 32)).toInt())
@@ -57,8 +56,8 @@ public open class UInt128Progression internal constructor(
     step: Long
 ) : Iterable<UInt128> {
     init {
-        if (step == 0L) throw IllegalArgumentException("Step must be non-zero.")
-        if (step == Long.MIN_VALUE) throw IllegalArgumentException("Step must be greater than Long.MIN_VALUE to avoid overflow on negation.")
+        require(step != 0L) { "Step must be non-zero." }
+        require(step != Long.MIN_VALUE) { "Step must be greater than Long.MIN_VALUE to avoid overflow on negation." }
     }
 
     /**
@@ -88,8 +87,7 @@ public open class UInt128Progression internal constructor(
     public open fun isEmpty(): Boolean = if (step > 0) first > last else first < last
 
     override fun equals(other: Any?): Boolean =
-        other is UInt128Progression && (isEmpty() && other.isEmpty() ||
-                first == other.first && last == other.last && step == other.step)
+        other is UInt128Progression && (isEmpty() && other.isEmpty() || first == other.first && last == other.last && step == other.step)
 
     override fun hashCode(): Int = if (isEmpty()) {
         -1
@@ -153,7 +151,7 @@ public infix fun UInt128.until(to: UInt128): UInt128Range {
  * Returns a progression that goes over the same range with the given step.
  */
 public infix fun UInt128Progression.step(step: Long): UInt128Progression {
-    if (step <= 0) throw IllegalArgumentException("Step must be positive, was: $step.")
+    require(step > 0) { "Step must be positive, was: $step." }
     return UInt128Progression.fromClosedRange(first, last, if (this.step > 0) step else -step)
 }
 

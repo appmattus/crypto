@@ -89,14 +89,17 @@ internal class Wyhash(
                 a = wyr8Wrapped(blockBuffer, p + i - 16)
                 b = wyr8Wrapped(blockBuffer, p + i - 8)
             }
+
             len >= 4 -> {
                 a = (wyr4(blockBuffer, 0) shl 32) or wyr4(blockBuffer, ((len ushr 3) shl 2))
                 b = (wyr4(blockBuffer, len - 4) shl 32) or wyr4(blockBuffer, len - 4 - ((len ushr 3) shl 2))
             }
+
             len > 0 -> {
                 a = wyr3(blockBuffer, 0, len)
                 b = 0u
             }
+
             else -> {
                 // len = 0
                 a = 0u
@@ -118,14 +121,16 @@ internal class Wyhash(
     }
 
     // special version when reading last 16 bytes
-    private fun wyr8Wrapped(data: ByteArray, offset: Int): ULong = (data[(offset + 48 + 0) % 48].toULong() and 0xFFu
-            or ((data[(offset + 48 + 1) % 48].toULong() and 0xFFu) shl 8)
-            or ((data[(offset + 48 + 2) % 48].toULong() and 0xFFu) shl 16)
-            or ((data[(offset + 48 + 3) % 48].toULong() and 0xFFu) shl 24)
-            or ((data[(offset + 48 + 4) % 48].toULong() and 0xFFu) shl 32)
-            or ((data[(offset + 48 + 5) % 48].toULong() and 0xFFu) shl 40)
-            or ((data[(offset + 48 + 6) % 48].toULong() and 0xFFu) shl 48)
-            or ((data[(offset + 48 + 7) % 48].toULong() and 0xFFu) shl 56))
+    private fun wyr8Wrapped(data: ByteArray, offset: Int): ULong = (
+            data[(offset + 48 + 0) % 48].toULong() and 0xFFu
+                    or ((data[(offset + 48 + 1) % 48].toULong() and 0xFFu) shl 8)
+                    or ((data[(offset + 48 + 2) % 48].toULong() and 0xFFu) shl 16)
+                    or ((data[(offset + 48 + 3) % 48].toULong() and 0xFFu) shl 24)
+                    or ((data[(offset + 48 + 4) % 48].toULong() and 0xFFu) shl 32)
+                    or ((data[(offset + 48 + 5) % 48].toULong() and 0xFFu) shl 40)
+                    or ((data[(offset + 48 + 6) % 48].toULong() and 0xFFu) shl 48)
+                    or ((data[(offset + 48 + 7) % 48].toULong() and 0xFFu) shl 56)
+            )
 
     override fun doInit() = Unit
 

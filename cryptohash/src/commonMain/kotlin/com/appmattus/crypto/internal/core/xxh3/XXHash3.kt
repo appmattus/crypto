@@ -1202,9 +1202,10 @@ internal fun XXH3_64bits_digest(state: XXH3_state_t): XXH64_hash_t {
         val acc = LongArray(XXH_ACC_NB)
         XXH3_digest_long(acc, state, secret)
         return XXH3_mergeAccs(
-            acc,
-            secret, XXH_SECRET_MERGEACCS_START,
-            state.totalLen * XXH_PRIME64_1
+            acc = acc,
+            secret = secret,
+            secretOffset = XXH_SECRET_MERGEACCS_START,
+            start = state.totalLen * XXH_PRIME64_1
         )
     }
     /* totalLen <= XXH3_MIDSIZE_MAX: digesting a short input */
@@ -1507,9 +1508,10 @@ private fun XXH3_hashLong_128b_internal(
     XXH_ASSERT(secretSize >= 64 + XXH_SECRET_MERGEACCS_START)
     return XXH128_hash_t(
         low64 = XXH3_mergeAccs(
-            acc,
-            secret, XXH_SECRET_MERGEACCS_START,
-            len.toLong() * XXH_PRIME64_1
+            acc = acc,
+            secret = secret,
+            secretOffset = XXH_SECRET_MERGEACCS_START,
+            start = len.toLong() * XXH_PRIME64_1
         ),
         high64 = XXH3_mergeAccs(
             acc,
@@ -1682,9 +1684,10 @@ internal fun XXH3_128bits_digest(state: XXH3_state_t): XXH128_hash_t {
         return XXH128_hash_t(
             low64 = XXH3_mergeAccs(acc, secret, XXH_SECRET_MERGEACCS_START, state.totalLen * XXH_PRIME64_1),
             high64 = XXH3_mergeAccs(
-                acc,
-                secret,
-                state.secretLimit + XXH_STRIPE_LEN - 64 - XXH_SECRET_MERGEACCS_START, (state.totalLen * XXH_PRIME64_2).inv()
+                acc = acc,
+                secret = secret,
+                secretOffset = state.secretLimit + XXH_STRIPE_LEN - 64 - XXH_SECRET_MERGEACCS_START,
+                start = (state.totalLen * XXH_PRIME64_2).inv()
             )
         )
     }

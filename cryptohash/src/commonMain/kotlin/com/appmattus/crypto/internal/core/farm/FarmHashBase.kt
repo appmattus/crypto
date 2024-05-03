@@ -258,8 +258,10 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         v = weakHashLen32WithSeeds(s, pos, v.upper * mul, x + w.lower)
         w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
         return uoH(
-            hashLen16(v.lower + x, w.lower xor y, mul) + z - u,
-            uoH(v.upper + y, w.upper + z, k2, 30) xor x, k2, 31
+            x = hashLen16(v.lower + x, w.lower xor y, mul) + z - u,
+            y = uoH(v.upper + y, w.upper + z, k2, 30) xor x,
+            mul = k2,
+            r = 31
         )
     }
 
@@ -386,7 +388,8 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
             val d: ULong = s.decodeLEULong(len - 16) * k2
             return hashLen16(
                 (a + b).rotateRight(43) + c.rotateRight(30) + d,
-                a + (b + k2).rotateRight(18) + c, mul
+                a + (b + k2).rotateRight(18) + c,
+                mul
             )
         }
 
@@ -433,7 +436,8 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
             val h: ULong = (z + s.decodeLEULong(len - 24)) * mul
             return hashLen16(
                 (e + f).rotateRight(43) + g.rotateRight(30) + h,
-                e + (f + a).rotateRight(18) + g, mul
+                e + (f + a).rotateRight(18) + g,
+                mul
             )
         }
     }

@@ -32,10 +32,12 @@ internal class T1ha2_atonce(private val seed: ULong = 0u) : NonIncrementalDigest
     override val blockLength = 32
 
     override fun copy(): T1ha2_atonce {
-        return copyState(T1ha2_atonce(seed).apply {
-            state = this@T1ha2_atonce.state.copy()
-            hashResult = this@T1ha2_atonce.hashResult
-        })
+        return copyState(
+            T1ha2_atonce(seed).apply {
+                state = this@T1ha2_atonce.state.copy()
+                hashResult = this@T1ha2_atonce.hashResult
+            }
+        )
     }
 
     override fun toString() = "t1ha2-atonce128"

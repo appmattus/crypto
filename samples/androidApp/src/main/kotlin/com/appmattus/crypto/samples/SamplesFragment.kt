@@ -46,9 +46,11 @@ class SamplesFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(SingleLineTextHeaderItem("Samples"))
-                add(SingleLineTextItem("cryptohash") {
-                    findNavController().navigate(R.id.action_samplesFragment_to_cryptoHashFragment)
-                })
+                add(
+                    SingleLineTextItem("cryptohash") {
+                        findNavController().navigate(R.id.action_samplesFragment_to_cryptoHashFragment)
+                    }
+                )
             }
         }
     }

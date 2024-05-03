@@ -34,7 +34,6 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -76,12 +75,8 @@ class CryptoHashFragment : Fragment() {
     private fun render(state: CryptoHashState) {
         if (inputSection.itemCount == 0) {
             buildList {
-                add(AutoCompleteTextViewItem("Algorithm", state.algorithms) {
-                    viewModel.selectAlgorithm(it)
-                })
-                add(EditTextItem("Input") {
-                    viewModel.setInputText(it)
-                })
+                add(AutoCompleteTextViewItem("Algorithm", state.algorithms) { viewModel.selectAlgorithm(it) })
+                add(EditTextItem("Input") { viewModel.setInputText(it) })
             }.let(inputSection::update)
         }
 

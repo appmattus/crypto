@@ -136,11 +136,9 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 val a2 = x0 - x2
                 val a3 = x0 - (x2 shl 4)
                 val b0 = x1 + x3
-                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) -
-                        ((x1 shl 2) + (x3 shl 6) shr 8))
+                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) - ((x1 shl 2) + (x3 shl 6) shr 8))
                 val b2 = (x1 shl 4) - (x3 shl 4)
-                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) -
-                        ((x1 shl 6) + (x3 shl 2) shr 8))
+                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) - ((x1 shl 6) + (x3 shl 2) shr 8))
                 d1_0 = a0 + b0
                 d1_1 = a1 + b1
                 d1_2 = a2 + b2
@@ -160,11 +158,9 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 val a2 = x0 - x2
                 val a3 = x0 - (x2 shl 4)
                 val b0 = x1 + x3
-                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) -
-                        ((x1 shl 2) + (x3 shl 6) shr 8))
+                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) - ((x1 shl 2) + (x3 shl 6) shr 8))
                 val b2 = (x1 shl 4) - (x3 shl 4)
-                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) -
-                        ((x1 shl 6) + (x3 shl 2) shr 8))
+                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) - ((x1 shl 6) + (x3 shl 2) shr 8))
                 d2_0 = a0 + b0
                 d2_1 = a1 + b1
                 d2_2 = a2 + b2
@@ -218,11 +214,9 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 val a2 = x0 - x2
                 val a3 = x0 - (x2 shl 4)
                 val b0 = x1 + x3
-                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) -
-                        ((x1 shl 2) + (x3 shl 6) shr 8))
+                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) - ((x1 shl 2) + (x3 shl 6) shr 8))
                 val b2 = (x1 shl 4) - (x3 shl 4)
-                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) -
-                        ((x1 shl 6) + (x3 shl 2) shr 8))
+                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) - ((x1 shl 6) + (x3 shl 2) shr 8))
                 d1_0 = a0 + b0
                 d1_1 = a1 + b1
                 d1_2 = a2 + b2
@@ -242,11 +236,9 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 val a2 = x0 - x2
                 val a3 = x0 - (x2 shl 4)
                 val b0 = x1 + x3
-                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) -
-                        ((x1 shl 2) + (x3 shl 6) shr 8))
+                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) - ((x1 shl 2) + (x3 shl 6) shr 8))
                 val b2 = (x1 shl 4) - (x3 shl 4)
-                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) -
-                        ((x1 shl 6) + (x3 shl 2) shr 8))
+                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) - ((x1 shl 6) + (x3 shl 2) shr 8))
                 d2_0 = a0 + b0
                 d2_1 = a1 + b1
                 d2_2 = a2 + b2
@@ -285,27 +277,23 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 if (u != 0) {
                     m = q[qoff + u + 0]
                     n = q[qoff + u + 0 + 16]
-                    t = ((n * alphaTab[v + 0 * 8] and 0xFFFF) +
-                            (n * alphaTab[v + 0 * 8] shr 16))
+                    t = ((n * alphaTab[v + 0 * 8] and 0xFFFF) + (n * alphaTab[v + 0 * 8] shr 16))
                     q[qoff + u + 0] = m + t
                     q[qoff + u + 0 + 16] = m - t
                 }
                 m = q[qoff + u + 1]
                 n = q[qoff + u + 1 + 16]
-                t = ((n * alphaTab[v + 1 * 8] and 0xFFFF) +
-                        (n * alphaTab[v + 1 * 8] shr 16))
+                t = ((n * alphaTab[v + 1 * 8] and 0xFFFF) + (n * alphaTab[v + 1 * 8] shr 16))
                 q[qoff + u + 1] = m + t
                 q[qoff + u + 1 + 16] = m - t
                 m = q[qoff + u + 2]
                 n = q[qoff + u + 2 + 16]
-                t = ((n * alphaTab[v + 2 * 8] and 0xFFFF) +
-                        (n * alphaTab[v + 2 * 8] shr 16))
+                t = ((n * alphaTab[v + 2 * 8] and 0xFFFF) + (n * alphaTab[v + 2 * 8] shr 16))
                 q[qoff + u + 2] = m + t
                 q[qoff + u + 2 + 16] = m - t
                 m = q[qoff + u + 3]
                 n = q[qoff + u + 3 + 16]
-                t = ((n * alphaTab[v + 3 * 8] and 0xFFFF) +
-                        (n * alphaTab[v + 3 * 8] shr 16))
+                t = ((n * alphaTab[v + 3 * 8] and 0xFFFF) + (n * alphaTab[v + 3 * 8] shr 16))
                 q[qoff + u + 3] = m + t
                 q[qoff + u + 3 + 16] = m - t
                 u += 4
@@ -339,11 +327,9 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 val a2 = x0 - x2
                 val a3 = x0 - (x2 shl 4)
                 val b0 = x1 + x3
-                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) -
-                        ((x1 shl 2) + (x3 shl 6) shr 8))
+                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) - ((x1 shl 2) + (x3 shl 6) shr 8))
                 val b2 = (x1 shl 4) - (x3 shl 4)
-                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) -
-                        ((x1 shl 6) + (x3 shl 2) shr 8))
+                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) - ((x1 shl 6) + (x3 shl 2) shr 8))
                 d1_0 = a0 + b0
                 d1_1 = a1 + b1
                 d1_2 = a2 + b2
@@ -363,11 +349,9 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 val a2 = x0 - x2
                 val a3 = x0 - (x2 shl 4)
                 val b0 = x1 + x3
-                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) -
-                        ((x1 shl 2) + (x3 shl 6) shr 8))
+                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) - ((x1 shl 2) + (x3 shl 6) shr 8))
                 val b2 = (x1 shl 4) - (x3 shl 4)
-                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) -
-                        ((x1 shl 6) + (x3 shl 2) shr 8))
+                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) - ((x1 shl 6) + (x3 shl 2) shr 8))
                 d2_0 = a0 + b0
                 d2_1 = a1 + b1
                 d2_2 = a2 + b2
@@ -421,11 +405,9 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 val a2 = x0 - x2
                 val a3 = x0 - (x2 shl 4)
                 val b0 = x1 + x3
-                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) -
-                        ((x1 shl 2) + (x3 shl 6) shr 8))
+                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) - ((x1 shl 2) + (x3 shl 6) shr 8))
                 val b2 = (x1 shl 4) - (x3 shl 4)
-                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) -
-                        ((x1 shl 6) + (x3 shl 2) shr 8))
+                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) - ((x1 shl 6) + (x3 shl 2) shr 8))
                 d1_0 = a0 + b0
                 d1_1 = a1 + b1
                 d1_2 = a2 + b2
@@ -445,11 +427,9 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 val a2 = x0 - x2
                 val a3 = x0 - (x2 shl 4)
                 val b0 = x1 + x3
-                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) -
-                        ((x1 shl 2) + (x3 shl 6) shr 8))
+                val b1 = (((x1 shl 2) + (x3 shl 6) and 0xFF) - ((x1 shl 2) + (x3 shl 6) shr 8))
                 val b2 = (x1 shl 4) - (x3 shl 4)
-                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) -
-                        ((x1 shl 6) + (x3 shl 2) shr 8))
+                val b3 = (((x1 shl 6) + (x3 shl 2) and 0xFF) - ((x1 shl 6) + (x3 shl 2) shr 8))
                 d2_0 = a0 + b0
                 d2_1 = a1 + b1
                 d2_2 = a2 + b2
@@ -488,27 +468,23 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 if (u != 0) {
                     m = q[qoff + 32 + u + 0]
                     n = q[qoff + 32 + u + 0 + 16]
-                    t = ((n * alphaTab[v + 0 * 8] and 0xFFFF) +
-                            (n * alphaTab[v + 0 * 8] shr 16))
+                    t = ((n * alphaTab[v + 0 * 8] and 0xFFFF) + (n * alphaTab[v + 0 * 8] shr 16))
                     q[qoff + 32 + u + 0] = m + t
                     q[qoff + 32 + u + 0 + 16] = m - t
                 }
                 m = q[qoff + 32 + u + 1]
                 n = q[qoff + 32 + u + 1 + 16]
-                t = ((n * alphaTab[v + 1 * 8] and 0xFFFF) +
-                        (n * alphaTab[v + 1 * 8] shr 16))
+                t = ((n * alphaTab[v + 1 * 8] and 0xFFFF) + (n * alphaTab[v + 1 * 8] shr 16))
                 q[qoff + 32 + u + 1] = m + t
                 q[qoff + 32 + u + 1 + 16] = m - t
                 m = q[qoff + 32 + u + 2]
                 n = q[qoff + 32 + u + 2 + 16]
-                t = ((n * alphaTab[v + 2 * 8] and 0xFFFF) +
-                        (n * alphaTab[v + 2 * 8] shr 16))
+                t = ((n * alphaTab[v + 2 * 8] and 0xFFFF) + (n * alphaTab[v + 2 * 8] shr 16))
                 q[qoff + 32 + u + 2] = m + t
                 q[qoff + 32 + u + 2 + 16] = m - t
                 m = q[qoff + 32 + u + 3]
                 n = q[qoff + 32 + u + 3 + 16]
-                t = ((n * alphaTab[v + 3 * 8] and 0xFFFF) +
-                        (n * alphaTab[v + 3 * 8] shr 16))
+                t = ((n * alphaTab[v + 3 * 8] and 0xFFFF) + (n * alphaTab[v + 3 * 8] shr 16))
                 q[qoff + 32 + u + 3] = m + t
                 q[qoff + 32 + u + 3 + 16] = m - t
                 u += 4
@@ -526,27 +502,23 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
             if (u != 0) {
                 m = q[qoff + u + 0]
                 n = q[qoff + u + 0 + 32]
-                t = ((n * alphaTab[v + 0 * 4] and 0xFFFF) +
-                        (n * alphaTab[v + 0 * 4] shr 16))
+                t = ((n * alphaTab[v + 0 * 4] and 0xFFFF) + (n * alphaTab[v + 0 * 4] shr 16))
                 q[qoff + u + 0] = m + t
                 q[qoff + u + 0 + 32] = m - t
             }
             m = q[qoff + u + 1]
             n = q[qoff + u + 1 + 32]
-            t = ((n * alphaTab[v + 1 * 4] and 0xFFFF) +
-                    (n * alphaTab[v + 1 * 4] shr 16))
+            t = ((n * alphaTab[v + 1 * 4] and 0xFFFF) + (n * alphaTab[v + 1 * 4] shr 16))
             q[qoff + u + 1] = m + t
             q[qoff + u + 1 + 32] = m - t
             m = q[qoff + u + 2]
             n = q[qoff + u + 2 + 32]
-            t = ((n * alphaTab[v + 2 * 4] and 0xFFFF) +
-                    (n * alphaTab[v + 2 * 4] shr 16))
+            t = ((n * alphaTab[v + 2 * 4] and 0xFFFF) + (n * alphaTab[v + 2 * 4] shr 16))
             q[qoff + u + 2] = m + t
             q[qoff + u + 2 + 32] = m - t
             m = q[qoff + u + 3]
             n = q[qoff + u + 3 + 32]
-            t = ((n * alphaTab[v + 3 * 4] and 0xFFFF) +
-                    (n * alphaTab[v + 3 * 4] shr 16))
+            t = ((n * alphaTab[v + 3 * 4] and 0xFFFF) + (n * alphaTab[v + 3 * 4] shr 16))
             q[qoff + u + 3] = m + t
             q[qoff + u + 3 + 32] = m - t
             u += 4
@@ -565,50 +537,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         tA[5] = circularLeftInt(state[5], p0)
         tA[6] = circularLeftInt(state[6], p0)
         tA[7] = circularLeftInt(state[7], p0)
-        tmp = (state[24] + w[0] +
-                (state[8] xor state[16] and state[0] xor state[16]))
+        tmp = (state[24] + w[0] + (state[8] xor state[16] and state[0] xor state[16]))
         state[0] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 0] xor 0]
         state[24] = state[16]
         state[16] = state[8]
         state[8] = tA[0]
-        tmp = (state[25] + w[1] +
-                (state[9] xor state[17] and state[1] xor state[17]))
+        tmp = (state[25] + w[1] + (state[9] xor state[17] and state[1] xor state[17]))
         state[1] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 0] xor 1]
         state[25] = state[17]
         state[17] = state[9]
         state[9] = tA[1]
-        tmp = (state[26] + w[2] +
-                (state[10] xor state[18] and state[2] xor state[18]))
+        tmp = (state[26] + w[2] + (state[10] xor state[18] and state[2] xor state[18]))
         state[2] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 0] xor 2]
         state[26] = state[18]
         state[18] = state[10]
         state[10] = tA[2]
-        tmp = (state[27] + w[3] +
-                (state[11] xor state[19] and state[3] xor state[19]))
+        tmp = (state[27] + w[3] + (state[11] xor state[19] and state[3] xor state[19]))
         state[3] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 0] xor 3]
         state[27] = state[19]
         state[19] = state[11]
         state[11] = tA[3]
-        tmp = (state[28] + w[4] +
-                (state[12] xor state[20] and state[4] xor state[20]))
+        tmp = (state[28] + w[4] + (state[12] xor state[20] and state[4] xor state[20]))
         state[4] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 0] xor 4]
         state[28] = state[20]
         state[20] = state[12]
         state[12] = tA[4]
-        tmp = (state[29] + w[5] +
-                (state[13] xor state[21] and state[5] xor state[21]))
+        tmp = (state[29] + w[5] + (state[13] xor state[21] and state[5] xor state[21]))
         state[5] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 0] xor 5]
         state[29] = state[21]
         state[21] = state[13]
         state[13] = tA[5]
-        tmp = (state[30] + w[6] +
-                (state[14] xor state[22] and state[6] xor state[22]))
+        tmp = (state[30] + w[6] + (state[14] xor state[22] and state[6] xor state[22]))
         state[6] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 0] xor 6]
         state[30] = state[22]
         state[22] = state[14]
         state[14] = tA[6]
-        tmp = (state[31] + w[7] +
-                (state[15] xor state[23] and state[7] xor state[23]))
+        tmp = (state[31] + w[7] + (state[15] xor state[23] and state[7] xor state[23]))
         state[7] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 0] xor 7]
         state[31] = state[23]
         state[23] = state[15]
@@ -621,50 +585,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         tA[5] = circularLeftInt(state[5], p1)
         tA[6] = circularLeftInt(state[6], p1)
         tA[7] = circularLeftInt(state[7], p1)
-        tmp = (state[24] + w[8] +
-                (state[8] xor state[16] and state[0] xor state[16]))
+        tmp = (state[24] + w[8] + (state[8] xor state[16] and state[0] xor state[16]))
         state[0] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 1] xor 0]
         state[24] = state[16]
         state[16] = state[8]
         state[8] = tA[0]
-        tmp = (state[25] + w[9] +
-                (state[9] xor state[17] and state[1] xor state[17]))
+        tmp = (state[25] + w[9] + (state[9] xor state[17] and state[1] xor state[17]))
         state[1] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 1] xor 1]
         state[25] = state[17]
         state[17] = state[9]
         state[9] = tA[1]
-        tmp = (state[26] + w[10] +
-                (state[10] xor state[18] and state[2] xor state[18]))
+        tmp = (state[26] + w[10] + (state[10] xor state[18] and state[2] xor state[18]))
         state[2] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 1] xor 2]
         state[26] = state[18]
         state[18] = state[10]
         state[10] = tA[2]
-        tmp = (state[27] + w[11] +
-                (state[11] xor state[19] and state[3] xor state[19]))
+        tmp = (state[27] + w[11] + (state[11] xor state[19] and state[3] xor state[19]))
         state[3] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 1] xor 3]
         state[27] = state[19]
         state[19] = state[11]
         state[11] = tA[3]
-        tmp = (state[28] + w[12] +
-                (state[12] xor state[20] and state[4] xor state[20]))
+        tmp = (state[28] + w[12] + (state[12] xor state[20] and state[4] xor state[20]))
         state[4] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 1] xor 4]
         state[28] = state[20]
         state[20] = state[12]
         state[12] = tA[4]
-        tmp = (state[29] + w[13] +
-                (state[13] xor state[21] and state[5] xor state[21]))
+        tmp = (state[29] + w[13] + (state[13] xor state[21] and state[5] xor state[21]))
         state[5] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 1] xor 5]
         state[29] = state[21]
         state[21] = state[13]
         state[13] = tA[5]
-        tmp = (state[30] + w[14] +
-                (state[14] xor state[22] and state[6] xor state[22]))
+        tmp = (state[30] + w[14] + (state[14] xor state[22] and state[6] xor state[22]))
         state[6] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 1] xor 6]
         state[30] = state[22]
         state[22] = state[14]
         state[14] = tA[6]
-        tmp = (state[31] + w[15] +
-                (state[15] xor state[23] and state[7] xor state[23]))
+        tmp = (state[31] + w[15] + (state[15] xor state[23] and state[7] xor state[23]))
         state[7] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 1] xor 7]
         state[31] = state[23]
         state[23] = state[15]
@@ -677,50 +633,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         tA[5] = circularLeftInt(state[5], p2)
         tA[6] = circularLeftInt(state[6], p2)
         tA[7] = circularLeftInt(state[7], p2)
-        tmp = (state[24] + w[16] +
-                (state[8] xor state[16] and state[0] xor state[16]))
+        tmp = (state[24] + w[16] + (state[8] xor state[16] and state[0] xor state[16]))
         state[0] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 2] xor 0]
         state[24] = state[16]
         state[16] = state[8]
         state[8] = tA[0]
-        tmp = (state[25] + w[17] +
-                (state[9] xor state[17] and state[1] xor state[17]))
+        tmp = (state[25] + w[17] + (state[9] xor state[17] and state[1] xor state[17]))
         state[1] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 2] xor 1]
         state[25] = state[17]
         state[17] = state[9]
         state[9] = tA[1]
-        tmp = (state[26] + w[18] +
-                (state[10] xor state[18] and state[2] xor state[18]))
+        tmp = (state[26] + w[18] + (state[10] xor state[18] and state[2] xor state[18]))
         state[2] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 2] xor 2]
         state[26] = state[18]
         state[18] = state[10]
         state[10] = tA[2]
-        tmp = (state[27] + w[19] +
-                (state[11] xor state[19] and state[3] xor state[19]))
+        tmp = (state[27] + w[19] + (state[11] xor state[19] and state[3] xor state[19]))
         state[3] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 2] xor 3]
         state[27] = state[19]
         state[19] = state[11]
         state[11] = tA[3]
-        tmp = (state[28] + w[20] +
-                (state[12] xor state[20] and state[4] xor state[20]))
+        tmp = (state[28] + w[20] + (state[12] xor state[20] and state[4] xor state[20]))
         state[4] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 2] xor 4]
         state[28] = state[20]
         state[20] = state[12]
         state[12] = tA[4]
-        tmp = (state[29] + w[21] +
-                (state[13] xor state[21] and state[5] xor state[21]))
+        tmp = (state[29] + w[21] + (state[13] xor state[21] and state[5] xor state[21]))
         state[5] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 2] xor 5]
         state[29] = state[21]
         state[21] = state[13]
         state[13] = tA[5]
-        tmp = (state[30] + w[22] +
-                (state[14] xor state[22] and state[6] xor state[22]))
+        tmp = (state[30] + w[22] + (state[14] xor state[22] and state[6] xor state[22]))
         state[6] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 2] xor 6]
         state[30] = state[22]
         state[22] = state[14]
         state[14] = tA[6]
-        tmp = (state[31] + w[23] +
-                (state[15] xor state[23] and state[7] xor state[23]))
+        tmp = (state[31] + w[23] + (state[15] xor state[23] and state[7] xor state[23]))
         state[7] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 2] xor 7]
         state[31] = state[23]
         state[23] = state[15]
@@ -733,50 +681,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         tA[5] = circularLeftInt(state[5], p3)
         tA[6] = circularLeftInt(state[6], p3)
         tA[7] = circularLeftInt(state[7], p3)
-        tmp = (state[24] + w[24] +
-                (state[8] xor state[16] and state[0] xor state[16]))
+        tmp = (state[24] + w[24] + (state[8] xor state[16] and state[0] xor state[16]))
         state[0] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 3] xor 0]
         state[24] = state[16]
         state[16] = state[8]
         state[8] = tA[0]
-        tmp = (state[25] + w[25] +
-                (state[9] xor state[17] and state[1] xor state[17]))
+        tmp = (state[25] + w[25] + (state[9] xor state[17] and state[1] xor state[17]))
         state[1] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 3] xor 1]
         state[25] = state[17]
         state[17] = state[9]
         state[9] = tA[1]
-        tmp = (state[26] + w[26] +
-                (state[10] xor state[18] and state[2] xor state[18]))
+        tmp = (state[26] + w[26] + (state[10] xor state[18] and state[2] xor state[18]))
         state[2] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 3] xor 2]
         state[26] = state[18]
         state[18] = state[10]
         state[10] = tA[2]
-        tmp = (state[27] + w[27] +
-                (state[11] xor state[19] and state[3] xor state[19]))
+        tmp = (state[27] + w[27] + (state[11] xor state[19] and state[3] xor state[19]))
         state[3] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 3] xor 3]
         state[27] = state[19]
         state[19] = state[11]
         state[11] = tA[3]
-        tmp = (state[28] + w[28] +
-                (state[12] xor state[20] and state[4] xor state[20]))
+        tmp = (state[28] + w[28] + (state[12] xor state[20] and state[4] xor state[20]))
         state[4] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 3] xor 4]
         state[28] = state[20]
         state[20] = state[12]
         state[12] = tA[4]
-        tmp = (state[29] + w[29] +
-                (state[13] xor state[21] and state[5] xor state[21]))
+        tmp = (state[29] + w[29] + (state[13] xor state[21] and state[5] xor state[21]))
         state[5] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 3] xor 5]
         state[29] = state[21]
         state[21] = state[13]
         state[13] = tA[5]
-        tmp = (state[30] + w[30] +
-                (state[14] xor state[22] and state[6] xor state[22]))
+        tmp = (state[30] + w[30] + (state[14] xor state[22] and state[6] xor state[22]))
         state[6] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 3] xor 6]
         state[30] = state[22]
         state[22] = state[14]
         state[14] = tA[6]
-        tmp = (state[31] + w[31] +
-                (state[15] xor state[23] and state[7] xor state[23]))
+        tmp = (state[31] + w[31] + (state[15] xor state[23] and state[7] xor state[23]))
         state[7] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 3] xor 7]
         state[31] = state[23]
         state[23] = state[15]
@@ -789,58 +729,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         tA[5] = circularLeftInt(state[5], p0)
         tA[6] = circularLeftInt(state[6], p0)
         tA[7] = circularLeftInt(state[7], p0)
-        tmp = (state[24] + w[32] +
-                (state[0] and state[8]
-                        or (state[0] or state[8] and state[16])))
+        tmp = (state[24] + w[32] + (state[0] and state[8] or (state[0] or state[8] and state[16])))
         state[0] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 4] xor 0]
         state[24] = state[16]
         state[16] = state[8]
         state[8] = tA[0]
-        tmp = (state[25] + w[33] +
-                (state[1] and state[9]
-                        or (state[1] or state[9] and state[17])))
+        tmp = (state[25] + w[33] + (state[1] and state[9] or (state[1] or state[9] and state[17])))
         state[1] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 4] xor 1]
         state[25] = state[17]
         state[17] = state[9]
         state[9] = tA[1]
-        tmp = (state[26] + w[34] +
-                (state[2] and state[10]
-                        or (state[2] or state[10] and state[18])))
+        tmp = (state[26] + w[34] + (state[2] and state[10] or (state[2] or state[10] and state[18])))
         state[2] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 4] xor 2]
         state[26] = state[18]
         state[18] = state[10]
         state[10] = tA[2]
-        tmp = (state[27] + w[35] +
-                (state[3] and state[11]
-                        or (state[3] or state[11] and state[19])))
+        tmp = (state[27] + w[35] + (state[3] and state[11] or (state[3] or state[11] and state[19])))
         state[3] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 4] xor 3]
         state[27] = state[19]
         state[19] = state[11]
         state[11] = tA[3]
-        tmp = (state[28] + w[36] +
-                (state[4] and state[12]
-                        or (state[4] or state[12] and state[20])))
+        tmp = (state[28] + w[36] + (state[4] and state[12] or (state[4] or state[12] and state[20])))
         state[4] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 4] xor 4]
         state[28] = state[20]
         state[20] = state[12]
         state[12] = tA[4]
-        tmp = (state[29] + w[37] +
-                (state[5] and state[13]
-                        or (state[5] or state[13] and state[21])))
+        tmp = (state[29] + w[37] + (state[5] and state[13] or (state[5] or state[13] and state[21])))
         state[5] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 4] xor 5]
         state[29] = state[21]
         state[21] = state[13]
         state[13] = tA[5]
-        tmp = (state[30] + w[38] +
-                (state[6] and state[14]
-                        or (state[6] or state[14] and state[22])))
+        tmp = (state[30] + w[38] + (state[6] and state[14] or (state[6] or state[14] and state[22])))
         state[6] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 4] xor 6]
         state[30] = state[22]
         state[22] = state[14]
         state[14] = tA[6]
-        tmp = (state[31] + w[39] +
-                (state[7] and state[15]
-                        or (state[7] or state[15] and state[23])))
+        tmp = (state[31] + w[39] + (state[7] and state[15] or (state[7] or state[15] and state[23])))
         state[7] = circularLeftInt(tmp, p1) + tA[pp8k[isp + 4] xor 7]
         state[31] = state[23]
         state[23] = state[15]
@@ -853,58 +777,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         tA[5] = circularLeftInt(state[5], p1)
         tA[6] = circularLeftInt(state[6], p1)
         tA[7] = circularLeftInt(state[7], p1)
-        tmp = (state[24] + w[40] +
-                (state[0] and state[8]
-                        or (state[0] or state[8] and state[16])))
+        tmp = (state[24] + w[40] + (state[0] and state[8] or (state[0] or state[8] and state[16])))
         state[0] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 5] xor 0]
         state[24] = state[16]
         state[16] = state[8]
         state[8] = tA[0]
-        tmp = (state[25] + w[41] +
-                (state[1] and state[9]
-                        or (state[1] or state[9] and state[17])))
+        tmp = (state[25] + w[41] + (state[1] and state[9] or (state[1] or state[9] and state[17])))
         state[1] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 5] xor 1]
         state[25] = state[17]
         state[17] = state[9]
         state[9] = tA[1]
-        tmp = (state[26] + w[42] +
-                (state[2] and state[10]
-                        or (state[2] or state[10] and state[18])))
+        tmp = (state[26] + w[42] + (state[2] and state[10] or (state[2] or state[10] and state[18])))
         state[2] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 5] xor 2]
         state[26] = state[18]
         state[18] = state[10]
         state[10] = tA[2]
-        tmp = (state[27] + w[43] +
-                (state[3] and state[11]
-                        or (state[3] or state[11] and state[19])))
+        tmp = (state[27] + w[43] + (state[3] and state[11] or (state[3] or state[11] and state[19])))
         state[3] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 5] xor 3]
         state[27] = state[19]
         state[19] = state[11]
         state[11] = tA[3]
-        tmp = (state[28] + w[44] +
-                (state[4] and state[12]
-                        or (state[4] or state[12] and state[20])))
+        tmp = (state[28] + w[44] + (state[4] and state[12] or (state[4] or state[12] and state[20])))
         state[4] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 5] xor 4]
         state[28] = state[20]
         state[20] = state[12]
         state[12] = tA[4]
-        tmp = (state[29] + w[45] +
-                (state[5] and state[13]
-                        or (state[5] or state[13] and state[21])))
+        tmp = (state[29] + w[45] + (state[5] and state[13] or (state[5] or state[13] and state[21])))
         state[5] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 5] xor 5]
         state[29] = state[21]
         state[21] = state[13]
         state[13] = tA[5]
-        tmp = (state[30] + w[46] +
-                (state[6] and state[14]
-                        or (state[6] or state[14] and state[22])))
+        tmp = (state[30] + w[46] + (state[6] and state[14] or (state[6] or state[14] and state[22])))
         state[6] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 5] xor 6]
         state[30] = state[22]
         state[22] = state[14]
         state[14] = tA[6]
-        tmp = (state[31] + w[47] +
-                (state[7] and state[15]
-                        or (state[7] or state[15] and state[23])))
+        tmp = (state[31] + w[47] + (state[7] and state[15] or (state[7] or state[15] and state[23])))
         state[7] = circularLeftInt(tmp, p2) + tA[pp8k[isp + 5] xor 7]
         state[31] = state[23]
         state[23] = state[15]
@@ -917,58 +825,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         tA[5] = circularLeftInt(state[5], p2)
         tA[6] = circularLeftInt(state[6], p2)
         tA[7] = circularLeftInt(state[7], p2)
-        tmp = (state[24] + w[48] +
-                (state[0] and state[8]
-                        or (state[0] or state[8] and state[16])))
+        tmp = (state[24] + w[48] + (state[0] and state[8] or (state[0] or state[8] and state[16])))
         state[0] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 6] xor 0]
         state[24] = state[16]
         state[16] = state[8]
         state[8] = tA[0]
-        tmp = (state[25] + w[49] +
-                (state[1] and state[9]
-                        or (state[1] or state[9] and state[17])))
+        tmp = (state[25] + w[49] + (state[1] and state[9] or (state[1] or state[9] and state[17])))
         state[1] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 6] xor 1]
         state[25] = state[17]
         state[17] = state[9]
         state[9] = tA[1]
-        tmp = (state[26] + w[50] +
-                (state[2] and state[10]
-                        or (state[2] or state[10] and state[18])))
+        tmp = (state[26] + w[50] + (state[2] and state[10] or (state[2] or state[10] and state[18])))
         state[2] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 6] xor 2]
         state[26] = state[18]
         state[18] = state[10]
         state[10] = tA[2]
-        tmp = (state[27] + w[51] +
-                (state[3] and state[11]
-                        or (state[3] or state[11] and state[19])))
+        tmp = (state[27] + w[51] + (state[3] and state[11] or (state[3] or state[11] and state[19])))
         state[3] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 6] xor 3]
         state[27] = state[19]
         state[19] = state[11]
         state[11] = tA[3]
-        tmp = (state[28] + w[52] +
-                (state[4] and state[12]
-                        or (state[4] or state[12] and state[20])))
+        tmp = (state[28] + w[52] + (state[4] and state[12] or (state[4] or state[12] and state[20])))
         state[4] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 6] xor 4]
         state[28] = state[20]
         state[20] = state[12]
         state[12] = tA[4]
-        tmp = (state[29] + w[53] +
-                (state[5] and state[13]
-                        or (state[5] or state[13] and state[21])))
+        tmp = (state[29] + w[53] + (state[5] and state[13] or (state[5] or state[13] and state[21])))
         state[5] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 6] xor 5]
         state[29] = state[21]
         state[21] = state[13]
         state[13] = tA[5]
-        tmp = (state[30] + w[54] +
-                (state[6] and state[14]
-                        or (state[6] or state[14] and state[22])))
+        tmp = (state[30] + w[54] + (state[6] and state[14] or (state[6] or state[14] and state[22])))
         state[6] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 6] xor 6]
         state[30] = state[22]
         state[22] = state[14]
         state[14] = tA[6]
-        tmp = (state[31] + w[55] +
-                (state[7] and state[15]
-                        or (state[7] or state[15] and state[23])))
+        tmp = (state[31] + w[55] + (state[7] and state[15] or (state[7] or state[15] and state[23])))
         state[7] = circularLeftInt(tmp, p3) + tA[pp8k[isp + 6] xor 7]
         state[31] = state[23]
         state[23] = state[15]
@@ -981,58 +873,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         tA[5] = circularLeftInt(state[5], p3)
         tA[6] = circularLeftInt(state[6], p3)
         tA[7] = circularLeftInt(state[7], p3)
-        tmp = (state[24] + w[56] +
-                (state[0] and state[8]
-                        or (state[0] or state[8] and state[16])))
+        tmp = (state[24] + w[56] + (state[0] and state[8] or (state[0] or state[8] and state[16])))
         state[0] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 7] xor 0]
         state[24] = state[16]
         state[16] = state[8]
         state[8] = tA[0]
-        tmp = (state[25] + w[57] +
-                (state[1] and state[9]
-                        or (state[1] or state[9] and state[17])))
+        tmp = (state[25] + w[57] + (state[1] and state[9] or (state[1] or state[9] and state[17])))
         state[1] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 7] xor 1]
         state[25] = state[17]
         state[17] = state[9]
         state[9] = tA[1]
-        tmp = (state[26] + w[58] +
-                (state[2] and state[10]
-                        or (state[2] or state[10] and state[18])))
+        tmp = (state[26] + w[58] + (state[2] and state[10] or (state[2] or state[10] and state[18])))
         state[2] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 7] xor 2]
         state[26] = state[18]
         state[18] = state[10]
         state[10] = tA[2]
-        tmp = (state[27] + w[59] +
-                (state[3] and state[11]
-                        or (state[3] or state[11] and state[19])))
+        tmp = (state[27] + w[59] + (state[3] and state[11] or (state[3] or state[11] and state[19])))
         state[3] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 7] xor 3]
         state[27] = state[19]
         state[19] = state[11]
         state[11] = tA[3]
-        tmp = (state[28] + w[60] +
-                (state[4] and state[12]
-                        or (state[4] or state[12] and state[20])))
+        tmp = (state[28] + w[60] + (state[4] and state[12] or (state[4] or state[12] and state[20])))
         state[4] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 7] xor 4]
         state[28] = state[20]
         state[20] = state[12]
         state[12] = tA[4]
-        tmp = (state[29] + w[61] +
-                (state[5] and state[13]
-                        or (state[5] or state[13] and state[21])))
+        tmp = (state[29] + w[61] + (state[5] and state[13] or (state[5] or state[13] and state[21])))
         state[5] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 7] xor 5]
         state[29] = state[21]
         state[21] = state[13]
         state[13] = tA[5]
-        tmp = (state[30] + w[62] +
-                (state[6] and state[14]
-                        or (state[6] or state[14] and state[22])))
+        tmp = (state[30] + w[62] + (state[6] and state[14] or (state[6] or state[14] and state[22])))
         state[6] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 7] xor 6]
         state[30] = state[22]
         state[22] = state[14]
         state[14] = tA[6]
-        tmp = (state[31] + w[63] +
-                (state[7] and state[15]
-                        or (state[7] or state[15] and state[23])))
+        tmp = (state[31] + w[63] + (state[7] and state[15] or (state[7] or state[15] and state[23])))
         state[7] = circularLeftInt(tmp, p0) + tA[pp8k[isp + 7] xor 7]
         state[31] = state[23]
         state[23] = state[15]
@@ -1056,27 +932,23 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 if (u != 0) {
                     m = q[0 + u + 0]
                     n = q[0 + u + 0 + 64]
-                    t = ((n * alphaTab[v + 0 * 2] and 0xFFFF) +
-                            (n * alphaTab[v + 0 * 2] shr 16))
+                    t = ((n * alphaTab[v + 0 * 2] and 0xFFFF) + (n * alphaTab[v + 0 * 2] shr 16))
                     q[0 + u + 0] = m + t
                     q[0 + u + 0 + 64] = m - t
                 }
                 m = q[0 + u + 1]
                 n = q[0 + u + 1 + 64]
-                t = ((n * alphaTab[v + 1 * 2] and 0xFFFF) +
-                        (n * alphaTab[v + 1 * 2] shr 16))
+                t = ((n * alphaTab[v + 1 * 2] and 0xFFFF) + (n * alphaTab[v + 1 * 2] shr 16))
                 q[0 + u + 1] = m + t
                 q[0 + u + 1 + 64] = m - t
                 m = q[0 + u + 2]
                 n = q[0 + u + 2 + 64]
-                t = ((n * alphaTab[v + 2 * 2] and 0xFFFF) +
-                        (n * alphaTab[v + 2 * 2] shr 16))
+                t = ((n * alphaTab[v + 2 * 2] and 0xFFFF) + (n * alphaTab[v + 2 * 2] shr 16))
                 q[0 + u + 2] = m + t
                 q[0 + u + 2 + 64] = m - t
                 m = q[0 + u + 3]
                 n = q[0 + u + 3 + 64]
-                t = ((n * alphaTab[v + 3 * 2] and 0xFFFF) +
-                        (n * alphaTab[v + 3 * 2] shr 16))
+                t = ((n * alphaTab[v + 3 * 2] and 0xFFFF) + (n * alphaTab[v + 3 * 2] shr 16))
                 q[0 + u + 3] = m + t
                 q[0 + u + 3 + 64] = m - t
                 u += 4
@@ -1097,27 +969,23 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 if (u != 0) {
                     m = q[0 + 128 + u + 0]
                     n = q[0 + 128 + u + 0 + 64]
-                    t = ((n * alphaTab[v + 0 * 2] and 0xFFFF) +
-                            (n * alphaTab[v + 0 * 2] shr 16))
+                    t = ((n * alphaTab[v + 0 * 2] and 0xFFFF) + (n * alphaTab[v + 0 * 2] shr 16))
                     q[0 + 128 + u + 0] = m + t
                     q[0 + 128 + u + 0 + 64] = m - t
                 }
                 m = q[0 + 128 + u + 1]
                 n = q[0 + 128 + u + 1 + 64]
-                t = ((n * alphaTab[v + 1 * 2] and 0xFFFF) +
-                        (n * alphaTab[v + 1 * 2] shr 16))
+                t = ((n * alphaTab[v + 1 * 2] and 0xFFFF) + (n * alphaTab[v + 1 * 2] shr 16))
                 q[0 + 128 + u + 1] = m + t
                 q[0 + 128 + u + 1 + 64] = m - t
                 m = q[0 + 128 + u + 2]
                 n = q[0 + 128 + u + 2 + 64]
-                t = ((n * alphaTab[v + 2 * 2] and 0xFFFF) +
-                        (n * alphaTab[v + 2 * 2] shr 16))
+                t = ((n * alphaTab[v + 2 * 2] and 0xFFFF) + (n * alphaTab[v + 2 * 2] shr 16))
                 q[0 + 128 + u + 2] = m + t
                 q[0 + 128 + u + 2 + 64] = m - t
                 m = q[0 + 128 + u + 3]
                 n = q[0 + 128 + u + 3 + 64]
-                t = ((n * alphaTab[v + 3 * 2] and 0xFFFF) +
-                        (n * alphaTab[v + 3 * 2] shr 16))
+                t = ((n * alphaTab[v + 3 * 2] and 0xFFFF) + (n * alphaTab[v + 3 * 2] shr 16))
                 q[0 + 128 + u + 3] = m + t
                 q[0 + 128 + u + 3 + 64] = m - t
                 u += 4
@@ -1136,27 +1004,23 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
                 if (u != 0) {
                     m = q[0 + u + 0]
                     n = q[0 + u + 0 + 128]
-                    t = ((n * alphaTab[v + 0 * 1] and 0xFFFF) +
-                            (n * alphaTab[v + 0 * 1] shr 16))
+                    t = ((n * alphaTab[v + 0 * 1] and 0xFFFF) + (n * alphaTab[v + 0 * 1] shr 16))
                     q[0 + u + 0] = m + t
                     q[0 + u + 0 + 128] = m - t
                 }
                 m = q[0 + u + 1]
                 n = q[0 + u + 1 + 128]
-                t = ((n * alphaTab[v + 1 * 1] and 0xFFFF) +
-                        (n * alphaTab[v + 1 * 1] shr 16))
+                t = ((n * alphaTab[v + 1 * 1] and 0xFFFF) + (n * alphaTab[v + 1 * 1] shr 16))
                 q[0 + u + 1] = m + t
                 q[0 + u + 1 + 128] = m - t
                 m = q[0 + u + 2]
                 n = q[0 + u + 2 + 128]
-                t = ((n * alphaTab[v + 2 * 1] and 0xFFFF) +
-                        (n * alphaTab[v + 2 * 1] shr 16))
+                t = ((n * alphaTab[v + 2 * 1] and 0xFFFF) + (n * alphaTab[v + 2 * 1] shr 16))
                 q[0 + u + 2] = m + t
                 q[0 + u + 2 + 128] = m - t
                 m = q[0 + u + 3]
                 n = q[0 + u + 3 + 128]
-                t = ((n * alphaTab[v + 3 * 1] and 0xFFFF) +
-                        (n * alphaTab[v + 3 * 1] shr 16))
+                t = ((n * alphaTab[v + 3 * 1] and 0xFFFF) + (n * alphaTab[v + 3 * 1] shr 16))
                 q[0 + u + 3] = m + t
                 q[0 + u + 3 + 128] = m - t
                 u += 4
@@ -1197,22 +1061,14 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
             var u = 0
             while (u < 64) {
                 val v = wbp[(u shr 3) + 0]
-                w[u + 0] = ((q[v + 2 * 0 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 0 + 1] * 185 shl 16))
-                w[u + 1] = ((q[v + 2 * 1 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 1 + 1] * 185 shl 16))
-                w[u + 2] = ((q[v + 2 * 2 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 2 + 1] * 185 shl 16))
-                w[u + 3] = ((q[v + 2 * 3 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 3 + 1] * 185 shl 16))
-                w[u + 4] = ((q[v + 2 * 4 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 4 + 1] * 185 shl 16))
-                w[u + 5] = ((q[v + 2 * 5 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 5 + 1] * 185 shl 16))
-                w[u + 6] = ((q[v + 2 * 6 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 6 + 1] * 185 shl 16))
-                w[u + 7] = ((q[v + 2 * 7 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 7 + 1] * 185 shl 16))
+                w[u + 0] = ((q[v + 2 * 0 + 0] * 185 and 0xFFFF) + (q[v + 2 * 0 + 1] * 185 shl 16))
+                w[u + 1] = ((q[v + 2 * 1 + 0] * 185 and 0xFFFF) + (q[v + 2 * 1 + 1] * 185 shl 16))
+                w[u + 2] = ((q[v + 2 * 2 + 0] * 185 and 0xFFFF) + (q[v + 2 * 2 + 1] * 185 shl 16))
+                w[u + 3] = ((q[v + 2 * 3 + 0] * 185 and 0xFFFF) + (q[v + 2 * 3 + 1] * 185 shl 16))
+                w[u + 4] = ((q[v + 2 * 4 + 0] * 185 and 0xFFFF) + (q[v + 2 * 4 + 1] * 185 shl 16))
+                w[u + 5] = ((q[v + 2 * 5 + 0] * 185 and 0xFFFF) + (q[v + 2 * 5 + 1] * 185 shl 16))
+                w[u + 6] = ((q[v + 2 * 6 + 0] * 185 and 0xFFFF) + (q[v + 2 * 6 + 1] * 185 shl 16))
+                w[u + 7] = ((q[v + 2 * 7 + 0] * 185 and 0xFFFF) + (q[v + 2 * 7 + 1] * 185 shl 16))
                 u += 8
             }
         }
@@ -1221,22 +1077,14 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
             var u = 0
             while (u < 64) {
                 val v = wbp[(u shr 3) + 8]
-                w[u + 0] = ((q[v + 2 * 0 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 0 + 1] * 185 shl 16))
-                w[u + 1] = ((q[v + 2 * 1 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 1 + 1] * 185 shl 16))
-                w[u + 2] = ((q[v + 2 * 2 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 2 + 1] * 185 shl 16))
-                w[u + 3] = ((q[v + 2 * 3 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 3 + 1] * 185 shl 16))
-                w[u + 4] = ((q[v + 2 * 4 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 4 + 1] * 185 shl 16))
-                w[u + 5] = ((q[v + 2 * 5 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 5 + 1] * 185 shl 16))
-                w[u + 6] = ((q[v + 2 * 6 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 6 + 1] * 185 shl 16))
-                w[u + 7] = ((q[v + 2 * 7 + 0] * 185 and 0xFFFF) +
-                        (q[v + 2 * 7 + 1] * 185 shl 16))
+                w[u + 0] = ((q[v + 2 * 0 + 0] * 185 and 0xFFFF) + (q[v + 2 * 0 + 1] * 185 shl 16))
+                w[u + 1] = ((q[v + 2 * 1 + 0] * 185 and 0xFFFF) + (q[v + 2 * 1 + 1] * 185 shl 16))
+                w[u + 2] = ((q[v + 2 * 2 + 0] * 185 and 0xFFFF) + (q[v + 2 * 2 + 1] * 185 shl 16))
+                w[u + 3] = ((q[v + 2 * 3 + 0] * 185 and 0xFFFF) + (q[v + 2 * 3 + 1] * 185 shl 16))
+                w[u + 4] = ((q[v + 2 * 4 + 0] * 185 and 0xFFFF) + (q[v + 2 * 4 + 1] * 185 shl 16))
+                w[u + 5] = ((q[v + 2 * 5 + 0] * 185 and 0xFFFF) + (q[v + 2 * 5 + 1] * 185 shl 16))
+                w[u + 6] = ((q[v + 2 * 6 + 0] * 185 and 0xFFFF) + (q[v + 2 * 6 + 1] * 185 shl 16))
+                w[u + 7] = ((q[v + 2 * 7 + 0] * 185 and 0xFFFF) + (q[v + 2 * 7 + 1] * 185 shl 16))
                 u += 8
             }
         }
@@ -1245,22 +1093,14 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
             var u = 0
             while (u < 64) {
                 val v = wbp[(u shr 3) + 16]
-                w[u + 0] = ((q[v + 2 * 0 + -256] * 233 and 0xFFFF) +
-                        (q[v + 2 * 0 + -128] * 233 shl 16))
-                w[u + 1] = ((q[v + 2 * 1 + -256] * 233 and 0xFFFF) +
-                        (q[v + 2 * 1 + -128] * 233 shl 16))
-                w[u + 2] = ((q[v + 2 * 2 + -256] * 233 and 0xFFFF) +
-                        (q[v + 2 * 2 + -128] * 233 shl 16))
-                w[u + 3] = ((q[v + 2 * 3 + -256] * 233 and 0xFFFF) +
-                        (q[v + 2 * 3 + -128] * 233 shl 16))
-                w[u + 4] = ((q[v + 2 * 4 + -256] * 233 and 0xFFFF) +
-                        (q[v + 2 * 4 + -128] * 233 shl 16))
-                w[u + 5] = ((q[v + 2 * 5 + -256] * 233 and 0xFFFF) +
-                        (q[v + 2 * 5 + -128] * 233 shl 16))
-                w[u + 6] = ((q[v + 2 * 6 + -256] * 233 and 0xFFFF) +
-                        (q[v + 2 * 6 + -128] * 233 shl 16))
-                w[u + 7] = ((q[v + 2 * 7 + -256] * 233 and 0xFFFF) +
-                        (q[v + 2 * 7 + -128] * 233 shl 16))
+                w[u + 0] = ((q[v + 2 * 0 + -256] * 233 and 0xFFFF) + (q[v + 2 * 0 + -128] * 233 shl 16))
+                w[u + 1] = ((q[v + 2 * 1 + -256] * 233 and 0xFFFF) + (q[v + 2 * 1 + -128] * 233 shl 16))
+                w[u + 2] = ((q[v + 2 * 2 + -256] * 233 and 0xFFFF) + (q[v + 2 * 2 + -128] * 233 shl 16))
+                w[u + 3] = ((q[v + 2 * 3 + -256] * 233 and 0xFFFF) + (q[v + 2 * 3 + -128] * 233 shl 16))
+                w[u + 4] = ((q[v + 2 * 4 + -256] * 233 and 0xFFFF) + (q[v + 2 * 4 + -128] * 233 shl 16))
+                w[u + 5] = ((q[v + 2 * 5 + -256] * 233 and 0xFFFF) + (q[v + 2 * 5 + -128] * 233 shl 16))
+                w[u + 6] = ((q[v + 2 * 6 + -256] * 233 and 0xFFFF) + (q[v + 2 * 6 + -128] * 233 shl 16))
+                w[u + 7] = ((q[v + 2 * 7 + -256] * 233 and 0xFFFF) + (q[v + 2 * 7 + -128] * 233 shl 16))
                 u += 8
             }
         }
@@ -1268,22 +1108,14 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
         var u = 0
         while (u < 64) {
             val v = wbp[(u shr 3) + 24]
-            w[u + 0] = ((q[v + 2 * 0 + -383] * 233 and 0xFFFF) +
-                    (q[v + 2 * 0 + -255] * 233 shl 16))
-            w[u + 1] = ((q[v + 2 * 1 + -383] * 233 and 0xFFFF) +
-                    (q[v + 2 * 1 + -255] * 233 shl 16))
-            w[u + 2] = ((q[v + 2 * 2 + -383] * 233 and 0xFFFF) +
-                    (q[v + 2 * 2 + -255] * 233 shl 16))
-            w[u + 3] = ((q[v + 2 * 3 + -383] * 233 and 0xFFFF) +
-                    (q[v + 2 * 3 + -255] * 233 shl 16))
-            w[u + 4] = ((q[v + 2 * 4 + -383] * 233 and 0xFFFF) +
-                    (q[v + 2 * 4 + -255] * 233 shl 16))
-            w[u + 5] = ((q[v + 2 * 5 + -383] * 233 and 0xFFFF) +
-                    (q[v + 2 * 5 + -255] * 233 shl 16))
-            w[u + 6] = ((q[v + 2 * 6 + -383] * 233 and 0xFFFF) +
-                    (q[v + 2 * 6 + -255] * 233 shl 16))
-            w[u + 7] = ((q[v + 2 * 7 + -383] * 233 and 0xFFFF) +
-                    (q[v + 2 * 7 + -255] * 233 shl 16))
+            w[u + 0] = ((q[v + 2 * 0 + -383] * 233 and 0xFFFF) + (q[v + 2 * 0 + -255] * 233 shl 16))
+            w[u + 1] = ((q[v + 2 * 1 + -383] * 233 and 0xFFFF) + (q[v + 2 * 1 + -255] * 233 shl 16))
+            w[u + 2] = ((q[v + 2 * 2 + -383] * 233 and 0xFFFF) + (q[v + 2 * 2 + -255] * 233 shl 16))
+            w[u + 3] = ((q[v + 2 * 3 + -383] * 233 and 0xFFFF) + (q[v + 2 * 3 + -255] * 233 shl 16))
+            w[u + 4] = ((q[v + 2 * 4 + -383] * 233 and 0xFFFF) + (q[v + 2 * 4 + -255] * 233 shl 16))
+            w[u + 5] = ((q[v + 2 * 5 + -383] * 233 and 0xFFFF) + (q[v + 2 * 5 + -255] * 233 shl 16))
+            w[u + 6] = ((q[v + 2 * 6 + -383] * 233 and 0xFFFF) + (q[v + 2 * 6 + -255] * 233 shl 16))
+            w[u + 7] = ((q[v + 2 * 7 + -383] * 233 and 0xFFFF) + (q[v + 2 * 7 + -255] * 233 shl 16))
             u += 8
         }
         oneRound(3, 4, 13, 10, 25)
@@ -1296,50 +1128,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
             val tA5 = circularLeftInt(state[5], 4)
             val tA6 = circularLeftInt(state[6], 4)
             val tA7 = circularLeftInt(state[7], 4)
-            tmp = state[24] + tmpState[0] + ((state[8]
-                    xor state[16]) and state[0] xor state[16])
+            tmp = state[24] + tmpState[0] + ((state[8] xor state[16]) and state[0] xor state[16])
             state[0] = circularLeftInt(tmp, 13) + tA5
             state[24] = state[16]
             state[16] = state[8]
             state[8] = tA0
-            tmp = state[25] + tmpState[1] + ((state[9]
-                    xor state[17]) and state[1] xor state[17])
+            tmp = state[25] + tmpState[1] + ((state[9] xor state[17]) and state[1] xor state[17])
             state[1] = circularLeftInt(tmp, 13) + tA4
             state[25] = state[17]
             state[17] = state[9]
             state[9] = tA1
-            tmp = state[26] + tmpState[2] + ((state[10]
-                    xor state[18]) and state[2] xor state[18])
+            tmp = state[26] + tmpState[2] + ((state[10] xor state[18]) and state[2] xor state[18])
             state[2] = circularLeftInt(tmp, 13) + tA7
             state[26] = state[18]
             state[18] = state[10]
             state[10] = tA2
-            tmp = state[27] + tmpState[3] + ((state[11]
-                    xor state[19]) and state[3] xor state[19])
+            tmp = state[27] + tmpState[3] + ((state[11] xor state[19]) and state[3] xor state[19])
             state[3] = circularLeftInt(tmp, 13) + tA6
             state[27] = state[19]
             state[19] = state[11]
             state[11] = tA3
-            tmp = state[28] + tmpState[4] + ((state[12]
-                    xor state[20]) and state[4] xor state[20])
+            tmp = state[28] + tmpState[4] + ((state[12] xor state[20]) and state[4] xor state[20])
             state[4] = circularLeftInt(tmp, 13) + tA1
             state[28] = state[20]
             state[20] = state[12]
             state[12] = tA4
-            tmp = state[29] + tmpState[5] + ((state[13]
-                    xor state[21]) and state[5] xor state[21])
+            tmp = state[29] + tmpState[5] + ((state[13] xor state[21]) and state[5] xor state[21])
             state[5] = circularLeftInt(tmp, 13) + tA0
             state[29] = state[21]
             state[21] = state[13]
             state[13] = tA5
-            tmp = state[30] + tmpState[6] + ((state[14]
-                    xor state[22]) and state[6] xor state[22])
+            tmp = state[30] + tmpState[6] + ((state[14] xor state[22]) and state[6] xor state[22])
             state[6] = circularLeftInt(tmp, 13) + tA3
             state[30] = state[22]
             state[22] = state[14]
             state[14] = tA6
-            tmp = state[31] + tmpState[7] + ((state[15]
-                    xor state[23]) and state[7] xor state[23])
+            tmp = state[31] + tmpState[7] + ((state[15] xor state[23]) and state[7] xor state[23])
             state[7] = circularLeftInt(tmp, 13) + tA2
             state[31] = state[23]
             state[23] = state[15]
@@ -1354,50 +1178,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
             val tA5 = circularLeftInt(state[5], 13)
             val tA6 = circularLeftInt(state[6], 13)
             val tA7 = circularLeftInt(state[7], 13)
-            tmp = state[24] + tmpState[8] + ((state[8]
-                    xor state[16]) and state[0] xor state[16])
+            tmp = state[24] + tmpState[8] + ((state[8] xor state[16]) and state[0] xor state[16])
             state[0] = circularLeftInt(tmp, 10) + tA7
             state[24] = state[16]
             state[16] = state[8]
             state[8] = tA0
-            tmp = state[25] + tmpState[9] + ((state[9]
-                    xor state[17]) and state[1] xor state[17])
+            tmp = state[25] + tmpState[9] + ((state[9] xor state[17]) and state[1] xor state[17])
             state[1] = circularLeftInt(tmp, 10) + tA6
             state[25] = state[17]
             state[17] = state[9]
             state[9] = tA1
-            tmp = state[26] + tmpState[10] + ((state[10]
-                    xor state[18]) and state[2] xor state[18])
+            tmp = state[26] + tmpState[10] + ((state[10] xor state[18]) and state[2] xor state[18])
             state[2] = circularLeftInt(tmp, 10) + tA5
             state[26] = state[18]
             state[18] = state[10]
             state[10] = tA2
-            tmp = state[27] + tmpState[11] + ((state[11]
-                    xor state[19]) and state[3] xor state[19])
+            tmp = state[27] + tmpState[11] + ((state[11] xor state[19]) and state[3] xor state[19])
             state[3] = circularLeftInt(tmp, 10) + tA4
             state[27] = state[19]
             state[19] = state[11]
             state[11] = tA3
-            tmp = state[28] + tmpState[12] + ((state[12]
-                    xor state[20]) and state[4] xor state[20])
+            tmp = state[28] + tmpState[12] + ((state[12] xor state[20]) and state[4] xor state[20])
             state[4] = circularLeftInt(tmp, 10) + tA3
             state[28] = state[20]
             state[20] = state[12]
             state[12] = tA4
-            tmp = state[29] + tmpState[13] + ((state[13]
-                    xor state[21]) and state[5] xor state[21])
+            tmp = state[29] + tmpState[13] + ((state[13] xor state[21]) and state[5] xor state[21])
             state[5] = circularLeftInt(tmp, 10) + tA2
             state[29] = state[21]
             state[21] = state[13]
             state[13] = tA5
-            tmp = state[30] + tmpState[14] + ((state[14]
-                    xor state[22]) and state[6] xor state[22])
+            tmp = state[30] + tmpState[14] + ((state[14] xor state[22]) and state[6] xor state[22])
             state[6] = circularLeftInt(tmp, 10) + tA1
             state[30] = state[22]
             state[22] = state[14]
             state[14] = tA6
-            tmp = state[31] + tmpState[15] + ((state[15]
-                    xor state[23]) and state[7] xor state[23])
+            tmp = state[31] + tmpState[15] + ((state[15] xor state[23]) and state[7] xor state[23])
             state[7] = circularLeftInt(tmp, 10) + tA0
             state[31] = state[23]
             state[23] = state[15]
@@ -1412,50 +1228,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
             val tA5 = circularLeftInt(state[5], 10)
             val tA6 = circularLeftInt(state[6], 10)
             val tA7 = circularLeftInt(state[7], 10)
-            tmp = state[24] + tmpState[16] + ((state[8]
-                    xor state[16]) and state[0] xor state[16])
+            tmp = state[24] + tmpState[16] + ((state[8] xor state[16]) and state[0] xor state[16])
             state[0] = circularLeftInt(tmp, 25) + tA4
             state[24] = state[16]
             state[16] = state[8]
             state[8] = tA0
-            tmp = state[25] + tmpState[17] + ((state[9]
-                    xor state[17]) and state[1] xor state[17])
+            tmp = state[25] + tmpState[17] + ((state[9] xor state[17]) and state[1] xor state[17])
             state[1] = circularLeftInt(tmp, 25) + tA5
             state[25] = state[17]
             state[17] = state[9]
             state[9] = tA1
-            tmp = state[26] + tmpState[18] + ((state[10]
-                    xor state[18]) and state[2] xor state[18])
+            tmp = state[26] + tmpState[18] + ((state[10] xor state[18]) and state[2] xor state[18])
             state[2] = circularLeftInt(tmp, 25) + tA6
             state[26] = state[18]
             state[18] = state[10]
             state[10] = tA2
-            tmp = state[27] + tmpState[19] + ((state[11]
-                    xor state[19]) and state[3] xor state[19])
+            tmp = state[27] + tmpState[19] + ((state[11] xor state[19]) and state[3] xor state[19])
             state[3] = circularLeftInt(tmp, 25) + tA7
             state[27] = state[19]
             state[19] = state[11]
             state[11] = tA3
-            tmp = state[28] + tmpState[20] + ((state[12]
-                    xor state[20]) and state[4] xor state[20])
+            tmp = state[28] + tmpState[20] + ((state[12] xor state[20]) and state[4] xor state[20])
             state[4] = circularLeftInt(tmp, 25) + tA0
             state[28] = state[20]
             state[20] = state[12]
             state[12] = tA4
-            tmp = state[29] + tmpState[21] + ((state[13]
-                    xor state[21]) and state[5] xor state[21])
+            tmp = state[29] + tmpState[21] + ((state[13] xor state[21]) and state[5] xor state[21])
             state[5] = circularLeftInt(tmp, 25) + tA1
             state[29] = state[21]
             state[21] = state[13]
             state[13] = tA5
-            tmp = state[30] + tmpState[22] + ((state[14]
-                    xor state[22]) and state[6] xor state[22])
+            tmp = state[30] + tmpState[22] + ((state[14] xor state[22]) and state[6] xor state[22])
             state[6] = circularLeftInt(tmp, 25) + tA2
             state[30] = state[22]
             state[22] = state[14]
             state[14] = tA6
-            tmp = state[31] + tmpState[23] + ((state[15]
-                    xor state[23]) and state[7] xor state[23])
+            tmp = state[31] + tmpState[23] + ((state[15] xor state[23]) and state[7] xor state[23])
             state[7] = circularLeftInt(tmp, 25) + tA3
             state[31] = state[23]
             state[23] = state[15]
@@ -1470,50 +1278,42 @@ internal abstract class SIMDBigCore<D : SIMDBigCore<D>> : DigestEngine<D>() {
             val tA5 = circularLeftInt(state[5], 25)
             val tA6 = circularLeftInt(state[6], 25)
             val tA7 = circularLeftInt(state[7], 25)
-            tmp = state[24] + tmpState[24] + ((state[8]
-                    xor state[16]) and state[0] xor state[16])
+            tmp = state[24] + tmpState[24] + ((state[8] xor state[16]) and state[0] xor state[16])
             state[0] = circularLeftInt(tmp, 4) + tA1
             state[24] = state[16]
             state[16] = state[8]
             state[8] = tA0
-            tmp = state[25] + tmpState[25] + ((state[9]
-                    xor state[17]) and state[1] xor state[17])
+            tmp = state[25] + tmpState[25] + ((state[9] xor state[17]) and state[1] xor state[17])
             state[1] = circularLeftInt(tmp, 4) + tA0
             state[25] = state[17]
             state[17] = state[9]
             state[9] = tA1
-            tmp = state[26] + tmpState[26] + ((state[10]
-                    xor state[18]) and state[2] xor state[18])
+            tmp = state[26] + tmpState[26] + ((state[10] xor state[18]) and state[2] xor state[18])
             state[2] = circularLeftInt(tmp, 4) + tA3
             state[26] = state[18]
             state[18] = state[10]
             state[10] = tA2
-            tmp = state[27] + tmpState[27] + ((state[11]
-                    xor state[19]) and state[3] xor state[19])
+            tmp = state[27] + tmpState[27] + ((state[11] xor state[19]) and state[3] xor state[19])
             state[3] = circularLeftInt(tmp, 4) + tA2
             state[27] = state[19]
             state[19] = state[11]
             state[11] = tA3
-            tmp = state[28] + tmpState[28] + ((state[12]
-                    xor state[20]) and state[4] xor state[20])
+            tmp = state[28] + tmpState[28] + ((state[12] xor state[20]) and state[4] xor state[20])
             state[4] = circularLeftInt(tmp, 4) + tA5
             state[28] = state[20]
             state[20] = state[12]
             state[12] = tA4
-            tmp = state[29] + tmpState[29] + ((state[13]
-                    xor state[21]) and state[5] xor state[21])
+            tmp = state[29] + tmpState[29] + ((state[13] xor state[21]) and state[5] xor state[21])
             state[5] = circularLeftInt(tmp, 4) + tA4
             state[29] = state[21]
             state[21] = state[13]
             state[13] = tA5
-            tmp = state[30] + tmpState[30] + ((state[14]
-                    xor state[22]) and state[6] xor state[22])
+            tmp = state[30] + tmpState[30] + ((state[14] xor state[22]) and state[6] xor state[22])
             state[6] = circularLeftInt(tmp, 4) + tA7
             state[30] = state[22]
             state[22] = state[14]
             state[14] = tA6
-            tmp = state[31] + tmpState[31] + ((state[15]
-                    xor state[23]) and state[7] xor state[23])
+            tmp = state[31] + tmpState[31] + ((state[15] xor state[23]) and state[7] xor state[23])
             state[7] = circularLeftInt(tmp, 4) + tA6
             state[31] = state[23]
             state[23] = state[15]

@@ -93,8 +93,7 @@ internal abstract class FugueCore<D : FugueCore<D>> : Digest<D> {
             len -= zlen
             partial = 0
             partialLen = len
-            while (len-- > 0) partial = (partial shl 8
-                    or (input[off++].toInt() and 0xFF))
+            while (len-- > 0) partial = (partial shl 8 or (input[off++].toInt() and 0xFF))
         }
     }
 
@@ -233,22 +232,30 @@ internal abstract class FugueCore<D : FugueCore<D>> : Digest<D> {
         r2 = r2 xor tmp
         tmp = mixtab3[xt ushr 0 and 0xFF]
         c3 = c3 xor tmp
-        s[i0] = (c0 xor (r0 shl 0) and -0x1000000
-                or (c1 xor (r1 shl 0) and 0x00FF0000)
-                or (c2 xor (r2 shl 0) and 0x0000FF00)
-                or (c3 xor (r3 shl 0) and 0x000000FF))
-        s[i1] = (c1 xor (r0 shl 8) and -0x1000000
-                or (c2 xor (r1 shl 8) and 0x00FF0000)
-                or (c3 xor (r2 shl 8) and 0x0000FF00)
-                or (c0 xor (r3 ushr 24) and 0x000000FF))
-        s[i2] = (c2 xor (r0 shl 16) and -0x1000000
-                or (c3 xor (r1 shl 16) and 0x00FF0000)
-                or (c0 xor (r2 ushr 16) and 0x0000FF00)
-                or (c1 xor (r3 ushr 16) and 0x000000FF))
-        s[i3] = (c3 xor (r0 shl 24) and -0x1000000
-                or (c0 xor (r1 ushr 8) and 0x00FF0000)
-                or (c1 xor (r2 ushr 8) and 0x0000FF00)
-                or (c2 xor (r3 ushr 8) and 0x000000FF))
+        s[i0] = (
+                c0 xor (r0 shl 0) and -0x1000000
+                        or (c1 xor (r1 shl 0) and 0x00FF0000)
+                        or (c2 xor (r2 shl 0) and 0x0000FF00)
+                        or (c3 xor (r3 shl 0) and 0x000000FF)
+                )
+        s[i1] = (
+                c1 xor (r0 shl 8) and -0x1000000
+                        or (c2 xor (r1 shl 8) and 0x00FF0000)
+                        or (c3 xor (r2 shl 8) and 0x0000FF00)
+                        or (c0 xor (r3 ushr 24) and 0x000000FF)
+                )
+        s[i2] = (
+                c2 xor (r0 shl 16) and -0x1000000
+                        or (c3 xor (r1 shl 16) and 0x00FF0000)
+                        or (c0 xor (r2 ushr 16) and 0x0000FF00)
+                        or (c1 xor (r3 ushr 16) and 0x000000FF)
+                )
+        s[i3] = (
+                c3 xor (r0 shl 24) and -0x1000000
+                        or (c0 xor (r1 ushr 8) and 0x00FF0000)
+                        or (c1 xor (r2 ushr 8) and 0x0000FF00)
+                        or (c2 xor (r3 ushr 8) and 0x000000FF)
+                )
     }
 
     override fun reset() {

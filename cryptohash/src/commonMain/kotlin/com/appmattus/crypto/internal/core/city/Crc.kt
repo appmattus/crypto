@@ -25,20 +25,24 @@ internal fun crc32_u64(crc: ULong, value: ULong): ULong {
     var d = value and 0xffffffffu
     var c: UInt = (crc xor d).toUInt()
 
-    crc = (table3[c.toInt() and 0xff] xor
-            table2[(c shr 8).toInt() and 0xff] xor
-            table1[(c shr 16).toInt() and 0xff] xor
-            table0[(c shr 24).toInt()]).toULong()
+    crc = (
+            table3[c.toInt() and 0xff] xor
+                    table2[(c shr 8).toInt() and 0xff] xor
+                    table1[(c shr 16).toInt() and 0xff] xor
+                    table0[(c shr 24).toInt()]
+            ).toULong()
 
     // DO it twice.
     d = (value shr 32) and 0xffffffffu
 
     c = (crc xor d).toUInt()
 
-    crc = (table3[c.toInt() and 0xff] xor
-            table2[(c shr 8).toInt() and 0xff] xor
-            table1[(c shr 16).toInt() and 0xff] xor
-            table0[(c shr 24).toInt()]).toULong()
+    crc = (
+            table3[c.toInt() and 0xff] xor
+                    table2[(c shr 8).toInt() and 0xff] xor
+                    table1[(c shr 16).toInt() and 0xff] xor
+                    table0[(c shr 24).toInt()]
+            ).toULong()
 
     return crc
 }

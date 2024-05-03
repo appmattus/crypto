@@ -38,9 +38,11 @@ internal class T1ha2_stream(private val seedX: ULong = 0u, private val seedY: UL
         get() = 32
 
     override fun copy(): T1ha2_stream {
-        return copyState(T1ha2_stream(seedX, seedY).apply {
-            state = this@T1ha2_stream.state.copy()
-        })
+        return copyState(
+            T1ha2_stream(seedX, seedY).apply {
+                state = this@T1ha2_stream.state.copy()
+            }
+        )
     }
 
     override fun toString() = "t1ha2-stream"

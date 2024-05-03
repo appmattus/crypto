@@ -10,7 +10,6 @@ class HmacSHA512_224Test {
      */
     @Test
     fun testHmacSha512_224() {
-
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/HMacTest.java
 
         testHmac(

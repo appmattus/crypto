@@ -532,7 +532,8 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
                 val a: ULong = (s.decodeLEUInt(offset + 0).toULong() and 0xffffffffuL)
                 return hashLen16(
                     len.toULong() + (a shl 3),
-                    (s.decodeLEUInt(offset + len - 4).toULong() and 0xffffffffuL), mul
+                    (s.decodeLEUInt(offset + len - 4).toULong() and 0xffffffffuL),
+                    mul
                 )
             }
             if (len > 0) {
@@ -556,7 +557,8 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             val d: ULong = s.decodeLEULong(len - 16) * k2
             return hashLen16(
                 (a + b).rotateRight(43) + c.rotateRight(30) + d,
-                a + (b + k2).rotateRight(18) + c, mul
+                a + (b + k2).rotateRight(18) + c,
+                mul
             )
         }
 

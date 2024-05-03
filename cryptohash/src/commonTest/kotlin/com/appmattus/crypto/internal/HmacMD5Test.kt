@@ -13,7 +13,6 @@ class HmacMD5Test {
      */
     @Test
     fun testHmacMd5() {
-
         testHmac(
             Algorithm.MD5,
             "",

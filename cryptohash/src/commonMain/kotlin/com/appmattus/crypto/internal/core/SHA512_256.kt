@@ -87,10 +87,14 @@ internal class SHA512_256 : Digest<SHA512_256> {
     companion object {
         /** The initial value for SHA-512/256.  */
         private val initVal = longArrayOf(
-            0x22312194FC2BF72CL, -6965556091613846334,
-            0x2393B86B6F53B151L, -7622211418569250115,
-            -7626776825740460061, -4729309413028513390,
-            0x2B0199FC2C85B8AAL, 0x0EB72DDC81C52CA2L
+            0x22312194FC2BF72CL,
+            -6965556091613846334,
+            0x2393B86B6F53B151L,
+            -7622211418569250115,
+            -7626776825740460061,
+            -4729309413028513390,
+            0x2B0199FC2C85B8AAL,
+            0x0EB72DDC81C52CA2L
         )
     }
 }

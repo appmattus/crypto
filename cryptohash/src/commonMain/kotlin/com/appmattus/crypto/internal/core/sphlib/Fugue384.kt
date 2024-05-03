@@ -170,6 +170,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                         or (buf[off + 3].toInt() and 0xFF))
                 off += 4
             }
+
             2 -> {
                 s[34] = s[34] xor s[18]
                 s[18] = w
@@ -242,6 +243,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                         or (buf[off + 3].toInt() and 0xFF))
                 off += 4
             }
+
             3 -> {
                 s[25] = s[25] xor s[9]
                 s[9] = w
@@ -421,10 +423,12 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                 rshift = 0
                 return
             }
-            w = (buf[off].toInt() shl 24
-                    or (buf[off + 1].toInt() and 0xFF shl 16)
-                    or (buf[off + 2].toInt() and 0xFF shl 8)
-                    or (buf[off + 3].toInt() and 0xFF))
+            w = (
+                    buf[off].toInt() shl 24
+                            or (buf[off + 1].toInt() and 0xFF shl 16)
+                            or (buf[off + 2].toInt() and 0xFF shl 8)
+                            or (buf[off + 3].toInt() and 0xFF)
+                    )
             off += 4
         }
     }

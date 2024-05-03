@@ -280,8 +280,7 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
             val half0 = lanes[i] and 0xffffffffL
             val half1 = lanes[i] ushr 32 and 0xffffffffL
             lanes[i] = half0 shl count.toInt() and 0xffffffffL or (half0 ushr (32 - count).toInt())
-            lanes[i] = lanes[i] or ((half1 shl count.toInt() and 0xffffffffL or
-                    (half1 ushr (32 - count).toInt())) shl 32)
+            lanes[i] = lanes[i] or ((half1 shl count.toInt() and 0xffffffffL or (half1 ushr (32 - count).toInt())) shl 32)
         }
     }
 
