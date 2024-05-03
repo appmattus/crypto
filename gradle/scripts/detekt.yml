@@ -10,8 +10,21 @@ style:
 formatting:
     StringTemplate:
         excludes: "**/*.gradle.kts"
+    ArgumentListWrapping:
+        maxLineLength: 145 # increased from 120
+        excludes: "**/resources/**,**/commonTest/**/internal/**"
+    ContextReceiverMapping:
+        maxLineLength: 145 # increased from 120
+        excludes: "**/resources/**,**/commonTest/**/internal/**"
+    FunctionSignature:
+        maxLineLength: 145 # increased from 120
+        excludes: "**/resources/**,**/commonTest/**/internal/**"
     MaximumLineLength:
-        maxLineLength: 145
+        active: false
+        maxLineLength: 145 # increased from 120
+        excludes: "**/resources/**,**/commonTest/**/internal/**"
+    ParameterListWrapping:
+        maxLineLength: 145 # increased from 120
         excludes: "**/resources/**,**/commonTest/**/internal/**"
     Indentation:
         active: false
