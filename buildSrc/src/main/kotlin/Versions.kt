@@ -28,8 +28,4 @@ object Versions {
     object AndroidX {
         const val navigation = "2.5.3"
     }
-
-    object Google {
-        const val dagger = "2.44.2"
-    }
 }
