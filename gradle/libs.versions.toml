@@ -1,5 +1,5 @@
 #
-# Copyright 2023 Appmattus Limited
+# Copyright 2023-2024 Appmattus Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ kotlin = "1.8.0"
 
 androidGradlePlugin = "7.4.2"
 detektGradlePlugin = "1.22.0"
-gradleVersionsPlugin = "0.36.0"
+gradleVersionsPlugin = "0.50.0"
 markdownlintGradlePlugin = "0.6.0"
 gradleMavenPublishPlugin = "0.18.0"
 dokkaPlugin = "1.7.20"
@@ -42,3 +42,7 @@ androidX-vectorDrawable = "1.1.0"
 
 google-dagger = "2.44.2"
 google-material = "1.8.0"
+
+[plugins]
+
+gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionsPlugin" }

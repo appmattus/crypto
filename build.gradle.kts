@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import io.gitlab.arturbosch.detekt.Detekt
-
-plugins {
-    id("io.gitlab.arturbosch.detekt") version Versions.detektGradlePlugin
-    id("com.appmattus.markdown") version Versions.markdownlintGradlePlugin
-    id("com.vanniktech.maven.publish") version Versions.gradleMavenPublishPlugin apply false
-    id("org.jetbrains.dokka") version Versions.dokkaPlugin
-}
 
 buildscript {
     repositories {
@@ -39,7 +33,37 @@ buildscript {
     }
 }
 
-apply(from = "$rootDir/gradle/scripts/dependencyUpdates.gradle.kts")
+plugins {
+    id("io.gitlab.arturbosch.detekt") version Versions.detektGradlePlugin
+    id("com.appmattus.markdown") version Versions.markdownlintGradlePlugin
+    id("com.vanniktech.maven.publish") version Versions.gradleMavenPublishPlugin apply false
+    id("org.jetbrains.dokka") version Versions.dokkaPlugin
+    alias(libs.plugins.gradleVersionsPlugin)
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    resolutionStrategy {
+        componentSelection {
+            all {
+                fun isNonStable(version: String) = listOf(
+                    "alpha",
+                    "beta",
+                    "rc",
+                    "cr",
+                    "m",
+                    "preview",
+                    "b",
+                    "ea"
+                ).any { qualifier ->
+                    version.matches(Regex("(?i).*[.-]$qualifier[.\\d-+]*"))
+                }
+                if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+                    reject("Release candidate")
+                }
+            }
+        }
+    }
+}
 
 allprojects {
     repositories {
