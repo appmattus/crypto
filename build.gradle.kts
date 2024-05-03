@@ -32,8 +32,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
-        classpath("com.android.tools.build:gradle:${Versions.androidGradlePlugin}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
+        classpath("com.android.tools.build:gradle:${libs.versions.androidGradlePlugin.get()}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.google.dagger.get()}")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${libs.versions.androidX.navigation.get()}")
     }
