@@ -120,7 +120,7 @@ internal class MD4 : Digest<MD4> {
         val digest = MD4()
 
         hashObject?.let { hashObject ->
-            digest.hashObject = nativeHeap.alloc {
+            digest.hashObject = nativeHeap.alloc<CC_MD4_CTX> {
                 A = hashObject.A
                 B = hashObject.B
                 C = hashObject.C

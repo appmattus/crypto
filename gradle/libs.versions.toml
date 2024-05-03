@@ -1,0 +1,44 @@
+#
+# Copyright 2023 Appmattus Limited
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+[versions]
+
+kotlin = "1.8.0"
+
+androidGradlePlugin = "7.4.0"
+detektGradlePlugin = "1.22.0"
+gradleVersionsPlugin = "0.36.0"
+markdownlintGradlePlugin = "0.6.0"
+gradleMavenPublishPlugin = "0.18.0"
+dokkaPlugin = "1.7.20"
+
+coil = "2.2.2"
+coroutines = "1.6.4"
+groupie = "2.9.0"
+orbitMvi = "4.5.0"
+
+desugar = "1.1.1"
+leakCanary = "2.10"
+
+androidX-appCompat = "1.6.0"
+androidX-constraintLayout = "2.1.4"
+androidX-fragment = "1.5.5"
+androidX-lifecycle = "2.5.1"
+androidX-navigation = "2.5.3"
+androidX-vectorDrawable = "1.1.0"
+
+google-dagger = "2.44.2"
+google-material = "1.8.0"

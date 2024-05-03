@@ -119,7 +119,7 @@ internal class SHA256 : Digest<SHA256> {
         val digest = SHA256()
 
         hashObject?.let { hashObject ->
-            digest.hashObject = nativeHeap.alloc {
+            digest.hashObject = nativeHeap.alloc<CC_SHA256_CTX> {
                 for (i in 0..2) {
                     count[i] = hashObject.count[i]
                 }

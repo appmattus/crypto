@@ -119,7 +119,7 @@ internal class SHA224 : Digest<SHA224> {
         val digest = SHA224()
 
         hashObject?.let { hashObject ->
-            digest.hashObject = nativeHeap.alloc {
+            digest.hashObject = nativeHeap.alloc<CC_SHA256_CTX> {
                 for (i in 0..2) {
                     count[i] = hashObject.count[i]
                 }

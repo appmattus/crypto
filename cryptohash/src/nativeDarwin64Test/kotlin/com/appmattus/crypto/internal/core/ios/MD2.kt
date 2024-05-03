@@ -120,7 +120,7 @@ internal class MD2 : Digest<MD2> {
         val digest = MD2()
 
         hashObject?.let { hashObject ->
-            digest.hashObject = nativeHeap.alloc {
+            digest.hashObject = nativeHeap.alloc<CC_MD2_CTX> {
                 num = hashObject.num
                 for (i in 0..CC_MD2_DIGEST_LENGTH) {
                     data[i] = hashObject.data[i]

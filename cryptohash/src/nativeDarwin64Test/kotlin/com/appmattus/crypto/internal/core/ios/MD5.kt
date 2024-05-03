@@ -120,7 +120,7 @@ internal class MD5 : Digest<MD5> {
         val digest = MD5()
 
         hashObject?.let { hashObject ->
-            digest.hashObject = nativeHeap.alloc {
+            digest.hashObject = nativeHeap.alloc<CC_MD5_CTX> {
                 A = hashObject.A
                 B = hashObject.B
                 C = hashObject.C
