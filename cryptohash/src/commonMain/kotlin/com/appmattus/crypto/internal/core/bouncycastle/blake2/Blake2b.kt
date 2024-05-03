@@ -141,11 +141,7 @@ internal class Blake2b : Digest<Blake2b> {
     // For Tree Hashing Mode, not used here:
     // private long f1 = 0L; // finalization flag, for last node: ~0L
     constructor(digestSize: Int = 512) {
-        if (digestSize < 8 || digestSize > 512 || digestSize % 8 != 0) {
-            throw IllegalArgumentException(
-                "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512"
-            )
-        }
+        require(!(digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)) { "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512" }
         buffer = ByteArray(blockLength)
         keyLength = 0
         this.digestSize = digestSize / 8
@@ -165,11 +161,7 @@ internal class Blake2b : Digest<Blake2b> {
         buffer = ByteArray(blockLength)
         if (key != null) {
             this.key = key.copyInto(ByteArray(key.size), 0, 0, key.size)
-            if (key.size > 64) {
-                throw IllegalArgumentException(
-                    "Keys > 64 are not supported"
-                )
-            }
+            require(key.size <= 64) { "Keys > 64 are not supported" }
             keyLength = key.size
             key.copyInto(buffer!!, 0, 0, key.size)
             bufferPos = blockLength // zero padding
@@ -191,37 +183,21 @@ internal class Blake2b : Digest<Blake2b> {
      * @param personalization 16 bytes or null
      */
     constructor(key: ByteArray?, digestSize: Int, salt: ByteArray?, personalization: ByteArray?) {
-        if (digestSize < 8 || digestSize > 512 || digestSize % 8 != 0) {
-            throw IllegalArgumentException(
-                "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512"
-            )
-        }
+        require(!(digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)) { "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512" }
         this.digestSize = digestSize / 8
 
         buffer = ByteArray(blockLength)
         if (salt != null) {
-            if (salt.size != 16) {
-                throw IllegalArgumentException(
-                    "salt length must be exactly 16 bytes"
-                )
-            }
+            require(salt.size == 16) { "salt length must be exactly 16 bytes" }
             this.salt = salt.copyInto(ByteArray(16), 0, 0, salt.size)
         }
         if (personalization != null) {
-            if (personalization.size != 16) {
-                throw IllegalArgumentException(
-                    "personalization length must be exactly 16 bytes"
-                )
-            }
+            require(personalization.size == 16) { "personalization length must be exactly 16 bytes" }
             this.personalization = personalization.copyInto(ByteArray(16), 0, 0, personalization.size)
         }
         if (key != null) {
             this.key = key.copyInto(ByteArray(key.size), 0, 0, key.size)
-            if (key.size > 64) {
-                throw IllegalArgumentException(
-                    "Keys > 64 are not supported"
-                )
-            }
+            require(key.size <= 64) { "Keys > 64 are not supported" }
             keyLength = key.size
             key.copyInto(buffer!!, 0, 0, key.size)
             bufferPos = blockLength // zero padding
@@ -524,8 +500,8 @@ internal class Blake2b : Digest<Blake2b> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 

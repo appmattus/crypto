@@ -32,6 +32,7 @@ kotlin {
             }
         }
     }
+    @Suppress("UnusedPrivateMember")
     sourceSets {
         val commonMain by getting {
             dependencies {

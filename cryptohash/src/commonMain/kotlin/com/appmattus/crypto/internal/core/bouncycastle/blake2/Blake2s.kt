@@ -170,11 +170,7 @@ internal class Blake2s : Digest<Blake2s> {
      * BLAKE2s-256 for hashing.
      */
     constructor(digestBits: Int = 256) {
-        if (digestBits < 8 || digestBits > 256 || digestBits % 8 != 0) {
-            throw IllegalArgumentException(
-                "BLAKE2s digest bit length must be a multiple of 8 and not greater than 256"
-            )
-        }
+        require(!(digestBits < 8 || digestBits > 256 || digestBits % 8 != 0)) { "BLAKE2s digest bit length must be a multiple of 8 and not greater than 256" }
         digestSize = digestBits / 8
         init(null, null, null)
     }
@@ -213,11 +209,7 @@ internal class Blake2s : Digest<Blake2s> {
         salt: ByteArray?,
         personalization: ByteArray?
     ) {
-        if (digestBytes < 1 || digestBytes > 32) {
-            throw IllegalArgumentException(
-                "Invalid digest length (required: 1 - 32)"
-            )
-        }
+        require(!(digestBytes < 1 || digestBytes > 32)) { "Invalid digest length (required: 1 - 32)" }
         digestSize = digestBytes
         init(salt, personalization, key)
     }
@@ -245,11 +237,7 @@ internal class Blake2s : Digest<Blake2s> {
     private fun init(salt: ByteArray?, personalization: ByteArray?, key: ByteArray?) {
         buffer = ByteArray(byteLength)
         if (key != null && key.isNotEmpty()) {
-            if (key.size > 32) {
-                throw IllegalArgumentException(
-                    "Keys > 32 bytes are not supported"
-                )
-            }
+            require(key.size <= 32) { "Keys > 32 bytes are not supported" }
             this.key = key.copyInto(ByteArray(key.size), 0, 0, key.size)
             keyLength = key.size
             key.copyInto(buffer!!, 0, 0, key.size)
@@ -268,11 +256,7 @@ internal class Blake2s : Digest<Blake2s> {
             chainValue!![4] = blake2s_IV[4]
             chainValue!![5] = blake2s_IV[5]
             if (salt != null) {
-                if (salt.size != 8) {
-                    throw IllegalArgumentException(
-                        "Salt length must be exactly 8 bytes"
-                    )
-                }
+                require(salt.size == 8) { "Salt length must be exactly 8 bytes" }
                 this.salt = salt.copyInto(ByteArray(8), 0, 0, salt.size)
                 chainValue!![4] = chainValue!![4] xor decodeLEInt(salt, 0)
                 chainValue!![5] = chainValue!![5] xor decodeLEInt(salt, 4)
@@ -280,11 +264,7 @@ internal class Blake2s : Digest<Blake2s> {
             chainValue!![6] = blake2s_IV[6]
             chainValue!![7] = blake2s_IV[7]
             if (personalization != null) {
-                if (personalization.size != 8) {
-                    throw IllegalArgumentException(
-                        "Personalization length must be exactly 8 bytes"
-                    )
-                }
+                require(personalization.size == 8) { "Personalization length must be exactly 8 bytes" }
                 this.personalization = personalization.copyInto(ByteArray(8), 0, 0, personalization.size)
                 chainValue!![6] = chainValue!![6] xor decodeLEInt(personalization, 0)
                 chainValue!![7] = chainValue!![7] xor decodeLEInt(personalization, 4)
@@ -557,8 +537,8 @@ internal class Blake2s : Digest<Blake2s> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 

@@ -43,8 +43,8 @@ internal class SHA512_224 : Digest<SHA512_224> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 
@@ -87,10 +87,14 @@ internal class SHA512_224 : Digest<SHA512_224> {
     companion object {
         /** The initial value for SHA-512/224.  */
         private val initVal = longArrayOf(
-            -8341449602262348382, 0x73E1996689DCD4D6L,
-            0x1DFAB7AE32FF9C82L, 0x679DD514582F9FCFL,
-            0x0F6D2B697BD44DA8L, 0x77E36F7304C48942L,
-            0x3F9D85A86A1D36C8L, 0x1112E6AD91D692A1L
+            -8341449602262348382,
+            0x73E1996689DCD4D6L,
+            0x1DFAB7AE32FF9C82L,
+            0x679DD514582F9FCFL,
+            0x0F6D2B697BD44DA8L,
+            0x77E36F7304C48942L,
+            0x3F9D85A86A1D36C8L,
+            0x1112E6AD91D692A1L
         )
     }
 }

@@ -127,9 +127,7 @@ internal class GOST28147Engine {
         userKey: ByteArray
     ): IntArray {
         this.forEncryption = forEncryption
-        if (userKey.size != 32) {
-            throw IllegalArgumentException("Key length invalid. Key needs to be 32 byte - 256 bit!!!")
-        }
+        require(userKey.size == 32) { "Key length invalid. Key needs to be 32 byte - 256 bit!!!" }
         return IntArray(8) { decodeLEInt(userKey, it * 4) }
     }
 

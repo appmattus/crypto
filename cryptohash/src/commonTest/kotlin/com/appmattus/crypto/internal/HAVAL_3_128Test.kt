@@ -43,31 +43,12 @@ abstract class HAVAL_3_128Test {
 
     @Test
     fun testHAVAL_3_128() {
-        testKat(
-            { digest() }, "",
-            "C68F39913F901F3DDF44C707357A7D70"
-        )
-        testKat(
-            { digest() }, "a",
-            "0CD40739683E15F01CA5DBCEEF4059F1"
-        )
-        testKat(
-            { digest() }, "HAVAL",
-            "DC1F3C893D17CC4EDD9AE94AF76A0AF0"
-        )
-        testKat(
-            { digest() }, "0123456789",
-            "D4BE2164EF387D9F4D46EA8EFB180CF5"
-        )
-        testKat(
-            { digest() }, "abcdefghijklmnopqrstuvwxyz",
-            "DC502247FB3EB8376109EDA32D361D82"
-        )
-        testKat(
-            { digest() }, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-                    "abcdefghijklmnopqrstuvwxyz0123456789",
-            "DE5EB3F7D9EB08FAE7A07D68E3047EC6"
-        )
+        testKat({ digest() }, "", "C68F39913F901F3DDF44C707357A7D70")
+        testKat({ digest() }, "a", "0CD40739683E15F01CA5DBCEEF4059F1")
+        testKat({ digest() }, "HAVAL", "DC1F3C893D17CC4EDD9AE94AF76A0AF0")
+        testKat({ digest() }, "0123456789", "D4BE2164EF387D9F4D46EA8EFB180CF5")
+        testKat({ digest() }, "abcdefghijklmnopqrstuvwxyz", "DC502247FB3EB8376109EDA32D361D82")
+        testKat({ digest() }, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", "DE5EB3F7D9EB08FAE7A07D68E3047EC6")
         testCollision(
             { digest() },
             "8b447763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +

@@ -874,11 +874,7 @@ private fun XXH3_hashLong_64b_withSeed_internal(
     f_initSec: XXH3_f_initCustomSecret
 ): XXH64_hash_t {
     if (seed == 0L) {
-        return XXH3_hashLong_64b_internal(
-            input, inputOffset, len,
-            XXH3_kSecret, XXH3_kSecret.size,
-            f_acc512, f_scramble
-        )
+        return XXH3_hashLong_64b_internal(input, inputOffset, len, XXH3_kSecret, XXH3_kSecret.size, f_acc512, f_scramble)
     }
 
     val secret = ByteArray(XXH_SECRET_DEFAULT_SIZE)
@@ -1438,7 +1434,8 @@ private fun XXH3_len_129to240_128b(
             acc,
             input, inputOffset + (32 * i),
             input, inputOffset + (32 * i) + 16,
-            secret, (32 * i),
+            secret,
+            (32 * i),
             seed
         )
     }
@@ -1449,20 +1446,26 @@ private fun XXH3_len_129to240_128b(
     XXH_ASSERT(nbRounds >= 4)
     for (i in 4 until nbRounds) {
         acc = XXH128_mix32B(
-            acc,
-            input, inputOffset + (32 * i),
-            input, inputOffset + (32 * i) + 16,
-            secret, XXH3_MIDSIZE_STARTOFFSET + (32 * (i - 4)),
-            seed
+            acc = acc,
+            input_1 = input,
+            input_1Offset = inputOffset + (32 * i),
+            input_2 = input,
+            input_2Offset = inputOffset + (32 * i) + 16,
+            secret = secret,
+            secretOffset = XXH3_MIDSIZE_STARTOFFSET + (32 * (i - 4)),
+            seed = seed
         )
     }
     /* last bytes */
     acc = XXH128_mix32B(
-        acc,
-        input, inputOffset + len - 16,
-        input, inputOffset + len - 32,
-        secret, XXH3_SECRET_SIZE_MIN - XXH3_MIDSIZE_LASTOFFSET - 16,
-        0L - seed
+        acc = acc,
+        input_1 = input,
+        input_1Offset = inputOffset + len - 16,
+        input_2 = input,
+        input_2Offset = inputOffset + len - 32,
+        secret = secret,
+        secretOffset = XXH3_SECRET_SIZE_MIN - XXH3_MIDSIZE_LASTOFFSET - 16,
+        seed = 0L - seed
     )
 
     var low64 = acc.low64 + acc.high64

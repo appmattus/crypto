@@ -147,9 +147,7 @@ internal class Haraka512_256 : HarakaCore<Haraka512_256> {
     }
 
     override fun update(input: Byte) {
-        if (off + 1 > 64) {
-            throw IllegalArgumentException("total input cannot be more than 64 bytes")
-        }
+        require(off + 1 <= 64) { "total input cannot be more than 64 bytes" }
         buffer[off++] = input
     }
 
@@ -162,12 +160,8 @@ internal class Haraka512_256 : HarakaCore<Haraka512_256> {
     }
 
     override fun doFinal(out: ByteArray, outOff: Int): Int {
-        if (off != 64) {
-            throw IllegalStateException("input must be exactly 64 bytes")
-        }
-        if (out.size - outOff < 32) {
-            throw IllegalArgumentException("output too short to receive digest")
-        }
+        check(off == 64) { "input must be exactly 64 bytes" }
+        require(out.size - outOff >= 32) { "output too short to receive digest" }
         val rv = haraka512256(buffer, out, outOff)
         reset()
         return rv

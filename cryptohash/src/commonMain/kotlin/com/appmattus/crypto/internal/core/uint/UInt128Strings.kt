@@ -24,9 +24,7 @@ package com.appmattus.crypto.internal.core.uint
 @Suppress("ExceptionRaisedInUnexpectedLocation")
 public fun UInt128.toString(radix: Int): String {
     val chars = "0123456789abcdefghijklmnopqrstuvwxyz"
-    if (radix < UInt128.MIN_RADIX || radix > UInt128.MAX_RADIX) {
-        throw IllegalArgumentException("Illegal radix: $radix")
-    }
+    require(!(radix < UInt128.MIN_RADIX || radix > UInt128.MAX_RADIX)) { "Illegal radix: $radix" }
 
     if (this == UInt128.ZERO) {
         return "0"
@@ -70,9 +68,7 @@ public inline fun String.toUInt128OrNull(): UInt128? = toUInt128OrNull(radix = 1
 @Suppress("NestedBlockDepth", "ReturnCount")
 public fun String.toUInt128OrNull(radix: Int): UInt128? {
     val chars = "0123456789abcdefghijklmnopqrstuvwxyz"
-    if (radix < UInt128.MIN_RADIX || radix > UInt128.MAX_RADIX) {
-        throw IllegalArgumentException("Illegal radix: $radix")
-    }
+    require(radix in UInt128.MIN_RADIX..UInt128.MAX_RADIX) { "Illegal radix: $radix" }
 
     if (this.isEmpty()) return null
 

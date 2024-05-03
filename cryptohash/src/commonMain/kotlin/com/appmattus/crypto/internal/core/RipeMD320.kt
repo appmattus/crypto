@@ -51,10 +51,9 @@ internal class RipeMD320 : MDHelper<RipeMD320>(true, 8) {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         makeMDPadding()
-        for (i in 0..9) encodeLEInt(
-            currentVal[i],
-            output, outputOffset + 4 * i
-        )
+        for (i in 0..9) {
+            encodeLEInt(currentVal[i], output, outputOffset + 4 * i)
+        }
     }
 
     override fun doInit() {
@@ -103,45 +102,15 @@ internal class RipeMD320 : MDHelper<RipeMD320>(true, 8) {
         a = circularLeftInt(a + f1(b, c, d) + x[permute[j]], rotate[j++]) + e
         c = circularLeftInt(c, 10)
         while (j < 31) {
-            a2 = circularLeftInt(
-                a2 + f5(
-                    b2,
-                    c2,
-                    d2
-                ) + x[permute[j]] + m1, rotate[j++]
-            ) + e2
+            a2 = circularLeftInt(a2 + f5(b2, c2, d2) + x[permute[j]] + m1, rotate[j++]) + e2
             c2 = circularLeftInt(c2, 10)
-            e2 = circularLeftInt(
-                e2 + f5(
-                    a2,
-                    b2,
-                    c2
-                ) + x[permute[j]] + m1, rotate[j++]
-            ) + d2
+            e2 = circularLeftInt(e2 + f5(a2, b2, c2) + x[permute[j]] + m1, rotate[j++]) + d2
             b2 = circularLeftInt(b2, 10)
-            d2 = circularLeftInt(
-                d2 + f5(
-                    e2,
-                    a2,
-                    b2
-                ) + x[permute[j]] + m1, rotate[j++]
-            ) + c2
+            d2 = circularLeftInt(d2 + f5(e2, a2, b2) + x[permute[j]] + m1, rotate[j++]) + c2
             a2 = circularLeftInt(a2, 10)
-            c2 = circularLeftInt(
-                c2 + f5(
-                    d2,
-                    e2,
-                    a2
-                ) + x[permute[j]] + m1, rotate[j++]
-            ) + b2
+            c2 = circularLeftInt(c2 + f5(d2, e2, a2) + x[permute[j]] + m1, rotate[j++]) + b2
             e2 = circularLeftInt(e2, 10)
-            b2 = circularLeftInt(
-                b2 + f5(
-                    c2,
-                    d2,
-                    e2
-                ) + x[permute[j]] + m1, rotate[j++]
-            ) + a2
+            b2 = circularLeftInt(b2 + f5(c2, d2, e2) + x[permute[j]] + m1, rotate[j++]) + a2
             d2 = circularLeftInt(d2, 10)
         }
         a2 = circularLeftInt(a2 + f5(b2, c2, d2) + x[permute[j]] + m1, rotate[j++]) + e2
@@ -164,45 +133,15 @@ internal class RipeMD320 : MDHelper<RipeMD320>(true, 8) {
         e = circularLeftInt(e + f2(a, b, c) + x[permute[j]] + m2, rotate[j++]) + d
         b = circularLeftInt(b, 10)
         while (j < 63) {
-            e2 = circularLeftInt(
-                e2 + f4(
-                    a2,
-                    b2,
-                    c2
-                ) + x[permute[j]] + m3, rotate[j++]
-            ) + d2
+            e2 = circularLeftInt(e2 + f4(a2, b2, c2) + x[permute[j]] + m3, rotate[j++]) + d2
             b2 = circularLeftInt(b2, 10)
-            d2 = circularLeftInt(
-                d2 + f4(
-                    e2,
-                    a2,
-                    b2
-                ) + x[permute[j]] + m3, rotate[j++]
-            ) + c2
+            d2 = circularLeftInt(d2 + f4(e2, a2, b2) + x[permute[j]] + m3, rotate[j++]) + c2
             a2 = circularLeftInt(a2, 10)
-            c2 = circularLeftInt(
-                c2 + f4(
-                    d2,
-                    e2,
-                    a2
-                ) + x[permute[j]] + m3, rotate[j++]
-            ) + b2
+            c2 = circularLeftInt(c2 + f4(d2, e2, a2) + x[permute[j]] + m3, rotate[j++]) + b2
             e2 = circularLeftInt(e2, 10)
-            b2 = circularLeftInt(
-                b2 + f4(
-                    c2,
-                    d2,
-                    e2
-                ) + x[permute[j]] + m3, rotate[j++]
-            ) + a2
+            b2 = circularLeftInt(b2 + f4(c2, d2, e2) + x[permute[j]] + m3, rotate[j++]) + a2
             d2 = circularLeftInt(d2, 10)
-            a2 = circularLeftInt(
-                a2 + f4(
-                    b2,
-                    c2,
-                    d2
-                ) + x[permute[j]] + m3, rotate[j++]
-            ) + e2
+            a2 = circularLeftInt(a2 + f4(b2, c2, d2) + x[permute[j]] + m3, rotate[j++]) + e2
             c2 = circularLeftInt(c2, 10)
         }
         e2 = circularLeftInt(e2 + f4(a2, b2, c2) + x[permute[j]] + m3, rotate[j++]) + d2
@@ -225,45 +164,15 @@ internal class RipeMD320 : MDHelper<RipeMD320>(true, 8) {
         d = circularLeftInt(d + f3(e, a, b) + x[permute[j]] + m4, rotate[j++]) + c
         a = circularLeftInt(a, 10)
         while (j < 95) {
-            d2 = circularLeftInt(
-                d2 + f3(
-                    e2,
-                    a2,
-                    b2
-                ) + x[permute[j]] + m5, rotate[j++]
-            ) + c2
+            d2 = circularLeftInt(d2 + f3(e2, a2, b2) + x[permute[j]] + m5, rotate[j++]) + c2
             a2 = circularLeftInt(a2, 10)
-            c2 = circularLeftInt(
-                c2 + f3(
-                    d2,
-                    e2,
-                    a2
-                ) + x[permute[j]] + m5, rotate[j++]
-            ) + b2
+            c2 = circularLeftInt(c2 + f3(d2, e2, a2) + x[permute[j]] + m5, rotate[j++]) + b2
             e2 = circularLeftInt(e2, 10)
-            b2 = circularLeftInt(
-                b2 + f3(
-                    c2,
-                    d2,
-                    e2
-                ) + x[permute[j]] + m5, rotate[j++]
-            ) + a2
+            b2 = circularLeftInt(b2 + f3(c2, d2, e2) + x[permute[j]] + m5, rotate[j++]) + a2
             d2 = circularLeftInt(d2, 10)
-            a2 = circularLeftInt(
-                a2 + f3(
-                    b2,
-                    c2,
-                    d2
-                ) + x[permute[j]] + m5, rotate[j++]
-            ) + e2
+            a2 = circularLeftInt(a2 + f3(b2, c2, d2) + x[permute[j]] + m5, rotate[j++]) + e2
             c2 = circularLeftInt(c2, 10)
-            e2 = circularLeftInt(
-                e2 + f3(
-                    a2,
-                    b2,
-                    c2
-                ) + x[permute[j]] + m5, rotate[j++]
-            ) + d2
+            e2 = circularLeftInt(e2 + f3(a2, b2, c2) + x[permute[j]] + m5, rotate[j++]) + d2
             b2 = circularLeftInt(b2, 10)
         }
         d2 = circularLeftInt(d2 + f3(e2, a2, b2) + x[permute[j]] + m5, rotate[j++]) + c2
@@ -286,45 +195,15 @@ internal class RipeMD320 : MDHelper<RipeMD320>(true, 8) {
         c = circularLeftInt(c + f4(d, e, a) + x[permute[j]] + m6, rotate[j++]) + b
         e = circularLeftInt(e, 10)
         while (j < 127) {
-            c2 = circularLeftInt(
-                c2 + f2(
-                    d2,
-                    e2,
-                    a2
-                ) + x[permute[j]] + m7, rotate[j++]
-            ) + b2
+            c2 = circularLeftInt(c2 + f2(d2, e2, a2) + x[permute[j]] + m7, rotate[j++]) + b2
             e2 = circularLeftInt(e2, 10)
-            b2 = circularLeftInt(
-                b2 + f2(
-                    c2,
-                    d2,
-                    e2
-                ) + x[permute[j]] + m7, rotate[j++]
-            ) + a2
+            b2 = circularLeftInt(b2 + f2(c2, d2, e2) + x[permute[j]] + m7, rotate[j++]) + a2
             d2 = circularLeftInt(d2, 10)
-            a2 = circularLeftInt(
-                a2 + f2(
-                    b2,
-                    c2,
-                    d2
-                ) + x[permute[j]] + m7, rotate[j++]
-            ) + e2
+            a2 = circularLeftInt(a2 + f2(b2, c2, d2) + x[permute[j]] + m7, rotate[j++]) + e2
             c2 = circularLeftInt(c2, 10)
-            e2 = circularLeftInt(
-                e2 + f2(
-                    a2,
-                    b2,
-                    c2
-                ) + x[permute[j]] + m7, rotate[j++]
-            ) + d2
+            e2 = circularLeftInt(e2 + f2(a2, b2, c2) + x[permute[j]] + m7, rotate[j++]) + d2
             b2 = circularLeftInt(b2, 10)
-            d2 = circularLeftInt(
-                d2 + f2(
-                    e2,
-                    a2,
-                    b2
-                ) + x[permute[j]] + m7, rotate[j++]
-            ) + c2
+            d2 = circularLeftInt(d2 + f2(e2, a2, b2) + x[permute[j]] + m7, rotate[j++]) + c2
             a2 = circularLeftInt(a2, 10)
         }
         c2 = circularLeftInt(c2 + f2(d2, e2, a2) + x[permute[j]] + m7, rotate[j++]) + b2

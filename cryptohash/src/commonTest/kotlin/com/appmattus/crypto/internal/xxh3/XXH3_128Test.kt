@@ -28,7 +28,7 @@ class XXH3_128Test {
     data class TestCase(
         val len: Int,
         val seed: Long,
-        val Nresult: String
+        val nResult: String
     )
 
     @Test
@@ -69,7 +69,7 @@ class XXH3_128Test {
             testKat(
                 { if (it.seed == 0L) CoreDigest.create(Algorithm.XXH3_128()) else CoreDigest.create(Algorithm.XXH3_128.Seeded(it.seed)) },
                 buffer(it.len),
-                it.Nresult
+                it.nResult
             )
         }
     }
@@ -87,7 +87,7 @@ class XXH3_128Test {
             testKat(
                 { CoreDigest.create(Algorithm.XXH3_128.Secret(secret)) },
                 buffer(it.len),
-                it.Nresult
+                it.nResult
             )
         }
     }

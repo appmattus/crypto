@@ -28,6 +28,12 @@ formatting:
         excludes: "**/resources/**,**/commonTest/**/internal/**"
     Indentation:
         active: false
+    Filename:
+        excludes: "**/commonTest/**/internal/**"
+
+naming:
+    ClassNaming:
+        excludes: "**/commonTest/**/internal/**"
 
 complexity:
     LargeClass:

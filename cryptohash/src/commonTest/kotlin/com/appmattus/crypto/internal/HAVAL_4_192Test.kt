@@ -42,29 +42,14 @@ abstract class HAVAL_4_192Test {
 
     @Test
     fun testHAVAL_4_192() {
+        testKat({ digest() }, "", "4A8372945AFA55C7DEAD800311272523CA19D42EA47B72DA")
+        testKat({ digest() }, "a", "856C19F86214EA9A8A2F0C4B758B973CCE72A2D8FF55505C")
+        testKat({ digest() }, "HAVAL", "0C1396D7772689C46773F3DAACA4EFA982ADBFB2F1467EEA")
+        testKat({ digest() }, "0123456789", "C3A5420BB9D7D82A168F6624E954AAA9CDC69FB0F67D785E")
+        testKat({ digest() }, "abcdefghijklmnopqrstuvwxyz", "2E2E581D725E799FDA1948C75E85A28CFE1CF0C6324A1ADA")
         testKat(
-            { digest() }, "",
-            "4A8372945AFA55C7DEAD800311272523CA19D42EA47B72DA"
-        )
-        testKat(
-            { digest() }, "a",
-            "856C19F86214EA9A8A2F0C4B758B973CCE72A2D8FF55505C"
-        )
-        testKat(
-            { digest() }, "HAVAL",
-            "0C1396D7772689C46773F3DAACA4EFA982ADBFB2F1467EEA"
-        )
-        testKat(
-            { digest() }, "0123456789",
-            "C3A5420BB9D7D82A168F6624E954AAA9CDC69FB0F67D785E"
-        )
-        testKat(
-            { digest() }, "abcdefghijklmnopqrstuvwxyz",
-            "2E2E581D725E799FDA1948C75E85A28CFE1CF0C6324A1ADA"
-        )
-        testKat(
-            { digest() }, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-                    "abcdefghijklmnopqrstuvwxyz0123456789",
+            { digest() },
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
             "E5C9F81AE0B31FC8780FC37CB63BB4EC96496F79A9B58344"
         )
     }

@@ -109,27 +109,19 @@ internal class Haraka256_256 : HarakaCore<Haraka256_256> {
     }
 
     override fun update(input: Byte) {
-        if (off + 1 > 32) {
-            throw IllegalArgumentException("total input cannot be more than 32 bytes")
-        }
+        require(off + 1 <= 32) { "total input cannot be more than 32 bytes" }
         buffer[off++] = input
     }
 
     override fun update(input: ByteArray, offset: Int, length: Int) {
-        if (off + length > 32) {
-            throw IllegalArgumentException("total input cannot be more than 32 bytes")
-        }
+        require(off + length <= 32) { "total input cannot be more than 32 bytes" }
         input.copyInto(buffer, off, offset, offset + length)
         off += length
     }
 
     override fun doFinal(out: ByteArray, outOff: Int): Int {
-        if (off != 32) {
-            throw IllegalStateException("input must be exactly 32 bytes")
-        }
-        if (out.size - outOff < 32) {
-            throw IllegalArgumentException("output too short to receive digest")
-        }
+        check(off == 32) { "input must be exactly 32 bytes" }
+        require(out.size - outOff >= 32) { "output too short to receive digest" }
         val rv = haraka256256(buffer, out, outOff)
         reset()
         return rv

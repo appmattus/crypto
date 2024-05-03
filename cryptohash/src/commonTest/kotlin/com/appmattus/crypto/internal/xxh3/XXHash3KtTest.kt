@@ -39,7 +39,7 @@ class XXHash3KtTest {
     data class TestCase(
         val len: Int,
         val seed: Long,
-        val Nresult: String
+        val nResult: String
     )
 
     @Test
@@ -74,7 +74,7 @@ class XXHash3KtTest {
             TestCase(2367, PRIME64, "D2DB3415B942B42A") /* 3 blocks, last stripe is overlapping */
         ).forEach {
             try {
-                testXXH3_64(buffer(it.len), it.seed, it.Nresult)
+                testXXH3_64(buffer(it.len), it.seed, it.nResult)
             } catch (expected: Error) {
                 println(it)
                 throw expected
@@ -104,7 +104,7 @@ class XXHash3KtTest {
             TestCase(64 * 10 * 3, 0, "751D2EC54BC6038B") /* exactly 3 full blocks, not a multiple of 256 */
         ).forEach {
             try {
-                testXXH3_64_withSecret(buffer(it.len), secret, it.Nresult)
+                testXXH3_64_withSecret(buffer(it.len), secret, it.nResult)
             } catch (expected: Error) {
                 println(it)
                 throw expected
@@ -148,7 +148,7 @@ class XXHash3KtTest {
             ) /* 3 blocks, last stripe is overlapping */
         ).forEach {
             try {
-                testXXH3_128(buffer(it.len), it.seed, it.Nresult)
+                testXXH3_128(buffer(it.len), it.seed, it.nResult)
             } catch (expected: Error) {
                 println(it)
                 throw expected
@@ -167,7 +167,7 @@ class XXHash3KtTest {
             TestCase(12, 0, "90A3C2D839F57D0FAF82F6EBA263D7D8") /*  9 - 16 */
         ).forEach {
             try {
-                testXXH3_128_withSecret(buffer(it.len), secret, it.Nresult)
+                testXXH3_128_withSecret(buffer(it.len), secret, it.nResult)
             } catch (expected: Error) {
                 println(it)
                 throw expected

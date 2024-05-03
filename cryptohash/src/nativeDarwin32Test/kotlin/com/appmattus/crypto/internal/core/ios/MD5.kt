@@ -100,8 +100,8 @@ internal class MD5 : Digest<MD5> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 

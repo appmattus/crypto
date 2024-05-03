@@ -65,6 +65,7 @@ kotlin {
     mingwX64()
     mingwX86()
 
+    @Suppress("UnusedPrivateMember")
     sourceSets {
         val commonMain by getting
         val commonTest by getting {

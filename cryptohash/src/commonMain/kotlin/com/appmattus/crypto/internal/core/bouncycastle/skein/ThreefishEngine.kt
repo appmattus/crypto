@@ -202,20 +202,14 @@ internal class ThreefishEngine(blocksizeBits: Int) {
         }
         var keyWords: LongArray?
         var tweakWords: LongArray? = null
-        if (keyBytes.size != blockSize) {
-            throw IllegalArgumentException(
-                "Threefish key must be same size as block (" + blockSize +
-                        " bytes)"
-            )
-        }
+        require(keyBytes.size == blockSize) { "Threefish key must be same size as block (" + blockSize +
+            " bytes)" }
         keyWords = LongArray(blocksizeWords)
         for (i in keyWords.indices) {
             keyWords[i] = decodeLELong(keyBytes, i * 8)
         }
         if (tweakBytes != null) {
-            if (tweakBytes.size != TWEAK_SIZE_BYTES) {
-                throw IllegalArgumentException("Threefish tweak must be " + TWEAK_SIZE_BYTES + " bytes")
-            }
+            require(tweakBytes.size == TWEAK_SIZE_BYTES) { "Threefish tweak must be " + TWEAK_SIZE_BYTES + " bytes" }
             tweakWords = longArrayOf(decodeLELong(tweakBytes, 0), decodeLELong(tweakBytes, 8))
         }
         init(forEncryption, keyWords, tweakWords)
@@ -235,12 +229,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
     }
 
     private fun setKey(key: LongArray) {
-        if (key.size != blocksizeWords) {
-            throw IllegalArgumentException(
-                "Threefish key must be same size as block (" + blocksizeWords +
-                        " words)"
-            )
-        }
+        require(key.size == blocksizeWords) { "Threefish key must be same size as block (" + blocksizeWords +
+            " words)" }
 
         /*
          * Full subkey schedule is deferred to execution to avoid per cipher overhead (10k for 512,
@@ -259,9 +249,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
     }
 
     private fun setTweak(tweak: LongArray) {
-        if (tweak.size != TWEAK_SIZE_WORDS) {
-            throw IllegalArgumentException("Tweak must be " + TWEAK_SIZE_WORDS + " words.")
-        }
+        require(tweak.size == TWEAK_SIZE_WORDS) { "Tweak must be " + TWEAK_SIZE_WORDS + " words." }
 
         /*
          * Tweak schedule partially repeated to avoid mod computations during cipher operation
@@ -311,9 +299,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
      */
     @Suppress("ThrowsCount")
     fun processBlock(input: LongArray, out: LongArray): Int {
-        if (kw[blocksizeWords] == 0L) {
-            throw IllegalStateException("Threefish engine not initialised")
-        }
+        check(kw[blocksizeWords] != 0L) { "Threefish engine not initialised" }
         if (input.size != blocksizeWords) {
             throw DataLengthException("Input buffer too short")
         }
@@ -351,12 +337,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 9) {
-                throw IllegalArgumentException("Incorrect kw size, should be 9 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 9) { "Incorrect kw size, should be 9 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
 
             /*
              * Read 4 words of plaintext data, not using arrays for cipher state
@@ -451,12 +433,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 9) {
-                throw IllegalArgumentException("Incorrect kw size, should be 9 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 9) { "Incorrect kw size, should be 9 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
             var b0 = block[0]
             var b1 = block[1]
             var b2 = block[2]
@@ -565,12 +543,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 17) {
-                throw IllegalArgumentException("Incorrect kw size, should be 17 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 17) { "Incorrect kw size, should be 17 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
 
             /*
              * Read 8 words of plaintext data, not using arrays for cipher state
@@ -701,12 +675,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 17) {
-                throw IllegalArgumentException("Incorrect kw size, should be 17 but is ${t.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 17) { "Incorrect kw size, should be 17 but is ${t.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
             var b0 = block[0]
             var b1 = block[1]
             var b2 = block[2]
@@ -883,12 +853,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 33) {
-                throw IllegalArgumentException("Incorrect kw size, should be 33 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 33) { "Incorrect kw size, should be 33 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
 
             /*
              * Read 16 words of plaintext data, not using arrays for cipher state
@@ -1091,12 +1057,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 33) {
-                throw IllegalArgumentException("Incorrect kw size, should be 33 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 33) { "Incorrect kw size, should be 33 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
             var b0 = block[0]
             var b1 = block[1]
             var b2 = block[2]

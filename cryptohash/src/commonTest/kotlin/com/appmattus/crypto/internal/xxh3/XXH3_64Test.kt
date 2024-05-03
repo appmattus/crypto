@@ -30,7 +30,7 @@ class XXH3_64Test {
     data class TestCase(
         val len: Int,
         val seed: Long,
-        val Nresult: String
+        val nResult: String
     )
 
     // From https://github.com/dynatrace-oss/hash4j/blob/main/src/test/java/com/dynatrace/hash4j/hashing/XXH3ReferenceData.java
@@ -84,7 +84,7 @@ class XXH3_64Test {
             testKat(
                 { if (it.seed == 0L) CoreDigest.create(Algorithm.XXH3_64()) else CoreDigest.create(Algorithm.XXH3_64.Seeded(it.seed)) },
                 buffer(it.len),
-                it.Nresult
+                it.nResult
             )
         }
     }
@@ -113,7 +113,7 @@ class XXH3_64Test {
             testKat(
                 { CoreDigest.create(Algorithm.XXH3_64.Secret(secret)) },
                 buffer(it.len),
-                it.Nresult
+                it.nResult
             )
         }
     }

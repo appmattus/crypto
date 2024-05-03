@@ -143,16 +143,11 @@ internal class SkeinParameters private constructor(parameters: MutableMap<Int, B
          */
         @Suppress("ThrowsCount", "ComplexCondition")
         fun set(type: Int, value: ByteArray): Builder {
-            if (type != PARAM_TYPE_KEY &&
-                (type < PARAM_TYPE_CONFIG || type >= PARAM_TYPE_OUTPUT || type == PARAM_TYPE_MESSAGE)
-            ) {
-                throw IllegalArgumentException("Parameter types must be in the range 0,5..47,49..62.")
+            require(!(type != PARAM_TYPE_KEY && (type < PARAM_TYPE_CONFIG || type >= PARAM_TYPE_OUTPUT || type == PARAM_TYPE_MESSAGE))) {
+                "Parameter types must be in the range 0,5..47,49..62."
             }
-            if (type == PARAM_TYPE_CONFIG) {
-                throw IllegalArgumentException(
-                    "Parameter type " + PARAM_TYPE_CONFIG +
-                            " is reserved for internal use."
-                )
+            require(type != PARAM_TYPE_CONFIG) {
+                "Parameter type $PARAM_TYPE_CONFIG is reserved for internal use."
             }
             parameters[type] = value
             return this
