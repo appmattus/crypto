@@ -92,7 +92,6 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
         state.totalLen += length
 
         if (state.memSize + length < 32) {
-
             // fill in tmp buffer
             input.copyInto(state.mem, state.memSize, index + offset, index + offset + length)
             state.memSize += length
@@ -114,7 +113,6 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
         }
 
         if (index <= length - 32) {
-
             val limit = length - 32
 
             do {

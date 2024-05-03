@@ -202,14 +202,13 @@ internal class ThreefishEngine(blocksizeBits: Int) {
         }
         var keyWords: LongArray?
         var tweakWords: LongArray? = null
-        require(keyBytes.size == blockSize) { "Threefish key must be same size as block (" + blockSize +
-            " bytes)" }
+        require(keyBytes.size == blockSize) { "Threefish key must be same size as block ($blockSize bytes)" }
         keyWords = LongArray(blocksizeWords)
         for (i in keyWords.indices) {
             keyWords[i] = decodeLELong(keyBytes, i * 8)
         }
         if (tweakBytes != null) {
-            require(tweakBytes.size == TWEAK_SIZE_BYTES) { "Threefish tweak must be " + TWEAK_SIZE_BYTES + " bytes" }
+            require(tweakBytes.size == TWEAK_SIZE_BYTES) { "Threefish tweak must be $TWEAK_SIZE_BYTES bytes" }
             tweakWords = longArrayOf(decodeLELong(tweakBytes, 0), decodeLELong(tweakBytes, 8))
         }
         init(forEncryption, keyWords, tweakWords)
@@ -229,8 +228,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
     }
 
     private fun setKey(key: LongArray) {
-        require(key.size == blocksizeWords) { "Threefish key must be same size as block (" + blocksizeWords +
-            " words)" }
+        require(key.size == blocksizeWords) { "Threefish key must be same size as block ($blocksizeWords words)" }
 
         /*
          * Full subkey schedule is deferred to execution to avoid per cipher overhead (10k for 512,

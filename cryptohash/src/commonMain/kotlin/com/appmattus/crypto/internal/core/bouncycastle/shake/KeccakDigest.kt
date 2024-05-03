@@ -236,7 +236,8 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
 
     private fun keccakAbsorb(data: ByteArray, off: Int) {
 //        assert 0 == bitsInQueue || (dataQueue == data && 0 == off);
-        @Suppress("NAME_SHADOWING") var off = off
+        @Suppress("NAME_SHADOWING")
+        var off = off
         val count = rate ushr 6
         for (i in 0 until count) {
             state[i] = state[i] xor decodeLELong(data, off)

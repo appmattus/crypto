@@ -157,10 +157,11 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
     fun cityHash128(data: ByteBuffer): UInt128 {
         val len = data.size
-        return if (len >= 16) cityHash128WithSeed(
-            data, 16, len - 16,
-            UInt128(data.decodeLEULong(8) + k0, data.decodeLEULong(0))
-        ) else cityHash128WithSeed(data, 0, data.size, UInt128(k1, k0))
+        return if (len >= 16) {
+            cityHash128WithSeed(data, 16, len - 16, UInt128(data.decodeLEULong(8) + k0, data.decodeLEULong(0)))
+        } else {
+            cityHash128WithSeed(data, 0, data.size, UInt128(k1, k0))
+        }
     }
 
     fun cityHash128WithSeed(data: ByteBuffer, seed: UInt128): UInt128 {

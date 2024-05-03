@@ -101,7 +101,6 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
         }
 
         if (index <= length - 16) {
-
             val limit = length - 16
 
             do {

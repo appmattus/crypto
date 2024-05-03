@@ -57,27 +57,27 @@ abstract class HAVAL_3_128Test {
                     "9972c4e59e0327145e55ddd8189083c9d9bbaa32c68fd7a7" +
                     "b3f4ff96000040ac6a467fc0fbffffd216405fd016405fb0" +
                     "e21200877f30f4",
-            ("8b487763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
+            "8b487763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
                     "46a31c4f5dca76428a7aa68bdc3a8d14d8e3b68d9930d6cd" +
                     "5dea867bae39a7328efd54362bbbac9a3c183889927ab6ba" +
                     "9972c4e59e0327145e55ddd8189083c9d9bbaa32c68fd7a7" +
                     "b3f4ff96000040ac6a467fc0fbffffd216405fd016405fb0" +
-                    "e21200877f30f4")
+                    "e21200877f30f4"
         )
         testCollision(
             { digest() },
-            ("8b447763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
+            "8b447763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
                     "46a31c4f5dca76428a7aa68bdc3a8d14d8e3b68d993056cd" +
                     "5dea867bae39a7328efd54362bbbac9a3c183889927ab6b2" +
                     "9972c4e59e0327145e55ddd8189083c9d9bbaa32c68fd7a7" +
                     "b3f4ff96000040ac6a467fc0fbffffd216405fd016405fb0" +
-                    "e212006369b1f5"),
-            ("8b487763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
+                    "e212006369b1f5",
+            "8b487763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
                     "46a31c4f5dca76428a7aa68bdc3a8d14d8e3b68d9930d6cd" +
                     "5dea867bae39a7328efd54362bbbac9a3c183889927ab6ba" +
                     "9972c4e59e0327145e55ddd8189083c9d9bbaa32c68fd7a7" +
                     "b3f4ff96000040ac6a467fc0fbffffd216405fd016405fb0" +
-                    "e212006369b1f5")
+                    "e212006369b1f5"
         )
     }
 }

@@ -239,7 +239,8 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
             )
             initialState(
                 blockSize = SKEIN_256,
-                outputSize = 224, state = longArrayOf(
+                outputSize = 224,
+                state = longArrayOf(
                     -0x39f67573651a15f5L,
                     -0x7892a979f73ae6e4L,
                     -0x66347728280ac77cL,
@@ -704,15 +705,14 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
             chain = LongArray(blockSize / 8)
 
             // Process key block
-            if (key != null) {
-                ubiComplete(SkeinParameters.PARAM_TYPE_KEY, key!!)
+            key?.let { key ->
+                ubiComplete(SkeinParameters.PARAM_TYPE_KEY, key)
             }
 
             // Process configuration block
             ubiComplete(
-                PARAM_TYPE_CONFIG, Configuration(
-                    (outputSize * 8).toLong()
-                ).bytes
+                PARAM_TYPE_CONFIG,
+                Configuration((outputSize * 8).toLong()).bytes
             )
         }
 

@@ -245,14 +245,12 @@ internal class Blake2s : Digest<Blake2s> {
         }
         if (chainValue == null) {
             chainValue = IntArray(8)
-            chainValue!![0] = (blake2s_IV[0]
-                    xor (digestSize or (keyLength shl 8) or (fanout shl 16 or (depth shl 24))))
+            chainValue!![0] = (blake2s_IV[0] xor (digestSize or (keyLength shl 8) or (fanout shl 16 or (depth shl 24))))
             chainValue!![1] = blake2s_IV[1] xor leafLength
             val nofHi = (nodeOffset shr 32).toInt()
             val nofLo = nodeOffset.toInt()
             chainValue!![2] = blake2s_IV[2] xor nofLo
-            chainValue!![3] = blake2s_IV[3] xor (nofHi or
-                    (nodeDepth shl 16) or (innerHashLength shl 24))
+            chainValue!![3] = blake2s_IV[3] xor (nofHi or (nodeDepth shl 16) or (innerHashLength shl 24))
             chainValue!![4] = blake2s_IV[4]
             chainValue!![5] = blake2s_IV[5]
             if (salt != null) {
@@ -415,7 +413,6 @@ internal class Blake2s : Digest<Blake2s> {
             m[j] = decodeLEInt(message!!, messagePos + j * 4)
         }
         for (round in 0 until ROUNDS) {
-
             // G apply to columns of internalState:m[blake2s_sigma[round][2 *
             // blockPos]] /+1
             g(m[blake2s_sigma[round][0].toInt()], m[blake2s_sigma[round][1].toInt()], 0, 4, 8, 12)
@@ -475,9 +472,14 @@ internal class Blake2s : Digest<Blake2s> {
          * BLAKE2s Initialization Vector
          */
         private val blake2s_IV = intArrayOf(
-            0x6a09e667, -0x4498517b, 0x3c6ef372,
-            -0x5ab00ac6, 0x510e527f, -0x64fa9774,
-            0x1f83d9ab, 0x5be0cd19
+            0x6a09e667,
+            -0x4498517b,
+            0x3c6ef372,
+            -0x5ab00ac6,
+            0x510e527f,
+            -0x64fa9774,
+            0x1f83d9ab,
+            0x5be0cd19
         )
 
         /**
@@ -514,6 +516,7 @@ internal class Blake2s : Digest<Blake2s> {
                     parameters.salt,
                     parameters.personalisation
                 )
+
                 else -> Blake2s(parameters.outputSizeBits)
             }
         }

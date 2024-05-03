@@ -211,14 +211,20 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
 
         val hash = LongArray(4)
         modularReduction(
-            v1[1] + mul1[1], v1[0] + mul1[0],
-            v0[1] + mul0[1], v0[0] + mul0[0],
-            hash, 0
+            a3Unmasked = v1[1] + mul1[1],
+            a2 = v1[0] + mul1[0],
+            a1 = v0[1] + mul0[1],
+            a0 = v0[0] + mul0[0],
+            hash = hash,
+            pos = 0
         )
         modularReduction(
-            v1[3] + mul1[3], v1[2] + mul1[2],
-            v0[3] + mul0[3], v0[2] + mul0[2],
-            hash, 2
+            a3Unmasked = v1[3] + mul1[3],
+            a2 = v1[2] + mul1[2],
+            a1 = v0[3] + mul0[3],
+            a0 = v0[2] + mul0[2],
+            hash = hash,
+            pos = 2
         )
 
         reset()

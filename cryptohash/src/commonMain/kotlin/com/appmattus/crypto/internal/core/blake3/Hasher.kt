@@ -91,7 +91,6 @@ internal class Hasher(
         var currPos = offset
         val end = offset + length
         while (currPos < end) {
-
             // If this chunk has chained in 16 64 bytes of input, add its CV to the stack
             if (chunkState.len() == CHUNK_LEN) {
                 val chunkCV = chunkState.createNode().chainingValue()

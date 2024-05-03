@@ -70,7 +70,6 @@ internal class Node(
         while (outputCounter < outputsNeeded) {
             val words = compress(inputChainingValue, blockWords, outputCounter.toLong(), blockLen, flags or ROOT)
             for (word in words) {
-
                 encodeLEInt(word, buffer, 0)
 
                 for (b in buffer) {

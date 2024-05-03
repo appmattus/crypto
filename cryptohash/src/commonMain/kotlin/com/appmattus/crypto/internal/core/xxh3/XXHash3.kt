@@ -1160,16 +1160,24 @@ private fun XXH3_digest_long(acc: LongArray, state: XXH3_state_t, secret: ByteAr
     if (state.bufferedSize >= XXH_STRIPE_LEN) {
         val nbStripes: Int = (state.bufferedSize - 1) / XXH_STRIPE_LEN
         XXH3_consumeStripes(
-            acc, state.nbStripesSoFar, state.nbStripesPerBlock,
-            state.buffer, 0, nbStripes,
-            secret, state.secretLimit,
-            XXH3_accumulate_512, XXH3_scrambleAcc
+            acc = acc,
+            nbStripesSoFarPtr = state.nbStripesSoFar,
+            nbStripesPerBlock = state.nbStripesPerBlock,
+            input = state.buffer,
+            inputOffset = 0,
+            nbStripes = nbStripes,
+            secret = secret,
+            secretLimit = state.secretLimit,
+            f_acc512 = XXH3_accumulate_512,
+            f_scramble = XXH3_scrambleAcc
         )
         /* last stripe */
         XXH3_accumulate_512(
             acc,
-            state.buffer, state.bufferedSize - XXH_STRIPE_LEN,
-            secret, state.secretLimit - XXH_SECRET_LASTACC_START
+            state.buffer,
+            state.bufferedSize - XXH_STRIPE_LEN,
+            secret,
+            state.secretLimit - XXH_SECRET_LASTACC_START
         )
     } else { /* bufferedSize < XXH_STRIPE_LEN */
         val lastStripe = ByteArray(XXH_STRIPE_LEN)
@@ -1179,8 +1187,10 @@ private fun XXH3_digest_long(acc: LongArray, state: XXH3_state_t, secret: ByteAr
         XXH_memcpy(lastStripe, catchupSize, state.buffer, 0, state.bufferedSize)
         XXH3_accumulate_512(
             acc,
-            lastStripe, 0,
-            secret, state.secretLimit - XXH_SECRET_LASTACC_START
+            lastStripe,
+            0,
+            secret,
+            state.secretLimit - XXH_SECRET_LASTACC_START
         )
     }
 }
@@ -1202,8 +1212,11 @@ internal fun XXH3_64bits_digest(state: XXH3_state_t): XXH64_hash_t {
         return XXH3_64bits_withSeed(state.buffer, 0, state.totalLen.toInt(), state.seed)
     }
     return XXH3_64bits_withSecret(
-        state.buffer, 0, state.totalLen.toInt(),
-        secret, state.secretLimit + XXH_STRIPE_LEN
+        input = state.buffer,
+        inputOffset = 0,
+        len = state.totalLen.toInt(),
+        secret = secret,
+        secretSize = state.secretLimit + XXH_STRIPE_LEN
     )
 }
 
@@ -1431,12 +1444,14 @@ private fun XXH3_len_129to240_128b(
     )
     for (i in 0 until 4) {
         acc = XXH128_mix32B(
-            acc,
-            input, inputOffset + (32 * i),
-            input, inputOffset + (32 * i) + 16,
-            secret,
-            (32 * i),
-            seed
+            acc = acc,
+            input_1 = input,
+            input_1Offset = inputOffset + (32 * i),
+            input_2 = input,
+            input_2Offset = inputOffset + (32 * i) + 16,
+            secret = secret,
+            secretOffset = (32 * i),
+            seed = seed
         )
     }
     acc = XXH128_hash_t(
