@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ object Versions {
     const val detektGradlePlugin = "1.19.0"
     const val gradleVersionsPlugin = "0.36.0"
     const val markdownlintGradlePlugin = "0.6.0"
-    const val gradleMavenPublishPlugin = "0.18.0"
+    const val gradleMavenPublishPlugin = "0.25.2"
     const val dokkaPlugin = "1.6.10"
 
     const val coil = "1.4.0"

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost.DEFAULT
+import com.vanniktech.maven.publish.SonatypeHost
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
@@ -95,7 +95,9 @@ allprojects {
 
     plugins.withId("com.vanniktech.maven.publish.base") {
         configure<MavenPublishBaseExtension> {
-            publishToMavenCentral(DEFAULT, System.getenv("SONATYPE_REPOSITORY_ID"))
+            val repositoryId = System.getenv("SONATYPE_REPOSITORY_ID") //?: error("Missing env variable: SONATYPE_REPOSITORY_ID")
+            val url = "https://oss.sonatype.org/service/local/staging/deployByRepositoryId/${repositoryId}/"
+            publishToMavenCentral(SonatypeHost(url), false)
         }
     }
 }
