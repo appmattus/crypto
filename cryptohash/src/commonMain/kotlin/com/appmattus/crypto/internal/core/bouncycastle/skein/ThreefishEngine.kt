@@ -200,10 +200,9 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                         params::class.simpleName
             )
         }
-        var keyWords: LongArray?
         var tweakWords: LongArray? = null
         require(keyBytes.size == blockSize) { "Threefish key must be same size as block ($blockSize bytes)" }
-        keyWords = LongArray(blocksizeWords)
+        val keyWords = LongArray(blocksizeWords)
         for (i in keyWords.indices) {
             keyWords[i] = decodeLELong(keyBytes, i * 8)
         }
@@ -1373,14 +1372,17 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                 kw,
                 t
             )
+
             BLOCKSIZE_512 -> Threefish512Cipher(
                 kw,
                 t
             )
+
             BLOCKSIZE_1024 -> Threefish1024Cipher(
                 kw,
                 t
             )
+
             else -> throw IllegalArgumentException(
                 "Invalid blocksize - Threefish is defined with block size of 256, 512, or 1024 bits"
             )

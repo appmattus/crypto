@@ -49,7 +49,7 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
 
     private fun generateHash() = intent {
         val digest = try {
-            currentAlgorithm?.let { it.createDigest() }?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
+            currentAlgorithm?.createDigest()?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
         } catch (expected: Exception) {
             expected.message ?: expected.toString()
         }

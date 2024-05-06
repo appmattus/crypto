@@ -68,6 +68,7 @@ internal class HMAC : DigestEngine<HMAC> {
      * @param outputLength   (optional) the HMAC output length (in bytes)
      */
     constructor(dig: Digest<*>, key: ByteArray, outputLength: Int? = null) {
+        @Suppress("NAME_SHADOWING")
         var key = key
         dig.reset()
         this.dig = dig

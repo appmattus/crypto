@@ -41,6 +41,8 @@ package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
 
+import com.appmattus.crypto.Digest
+
 /**
  *
  * This class implements the SHA-256 digest algorithm under the
