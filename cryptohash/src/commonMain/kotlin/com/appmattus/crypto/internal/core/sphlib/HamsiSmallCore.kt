@@ -64,8 +64,10 @@ internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest<D> {
         partialLen++
         if (partialLen == 4) {
             process(
-                partial ushr 24, partial ushr 16 and 0xFF,
-                partial ushr 8 and 0xFF, partial and 0xFF
+                partial ushr 24,
+                partial ushr 16 and 0xFF,
+                partial ushr 8 and 0xFF,
+                partial and 0xFF
             )
             partialLen = 0
         }
@@ -75,22 +77,22 @@ internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest<D> {
         update(input, 0, input.size)
     }
 
-    @Suppress("NAME_SHADOWING")
     override fun update(input: ByteArray, offset: Int, length: Int) {
         var off = offset
         var len = length
         bitCount += len.toLong() shl 3
         if (partialLen != 0) {
             while (partialLen < 4 && len > 0) {
-                partial = (partial shl 8
-                        or (input[off++].toInt() and 0xFF))
+                partial = (partial shl 8 or (input[off++].toInt() and 0xFF))
                 partialLen++
                 len--
             }
             if (partialLen < 4) return
             process(
-                partial ushr 24, partial ushr 16 and 0xFF,
-                partial ushr 8 and 0xFF, partial and 0xFF
+                partial ushr 24,
+                partial ushr 16 and 0xFF,
+                partial ushr 8 and 0xFF,
+                partial and 0xFF
             )
             partialLen = 0
         }

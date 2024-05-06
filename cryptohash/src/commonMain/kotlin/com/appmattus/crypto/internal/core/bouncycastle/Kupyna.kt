@@ -92,7 +92,7 @@ internal class Kupyna : Digest<Kupyna> {
         if (hashSizeBits == 256 || hashSizeBits == 384 || hashSizeBits == 512) {
             digestLength = hashSizeBits ushr 3
         } else {
-            throw IllegalArgumentException("Hash size is not recommended. Use 256/384/512 instead")
+            error("Hash size is not recommended. Use 256/384/512 instead")
         }
         if (hashSizeBits > 256) {
             columns = NB_1024
@@ -431,7 +431,7 @@ internal class Kupyna : Digest<Kupyna> {
                 s[15] = c15
             }
             else -> {
-                throw IllegalStateException("unsupported state size: only 512/1024 are allowed")
+                error("unsupported state size: only 512/1024 are allowed")
             }
         }
     }

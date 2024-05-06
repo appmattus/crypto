@@ -170,6 +170,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
     @Suppress("LongMethod")
     private fun cityHash128WithSeed(byteArray: ByteBuffer, offset: Int, len: Int, seed: UInt128): UInt128 {
+        @Suppress("NAME_SHADOWING")
         var len = len
         if (len < 128) {
             return cityMurmur(byteArray, offset, len, seed)
@@ -452,7 +453,10 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
         internal fun mur(a: UInt, h: UInt): UInt {
             // Helper from Murmur3 for combining two 32-bit values.
+            @Suppress("NAME_SHADOWING")
             var a = a
+
+            @Suppress("NAME_SHADOWING")
             var h = h
             a *= c1
             a = a.rotateRight(17)
@@ -566,7 +570,10 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         // Callers do best to use "random-looking" values for a and b.
         @Suppress("LongParameterList")
         private fun weakHashLen32WithSeeds(w: ULong, x: ULong, y: ULong, z: ULong, a: ULong, b: ULong): UInt128 {
+            @Suppress("NAME_SHADOWING")
             var a: ULong = a
+
+            @Suppress("NAME_SHADOWING")
             var b: ULong = b
             a += w
             b = (b + a + z).rotateRight(21)

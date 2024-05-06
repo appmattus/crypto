@@ -76,10 +76,7 @@ internal class MD4 : MDHelper<MD4>(true, 8) {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         makeMDPadding()
-        for (i in 0..3) encodeLEInt(
-            currentVal[i], output,
-            outputOffset + 4 * i
-        )
+        for (i in 0..3) encodeLEInt(currentVal[i], output, outputOffset + 4 * i)
     }
 
     override fun doInit() {
@@ -102,70 +99,70 @@ internal class MD4 : MDHelper<MD4>(true, 8) {
         var b = currentVal[1]
         var c = currentVal[2]
         var d = currentVal[3]
-        val x00: Int = (data[0].toInt() and 0xFF
-                or (data[0 + 1].toInt() and 0xFF shl 8)
-                or (data[0 + 2].toInt() and 0xFF shl 16)
-                or (data[0 + 3].toInt() and 0xFF shl 24))
-        val x01: Int = (data[4].toInt() and 0xFF
-                or (data[4 + 1].toInt() and 0xFF shl 8)
-                or (data[4 + 2].toInt() and 0xFF shl 16)
-                or (data[4 + 3].toInt() and 0xFF shl 24))
-        val x02: Int = (data[8].toInt() and 0xFF
-                or (data[8 + 1].toInt() and 0xFF shl 8)
-                or (data[8 + 2].toInt() and 0xFF shl 16)
-                or (data[8 + 3].toInt() and 0xFF shl 24))
-        val x03: Int = (data[12].toInt() and 0xFF
-                or (data[12 + 1].toInt() and 0xFF shl 8)
-                or (data[12 + 2].toInt() and 0xFF shl 16)
-                or (data[12 + 3].toInt() and 0xFF shl 24))
-        val x04: Int = (data[16].toInt() and 0xFF
-                or (data[16 + 1].toInt() and 0xFF shl 8)
-                or (data[16 + 2].toInt() and 0xFF shl 16)
-                or (data[16 + 3].toInt() and 0xFF shl 24))
-        val x05: Int = (data[20].toInt() and 0xFF
-                or (data[20 + 1].toInt() and 0xFF shl 8)
-                or (data[20 + 2].toInt() and 0xFF shl 16)
-                or (data[20 + 3].toInt() and 0xFF shl 24))
-        val x06: Int = (data[24].toInt() and 0xFF
-                or (data[24 + 1].toInt() and 0xFF shl 8)
-                or (data[24 + 2].toInt() and 0xFF shl 16)
-                or (data[24 + 3].toInt() and 0xFF shl 24))
-        val x07: Int = (data[28].toInt() and 0xFF
-                or (data[28 + 1].toInt() and 0xFF shl 8)
-                or (data[28 + 2].toInt() and 0xFF shl 16)
-                or (data[28 + 3].toInt() and 0xFF shl 24))
-        val x08: Int = (data[32].toInt() and 0xFF
-                or (data[32 + 1].toInt() and 0xFF shl 8)
-                or (data[32 + 2].toInt() and 0xFF shl 16)
-                or (data[32 + 3].toInt() and 0xFF shl 24))
-        val x09: Int = (data[36].toInt() and 0xFF
-                or (data[36 + 1].toInt() and 0xFF shl 8)
-                or (data[36 + 2].toInt() and 0xFF shl 16)
-                or (data[36 + 3].toInt() and 0xFF shl 24))
-        val x10: Int = (data[40].toInt() and 0xFF
-                or (data[40 + 1].toInt() and 0xFF shl 8)
-                or (data[40 + 2].toInt() and 0xFF shl 16)
-                or (data[40 + 3].toInt() and 0xFF shl 24))
-        val x11: Int = (data[44].toInt() and 0xFF
-                or (data[44 + 1].toInt() and 0xFF shl 8)
-                or (data[44 + 2].toInt() and 0xFF shl 16)
-                or (data[44 + 3].toInt() and 0xFF shl 24))
-        val x12: Int = (data[48].toInt() and 0xFF
-                or (data[48 + 1].toInt() and 0xFF shl 8)
-                or (data[48 + 2].toInt() and 0xFF shl 16)
-                or (data[48 + 3].toInt() and 0xFF shl 24))
-        val x13: Int = (data[52].toInt() and 0xFF
-                or (data[52 + 1].toInt() and 0xFF shl 8)
-                or (data[52 + 2].toInt() and 0xFF shl 16)
-                or (data[52 + 3].toInt() and 0xFF shl 24))
-        val x14: Int = (data[56].toInt() and 0xFF
-                or (data[56 + 1].toInt() and 0xFF shl 8)
-                or (data[56 + 2].toInt() and 0xFF shl 16)
-                or (data[56 + 3].toInt() and 0xFF shl 24))
-        val x15: Int = (data[60].toInt() and 0xFF
-                or (data[60 + 1].toInt() and 0xFF shl 8)
-                or (data[60 + 2].toInt() and 0xFF shl 16)
-                or (data[60 + 3].toInt() and 0xFF shl 24))
+        val x00 = data[0].toInt() and 0xFF or
+                (data[0 + 1].toInt() and 0xFF shl 8) or
+                (data[0 + 2].toInt() and 0xFF shl 16) or
+                (data[0 + 3].toInt() and 0xFF shl 24)
+        val x01 = data[4].toInt() and 0xFF or
+                (data[4 + 1].toInt() and 0xFF shl 8) or
+                (data[4 + 2].toInt() and 0xFF shl 16) or
+                (data[4 + 3].toInt() and 0xFF shl 24)
+        val x02 = data[8].toInt() and 0xFF or
+                (data[8 + 1].toInt() and 0xFF shl 8) or
+                (data[8 + 2].toInt() and 0xFF shl 16) or
+                (data[8 + 3].toInt() and 0xFF shl 24)
+        val x03 = data[12].toInt() and 0xFF or
+                (data[12 + 1].toInt() and 0xFF shl 8) or
+                (data[12 + 2].toInt() and 0xFF shl 16) or
+                (data[12 + 3].toInt() and 0xFF shl 24)
+        val x04 = data[16].toInt() and 0xFF or
+                (data[16 + 1].toInt() and 0xFF shl 8) or
+                (data[16 + 2].toInt() and 0xFF shl 16) or
+                (data[16 + 3].toInt() and 0xFF shl 24)
+        val x05 = data[20].toInt() and 0xFF or
+                (data[20 + 1].toInt() and 0xFF shl 8) or
+                (data[20 + 2].toInt() and 0xFF shl 16) or
+                (data[20 + 3].toInt() and 0xFF shl 24)
+        val x06 = data[24].toInt() and 0xFF or
+                (data[24 + 1].toInt() and 0xFF shl 8) or
+                (data[24 + 2].toInt() and 0xFF shl 16) or
+                (data[24 + 3].toInt() and 0xFF shl 24)
+        val x07 = data[28].toInt() and 0xFF or
+                (data[28 + 1].toInt() and 0xFF shl 8) or
+                (data[28 + 2].toInt() and 0xFF shl 16) or
+                (data[28 + 3].toInt() and 0xFF shl 24)
+        val x08 = data[32].toInt() and 0xFF or
+                (data[32 + 1].toInt() and 0xFF shl 8) or
+                (data[32 + 2].toInt() and 0xFF shl 16) or
+                (data[32 + 3].toInt() and 0xFF shl 24)
+        val x09 = data[36].toInt() and 0xFF or
+                (data[36 + 1].toInt() and 0xFF shl 8) or
+                (data[36 + 2].toInt() and 0xFF shl 16) or
+                (data[36 + 3].toInt() and 0xFF shl 24)
+        val x10 = data[40].toInt() and 0xFF or
+                (data[40 + 1].toInt() and 0xFF shl 8) or
+                (data[40 + 2].toInt() and 0xFF shl 16) or
+                (data[40 + 3].toInt() and 0xFF shl 24)
+        val x11 = data[44].toInt() and 0xFF or
+                (data[44 + 1].toInt() and 0xFF shl 8) or
+                (data[44 + 2].toInt() and 0xFF shl 16) or
+                (data[44 + 3].toInt() and 0xFF shl 24)
+        val x12 = data[48].toInt() and 0xFF or
+                (data[48 + 1].toInt() and 0xFF shl 8) or
+                (data[48 + 2].toInt() and 0xFF shl 16) or
+                (data[48 + 3].toInt() and 0xFF shl 24)
+        val x13 = data[52].toInt() and 0xFF or
+                (data[52 + 1].toInt() and 0xFF shl 8) or
+                (data[52 + 2].toInt() and 0xFF shl 16) or
+                (data[52 + 3].toInt() and 0xFF shl 24)
+        val x14 = data[56].toInt() and 0xFF or
+                (data[56 + 1].toInt() and 0xFF shl 8) or
+                (data[56 + 2].toInt() and 0xFF shl 16) or
+                (data[56 + 3].toInt() and 0xFF shl 24)
+        val x15 = data[60].toInt() and 0xFF or
+                (data[60 + 1].toInt() and 0xFF shl 8) or
+                (data[60 + 2].toInt() and 0xFF shl 16) or
+                (data[60 + 3].toInt() and 0xFF shl 24)
         var t: Int
         t = a + (c xor d and b xor d) + x00
         a = t shl 3 or (t ushr 32 - 3)

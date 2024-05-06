@@ -69,10 +69,14 @@ internal class SHA512 : SHA2BigCore<SHA512>() {
     companion object {
         /** The initial value for SHA-512.  */
         private val initVal = longArrayOf(
-            0x6A09E667F3BCC908L, -0x4498517a7b3558c5L,
-            0x3C6EF372FE94F82BL, -0x5ab00ac5a0e2c90fL,
-            0x510E527FADE682D1L, -0x64fa9773d4c193e1L,
-            0x1F83D9ABFB41BD6BL, 0x5BE0CD19137E2179L
+            0x6A09E667F3BCC908L,
+            -0x4498517a7b3558c5L,
+            0x3C6EF372FE94F82BL,
+            -0x5ab00ac5a0e2c90fL,
+            0x510E527FADE682D1L,
+            -0x64fa9773d4c193e1L,
+            0x1F83D9ABFB41BD6BL,
+            0x5BE0CD19137E2179L
         )
     }
 }

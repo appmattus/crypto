@@ -68,9 +68,6 @@ internal class SHA256 : SHA2Core<SHA256>() {
 
     companion object {
         /** The initial value for SHA-256.  */
-        private val initVal = intArrayOf(
-            0x6A09E667, -0x4498517b, 0x3C6EF372, -0x5ab00ac6,
-            0x510E527F, -0x64fa9774, 0x1F83D9AB, 0x5BE0CD19
-        )
+        private val initVal = intArrayOf(0x6A09E667, -0x4498517b, 0x3C6EF372, -0x5ab00ac6, 0x510E527F, -0x64fa9774, 0x1F83D9AB, 0x5BE0CD19)
     }
 }

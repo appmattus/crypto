@@ -88,17 +88,21 @@ internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : MDHelper<D>(t
     }
 
     private fun lookupLow(x: Long): Long {
-        return (T1[x.toInt() and 0xFF]
-                xor T2[(x ushr 16).toInt() and 0xFF]
-                xor T3[(x ushr 32).toInt() and 0xFF]
-                xor T4[(x ushr 48).toInt() and 0xFF])
+        return (
+                T1[x.toInt() and 0xFF]
+                        xor T2[(x ushr 16).toInt() and 0xFF]
+                        xor T3[(x ushr 32).toInt() and 0xFF]
+                        xor T4[(x ushr 48).toInt() and 0xFF]
+                )
     }
 
     private fun lookupHigh(x: Long): Long {
-        return (T4[(x ushr 8).toInt() and 0xFF]
-                xor T3[(x ushr 24).toInt() and 0xFF]
-                xor T2[(x ushr 40).toInt() and 0xFF]
-                xor T1[(x ushr 56).toInt() and 0xFF])
+        return (
+                T4[(x ushr 8).toInt() and 0xFF]
+                        xor T3[(x ushr 24).toInt() and 0xFF]
+                        xor T2[(x ushr 40).toInt() and 0xFF]
+                        xor T1[(x ushr 56).toInt() and 0xFF]
+                )
     }
 
     @Suppress("LongMethod")

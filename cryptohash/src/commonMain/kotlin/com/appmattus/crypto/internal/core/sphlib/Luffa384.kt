@@ -680,37 +680,13 @@ internal class Luffa384 : DigestEngine<Luffa384>() {
             -0x7a7f8a2b, 0x36d79cce, -0x1a8e0829, 0x204b1f67,
             0x35870c6a, 0x57e9e923, 0x14bcb808, 0x7cde72ce
         )
-        private val RC00 = intArrayOf(
-            0x303994a6, -0x3f19ad67, 0x6cc33a12, -0x23a967c2,
-            0x1e00108f, 0x7800423d, -0x70a4877e, -0x691e24ee
-        )
-        private val RC04 = intArrayOf(
-            -0x1fcc87e8, 0x441ba90d, 0x7f34d442, -0x6c76de81,
-            -0x1a57431a, 0x5274baf4, 0x26889ba7, -0x65dd9163
-        )
-        private val RC10 = intArrayOf(
-            -0x4921ef13, 0x70f47aae, 0x0707a3d4, 0x1c1e8f51,
-            0x707a3d45, -0x514d7a9e, -0x4535ea77, 0x40a46f3e
-        )
-        private val RC14 = intArrayOf(
-            0x01685f3d, 0x05a17cf4, -0x42f63536, -0xbd8d4d8,
-            0x144ae5cc, -0x55851d5, 0x2e48f1c1, -0x46dc38fc
-        )
-        private val RC20 = intArrayOf(
-            -0x3df262e, 0x34552e25, 0x7ad8818f, -0x7bc789b6,
-            -0x44921fce, -0x12487f38, -0x267b8caa, -0x5d387bcc
-        )
-        private val RC24 = intArrayOf(
-            -0x1da18d3f, -0x19dc448e, 0x5c58a4a4, 0x1e38e2e7,
-            0x78e38b9d, 0x27586719, 0x36eda57f, 0x703aace7
-        )
-        private val RC30 = intArrayOf(
-            -0x4dec505b, -0x37b1416b, 0x4e608a22, 0x56d858fe,
-            0x343b138f, -0x2f13b1c3, 0x2ceb4882, -0x4c52ddf8
-        )
-        private val RC34 = intArrayOf(
-            -0x1fd73641, 0x44756f91, 0x7e8fce32, -0x6a9ab742,
-            -0x1e6e41e, 0x3cb226e5, 0x5944a28e, -0x5e3b3cab
-        )
+        private val RC00 = intArrayOf(0x303994a6, -0x3f19ad67, 0x6cc33a12, -0x23a967c2, 0x1e00108f, 0x7800423d, -0x70a4877e, -0x691e24ee)
+        private val RC04 = intArrayOf(-0x1fcc87e8, 0x441ba90d, 0x7f34d442, -0x6c76de81, -0x1a57431a, 0x5274baf4, 0x26889ba7, -0x65dd9163)
+        private val RC10 = intArrayOf(-0x4921ef13, 0x70f47aae, 0x0707a3d4, 0x1c1e8f51, 0x707a3d45, -0x514d7a9e, -0x4535ea77, 0x40a46f3e)
+        private val RC14 = intArrayOf(0x01685f3d, 0x05a17cf4, -0x42f63536, -0xbd8d4d8, 0x144ae5cc, -0x55851d5, 0x2e48f1c1, -0x46dc38fc)
+        private val RC20 = intArrayOf(-0x3df262e, 0x34552e25, 0x7ad8818f, -0x7bc789b6, -0x44921fce, -0x12487f38, -0x267b8caa, -0x5d387bcc)
+        private val RC24 = intArrayOf(-0x1da18d3f, -0x19dc448e, 0x5c58a4a4, 0x1e38e2e7, 0x78e38b9d, 0x27586719, 0x36eda57f, 0x703aace7)
+        private val RC30 = intArrayOf(-0x4dec505b, -0x37b1416b, 0x4e608a22, 0x56d858fe, 0x343b138f, -0x2f13b1c3, 0x2ceb4882, -0x4c52ddf8)
+        private val RC34 = intArrayOf(-0x1fd73641, 0x44756f91, 0x7e8fce32, -0x6a9ab742, -0x1e6e41e, 0x3cb226e5, 0x5944a28e, -0x5e3b3cab)
     }
 }

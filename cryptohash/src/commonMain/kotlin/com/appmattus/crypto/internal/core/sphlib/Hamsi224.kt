@@ -68,9 +68,6 @@ internal class Hamsi224 : HamsiSmallCore<Hamsi224>() {
                 0x2c204b61, 0x74686f6c, 0x69656b65, 0x20556e69
             )
          */
-        val iV = intArrayOf(
-            -0x3c698599, -0x3c4393e0, 0x4bc3bcc3, -0x583c4395,
-            0x2c204b61, 0x74686f6c, 0x69656b65, 0x20556e69
-        )
+        val iV = intArrayOf(-0x3c698599, -0x3c4393e0, 0x4bc3bcc3, -0x583c4395, 0x2c204b61, 0x74686f6c, 0x69656b65, 0x20556e69)
     }
 }

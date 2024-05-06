@@ -85,7 +85,7 @@ class UInt64Test {
         private fun divmod(lhs: UInt64, rhs: UInt64): Pair<UInt64, UInt64> {
             // Save some calculations /////////////////////
             if (rhs == UInt64(0u, 0u)) {
-                throw IllegalStateException("Error: division or modulus by 0")
+                error("Error: division or modulus by 0")
             } else if (rhs == UInt64(0u, 1u)) {
                 return Pair(lhs, UInt64(0u, 0u))
             } else if (lhs == rhs) {
@@ -149,7 +149,7 @@ class UInt64Test {
             return when {
                 r < 32 -> UInt64(low shl 32 - n or (high shr n), low shr n)
                 r >= 32 -> UInt64(low shr n % 32, 0u)
-                else -> throw IllegalStateException("unreachable")
+                else -> error("unreachable")
             }
         }
 
@@ -162,7 +162,7 @@ class UInt64Test {
             return when {
                 r < 32 -> UInt64(high shl n, low shl n or (high shr 32 - n))
                 r >= 32 -> UInt64(0u, high shl n % 32)
-                else -> throw IllegalStateException("unreachable")
+                else -> error("unreachable")
             }
         }
 

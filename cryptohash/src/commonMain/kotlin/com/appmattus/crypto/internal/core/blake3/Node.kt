@@ -82,7 +82,7 @@ internal class Node(
             }
             outputCounter += 1
         }
-        throw IllegalStateException("Uh oh something has gone horribly wrong. Please create an issue on https://github.com/rctcwyvrn/blake3")
+        error("Uh oh something has gone horribly wrong. Please create an issue on https://github.com/rctcwyvrn/blake3")
     }
 
     private fun floorDiv(x: Int, y: Int): Int {

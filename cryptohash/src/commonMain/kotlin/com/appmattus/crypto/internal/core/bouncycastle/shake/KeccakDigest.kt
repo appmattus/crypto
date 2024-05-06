@@ -125,7 +125,7 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
 
     private fun initSponge(rate: Int) {
         if (rate <= 0 || rate >= 1600 || rate % 64 != 0) {
-            throw IllegalStateException("invalid rate value")
+            error("invalid rate value")
         }
         this.rate = rate
         for (i in state.indices) {
@@ -139,10 +139,10 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
 
     protected fun absorb(data: Byte) {
         if (bitsInQueue % 8 != 0) {
-            throw IllegalStateException("attempt to absorb with odd length queue")
+            error("attempt to absorb with odd length queue")
         }
         if (squeezing) {
-            throw IllegalStateException("attempt to absorb while squeezing")
+            error("attempt to absorb while squeezing")
         }
         dataQueue[bitsInQueue ushr 3] = data
         if (8.let { bitsInQueue += it; bitsInQueue } == rate) {
@@ -153,10 +153,10 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
 
     protected fun absorb(data: ByteArray, off: Int, len: Int) {
         if (bitsInQueue % 8 != 0) {
-            throw IllegalStateException("attempt to absorb with odd length queue")
+            error("attempt to absorb with odd length queue")
         }
         if (squeezing) {
-            throw IllegalStateException("attempt to absorb while squeezing")
+            error("attempt to absorb while squeezing")
         }
         val bytesInQueue = bitsInQueue ushr 3
         val rateBytes = rate ushr 3
@@ -220,7 +220,7 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
             padAndSwitchToSqueezingPhase()
         }
         if (outputLength % 8 != 0L) {
-            throw IllegalStateException("outputLength not a multiple of 8")
+            error("outputLength not a multiple of 8")
         }
         var i: Long = 0
         while (i < outputLength) {

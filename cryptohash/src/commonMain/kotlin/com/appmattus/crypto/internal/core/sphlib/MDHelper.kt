@@ -87,14 +87,8 @@ internal abstract class MDHelper<D : MDHelper<D>>(
             encodeLEInt(currentLength.toInt(), countBuf, 0)
             encodeLEInt((currentLength ushr 32).toInt(), countBuf, 4)
         } else {
-            encodeBEInt(
-                (currentLength ushr 32).toInt(),
-                countBuf, lenlen - 8
-            )
-            encodeBEInt(
-                currentLength.toInt(),
-                countBuf, lenlen - 4
-            )
+            encodeBEInt((currentLength ushr 32).toInt(), countBuf, lenlen - 8)
+            encodeBEInt(currentLength.toInt(), countBuf, lenlen - 4)
         }
         val endLen = dataLen + lenlen + blen and (blen - 1).inv()
         update(fbyte)

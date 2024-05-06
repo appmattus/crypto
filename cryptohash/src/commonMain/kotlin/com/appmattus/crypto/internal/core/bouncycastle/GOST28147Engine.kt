@@ -110,13 +110,13 @@ internal class GOST28147Engine {
         outOff: Int
     ): Int {
         if (workingKey == null) {
-            throw IllegalStateException("GOST28147 engine not initialised")
+            error("GOST28147 engine not initialised")
         }
         if (inOff + blockSize > input.size) {
-            throw IllegalStateException("input buffer too short")
+            error("input buffer too short")
         }
         if (outOff + blockSize > out.size) {
-            throw IllegalStateException("output buffer too short")
+            error("output buffer too short")
         }
         gost28147(workingKey!!, input, inOff, out, outOff)
         return blockSize

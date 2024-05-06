@@ -75,7 +75,7 @@ internal fun uint128Times(v1: UInt128, v2: UInt128): UInt128 {
 @Suppress("ReturnCount")
 internal fun uint128DivMod(dividend: UInt128, divisor: UInt128): Pair<UInt128, UInt128> {
     if (divisor == UInt128.ZERO) {
-        throw IllegalStateException("Error: division or modulus by 0")
+        error("Error: division or modulus by 0")
     } else if (divisor == UInt128.ONE) {
         return Pair(dividend, UInt128.ZERO)
     } else if (dividend == divisor) {

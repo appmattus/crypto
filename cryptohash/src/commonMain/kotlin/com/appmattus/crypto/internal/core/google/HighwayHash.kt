@@ -358,7 +358,7 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
             64 -> longArrayOf(finalize64())
             128 -> finalize128()
             256 -> finalize256()
-            else -> throw IllegalStateException("Unsupported outputLengthBits ($outputLengthBits)")
+            else -> error("Unsupported outputLengthBits ($outputLengthBits)")
         }
 
         val digest = ByteArray(longDigest.size * 8)

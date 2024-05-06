@@ -69,10 +69,14 @@ internal class SHA384 : SHA2BigCore<SHA384>() {
     companion object {
         /** The initial value for SHA-384.  */
         private val initVal = longArrayOf(
-            -0x344462a23efa6128L, 0x629A292A367CD507L,
-            -0x6ea6fea5cf8f22e9L, 0x152FECD8F70E5939L,
-            0x67332667FFC00B31L, -0x714bb57897a7eaefL,
-            -0x24f3d1f29b067059L, 0x47B5481DBEFA4FA4L
+            -0x344462a23efa6128L,
+            0x629A292A367CD507L,
+            -0x6ea6fea5cf8f22e9L,
+            0x152FECD8F70E5939L,
+            0x67332667FFC00B31L,
+            -0x714bb57897a7eaefL,
+            -0x24f3d1f29b067059L,
+            0x47B5481DBEFA4FA4L
         )
     }
 }

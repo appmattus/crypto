@@ -62,9 +62,6 @@ internal class SHAvite224 : SHAviteSmallCore<SHAvite224>() {
 
     companion object {
         /** The initial value for SHAvite-224.  */
-        private val initVal = intArrayOf(
-            0x6774F31C, -0x66f51df0, -0x3782bd8c, -0x36ab9c8f,
-            0x62B2AEA8, 0x4B5801D8, 0x1B702860, -0x7bd0cfe9
-        )
+        private val initVal = intArrayOf(0x6774F31C, -0x66f51df0, -0x3782bd8c, -0x36ab9c8f, 0x62B2AEA8, 0x4B5801D8, 0x1B702860, -0x7bd0cfe9)
     }
 }

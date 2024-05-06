@@ -288,10 +288,15 @@ internal abstract class ECHOSmallCore<D : ECHOSmallCore<D>> : DigestEngine<D>() 
             mixColumn(12, 13, 14, 15)
         }
         for (u in 0..15) {
-            v[u] = v[u] xor (decodeLEInt(data, u * 4)
-                    xor decodeLEInt(data, u * 4 + 64)
-                    xor decodeLEInt(data, u * 4 + 128)
-                    xor w[u] xor w[u + 16] xor w[u + 32] xor w[u + 48])
+            v[u] = v[u] xor (
+                    decodeLEInt(data, u * 4) xor
+                            decodeLEInt(data, u * 4 + 64) xor
+                            decodeLEInt(data, u * 4 + 128) xor
+                            w[u] xor
+                            w[u + 16] xor
+                            w[u + 32] xor
+                            w[u + 48]
+                    )
         }
     }
 

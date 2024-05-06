@@ -77,10 +77,7 @@ internal class RipeMD128 : MDHelper<RipeMD128>(true, 8) {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         makeMDPadding()
-        for (i in 0..3) encodeLEInt(
-            currentVal[i],
-            output, outputOffset + 4 * i
-        )
+        for (i in 0..3) encodeLEInt(currentVal[i], output, outputOffset + 4 * i)
     }
 
     override fun doInit() {
@@ -127,17 +124,13 @@ internal class RipeMD128 : MDHelper<RipeMD128>(true, 8) {
         run {
             var i = 0
             while (i < 16) {
-                var t1 = (a1 + (b1 xor c1 xor d1) +
-                        x[i + 0])
+                var t1 = (a1 + (b1 xor c1 xor d1) + x[i + 0])
                 a1 = t1 shl s1[i + 0] or (t1 ushr 32 - s1[i + 0])
-                t1 = (d1 + (a1 xor b1 xor c1) +
-                        x[i + 1])
+                t1 = (d1 + (a1 xor b1 xor c1) + x[i + 1])
                 d1 = t1 shl s1[i + 1] or (t1 ushr 32 - s1[i + 1])
-                t1 = (c1 + (d1 xor a1 xor b1) +
-                        x[i + 2])
+                t1 = (c1 + (d1 xor a1 xor b1) + x[i + 2])
                 c1 = t1 shl s1[i + 2] or (t1 ushr 32 - s1[i + 2])
-                t1 = (b1 + (c1 xor d1 xor a1) +
-                        x[i + 3])
+                t1 = (b1 + (c1 xor d1 xor a1) + x[i + 3])
                 b1 = t1 shl s1[i + 3] or (t1 ushr 32 - s1[i + 3])
                 i += 4
             }
@@ -145,17 +138,13 @@ internal class RipeMD128 : MDHelper<RipeMD128>(true, 8) {
         run {
             var i = 16
             while (i < 32) {
-                var t1 = (a1 + (c1 xor d1 and b1 xor d1) +
-                        x[r1[i + 0]] + 0x5A827999)
+                var t1 = (a1 + (c1 xor d1 and b1 xor d1) + x[r1[i + 0]] + 0x5A827999)
                 a1 = t1 shl s1[i + 0] or (t1 ushr 32 - s1[i + 0])
-                t1 = (d1 + (b1 xor c1 and a1 xor c1) +
-                        x[r1[i + 1]] + 0x5A827999)
+                t1 = (d1 + (b1 xor c1 and a1 xor c1) + x[r1[i + 1]] + 0x5A827999)
                 d1 = t1 shl s1[i + 1] or (t1 ushr 32 - s1[i + 1])
-                t1 = (c1 + (a1 xor b1 and d1 xor b1) +
-                        x[r1[i + 2]] + 0x5A827999)
+                t1 = (c1 + (a1 xor b1 and d1 xor b1) + x[r1[i + 2]] + 0x5A827999)
                 c1 = t1 shl s1[i + 2] or (t1 ushr 32 - s1[i + 2])
-                t1 = (b1 + (d1 xor a1 and c1 xor a1) +
-                        x[r1[i + 3]] + 0x5A827999)
+                t1 = (b1 + (d1 xor a1 and c1 xor a1) + x[r1[i + 3]] + 0x5A827999)
                 b1 = t1 shl s1[i + 3] or (t1 ushr 32 - s1[i + 3])
                 i += 4
             }
@@ -163,17 +152,13 @@ internal class RipeMD128 : MDHelper<RipeMD128>(true, 8) {
         run {
             var i = 32
             while (i < 48) {
-                var t1 = (a1 + (b1 or c1.inv() xor d1) +
-                        x[r1[i + 0]] + 0x6ED9EBA1)
+                var t1 = (a1 + (b1 or c1.inv() xor d1) + x[r1[i + 0]] + 0x6ED9EBA1)
                 a1 = t1 shl s1[i + 0] or (t1 ushr 32 - s1[i + 0])
-                t1 = (d1 + (a1 or b1.inv() xor c1) +
-                        x[r1[i + 1]] + 0x6ED9EBA1)
+                t1 = (d1 + (a1 or b1.inv() xor c1) + x[r1[i + 1]] + 0x6ED9EBA1)
                 d1 = t1 shl s1[i + 1] or (t1 ushr 32 - s1[i + 1])
-                t1 = (c1 + (d1 or a1.inv() xor b1) +
-                        x[r1[i + 2]] + 0x6ED9EBA1)
+                t1 = (c1 + (d1 or a1.inv() xor b1) + x[r1[i + 2]] + 0x6ED9EBA1)
                 c1 = t1 shl s1[i + 2] or (t1 ushr 32 - s1[i + 2])
-                t1 = (b1 + (c1 or d1.inv() xor a1) +
-                        x[r1[i + 3]] + 0x6ED9EBA1)
+                t1 = (b1 + (c1 or d1.inv() xor a1) + x[r1[i + 3]] + 0x6ED9EBA1)
                 b1 = t1 shl s1[i + 3] or (t1 ushr 32 - s1[i + 3])
                 i += 4
             }
@@ -181,17 +166,13 @@ internal class RipeMD128 : MDHelper<RipeMD128>(true, 8) {
         run {
             var i = 48
             while (i < 64) {
-                var t1 = (a1 + (b1 xor c1 and d1 xor c1) +
-                        x[r1[i + 0]] + -0x70e44324)
+                var t1 = (a1 + (b1 xor c1 and d1 xor c1) + x[r1[i + 0]] + -0x70e44324)
                 a1 = t1 shl s1[i + 0] or (t1 ushr 32 - s1[i + 0])
-                t1 = (d1 + (a1 xor b1 and c1 xor b1) +
-                        x[r1[i + 1]] + -0x70e44324)
+                t1 = (d1 + (a1 xor b1 and c1 xor b1) + x[r1[i + 1]] + -0x70e44324)
                 d1 = t1 shl s1[i + 1] or (t1 ushr 32 - s1[i + 1])
-                t1 = (c1 + (d1 xor a1 and b1 xor a1) +
-                        x[r1[i + 2]] + -0x70e44324)
+                t1 = (c1 + (d1 xor a1 and b1 xor a1) + x[r1[i + 2]] + -0x70e44324)
                 c1 = t1 shl s1[i + 2] or (t1 ushr 32 - s1[i + 2])
-                t1 = (b1 + (c1 xor d1 and a1 xor d1) +
-                        x[r1[i + 3]] + -0x70e44324)
+                t1 = (b1 + (c1 xor d1 and a1 xor d1) + x[r1[i + 3]] + -0x70e44324)
                 b1 = t1 shl s1[i + 3] or (t1 ushr 32 - s1[i + 3])
                 i += 4
             }
@@ -199,17 +180,13 @@ internal class RipeMD128 : MDHelper<RipeMD128>(true, 8) {
         run {
             var i = 0
             while (i < 16) {
-                var t2 = (a2 + (b2 xor c2 and d2 xor c2) +
-                        x[r2[i + 0]] + 0x50A28BE6)
+                var t2 = (a2 + (b2 xor c2 and d2 xor c2) + x[r2[i + 0]] + 0x50A28BE6)
                 a2 = t2 shl s2[i + 0] or (t2 ushr 32 - s2[i + 0])
-                t2 = (d2 + (a2 xor b2 and c2 xor b2) +
-                        x[r2[i + 1]] + 0x50A28BE6)
+                t2 = (d2 + (a2 xor b2 and c2 xor b2) + x[r2[i + 1]] + 0x50A28BE6)
                 d2 = t2 shl s2[i + 1] or (t2 ushr 32 - s2[i + 1])
-                t2 = (c2 + (d2 xor a2 and b2 xor a2) +
-                        x[r2[i + 2]] + 0x50A28BE6)
+                t2 = (c2 + (d2 xor a2 and b2 xor a2) + x[r2[i + 2]] + 0x50A28BE6)
                 c2 = t2 shl s2[i + 2] or (t2 ushr 32 - s2[i + 2])
-                t2 = (b2 + (c2 xor d2 and a2 xor d2) +
-                        x[r2[i + 3]] + 0x50A28BE6)
+                t2 = (b2 + (c2 xor d2 and a2 xor d2) + x[r2[i + 3]] + 0x50A28BE6)
                 b2 = t2 shl s2[i + 3] or (t2 ushr 32 - s2[i + 3])
                 i += 4
             }
@@ -217,17 +194,13 @@ internal class RipeMD128 : MDHelper<RipeMD128>(true, 8) {
         run {
             var i = 16
             while (i < 32) {
-                var t2 = (a2 + (b2 or c2.inv() xor d2) +
-                        x[r2[i + 0]] + 0x5C4DD124)
+                var t2 = (a2 + (b2 or c2.inv() xor d2) + x[r2[i + 0]] + 0x5C4DD124)
                 a2 = t2 shl s2[i + 0] or (t2 ushr 32 - s2[i + 0])
-                t2 = (d2 + (a2 or b2.inv() xor c2) +
-                        x[r2[i + 1]] + 0x5C4DD124)
+                t2 = (d2 + (a2 or b2.inv() xor c2) + x[r2[i + 1]] + 0x5C4DD124)
                 d2 = t2 shl s2[i + 1] or (t2 ushr 32 - s2[i + 1])
-                t2 = (c2 + (d2 or a2.inv() xor b2) +
-                        x[r2[i + 2]] + 0x5C4DD124)
+                t2 = (c2 + (d2 or a2.inv() xor b2) + x[r2[i + 2]] + 0x5C4DD124)
                 c2 = t2 shl s2[i + 2] or (t2 ushr 32 - s2[i + 2])
-                t2 = (b2 + (c2 or d2.inv() xor a2) +
-                        x[r2[i + 3]] + 0x5C4DD124)
+                t2 = (b2 + (c2 or d2.inv() xor a2) + x[r2[i + 3]] + 0x5C4DD124)
                 b2 = t2 shl s2[i + 3] or (t2 ushr 32 - s2[i + 3])
                 i += 4
             }
@@ -235,34 +208,26 @@ internal class RipeMD128 : MDHelper<RipeMD128>(true, 8) {
         run {
             var i = 32
             while (i < 48) {
-                var t2 = (a2 + (c2 xor d2 and b2 xor d2) +
-                        x[r2[i + 0]] + 0x6D703EF3)
+                var t2 = (a2 + (c2 xor d2 and b2 xor d2) + x[r2[i + 0]] + 0x6D703EF3)
                 a2 = t2 shl s2[i + 0] or (t2 ushr 32 - s2[i + 0])
-                t2 = (d2 + (b2 xor c2 and a2 xor c2) +
-                        x[r2[i + 1]] + 0x6D703EF3)
+                t2 = (d2 + (b2 xor c2 and a2 xor c2) + x[r2[i + 1]] + 0x6D703EF3)
                 d2 = t2 shl s2[i + 1] or (t2 ushr 32 - s2[i + 1])
-                t2 = (c2 + (a2 xor b2 and d2 xor b2) +
-                        x[r2[i + 2]] + 0x6D703EF3)
+                t2 = (c2 + (a2 xor b2 and d2 xor b2) + x[r2[i + 2]] + 0x6D703EF3)
                 c2 = t2 shl s2[i + 2] or (t2 ushr 32 - s2[i + 2])
-                t2 = (b2 + (d2 xor a2 and c2 xor a2) +
-                        x[r2[i + 3]] + 0x6D703EF3)
+                t2 = (b2 + (d2 xor a2 and c2 xor a2) + x[r2[i + 3]] + 0x6D703EF3)
                 b2 = t2 shl s2[i + 3] or (t2 ushr 32 - s2[i + 3])
                 i += 4
             }
         }
         var i = 48
         while (i < 64) {
-            var t2 = (a2 + (b2 xor c2 xor d2) +
-                    x[r2[i + 0]])
+            var t2 = (a2 + (b2 xor c2 xor d2) + x[r2[i + 0]])
             a2 = t2 shl s2[i + 0] or (t2 ushr 32 - s2[i + 0])
-            t2 = (d2 + (a2 xor b2 xor c2) +
-                    x[r2[i + 1]])
+            t2 = (d2 + (a2 xor b2 xor c2) + x[r2[i + 1]])
             d2 = t2 shl s2[i + 1] or (t2 ushr 32 - s2[i + 1])
-            t2 = (c2 + (d2 xor a2 xor b2) +
-                    x[r2[i + 2]])
+            t2 = (c2 + (d2 xor a2 xor b2) + x[r2[i + 2]])
             c2 = t2 shl s2[i + 2] or (t2 ushr 32 - s2[i + 2])
-            t2 = (b2 + (c2 xor d2 xor a2) +
-                    x[r2[i + 3]])
+            t2 = (b2 + (c2 xor d2 xor a2) + x[r2[i + 3]])
             b2 = t2 shl s2[i + 3] or (t2 ushr 32 - s2[i + 3])
             i += 4
         }

@@ -152,9 +152,7 @@ internal class Haraka512_256 : HarakaCore<Haraka512_256> {
     }
 
     override fun update(input: ByteArray, offset: Int, length: Int) {
-        if (off + length > 64) {
-            throw IllegalArgumentException("total input cannot be more than 64 bytes")
-        }
+        require(off + length <= 64) { "total input cannot be more than 64 bytes" }
         input.copyInto(buffer, off, offset, offset + length)
         off += length
     }
