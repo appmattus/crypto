@@ -107,8 +107,8 @@ import kotlin.native.concurrent.SharedImmutable
  * endianness.
  */
 internal data class XXH128_hash_t(
-    val low64: XXH64_hash_t, /*!< `value & 0xFFFFFFFFFFFFFFFF` */
-    val high64: XXH64_hash_t /*!< `value >> 64` */
+    val low64: XXH64_hash_t, // value & 0xFFFFFFFFFFFFFFFF
+    val high64: XXH64_hash_t // value >> 64
 )
 
 /*******   Canonical representation   *******/
@@ -690,7 +690,7 @@ private fun XXH3_accumulate_512_scalar(acc: LongArray, input: ByteArray, inputOf
     for (i in 0 until XXH_ACC_NB) {
         val data_val: xxh_u64 = XXH_readLE64(input, inputOffset + 8 * i)
         val data_key: xxh_u64 = data_val xor XXH_readLE64(secret, secretOffset + i * 8)
-        acc[i xor 1] += data_val /* swap adjacent lanes */
+        acc[i xor 1] += data_val // swap adjacent lanes
         acc[i] += XXH_mult32to64((data_key and 0xffffffff).toInt(), (data_key ushr 32).toInt())
     }
 }
@@ -1059,7 +1059,7 @@ private fun XXH3_consumeStripes(
 ): size_t {
     @Suppress("NAME_SHADOWING")
     var nbStripesSoFarPtr = nbStripesSoFarPtr
-    XXH_ASSERT(nbStripes <= nbStripesPerBlock) /* can handle max 1 scramble per invocation */
+    XXH_ASSERT(nbStripes <= nbStripesPerBlock) // can handle max 1 scramble per invocation
     XXH_ASSERT(nbStripesSoFarPtr < nbStripesPerBlock)
     if (nbStripesPerBlock - nbStripesSoFarPtr <= nbStripes) {
         /* need a scrambling operation */
@@ -1094,14 +1094,14 @@ private fun XXH3_update(
     state.totalLen += len
     XXH_ASSERT(state.bufferedSize <= XXH3_INTERNALBUFFER_SIZE)
 
-    if (state.bufferedSize + len <= XXH3_INTERNALBUFFER_SIZE) { /* fill in tmp buffer */
+    if (state.bufferedSize + len <= XXH3_INTERNALBUFFER_SIZE) { // fill in tmp buffer
         XXH_memcpy(state.buffer, state.bufferedSize, input, bInput, len)
         state.bufferedSize += len
         return XXH_errorcode.XXH_OK
     }
     /* total input is now > XXH3_INTERNALBUFFER_SIZE */
 
-    XXH_ASSERT(XXH3_INTERNALBUFFER_SIZE % XXH_STRIPE_LEN == 0) /* clean multiple */
+    XXH_ASSERT(XXH3_INTERNALBUFFER_SIZE % XXH_STRIPE_LEN == 0) // clean multiple
 
     /*
      * Internal buffer is partially filled (always, except at beginning)
@@ -1179,10 +1179,10 @@ private fun XXH3_digest_long(acc: LongArray, state: XXH3_state_t, secret: ByteAr
             secret,
             state.secretLimit - XXH_SECRET_LASTACC_START
         )
-    } else { /* bufferedSize < XXH_STRIPE_LEN */
+    } else { // bufferedSize < XXH_STRIPE_LEN
         val lastStripe = ByteArray(XXH_STRIPE_LEN)
         val catchupSize: size_t = XXH_STRIPE_LEN - state.bufferedSize
-        XXH_ASSERT(state.bufferedSize > 0) /* there is always some input buffered */
+        XXH_ASSERT(state.bufferedSize > 0) // there is always some input buffered
         XXH_memcpy(lastStripe, 0, state.buffer, state.buffer.size - catchupSize, catchupSize)
         XXH_memcpy(lastStripe, catchupSize, state.buffer, 0, state.bufferedSize)
         XXH3_accumulate_512(
@@ -1801,7 +1801,7 @@ private val XXH_PRIME64_5: Long = 0x27D4EB2F165667C5UL.toLong()
  * XXH3 default settings
  * ========================================== */
 
-private const val XXH_SECRET_DEFAULT_SIZE: Int = 192 /* minimum XXH3_SECRET_SIZE_MIN */
+private const val XXH_SECRET_DEFAULT_SIZE: Int = 192 // minimum XXH3_SECRET_SIZE_MIN
 
 /** Pseudorandom secret taken directly from FARSH. */
 @SharedImmutable
@@ -1840,7 +1840,7 @@ private const val XXH3_MIDSIZE_LASTOFFSET: Int = 17
 /* =======     Long Keys     ======= */
 
 private const val XXH_STRIPE_LEN: Int = 64
-private const val XXH_SECRET_CONSUME_RATE: Int = 8 /* nb of secret bytes consumed at each accumulation */
+private const val XXH_SECRET_CONSUME_RATE: Int = 8 // nb of secret bytes consumed at each accumulation
 private const val XXH_ACC_NB: Int = (XXH_STRIPE_LEN / 8)
 
 private const val XXH3_INTERNALBUFFER_STRIPES = (XXH3_INTERNALBUFFER_SIZE / XXH_STRIPE_LEN)

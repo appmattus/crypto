@@ -375,14 +375,14 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                  * Permute schedule has a 2 round cycle, so permutes are inlined in the mix
                  * operations in each 4 round block.
                  */
-                b1 = rotlXor(b1, ROTATION_0_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_0_1, b3.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_1_0, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_1_1, b1.let { b2 += it; b2 })
-                b1 = rotlXor(b1, ROTATION_2_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_2_1, b3.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_3_0, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_3_1, b1.let { b2 += it; b2 })
+                b1 = rotlXor(b1, ROTATION_0_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_0_1, (b2 + b3).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_1_0, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_1_1, (b2 + b1).also { b2 = it })
+                b1 = rotlXor(b1, ROTATION_2_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_2_1, (b2 + b3).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_3_0, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_3_1, (b2 + b1).also { b2 = it })
 
                 /*
                  * Subkey injection for first 4 rounds.
@@ -395,14 +395,14 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                 /*
                  * 4 more rounds of mix/permute
                  */
-                b1 = rotlXor(b1, ROTATION_4_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_4_1, b3.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_5_0, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_5_1, b1.let { b2 += it; b2 })
-                b1 = rotlXor(b1, ROTATION_6_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_6_1, b3.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_7_0, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_7_1, b1.let { b2 += it; b2 })
+                b1 = rotlXor(b1, ROTATION_4_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_4_1, (b2 + b3).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_5_0, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_5_1, (b2 + b1).also { b2 = it })
+                b1 = rotlXor(b1, ROTATION_6_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_6_1, (b2 + b3).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_7_0, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_7_1, (b2 + b1).also { b2 = it })
 
                 /*
                  * Subkey injection for next 4 rounds.
@@ -579,6 +579,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
              * inlining constant rotation values (avoiding array index/lookup).
              */
             var d = 1
+            @Suppress("Wrapping")
             while (d < ROUNDS_512 / 4) {
                 val dm9 = mod9[d]
                 val dm3 = mod3[d]
@@ -589,22 +590,22 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                  * Permute schedule has a 4 round cycle, so permutes are inlined in the mix
                  * operations in each 4 round block.
                  */
-                b1 = rotlXor(b1, ROTATION_0_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_0_1, b3.let { b2 += it; b2 })
-                b5 = rotlXor(b5, ROTATION_0_2, b5.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_0_3, b7.let { b6 += it; b6 })
-                b1 = rotlXor(b1, ROTATION_1_0, b1.let { b2 += it; b2 })
-                b7 = rotlXor(b7, ROTATION_1_1, b7.let { b4 += it; b4 })
-                b5 = rotlXor(b5, ROTATION_1_2, b5.let { b6 += it; b6 })
-                b3 = rotlXor(b3, ROTATION_1_3, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_2_0, b1.let { b4 += it; b4 })
-                b3 = rotlXor(b3, ROTATION_2_1, b3.let { b6 += it; b6 })
-                b5 = rotlXor(b5, ROTATION_2_2, b5.let { b0 += it; b0 })
-                b7 = rotlXor(b7, ROTATION_2_3, b7.let { b2 += it; b2 })
-                b1 = rotlXor(b1, ROTATION_3_0, b1.let { b6 += it; b6 })
-                b7 = rotlXor(b7, ROTATION_3_1, b7.let { b0 += it; b0 })
-                b5 = rotlXor(b5, ROTATION_3_2, b5.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_3_3, b3.let { b4 += it; b4 })
+                b1 = rotlXor(b1, ROTATION_0_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_0_1, (b2 + b3).also { b2 = it })
+                b5 = rotlXor(b5, ROTATION_0_2, (b4 + b5).also { b4 = it })
+                b7 = rotlXor(b7, ROTATION_0_3, (b6 + b7).also { b6 = it })
+                b1 = rotlXor(b1, ROTATION_1_0, (b2 + b1).also { b2 = it })
+                b7 = rotlXor(b7, ROTATION_1_1, (b4 + b7).also { b4 = it })
+                b5 = rotlXor(b5, ROTATION_1_2, (b6 + b5).also { b6 = it })
+                b3 = rotlXor(b3, ROTATION_1_3, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_2_0, (b4 + b1).also { b4 = it })
+                b3 = rotlXor(b3, ROTATION_2_1, (b6 + b3).also { b6 = it })
+                b5 = rotlXor(b5, ROTATION_2_2, (b0 + b5).also { b0 = it })
+                b7 = rotlXor(b7, ROTATION_2_3, (b2 + b7).also { b2 = it })
+                b1 = rotlXor(b1, ROTATION_3_0, (b6 + b1).also { b6 = it })
+                b7 = rotlXor(b7, ROTATION_3_1, (b0 + b7).also { b0 = it })
+                b5 = rotlXor(b5, ROTATION_3_2, (b2 + b5).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_3_3, (b4 + b3).also { b4 = it })
 
                 /*
                  * Subkey injection for first 4 rounds.
@@ -621,22 +622,22 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                 /*
                  * 4 more rounds of mix/permute
                  */
-                b1 = rotlXor(b1, ROTATION_4_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_4_1, b3.let { b2 += it; b2 })
-                b5 = rotlXor(b5, ROTATION_4_2, b5.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_4_3, b7.let { b6 += it; b6 })
-                b1 = rotlXor(b1, ROTATION_5_0, b1.let { b2 += it; b2 })
-                b7 = rotlXor(b7, ROTATION_5_1, b7.let { b4 += it; b4 })
-                b5 = rotlXor(b5, ROTATION_5_2, b5.let { b6 += it; b6 })
-                b3 = rotlXor(b3, ROTATION_5_3, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_6_0, b1.let { b4 += it; b4 })
-                b3 = rotlXor(b3, ROTATION_6_1, b3.let { b6 += it; b6 })
-                b5 = rotlXor(b5, ROTATION_6_2, b5.let { b0 += it; b0 })
-                b7 = rotlXor(b7, ROTATION_6_3, b7.let { b2 += it; b2 })
-                b1 = rotlXor(b1, ROTATION_7_0, b1.let { b6 += it; b6 })
-                b7 = rotlXor(b7, ROTATION_7_1, b7.let { b0 += it; b0 })
-                b5 = rotlXor(b5, ROTATION_7_2, b5.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_7_3, b3.let { b4 += it; b4 })
+                b1 = rotlXor(b1, ROTATION_4_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_4_1, (b2 + b3).also { b2 = it })
+                b5 = rotlXor(b5, ROTATION_4_2, (b4 + b5).also { b4 = it })
+                b7 = rotlXor(b7, ROTATION_4_3, (b6 + b7).also { b6 = it })
+                b1 = rotlXor(b1, ROTATION_5_0, (b2 + b1).also { b2 = it })
+                b7 = rotlXor(b7, ROTATION_5_1, (b4 + b7).also { b4 = it })
+                b5 = rotlXor(b5, ROTATION_5_2, (b6 + b5).also { b6 = it })
+                b3 = rotlXor(b3, ROTATION_5_3, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_6_0, (b4 + b1).also { b4 = it })
+                b3 = rotlXor(b3, ROTATION_6_1, (b6 + b3).also { b6 = it })
+                b5 = rotlXor(b5, ROTATION_6_2, (b0 + b5).also { b0 = it })
+                b7 = rotlXor(b7, ROTATION_6_3, (b2 + b7).also { b2 = it })
+                b1 = rotlXor(b1, ROTATION_7_0, (b6 + b1).also { b6 = it })
+                b7 = rotlXor(b7, ROTATION_7_1, (b0 + b7).also { b0 = it })
+                b5 = rotlXor(b5, ROTATION_7_2, (b2 + b5).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_7_3, (b4 + b3).also { b4 = it })
 
                 /*
                  * Subkey injection for next 4 rounds.
@@ -905,6 +906,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
              * inlining constant rotation values (avoiding array index/lookup).
              */
             var d = 1
+            @Suppress("Wrapping")
             while (d < ROUNDS_1024 / 4) {
                 val dm17 = mod17[d]
                 val dm3 = mod3[d]

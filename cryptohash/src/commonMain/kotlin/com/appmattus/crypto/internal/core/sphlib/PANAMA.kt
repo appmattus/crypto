@@ -150,10 +150,10 @@ internal class PANAMA : DigestEngine<PANAMA>() {
     override fun doInit() {
         buffer = IntArray(256)
         /*
-		 * engineReset() is not needed because in Java, "int"
-		 * variables and arrays of "int" are initialized upon
-		 * creation to the correct value (full of zeroes).
-		 */
+         * engineReset() is not needed because in Java, "int"
+         * variables and arrays of "int" are initialized upon
+         * creation to the correct value (full of zeroes).
+         */
     }
 
     override fun processBlock(data: ByteArray) {
@@ -170,9 +170,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
 
     @Suppress("JoinDeclarationAndAssignment", "LongMethod")
     private fun oneStep(push: Boolean) {
-        /*
-		 * Buffer update.
-		 */
+        // Buffer update.
         val ptr0 = bufferPtr
         val ptr24 = ptr0 - 64 and 248
         val ptr31 = ptr0 - 8 and 248
@@ -213,9 +211,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         }
         bufferPtr = ptr31
 
-        /*
-		 * Gamma transform.
-		 */
+        // Gamma transform.
         val g0: Int
         val g1: Int
         val g2: Int
@@ -251,9 +247,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         g15 = state15 xor (state16 or state0.inv())
         g16 = state16 xor (state0 or state1.inv())
 
-        /*
-		 * Pi transform.
-		 */
+        // Pi transform.
         val p0: Int
         val p1: Int
         val p2: Int
@@ -289,9 +283,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         p15 = g3 shl 24 or (g3 ushr 32 - 24)
         p16 = g10 shl 8 or (g10 ushr 32 - 8)
 
-        /*
-		 * Theta transform.
-		 */
+        // Theta transform.
         val t0: Int
         val t1: Int
         val t2: Int
@@ -327,9 +319,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         t15 = p15 xor p16 xor p2
         t16 = p16 xor p0 xor p3
 
-        /*
-		 * Sigma transform.
-		 */
+        // Sigma transform.
         val ptr16 = ptr0 xor 128
         state0 = t0 xor 1
         if (push) {

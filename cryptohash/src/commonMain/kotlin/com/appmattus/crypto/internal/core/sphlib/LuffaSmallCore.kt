@@ -459,6 +459,7 @@ internal abstract class LuffaSmallCore<D : LuffaSmallCore<D>> : DigestEngine<D>(
         return "Luffa-" + (digestLength shl 3)
     }
 
+    @Suppress("PropertyWrapping")
     companion object {
         private val IV = intArrayOf(
             0x6d251e69,

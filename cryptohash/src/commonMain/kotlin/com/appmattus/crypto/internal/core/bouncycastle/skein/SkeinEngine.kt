@@ -645,7 +645,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
     }
 
     fun reset(other: SkeinEngine) {
-        require(blockSize == other.blockSize && outputSize == other.outputSize) { "Incompatible parameters in provided SkeinEngine." }
+        require(blockSize == other.blockSize && outputSize == other.outputSize) {
+            "Incompatible parameters in provided SkeinEngine."
+        }
         copyIn(other)
     }
 

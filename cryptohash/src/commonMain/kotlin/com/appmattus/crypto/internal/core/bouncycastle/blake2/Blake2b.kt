@@ -98,10 +98,10 @@ internal class Blake2b : Digest<Blake2b> {
     // Because this class does not implement the Tree Hashing Mode,
     // these parameters can be treated as constants (see init() function)
     /*
-	 * private int fanout = 1; // 0-255 private int depth = 1; // 1 - 255
-	 * private int leafLength= 0; private long nodeOffset = 0L; private int
-	 * nodeDepth = 0; private int innerHashLength = 0;
-	 */
+     * private int fanout = 1; // 0-255 private int depth = 1; // 1 - 255
+     * private int leafLength= 0; private long nodeOffset = 0L; private int
+     * nodeDepth = 0; private int innerHashLength = 0;
+     */
     // whenever this buffer overflows, it will be processed
     // in the compress() function.
     // For performance issues, long messages will not use this buffer.
@@ -141,7 +141,9 @@ internal class Blake2b : Digest<Blake2b> {
     // For Tree Hashing Mode, not used here:
     // private long f1 = 0L; // finalization flag, for last node: ~0L
     constructor(digestSize: Int = 512) {
-        require(!(digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)) { "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512" }
+        require(!(digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)) {
+            "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512"
+        }
         buffer = ByteArray(blockLength)
         keyLength = 0
         this.digestSize = digestSize / 8
@@ -183,7 +185,9 @@ internal class Blake2b : Digest<Blake2b> {
      * @param personalization 16 bytes or null
      */
     constructor(key: ByteArray?, digestSize: Int, salt: ByteArray?, personalization: ByteArray?) {
-        require(!(digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)) { "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512" }
+        require(!(digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)) {
+            "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512"
+        }
         this.digestSize = digestSize / 8
 
         buffer = ByteArray(blockLength)
@@ -480,6 +484,7 @@ internal class Blake2b : Digest<Blake2b> {
                     parameters.salt,
                     parameters.personalisation
                 )
+
                 else -> Blake2b(parameters.outputSizeBits)
             }
         }

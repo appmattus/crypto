@@ -11,9 +11,7 @@ class HmacBMW224Test {
      */
     @Test
     fun testHmacBmw224() {
-        /*
-		 * From Blue Midnight Wish specification.
-		 */
+        // From Blue Midnight Wish specification.
         testHmac(
             Algorithm.BMW224,
             "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F202122232425262728292A2B2C2D2E2F303132333435363738393A3B3C3D3E3F",

@@ -163,23 +163,17 @@ abstract class SHAKE128Test {
             val digest = dig()
             val buffer = ByteArray(ref.length / 2)
 
-            /*
-         * First test the hashing itself.
-         */
+            // First test the hashing itself.
             digest.update(data)
             digest.digest(buffer, 0, buffer.size)
             assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
-            /*
-         * Now the update() API; this also exercises auto-reset.
-         */
+            // Now the update() API; this also exercises auto-reset.
             for (i in data.indices) digest.update(data[i])
             digest.digest(buffer, 0, buffer.size)
             assertEquals(ref.lowercase(), buffer.toHexString().lowercase())
 
-            /*
-         * The cloning API.
-         */
+            // The cloning API.
             val blen = data.size
             digest.update(data, 0, blen / 2)
             val dig2 = digest.copy()

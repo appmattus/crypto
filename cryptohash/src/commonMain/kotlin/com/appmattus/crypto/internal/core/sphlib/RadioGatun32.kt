@@ -116,6 +116,7 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
         var a17 = a[17]
         var a18 = a[18]
         var dp = 0
+        @Suppress("Wrapping")
         for (mk in 12 downTo 0) {
             val p0 = decodeLEInt(data, dp + 0)
             val p1 = decodeLEInt(data, dp + 4)
@@ -396,26 +397,26 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
         }
 
         /* not needed
-		a[ 0] = a00;
-		a[ 1] = a01;
-		a[ 2] = a02;
-		a[ 3] = a03;
-		a[ 4] = a04;
-		a[ 5] = a05;
-		a[ 6] = a06;
-		a[ 7] = a07;
-		a[ 8] = a08;
-		a[ 9] = a09;
-		a[10] = a10;
-		a[11] = a11;
-		a[12] = a12;
-		a[13] = a13;
-		a[14] = a14;
-		a[15] = a15;
-		a[16] = a16;
-		a[17] = a17;
-		a[18] = a18;
-		*/
+           a[ 0] = a00;
+           a[ 1] = a01;
+           a[ 2] = a02;
+           a[ 3] = a03;
+           a[ 4] = a04;
+           a[ 5] = a05;
+           a[ 6] = a06;
+           a[ 7] = a07;
+           a[ 8] = a08;
+           a[ 9] = a09;
+           a[10] = a10;
+           a[11] = a11;
+           a[12] = a12;
+           a[13] = a13;
+           a[14] = a14;
+           a[15] = a15;
+           a[16] = a16;
+           a[17] = a17;
+           a[18] = a18;
+         */
     }
 
     override fun toString() = Algorithm.RadioGatun32.algorithmName

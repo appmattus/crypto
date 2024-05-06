@@ -147,6 +147,7 @@ internal class Wyhash(
 
     companion object {
         // Default secret parameters
+        @Suppress("PropertyWrapping")
         val wyp: List<ULong> = listOf(0xa0761d6478bd642fuL, 0xe7037ed1a0b428dbuL, 0x8ebc6af09c88c6e3uL, 0x589965cc75374cc3uL)
 
         // Make your own secret

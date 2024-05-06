@@ -87,14 +87,14 @@ internal class MD4 : MDHelper<MD4>(true, 8) {
     @Suppress("JoinDeclarationAndAssignment", "LongMethod")
     override fun processBlock(data: ByteArray) {
         /*
-		 * This method could have been made simpler by using
-		 * external methods for 32-bit decoding, or the round
-		 * functions F, G and H. However, it seems that the JIT
-		 * compiler from Sun's JDK decides not to inline those
-		 * methods, although it could (they are private final,
-		 * hence cannot be overridden) and it would yield better
-		 * performance.
-		 */
+         * This method could have been made simpler by using
+         * external methods for 32-bit decoding, or the round
+         * functions F, G and H. However, it seems that the JIT
+         * compiler from Sun's JDK decides not to inline those
+         * methods, although it could (they are private final,
+         * hence cannot be overridden) and it would yield better
+         * performance.
+         */
         var a = currentVal[0]
         var b = currentVal[1]
         var c = currentVal[2]

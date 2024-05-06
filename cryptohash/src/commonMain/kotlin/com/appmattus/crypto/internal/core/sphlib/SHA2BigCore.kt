@@ -110,12 +110,12 @@ internal abstract class SHA2BigCore<D : SHA2BigCore<D>> : MDHelper<D>(false, 16)
         }
         for (i in 0..79) {
             /*
-			 * Microsoft JVM (old JVM with IE 5.5) has trouble
-			 * with complex expressions involving the "long"
-			 * type. Hence, we split these expressions into
-			 * simpler elementary expressions. Such a split
-			 * should not harm recent JDK optimizers.
-			 */
+             * Microsoft JVM (old JVM with IE 5.5) has trouble
+             * with complex expressions involving the "long"
+             * type. Hence, we split these expressions into
+             * simpler elementary expressions. Such a split
+             * should not harm recent JDK optimizers.
+             */
             var t1 = circularLeftLong(e, 50)
             t1 = t1 xor circularLeftLong(e, 46)
             t1 = t1 xor circularLeftLong(e, 23)

@@ -47,12 +47,12 @@ kotlin {
     macosX64()
 
     /* Disabled - Unit test failures, Blake, CubeHash, Haval, Luffa, SHA3, SHAKE, Tiger, cShake, HMac
-    js {
-        browser()
-        nodejs()
-        binaries.executable()
-    }
-    */
+       js {
+           browser()
+           nodejs()
+           binaries.executable()
+       }
+     */
 
     // Linux
     linuxX64()

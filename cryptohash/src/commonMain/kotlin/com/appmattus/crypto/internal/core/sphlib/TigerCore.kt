@@ -108,12 +108,12 @@ internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : MDHelper<D>(t
     @Suppress("LongMethod")
     override fun processBlock(data: ByteArray) {
         /*
-		 * Note: we use external methods for the table lookups.
-		 * Inlining those methods yields slightly better performance
-		 * on Athlon XP in 32-bit mode, but not on a 64-bit Sempron.
-		 * We believe that such inlining increases the footprint and
-		 * may exceed cache on some architectures.
-		 */
+         * Note: we use external methods for the table lookups.
+         * Inlining those methods yields slightly better performance
+         * on Athlon XP in 32-bit mode, but not on a 64-bit Sempron.
+         * We believe that such inlining increases the footprint and
+         * may exceed cache on some architectures.
+         */
         var a = currentA
         var b = currentB
         var c = currentC

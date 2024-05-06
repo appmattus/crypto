@@ -101,12 +101,16 @@ internal class MD2 : DigestEngine<MD2>() {
             val u: Int = data[i].toInt() and 0xFF
             x[16 + i] = u
             x[32 + i] = x[i] xor u
-            tL = S[u xor tL].let { c[i] = c[i] xor it; c[i] }
+            tL = S[u xor tL].let {
+                c[i] = c[i] xor it
+                c[i]
+            }
         }
         l = tL
         var t = 0
         for (j in 0..17) {
             var k = 0
+            @Suppress("Wrapping")
             while (k < 48) {
                 t = S[t].let { x[k + 0] = x[k + 0] xor it; x[k + 0] }
                 t = S[t].let { x[k + 1] = x[k + 1] xor it; x[k + 1] }

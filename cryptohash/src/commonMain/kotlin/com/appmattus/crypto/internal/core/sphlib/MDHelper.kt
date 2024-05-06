@@ -98,11 +98,11 @@ internal abstract class MDHelper<D : MDHelper<D>>(
         update(countBuf)
 
         /*
-		 * This code is used only for debugging purposes.
-		 *
-		if (flush() != 0)
-			throw new Error("panic: buffering went astray");
-		 *
-		 */
+         * This code is used only for debugging purposes.
+         *
+         * if (flush() != 0)
+         *   throw new Error("panic: buffering went astray");
+         *
+         */
     }
 }

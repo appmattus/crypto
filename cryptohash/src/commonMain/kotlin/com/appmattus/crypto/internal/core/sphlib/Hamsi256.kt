@@ -60,6 +60,7 @@ internal class Hamsi256 : HamsiSmallCore<Hamsi256>() {
     }
 
     companion object {
+        @Suppress("PropertyWrapping")
         val iV = intArrayOf(0x76657273, 0x69746569, 0x74204c65, 0x7576656e, 0x2c204465, 0x70617274, 0x656d656e, 0x7420456c)
     }
 }

@@ -84,11 +84,11 @@ internal abstract class KeccakCore<D : KeccakCore<D>>(private val markByte: Byte
         var bnn: Long
 
         /*
-		 * Unrolling four rounds kills performance big time
-		 * on Intel x86 Core2, in both 32-bit and 64-bit modes
-		 * (less than 1 MB/s instead of 55 MB/s on x86-64).
-		 * Unrolling two rounds appears to be fine.
-		 */
+         * Unrolling four rounds kills performance big time
+         * on Intel x86 Core2, in both 32-bit and 64-bit modes
+         * (less than 1 MB/s instead of 55 MB/s on x86-64).
+         * Unrolling two rounds appears to be fine.
+         */
         var j = 0
         while (j < 24) {
             tt0 = a[1] xor a[6]

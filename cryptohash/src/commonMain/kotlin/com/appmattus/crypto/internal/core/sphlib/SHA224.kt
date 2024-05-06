@@ -68,6 +68,7 @@ internal class SHA224 : SHA2Core<SHA224>() {
 
     companion object {
         /** The initial value for SHA-224.  */
+        @Suppress("PropertyWrapping")
         private val initVal = intArrayOf(-0x3efa6128, 0x367CD507, 0x3070DD17, -0x8f1a6c7, -0x3ff4cf, 0x68581511, 0x64F98FA7, -0x4105b05c)
     }
 }

@@ -87,11 +87,11 @@ internal class Luffa384 : DigestEngine<Luffa384>() {
     private lateinit var tmpBuf: ByteArray
 
     /*
-	 * Private communication for Luffa designer Watanabe Dai:
-	 *
-	 * << I think that there is no problem to use the same
-	 *    setting as CubeHash, namely B = 256*ceil(k / 256). >>
-	 */
+     * Private communication for Luffa designer Watanabe Dai:
+     *
+     * << I think that there is no problem to use the same
+     *    setting as CubeHash, namely B = 256*ceil(k / 256). >>
+     */
     override val blockLength: Int
         get() = 32
 
@@ -669,6 +669,7 @@ internal class Luffa384 : DigestEngine<Luffa384>() {
         return "Luffa-384"
     }
 
+    @Suppress("PropertyWrapping")
     companion object {
         private val IV = intArrayOf(
             0x6d251e69, 0x44b051e0, 0x4eaa6fb4, -0x24087b9b,

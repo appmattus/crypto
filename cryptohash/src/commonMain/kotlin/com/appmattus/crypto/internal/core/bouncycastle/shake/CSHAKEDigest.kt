@@ -112,7 +112,7 @@ internal class CSHAKEDigest : SHAKEDigest {
     private fun leftEncode(strLen: Long): ByteArray {
         var n: Byte = 1
         var v = strLen
-        while (8.let { v = v shr it; v } != 0L) {
+        while ((v shr 8).also { v = it } != 0L) {
             n++
         }
         val b = ByteArray(n + 1)

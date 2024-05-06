@@ -131,7 +131,8 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
                     circularLeftInt(state.v3, 12) +
                     circularLeftInt(state.v4, 18)
         } else {
-            state.v3 /* == seed */ + prime5
+            // state.v3 == seed
+            state.v3 + prime5
         }
 
         h += state.totalLen

@@ -151,7 +151,8 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
             h = mergeRound(h, state.v3)
             h = mergeRound(h, state.v4)
         } else {
-            h = state.v3 /* == seed */ + prime5
+            // state.v3 == seed
+            h = state.v3 + prime5
         }
 
         h += state.totalLen

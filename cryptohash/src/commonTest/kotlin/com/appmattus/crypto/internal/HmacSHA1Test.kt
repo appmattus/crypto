@@ -54,9 +54,7 @@ class HmacSHA1Test {
             "2D51B2F7750E410584662E38F133435F4C4FD42A"
         )
 
-        /*
-		 * From FIPS 198a.
-		 */
+        // From FIPS 198a.
         testKat(
             {
                 HMAC(

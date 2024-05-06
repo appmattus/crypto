@@ -170,7 +170,9 @@ internal class Blake2s : Digest<Blake2s> {
      * BLAKE2s-256 for hashing.
      */
     constructor(digestBits: Int = 256) {
-        require(!(digestBits < 8 || digestBits > 256 || digestBits % 8 != 0)) { "BLAKE2s digest bit length must be a multiple of 8 and not greater than 256" }
+        require(!(digestBits < 8 || digestBits > 256 || digestBits % 8 != 0)) {
+            "BLAKE2s digest bit length must be a multiple of 8 and not greater than 256"
+        }
         digestSize = digestBits / 8
         init(null, null, null)
     }

@@ -36,8 +36,8 @@ internal interface ByteBuffer : Iterable<Byte> {
 
     /** Creates an iterator over the elements of the array. */
     override fun iterator(): Iterator<Byte> = iterator {
-        (0 until size).forEach {
-            yield(get(it))
+        for (i in 0 until size) {
+            yield(get(i))
         }
     }
 

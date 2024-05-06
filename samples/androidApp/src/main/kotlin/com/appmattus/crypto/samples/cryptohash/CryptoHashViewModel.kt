@@ -32,9 +32,10 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
     private var currentAlgorithm: Algorithm? = null
     private var inputText: String = ""
 
-    override val container: Container<CryptoHashState, Unit> = container(CryptoHashState(algorithms = algorithms.map { it.algorithmName })) {
-        generateHash()
-    }
+    override val container: Container<CryptoHashState, Unit> =
+        container(CryptoHashState(algorithms = algorithms.map { it.algorithmName })) {
+            generateHash()
+        }
 
     fun selectAlgorithm(name: String) = intent {
         currentAlgorithm = algorithms.firstOrNull { it.algorithmName == name }
@@ -98,7 +99,7 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
             Algorithm.Whirlpool,
         )
 
-                private fun ByteArray.toHexString(): String {
+        private fun ByteArray.toHexString(): String {
             return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
         }
     }

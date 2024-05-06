@@ -30,6 +30,8 @@ formatting:
         active: false
     Filename:
         excludes: "**/commonTest/**/internal/**"
+    Wrapping:
+        excludes: "**/commonTest/**/internal/**"
 
 naming:
     ClassNaming:

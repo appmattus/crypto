@@ -145,7 +145,15 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
             error("attempt to absorb while squeezing")
         }
         dataQueue[bitsInQueue ushr 3] = data
-        if (8.let { bitsInQueue += it; bitsInQueue } == rate) {
+
+        bitsInQueue += 8
+        if (bitsInQueue == rate) {
+            keccakAbsorb(dataQueue, 0)
+            bitsInQueue = 0
+        }
+
+        bitsInQueue += 8
+        if (bitsInQueue == rate) {
             keccakAbsorb(dataQueue, 0)
             bitsInQueue = 0
         }
