@@ -20,6 +20,7 @@ import kotlin.native.concurrent.SharedImmutable
 
 @Suppress("FunctionName")
 internal fun crc32_u64(crc: ULong, value: ULong): ULong {
+    @Suppress("NAME_SHADOWING")
     var crc = crc
 
     var d = value and 0xffffffffu

@@ -25,7 +25,6 @@ markdownlintGradlePlugin = "0.6.0"
 gradleMavenPublishPlugin = "0.18.0"
 dokkaPlugin = "1.7.20"
 
-coil = "2.2.2"
 coroutines = "1.6.4"
 groupie = "2.9.0"
 orbitMvi = "4.5.0"
@@ -46,6 +45,11 @@ google-material = "1.8.0"
 bouncyCastle = "1.78.1"
 
 [libraries]
+
+# Sample app
+groupie = { module = "com.xwray:groupie", version.ref = "groupie" }
+groupieViewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupie" }
+
 # Tools
 detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektGradlePlugin" }
 

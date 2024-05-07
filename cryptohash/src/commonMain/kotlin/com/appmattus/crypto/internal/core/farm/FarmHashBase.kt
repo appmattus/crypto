@@ -397,7 +397,10 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         // Callers do best to use "random-looking" values for a and b.
         @Suppress("LongParameterList")
         private fun weakHashLen32WithSeeds(w: ULong, x: ULong, y: ULong, z: ULong, a: ULong, b: ULong): UInt128 {
+            @Suppress("NAME_SHADOWING")
             var a: ULong = a
+
+            @Suppress("NAME_SHADOWING")
             var b: ULong = b
             a += w
             b = (b + a + z).rotateRight(21)

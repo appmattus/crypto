@@ -43,9 +43,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:${libs.versions.androidX.appCompat.get()}")
     implementation("androidx.constraintlayout:constraintlayout:${libs.versions.androidX.constraintLayout.get()}")
     implementation("androidx.vectordrawable:vectordrawable:${libs.versions.androidX.vectorDrawable.get()}")
-    implementation("com.xwray:groupie:${libs.versions.groupie.get()}")
-    implementation("com.xwray:groupie-viewbinding:${libs.versions.groupie.get()}")
-    implementation("io.coil-kt:coil-svg:${libs.versions.coil.get()}")
+    implementation(libs.groupie)
+    implementation(libs.groupieViewbinding)
 
     // Memory leak detection and fixes
     debugImplementation("com.squareup.leakcanary:leakcanary-android:${libs.versions.leakCanary.get()}")
