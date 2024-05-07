@@ -16,14 +16,14 @@
 
 [versions]
 
-kotlin = "1.9.20"
+kotlin = "1.9.24"
 
 androidGradlePlugin = "8.4.0"
 detektGradlePlugin = "1.23.6"
-gradleVersionsPlugin = "0.50.0"
+gradleVersionsPlugin = "0.51.0"
 markdownlintGradlePlugin = "0.6.0"
-gradleMavenPublishPlugin = "0.18.0"
-dokkaPlugin = "1.7.20"
+gradleMavenPublishPlugin = "0.28.0"
+dokkaPlugin = "1.9.20"
 
 
 leakCanary = "2.10"
@@ -78,4 +78,7 @@ buildscript_detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugi
 
 [plugins]
 
+dokkaPlugin = { id = "org.jetbrains.dokka", version.ref = "dokkaPlugin" }
+gradleMavenPublishPlugin = { id = "com.vanniktech.maven.publish", version.ref = "gradleMavenPublishPlugin" }
 gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionsPlugin" }
+markdownlintGradlePlugin = { id = "com.appmattus.markdown", version.ref = "markdownlintGradlePlugin" }

@@ -60,9 +60,7 @@ class CryptoHashFragment : Fragment() {
             }
         }
 
-        viewModel.observe(this) {
-            viewModel.container.stateFlow.collect(::render)
-        }
+        viewModel.observe(this, state = ::render)
     }
 
     override fun onDestroyView() {
