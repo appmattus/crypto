@@ -151,12 +151,12 @@ internal class Wyhash(
         val wyp: List<ULong> = listOf(0xa0761d6478bd642fuL, 0xe7037ed1a0b428dbuL, 0x8ebc6af09c88c6e3uL, 0x589965cc75374cc3uL)
 
         // Make your own secret
+        @OptIn(ExperimentalUnsignedTypes::class)
         @Suppress("NestedBlockDepth")
         fun makeSecret(seed: ULong): List<ULong> {
             val secret = MutableList(4) { 0uL }
             var newSeed = seed
 
-            @Suppress("EXPERIMENTAL_API_USAGE")
             val c = ubyteArrayOf(
                 15u, 23u, 27u, 29u, 30u, 39u, 43u, 45u, 46u, 51u, 53u, 54u, 57u, 58u, 60u, 71u, 75u, 77u, 78u, 83u, 85u, 86u, 89u, 90u, 92u,
                 99u, 101u, 102u, 105u, 106u, 108u, 113u, 114u, 116u, 120u, 135u, 139u, 141u, 142u, 147u, 149u, 150u, 153u, 154u, 156u, 163u,
@@ -172,7 +172,6 @@ internal class Wyhash(
                     for (j in 0 until 64 step 8) {
                         val (updatedSeed, result) = wyrand(newSeed)
                         newSeed = updatedSeed
-                        @Suppress("EXPERIMENTAL_API_USAGE")
                         secret[i] = secret[i] or ((c[(result % c.size.toULong()).toInt()].toULong()) shl j)
                     }
                     if (secret[i] % 2u == 0uL) {

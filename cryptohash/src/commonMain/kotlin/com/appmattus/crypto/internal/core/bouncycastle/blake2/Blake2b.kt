@@ -159,6 +159,7 @@ internal class Blake2b : Digest<Blake2b> {
      *
      * @param key A key up to 64 bytes or null
      */
+    @Suppress("unused")
     constructor(key: ByteArray?) {
         buffer = ByteArray(blockLength)
         if (key != null) {
@@ -420,6 +421,7 @@ internal class Blake2b : Digest<Blake2b> {
      * Overwrite the key
      * if it is no longer used (zeroization)
      */
+    @Suppress("unused")
     fun clearKey() {
         if (key != null) {
             key?.fill(0)
@@ -431,6 +433,7 @@ internal class Blake2b : Digest<Blake2b> {
      * Overwrite the salt (pepper) if it
      * is secret and no longer used (zeroization)
      */
+    @Suppress("unused")
     fun clearSalt() {
         if (salt != null) {
             salt?.fill(0)

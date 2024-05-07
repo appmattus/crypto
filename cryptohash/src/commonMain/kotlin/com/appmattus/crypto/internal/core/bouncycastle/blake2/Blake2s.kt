@@ -187,6 +187,7 @@ internal class Blake2s : Digest<Blake2s> {
      *
      * @param key a key up to 32 bytes or null
      */
+    @Suppress("unused")
     constructor(key: ByteArray?) {
         init(null, null, key)
     }
@@ -217,6 +218,7 @@ internal class Blake2s : Digest<Blake2s> {
     }
 
     // XOF root hash parameters
+    @Suppress("unused")
     internal constructor(digestBytes: Int, key: ByteArray?, salt: ByteArray?, personalization: ByteArray?, offset: Long) {
         digestSize = digestBytes
         nodeOffset = offset
@@ -224,6 +226,7 @@ internal class Blake2s : Digest<Blake2s> {
     }
 
     // XOF internal hash parameters
+    @Suppress("unused")
     internal constructor(digestBytes: Int, hashLength: Int, offset: Long) {
         digestSize = digestBytes
         nodeOffset = offset
@@ -452,6 +455,7 @@ internal class Blake2s : Digest<Blake2s> {
     /**
      * Overwrite the key if it is no longer used (zeroization).
      */
+    @Suppress("unused")
     fun clearKey() {
         if (key != null) {
             key?.fill(0)
@@ -463,6 +467,7 @@ internal class Blake2s : Digest<Blake2s> {
      * Overwrite the salt (pepper) if it is secret and no longer used
      * (zeroization).
      */
+    @Suppress("unused")
     fun clearSalt() {
         if (salt != null) {
             salt?.fill(0)

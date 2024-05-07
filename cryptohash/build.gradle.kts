@@ -79,7 +79,7 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("org.bouncycastle:bcprov-jdk15to18:1.72")
+                implementation(libs.bouncyCastle)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}")
             }
         }
@@ -235,6 +235,12 @@ kotlin {
 }
 
 tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString() }
+
+tasks.withType<Test>().configureEach {
+    jvmArgs(
+        "--add-opens=java.base/java.util.zip=ALL-UNNAMED",
+    )
+}
 
 tasks.withType<AbstractPublishToMaven>()
     .matching { it.publication.name in listOf("jvm", "js", "kotlinMultiplatform") }
