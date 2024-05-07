@@ -16,38 +16,40 @@
 
 [versions]
 
-kotlin = "1.8.0"
+kotlin = "1.9.20"
 
-androidGradlePlugin = "7.4.2"
+androidGradlePlugin = "8.4.0"
 detektGradlePlugin = "1.23.6"
 gradleVersionsPlugin = "0.50.0"
 markdownlintGradlePlugin = "0.6.0"
 gradleMavenPublishPlugin = "0.18.0"
 dokkaPlugin = "1.7.20"
 
-coroutines = "1.6.4"
-groupie = "2.9.0"
-orbitMvi = "7.1.0"
 
-desugar = "1.1.1"
 leakCanary = "2.10"
 
-
-google-dagger = "2.44.2"
+google-dagger = "2.51.1"
 google-material = "1.8.0"
+
+kotlinX-coroutines = "1.8.0"
 
 # Sample app
 androidX-appCompat = "1.6.1"
 androidX-constraintLayout = "2.1.4"
-androidX-fragment = "1.5.5"
-androidX-lifecycle = "2.5.1"
-androidX-navigation = "2.5.3"
-androidX-vectorDrawable = "1.1.0"
+androidX-fragment = "1.7.0"
+androidX-lifecycle = "2.7.0"
+androidX-navigation = "2.7.7"
+androidX-vectorDrawable = "1.2.0"
+desugar = "2.0.4"
+groupie = "2.9.0"
+orbitMvi = "7.1.0"
 
 # Testing
 bouncyCastle = "1.78.1"
 
 [libraries]
+
+kotlinX-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinX-coroutines" }
 
 # Sample app
 androidX-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidX-appCompat" }
@@ -58,9 +60,11 @@ androidX-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel
 androidX-navigationFragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidX-navigation" }
 androidX-navigationUi = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidX-navigation" }
 androidX-vectorDrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "androidX-vectorDrawable" }
-
+desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
 groupie = { module = "com.xwray:groupie", version.ref = "groupie" }
 groupieViewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupie" }
+kotlinX-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinX-coroutines" }
+orbitCore = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitMvi" }
 orbitViewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
 
 # Tools

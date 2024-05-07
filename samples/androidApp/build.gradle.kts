@@ -27,8 +27,8 @@ apply(plugin = "dagger.hilt.android.plugin")
 dependencies {
     implementation(project(":samples:shared"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${libs.versions.coroutines.get()}")
+    implementation(libs.kotlinX.coroutinesCore)
+    implementation(libs.kotlinX.coroutinesAndroid)
 
     // Architecture
     implementation(libs.androidX.fragment)
@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.androidX.lifecycleViewmodel)
     implementation(libs.androidX.navigationFragment)
     implementation(libs.androidX.navigationUi)
+    implementation(libs.orbitCore)
     implementation(libs.orbitViewmodel)
 
     // UI
@@ -54,15 +55,17 @@ dependencies {
     implementation("com.google.dagger:hilt-android:${libs.versions.google.dagger.get()}")
     kapt("com.google.dagger:hilt-compiler:${libs.versions.google.dagger.get()}")
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${libs.versions.desugar.get()}")
+    coreLibraryDesugaring(libs.desugar)
 }
 
 android {
-    compileSdk = 33
+    namespace = "com.appmattus.crypto.samples"
+
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.appmattus.crypto.samples"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -75,13 +78,6 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     buildFeatures {
@@ -92,4 +88,8 @@ android {
     sourceSets.all {
         java.srcDir("src/$name/kotlin")
     }
+}
+
+kotlin {
+    jvmToolchain(11)
 }

@@ -30,6 +30,8 @@ plugins {
 val hostOs: String = System.getProperty("os.name")
 
 kotlin {
+    jvmToolchain(11)
+
     explicitApi()
 
     jvm()
@@ -56,14 +58,10 @@ kotlin {
 
     // Linux
     linuxX64()
-    linuxArm32Hfp()
     linuxArm64()
-    linuxMips32()
-    linuxMipsel32()
 
     // Windows
     mingwX64()
-    mingwX86()
 
     @Suppress("UnusedPrivateMember")
     sourceSets {
@@ -80,7 +78,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation(libs.bouncyCastle)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}")
+                implementation(libs.kotlinX.coroutinesCore)
             }
         }
 
@@ -110,7 +108,7 @@ kotlin {
         val nativeDarwin64Test by creating {
             dependsOn(commonTest)
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}")
+                implementation(libs.kotlinX.coroutinesCore)
             }
         }
         val nativeDarwin32Main by creating {
@@ -119,7 +117,7 @@ kotlin {
         val nativeDarwin32Test by creating {
             dependsOn(commonTest)
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}")
+                implementation(libs.kotlinX.coroutinesCore)
             }
         }
         // ios
@@ -193,28 +191,10 @@ kotlin {
         val linuxX64Test by getting {
             dependsOn(nativeAltTest)
         }
-        val linuxArm32HfpMain by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxArm32HfpTest by getting {
-            dependsOn(nativeAltTest)
-        }
         val linuxArm64Main by getting {
             dependsOn(nativeMain)
         }
         val linuxArm64Test by getting {
-            dependsOn(nativeAltTest)
-        }
-        val linuxMips32Main by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxMips32Test by getting {
-            dependsOn(nativeAltTest)
-        }
-        val linuxMipsel32Main by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxMipsel32Test by getting {
             dependsOn(nativeAltTest)
         }
 
@@ -225,16 +205,8 @@ kotlin {
         val mingwX64Test by getting {
             dependsOn(nativeAltTest)
         }
-        val mingwX86Main by getting {
-            dependsOn(nativeMain)
-        }
-        val mingwX86Test by getting {
-            dependsOn(nativeAltTest)
-        }
     }
 }
-
-tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString() }
 
 tasks.withType<Test>().configureEach {
     jvmArgs(

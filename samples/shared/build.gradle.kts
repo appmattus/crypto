@@ -23,7 +23,7 @@ plugins {
 }
 
 kotlin {
-    android()
+    androidTarget()
     ios {
         binaries {
             framework {
@@ -34,43 +34,32 @@ kotlin {
     }
     @Suppress("UnusedPrivateMember")
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(project(":cryptohash"))
             }
         }
-        val commonTest by getting
-        val androidMain by getting
-        val androidTest by getting
-        val iosMain by getting
-        val iosTest by getting
     }
 }
 
 android {
-    compileSdk = 31
+    namespace = "com.appmattus.crypto.shared"
+
+    compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
     }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
         }
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 }
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "1.8" }
 
 val hostOs = System.getProperty("os.name")
 
-val xcFrameworkPath = "$buildDir/xcode-frameworks/${project.name}.xcframework"
+val xcFrameworkPath = "${layout.buildDirectory}/xcode-frameworks/${project.name}.xcframework"
 
 if (hostOs == "Mac OS X") {
     tasks.create<Delete>("deleteXcFramework") { delete = setOf(xcFrameworkPath) }
