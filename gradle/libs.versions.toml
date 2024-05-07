@@ -43,7 +43,7 @@ androidX-vectorDrawable = "1.1.0"
 google-dagger = "2.44.2"
 google-material = "1.8.0"
 
-bouncyCastle = "1.72"
+bouncyCastle = "1.78.1"
 
 [libraries]
 # Tools
