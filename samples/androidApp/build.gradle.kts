@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.android.application)
     kotlin("android")
     id("kotlin-parcelize")
     kotlin("kapt")
@@ -40,7 +40,7 @@ dependencies {
     implementation(libs.orbitViewmodel)
 
     // UI
-    implementation("com.google.android.material:material:${libs.versions.google.material.get()}")
+    implementation(libs.google.material)
     implementation(libs.androidX.appCompat)
     implementation(libs.androidX.constraintLayout)
     implementation(libs.androidX.vectorDrawable)
@@ -48,12 +48,12 @@ dependencies {
     implementation(libs.groupieViewbinding)
 
     // Memory leak detection and fixes
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:${libs.versions.leakCanary.get()}")
-    implementation("com.squareup.leakcanary:plumber-android:${libs.versions.leakCanary.get()}")
+    debugImplementation(libs.leakcanary.leakcanary)
+    implementation(libs.leakcanary.plumber)
 
     // Dependency Injection
-    implementation("com.google.dagger:hilt-android:${libs.versions.google.dagger.get()}")
-    kapt("com.google.dagger:hilt-compiler:${libs.versions.google.dagger.get()}")
+    implementation(libs.google.dagger.hiltAndroid)
+    kapt(libs.google.dagger.hiltCompiler)
 
     coreLibraryDesugaring(libs.desugar)
 }

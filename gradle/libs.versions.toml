@@ -25,12 +25,6 @@ markdownlintGradlePlugin = "0.6.0"
 gradleMavenPublishPlugin = "0.28.0"
 dokkaPlugin = "1.9.20"
 
-
-leakCanary = "2.10"
-
-google-dagger = "2.51.1"
-google-material = "1.8.0"
-
 kotlinX-coroutines = "1.8.0"
 
 # Sample app
@@ -41,7 +35,10 @@ androidX-lifecycle = "2.7.0"
 androidX-navigation = "2.7.7"
 androidX-vectorDrawable = "1.2.0"
 desugar = "2.0.4"
+google-dagger = "2.51.1"
+google-material = "1.12.0"
 groupie = "2.9.0"
+leakcanary = "2.14"
 orbitMvi = "7.1.0"
 
 # Testing
@@ -61,9 +58,14 @@ androidX-navigationFragment = { module = "androidx.navigation:navigation-fragmen
 androidX-navigationUi = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidX-navigation" }
 androidX-vectorDrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "androidX-vectorDrawable" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
+google-dagger-hiltAndroid = { module = "com.google.dagger:hilt-android", version.ref = "google-dagger" }
+google-dagger-hiltCompiler = { module = "com.google.dagger:hilt-compiler", version.ref = "google-dagger" }
+google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 groupie = { module = "com.xwray:groupie", version.ref = "groupie" }
 groupieViewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupie" }
 kotlinX-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinX-coroutines" }
+leakcanary-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
 orbitCore = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitMvi" }
 orbitViewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
 
@@ -82,3 +84,6 @@ dokkaPlugin = { id = "org.jetbrains.dokka", version.ref = "dokkaPlugin" }
 gradleMavenPublishPlugin = { id = "com.vanniktech.maven.publish", version.ref = "gradleMavenPublishPlugin" }
 gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionsPlugin" }
 markdownlintGradlePlugin = { id = "com.appmattus.markdown", version.ref = "markdownlintGradlePlugin" }
+
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }

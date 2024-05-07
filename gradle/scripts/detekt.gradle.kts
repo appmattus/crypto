@@ -33,10 +33,6 @@ buildscript {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 apply<DetektPlugin>()
 
 tasks.named("detekt", Detekt::class.java).configure {

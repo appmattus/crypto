@@ -19,20 +19,16 @@ import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 
 buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
-        classpath("com.android.tools.build:gradle:${libs.versions.androidGradlePlugin.get()}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.google.dagger.get()}")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${libs.versions.androidX.navigation.get()}")
     }
 }
 
 plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
     alias(libs.plugins.markdownlintGradlePlugin)
     alias(libs.plugins.gradleMavenPublishPlugin) apply false
     alias(libs.plugins.dokkaPlugin)
@@ -62,14 +58,6 @@ tasks.withType<DependencyUpdatesTask> {
                 }
             }
         }
-    }
-}
-
-allprojects {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
     }
 }
 
