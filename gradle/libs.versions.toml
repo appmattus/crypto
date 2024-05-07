@@ -27,7 +27,7 @@ dokkaPlugin = "1.7.20"
 
 coroutines = "1.6.4"
 groupie = "2.9.0"
-orbitMvi = "4.5.0"
+orbitMvi = "7.1.0"
 
 desugar = "1.1.1"
 leakCanary = "2.10"
@@ -49,6 +49,7 @@ bouncyCastle = "1.78.1"
 # Sample app
 groupie = { module = "com.xwray:groupie", version.ref = "groupie" }
 groupieViewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupie" }
+orbitViewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
 
 # Tools
 detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektGradlePlugin" }

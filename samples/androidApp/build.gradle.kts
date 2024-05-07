@@ -36,7 +36,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${libs.versions.androidX.lifecycle.get()}")
     implementation("androidx.navigation:navigation-fragment-ktx:${libs.versions.androidX.navigation.get()}")
     implementation("androidx.navigation:navigation-ui-ktx:${libs.versions.androidX.navigation.get()}")
-    implementation("org.orbit-mvi:orbit-viewmodel:${libs.versions.orbitMvi.get()}")
+    implementation(libs.orbitViewmodel)
 
     // UI
     implementation("com.google.android.material:material:${libs.versions.google.material.get()}")
