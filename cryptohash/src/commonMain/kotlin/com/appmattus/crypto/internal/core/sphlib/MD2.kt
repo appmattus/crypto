@@ -110,16 +110,23 @@ internal class MD2 : DigestEngine<MD2>() {
         var t = 0
         for (j in 0..17) {
             var k = 0
-            @Suppress("Wrapping")
             while (k < 48) {
-                t = S[t].let { x[k + 0] = x[k + 0] xor it; x[k + 0] }
-                t = S[t].let { x[k + 1] = x[k + 1] xor it; x[k + 1] }
-                t = S[t].let { x[k + 2] = x[k + 2] xor it; x[k + 2] }
-                t = S[t].let { x[k + 3] = x[k + 3] xor it; x[k + 3] }
-                t = S[t].let { x[k + 4] = x[k + 4] xor it; x[k + 4] }
-                t = S[t].let { x[k + 5] = x[k + 5] xor it; x[k + 5] }
-                t = S[t].let { x[k + 6] = x[k + 6] xor it; x[k + 6] }
-                t = S[t].let { x[k + 7] = x[k + 7] xor it; x[k + 7] }
+                x[k + 0] = x[k + 0] xor S[t]
+                t = x[k + 0]
+                x[k + 1] = x[k + 1] xor S[t]
+                t = x[k + 1]
+                x[k + 2] = x[k + 2] xor S[t]
+                t = x[k + 2]
+                x[k + 3] = x[k + 3] xor S[t]
+                t = x[k + 3]
+                x[k + 4] = x[k + 4] xor S[t]
+                t = x[k + 4]
+                x[k + 5] = x[k + 5] xor S[t]
+                t = x[k + 5]
+                x[k + 6] = x[k + 6] xor S[t]
+                t = x[k + 6]
+                x[k + 7] = x[k + 7] xor S[t]
+                t = x[k + 7]
                 k += 8
             }
             t = t + j and 0xFF
