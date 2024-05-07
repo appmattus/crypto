@@ -31,18 +31,18 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${libs.versions.coroutines.get()}")
 
     // Architecture
-    implementation("androidx.fragment:fragment-ktx:${libs.versions.androidX.fragment.get()}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${libs.versions.androidX.lifecycle.get()}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${libs.versions.androidX.lifecycle.get()}")
-    implementation("androidx.navigation:navigation-fragment-ktx:${libs.versions.androidX.navigation.get()}")
-    implementation("androidx.navigation:navigation-ui-ktx:${libs.versions.androidX.navigation.get()}")
+    implementation(libs.androidX.fragment)
+    implementation(libs.androidX.lifecycleRuntime)
+    implementation(libs.androidX.lifecycleViewmodel)
+    implementation(libs.androidX.navigationFragment)
+    implementation(libs.androidX.navigationUi)
     implementation(libs.orbitViewmodel)
 
     // UI
     implementation("com.google.android.material:material:${libs.versions.google.material.get()}")
-    implementation("androidx.appcompat:appcompat:${libs.versions.androidX.appCompat.get()}")
-    implementation("androidx.constraintlayout:constraintlayout:${libs.versions.androidX.constraintLayout.get()}")
-    implementation("androidx.vectordrawable:vectordrawable:${libs.versions.androidX.vectorDrawable.get()}")
+    implementation(libs.androidX.appCompat)
+    implementation(libs.androidX.constraintLayout)
+    implementation(libs.androidX.vectorDrawable)
     implementation(libs.groupie)
     implementation(libs.groupieViewbinding)
 

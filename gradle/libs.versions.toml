@@ -32,21 +32,33 @@ orbitMvi = "7.1.0"
 desugar = "1.1.1"
 leakCanary = "2.10"
 
-androidX-appCompat = "1.6.0"
+
+google-dagger = "2.44.2"
+google-material = "1.8.0"
+
+# Sample app
+androidX-appCompat = "1.6.1"
 androidX-constraintLayout = "2.1.4"
 androidX-fragment = "1.5.5"
 androidX-lifecycle = "2.5.1"
 androidX-navigation = "2.5.3"
 androidX-vectorDrawable = "1.1.0"
 
-google-dagger = "2.44.2"
-google-material = "1.8.0"
-
+# Testing
 bouncyCastle = "1.78.1"
 
 [libraries]
 
 # Sample app
+androidX-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidX-appCompat" }
+androidX-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidX-constraintLayout" }
+androidX-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidX-fragment" }
+androidX-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidX-lifecycle" }
+androidX-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidX-lifecycle" }
+androidX-navigationFragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidX-navigation" }
+androidX-navigationUi = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidX-navigation" }
+androidX-vectorDrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "androidX-vectorDrawable" }
+
 groupie = { module = "com.xwray:groupie", version.ref = "groupie" }
 groupieViewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupie" }
 orbitViewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }

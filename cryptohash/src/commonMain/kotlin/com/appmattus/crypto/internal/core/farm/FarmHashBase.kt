@@ -53,7 +53,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
 
     private fun mkHash32Len0to4(s: ByteBuffer, offset: Int = 0, len: Int = s.size, seed: UInt = 0u): UInt {
         var b: UInt = seed
-        var c: UInt = 9u
+        var c = 9u
         for (i in 0 until len) {
             val v = s[offset + i]
             b = b * c1 + v.toUInt()
@@ -65,7 +65,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
     private fun mkHash32Len5to12(s: ByteBuffer, offset: Int = 0, len: Int = s.size, seed: UInt = 0u): UInt {
         var a: UInt = len.toUInt()
         var b: UInt = len.toUInt() * 5u
-        var c: UInt = 9u
+        var c = 9u
         val d: UInt = b + seed
 
         a += s.decodeLEUInt(offset + 0)
