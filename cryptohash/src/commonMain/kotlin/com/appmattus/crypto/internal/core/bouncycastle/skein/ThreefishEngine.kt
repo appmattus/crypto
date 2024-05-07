@@ -916,38 +916,70 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                  * Permute schedule has a 4 round cycle, so permutes are inlined in the mix
                  * operations in each 4 round block.
                  */
-                b1 = rotlXor(b1, ROTATION_0_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_0_1, b3.let { b2 += it; b2 })
-                b5 = rotlXor(b5, ROTATION_0_2, b5.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_0_3, b7.let { b6 += it; b6 })
-                b9 = rotlXor(b9, ROTATION_0_4, b9.let { b8 += it; b8 })
-                b11 = rotlXor(b11, ROTATION_0_5, b11.let { b10 += it; b10 })
-                b13 = rotlXor(b13, ROTATION_0_6, b13.let { b12 += it; b12 })
-                b15 = rotlXor(b15, ROTATION_0_7, b15.let { b14 += it; b14 })
-                b9 = rotlXor(b9, ROTATION_1_0, b9.let { b0 += it; b0 })
-                b13 = rotlXor(b13, ROTATION_1_1, b13.let { b2 += it; b2 })
-                b11 = rotlXor(b11, ROTATION_1_2, b11.let { b6 += it; b6 })
-                b15 = rotlXor(b15, ROTATION_1_3, b15.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_1_4, b7.let { b10 += it; b10 })
-                b3 = rotlXor(b3, ROTATION_1_5, b3.let { b12 += it; b12 })
-                b5 = rotlXor(b5, ROTATION_1_6, b5.let { b14 += it; b14 })
-                b1 = rotlXor(b1, ROTATION_1_7, b1.let { b8 += it; b8 })
-                b7 = rotlXor(b7, ROTATION_2_0, b7.let { b0 += it; b0 })
-                b5 = rotlXor(b5, ROTATION_2_1, b5.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_2_2, b3.let { b4 += it; b4 })
-                b1 = rotlXor(b1, ROTATION_2_3, b1.let { b6 += it; b6 })
-                b15 = rotlXor(b15, ROTATION_2_4, b15.let { b12 += it; b12 })
-                b13 = rotlXor(b13, ROTATION_2_5, b13.let { b14 += it; b14 })
-                b11 = rotlXor(b11, ROTATION_2_6, b11.let { b8 += it; b8 })
-                b9 = rotlXor(b9, ROTATION_2_7, b9.let { b10 += it; b10 })
-                b15 = rotlXor(b15, ROTATION_3_0, b15.let { b0 += it; b0 })
-                b11 = rotlXor(b11, ROTATION_3_1, b11.let { b2 += it; b2 })
-                b13 = rotlXor(b13, ROTATION_3_2, b13.let { b6 += it; b6 })
-                b9 = rotlXor(b9, ROTATION_3_3, b9.let { b4 += it; b4 })
-                b1 = rotlXor(b1, ROTATION_3_4, b1.let { b14 += it; b14 })
-                b5 = rotlXor(b5, ROTATION_3_5, b5.let { b8 += it; b8 })
-                b3 = rotlXor(b3, ROTATION_3_6, b3.let { b10 += it; b10 })
-                b7 = rotlXor(b7, ROTATION_3_7, b7.let { b12 += it; b12 })
+                b0 += b1
+                b1 = rotlXor(b1, ROTATION_0_0, b0)
+                b2 += b3
+                b3 = rotlXor(b3, ROTATION_0_1, b2)
+                b4 += b5
+                b5 = rotlXor(b5, ROTATION_0_2, b4)
+                b6 += b7
+                b7 = rotlXor(b7, ROTATION_0_3, b6)
+                b8 += b9
+                b9 = rotlXor(b9, ROTATION_0_4, b8)
+                b10 += b11
+                b11 = rotlXor(b11, ROTATION_0_5, b10)
+                b12 += b13
+                b13 = rotlXor(b13, ROTATION_0_6, b12)
+                b14 += b15
+                b15 = rotlXor(b15, ROTATION_0_7, b14)
+                b0 += b9
+                b9 = rotlXor(b9, ROTATION_1_0, b0)
+                b2 += b13
+                b13 = rotlXor(b13, ROTATION_1_1, b2)
+                b6 += b11
+                b11 = rotlXor(b11, ROTATION_1_2, b6)
+                b4 += b15
+                b15 = rotlXor(b15, ROTATION_1_3, b4)
+                b10 += b7
+                b7 = rotlXor(b7, ROTATION_1_4, b10)
+                b12 += b3
+                b3 = rotlXor(b3, ROTATION_1_5, b12)
+                b14 += b5
+                b5 = rotlXor(b5, ROTATION_1_6, b14)
+                b8 += b1
+                b1 = rotlXor(b1, ROTATION_1_7, b8)
+                b0 += b7
+                b7 = rotlXor(b7, ROTATION_2_0, b0)
+                b2 += b5
+                b5 = rotlXor(b5, ROTATION_2_1, b2)
+                b4 += b3
+                b3 = rotlXor(b3, ROTATION_2_2, b4)
+                b6 += b1
+                b1 = rotlXor(b1, ROTATION_2_3, b6)
+                b12 += b15
+                b15 = rotlXor(b15, ROTATION_2_4, b12)
+                b14 += b13
+                b13 = rotlXor(b13, ROTATION_2_5, b14)
+                b8 += b11
+                b11 = rotlXor(b11, ROTATION_2_6, b8)
+                b10 += b9
+                b9 = rotlXor(b9, ROTATION_2_7, b10)
+                b0 += b15
+                b15 = rotlXor(b15, ROTATION_3_0, b0)
+                b2 += b11
+                b11 = rotlXor(b11, ROTATION_3_1, b2)
+                b6 += b13
+                b13 = rotlXor(b13, ROTATION_3_2, b6)
+                b4 += b9
+                b9 = rotlXor(b9, ROTATION_3_3, b4)
+                b14 += b1
+                b1 = rotlXor(b1, ROTATION_3_4, b14)
+                b8 += b5
+                b5 = rotlXor(b5, ROTATION_3_5, b8)
+                b10 += b3
+                b3 = rotlXor(b3, ROTATION_3_6, b10)
+                b12 += b7
+                b7 = rotlXor(b7, ROTATION_3_7, b12)
 
                 /*
                  * Subkey injection for first 4 rounds.
@@ -972,38 +1004,70 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                 /*
                  * 4 more rounds of mix/permute
                  */
-                b1 = rotlXor(b1, ROTATION_4_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_4_1, b3.let { b2 += it; b2 })
-                b5 = rotlXor(b5, ROTATION_4_2, b5.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_4_3, b7.let { b6 += it; b6 })
-                b9 = rotlXor(b9, ROTATION_4_4, b9.let { b8 += it; b8 })
-                b11 = rotlXor(b11, ROTATION_4_5, b11.let { b10 += it; b10 })
-                b13 = rotlXor(b13, ROTATION_4_6, b13.let { b12 += it; b12 })
-                b15 = rotlXor(b15, ROTATION_4_7, b15.let { b14 += it; b14 })
-                b9 = rotlXor(b9, ROTATION_5_0, b9.let { b0 += it; b0 })
-                b13 = rotlXor(b13, ROTATION_5_1, b13.let { b2 += it; b2 })
-                b11 = rotlXor(b11, ROTATION_5_2, b11.let { b6 += it; b6 })
-                b15 = rotlXor(b15, ROTATION_5_3, b15.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_5_4, b7.let { b10 += it; b10 })
-                b3 = rotlXor(b3, ROTATION_5_5, b3.let { b12 += it; b12 })
-                b5 = rotlXor(b5, ROTATION_5_6, b5.let { b14 += it; b14 })
-                b1 = rotlXor(b1, ROTATION_5_7, b1.let { b8 += it; b8 })
-                b7 = rotlXor(b7, ROTATION_6_0, b7.let { b0 += it; b0 })
-                b5 = rotlXor(b5, ROTATION_6_1, b5.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_6_2, b3.let { b4 += it; b4 })
-                b1 = rotlXor(b1, ROTATION_6_3, b1.let { b6 += it; b6 })
-                b15 = rotlXor(b15, ROTATION_6_4, b15.let { b12 += it; b12 })
-                b13 = rotlXor(b13, ROTATION_6_5, b13.let { b14 += it; b14 })
-                b11 = rotlXor(b11, ROTATION_6_6, b11.let { b8 += it; b8 })
-                b9 = rotlXor(b9, ROTATION_6_7, b9.let { b10 += it; b10 })
-                b15 = rotlXor(b15, ROTATION_7_0, b15.let { b0 += it; b0 })
-                b11 = rotlXor(b11, ROTATION_7_1, b11.let { b2 += it; b2 })
-                b13 = rotlXor(b13, ROTATION_7_2, b13.let { b6 += it; b6 })
-                b9 = rotlXor(b9, ROTATION_7_3, b9.let { b4 += it; b4 })
-                b1 = rotlXor(b1, ROTATION_7_4, b1.let { b14 += it; b14 })
-                b5 = rotlXor(b5, ROTATION_7_5, b5.let { b8 += it; b8 })
-                b3 = rotlXor(b3, ROTATION_7_6, b3.let { b10 += it; b10 })
-                b7 = rotlXor(b7, ROTATION_7_7, b7.let { b12 += it; b12 })
+                b0 += b1
+                b1 = rotlXor(b1, ROTATION_4_0, b0)
+                b2 += b3
+                b3 = rotlXor(b3, ROTATION_4_1, b2)
+                b4 += b5
+                b5 = rotlXor(b5, ROTATION_4_2, b4)
+                b6 += b7
+                b7 = rotlXor(b7, ROTATION_4_3, b6)
+                b8 += b9
+                b9 = rotlXor(b9, ROTATION_4_4, b8)
+                b10 += b11
+                b11 = rotlXor(b11, ROTATION_4_5, b10)
+                b12 += b13
+                b13 = rotlXor(b13, ROTATION_4_6, b12)
+                b14 += b15
+                b15 = rotlXor(b15, ROTATION_4_7, b14)
+                b0 += b9
+                b9 = rotlXor(b9, ROTATION_5_0, b0)
+                b2 += b13
+                b13 = rotlXor(b13, ROTATION_5_1, b2)
+                b6 += b11
+                b11 = rotlXor(b11, ROTATION_5_2, b6)
+                b4 += b15
+                b15 = rotlXor(b15, ROTATION_5_3, b4)
+                b10 += b7
+                b7 = rotlXor(b7, ROTATION_5_4, b10)
+                b12 += b3
+                b3 = rotlXor(b3, ROTATION_5_5, b12)
+                b14 += b5
+                b5 = rotlXor(b5, ROTATION_5_6, b14)
+                b8 += b1
+                b1 = rotlXor(b1, ROTATION_5_7, b8)
+                b0 += b7
+                b7 = rotlXor(b7, ROTATION_6_0, b0)
+                b2 += b5
+                b5 = rotlXor(b5, ROTATION_6_1, b2)
+                b4 += b3
+                b3 = rotlXor(b3, ROTATION_6_2, b4)
+                b6 += b1
+                b1 = rotlXor(b1, ROTATION_6_3, b6)
+                b12 += b15
+                b15 = rotlXor(b15, ROTATION_6_4, b12)
+                b14 += b13
+                b13 = rotlXor(b13, ROTATION_6_5, b14)
+                b8 += b11
+                b11 = rotlXor(b11, ROTATION_6_6, b8)
+                b10 += b9
+                b9 = rotlXor(b9, ROTATION_6_7, b10)
+                b0 += b15
+                b15 = rotlXor(b15, ROTATION_7_0, b0)
+                b2 += b11
+                b11 = rotlXor(b11, ROTATION_7_1, b2)
+                b6 += b13
+                b13 = rotlXor(b13, ROTATION_7_2, b6)
+                b4 += b9
+                b9 = rotlXor(b9, ROTATION_7_3, b4)
+                b14 += b1
+                b1 = rotlXor(b1, ROTATION_7_4, b14)
+                b8 += b5
+                b5 = rotlXor(b5, ROTATION_7_5, b8)
+                b10 += b3
+                b3 = rotlXor(b3, ROTATION_7_6, b10)
+                b12 += b7
+                b7 = rotlXor(b7, ROTATION_7_7, b12)
 
                 /*
                  * Subkey injection for next 4 rounds.
