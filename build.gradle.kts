@@ -35,6 +35,16 @@ plugins {
     alias(libs.plugins.gradleVersionsPlugin)
 }
 
+allprojects {
+    repositories {
+        //noinspection JcenterRepositoryObsolete Just needed for Groupie
+        @Suppress("DEPRECATION")
+        jcenter()
+        google()
+        mavenCentral()
+    }
+}
+
 apply(from = "gradle/scripts/detekt.gradle.kts")
 
 tasks.withType<DependencyUpdatesTask> {
