@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -154,30 +154,26 @@ internal abstract class ECHOSmallCore<D : ECHOSmallCore<D>> : DigestEngine<D>() 
     private fun aes2RoundsAll() {
         for (n in 0..15) {
             val j = n shl 2
-            val y0 = (
-                    AES0[w[j + 0] and 0xFF]
-                            xor AES1[w[j + 1] ushr 8 and 0xFF]
-                            xor AES2[w[j + 2] ushr 16 and 0xFF]
-                            xor AES3[w[j + 3] ushr 24 and 0xFF] xor k0
-                    )
-            val y1 = (
-                    AES0[w[j + 1] and 0xFF]
-                            xor AES1[w[j + 2] ushr 8 and 0xFF]
-                            xor AES2[w[j + 3] ushr 16 and 0xFF]
-                            xor AES3[w[j + 0] ushr 24 and 0xFF] xor k1
-                    )
-            val y2 = (
-                    AES0[w[j + 2] and 0xFF]
-                            xor AES1[w[j + 3] ushr 8 and 0xFF]
-                            xor AES2[w[j + 0] ushr 16 and 0xFF]
-                            xor AES3[w[j + 1] ushr 24 and 0xFF] xor k2
-                    )
-            val y3 = (
-                    AES0[w[j + 3] and 0xFF]
-                            xor AES1[w[j + 0] ushr 8 and 0xFF]
-                            xor AES2[w[j + 1] ushr 16 and 0xFF]
-                            xor AES3[w[j + 2] ushr 24 and 0xFF] xor k3
-                    )
+            val y0 = AES0[w[j + 0] and 0xFF] xor
+                    AES1[w[j + 1] ushr 8 and 0xFF] xor
+                    AES2[w[j + 2] ushr 16 and 0xFF] xor
+                    AES3[w[j + 3] ushr 24 and 0xFF] xor
+                    k0
+            val y1 = AES0[w[j + 1] and 0xFF] xor
+                    AES1[w[j + 2] ushr 8 and 0xFF] xor
+                    AES2[w[j + 3] ushr 16 and 0xFF] xor
+                    AES3[w[j + 0] ushr 24 and 0xFF] xor
+                    k1
+            val y2 = AES0[w[j + 2] and 0xFF] xor
+                    AES1[w[j + 3] ushr 8 and 0xFF] xor
+                    AES2[w[j + 0] ushr 16 and 0xFF] xor
+                    AES3[w[j + 1] ushr 24 and 0xFF] xor
+                    k2
+            val y3 = AES0[w[j + 3] and 0xFF] xor
+                    AES1[w[j + 0] ushr 8 and 0xFF] xor
+                    AES2[w[j + 1] ushr 16 and 0xFF] xor
+                    AES3[w[j + 2] ushr 24 and 0xFF] xor
+                    k3
             w[j + 0] = (AES0[y0 and 0xFF] xor AES1[y1 ushr 8 and 0xFF] xor AES2[y2 ushr 16 and 0xFF] xor AES3[y3 ushr 24 and 0xFF])
             w[j + 1] = (AES0[y1 and 0xFF] xor AES1[y2 ushr 8 and 0xFF] xor AES2[y3 ushr 16 and 0xFF] xor AES3[y0 ushr 24 and 0xFF])
             w[j + 2] = (AES0[y2 and 0xFF] xor AES1[y3 ushr 8 and 0xFF] xor AES2[y0 ushr 16 and 0xFF] xor AES3[y1 ushr 24 and 0xFF])
@@ -288,15 +284,14 @@ internal abstract class ECHOSmallCore<D : ECHOSmallCore<D>> : DigestEngine<D>() 
             mixColumn(12, 13, 14, 15)
         }
         for (u in 0..15) {
-            v[u] = v[u] xor (
+            v[u] = v[u] xor
                     decodeLEInt(data, u * 4) xor
-                            decodeLEInt(data, u * 4 + 64) xor
-                            decodeLEInt(data, u * 4 + 128) xor
-                            w[u] xor
-                            w[u + 16] xor
-                            w[u + 32] xor
-                            w[u + 48]
-                    )
+                    decodeLEInt(data, u * 4 + 64) xor
+                    decodeLEInt(data, u * 4 + 128) xor
+                    w[u] xor
+                    w[u + 16] xor
+                    w[u + 32] xor
+                    w[u + 48]
         }
     }
 

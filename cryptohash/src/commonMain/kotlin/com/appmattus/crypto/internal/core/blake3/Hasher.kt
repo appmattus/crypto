@@ -21,7 +21,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -147,16 +147,16 @@ internal class Hasher(
     companion object {
         internal const val DEFAULT_HASH_LEN = 32
         internal const val OUT_LEN = 32
-        internal const val KEY_LEN = 32
+        private const val KEY_LEN = 32
         internal const val BLOCK_LEN = 64
         internal const val CHUNK_LEN = 1024
         internal const val CHUNK_START = 1
         internal const val CHUNK_END = 2
-        internal const val PARENT = 4
+        private const val PARENT = 4
         internal const val ROOT = 8
-        internal const val KEYED_HASH = 16
-        internal const val DERIVE_KEY_CONTEXT = 32
-        internal const val DERIVE_KEY_MATERIAL = 64
+        private const val KEYED_HASH = 16
+        private const val DERIVE_KEY_CONTEXT = 32
+        private const val DERIVE_KEY_MATERIAL = 64
 
         @Suppress("PropertyWrapping")
         internal val IV = intArrayOf(0x6A09E667, -0x4498517b, 0x3C6EF372, -0x5ab00ac6, 0x510E527F, -0x64fa9774, 0x1F83D9AB, 0x5BE0CD19)

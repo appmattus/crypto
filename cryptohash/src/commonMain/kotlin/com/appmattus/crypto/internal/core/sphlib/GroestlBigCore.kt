@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -418,166 +418,134 @@ internal abstract class GroestlBigCore<D : GroestlBigCore<D>> : DigestEngine<D>(
             x[0xD] = x[0xD] xor ((0xD0 + r).toLong() shl 56)
             x[0xE] = x[0xE] xor ((0xE0 + r).toLong() shl 56)
             x[0xF] = x[0xF] xor ((0xF0 + r).toLong() shl 56)
-            val t0 = (
-                    T0[(x[0x0] ushr 56).toInt()]
-                            xor T1[(x[0x1] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x2] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x3] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x4].toInt() ushr 24]
-                            xor T5[x[0x5].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x6].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xB].toInt() and 0xFF]
-                    )
-            val t1 = (
-                    T0[(x[0x1] ushr 56).toInt()]
-                            xor T1[(x[0x2] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x3] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x4] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x5].toInt() ushr 24]
-                            xor T5[x[0x6].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x7].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xC].toInt() and 0xFF]
-                    )
-            val t2 = (
-                    T0[(x[0x2] ushr 56).toInt()]
-                            xor T1[(x[0x3] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x4] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x5] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x6].toInt() ushr 24]
-                            xor T5[x[0x7].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x8].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xD].toInt() and 0xFF]
-                    )
-            val t3 = (
-                    T0[(x[0x3] ushr 56).toInt()]
-                            xor T1[(x[0x4] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x5] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x6] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x7].toInt() ushr 24]
-                            xor T5[x[0x8].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x9].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xE].toInt() and 0xFF]
-                    )
-            val t4 = (
-                    T0[(x[0x4] ushr 56).toInt()]
-                            xor T1[(x[0x5] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x6] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x7] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x8].toInt() ushr 24]
-                            xor T5[x[0x9].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xA].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xF].toInt() and 0xFF]
-                    )
-            val t5 = (
-                    T0[(x[0x5] ushr 56).toInt()]
-                            xor T1[(x[0x6] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x7] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x8] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x9].toInt() ushr 24]
-                            xor T5[x[0xA].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xB].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x0].toInt() and 0xFF]
-                    )
-            val t6 = (
-                    T0[(x[0x6] ushr 56).toInt()]
-                            xor T1[(x[0x7] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x8] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x9] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xA].toInt() ushr 24]
-                            xor T5[x[0xB].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xC].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x1].toInt() and 0xFF]
-                    )
-            val t7 = (
-                    T0[(x[0x7] ushr 56).toInt()]
-                            xor T1[(x[0x8] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x9] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xA] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xB].toInt() ushr 24]
-                            xor T5[x[0xC].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xD].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x2].toInt() and 0xFF]
-                    )
-            val t8 = (
-                    T0[(x[0x8] ushr 56).toInt()]
-                            xor T1[(x[0x9] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xA] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xB] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xC].toInt() ushr 24]
-                            xor T5[x[0xD].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xE].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x3].toInt() and 0xFF]
-                    )
-            val t9 = (
-                    T0[(x[0x9] ushr 56).toInt()]
-                            xor T1[(x[0xA] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xB] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xC] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xD].toInt() ushr 24]
-                            xor T5[x[0xE].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xF].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x4].toInt() and 0xFF]
-                    )
-            val tA = (
-                    T0[(x[0xA] ushr 56).toInt()]
-                            xor T1[(x[0xB] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xC] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xD] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xE].toInt() ushr 24]
-                            xor T5[x[0xF].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x0].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x5].toInt() and 0xFF]
-                    )
-            val tB = (
-                    T0[(x[0xB] ushr 56).toInt()]
-                            xor T1[(x[0xC] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xD] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xE] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xF].toInt() ushr 24]
-                            xor T5[x[0x0].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x1].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x6].toInt() and 0xFF]
-                    )
-            val tC = (
-                    T0[(x[0xC] ushr 56).toInt()]
-                            xor T1[(x[0xD] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xE] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xF] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x0].toInt() ushr 24]
-                            xor T5[x[0x1].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x2].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x7].toInt() and 0xFF]
-                    )
-            val tD = (
-                    T0[(x[0xD] ushr 56).toInt()]
-                            xor T1[(x[0xE] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xF] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x0] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x1].toInt() ushr 24]
-                            xor T5[x[0x2].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x3].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x8].toInt() and 0xFF]
-                    )
-            val tE = (
-                    T0[(x[0xE] ushr 56).toInt()]
-                            xor T1[(x[0xF] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x0] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x1] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x2].toInt() ushr 24]
-                            xor T5[x[0x3].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x4].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x9].toInt() and 0xFF]
-                    )
-            val tF = (
-                    T0[(x[0xF] ushr 56).toInt()]
-                            xor T1[(x[0x0] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x1] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x2] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x3].toInt() ushr 24]
-                            xor T5[x[0x4].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x5].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xA].toInt() and 0xFF]
-                    )
+            val t0 = T0[(x[0x0] ushr 56).toInt()] xor
+                    T1[(x[0x1] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x2] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x3] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x4].toInt() ushr 24] xor
+                    T5[x[0x5].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x6].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xB].toInt() and 0xFF]
+            val t1 = T0[(x[0x1] ushr 56).toInt()] xor
+                    T1[(x[0x2] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x3] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x4] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x5].toInt() ushr 24] xor
+                    T5[x[0x6].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x7].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xC].toInt() and 0xFF]
+            val t2 = T0[(x[0x2] ushr 56).toInt()] xor
+                    T1[(x[0x3] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x4] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x5] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x6].toInt() ushr 24] xor
+                    T5[x[0x7].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x8].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xD].toInt() and 0xFF]
+            val t3 = T0[(x[0x3] ushr 56).toInt()] xor
+                    T1[(x[0x4] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x5] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x6] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x7].toInt() ushr 24] xor
+                    T5[x[0x8].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x9].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xE].toInt() and 0xFF]
+            val t4 = T0[(x[0x4] ushr 56).toInt()] xor
+                    T1[(x[0x5] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x6] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x7] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x8].toInt() ushr 24] xor
+                    T5[x[0x9].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xA].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xF].toInt() and 0xFF]
+            val t5 = T0[(x[0x5] ushr 56).toInt()] xor
+                    T1[(x[0x6] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x7] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x8] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x9].toInt() ushr 24] xor
+                    T5[x[0xA].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xB].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x0].toInt() and 0xFF]
+            val t6 = T0[(x[0x6] ushr 56).toInt()] xor
+                    T1[(x[0x7] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x8] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x9] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xA].toInt() ushr 24] xor
+                    T5[x[0xB].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xC].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x1].toInt() and 0xFF]
+            val t7 = T0[(x[0x7] ushr 56).toInt()] xor
+                    T1[(x[0x8] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x9] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xA] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xB].toInt() ushr 24] xor
+                    T5[x[0xC].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xD].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x2].toInt() and 0xFF]
+            val t8 = T0[(x[0x8] ushr 56).toInt()] xor
+                    T1[(x[0x9] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xA] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xB] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xC].toInt() ushr 24] xor
+                    T5[x[0xD].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xE].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x3].toInt() and 0xFF]
+            val t9 = T0[(x[0x9] ushr 56).toInt()] xor
+                    T1[(x[0xA] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xB] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xC] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xD].toInt() ushr 24] xor
+                    T5[x[0xE].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xF].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x4].toInt() and 0xFF]
+            val tA = T0[(x[0xA] ushr 56).toInt()] xor
+                    T1[(x[0xB] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xC] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xD] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xE].toInt() ushr 24] xor
+                    T5[x[0xF].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x0].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x5].toInt() and 0xFF]
+            val tB = T0[(x[0xB] ushr 56).toInt()] xor
+                    T1[(x[0xC] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xD] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xE] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xF].toInt() ushr 24] xor
+                    T5[x[0x0].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x1].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x6].toInt() and 0xFF]
+            val tC = T0[(x[0xC] ushr 56).toInt()] xor
+                    T1[(x[0xD] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xE] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xF] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x0].toInt() ushr 24] xor
+                    T5[x[0x1].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x2].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x7].toInt() and 0xFF]
+            val tD = T0[(x[0xD] ushr 56).toInt()] xor
+                    T1[(x[0xE] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xF] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x0] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x1].toInt() ushr 24] xor
+                    T5[x[0x2].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x3].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x8].toInt() and 0xFF]
+            val tE = T0[(x[0xE] ushr 56).toInt()] xor
+                    T1[(x[0xF] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x0] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x1] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x2].toInt() ushr 24] xor
+                    T5[x[0x3].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x4].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x9].toInt() and 0xFF]
+            val tF = T0[(x[0xF] ushr 56).toInt()] xor
+                    T1[(x[0x0] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x1] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x2] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x3].toInt() ushr 24] xor
+                    T5[x[0x4].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x5].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xA].toInt() and 0xFF]
             x[0x0] = t0
             x[0x1] = t1
             x[0x2] = t2
@@ -616,166 +584,134 @@ internal abstract class GroestlBigCore<D : GroestlBigCore<D>> : DigestEngine<D>(
             x[0xD] = x[0xD] xor (r.toLong() xor -0xD1L)
             x[0xE] = x[0xE] xor (r.toLong() xor -0xE1L)
             x[0xF] = x[0xF] xor (r.toLong() xor -0xF1L)
-            val t0 = (
-                    T0[(x[0x1] ushr 56).toInt()]
-                            xor T1[(x[0x3] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x5] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xB] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x0].toInt() ushr 24]
-                            xor T5[x[0x2].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x4].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x6].toInt() and 0xFF]
-                    )
-            val t1 = (
-                    T0[(x[0x2] ushr 56).toInt()]
-                            xor T1[(x[0x4] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x6] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xC] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x1].toInt() ushr 24]
-                            xor T5[x[0x3].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x5].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x7].toInt() and 0xFF]
-                    )
-            val t2 = (
-                    T0[(x[0x3] ushr 56).toInt()]
-                            xor T1[(x[0x5] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x7] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xD] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x2].toInt() ushr 24]
-                            xor T5[x[0x4].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x6].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x8].toInt() and 0xFF]
-                    )
-            val t3 = (
-                    T0[(x[0x4] ushr 56).toInt()]
-                            xor T1[(x[0x6] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x8] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xE] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x3].toInt() ushr 24]
-                            xor T5[x[0x5].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x7].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x9].toInt() and 0xFF]
-                    )
-            val t4 = (
-                    T0[(x[0x5] ushr 56).toInt()]
-                            xor T1[(x[0x7] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x9] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xF] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x4].toInt() ushr 24]
-                            xor T5[x[0x6].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x8].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xA].toInt() and 0xFF]
-                    )
-            val t5 = (
-                    T0[(x[0x6] ushr 56).toInt()]
-                            xor T1[(x[0x8] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xA] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x0] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x5].toInt() ushr 24]
-                            xor T5[x[0x7].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x9].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xB].toInt() and 0xFF]
-                    )
-            val t6 = (
-                    T0[(x[0x7] ushr 56).toInt()]
-                            xor T1[(x[0x9] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xB] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x1] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x6].toInt() ushr 24]
-                            xor T5[x[0x8].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xA].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xC].toInt() and 0xFF]
-                    )
-            val t7 = (
-                    T0[(x[0x8] ushr 56).toInt()]
-                            xor T1[(x[0xA] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xC] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x2] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x7].toInt() ushr 24]
-                            xor T5[x[0x9].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xB].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xD].toInt() and 0xFF]
-                    )
-            val t8 = (
-                    T0[(x[0x9] ushr 56).toInt()]
-                            xor T1[(x[0xB] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xD] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x3] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x8].toInt() ushr 24]
-                            xor T5[x[0xA].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xC].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xE].toInt() and 0xFF]
-                    )
-            val t9 = (
-                    T0[(x[0xA] ushr 56).toInt()]
-                            xor T1[(x[0xC] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xE] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x4] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0x9].toInt() ushr 24]
-                            xor T5[x[0xB].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xD].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0xF].toInt() and 0xFF]
-                    )
-            val tA = (
-                    T0[(x[0xB] ushr 56).toInt()]
-                            xor T1[(x[0xD] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0xF] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x5] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xA].toInt() ushr 24]
-                            xor T5[x[0xC].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xE].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x0].toInt() and 0xFF]
-                    )
-            val tB = (
-                    T0[(x[0xC] ushr 56).toInt()]
-                            xor T1[(x[0xE] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x0] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x6] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xB].toInt() ushr 24]
-                            xor T5[x[0xD].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0xF].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x1].toInt() and 0xFF]
-                    )
-            val tC = (
-                    T0[(x[0xD] ushr 56).toInt()]
-                            xor T1[(x[0xF] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x1] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x7] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xC].toInt() ushr 24]
-                            xor T5[x[0xE].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x0].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x2].toInt() and 0xFF]
-                    )
-            val tD = (
-                    T0[(x[0xE] ushr 56).toInt()]
-                            xor T1[(x[0x0] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x2] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x8] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xD].toInt() ushr 24]
-                            xor T5[x[0xF].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x1].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x3].toInt() and 0xFF]
-                    )
-            val tE = (
-                    T0[(x[0xF] ushr 56).toInt()]
-                            xor T1[(x[0x1] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x3] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0x9] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xE].toInt() ushr 24]
-                            xor T5[x[0x0].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x2].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x4].toInt() and 0xFF]
-                    )
-            val tF = (
-                    T0[(x[0x0] ushr 56).toInt()]
-                            xor T1[(x[0x2] ushr 48).toInt() and 0xFF]
-                            xor T2[(x[0x4] ushr 40).toInt() and 0xFF]
-                            xor T3[(x[0xA] ushr 32).toInt() and 0xFF]
-                            xor T4[x[0xF].toInt() ushr 24]
-                            xor T5[x[0x1].toInt() ushr 16 and 0xFF]
-                            xor T6[x[0x3].toInt() ushr 8 and 0xFF]
-                            xor T7[x[0x5].toInt() and 0xFF]
-                    )
+            val t0 = T0[(x[0x1] ushr 56).toInt()] xor
+                    T1[(x[0x3] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x5] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xB] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x0].toInt() ushr 24] xor
+                    T5[x[0x2].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x4].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x6].toInt() and 0xFF]
+            val t1 = T0[(x[0x2] ushr 56).toInt()] xor
+                    T1[(x[0x4] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x6] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xC] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x1].toInt() ushr 24] xor
+                    T5[x[0x3].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x5].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x7].toInt() and 0xFF]
+            val t2 = T0[(x[0x3] ushr 56).toInt()] xor
+                    T1[(x[0x5] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x7] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xD] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x2].toInt() ushr 24] xor
+                    T5[x[0x4].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x6].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x8].toInt() and 0xFF]
+            val t3 = T0[(x[0x4] ushr 56).toInt()] xor
+                    T1[(x[0x6] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x8] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xE] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x3].toInt() ushr 24] xor
+                    T5[x[0x5].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x7].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x9].toInt() and 0xFF]
+            val t4 = T0[(x[0x5] ushr 56).toInt()] xor
+                    T1[(x[0x7] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x9] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xF] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x4].toInt() ushr 24] xor
+                    T5[x[0x6].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x8].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xA].toInt() and 0xFF]
+            val t5 = T0[(x[0x6] ushr 56).toInt()] xor
+                    T1[(x[0x8] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xA] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x0] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x5].toInt() ushr 24] xor
+                    T5[x[0x7].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x9].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xB].toInt() and 0xFF]
+            val t6 = T0[(x[0x7] ushr 56).toInt()] xor
+                    T1[(x[0x9] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xB] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x1] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x6].toInt() ushr 24] xor
+                    T5[x[0x8].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xA].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xC].toInt() and 0xFF]
+            val t7 = T0[(x[0x8] ushr 56).toInt()] xor
+                    T1[(x[0xA] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xC] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x2] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x7].toInt() ushr 24] xor
+                    T5[x[0x9].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xB].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xD].toInt() and 0xFF]
+            val t8 = T0[(x[0x9] ushr 56).toInt()] xor
+                    T1[(x[0xB] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xD] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x3] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x8].toInt() ushr 24] xor
+                    T5[x[0xA].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xC].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xE].toInt() and 0xFF]
+            val t9 = T0[(x[0xA] ushr 56).toInt()] xor
+                    T1[(x[0xC] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xE] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x4] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0x9].toInt() ushr 24] xor
+                    T5[x[0xB].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xD].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0xF].toInt() and 0xFF]
+            val tA = T0[(x[0xB] ushr 56).toInt()] xor
+                    T1[(x[0xD] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0xF] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x5] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xA].toInt() ushr 24] xor
+                    T5[x[0xC].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xE].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x0].toInt() and 0xFF]
+            val tB = T0[(x[0xC] ushr 56).toInt()] xor
+                    T1[(x[0xE] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x0] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x6] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xB].toInt() ushr 24] xor
+                    T5[x[0xD].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0xF].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x1].toInt() and 0xFF]
+            val tC = T0[(x[0xD] ushr 56).toInt()] xor
+                    T1[(x[0xF] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x1] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x7] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xC].toInt() ushr 24] xor
+                    T5[x[0xE].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x0].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x2].toInt() and 0xFF]
+            val tD = T0[(x[0xE] ushr 56).toInt()] xor
+                    T1[(x[0x0] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x2] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x8] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xD].toInt() ushr 24] xor
+                    T5[x[0xF].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x1].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x3].toInt() and 0xFF]
+            val tE = T0[(x[0xF] ushr 56).toInt()] xor
+                    T1[(x[0x1] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x3] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0x9] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xE].toInt() ushr 24] xor
+                    T5[x[0x0].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x2].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x4].toInt() and 0xFF]
+            val tF = T0[(x[0x0] ushr 56).toInt()] xor
+                    T1[(x[0x2] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0x4] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0xA] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0xF].toInt() ushr 24] xor
+                    T5[x[0x1].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0x3].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0x5].toInt() and 0xFF]
             x[0x0] = t0
             x[0x1] = t1
             x[0x2] = t2
