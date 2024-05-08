@@ -39,6 +39,7 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.encodeBEInt
 
 /**

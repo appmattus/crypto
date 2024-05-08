@@ -39,6 +39,8 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
+import com.appmattus.crypto.Digest
+
 /**
  *
  * This class implements the Fugue-224 digest algorithm under the
