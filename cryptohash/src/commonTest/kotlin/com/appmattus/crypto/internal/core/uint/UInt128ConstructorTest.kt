@@ -106,7 +106,6 @@ class UInt128ConstructorTest {
     @Test
     fun testLongConstruction() {
         for (i in 0..Long.MAX_VALUE step (Long.MAX_VALUE shr 8)) {
-            // if (i % 100 == 0L) println(i)
             val value = i.toUInt128()
             assertEquals(i.toULong() and 0xFFFFFFFFFFFFFFFFuL, value.lower)
             assertEquals(0uL, value.upper)
@@ -114,7 +113,6 @@ class UInt128ConstructorTest {
 
         // Verify negative values apply sign extension
         for (i in Long.MIN_VALUE until 0 step (Long.MAX_VALUE shr 8)) {
-            if (i % 1000 == 0L) println(i)
             val value = i.toUInt128()
             assertEquals(i.toULong() and 0xFFFFFFFFFFFFFFFFuL, value.lower)
             assertEquals(ULong.MAX_VALUE, value.upper)

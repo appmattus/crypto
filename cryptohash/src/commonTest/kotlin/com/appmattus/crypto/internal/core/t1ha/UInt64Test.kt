@@ -223,7 +223,6 @@ class UInt64Test {
         assertEquals(UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE), UInt64(0u, 1u) * UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE))
         assertEquals(UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE), UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE) * UInt64(0u, 1u))
 
-        println(ULong.MAX_VALUE * ULong.MAX_VALUE)
         assertEquals(UInt64(0u, 1u), UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE) * UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE))
     }
 

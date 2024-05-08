@@ -34,18 +34,6 @@ kotlin {
 
     jvm()
 
-    // Darwin
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
-    tvosArm64()
-    tvosX64()
-    watchosArm32()
-    watchosArm64()
-    watchosX64()
-    macosArm64()
-    macosX64()
-
     /* Disabled - Unit test failures, Blake, CubeHash, Haval, Luffa, SHA3, SHAKE, Tiger, cShake, HMac
        js {
            browser()
@@ -54,155 +42,95 @@ kotlin {
        }
      */
 
-    // Linux
-    linuxX64()
-    linuxArm64()
+    // Tier 1
+    // Apple macOS hosts only:
+    macosX64() // Running tests
+    macosArm64() // Running tests
+    iosSimulatorArm64() // Running tests
+    iosX64() // Running tests
 
-    // Windows
-    mingwX64()
+    // Tier 2
+    linuxX64() // Running tests
+    linuxArm64()
+    // Apple macOS hosts only:
+    watchosSimulatorArm64() // Running tests
+    watchosX64() // Running tests
+    watchosArm32()
+    watchosArm64()
+    tvosSimulatorArm64() // Running tests
+    tvosX64() // Running tests
+    tvosArm64()
+    iosArm64()
+
+    // Tier 3
+    androidNativeArm32()
+    androidNativeArm64()
+    androidNativeX86()
+    androidNativeX64()
+    mingwX64() // Running tests
+    // Apple macOS hosts only:
+    watchosDeviceArm64()
+
+    // Apply the default hierarchy again. It'll create, for example, the iosMain source set:
+    applyDefaultHierarchyTemplate()
 
     @Suppress("UnusedPrivateMember")
     sourceSets {
-        val commonMain by getting
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-            }
+        val androidAndLinuxAndMingwMain by creating {
+            dependsOn(commonMain.get())
         }
-        val jvmMain by getting
-        val jvmTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(libs.bouncyCastle)
-                implementation(libs.kotlinX.coroutinesCore)
-            }
+        val androidAndLinuxAndMingwTest by creating {
+            dependsOn(commonTest.get())
+        }
+        val apple64Main by creating {
+            dependsOn(appleMain.get())
+        }
+        val apple32Main by creating {
+            dependsOn(appleMain.get())
+        }
+
+        linuxMain.get().dependsOn(androidAndLinuxAndMingwMain)
+        mingwMain.get().dependsOn(androidAndLinuxAndMingwMain)
+        androidNativeMain.get().dependsOn(androidAndLinuxAndMingwMain)
+        linuxTest.get().dependsOn(androidAndLinuxAndMingwTest)
+        mingwTest.get().dependsOn(androidAndLinuxAndMingwTest)
+        androidNativeTest.get().dependsOn(androidAndLinuxAndMingwTest)
+
+        val macosX64Main by getting { dependsOn(apple64Main) }
+        val macosArm64Main by getting { dependsOn(apple64Main) }
+        val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val iosX64Main by getting { dependsOn(apple64Main) }
+        val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val watchosX64Main by getting { dependsOn(apple64Main) }
+        val watchosArm32Main by getting { dependsOn(apple32Main) }
+        val watchosArm64Main by getting { dependsOn(apple32Main) }
+        val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val tvosX64Main by getting { dependsOn(apple64Main) }
+        val tvosArm64Main by getting { dependsOn(apple64Main) }
+        val iosArm64Main by getting { dependsOn(apple64Main) }
+        val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(kotlin("test-common"))
+            implementation(kotlin("test-annotations-common"))
+        }
+
+        jvmTest.dependencies {
+            implementation(kotlin("test-junit"))
+            implementation(libs.bouncyCastle)
+            implementation(libs.kotlinX.coroutinesCore)
+        }
+
+        appleTest.dependencies {
+            implementation(libs.kotlinX.coroutinesCore)
         }
 
         /* Disabled - See reason above
-        val jsMain by getting
-        val jsTest by getting {
-            dependencies {
-                implementation(kotlin("test-js"))
-            }
-        }*/
-
-        val nativeMain by creating {
-            dependsOn(commonMain)
-        }
-        val nativeTest by creating {
-            dependsOn(commonTest)
-        }
-
-        val nativeAltTest by creating {
-            dependsOn(nativeTest)
-        }
-
-        // Darwin
-        val nativeDarwin64Main by creating {
-            dependsOn(commonMain)
-        }
-        val nativeDarwin64Test by creating {
-            dependsOn(commonTest)
-            dependencies {
-                implementation(libs.kotlinX.coroutinesCore)
-            }
-        }
-        val nativeDarwin32Main by creating {
-            dependsOn(commonMain)
-        }
-        val nativeDarwin32Test by creating {
-            dependsOn(commonTest)
-            dependencies {
-                implementation(libs.kotlinX.coroutinesCore)
-            }
-        }
-        // ios
-        val iosArm64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val iosArm64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val iosX64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val iosX64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val iosSimulatorArm64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val iosSimulatorArm64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        // tvos
-        val tvosArm64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val tvosArm64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val tvosX64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val tvosX64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        // watchos
-        val watchosArm32Main by getting {
-            dependsOn(nativeDarwin32Main)
-        }
-        val watchosArm32Test by getting {
-            dependsOn(nativeDarwin32Test)
-        }
-        val watchosArm64Main by getting {
-            dependsOn(nativeDarwin32Main)
-        }
-        val watchosArm64Test by getting {
-            dependsOn(nativeDarwin32Test)
-        }
-        val watchosX64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val watchosX64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val macosArm64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val macosArm64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val macosX64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val macosX64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-
-        // Linux
-        val linuxX64Main by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxX64Test by getting {
-            dependsOn(nativeAltTest)
-        }
-        val linuxArm64Main by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxArm64Test by getting {
-            dependsOn(nativeAltTest)
-        }
-
-        // Windows
-        val mingwX64Main by getting {
-            dependsOn(nativeMain)
-        }
-        val mingwX64Test by getting {
-            dependsOn(nativeAltTest)
-        }
+           jsTest.dependencies {
+               implementation(kotlin("test-js"))
+           }
+         */
     }
 }
 

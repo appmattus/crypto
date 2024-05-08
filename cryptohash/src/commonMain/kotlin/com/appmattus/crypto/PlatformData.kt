@@ -19,6 +19,7 @@ package com.appmattus.crypto
 /**
  * Represents the native platforms data type for Array like data
  */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 public expect class PlatformData
 
 /**

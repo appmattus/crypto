@@ -75,35 +75,23 @@ internal class ByteArrayArray : ByteBuffer {
         var index = startIndex
 
         while (len > 0) {
-            println("\n")
-            println("destOffset: $destOffset")
-            println("len: $len")
-            println("index: $index")
-
             val pos = position(index)
-            println("pos: $pos")
 
             val available = sizes[pos.first] - pos.second
-            println("available: $available")
 
             if (available >= len) {
-                println("copying all bytes")
                 // this array contains all the data we need...
                 bytes[pos.first].copyInto(destination, destOffset, pos.second, pos.second + len)
                 len = 0
                 destOffset += len
                 index += len
             } else {
-                println("copying partial bytes")
-
                 // partial bytes
                 bytes[pos.first].copyInto(destination, destOffset, pos.second, pos.second + available)
                 len -= available
                 destOffset += available
                 index += available
             }
-
-            println("destination: ${destination.toList()}")
         }
 
         return destination
