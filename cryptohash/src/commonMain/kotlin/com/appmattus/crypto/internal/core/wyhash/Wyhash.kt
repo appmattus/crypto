@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,16 +121,15 @@ internal class Wyhash(
     }
 
     // special version when reading last 16 bytes
-    private fun wyr8Wrapped(data: ByteArray, offset: Int): ULong = (
-            data[(offset + 48 + 0) % 48].toULong() and 0xFFu
-                    or ((data[(offset + 48 + 1) % 48].toULong() and 0xFFu) shl 8)
-                    or ((data[(offset + 48 + 2) % 48].toULong() and 0xFFu) shl 16)
-                    or ((data[(offset + 48 + 3) % 48].toULong() and 0xFFu) shl 24)
-                    or ((data[(offset + 48 + 4) % 48].toULong() and 0xFFu) shl 32)
-                    or ((data[(offset + 48 + 5) % 48].toULong() and 0xFFu) shl 40)
-                    or ((data[(offset + 48 + 6) % 48].toULong() and 0xFFu) shl 48)
-                    or ((data[(offset + 48 + 7) % 48].toULong() and 0xFFu) shl 56)
-            )
+    private fun wyr8Wrapped(data: ByteArray, offset: Int): ULong =
+        data[(offset + 48 + 0) % 48].toULong() and 0xFFu or
+                ((data[(offset + 48 + 1) % 48].toULong() and 0xFFu) shl 8) or
+                ((data[(offset + 48 + 2) % 48].toULong() and 0xFFu) shl 16) or
+                ((data[(offset + 48 + 3) % 48].toULong() and 0xFFu) shl 24) or
+                ((data[(offset + 48 + 4) % 48].toULong() and 0xFFu) shl 32) or
+                ((data[(offset + 48 + 5) % 48].toULong() and 0xFFu) shl 40) or
+                ((data[(offset + 48 + 6) % 48].toULong() and 0xFFu) shl 48) or
+                ((data[(offset + 48 + 7) % 48].toULong() and 0xFFu) shl 56)
 
     override fun doInit() = Unit
 
