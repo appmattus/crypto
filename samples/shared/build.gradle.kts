@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.android.library)
@@ -24,20 +22,22 @@ plugins {
 
 kotlin {
     androidTarget()
-    ios {
-        binaries {
-            framework {
-                export(project(":cryptohash"))
-                baseName = "shared"
-            }
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            export(project(":cryptohash"))
+            baseName = "Shared"
+            isStatic = true
         }
     }
-    @Suppress("UnusedPrivateMember")
+
     sourceSets {
-        commonMain {
-            dependencies {
-                api(project(":cryptohash"))
-            }
+        commonMain.dependencies {
+            api(project(":cryptohash"))
         }
     }
 }
@@ -46,7 +46,6 @@ android {
     namespace = "com.appmattus.crypto.shared"
 
     compileSdk = 34
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
     }
@@ -55,44 +54,4 @@ android {
             isMinifyEnabled = false
         }
     }
-}
-
-val hostOs = System.getProperty("os.name")
-
-val xcFrameworkPath = "${layout.buildDirectory}/xcode-frameworks/${project.name}.xcframework"
-
-if (hostOs == "Mac OS X") {
-    tasks.create<Delete>("deleteXcFramework") { delete = setOf(xcFrameworkPath) }
-}
-
-val buildXcFramework by tasks.registering {
-    dependsOn("deleteXcFramework")
-    group = "build"
-    val mode = "Release"
-    val frameworks = arrayOf("iosArm64", "iosX64")
-        .map { kotlin.targets.getByName<KotlinNativeTarget>(it).binaries.getFramework(mode) }
-    inputs.property("mode", mode)
-    dependsOn(frameworks.map { it.linkTask })
-    doLast { buildXcFramework(frameworks) }
-}
-
-fun Task.buildXcFramework(frameworks: List<org.jetbrains.kotlin.gradle.plugin.mpp.Framework>) {
-    val buildArgs: () -> List<String> = {
-        val arguments = mutableListOf("-create-xcframework")
-        frameworks.forEach {
-            arguments += "-framework"
-            arguments += "${it.outputDirectory}/${project.name}.framework"
-        }
-        arguments += "-output"
-        arguments += xcFrameworkPath
-        arguments
-    }
-    exec {
-        executable = "xcodebuild"
-        args = buildArgs()
-    }
-}
-
-if (hostOs == "Mac OS X") {
-    tasks.getByName("build").dependsOn(buildXcFramework)
 }

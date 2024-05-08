@@ -19,6 +19,7 @@ package com.appmattus.crypto
 /**
  * Represents the native platforms data type for Array like data. For JVM we are using [ByteArray]
  */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 public actual typealias PlatformData = ByteArray
 
 /**

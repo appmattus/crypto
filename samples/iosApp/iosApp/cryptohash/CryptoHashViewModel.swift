@@ -16,7 +16,7 @@
 
 import SwiftUI
 import Combine
-import shared
+import Shared
 
 class CryptoHashViewModel: ObservableObject {
 
@@ -33,7 +33,6 @@ class CryptoHashViewModel: ObservableObject {
         Algorithm.CRC32(),
         Algorithm.cSHAKE256(customisation: nil, functionName: nil),
         Algorithm.CubeHash512(),
-        Algorithm.DSTU7564_512(),
         Algorithm.ECHO512(),
         Algorithm.Fugue512(),
         Algorithm.GOST3411_2012_512(),

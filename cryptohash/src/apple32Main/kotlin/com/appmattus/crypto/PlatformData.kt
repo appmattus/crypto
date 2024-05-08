@@ -21,6 +21,7 @@ import platform.Foundation.NSData
 /**
  * Represents the native platforms data type for Array like data. For Darwin we are using [NSData]
  */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 public actual typealias PlatformData = NSData
 
 /**
