@@ -81,7 +81,6 @@ internal abstract class HamsiBigCore<D : HamsiBigCore<D>> : Digest<D> {
         update(input, 0, input.size)
     }
 
-    @Suppress("NAME_SHADOWING")
     override fun update(input: ByteArray, offset: Int, length: Int) {
         var off = offset
         var len = length
@@ -135,7 +134,6 @@ internal abstract class HamsiBigCore<D : HamsiBigCore<D>> : Digest<D> {
         return digest()
     }
 
-    @Suppress("NAME_SHADOWING")
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         var len = length
         val bitCount = bitCount

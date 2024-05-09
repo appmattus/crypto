@@ -316,7 +316,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
     }
 
     @Suppress("ReturnCount")
-    fun naHash64(s: ByteBuffer): ULong {
+    private fun naHash64(s: ByteBuffer): ULong {
         val seed: ULong = 81u
         val len = s.size
         when {

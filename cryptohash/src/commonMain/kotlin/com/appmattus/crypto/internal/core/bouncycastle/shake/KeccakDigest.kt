@@ -53,9 +53,9 @@ import kotlin.math.min
 @Suppress("TooManyFunctions")
 internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
     protected var state = LongArray(25)
-    protected var dataQueue = ByteArray(192)
+    private var dataQueue = ByteArray(192)
     protected var rate = 0
-    protected var bitsInQueue = 0
+    private var bitsInQueue = 0
     protected var fixedOutputLength = 0
     protected var squeezing = false
 
@@ -113,7 +113,7 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
      *
      * @return internal byte length of a block.
      */
-    val byteLength: Int
+    private val byteLength: Int
         get() = rate / 8
 
     private fun init(bitLength: Int) {

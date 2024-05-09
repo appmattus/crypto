@@ -188,17 +188,18 @@ internal class ThreefishEngine(blocksizeBits: Int) {
     fun init(forEncryption: Boolean, params: CipherParameters) {
         val keyBytes: ByteArray
         val tweakBytes: ByteArray?
-        if (params is TweakableBlockCipherParameters) {
-            keyBytes = params.key.key
-            tweakBytes = params.tweak
-        } else if (params is KeyParameter) {
-            keyBytes = params.key
-            tweakBytes = null
-        } else {
-            throw IllegalArgumentException(
-                "Invalid parameter passed to Threefish init - " +
-                        params::class.simpleName
-            )
+        when (params) {
+            is TweakableBlockCipherParameters -> {
+                keyBytes = params.key.key
+                tweakBytes = params.tweak
+            }
+
+            is KeyParameter -> {
+                keyBytes = params.key
+                tweakBytes = null
+            }
+
+            else -> throw IllegalArgumentException("Invalid parameter passed to Threefish init - ${params::class.simpleName}")
         }
         var tweakWords: LongArray? = null
         require(keyBytes.size == blockSize) { "Threefish key must be same size as block ($blockSize bytes)" }
@@ -246,7 +247,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
     }
 
     private fun setTweak(tweak: LongArray) {
-        require(tweak.size == TWEAK_SIZE_WORDS) { "Tweak must be " + TWEAK_SIZE_WORDS + " words." }
+        require(tweak.size == TWEAK_SIZE_WORDS) { "Tweak must be $TWEAK_SIZE_WORDS words." }
 
         /*
          * Tweak schedule partially repeated to avoid mod computations during cipher operation

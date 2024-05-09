@@ -159,15 +159,13 @@ internal class Blake2s : Digest<Blake2s> {
         nodeDepth = digest.nodeDepth
         innerHashLength = digest.innerHashLength
     }
-    /**
-     * BLAKE2s for hashing.
-     *
-     * @param digestBits the desired digest length in bits. Must be a multiple of 8 and less than 256.
-     */
+
     // For Tree Hashing Mode, not used here:
     // private long f1 = 0L; // finalization flag, for last node: ~0L
     /**
      * BLAKE2s-256 for hashing.
+     *
+     * @param digestBits the desired digest length in bits. Must be a multiple of 8 and less than 256.
      */
     constructor(digestBits: Int = 256) {
         require(!(digestBits < 8 || digestBits > 256 || digestBits % 8 != 0)) {

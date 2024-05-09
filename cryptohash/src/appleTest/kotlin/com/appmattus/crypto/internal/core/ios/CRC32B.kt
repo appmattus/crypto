@@ -23,6 +23,7 @@ import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.UnsafeNumber
 import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.convert
 import kotlinx.cinterop.usePinned
 import platform.zlib.crc32
 import platform.zlib.uBytefVar
@@ -45,7 +46,7 @@ internal class CRC32B : Digest<CRC32B> {
         if (length > 0) {
             input.usePinned {
                 @Suppress("UNCHECKED_CAST")
-                crc = crc32(crc, it.addressOf(offset) as CPointer<uBytefVar>, length.toUInt()).toULong()
+                crc = crc32(crc.convert(), it.addressOf(offset) as CPointer<uBytefVar>, length.toUInt()).toULong()
             }
         }
     }

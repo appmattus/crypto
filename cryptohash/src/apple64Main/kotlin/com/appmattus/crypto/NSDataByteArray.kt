@@ -29,7 +29,7 @@ import platform.posix.memcpy
 // See https://gist.github.com/noahsark769/61cfb7a8b7231e2069a9dab94cf74a62
 
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
-@Suppress("unused")
+@Suppress("UnnecessaryOptInAnnotation")
 internal fun ByteArray.toData(): NSData = memScoped {
     NSData.create(
         bytes = allocArrayOf(this@toData),

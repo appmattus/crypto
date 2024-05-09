@@ -16,6 +16,7 @@
 
 package com.appmattus.crypto
 
+import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.allocArrayOf
@@ -27,8 +28,8 @@ import platform.posix.memcpy
 
 // See https://gist.github.com/noahsark769/61cfb7a8b7231e2069a9dab94cf74a62
 
-@OptIn(ExperimentalForeignApi::class)
-@Suppress("unused")
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
+@Suppress("UnnecessaryOptInAnnotation")
 internal fun ByteArray.toData(): NSData = memScoped {
     NSData.create(
         bytes = allocArrayOf(this@toData),

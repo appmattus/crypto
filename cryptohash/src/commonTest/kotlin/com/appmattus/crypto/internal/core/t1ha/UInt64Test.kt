@@ -156,7 +156,7 @@ class UInt64Test {
             return this - UInt64(0u, 1u)
         }
 
-        infix fun shr(n: Int): UInt64 {
+        private infix fun shr(n: Int): UInt64 {
             if (n < 0) {
                 this shl -n
             }
@@ -169,7 +169,7 @@ class UInt64Test {
             }
         }
 
-        infix fun shl(n: Int): UInt64 {
+        private infix fun shl(n: Int): UInt64 {
             if (n < 0) {
                 this shr -n
             }

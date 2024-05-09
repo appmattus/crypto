@@ -62,8 +62,7 @@ package com.appmattus.crypto.internal.core.bouncycastle.skein
  *
  * @see SkeinMac
  */
-internal class SkeinParameters private constructor(parameters: MutableMap<Int, ByteArray?>) : CipherParameters {
-    private val parameters: MutableMap<Int, ByteArray?>
+internal class SkeinParameters private constructor(private val parameters: MutableMap<Int, ByteArray?>) : CipherParameters {
 
     constructor() : this(mutableMapOf<Int, ByteArray?>())
 
@@ -300,9 +299,5 @@ internal class SkeinParameters private constructor(parameters: MutableMap<Int, B
          * The parameter type for the output transformation: {@value #PARAM_TYPE_OUTPUT}.
          */
         const val PARAM_TYPE_OUTPUT = 63
-    }
-
-    init {
-        this.parameters = parameters
     }
 }

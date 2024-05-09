@@ -64,6 +64,7 @@ import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.reverseByteOrder
 
 /**
  * XXH3 is a more recent hash algorithm featuring:
@@ -291,10 +292,12 @@ private fun XXH_rotl64(x: Long, r: Int) = circularLeftLong(x, r)
  * @return @p x, byteswapped.
  */
 private fun XXH_swap32(x: xxh_u32): xxh_u32 {
-    return x shl 24 and 0xff000000u.toInt() or
+    return x.toUInt().reverseByteOrder().toInt()
+
+    /*return x shl 24 and 0xff000000u.toInt() or
             (x shl 8 and 0x00ff0000) or
             (x ushr 8 and 0x0000ff00) or
-            (x ushr 24 and 0x000000ff)
+            (x ushr 24 and 0x000000ff)*/
 }
 
 /*-***************************

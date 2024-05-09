@@ -122,7 +122,7 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
     }
 
     private fun tail32(data: ByteBuffer, v: Int, tail: Int): UInt {
-        var r: UInt = 0u
+        var r = 0u
 
         if (tail == 0) {
             return data.decodeLEInt(v).toUInt()

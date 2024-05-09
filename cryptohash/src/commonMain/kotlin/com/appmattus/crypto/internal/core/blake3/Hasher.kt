@@ -61,7 +61,7 @@ internal class Hasher(
 
     fun reset() {
         chunkState = ChunkState(key, 0, flags)
-        cvStack = arrayOfNulls<IntArray>(54)
+        cvStack = arrayOfNulls(54)
         cvStackLen = 0
     }
 

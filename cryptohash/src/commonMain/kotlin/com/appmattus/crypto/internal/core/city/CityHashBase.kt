@@ -434,7 +434,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         internal const val k0: ULong = 0xc3a5c85c97cb3127uL
         internal const val k1: ULong = 0xb492b66fbe98f273uL
         internal const val k2: ULong = 0x9ae16a3b2f90404fuL
-        internal const val kMul: ULong = 0x9ddfea08eb382d69uL
+        private const val kMul: ULong = 0x9ddfea08eb382d69uL
 
         // Magic numbers for 32-bit hashing.  Copied from Murmur3.
         internal const val c1: UInt = 0xcc9e2d51u
@@ -481,8 +481,8 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
         private fun hash32Len0to4(s: ByteBuffer): UInt {
             val len = s.size
-            var b: UInt = 0u
-            var c: UInt = 9u
+            var b = 0u
+            var c = 9u
             for (i in 0 until len) {
                 val v = s[i].toUInt()
                 b = b * c1 + v
@@ -495,7 +495,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             val len = s.size
             var a: UInt = len.toUInt()
             var b: UInt = len.toUInt() * 5u
-            var c: UInt = 9u
+            var c = 9u
             val d: UInt = b
             a += s.decodeLEUInt(0)
             b += s.decodeLEUInt(len - 4)

@@ -122,7 +122,6 @@ internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest<D> {
         return digest()
     }
 
-    @Suppress("NAME_SHADOWING")
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         var len = length
         val bitCount = bitCount

@@ -42,9 +42,7 @@ internal class MurmurHash1(private val seed: UInt = 0u) : NonIncrementalDigest<M
         var pos = 0
 
         while (len >= 4) {
-            var k = input.decodeLEInt(pos).toUInt()
-
-            h += k
+            h += input.decodeLEInt(pos).toUInt()
             h *= m
             h = h xor (h shr r)
 

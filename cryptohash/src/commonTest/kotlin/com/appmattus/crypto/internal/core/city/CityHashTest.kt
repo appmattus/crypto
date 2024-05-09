@@ -35,7 +35,7 @@ object CityHashTest {
     const val kSeed1: ULong = k0
 
     // 1048576
-    const val kDataSize: Int = 1 shl 20
+    private const val kDataSize: Int = 1 shl 20
     const val kTestSize: Int = 300
 
     val testData = arrayOf(
