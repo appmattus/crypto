@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
-import com.appmattus.crypto.internal.core.circularLeftLong
 import com.appmattus.crypto.internal.core.decodeBELong
 import com.appmattus.crypto.internal.core.encodeBELong
 
@@ -196,37 +195,37 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
         init {
             for (i in T0.indices) {
                 val v = T0[i]
-                T1[i] = circularLeftLong(v, 56)
-                T2[i] = circularLeftLong(v, 48)
-                T3[i] = circularLeftLong(v, 40)
-                T4[i] = circularLeftLong(v, 32)
-                T5[i] = circularLeftLong(v, 24)
-                T6[i] = circularLeftLong(v, 16)
-                T7[i] = circularLeftLong(v, 8)
+                T1[i] = v.rotateLeft(56)
+                T2[i] = v.rotateLeft(48)
+                T3[i] = v.rotateLeft(40)
+                T4[i] = v.rotateLeft(32)
+                T5[i] = v.rotateLeft(24)
+                T6[i] = v.rotateLeft(16)
+                T7[i] = v.rotateLeft(8)
             }
         }
     }
     /* obsolete
-	private static final long[] CP = {
-		0x0000000000000000L, 0x0100000000000000L,
-		0x0200000000000000L, 0x0300000000000000L,
-		0x0400000000000000L, 0x0500000000000000L,
-		0x0600000000000000L, 0x0700000000000000L,
-		0x0800000000000000L, 0x0900000000000000L,
-		0x0A00000000000000L, 0x0B00000000000000L,
-		0x0C00000000000000L, 0x0D00000000000000L
-	};
+       private static final long[] CP = {
+           0x0000000000000000L, 0x0100000000000000L,
+           0x0200000000000000L, 0x0300000000000000L,
+           0x0400000000000000L, 0x0500000000000000L,
+           0x0600000000000000L, 0x0700000000000000L,
+           0x0800000000000000L, 0x0900000000000000L,
+           0x0A00000000000000L, 0x0B00000000000000L,
+           0x0C00000000000000L, 0x0D00000000000000L
+       };
 
-	private static final long[] CQ = {
-		0x00000000000000FFL, 0x00000000000000FEL,
-		0x00000000000000FDL, 0x00000000000000FCL,
-		0x00000000000000FBL, 0x00000000000000FAL,
-		0x00000000000000F9L, 0x00000000000000F8L,
-		0x00000000000000F7L, 0x00000000000000F6L,
-		0x00000000000000F5L, 0x00000000000000F4L,
-		0x00000000000000F3L, 0x00000000000000F2L
-	};
-	*/
+       private static final long[] CQ = {
+           0x00000000000000FFL, 0x00000000000000FEL,
+           0x00000000000000FDL, 0x00000000000000FCL,
+           0x00000000000000FBL, 0x00000000000000FAL,
+           0x00000000000000F9L, 0x00000000000000F8L,
+           0x00000000000000F7L, 0x00000000000000F6L,
+           0x00000000000000F5L, 0x00000000000000F4L,
+           0x00000000000000F3L, 0x00000000000000F2L
+       };
+     */
 
     override val blockLength: Int
         get() = 64
@@ -283,70 +282,70 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
             x[5] = x[5] xor ((0x50 + r).toLong() shl 56)
             x[6] = x[6] xor ((0x60 + r).toLong() shl 56)
             x[7] = x[7] xor ((0x70 + r).toLong() shl 56)
-            var t0 = (T0[(x[0] ushr 56).toInt()]
-                    xor T1[(x[1] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[2] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[3] ushr 32).toInt() and 0xFF]
-                    xor T4[x[4].toInt() ushr 24]
-                    xor T5[x[5].toInt() ushr 16 and 0xFF]
-                    xor T6[x[6].toInt() ushr 8 and 0xFF]
-                    xor T7[x[7].toInt() and 0xFF])
-            var t1 = (T0[(x[1] ushr 56).toInt()]
-                    xor T1[(x[2] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[3] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[4] ushr 32).toInt() and 0xFF]
-                    xor T4[x[5].toInt() ushr 24]
-                    xor T5[x[6].toInt() ushr 16 and 0xFF]
-                    xor T6[x[7].toInt() ushr 8 and 0xFF]
-                    xor T7[x[0].toInt() and 0xFF])
-            var t2 = (T0[(x[2] ushr 56).toInt()]
-                    xor T1[(x[3] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[4] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[5] ushr 32).toInt() and 0xFF]
-                    xor T4[x[6].toInt() ushr 24]
-                    xor T5[x[7].toInt() ushr 16 and 0xFF]
-                    xor T6[x[0].toInt() ushr 8 and 0xFF]
-                    xor T7[x[1].toInt() and 0xFF])
-            var t3 = (T0[(x[3] ushr 56).toInt()]
-                    xor T1[(x[4] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[5] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[6] ushr 32).toInt() and 0xFF]
-                    xor T4[x[7].toInt() ushr 24]
-                    xor T5[x[0].toInt() ushr 16 and 0xFF]
-                    xor T6[x[1].toInt() ushr 8 and 0xFF]
-                    xor T7[x[2].toInt() and 0xFF])
-            var t4 = (T0[(x[4] ushr 56).toInt()]
-                    xor T1[(x[5] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[6] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[7] ushr 32).toInt() and 0xFF]
-                    xor T4[x[0].toInt() ushr 24]
-                    xor T5[x[1].toInt() ushr 16 and 0xFF]
-                    xor T6[x[2].toInt() ushr 8 and 0xFF]
-                    xor T7[x[3].toInt() and 0xFF])
-            var t5 = (T0[(x[5] ushr 56).toInt()]
-                    xor T1[(x[6] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[7] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[0] ushr 32).toInt() and 0xFF]
-                    xor T4[x[1].toInt() ushr 24]
-                    xor T5[x[2].toInt() ushr 16 and 0xFF]
-                    xor T6[x[3].toInt() ushr 8 and 0xFF]
-                    xor T7[x[4].toInt() and 0xFF])
-            var t6 = (T0[(x[6] ushr 56).toInt()]
-                    xor T1[(x[7] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[0] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[1] ushr 32).toInt() and 0xFF]
-                    xor T4[x[2].toInt() ushr 24]
-                    xor T5[x[3].toInt() ushr 16 and 0xFF]
-                    xor T6[x[4].toInt() ushr 8 and 0xFF]
-                    xor T7[x[5].toInt() and 0xFF])
-            var t7 = (T0[(x[7] ushr 56).toInt()]
-                    xor T1[(x[0] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[1] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[2] ushr 32).toInt() and 0xFF]
-                    xor T4[x[3].toInt() ushr 24]
-                    xor T5[x[4].toInt() ushr 16 and 0xFF]
-                    xor T6[x[5].toInt() ushr 8 and 0xFF]
-                    xor T7[x[6].toInt() and 0xFF])
+            var t0 = T0[(x[0] ushr 56).toInt()] xor
+                    T1[(x[1] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[2] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[3] ushr 32).toInt() and 0xFF] xor
+                    T4[x[4].toInt() ushr 24] xor
+                    T5[x[5].toInt() ushr 16 and 0xFF] xor
+                    T6[x[6].toInt() ushr 8 and 0xFF] xor
+                    T7[x[7].toInt() and 0xFF]
+            var t1 = T0[(x[1] ushr 56).toInt()] xor
+                    T1[(x[2] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[3] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[4] ushr 32).toInt() and 0xFF] xor
+                    T4[x[5].toInt() ushr 24] xor
+                    T5[x[6].toInt() ushr 16 and 0xFF] xor
+                    T6[x[7].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0].toInt() and 0xFF]
+            var t2 = T0[(x[2] ushr 56).toInt()] xor
+                    T1[(x[3] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[4] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[5] ushr 32).toInt() and 0xFF] xor
+                    T4[x[6].toInt() ushr 24] xor
+                    T5[x[7].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0].toInt() ushr 8 and 0xFF] xor
+                    T7[x[1].toInt() and 0xFF]
+            var t3 = T0[(x[3] ushr 56).toInt()] xor
+                    T1[(x[4] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[5] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[6] ushr 32).toInt() and 0xFF] xor
+                    T4[x[7].toInt() ushr 24] xor
+                    T5[x[0].toInt() ushr 16 and 0xFF] xor
+                    T6[x[1].toInt() ushr 8 and 0xFF] xor
+                    T7[x[2].toInt() and 0xFF]
+            var t4 = T0[(x[4] ushr 56).toInt()] xor
+                    T1[(x[5] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[6] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[7] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0].toInt() ushr 24] xor
+                    T5[x[1].toInt() ushr 16 and 0xFF] xor
+                    T6[x[2].toInt() ushr 8 and 0xFF] xor
+                    T7[x[3].toInt() and 0xFF]
+            var t5 = T0[(x[5] ushr 56).toInt()] xor
+                    T1[(x[6] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[7] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0] ushr 32).toInt() and 0xFF] xor
+                    T4[x[1].toInt() ushr 24] xor
+                    T5[x[2].toInt() ushr 16 and 0xFF] xor
+                    T6[x[3].toInt() ushr 8 and 0xFF] xor
+                    T7[x[4].toInt() and 0xFF]
+            var t6 = T0[(x[6] ushr 56).toInt()] xor
+                    T1[(x[7] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[1] ushr 32).toInt() and 0xFF] xor
+                    T4[x[2].toInt() ushr 24] xor
+                    T5[x[3].toInt() ushr 16 and 0xFF] xor
+                    T6[x[4].toInt() ushr 8 and 0xFF] xor
+                    T7[x[5].toInt() and 0xFF]
+            var t7 = T0[(x[7] ushr 56).toInt()] xor
+                    T1[(x[0] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[1] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[2] ushr 32).toInt() and 0xFF] xor
+                    T4[x[3].toInt() ushr 24] xor
+                    T5[x[4].toInt() ushr 16 and 0xFF] xor
+                    T6[x[5].toInt() ushr 8 and 0xFF] xor
+                    T7[x[6].toInt() and 0xFF]
             t0 = t0 xor ((r + 1).toLong() shl 56)
             t1 = t1 xor ((0x10 + (r + 1)).toLong() shl 56)
             t2 = t2 xor ((0x20 + (r + 1)).toLong() shl 56)
@@ -355,70 +354,70 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
             t5 = t5 xor ((0x50 + (r + 1)).toLong() shl 56)
             t6 = t6 xor ((0x60 + (r + 1)).toLong() shl 56)
             t7 = t7 xor ((0x70 + (r + 1)).toLong() shl 56)
-            x[0] = (T0[(t0 ushr 56).toInt()]
-                    xor T1[(t1 ushr 48).toInt() and 0xFF]
-                    xor T2[(t2 ushr 40).toInt() and 0xFF]
-                    xor T3[(t3 ushr 32).toInt() and 0xFF]
-                    xor T4[t4.toInt() ushr 24]
-                    xor T5[t5.toInt() ushr 16 and 0xFF]
-                    xor T6[t6.toInt() ushr 8 and 0xFF]
-                    xor T7[t7.toInt() and 0xFF])
-            x[1] = (T0[(t1 ushr 56).toInt()]
-                    xor T1[(t2 ushr 48).toInt() and 0xFF]
-                    xor T2[(t3 ushr 40).toInt() and 0xFF]
-                    xor T3[(t4 ushr 32).toInt() and 0xFF]
-                    xor T4[t5.toInt() ushr 24]
-                    xor T5[t6.toInt() ushr 16 and 0xFF]
-                    xor T6[t7.toInt() ushr 8 and 0xFF]
-                    xor T7[t0.toInt() and 0xFF])
-            x[2] = (T0[(t2 ushr 56).toInt()]
-                    xor T1[(t3 ushr 48).toInt() and 0xFF]
-                    xor T2[(t4 ushr 40).toInt() and 0xFF]
-                    xor T3[(t5 ushr 32).toInt() and 0xFF]
-                    xor T4[t6.toInt() ushr 24]
-                    xor T5[t7.toInt() ushr 16 and 0xFF]
-                    xor T6[t0.toInt() ushr 8 and 0xFF]
-                    xor T7[t1.toInt() and 0xFF])
-            x[3] = (T0[(t3 ushr 56).toInt()]
-                    xor T1[(t4 ushr 48).toInt() and 0xFF]
-                    xor T2[(t5 ushr 40).toInt() and 0xFF]
-                    xor T3[(t6 ushr 32).toInt() and 0xFF]
-                    xor T4[t7.toInt() ushr 24]
-                    xor T5[t0.toInt() ushr 16 and 0xFF]
-                    xor T6[t1.toInt() ushr 8 and 0xFF]
-                    xor T7[t2.toInt() and 0xFF])
-            x[4] = (T0[(t4 ushr 56).toInt()]
-                    xor T1[(t5 ushr 48).toInt() and 0xFF]
-                    xor T2[(t6 ushr 40).toInt() and 0xFF]
-                    xor T3[(t7 ushr 32).toInt() and 0xFF]
-                    xor T4[t0.toInt() ushr 24]
-                    xor T5[t1.toInt() ushr 16 and 0xFF]
-                    xor T6[t2.toInt() ushr 8 and 0xFF]
-                    xor T7[t3.toInt() and 0xFF])
-            x[5] = (T0[(t5 ushr 56).toInt()]
-                    xor T1[(t6 ushr 48).toInt() and 0xFF]
-                    xor T2[(t7 ushr 40).toInt() and 0xFF]
-                    xor T3[(t0 ushr 32).toInt() and 0xFF]
-                    xor T4[t1.toInt() ushr 24]
-                    xor T5[t2.toInt() ushr 16 and 0xFF]
-                    xor T6[t3.toInt() ushr 8 and 0xFF]
-                    xor T7[t4.toInt() and 0xFF])
-            x[6] = (T0[(t6 ushr 56).toInt()]
-                    xor T1[(t7 ushr 48).toInt() and 0xFF]
-                    xor T2[(t0 ushr 40).toInt() and 0xFF]
-                    xor T3[(t1 ushr 32).toInt() and 0xFF]
-                    xor T4[t2.toInt() ushr 24]
-                    xor T5[t3.toInt() ushr 16 and 0xFF]
-                    xor T6[t4.toInt() ushr 8 and 0xFF]
-                    xor T7[t5.toInt() and 0xFF])
-            x[7] = (T0[(t7 ushr 56).toInt()]
-                    xor T1[(t0 ushr 48).toInt() and 0xFF]
-                    xor T2[(t1 ushr 40).toInt() and 0xFF]
-                    xor T3[(t2 ushr 32).toInt() and 0xFF]
-                    xor T4[t3.toInt() ushr 24]
-                    xor T5[t4.toInt() ushr 16 and 0xFF]
-                    xor T6[t5.toInt() ushr 8 and 0xFF]
-                    xor T7[t6.toInt() and 0xFF])
+            x[0] = T0[(t0 ushr 56).toInt()] xor
+                    T1[(t1 ushr 48).toInt() and 0xFF] xor
+                    T2[(t2 ushr 40).toInt() and 0xFF] xor
+                    T3[(t3 ushr 32).toInt() and 0xFF] xor
+                    T4[t4.toInt() ushr 24] xor
+                    T5[t5.toInt() ushr 16 and 0xFF] xor
+                    T6[t6.toInt() ushr 8 and 0xFF] xor
+                    T7[t7.toInt() and 0xFF]
+            x[1] = T0[(t1 ushr 56).toInt()] xor
+                    T1[(t2 ushr 48).toInt() and 0xFF] xor
+                    T2[(t3 ushr 40).toInt() and 0xFF] xor
+                    T3[(t4 ushr 32).toInt() and 0xFF] xor
+                    T4[t5.toInt() ushr 24] xor
+                    T5[t6.toInt() ushr 16 and 0xFF] xor
+                    T6[t7.toInt() ushr 8 and 0xFF] xor
+                    T7[t0.toInt() and 0xFF]
+            x[2] = T0[(t2 ushr 56).toInt()] xor
+                    T1[(t3 ushr 48).toInt() and 0xFF] xor
+                    T2[(t4 ushr 40).toInt() and 0xFF] xor
+                    T3[(t5 ushr 32).toInt() and 0xFF] xor
+                    T4[t6.toInt() ushr 24] xor
+                    T5[t7.toInt() ushr 16 and 0xFF] xor
+                    T6[t0.toInt() ushr 8 and 0xFF] xor
+                    T7[t1.toInt() and 0xFF]
+            x[3] = T0[(t3 ushr 56).toInt()] xor
+                    T1[(t4 ushr 48).toInt() and 0xFF] xor
+                    T2[(t5 ushr 40).toInt() and 0xFF] xor
+                    T3[(t6 ushr 32).toInt() and 0xFF] xor
+                    T4[t7.toInt() ushr 24] xor
+                    T5[t0.toInt() ushr 16 and 0xFF] xor
+                    T6[t1.toInt() ushr 8 and 0xFF] xor
+                    T7[t2.toInt() and 0xFF]
+            x[4] = T0[(t4 ushr 56).toInt()] xor
+                    T1[(t5 ushr 48).toInt() and 0xFF] xor
+                    T2[(t6 ushr 40).toInt() and 0xFF] xor
+                    T3[(t7 ushr 32).toInt() and 0xFF] xor
+                    T4[t0.toInt() ushr 24] xor
+                    T5[t1.toInt() ushr 16 and 0xFF] xor
+                    T6[t2.toInt() ushr 8 and 0xFF] xor
+                    T7[t3.toInt() and 0xFF]
+            x[5] = T0[(t5 ushr 56).toInt()] xor
+                    T1[(t6 ushr 48).toInt() and 0xFF] xor
+                    T2[(t7 ushr 40).toInt() and 0xFF] xor
+                    T3[(t0 ushr 32).toInt() and 0xFF] xor
+                    T4[t1.toInt() ushr 24] xor
+                    T5[t2.toInt() ushr 16 and 0xFF] xor
+                    T6[t3.toInt() ushr 8 and 0xFF] xor
+                    T7[t4.toInt() and 0xFF]
+            x[6] = T0[(t6 ushr 56).toInt()] xor
+                    T1[(t7 ushr 48).toInt() and 0xFF] xor
+                    T2[(t0 ushr 40).toInt() and 0xFF] xor
+                    T3[(t1 ushr 32).toInt() and 0xFF] xor
+                    T4[t2.toInt() ushr 24] xor
+                    T5[t3.toInt() ushr 16 and 0xFF] xor
+                    T6[t4.toInt() ushr 8 and 0xFF] xor
+                    T7[t5.toInt() and 0xFF]
+            x[7] = T0[(t7 ushr 56).toInt()] xor
+                    T1[(t0 ushr 48).toInt() and 0xFF] xor
+                    T2[(t1 ushr 40).toInt() and 0xFF] xor
+                    T3[(t2 ushr 32).toInt() and 0xFF] xor
+                    T4[t3.toInt() ushr 24] xor
+                    T5[t4.toInt() ushr 16 and 0xFF] xor
+                    T6[t5.toInt() ushr 8 and 0xFF] xor
+                    T7[t6.toInt() and 0xFF]
             r += 2
         }
     }
@@ -435,70 +434,70 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
             x[5] = x[5] xor (r.toLong() xor -0x51L)
             x[6] = x[6] xor (r.toLong() xor -0x61L)
             x[7] = x[7] xor (r.toLong() xor -0x71L)
-            var t0 = (T0[(x[1] ushr 56).toInt()]
-                    xor T1[(x[3] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[5] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[7] ushr 32).toInt() and 0xFF]
-                    xor T4[x[0].toInt() ushr 24]
-                    xor T5[x[2].toInt() ushr 16 and 0xFF]
-                    xor T6[x[4].toInt() ushr 8 and 0xFF]
-                    xor T7[x[6].toInt() and 0xFF])
-            var t1 = (T0[(x[2] ushr 56).toInt()]
-                    xor T1[(x[4] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[6] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[0] ushr 32).toInt() and 0xFF]
-                    xor T4[x[1].toInt() ushr 24]
-                    xor T5[x[3].toInt() ushr 16 and 0xFF]
-                    xor T6[x[5].toInt() ushr 8 and 0xFF]
-                    xor T7[x[7].toInt() and 0xFF])
-            var t2 = (T0[(x[3] ushr 56).toInt()]
-                    xor T1[(x[5] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[7] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[1] ushr 32).toInt() and 0xFF]
-                    xor T4[x[2].toInt() ushr 24]
-                    xor T5[x[4].toInt() ushr 16 and 0xFF]
-                    xor T6[x[6].toInt() ushr 8 and 0xFF]
-                    xor T7[x[0].toInt() and 0xFF])
-            var t3 = (T0[(x[4] ushr 56).toInt()]
-                    xor T1[(x[6] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[0] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[2] ushr 32).toInt() and 0xFF]
-                    xor T4[x[3].toInt() ushr 24]
-                    xor T5[x[5].toInt() ushr 16 and 0xFF]
-                    xor T6[x[7].toInt() ushr 8 and 0xFF]
-                    xor T7[x[1].toInt() and 0xFF])
-            var t4 = (T0[(x[5] ushr 56).toInt()]
-                    xor T1[(x[7] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[1] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[3] ushr 32).toInt() and 0xFF]
-                    xor T4[x[4].toInt() ushr 24]
-                    xor T5[x[6].toInt() ushr 16 and 0xFF]
-                    xor T6[x[0].toInt() ushr 8 and 0xFF]
-                    xor T7[x[2].toInt() and 0xFF])
-            var t5 = (T0[(x[6] ushr 56).toInt()]
-                    xor T1[(x[0] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[2] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[4] ushr 32).toInt() and 0xFF]
-                    xor T4[x[5].toInt() ushr 24]
-                    xor T5[x[7].toInt() ushr 16 and 0xFF]
-                    xor T6[x[1].toInt() ushr 8 and 0xFF]
-                    xor T7[x[3].toInt() and 0xFF])
-            var t6 = (T0[(x[7] ushr 56).toInt()]
-                    xor T1[(x[1] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[3] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[5] ushr 32).toInt() and 0xFF]
-                    xor T4[x[6].toInt() ushr 24]
-                    xor T5[x[0].toInt() ushr 16 and 0xFF]
-                    xor T6[x[2].toInt() ushr 8 and 0xFF]
-                    xor T7[x[4].toInt() and 0xFF])
-            var t7 = (T0[(x[0] ushr 56).toInt()]
-                    xor T1[(x[2] ushr 48).toInt() and 0xFF]
-                    xor T2[(x[4] ushr 40).toInt() and 0xFF]
-                    xor T3[(x[6] ushr 32).toInt() and 0xFF]
-                    xor T4[x[7].toInt() ushr 24]
-                    xor T5[x[1].toInt() ushr 16 and 0xFF]
-                    xor T6[x[3].toInt() ushr 8 and 0xFF]
-                    xor T7[x[5].toInt() and 0xFF])
+            var t0 = T0[(x[1] ushr 56).toInt()] xor
+                    T1[(x[3] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[5] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[7] ushr 32).toInt() and 0xFF] xor
+                    T4[x[0].toInt() ushr 24] xor
+                    T5[x[2].toInt() ushr 16 and 0xFF] xor
+                    T6[x[4].toInt() ushr 8 and 0xFF] xor
+                    T7[x[6].toInt() and 0xFF]
+            var t1 = T0[(x[2] ushr 56).toInt()] xor
+                    T1[(x[4] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[6] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[0] ushr 32).toInt() and 0xFF] xor
+                    T4[x[1].toInt() ushr 24] xor
+                    T5[x[3].toInt() ushr 16 and 0xFF] xor
+                    T6[x[5].toInt() ushr 8 and 0xFF] xor
+                    T7[x[7].toInt() and 0xFF]
+            var t2 = T0[(x[3] ushr 56).toInt()] xor
+                    T1[(x[5] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[7] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[1] ushr 32).toInt() and 0xFF] xor
+                    T4[x[2].toInt() ushr 24] xor
+                    T5[x[4].toInt() ushr 16 and 0xFF] xor
+                    T6[x[6].toInt() ushr 8 and 0xFF] xor
+                    T7[x[0].toInt() and 0xFF]
+            var t3 = T0[(x[4] ushr 56).toInt()] xor
+                    T1[(x[6] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[0] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[2] ushr 32).toInt() and 0xFF] xor
+                    T4[x[3].toInt() ushr 24] xor
+                    T5[x[5].toInt() ushr 16 and 0xFF] xor
+                    T6[x[7].toInt() ushr 8 and 0xFF] xor
+                    T7[x[1].toInt() and 0xFF]
+            var t4 = T0[(x[5] ushr 56).toInt()] xor
+                    T1[(x[7] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[1] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[3] ushr 32).toInt() and 0xFF] xor
+                    T4[x[4].toInt() ushr 24] xor
+                    T5[x[6].toInt() ushr 16 and 0xFF] xor
+                    T6[x[0].toInt() ushr 8 and 0xFF] xor
+                    T7[x[2].toInt() and 0xFF]
+            var t5 = T0[(x[6] ushr 56).toInt()] xor
+                    T1[(x[0] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[2] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[4] ushr 32).toInt() and 0xFF] xor
+                    T4[x[5].toInt() ushr 24] xor
+                    T5[x[7].toInt() ushr 16 and 0xFF] xor
+                    T6[x[1].toInt() ushr 8 and 0xFF] xor
+                    T7[x[3].toInt() and 0xFF]
+            var t6 = T0[(x[7] ushr 56).toInt()] xor
+                    T1[(x[1] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[3] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[5] ushr 32).toInt() and 0xFF] xor
+                    T4[x[6].toInt() ushr 24] xor
+                    T5[x[0].toInt() ushr 16 and 0xFF] xor
+                    T6[x[2].toInt() ushr 8 and 0xFF] xor
+                    T7[x[4].toInt() and 0xFF]
+            var t7 = T0[(x[0] ushr 56).toInt()] xor
+                    T1[(x[2] ushr 48).toInt() and 0xFF] xor
+                    T2[(x[4] ushr 40).toInt() and 0xFF] xor
+                    T3[(x[6] ushr 32).toInt() and 0xFF] xor
+                    T4[x[7].toInt() ushr 24] xor
+                    T5[x[1].toInt() ushr 16 and 0xFF] xor
+                    T6[x[3].toInt() ushr 8 and 0xFF] xor
+                    T7[x[5].toInt() and 0xFF]
             t0 = t0 xor ((r + 1).toLong() xor -0x01L)
             t1 = t1 xor ((r + 1).toLong() xor -0x11L)
             t2 = t2 xor ((r + 1).toLong() xor -0x21L)
@@ -507,70 +506,70 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
             t5 = t5 xor ((r + 1).toLong() xor -0x51L)
             t6 = t6 xor ((r + 1).toLong() xor -0x61L)
             t7 = t7 xor ((r + 1).toLong() xor -0x71L)
-            x[0] = (T0[(t1 ushr 56).toInt()]
-                    xor T1[(t3 ushr 48).toInt() and 0xFF]
-                    xor T2[(t5 ushr 40).toInt() and 0xFF]
-                    xor T3[(t7 ushr 32).toInt() and 0xFF]
-                    xor T4[t0.toInt() ushr 24]
-                    xor T5[t2.toInt() ushr 16 and 0xFF]
-                    xor T6[t4.toInt() ushr 8 and 0xFF]
-                    xor T7[t6.toInt() and 0xFF])
-            x[1] = (T0[(t2 ushr 56).toInt()]
-                    xor T1[(t4 ushr 48).toInt() and 0xFF]
-                    xor T2[(t6 ushr 40).toInt() and 0xFF]
-                    xor T3[(t0 ushr 32).toInt() and 0xFF]
-                    xor T4[t1.toInt() ushr 24]
-                    xor T5[t3.toInt() ushr 16 and 0xFF]
-                    xor T6[t5.toInt() ushr 8 and 0xFF]
-                    xor T7[t7.toInt() and 0xFF])
-            x[2] = (T0[(t3 ushr 56).toInt()]
-                    xor T1[(t5 ushr 48).toInt() and 0xFF]
-                    xor T2[(t7 ushr 40).toInt() and 0xFF]
-                    xor T3[(t1 ushr 32).toInt() and 0xFF]
-                    xor T4[t2.toInt() ushr 24]
-                    xor T5[t4.toInt() ushr 16 and 0xFF]
-                    xor T6[t6.toInt() ushr 8 and 0xFF]
-                    xor T7[t0.toInt() and 0xFF])
-            x[3] = (T0[(t4 ushr 56).toInt()]
-                    xor T1[(t6 ushr 48).toInt() and 0xFF]
-                    xor T2[(t0 ushr 40).toInt() and 0xFF]
-                    xor T3[(t2 ushr 32).toInt() and 0xFF]
-                    xor T4[t3.toInt() ushr 24]
-                    xor T5[t5.toInt() ushr 16 and 0xFF]
-                    xor T6[t7.toInt() ushr 8 and 0xFF]
-                    xor T7[t1.toInt() and 0xFF])
-            x[4] = (T0[(t5 ushr 56).toInt()]
-                    xor T1[(t7 ushr 48).toInt() and 0xFF]
-                    xor T2[(t1 ushr 40).toInt() and 0xFF]
-                    xor T3[(t3 ushr 32).toInt() and 0xFF]
-                    xor T4[t4.toInt() ushr 24]
-                    xor T5[t6.toInt() ushr 16 and 0xFF]
-                    xor T6[t0.toInt() ushr 8 and 0xFF]
-                    xor T7[t2.toInt() and 0xFF])
-            x[5] = (T0[(t6 ushr 56).toInt()]
-                    xor T1[(t0 ushr 48).toInt() and 0xFF]
-                    xor T2[(t2 ushr 40).toInt() and 0xFF]
-                    xor T3[(t4 ushr 32).toInt() and 0xFF]
-                    xor T4[t5.toInt() ushr 24]
-                    xor T5[t7.toInt() ushr 16 and 0xFF]
-                    xor T6[t1.toInt() ushr 8 and 0xFF]
-                    xor T7[t3.toInt() and 0xFF])
-            x[6] = (T0[(t7 ushr 56).toInt()]
-                    xor T1[(t1 ushr 48).toInt() and 0xFF]
-                    xor T2[(t3 ushr 40).toInt() and 0xFF]
-                    xor T3[(t5 ushr 32).toInt() and 0xFF]
-                    xor T4[t6.toInt() ushr 24]
-                    xor T5[t0.toInt() ushr 16 and 0xFF]
-                    xor T6[t2.toInt() ushr 8 and 0xFF]
-                    xor T7[t4.toInt() and 0xFF])
-            x[7] = (T0[(t0 ushr 56).toInt()]
-                    xor T1[(t2 ushr 48).toInt() and 0xFF]
-                    xor T2[(t4 ushr 40).toInt() and 0xFF]
-                    xor T3[(t6 ushr 32).toInt() and 0xFF]
-                    xor T4[t7.toInt() ushr 24]
-                    xor T5[t1.toInt() ushr 16 and 0xFF]
-                    xor T6[t3.toInt() ushr 8 and 0xFF]
-                    xor T7[t5.toInt() and 0xFF])
+            x[0] = T0[(t1 ushr 56).toInt()] xor
+                    T1[(t3 ushr 48).toInt() and 0xFF] xor
+                    T2[(t5 ushr 40).toInt() and 0xFF] xor
+                    T3[(t7 ushr 32).toInt() and 0xFF] xor
+                    T4[t0.toInt() ushr 24] xor
+                    T5[t2.toInt() ushr 16 and 0xFF] xor
+                    T6[t4.toInt() ushr 8 and 0xFF] xor
+                    T7[t6.toInt() and 0xFF]
+            x[1] = T0[(t2 ushr 56).toInt()] xor
+                    T1[(t4 ushr 48).toInt() and 0xFF] xor
+                    T2[(t6 ushr 40).toInt() and 0xFF] xor
+                    T3[(t0 ushr 32).toInt() and 0xFF] xor
+                    T4[t1.toInt() ushr 24] xor
+                    T5[t3.toInt() ushr 16 and 0xFF] xor
+                    T6[t5.toInt() ushr 8 and 0xFF] xor
+                    T7[t7.toInt() and 0xFF]
+            x[2] = T0[(t3 ushr 56).toInt()] xor
+                    T1[(t5 ushr 48).toInt() and 0xFF] xor
+                    T2[(t7 ushr 40).toInt() and 0xFF] xor
+                    T3[(t1 ushr 32).toInt() and 0xFF] xor
+                    T4[t2.toInt() ushr 24] xor
+                    T5[t4.toInt() ushr 16 and 0xFF] xor
+                    T6[t6.toInt() ushr 8 and 0xFF] xor
+                    T7[t0.toInt() and 0xFF]
+            x[3] = T0[(t4 ushr 56).toInt()] xor
+                    T1[(t6 ushr 48).toInt() and 0xFF] xor
+                    T2[(t0 ushr 40).toInt() and 0xFF] xor
+                    T3[(t2 ushr 32).toInt() and 0xFF] xor
+                    T4[t3.toInt() ushr 24] xor
+                    T5[t5.toInt() ushr 16 and 0xFF] xor
+                    T6[t7.toInt() ushr 8 and 0xFF] xor
+                    T7[t1.toInt() and 0xFF]
+            x[4] = T0[(t5 ushr 56).toInt()] xor
+                    T1[(t7 ushr 48).toInt() and 0xFF] xor
+                    T2[(t1 ushr 40).toInt() and 0xFF] xor
+                    T3[(t3 ushr 32).toInt() and 0xFF] xor
+                    T4[t4.toInt() ushr 24] xor
+                    T5[t6.toInt() ushr 16 and 0xFF] xor
+                    T6[t0.toInt() ushr 8 and 0xFF] xor
+                    T7[t2.toInt() and 0xFF]
+            x[5] = T0[(t6 ushr 56).toInt()] xor
+                    T1[(t0 ushr 48).toInt() and 0xFF] xor
+                    T2[(t2 ushr 40).toInt() and 0xFF] xor
+                    T3[(t4 ushr 32).toInt() and 0xFF] xor
+                    T4[t5.toInt() ushr 24] xor
+                    T5[t7.toInt() ushr 16 and 0xFF] xor
+                    T6[t1.toInt() ushr 8 and 0xFF] xor
+                    T7[t3.toInt() and 0xFF]
+            x[6] = T0[(t7 ushr 56).toInt()] xor
+                    T1[(t1 ushr 48).toInt() and 0xFF] xor
+                    T2[(t3 ushr 40).toInt() and 0xFF] xor
+                    T3[(t5 ushr 32).toInt() and 0xFF] xor
+                    T4[t6.toInt() ushr 24] xor
+                    T5[t0.toInt() ushr 16 and 0xFF] xor
+                    T6[t2.toInt() ushr 8 and 0xFF] xor
+                    T7[t4.toInt() and 0xFF]
+            x[7] = T0[(t0 ushr 56).toInt()] xor
+                    T1[(t2 ushr 48).toInt() and 0xFF] xor
+                    T2[(t4 ushr 40).toInt() and 0xFF] xor
+                    T3[(t6 ushr 32).toInt() and 0xFF] xor
+                    T4[t7.toInt() ushr 24] xor
+                    T5[t1.toInt() ushr 16 and 0xFF] xor
+                    T6[t3.toInt() ushr 8 and 0xFF] xor
+                    T7[t5.toInt() and 0xFF]
             r += 2
         }
     }

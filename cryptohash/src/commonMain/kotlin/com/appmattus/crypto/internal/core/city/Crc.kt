@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,34 +16,36 @@
 
 package com.appmattus.crypto.internal.core.city
 
-import kotlin.native.concurrent.SharedImmutable
-
 @Suppress("FunctionName")
 internal fun crc32_u64(crc: ULong, value: ULong): ULong {
+    @Suppress("NAME_SHADOWING")
     var crc = crc
 
     var d = value and 0xffffffffu
     var c: UInt = (crc xor d).toUInt()
 
-    crc = (table3[c.toInt() and 0xff] xor
-            table2[(c shr 8).toInt() and 0xff] xor
-            table1[(c shr 16).toInt() and 0xff] xor
-            table0[(c shr 24).toInt()]).toULong()
+    crc = (
+            table3[c.toInt() and 0xff] xor
+                    table2[(c shr 8).toInt() and 0xff] xor
+                    table1[(c shr 16).toInt() and 0xff] xor
+                    table0[(c shr 24).toInt()]
+            ).toULong()
 
     // DO it twice.
     d = (value shr 32) and 0xffffffffu
 
     c = (crc xor d).toUInt()
 
-    crc = (table3[c.toInt() and 0xff] xor
-            table2[(c shr 8).toInt() and 0xff] xor
-            table1[(c shr 16).toInt() and 0xff] xor
-            table0[(c shr 24).toInt()]).toULong()
+    crc = (
+            table3[c.toInt() and 0xff] xor
+                    table2[(c shr 8).toInt() and 0xff] xor
+                    table1[(c shr 16).toInt() and 0xff] xor
+                    table0[(c shr 24).toInt()]
+            ).toULong()
 
     return crc
 }
 
-@SharedImmutable
 private val table0 = arrayOf(
     0x00000000u, 0xf26b8303u, 0xe13b70f7u, 0x1350f3f4u,
     0xc79a971fu, 0x35f1141cu, 0x26a1e7e8u, 0xd4ca64ebu,
@@ -111,7 +113,6 @@ private val table0 = arrayOf(
     0xbe2da0a5u, 0x4c4623a6u, 0x5f16d052u, 0xad7d5351u
 )
 
-@SharedImmutable
 private val table1 = arrayOf(
     0x00000000u, 0x13a29877u, 0x274530eeu, 0x34e7a899u,
     0x4e8a61dcu, 0x5d28f9abu, 0x69cf5132u, 0x7a6dc945u,
@@ -179,7 +180,6 @@ private val table1 = arrayOf(
     0x97048c1au, 0x84a6146du, 0xb041bcf4u, 0xa3e32483u
 )
 
-@SharedImmutable
 private val table2 = arrayOf(
     0x00000000u, 0xa541927eu, 0x4f6f520du, 0xea2ec073u,
     0x9edea41au, 0x3b9f3664u, 0xd1b1f617u, 0x74f06469u,
@@ -247,7 +247,6 @@ private val table2 = arrayOf(
     0x7b2bebdbu, 0xde6a79a5u, 0x3444b9d6u, 0x91052ba8u
 )
 
-@SharedImmutable
 private val table3 = arrayOf(
     0x00000000u, 0xdd45aab8u, 0xbf672381u, 0x62228939u,
     0x7b2231f3u, 0xa6679b4bu, 0xc4451272u, 0x1900b8cau,

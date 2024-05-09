@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,9 +46,11 @@ class SamplesFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = GroupAdapter<GroupieViewHolder>().apply {
                 add(SingleLineTextHeaderItem("Samples"))
-                add(SingleLineTextItem("cryptohash") {
-                    findNavController().navigate(R.id.action_samplesFragment_to_cryptoHashFragment)
-                })
+                add(
+                    SingleLineTextItem("cryptohash") {
+                        findNavController().navigate(R.id.action_samplesFragment_to_cryptoHashFragment)
+                    }
+                )
             }
         }
     }

@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 
@@ -78,10 +79,7 @@ internal class RipeMD : MDHelper<RipeMD>(true, 8) {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         makeMDPadding()
-        for (i in 0..3) encodeLEInt(
-            currentVal[i],
-            output, outputOffset + 4 * i
-        )
+        for (i in 0..3) encodeLEInt(currentVal[i], output, outputOffset + 4 * i)
     }
 
     override fun doInit() {

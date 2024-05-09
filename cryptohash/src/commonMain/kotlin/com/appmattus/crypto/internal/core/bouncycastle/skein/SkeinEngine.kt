@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -218,7 +218,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
         init {
             // From Appendix C of the Skein 1.3 NIST submission
             initialState(
-                SKEIN_256, 128, longArrayOf(
+                blockSize = SKEIN_256,
+                outputSize = 128,
+                state = longArrayOf(
                     -0x1eeee6f969b28da0L,
                     -0x77c2555883727ee4L,
                     0x10080df491960f7aL,
@@ -226,7 +228,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_256, 160, longArrayOf(
+                blockSize = SKEIN_256,
+                outputSize = 160,
+                state = longArrayOf(
                     0x1420231472825e98L,
                     0x2ac4e9a25a77e590L,
                     -0x2b85a7a977c729c2L,
@@ -234,7 +238,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_256, 224, longArrayOf(
+                blockSize = SKEIN_256,
+                outputSize = 224,
+                state = longArrayOf(
                     -0x39f67573651a15f5L,
                     -0x7892a979f73ae6e4L,
                     -0x66347728280ac77cL,
@@ -242,7 +248,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_256, 256, longArrayOf(
+                blockSize = SKEIN_256,
+                outputSize = 256,
+                state = longArrayOf(
                     -0x362579f2fb74bb7L,
                     0x2fca66479fa7d833L,
                     -0x4cc43c7699a97bf1L,
@@ -250,7 +258,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_512, 128, longArrayOf(
+                blockSize = SKEIN_512,
+                outputSize = 128,
+                state = longArrayOf(
                     -0x5743840c904060aeL,
                     0x1e9872cebd1af0aaL,
                     0x309b1790b32190d3L,
@@ -262,7 +272,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_512, 160, longArrayOf(
+                blockSize = SKEIN_512,
+                outputSize = 160,
+                state = longArrayOf(
                     0x28b81a2ae013bd91L,
                     -0x3d0ee9974a420871L,
                     0x1760d8f3f6a56f12L,
@@ -274,7 +286,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_512, 224, longArrayOf(
+                blockSize = SKEIN_512,
+                outputSize = 224,
+                state = longArrayOf(
                     -0x332f9e9db7988ddcL,
                     -0x3459a30c56dcc611L,
                     -0x73329629ad00b49cL,
@@ -286,7 +300,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_512, 384, longArrayOf(
+                blockSize = SKEIN_512,
+                outputSize = 384,
+                state = longArrayOf(
                     -0x5c093940c58a10a1L,
                     -0x4f010633027b055cL,
                     -0x62882299c288f302L,
@@ -298,7 +314,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_512, 512, longArrayOf(
+                blockSize = SKEIN_512,
+                outputSize = 512,
+                state = longArrayOf(
                     0x4903adff749c51ceL,
                     0x0d95de399746df03L,
                     -0x702e6cbed8386432L,
@@ -311,7 +329,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
             )
 
             initialState(
-                SKEIN_1024, 384, longArrayOf(
+                blockSize = SKEIN_1024,
+                outputSize = 384,
+                state = longArrayOf(
                     0x5102B6B8C1894A35UL.toLong(),
                     0xFEEBC9E3FE8AF11AUL.toLong(),
                     0x0C807F06E32BED71UL.toLong(),
@@ -331,7 +351,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_1024, 512, longArrayOf(
+                blockSize = SKEIN_1024,
+                outputSize = 512,
+                state = longArrayOf(
                     0xCAEC0E5D7C1B1B18UL.toLong(),
                     0xA01B0E045F03E802UL.toLong(),
                     0x33840451ED912885UL.toLong(),
@@ -351,7 +373,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                 )
             )
             initialState(
-                SKEIN_1024, 1024, longArrayOf(
+                blockSize = SKEIN_1024,
+                outputSize = 1024,
+                state = longArrayOf(
                     0xD593DA0741E72355UL.toLong(),
                     0x15B5E511AC73E00CUL.toLong(),
                     0x5180E5AEBAF2C4F0UL.toLong(),
@@ -621,8 +645,8 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
     }
 
     fun reset(other: SkeinEngine) {
-        if (blockSize != other.blockSize || outputSize != other.outputSize) {
-            throw IllegalArgumentException("Incompatible parameters in provided SkeinEngine.")
+        require(blockSize == other.blockSize && outputSize == other.outputSize) {
+            "Incompatible parameters in provided SkeinEngine."
         }
         copyIn(other)
     }
@@ -643,9 +667,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
         postMessageParameters = null
         if (params != null) {
             val key: ByteArray = params.key!!
-            if (key.size < 16) {
-                throw IllegalArgumentException("Skein key must be at least 128 bits.")
-            }
+            require(key.size >= 16) { "Skein key must be at least 128 bits." }
             initParams(params.getParameters())
         }
         createInitialState()
@@ -685,15 +707,14 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
             chain = LongArray(blockSize / 8)
 
             // Process key block
-            if (key != null) {
-                ubiComplete(SkeinParameters.PARAM_TYPE_KEY, key!!)
+            key?.let { key ->
+                ubiComplete(SkeinParameters.PARAM_TYPE_KEY, key)
             }
 
             // Process configuration block
             ubiComplete(
-                PARAM_TYPE_CONFIG, Configuration(
-                    (outputSize * 8).toLong()
-                ).bytes
+                PARAM_TYPE_CONFIG,
+                Configuration((outputSize * 8).toLong()).bytes
             )
         }
 
@@ -789,9 +810,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
     }
 
     init {
-        if (outputSizeBits % 8 != 0) {
-            throw IllegalArgumentException("Output size must be a multiple of 8 bits. :$outputSizeBits")
-        }
+        require(outputSizeBits % 8 == 0) { "Output size must be a multiple of 8 bits. :$outputSizeBits" }
         // Prevent digest sizes > block size?
         outputSize = outputSizeBits / 8
         threefish = ThreefishEngine(blockSizeBits)

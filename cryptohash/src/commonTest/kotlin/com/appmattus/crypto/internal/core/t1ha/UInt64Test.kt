@@ -1,3 +1,19 @@
+/*
+ * Copyright 2022-2024 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.appmattus.crypto.internal.core.t1ha
 
 import kotlin.test.Test
@@ -85,7 +101,7 @@ class UInt64Test {
         private fun divmod(lhs: UInt64, rhs: UInt64): Pair<UInt64, UInt64> {
             // Save some calculations /////////////////////
             if (rhs == UInt64(0u, 0u)) {
-                throw IllegalStateException("Error: division or modulus by 0")
+                error("Error: division or modulus by 0")
             } else if (rhs == UInt64(0u, 1u)) {
                 return Pair(lhs, UInt64(0u, 0u))
             } else if (lhs == rhs) {
@@ -140,7 +156,7 @@ class UInt64Test {
             return this - UInt64(0u, 1u)
         }
 
-        infix fun shr(n: Int): UInt64 {
+        private infix fun shr(n: Int): UInt64 {
             if (n < 0) {
                 this shl -n
             }
@@ -149,11 +165,11 @@ class UInt64Test {
             return when {
                 r < 32 -> UInt64(low shl 32 - n or (high shr n), low shr n)
                 r >= 32 -> UInt64(low shr n % 32, 0u)
-                else -> throw IllegalStateException("unreachable")
+                else -> error("unreachable")
             }
         }
 
-        infix fun shl(n: Int): UInt64 {
+        private infix fun shl(n: Int): UInt64 {
             if (n < 0) {
                 this shr -n
             }
@@ -162,7 +178,7 @@ class UInt64Test {
             return when {
                 r < 32 -> UInt64(high shl n, low shl n or (high shr 32 - n))
                 r >= 32 -> UInt64(0u, high shl n % 32)
-                else -> throw IllegalStateException("unreachable")
+                else -> error("unreachable")
             }
         }
 
@@ -223,7 +239,6 @@ class UInt64Test {
         assertEquals(UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE), UInt64(0u, 1u) * UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE))
         assertEquals(UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE), UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE) * UInt64(0u, 1u))
 
-        println(ULong.MAX_VALUE * ULong.MAX_VALUE)
         assertEquals(UInt64(0u, 1u), UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE) * UInt64(UInt.MAX_VALUE, UInt.MAX_VALUE))
     }
 

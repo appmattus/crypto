@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,10 +49,7 @@ internal class RipeMD256 : MDHelper<RipeMD256>(true, 8) {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         makeMDPadding()
-        for (i in 0..7) encodeLEInt(
-            currentVal[i],
-            output, outputOffset + 4 * i
-        )
+        for (i in 0..7) encodeLEInt(currentVal[i], output, outputOffset + 4 * i)
     }
 
     override fun doInit() {
@@ -92,61 +89,61 @@ internal class RipeMD256 : MDHelper<RipeMD256>(true, 8) {
         d2 = currentVal[7]
         var j = 0
         while (j < 16) {
-            a = circularLeftInt(a + f1(b, c, d) + x[permute[j]], rotate[j++])
-            d = circularLeftInt(d + f1(a, b, c) + x[permute[j]], rotate[j++])
-            c = circularLeftInt(c + f1(d, a, b) + x[permute[j]], rotate[j++])
-            b = circularLeftInt(b + f1(c, d, a) + x[permute[j]], rotate[j++])
+            a = (a + f1(b, c, d) + x[permute[j]]).rotateLeft(rotate[j++])
+            d = (d + f1(a, b, c) + x[permute[j]]).rotateLeft(rotate[j++])
+            c = (c + f1(d, a, b) + x[permute[j]]).rotateLeft(rotate[j++])
+            b = (b + f1(c, d, a) + x[permute[j]]).rotateLeft(rotate[j++])
         }
         while (j < 32) {
-            a2 = circularLeftInt(a2 + f4(b2, c2, d2) + x[permute[j]] + m6, rotate[j++])
-            d2 = circularLeftInt(d2 + f4(a2, b2, c2) + x[permute[j]] + m6, rotate[j++])
-            c2 = circularLeftInt(c2 + f4(d2, a2, b2) + x[permute[j]] + m6, rotate[j++])
-            b2 = circularLeftInt(b2 + f4(c2, d2, a2) + x[permute[j]] + m6, rotate[j++])
+            a2 = (a2 + f4(b2, c2, d2) + x[permute[j]] + m6).rotateLeft(rotate[j++])
+            d2 = (d2 + f4(a2, b2, c2) + x[permute[j]] + m6).rotateLeft(rotate[j++])
+            c2 = (c2 + f4(d2, a2, b2) + x[permute[j]] + m6).rotateLeft(rotate[j++])
+            b2 = (b2 + f4(c2, d2, a2) + x[permute[j]] + m6).rotateLeft(rotate[j++])
         }
         temp = a2
         a2 = a
         a = temp
         while (j < 48) {
-            a = circularLeftInt(a + f2(b, c, d) + x[permute[j]] + m1, rotate[j++])
-            d = circularLeftInt(d + f2(a, b, c) + x[permute[j]] + m1, rotate[j++])
-            c = circularLeftInt(c + f2(d, a, b) + x[permute[j]] + m1, rotate[j++])
-            b = circularLeftInt(b + f2(c, d, a) + x[permute[j]] + m1, rotate[j++])
+            a = (a + f2(b, c, d) + x[permute[j]] + m1).rotateLeft(rotate[j++])
+            d = (d + f2(a, b, c) + x[permute[j]] + m1).rotateLeft(rotate[j++])
+            c = (c + f2(d, a, b) + x[permute[j]] + m1).rotateLeft(rotate[j++])
+            b = (b + f2(c, d, a) + x[permute[j]] + m1).rotateLeft(rotate[j++])
         }
         while (j < 64) {
-            a2 = circularLeftInt(a2 + f3(b2, c2, d2) + x[permute[j]] + m5, rotate[j++])
-            d2 = circularLeftInt(d2 + f3(a2, b2, c2) + x[permute[j]] + m5, rotate[j++])
-            c2 = circularLeftInt(c2 + f3(d2, a2, b2) + x[permute[j]] + m5, rotate[j++])
-            b2 = circularLeftInt(b2 + f3(c2, d2, a2) + x[permute[j]] + m5, rotate[j++])
+            a2 = (a2 + f3(b2, c2, d2) + x[permute[j]] + m5).rotateLeft(rotate[j++])
+            d2 = (d2 + f3(a2, b2, c2) + x[permute[j]] + m5).rotateLeft(rotate[j++])
+            c2 = (c2 + f3(d2, a2, b2) + x[permute[j]] + m5).rotateLeft(rotate[j++])
+            b2 = (b2 + f3(c2, d2, a2) + x[permute[j]] + m5).rotateLeft(rotate[j++])
         }
         temp = b2
         b2 = b
         b = temp
         while (j < 80) {
-            a = circularLeftInt(a + f3(b, c, d) + x[permute[j]] + m2, rotate[j++])
-            d = circularLeftInt(d + f3(a, b, c) + x[permute[j]] + m2, rotate[j++])
-            c = circularLeftInt(c + f3(d, a, b) + x[permute[j]] + m2, rotate[j++])
-            b = circularLeftInt(b + f3(c, d, a) + x[permute[j]] + m2, rotate[j++])
+            a = (a + f3(b, c, d) + x[permute[j]] + m2).rotateLeft(rotate[j++])
+            d = (d + f3(a, b, c) + x[permute[j]] + m2).rotateLeft(rotate[j++])
+            c = (c + f3(d, a, b) + x[permute[j]] + m2).rotateLeft(rotate[j++])
+            b = (b + f3(c, d, a) + x[permute[j]] + m2).rotateLeft(rotate[j++])
         }
         while (j < 96) {
-            a2 = circularLeftInt(a2 + f2(b2, c2, d2) + x[permute[j]] + m4, rotate[j++])
-            d2 = circularLeftInt(d2 + f2(a2, b2, c2) + x[permute[j]] + m4, rotate[j++])
-            c2 = circularLeftInt(c2 + f2(d2, a2, b2) + x[permute[j]] + m4, rotate[j++])
-            b2 = circularLeftInt(b2 + f2(c2, d2, a2) + x[permute[j]] + m4, rotate[j++])
+            a2 = (a2 + f2(b2, c2, d2) + x[permute[j]] + m4).rotateLeft(rotate[j++])
+            d2 = (d2 + f2(a2, b2, c2) + x[permute[j]] + m4).rotateLeft(rotate[j++])
+            c2 = (c2 + f2(d2, a2, b2) + x[permute[j]] + m4).rotateLeft(rotate[j++])
+            b2 = (b2 + f2(c2, d2, a2) + x[permute[j]] + m4).rotateLeft(rotate[j++])
         }
         temp = c2
         c2 = c
         c = temp
         while (j < 112) {
-            a = circularLeftInt(a + f4(b, c, d) + x[permute[j]] + m3, rotate[j++])
-            d = circularLeftInt(d + f4(a, b, c) + x[permute[j]] + m3, rotate[j++])
-            c = circularLeftInt(c + f4(d, a, b) + x[permute[j]] + m3, rotate[j++])
-            b = circularLeftInt(b + f4(c, d, a) + x[permute[j]] + m3, rotate[j++])
+            a = (a + f4(b, c, d) + x[permute[j]] + m3).rotateLeft(rotate[j++])
+            d = (d + f4(a, b, c) + x[permute[j]] + m3).rotateLeft(rotate[j++])
+            c = (c + f4(d, a, b) + x[permute[j]] + m3).rotateLeft(rotate[j++])
+            b = (b + f4(c, d, a) + x[permute[j]] + m3).rotateLeft(rotate[j++])
         }
         while (j < 128) {
-            a2 = circularLeftInt(a2 + f1(b2, c2, d2) + x[permute[j]], rotate[j++])
-            d2 = circularLeftInt(d2 + f1(a2, b2, c2) + x[permute[j]], rotate[j++])
-            c2 = circularLeftInt(c2 + f1(d2, a2, b2) + x[permute[j]], rotate[j++])
-            b2 = circularLeftInt(b2 + f1(c2, d2, a2) + x[permute[j]], rotate[j++])
+            a2 = (a2 + f1(b2, c2, d2) + x[permute[j]]).rotateLeft(rotate[j++])
+            d2 = (d2 + f1(a2, b2, c2) + x[permute[j]]).rotateLeft(rotate[j++])
+            c2 = (c2 + f1(d2, a2, b2) + x[permute[j]]).rotateLeft(rotate[j++])
+            b2 = (b2 + f1(c2, d2, a2) + x[permute[j]]).rotateLeft(rotate[j++])
         }
         temp = d2
         d2 = d

@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,8 +66,8 @@ internal abstract class HarakaCore<D : HarakaCore<D>> : Digest<D> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 
@@ -455,18 +455,14 @@ internal abstract class HarakaCore<D : HarakaCore<D>> : Digest<D> {
             val out = ByteArray(s.size)
             var j = 0
             for (i in 0..3) {
-                out[j++] = (xTime(s[4 * i]).toInt() xor xTime(
-                    s[4 * i + 1]
-                ).toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] = (s[4 * i].toInt() xor xTime(s[4 * i + 1]).toInt() xor xTime(
-                    s[4 * i + 2]
-                ).toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] = (s[4 * i].toInt() xor s[4 * i + 1].toInt() xor xTime(s[4 * i + 2]).toInt() xor xTime(
-                    s[4 * i + 3]
-                ).toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] = (xTime(s[4 * i]).toInt() xor s[4 * i].toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor xTime(
-                    s[4 * i + 3]
-                ).toInt()).toByte()
+                out[j++] =
+                    (xTime(s[4 * i]).toInt() xor xTime(s[4 * i + 1]).toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
+                out[j++] =
+                    (s[4 * i].toInt() xor xTime(s[4 * i + 1]).toInt() xor xTime(s[4 * i + 2]).toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
+                out[j++] =
+                    (s[4 * i].toInt() xor s[4 * i + 1].toInt() xor xTime(s[4 * i + 2]).toInt() xor xTime(s[4 * i + 3]).toInt() xor s[4 * i + 3].toInt()).toByte()
+                out[j++] =
+                    (xTime(s[4 * i]).toInt() xor s[4 * i].toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor xTime(s[4 * i + 3]).toInt()).toByte()
             }
             return out
         }

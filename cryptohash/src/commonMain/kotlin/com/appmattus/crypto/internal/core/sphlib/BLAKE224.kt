@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 
 /**
  *
@@ -68,9 +69,7 @@ internal class BLAKE224 : BLAKESmallCore<BLAKE224>() {
 
     companion object {
         /** The initial value for BLAKE-224 */
-        private val initVal = intArrayOf(
-            -0x3efa6128, 0x367CD507, 0x3070DD17, -0x8f1a6c7,
-            -0x3ff4cf, 0x68581511, 0x64F98FA7, -0x4105b05c
-        )
+        @Suppress("PropertyWrapping")
+        private val initVal = intArrayOf(-0x3efa6128, 0x367CD507, 0x3070DD17, -0x8f1a6c7, -0x3ff4cf, 0x68581511, 0x64F98FA7, -0x4105b05c)
     }
 }

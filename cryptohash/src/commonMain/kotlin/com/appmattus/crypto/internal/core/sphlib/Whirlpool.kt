@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 
 /**
  *
@@ -1101,9 +1102,7 @@ internal class Whirlpool : WhirlpoolCore<Whirlpool>(T0, T1, T2, T3, T4, T5, T6, 
             -0x79412c06c073808L, -0x793dee5bbb79dd7aL
         )
 
-        /*
-	 * Round constants.
-	 */
+        // Round constants.
         private val RC = longArrayOf(
             0x4F01B887E8C62318L,
             0x52916F79F5D2A636L,

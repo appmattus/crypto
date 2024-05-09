@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,9 +68,7 @@ internal class ShabalGeneric(private val outSize: Int) : Digest<ShabalGeneric> {
     private var w: Long = 0
 
     init {
-        if (outSize < 32 || outSize > 512 || outSize and 31 != 0) throw IllegalArgumentException(
-            "invalid Shabal output size: $outSize"
-        )
+        require(outSize in 32..512 && outSize and 31 == 0) { "invalid Shabal output size: $outSize" }
         reset()
     }
 
@@ -86,7 +84,6 @@ internal class ShabalGeneric(private val outSize: Int) : Digest<ShabalGeneric> {
         update(input, 0, input.size)
     }
 
-    @Suppress("NAME_SHADOWING")
     override fun update(input: ByteArray, offset: Int, length: Int) {
         var off = offset
         var len = length
@@ -128,7 +125,6 @@ internal class ShabalGeneric(private val outSize: Int) : Digest<ShabalGeneric> {
         return digest()
     }
 
-    @Suppress("NAME_SHADOWING")
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         var len = length
         val dlen = digestLength
@@ -305,149 +301,101 @@ internal class ShabalGeneric(private val outSize: Int) : Digest<ShabalGeneric> {
                 a0 = a0 xor w.toInt()
                 a1 = a1 xor (w ushr 32).toInt()
                 w++
-                a0 = ((a0 xor (ab shl 15 or (ab ushr 17)) * 5 xor c8) * 3
-                        xor bd xor (b9 and b6.inv()) xor m0)
+                a0 = (a0 xor (ab shl 15 or (ab ushr 17)) * 5 xor c8) * 3 xor bd xor (b9 and b6.inv()) xor m0
                 b0 = (b0 shl 1 or (b0 ushr 31)).inv() xor a0
-                a1 = ((a1 xor (a0 shl 15 or (a0 ushr 17)) * 5 xor c7) * 3
-                        xor be xor (ba and b7.inv()) xor m1)
+                a1 = (a1 xor (a0 shl 15 or (a0 ushr 17)) * 5 xor c7) * 3 xor be xor (ba and b7.inv()) xor m1
                 b1 = (b1 shl 1 or (b1 ushr 31)).inv() xor a1
-                a2 = ((a2 xor (a1 shl 15 or (a1 ushr 17)) * 5 xor c6) * 3
-                        xor bf xor (bb and b8.inv()) xor m2)
+                a2 = (a2 xor (a1 shl 15 or (a1 ushr 17)) * 5 xor c6) * 3 xor bf xor (bb and b8.inv()) xor m2
                 b2 = (b2 shl 1 or (b2 ushr 31)).inv() xor a2
-                a3 = ((a3 xor (a2 shl 15 or (a2 ushr 17)) * 5 xor c5) * 3
-                        xor b0 xor (bc and b9.inv()) xor m3)
+                a3 = (a3 xor (a2 shl 15 or (a2 ushr 17)) * 5 xor c5) * 3 xor b0 xor (bc and b9.inv()) xor m3
                 b3 = (b3 shl 1 or (b3 ushr 31)).inv() xor a3
-                a4 = ((a4 xor (a3 shl 15 or (a3 ushr 17)) * 5 xor c4) * 3
-                        xor b1 xor (bd and ba.inv()) xor m4)
+                a4 = (a4 xor (a3 shl 15 or (a3 ushr 17)) * 5 xor c4) * 3 xor b1 xor (bd and ba.inv()) xor m4
                 b4 = (b4 shl 1 or (b4 ushr 31)).inv() xor a4
-                a5 = ((a5 xor (a4 shl 15 or (a4 ushr 17)) * 5 xor c3) * 3
-                        xor b2 xor (be and bb.inv()) xor m5)
+                a5 = (a5 xor (a4 shl 15 or (a4 ushr 17)) * 5 xor c3) * 3 xor b2 xor (be and bb.inv()) xor m5
                 b5 = (b5 shl 1 or (b5 ushr 31)).inv() xor a5
-                a6 = ((a6 xor (a5 shl 15 or (a5 ushr 17)) * 5 xor c2) * 3
-                        xor b3 xor (bf and bc.inv()) xor m6)
+                a6 = (a6 xor (a5 shl 15 or (a5 ushr 17)) * 5 xor c2) * 3 xor b3 xor (bf and bc.inv()) xor m6
                 b6 = (b6 shl 1 or (b6 ushr 31)).inv() xor a6
-                a7 = ((a7 xor (a6 shl 15 or (a6 ushr 17)) * 5 xor c1) * 3
-                        xor b4 xor (b0 and bd.inv()) xor m7)
+                a7 = (a7 xor (a6 shl 15 or (a6 ushr 17)) * 5 xor c1) * 3 xor b4 xor (b0 and bd.inv()) xor m7
                 b7 = (b7 shl 1 or (b7 ushr 31)).inv() xor a7
-                a8 = ((a8 xor (a7 shl 15 or (a7 ushr 17)) * 5 xor c0) * 3
-                        xor b5 xor (b1 and be.inv()) xor m8)
+                a8 = (a8 xor (a7 shl 15 or (a7 ushr 17)) * 5 xor c0) * 3 xor b5 xor (b1 and be.inv()) xor m8
                 b8 = (b8 shl 1 or (b8 ushr 31)).inv() xor a8
-                a9 = ((a9 xor (a8 shl 15 or (a8 ushr 17)) * 5 xor cf) * 3
-                        xor b6 xor (b2 and bf.inv()) xor m9)
+                a9 = (a9 xor (a8 shl 15 or (a8 ushr 17)) * 5 xor cf) * 3 xor b6 xor (b2 and bf.inv()) xor m9
                 b9 = (b9 shl 1 or (b9 ushr 31)).inv() xor a9
-                aa = ((aa xor (a9 shl 15 or (a9 ushr 17)) * 5 xor ce) * 3
-                        xor b7 xor (b3 and b0.inv()) xor ma)
+                aa = (aa xor (a9 shl 15 or (a9 ushr 17)) * 5 xor ce) * 3 xor b7 xor (b3 and b0.inv()) xor ma
                 ba = (ba shl 1 or (ba ushr 31)).inv() xor aa
-                ab = ((ab xor (aa shl 15 or (aa ushr 17)) * 5 xor cd) * 3
-                        xor b8 xor (b4 and b1.inv()) xor mb)
+                ab = (ab xor (aa shl 15 or (aa ushr 17)) * 5 xor cd) * 3 xor b8 xor (b4 and b1.inv()) xor mb
                 bb = (bb shl 1 or (bb ushr 31)).inv() xor ab
-                a0 = ((a0 xor (ab shl 15 or (ab ushr 17)) * 5 xor cc) * 3
-                        xor b9 xor (b5 and b2.inv()) xor mc)
+                a0 = (a0 xor (ab shl 15 or (ab ushr 17)) * 5 xor cc) * 3 xor b9 xor (b5 and b2.inv()) xor mc
                 bc = (bc shl 1 or (bc ushr 31)).inv() xor a0
-                a1 = ((a1 xor (a0 shl 15 or (a0 ushr 17)) * 5 xor cb) * 3
-                        xor ba xor (b6 and b3.inv()) xor md)
+                a1 = (a1 xor (a0 shl 15 or (a0 ushr 17)) * 5 xor cb) * 3 xor ba xor (b6 and b3.inv()) xor md
                 bd = (bd shl 1 or (bd ushr 31)).inv() xor a1
-                a2 = ((a2 xor (a1 shl 15 or (a1 ushr 17)) * 5 xor ca) * 3
-                        xor bb xor (b7 and b4.inv()) xor me)
+                a2 = (a2 xor (a1 shl 15 or (a1 ushr 17)) * 5 xor ca) * 3 xor bb xor (b7 and b4.inv()) xor me
                 be = (be shl 1 or (be ushr 31)).inv() xor a2
-                a3 = ((a3 xor (a2 shl 15 or (a2 ushr 17)) * 5 xor c9) * 3
-                        xor bc xor (b8 and b5.inv()) xor mf)
+                a3 = (a3 xor (a2 shl 15 or (a2 ushr 17)) * 5 xor c9) * 3 xor bc xor (b8 and b5.inv()) xor mf
                 bf = (bf shl 1 or (bf ushr 31)).inv() xor a3
-                a4 = ((a4 xor (a3 shl 15 or (a3 ushr 17)) * 5 xor c8) * 3
-                        xor bd xor (b9 and b6.inv()) xor m0)
+                a4 = (a4 xor (a3 shl 15 or (a3 ushr 17)) * 5 xor c8) * 3 xor bd xor (b9 and b6.inv()) xor m0
                 b0 = (b0 shl 1 or (b0 ushr 31)).inv() xor a4
-                a5 = ((a5 xor (a4 shl 15 or (a4 ushr 17)) * 5 xor c7) * 3
-                        xor be xor (ba and b7.inv()) xor m1)
+                a5 = (a5 xor (a4 shl 15 or (a4 ushr 17)) * 5 xor c7) * 3 xor be xor (ba and b7.inv()) xor m1
                 b1 = (b1 shl 1 or (b1 ushr 31)).inv() xor a5
-                a6 = ((a6 xor (a5 shl 15 or (a5 ushr 17)) * 5 xor c6) * 3
-                        xor bf xor (bb and b8.inv()) xor m2)
+                a6 = (a6 xor (a5 shl 15 or (a5 ushr 17)) * 5 xor c6) * 3 xor bf xor (bb and b8.inv()) xor m2
                 b2 = (b2 shl 1 or (b2 ushr 31)).inv() xor a6
-                a7 = ((a7 xor (a6 shl 15 or (a6 ushr 17)) * 5 xor c5) * 3
-                        xor b0 xor (bc and b9.inv()) xor m3)
+                a7 = (a7 xor (a6 shl 15 or (a6 ushr 17)) * 5 xor c5) * 3 xor b0 xor (bc and b9.inv()) xor m3
                 b3 = (b3 shl 1 or (b3 ushr 31)).inv() xor a7
-                a8 = ((a8 xor (a7 shl 15 or (a7 ushr 17)) * 5 xor c4) * 3
-                        xor b1 xor (bd and ba.inv()) xor m4)
+                a8 = (a8 xor (a7 shl 15 or (a7 ushr 17)) * 5 xor c4) * 3 xor b1 xor (bd and ba.inv()) xor m4
                 b4 = (b4 shl 1 or (b4 ushr 31)).inv() xor a8
-                a9 = ((a9 xor (a8 shl 15 or (a8 ushr 17)) * 5 xor c3) * 3
-                        xor b2 xor (be and bb.inv()) xor m5)
+                a9 = (a9 xor (a8 shl 15 or (a8 ushr 17)) * 5 xor c3) * 3 xor b2 xor (be and bb.inv()) xor m5
                 b5 = (b5 shl 1 or (b5 ushr 31)).inv() xor a9
-                aa = ((aa xor (a9 shl 15 or (a9 ushr 17)) * 5 xor c2) * 3
-                        xor b3 xor (bf and bc.inv()) xor m6)
+                aa = (aa xor (a9 shl 15 or (a9 ushr 17)) * 5 xor c2) * 3 xor b3 xor (bf and bc.inv()) xor m6
                 b6 = (b6 shl 1 or (b6 ushr 31)).inv() xor aa
-                ab = ((ab xor (aa shl 15 or (aa ushr 17)) * 5 xor c1) * 3
-                        xor b4 xor (b0 and bd.inv()) xor m7)
+                ab = (ab xor (aa shl 15 or (aa ushr 17)) * 5 xor c1) * 3 xor b4 xor (b0 and bd.inv()) xor m7
                 b7 = (b7 shl 1 or (b7 ushr 31)).inv() xor ab
-                a0 = ((a0 xor (ab shl 15 or (ab ushr 17)) * 5 xor c0) * 3
-                        xor b5 xor (b1 and be.inv()) xor m8)
+                a0 = (a0 xor (ab shl 15 or (ab ushr 17)) * 5 xor c0) * 3 xor b5 xor (b1 and be.inv()) xor m8
                 b8 = (b8 shl 1 or (b8 ushr 31)).inv() xor a0
-                a1 = ((a1 xor (a0 shl 15 or (a0 ushr 17)) * 5 xor cf) * 3
-                        xor b6 xor (b2 and bf.inv()) xor m9)
+                a1 = (a1 xor (a0 shl 15 or (a0 ushr 17)) * 5 xor cf) * 3 xor b6 xor (b2 and bf.inv()) xor m9
                 b9 = (b9 shl 1 or (b9 ushr 31)).inv() xor a1
-                a2 = ((a2 xor (a1 shl 15 or (a1 ushr 17)) * 5 xor ce) * 3
-                        xor b7 xor (b3 and b0.inv()) xor ma)
+                a2 = (a2 xor (a1 shl 15 or (a1 ushr 17)) * 5 xor ce) * 3 xor b7 xor (b3 and b0.inv()) xor ma
                 ba = (ba shl 1 or (ba ushr 31)).inv() xor a2
-                a3 = ((a3 xor (a2 shl 15 or (a2 ushr 17)) * 5 xor cd) * 3
-                        xor b8 xor (b4 and b1.inv()) xor mb)
+                a3 = (a3 xor (a2 shl 15 or (a2 ushr 17)) * 5 xor cd) * 3 xor b8 xor (b4 and b1.inv()) xor mb
                 bb = (bb shl 1 or (bb ushr 31)).inv() xor a3
-                a4 = ((a4 xor (a3 shl 15 or (a3 ushr 17)) * 5 xor cc) * 3
-                        xor b9 xor (b5 and b2.inv()) xor mc)
+                a4 = (a4 xor (a3 shl 15 or (a3 ushr 17)) * 5 xor cc) * 3 xor b9 xor (b5 and b2.inv()) xor mc
                 bc = (bc shl 1 or (bc ushr 31)).inv() xor a4
-                a5 = ((a5 xor (a4 shl 15 or (a4 ushr 17)) * 5 xor cb) * 3
-                        xor ba xor (b6 and b3.inv()) xor md)
+                a5 = (a5 xor (a4 shl 15 or (a4 ushr 17)) * 5 xor cb) * 3 xor ba xor (b6 and b3.inv()) xor md
                 bd = (bd shl 1 or (bd ushr 31)).inv() xor a5
-                a6 = ((a6 xor (a5 shl 15 or (a5 ushr 17)) * 5 xor ca) * 3
-                        xor bb xor (b7 and b4.inv()) xor me)
+                a6 = (a6 xor (a5 shl 15 or (a5 ushr 17)) * 5 xor ca) * 3 xor bb xor (b7 and b4.inv()) xor me
                 be = (be shl 1 or (be ushr 31)).inv() xor a6
-                a7 = ((a7 xor (a6 shl 15 or (a6 ushr 17)) * 5 xor c9) * 3
-                        xor bc xor (b8 and b5.inv()) xor mf)
+                a7 = (a7 xor (a6 shl 15 or (a6 ushr 17)) * 5 xor c9) * 3 xor bc xor (b8 and b5.inv()) xor mf
                 bf = (bf shl 1 or (bf ushr 31)).inv() xor a7
-                a8 = ((a8 xor (a7 shl 15 or (a7 ushr 17)) * 5 xor c8) * 3
-                        xor bd xor (b9 and b6.inv()) xor m0)
+                a8 = (a8 xor (a7 shl 15 or (a7 ushr 17)) * 5 xor c8) * 3 xor bd xor (b9 and b6.inv()) xor m0
                 b0 = (b0 shl 1 or (b0 ushr 31)).inv() xor a8
-                a9 = ((a9 xor (a8 shl 15 or (a8 ushr 17)) * 5 xor c7) * 3
-                        xor be xor (ba and b7.inv()) xor m1)
+                a9 = (a9 xor (a8 shl 15 or (a8 ushr 17)) * 5 xor c7) * 3 xor be xor (ba and b7.inv()) xor m1
                 b1 = (b1 shl 1 or (b1 ushr 31)).inv() xor a9
-                aa = ((aa xor (a9 shl 15 or (a9 ushr 17)) * 5 xor c6) * 3
-                        xor bf xor (bb and b8.inv()) xor m2)
+                aa = (aa xor (a9 shl 15 or (a9 ushr 17)) * 5 xor c6) * 3 xor bf xor (bb and b8.inv()) xor m2
                 b2 = (b2 shl 1 or (b2 ushr 31)).inv() xor aa
-                ab = ((ab xor (aa shl 15 or (aa ushr 17)) * 5 xor c5) * 3
-                        xor b0 xor (bc and b9.inv()) xor m3)
+                ab = (ab xor (aa shl 15 or (aa ushr 17)) * 5 xor c5) * 3 xor b0 xor (bc and b9.inv()) xor m3
                 b3 = (b3 shl 1 or (b3 ushr 31)).inv() xor ab
-                a0 = ((a0 xor (ab shl 15 or (ab ushr 17)) * 5 xor c4) * 3
-                        xor b1 xor (bd and ba.inv()) xor m4)
+                a0 = (a0 xor (ab shl 15 or (ab ushr 17)) * 5 xor c4) * 3 xor b1 xor (bd and ba.inv()) xor m4
                 b4 = (b4 shl 1 or (b4 ushr 31)).inv() xor a0
-                a1 = ((a1 xor (a0 shl 15 or (a0 ushr 17)) * 5 xor c3) * 3
-                        xor b2 xor (be and bb.inv()) xor m5)
+                a1 = (a1 xor (a0 shl 15 or (a0 ushr 17)) * 5 xor c3) * 3 xor b2 xor (be and bb.inv()) xor m5
                 b5 = (b5 shl 1 or (b5 ushr 31)).inv() xor a1
-                a2 = ((a2 xor (a1 shl 15 or (a1 ushr 17)) * 5 xor c2) * 3
-                        xor b3 xor (bf and bc.inv()) xor m6)
+                a2 = (a2 xor (a1 shl 15 or (a1 ushr 17)) * 5 xor c2) * 3 xor b3 xor (bf and bc.inv()) xor m6
                 b6 = (b6 shl 1 or (b6 ushr 31)).inv() xor a2
-                a3 = ((a3 xor (a2 shl 15 or (a2 ushr 17)) * 5 xor c1) * 3
-                        xor b4 xor (b0 and bd.inv()) xor m7)
+                a3 = (a3 xor (a2 shl 15 or (a2 ushr 17)) * 5 xor c1) * 3 xor b4 xor (b0 and bd.inv()) xor m7
                 b7 = (b7 shl 1 or (b7 ushr 31)).inv() xor a3
-                a4 = ((a4 xor (a3 shl 15 or (a3 ushr 17)) * 5 xor c0) * 3
-                        xor b5 xor (b1 and be.inv()) xor m8)
+                a4 = (a4 xor (a3 shl 15 or (a3 ushr 17)) * 5 xor c0) * 3 xor b5 xor (b1 and be.inv()) xor m8
                 b8 = (b8 shl 1 or (b8 ushr 31)).inv() xor a4
-                a5 = ((a5 xor (a4 shl 15 or (a4 ushr 17)) * 5 xor cf) * 3
-                        xor b6 xor (b2 and bf.inv()) xor m9)
+                a5 = (a5 xor (a4 shl 15 or (a4 ushr 17)) * 5 xor cf) * 3 xor b6 xor (b2 and bf.inv()) xor m9
                 b9 = (b9 shl 1 or (b9 ushr 31)).inv() xor a5
-                a6 = ((a6 xor (a5 shl 15 or (a5 ushr 17)) * 5 xor ce) * 3
-                        xor b7 xor (b3 and b0.inv()) xor ma)
+                a6 = (a6 xor (a5 shl 15 or (a5 ushr 17)) * 5 xor ce) * 3 xor b7 xor (b3 and b0.inv()) xor ma
                 ba = (ba shl 1 or (ba ushr 31)).inv() xor a6
-                a7 = ((a7 xor (a6 shl 15 or (a6 ushr 17)) * 5 xor cd) * 3
-                        xor b8 xor (b4 and b1.inv()) xor mb)
+                a7 = (a7 xor (a6 shl 15 or (a6 ushr 17)) * 5 xor cd) * 3 xor b8 xor (b4 and b1.inv()) xor mb
                 bb = (bb shl 1 or (bb ushr 31)).inv() xor a7
-                a8 = ((a8 xor (a7 shl 15 or (a7 ushr 17)) * 5 xor cc) * 3
-                        xor b9 xor (b5 and b2.inv()) xor mc)
+                a8 = (a8 xor (a7 shl 15 or (a7 ushr 17)) * 5 xor cc) * 3 xor b9 xor (b5 and b2.inv()) xor mc
                 bc = (bc shl 1 or (bc ushr 31)).inv() xor a8
-                a9 = ((a9 xor (a8 shl 15 or (a8 ushr 17)) * 5 xor cb) * 3
-                        xor ba xor (b6 and b3.inv()) xor md)
+                a9 = (a9 xor (a8 shl 15 or (a8 ushr 17)) * 5 xor cb) * 3 xor ba xor (b6 and b3.inv()) xor md
                 bd = (bd shl 1 or (bd ushr 31)).inv() xor a9
-                aa = ((aa xor (a9 shl 15 or (a9 ushr 17)) * 5 xor ca) * 3
-                        xor bb xor (b7 and b4.inv()) xor me)
+                aa = (aa xor (a9 shl 15 or (a9 ushr 17)) * 5 xor ca) * 3 xor bb xor (b7 and b4.inv()) xor me
                 be = (be shl 1 or (be ushr 31)).inv() xor aa
-                ab = ((ab xor (aa shl 15 or (aa ushr 17)) * 5 xor c9) * 3
-                        xor bc xor (b8 and b5.inv()) xor mf)
+                ab = (ab xor (aa shl 15 or (aa ushr 17)) * 5 xor c9) * 3 xor bc xor (b8 and b5.inv()) xor mf
                 bf = (bf shl 1 or (bf ushr 31)).inv() xor ab
                 ab += c6 + ca + ce
                 aa += c5 + c9 + cd

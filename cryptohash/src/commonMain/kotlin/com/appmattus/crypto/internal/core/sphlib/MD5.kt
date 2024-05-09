@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.circularLeftInt
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 
@@ -79,10 +79,7 @@ internal class MD5 : MDHelper<MD5>(true, 8) {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         makeMDPadding()
-        for (i in 0..3) encodeLEInt(
-            currentVal[i],
-            output, outputOffset + 4 * i
-        )
+        for (i in 0..3) encodeLEInt(currentVal[i], output, outputOffset + 4 * i)
     }
 
     override fun doInit() {
@@ -98,70 +95,70 @@ internal class MD5 : MDHelper<MD5>(true, 8) {
         var c = currentVal[2]
         var d = currentVal[3]
         for (i in 0..15) x[i] = decodeLEInt(data, 4 * i)
-        a = b + circularLeftInt(a + f(b, c, d) + x[0] + -0x28955b88, 7)
-        d = a + circularLeftInt(d + f(a, b, c) + x[1] + -0x173848aa, 12)
-        c = d + circularLeftInt(c + f(d, a, b) + x[2] + 0x242070DB, 17)
-        b = c + circularLeftInt(b + f(c, d, a) + x[3] + -0x3e423112, 22)
-        a = b + circularLeftInt(a + f(b, c, d) + x[4] + -0xa83f051, 7)
-        d = a + circularLeftInt(d + f(a, b, c) + x[5] + 0x4787C62A, 12)
-        c = d + circularLeftInt(c + f(d, a, b) + x[6] + -0x57cfb9ed, 17)
-        b = c + circularLeftInt(b + f(c, d, a) + x[7] + -0x2b96aff, 22)
-        a = b + circularLeftInt(a + f(b, c, d) + x[8] + 0x698098D8, 7)
-        d = a + circularLeftInt(d + f(a, b, c) + x[9] + -0x74bb0851, 12)
-        c = d + circularLeftInt(c + f(d, a, b) + x[10] + -0xa44f, 17)
-        b = c + circularLeftInt(b + f(c, d, a) + x[11] + -0x76a32842, 22)
-        a = b + circularLeftInt(a + f(b, c, d) + x[12] + 0x6B901122, 7)
-        d = a + circularLeftInt(d + f(a, b, c) + x[13] + -0x2678e6d, 12)
-        c = d + circularLeftInt(c + f(d, a, b) + x[14] + -0x5986bc72, 17)
-        b = c + circularLeftInt(b + f(c, d, a) + x[15] + 0x49B40821, 22)
-        a = b + circularLeftInt(a + g(b, c, d) + x[1] + -0x9e1da9e, 5)
-        d = a + circularLeftInt(d + g(a, b, c) + x[6] + -0x3fbf4cc0, 9)
-        c = d + circularLeftInt(c + g(d, a, b) + x[11] + 0x265E5A51, 14)
-        b = c + circularLeftInt(b + g(c, d, a) + x[0] + -0x16493856, 20)
-        a = b + circularLeftInt(a + g(b, c, d) + x[5] + -0x29d0efa3, 5)
-        d = a + circularLeftInt(d + g(a, b, c) + x[10] + 0x02441453, 9)
-        c = d + circularLeftInt(c + g(d, a, b) + x[15] + -0x275e197f, 14)
-        b = c + circularLeftInt(b + g(c, d, a) + x[4] + -0x182c0438, 20)
-        a = b + circularLeftInt(a + g(b, c, d) + x[9] + 0x21E1CDE6, 5)
-        d = a + circularLeftInt(d + g(a, b, c) + x[14] + -0x3cc8f82a, 9)
-        c = d + circularLeftInt(c + g(d, a, b) + x[3] + -0xb2af279, 14)
-        b = c + circularLeftInt(b + g(c, d, a) + x[8] + 0x455A14ED, 20)
-        a = b + circularLeftInt(a + g(b, c, d) + x[13] + -0x561c16fb, 5)
-        d = a + circularLeftInt(d + g(a, b, c) + x[2] + -0x3105c08, 9)
-        c = d + circularLeftInt(c + g(d, a, b) + x[7] + 0x676F02D9, 14)
-        b = c + circularLeftInt(b + g(c, d, a) + x[12] + -0x72d5b376, 20)
-        a = b + circularLeftInt(a + h(b, c, d) + x[5] + -0x5c6be, 4)
-        d = a + circularLeftInt(d + h(a, b, c) + x[8] + -0x788e097f, 11)
-        c = d + circularLeftInt(c + h(d, a, b) + x[11] + 0x6D9D6122, 16)
-        b = c + circularLeftInt(b + h(c, d, a) + x[14] + -0x21ac7f4, 23)
-        a = b + circularLeftInt(a + h(b, c, d) + x[1] + -0x5b4115bc, 4)
-        d = a + circularLeftInt(d + h(a, b, c) + x[4] + 0x4BDECFA9, 11)
-        c = d + circularLeftInt(c + h(d, a, b) + x[7] + -0x944b4a0, 16)
-        b = c + circularLeftInt(b + h(c, d, a) + x[10] + -0x41404390, 23)
-        a = b + circularLeftInt(a + h(b, c, d) + x[13] + 0x289B7EC6, 4)
-        d = a + circularLeftInt(d + h(a, b, c) + x[0] + -0x155ed806, 11)
-        c = d + circularLeftInt(c + h(d, a, b) + x[3] + -0x2b10cf7b, 16)
-        b = c + circularLeftInt(b + h(c, d, a) + x[6] + 0x04881D05, 23)
-        a = b + circularLeftInt(a + h(b, c, d) + x[9] + -0x262b2fc7, 4)
-        d = a + circularLeftInt(d + h(a, b, c) + x[12] + -0x1924661b, 11)
-        c = d + circularLeftInt(c + h(d, a, b) + x[15] + 0x1FA27CF8, 16)
-        b = c + circularLeftInt(b + h(c, d, a) + x[2] + -0x3b53a99b, 23)
-        a = b + circularLeftInt(a + i(b, c, d) + x[0] + -0xbd6ddbc, 6)
-        d = a + circularLeftInt(d + i(a, b, c) + x[7] + 0x432AFF97, 10)
-        c = d + circularLeftInt(c + i(d, a, b) + x[14] + -0x546bdc59, 15)
-        b = c + circularLeftInt(b + i(c, d, a) + x[5] + -0x36c5fc7, 21)
-        a = b + circularLeftInt(a + i(b, c, d) + x[12] + 0x655B59C3, 6)
-        d = a + circularLeftInt(d + i(a, b, c) + x[3] + -0x70f3336e, 10)
-        c = d + circularLeftInt(c + i(d, a, b) + x[10] + -0x100b83, 15)
-        b = c + circularLeftInt(b + i(c, d, a) + x[1] + -0x7a7ba22f, 21)
-        a = b + circularLeftInt(a + i(b, c, d) + x[8] + 0x6FA87E4F, 6)
-        d = a + circularLeftInt(d + i(a, b, c) + x[15] + -0x1d31920, 10)
-        c = d + circularLeftInt(c + i(d, a, b) + x[6] + -0x5cfebcec, 15)
-        b = c + circularLeftInt(b + i(c, d, a) + x[13] + 0x4E0811A1, 21)
-        a = b + circularLeftInt(a + i(b, c, d) + x[4] + -0x8ac817e, 6)
-        d = a + circularLeftInt(d + i(a, b, c) + x[11] + -0x42c50dcb, 10)
-        c = d + circularLeftInt(c + i(d, a, b) + x[2] + 0x2AD7D2BB, 15)
-        b = c + circularLeftInt(b + i(c, d, a) + x[9] + -0x14792c6f, 21)
+        a = b + (a + f(b, c, d) + x[0] + -0x28955b88).rotateLeft(7)
+        d = a + (d + f(a, b, c) + x[1] + -0x173848aa).rotateLeft(12)
+        c = d + (c + f(d, a, b) + x[2] + 0x242070DB).rotateLeft(17)
+        b = c + (b + f(c, d, a) + x[3] + -0x3e423112).rotateLeft(22)
+        a = b + (a + f(b, c, d) + x[4] + -0xa83f051).rotateLeft(7)
+        d = a + (d + f(a, b, c) + x[5] + 0x4787C62A).rotateLeft(12)
+        c = d + (c + f(d, a, b) + x[6] + -0x57cfb9ed).rotateLeft(17)
+        b = c + (b + f(c, d, a) + x[7] + -0x2b96aff).rotateLeft(22)
+        a = b + (a + f(b, c, d) + x[8] + 0x698098D8).rotateLeft(7)
+        d = a + (d + f(a, b, c) + x[9] + -0x74bb0851).rotateLeft(12)
+        c = d + (c + f(d, a, b) + x[10] + -0xa44f).rotateLeft(17)
+        b = c + (b + f(c, d, a) + x[11] + -0x76a32842).rotateLeft(22)
+        a = b + (a + f(b, c, d) + x[12] + 0x6B901122).rotateLeft(7)
+        d = a + (d + f(a, b, c) + x[13] + -0x2678e6d).rotateLeft(12)
+        c = d + (c + f(d, a, b) + x[14] + -0x5986bc72).rotateLeft(17)
+        b = c + (b + f(c, d, a) + x[15] + 0x49B40821).rotateLeft(22)
+        a = b + (a + g(b, c, d) + x[1] + -0x9e1da9e).rotateLeft(5)
+        d = a + (d + g(a, b, c) + x[6] + -0x3fbf4cc0).rotateLeft(9)
+        c = d + (c + g(d, a, b) + x[11] + 0x265E5A51).rotateLeft(14)
+        b = c + (b + g(c, d, a) + x[0] + -0x16493856).rotateLeft(20)
+        a = b + (a + g(b, c, d) + x[5] + -0x29d0efa3).rotateLeft(5)
+        d = a + (d + g(a, b, c) + x[10] + 0x02441453).rotateLeft(9)
+        c = d + (c + g(d, a, b) + x[15] + -0x275e197f).rotateLeft(14)
+        b = c + (b + g(c, d, a) + x[4] + -0x182c0438).rotateLeft(20)
+        a = b + (a + g(b, c, d) + x[9] + 0x21E1CDE6).rotateLeft(5)
+        d = a + (d + g(a, b, c) + x[14] + -0x3cc8f82a).rotateLeft(9)
+        c = d + (c + g(d, a, b) + x[3] + -0xb2af279).rotateLeft(14)
+        b = c + (b + g(c, d, a) + x[8] + 0x455A14ED).rotateLeft(20)
+        a = b + (a + g(b, c, d) + x[13] + -0x561c16fb).rotateLeft(5)
+        d = a + (d + g(a, b, c) + x[2] + -0x3105c08).rotateLeft(9)
+        c = d + (c + g(d, a, b) + x[7] + 0x676F02D9).rotateLeft(14)
+        b = c + (b + g(c, d, a) + x[12] + -0x72d5b376).rotateLeft(20)
+        a = b + (a + h(b, c, d) + x[5] + -0x5c6be).rotateLeft(4)
+        d = a + (d + h(a, b, c) + x[8] + -0x788e097f).rotateLeft(11)
+        c = d + (c + h(d, a, b) + x[11] + 0x6D9D6122).rotateLeft(16)
+        b = c + (b + h(c, d, a) + x[14] + -0x21ac7f4).rotateLeft(23)
+        a = b + (a + h(b, c, d) + x[1] + -0x5b4115bc).rotateLeft(4)
+        d = a + (d + h(a, b, c) + x[4] + 0x4BDECFA9).rotateLeft(11)
+        c = d + (c + h(d, a, b) + x[7] + -0x944b4a0).rotateLeft(16)
+        b = c + (b + h(c, d, a) + x[10] + -0x41404390).rotateLeft(23)
+        a = b + (a + h(b, c, d) + x[13] + 0x289B7EC6).rotateLeft(4)
+        d = a + (d + h(a, b, c) + x[0] + -0x155ed806).rotateLeft(11)
+        c = d + (c + h(d, a, b) + x[3] + -0x2b10cf7b).rotateLeft(16)
+        b = c + (b + h(c, d, a) + x[6] + 0x04881D05).rotateLeft(23)
+        a = b + (a + h(b, c, d) + x[9] + -0x262b2fc7).rotateLeft(4)
+        d = a + (d + h(a, b, c) + x[12] + -0x1924661b).rotateLeft(11)
+        c = d + (c + h(d, a, b) + x[15] + 0x1FA27CF8).rotateLeft(16)
+        b = c + (b + h(c, d, a) + x[2] + -0x3b53a99b).rotateLeft(23)
+        a = b + (a + i(b, c, d) + x[0] + -0xbd6ddbc).rotateLeft(6)
+        d = a + (d + i(a, b, c) + x[7] + 0x432AFF97).rotateLeft(10)
+        c = d + (c + i(d, a, b) + x[14] + -0x546bdc59).rotateLeft(15)
+        b = c + (b + i(c, d, a) + x[5] + -0x36c5fc7).rotateLeft(21)
+        a = b + (a + i(b, c, d) + x[12] + 0x655B59C3).rotateLeft(6)
+        d = a + (d + i(a, b, c) + x[3] + -0x70f3336e).rotateLeft(10)
+        c = d + (c + i(d, a, b) + x[10] + -0x100b83).rotateLeft(15)
+        b = c + (b + i(c, d, a) + x[1] + -0x7a7ba22f).rotateLeft(21)
+        a = b + (a + i(b, c, d) + x[8] + 0x6FA87E4F).rotateLeft(6)
+        d = a + (d + i(a, b, c) + x[15] + -0x1d31920).rotateLeft(10)
+        c = d + (c + i(d, a, b) + x[6] + -0x5cfebcec).rotateLeft(15)
+        b = c + (b + i(c, d, a) + x[13] + 0x4E0811A1).rotateLeft(21)
+        a = b + (a + i(b, c, d) + x[4] + -0x8ac817e).rotateLeft(6)
+        d = a + (d + i(a, b, c) + x[11] + -0x42c50dcb).rotateLeft(10)
+        c = d + (c + i(d, a, b) + x[2] + 0x2AD7D2BB).rotateLeft(15)
+        b = c + (b + i(c, d, a) + x[9] + -0x14792c6f).rotateLeft(21)
         currentVal[0] += a
         currentVal[1] += b
         currentVal[2] += c

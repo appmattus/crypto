@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,8 +104,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 
@@ -404,7 +404,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0xa2.toByte(), 0x42.toByte(), 0x2a.toByte(), 0x08.toByte(), 0xa4.toByte(), 0x60.toByte(), 0xd3.toByte(), 0x15.toByte(),
                 0x05.toByte(), 0x76.toByte(), 0x74.toByte(), 0x36.toByte(), 0xcc.toByte(), 0x74.toByte(), 0x4d.toByte(), 0x23.toByte(),
                 0xdd.toByte(), 0x80.toByte(), 0x65.toByte(), 0x59.toByte(), 0xf2.toByte(), 0xa6.toByte(), 0x45.toByte(), 0x07.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0x6f.toByte(), 0xa3.toByte(), 0xb5.toByte(), 0x8a.toByte(), 0xa9.toByte(), 0x9d.toByte(), 0x2f.toByte(), 0x1a.toByte(),
                 0x4f.toByte(), 0xe3.toByte(), 0x9d.toByte(), 0x46.toByte(), 0x0f.toByte(), 0x70.toByte(), 0xb5.toByte(), 0xd7.toByte(),
                 0xf3.toByte(), 0xfe.toByte(), 0xea.toByte(), 0x72.toByte(), 0x0a.toByte(), 0x23.toByte(), 0x2b.toByte(), 0x98.toByte(),
@@ -413,7 +414,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x5c.toByte(), 0xb5.toByte(), 0x61.toByte(), 0xc2.toByte(), 0xdb.toByte(), 0x0a.toByte(), 0xa7.toByte(), 0xca.toByte(),
                 0x55.toByte(), 0xdd.toByte(), 0xa2.toByte(), 0x1b.toByte(), 0xd7.toByte(), 0xcb.toByte(), 0xcd.toByte(), 0x56.toByte(),
                 0xe6.toByte(), 0x79.toByte(), 0x04.toByte(), 0x70.toByte(), 0x21.toByte(), 0xb1.toByte(), 0x9b.toByte(), 0xb7.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0xf5.toByte(), 0x74.toByte(), 0xdc.toByte(), 0xac.toByte(), 0x2b.toByte(), 0xce.toByte(), 0x2f.toByte(), 0xc7.toByte(),
                 0x0a.toByte(), 0x39.toByte(), 0xfc.toByte(), 0x28.toByte(), 0x6a.toByte(), 0x3d.toByte(), 0x84.toByte(), 0x35.toByte(),
                 0x06.toByte(), 0xf1.toByte(), 0x5e.toByte(), 0x5f.toByte(), 0x52.toByte(), 0x9c.toByte(), 0x1f.toByte(), 0x8b.toByte(),
@@ -422,7 +424,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0xc1.toByte(), 0xc9.toByte(), 0x3a.toByte(), 0x37.toByte(), 0x60.toByte(), 0x62.toByte(), 0xdb.toByte(), 0x09.toByte(),
                 0xc2.toByte(), 0xb6.toByte(), 0xf4.toByte(), 0x43.toByte(), 0x86.toByte(), 0x7a.toByte(), 0xdb.toByte(), 0x31.toByte(),
                 0x99.toByte(), 0x1e.toByte(), 0x96.toByte(), 0xf5.toByte(), 0x0a.toByte(), 0xba.toByte(), 0x0a.toByte(), 0xb2.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0xef.toByte(), 0x1f.toByte(), 0xdf.toByte(), 0xb3.toByte(), 0xe8.toByte(), 0x15.toByte(), 0x66.toByte(), 0xd2.toByte(),
                 0xf9.toByte(), 0x48.toByte(), 0xe1.toByte(), 0xa0.toByte(), 0x5d.toByte(), 0x71.toByte(), 0xe4.toByte(), 0xdd.toByte(),
                 0x48.toByte(), 0x8e.toByte(), 0x85.toByte(), 0x7e.toByte(), 0x33.toByte(), 0x5c.toByte(), 0x3c.toByte(), 0x7d.toByte(),
@@ -431,7 +434,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0xd8.toByte(), 0xb7.toByte(), 0x13.toByte(), 0x33.toByte(), 0x93.toByte(), 0x52.toByte(), 0x03.toByte(), 0xbe.toByte(),
                 0x34.toByte(), 0x53.toByte(), 0xea.toByte(), 0xa1.toByte(), 0x93.toByte(), 0xe8.toByte(), 0x37.toByte(), 0xf1.toByte(),
                 0x22.toByte(), 0x0c.toByte(), 0xbe.toByte(), 0xbc.toByte(), 0x84.toByte(), 0xe3.toByte(), 0xd1.toByte(), 0x2e.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0x4b.toByte(), 0xea.toByte(), 0x6b.toByte(), 0xac.toByte(), 0xad.toByte(), 0x47.toByte(), 0x47.toByte(), 0x99.toByte(),
                 0x9a.toByte(), 0x3f.toByte(), 0x41.toByte(), 0x0c.toByte(), 0x6c.toByte(), 0xa9.toByte(), 0x23.toByte(), 0x63.toByte(),
                 0x7f.toByte(), 0x15.toByte(), 0x1c.toByte(), 0x1f.toByte(), 0x16.toByte(), 0x86.toByte(), 0x10.toByte(), 0x4a.toByte(),
@@ -440,7 +444,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0xdf.toByte(), 0xff.toByte(), 0x00.toByte(), 0xb7.toByte(), 0x23.toByte(), 0x27.toByte(), 0x1a.toByte(), 0x16.toByte(),
                 0x7a.toByte(), 0x56.toByte(), 0xa2.toByte(), 0x7e.toByte(), 0xa9.toByte(), 0xea.toByte(), 0x63.toByte(), 0xf5.toByte(),
                 0x60.toByte(), 0x17.toByte(), 0x58.toByte(), 0xfd.toByte(), 0x7c.toByte(), 0x6c.toByte(), 0xfe.toByte(), 0x57.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0xae.toByte(), 0x4f.toByte(), 0xae.toByte(), 0xae.toByte(), 0x1d.toByte(), 0x3a.toByte(), 0xd3.toByte(), 0xd9.toByte(),
                 0x6f.toByte(), 0xa4.toByte(), 0xc3.toByte(), 0x3b.toByte(), 0x7a.toByte(), 0x30.toByte(), 0x39.toByte(), 0xc0.toByte(),
                 0x2d.toByte(), 0x66.toByte(), 0xc4.toByte(), 0xf9.toByte(), 0x51.toByte(), 0x42.toByte(), 0xa4.toByte(), 0x6c.toByte(),
@@ -449,7 +454,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x0a.toByte(), 0xf2.toByte(), 0x1f.toByte(), 0x66.toByte(), 0xc2.toByte(), 0xbe.toByte(), 0xc6.toByte(), 0xb6.toByte(),
                 0xbf.toByte(), 0x71.toByte(), 0xc5.toByte(), 0x72.toByte(), 0x36.toByte(), 0x90.toByte(), 0x4f.toByte(), 0x35.toByte(),
                 0xfa.toByte(), 0x68.toByte(), 0x40.toByte(), 0x7a.toByte(), 0x46.toByte(), 0x64.toByte(), 0x7d.toByte(), 0x6e.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0xf4.toByte(), 0xc7.toByte(), 0x0e.toByte(), 0x16.toByte(), 0xee.toByte(), 0xaa.toByte(), 0xc5.toByte(), 0xec.toByte(),
                 0x51.toByte(), 0xac.toByte(), 0x86.toByte(), 0xfe.toByte(), 0xbf.toByte(), 0x24.toByte(), 0x09.toByte(), 0x54.toByte(),
                 0x39.toByte(), 0x9e.toByte(), 0xc6.toByte(), 0xc7.toByte(), 0xe6.toByte(), 0xbf.toByte(), 0x87.toByte(), 0xc9.toByte(),
@@ -458,7 +464,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x06.toByte(), 0x47.toByte(), 0x69.toByte(), 0x83.toByte(), 0x28.toByte(), 0x4a.toByte(), 0x05.toByte(), 0x04.toByte(),
                 0x35.toByte(), 0x17.toByte(), 0x45.toByte(), 0x4c.toByte(), 0xa2.toByte(), 0x3c.toByte(), 0x4a.toByte(), 0xf3.toByte(),
                 0x88.toByte(), 0x86.toByte(), 0x56.toByte(), 0x4d.toByte(), 0x3a.toByte(), 0x14.toByte(), 0xd4.toByte(), 0x93.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0x9b.toByte(), 0x1f.toByte(), 0x5b.toByte(), 0x42.toByte(), 0x4d.toByte(), 0x93.toByte(), 0xc9.toByte(), 0xa7.toByte(),
                 0x03.toByte(), 0xe7.toByte(), 0xaa.toByte(), 0x02.toByte(), 0x0c.toByte(), 0x6e.toByte(), 0x41.toByte(), 0x41.toByte(),
                 0x4e.toByte(), 0xb7.toByte(), 0xf8.toByte(), 0x71.toByte(), 0x9c.toByte(), 0x36.toByte(), 0xde.toByte(), 0x1e.toByte(),
@@ -467,7 +474,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x69.toByte(), 0xd1.toByte(), 0x8d.toByte(), 0x2b.toByte(), 0xd1.toByte(), 0xa5.toByte(), 0xc4.toByte(), 0x2f.toByte(),
                 0x36.toByte(), 0xac.toByte(), 0xc2.toByte(), 0x35.toByte(), 0x59.toByte(), 0x51.toByte(), 0xa8.toByte(), 0xd9.toByte(),
                 0xa4.toByte(), 0x7f.toByte(), 0x0d.toByte(), 0xd4.toByte(), 0xbf.toByte(), 0x02.toByte(), 0xe7.toByte(), 0x1e.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0x37.toByte(), 0x8f.toByte(), 0x5a.toByte(), 0x54.toByte(), 0x16.toByte(), 0x31.toByte(), 0x22.toByte(), 0x9b.toByte(),
                 0x94.toByte(), 0x4c.toByte(), 0x9a.toByte(), 0xd8.toByte(), 0xec.toByte(), 0x16.toByte(), 0x5f.toByte(), 0xde.toByte(),
                 0x3a.toByte(), 0x7d.toByte(), 0x3a.toByte(), 0x1b.toByte(), 0x25.toByte(), 0x89.toByte(), 0x42.toByte(), 0x24.toByte(),
@@ -476,7 +484,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x7b.toByte(), 0x2b.toByte(), 0x8a.toByte(), 0x9a.toByte(), 0xa6.toByte(), 0x07.toByte(), 0x9c.toByte(), 0x54.toByte(),
                 0x0e.toByte(), 0x38.toByte(), 0xdc.toByte(), 0x92.toByte(), 0xcb.toByte(), 0x1f.toByte(), 0x2a.toByte(), 0x60.toByte(),
                 0x72.toByte(), 0x61.toByte(), 0x44.toByte(), 0x51.toByte(), 0x83.toByte(), 0x23.toByte(), 0x5a.toByte(), 0xdb.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0xab.toByte(), 0xbe.toByte(), 0xde.toByte(), 0xa6.toByte(), 0x80.toByte(), 0x05.toByte(), 0x6f.toByte(), 0x52.toByte(),
                 0x38.toByte(), 0x2a.toByte(), 0xe5.toByte(), 0x48.toByte(), 0xb2.toByte(), 0xe4.toByte(), 0xf3.toByte(), 0xf3.toByte(),
                 0x89.toByte(), 0x41.toByte(), 0xe7.toByte(), 0x1c.toByte(), 0xff.toByte(), 0x8a.toByte(), 0x78.toByte(), 0xdb.toByte(),
@@ -485,7 +494,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x7a.toByte(), 0x1e.toByte(), 0x6c.toByte(), 0x30.toByte(), 0x3b.toByte(), 0x76.toByte(), 0x52.toByte(), 0xf4.toByte(),
                 0x36.toByte(), 0x98.toByte(), 0xfa.toByte(), 0xd1.toByte(), 0x15.toByte(), 0x3b.toByte(), 0xb6.toByte(), 0xc3.toByte(),
                 0x74.toByte(), 0xb4.toByte(), 0xc7.toByte(), 0xfb.toByte(), 0x98.toByte(), 0x45.toByte(), 0x9c.toByte(), 0xed.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0x7b.toByte(), 0xcd.toByte(), 0x9e.toByte(), 0xd0.toByte(), 0xef.toByte(), 0xc8.toByte(), 0x89.toByte(), 0xfb.toByte(),
                 0x30.toByte(), 0x02.toByte(), 0xc6.toByte(), 0xcd.toByte(), 0x63.toByte(), 0x5a.toByte(), 0xfe.toByte(), 0x94.toByte(),
                 0xd8.toByte(), 0xfa.toByte(), 0x6b.toByte(), 0xbb.toByte(), 0xeb.toByte(), 0xab.toByte(), 0x07.toByte(), 0x61.toByte(),
@@ -494,7 +504,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0xef.toByte(), 0xba.toByte(), 0xcd.toByte(), 0x1d.toByte(), 0x7d.toByte(), 0x47.toByte(), 0x6e.toByte(), 0x98.toByte(),
                 0xde.toByte(), 0xa2.toByte(), 0x59.toByte(), 0x4a.toByte(), 0xc0.toByte(), 0x6f.toByte(), 0xd8.toByte(), 0x5d.toByte(),
                 0x6b.toByte(), 0xca.toByte(), 0xa4.toByte(), 0xcd.toByte(), 0x81.toByte(), 0xf3.toByte(), 0x2d.toByte(), 0x1b.toByte()
-            ), byteArrayOf(
+            ),
+            byteArrayOf(
                 0x37.toByte(), 0x8e.toByte(), 0xe7.toByte(), 0x67.toByte(), 0xf1.toByte(), 0x16.toByte(), 0x31.toByte(), 0xba.toByte(),
                 0xd2.toByte(), 0x13.toByte(), 0x80.toByte(), 0xb0.toByte(), 0x04.toByte(), 0x49.toByte(), 0xb1.toByte(), 0x7a.toByte(),
                 0xcd.toByte(), 0xa4.toByte(), 0x3c.toByte(), 0x32.toByte(), 0xbc.toByte(), 0xdf.toByte(), 0x1d.toByte(), 0x77.toByte(),
@@ -581,7 +592,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x49D073C56BB11A11L, -0x755485e6c61b0029L, -0x32f6a5f4f1c75311L, -0x36049fc9a6860ab8L,
                 -0x6d4219682980cbdeL, -0x3876cc1efaeb439fL, -0x1e3e26468a364ab6L, -0x2dd99e9f30e43280L,
                 -0x65bb6d128702798fL, -0x4c3354d577e5686dL, 0x72CEBF667FE1D088L, -0x292ba4a267a56bd9L
-            ), longArrayOf(
+            ),
+            longArrayOf(
                 -0x37ee57fa73c0aa22L, 0x65F5B43196B50619L, -0x8b0694e298f91bdL, -0x7a62e17434bc2ccaL,
                 0x5AAB8A85CCFA3D84L, -0x63840663d6a0303L, -0x5de02a5e21b49cf1L, -0x324c1089c474ba93L,
                 -0x7fc0a60783083c7bL, -0x4d838c41a0ce6ec4L, -0x671c5399cc4fb7dfL, -0x409e98b3d94707e8L,
@@ -646,7 +658,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 -0x5aa4b04a2b48d5b0L, 0x08BF5381CE3D7997L, 0x46A6D8D5E42D04E5L, -0x2dd47f0381cf786aL,
                 0x57B69E77B57354A0L, 0x3969441D8097D0B4L, 0x3330CAFBF3E2F0CFL, -0x1d7188221f41733dL,
                 0x62B12E259C494F46L, -0x59318d9046242e36L, 0x41E242C1EED14DBAL, 0x76032FF47AA30FB0L
-            ), longArrayOf(
+            ),
+            longArrayOf(
                 0x45B268A93ACDE4CCL, -0x5080f4177bab62f8L, 0x048354B3C1468263L, -0x6dabca3d37f1012eL,
                 -0x11b1c80d80200459L, 0x167A33920C60F14DL, -0x4edc4ad15fc1a7cL, 0x4A0CAB53FDBB9007L,
                 -0x621509c7f08775e7L, -0x34b713aa70f34cd6L, -0x4a623b4d29010820L, -0x232435dd0b0c134aL,
@@ -711,7 +724,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 -0xd1f7933fdefad6dL, 0x182DE58DBC892B57L, -0x355e064f076ce205L, 0x6B892447CC2E5AE9L,
                 -0x622ee7afbdf5bc5L, 0x4BE5BEB68A243ED6L, 0x5584255F19C8D65DL, 0x3B67404E633FA006L,
                 -0x5972498993b8d5e1L, -0x87538654b3681dfL, -0x3cacbbd1ef7f5514L, -0x65b06246a87d18ecL
-            ), longArrayOf(
+            ),
+            longArrayOf(
                 0x05BA7BC82C9B3220L, 0x31A54665F8B65E4FL, -0x4e49ae088ab80b2cL, -0x7405f27a845b997eL,
                 -0x7a5693a55e956745L, -0x66f05106f7148637L, -0x5ea1c85db80b59d3L, 0x76857DCD5D27741EL,
                 -0x73af47ff5e7df44L, -0x419a234dfe085d4cL, 0x666D1B986F9426E7L, 0x4CC921BF53C4E648L,
@@ -776,7 +790,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 -0x4a73395a085d9153L, -0x7e6c04f7dc70fd3eL, -0x2a3970b9a4d0607fL, -0x300632d7702453bL,
                 0x77059157F359DC47L, 0x1D262E3907FF492BL, -0x4a7ddcc1a653aa9L, -0x224d431dbd07498dL,
                 0x2577B76248E096CFL, 0x6F99C4A6D83DA74CL, -0x3eeb81be1486a8ffL, -0xb7450896ed56cc9L
-            ), longArrayOf(
+            ),
+            longArrayOf(
                 0x3EF29D249B2C0A19L, -0x161e9cdd49079dd1L, 0x5536994047757F7AL, -0x60b2a92a5b84f4cdL,
                 -0x7dda98b9955ee8b4L, -0x470afa8214f7d04eL, -0x33b73ef40bb8a0adL, 0x373088D4275DEC3AL,
                 -0x6970bcdae7f512f0L, 0x173D232CF7016151L, -0x51b12f606b9033edL, -0x2b4b8be3bac678dL,
@@ -841,7 +856,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x34A78F9BA2F77737L, -0x1c4b8e6270dce0ffL, 0x45BE423C2F5BB7C1L, -0x8e1aa0102771aa3L,
                 0x6853032B59F3EE6EL, 0x65B3E9C4FF073AAAL, 0x772AC3399AE5EBECL, -0x787e916807bd58a5L,
                 0x110E2DB2E0484A4BL, 0x331277CB3DD8DEDDL, -0x42aef3538614605bL, 0x352179552A91F5C7L
-            ), longArrayOf(
+            ),
+            longArrayOf(
                 -0x754f5697b91f9593L, 0x43C7E80B4BF0B33AL, 0x08C9B3546B161EE5L, 0x39F1C235EBA990BEL,
                 -0x3e410dc899f9384eL, 0x2C209233614569AAL, -0x14feadc4903cd766L, -0x6b96ac546ca53123L,
                 0x272838F63E13340EL, -0x74fbaa135ed45faeL, 0x77A1B2C4978FF8A2L, -0x5aaedd35ec1abf7aL,
@@ -906,7 +922,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 -0x6043379959b62cdL, 0x308C8DE567744464L, -0x768e4f068d5fd6d4L, -0x29e5b8dbc09e4828L,
                 -0x10147aee2b37d89aL, -0x69e34941bf2eb85dL, -0x554ca0da0847ed22L, 0x76154E407044329DL,
                 0x513D76B64E570693L, -0xcb865382d06f558L, -0x6474d1bb88f8637bL, 0x297EB99D3D85AC69L
-            ), longArrayOf(
+            ),
+            longArrayOf(
                 0x7E37E62DFC7D40C3L, 0x776F25A4EE939E5BL, -0x1fba37af22704a53L, -0x7912a458ee00e6aeL,
                 -0x16e2f426309e94cbL, 0x37E0AB256E408FFBL, -0x69f8093fcefda586L, 0x0B02F5E116D23C9DL,
                 -0xc27b79404af9af4L, 0x621CFF27C40875F5L, 0x7D40CB71FA5FD34AL, 0x6DAA6616DAA29062L,
@@ -971,7 +988,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
                 0x73DB4974E6EB4751L, 0x7A838AFDF40599C9L, 0x5A4ACD33B4E21F99L, 0x6046C94FC03497F0L,
                 -0x19546d172e34715eL, 0x3354C7F5663856F1L, -0x26c11e8f508451b3L, 0x616BD27BC22AE67CL,
                 -0x6d4c65efc6857c90L, -0x54374ccfb4716770L, -0x40698d789cf4fd4eL, 0x5B67D607B6FC6E15L
-            ), longArrayOf(
+            ),
+            longArrayOf(
                 -0x2fce3c6831aac01aL, 0x16BA5B01B006B525L, -0x57645219d6918f38L, 0x6A1F525D77D3435BL,
                 0x6E103570573DFA0BL, 0x660EFB2A17FC95ABL, 0x76327A9E97634BF6L, 0x4BAD9D6462458BF5L,
                 -0xe7cf351243c08b8L, -0x3a370abd996ece01L, -0x6afbb5e323b74f35L, -0x76d69d20c307479aL,

@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@
 package com.appmattus.crypto.internal.core.bouncycastle
 
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.circularRightLong
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLEInt
 import com.appmattus.crypto.internal.core.encodeLELong
@@ -92,7 +91,7 @@ internal class Kupyna : Digest<Kupyna> {
         if (hashSizeBits == 256 || hashSizeBits == 384 || hashSizeBits == 512) {
             digestLength = hashSizeBits ushr 3
         } else {
-            throw IllegalArgumentException("Hash size is not recommended. Use 256/384/512 instead")
+            error("Hash size is not recommended. Use 256/384/512 instead")
         }
         if (hashSizeBits > 256) {
             columns = NB_1024
@@ -431,7 +430,7 @@ internal class Kupyna : Digest<Kupyna> {
                 s[15] = c15
             }
             else -> {
-                throw IllegalStateException("unsupported state size: only 512/1024 are allowed")
+                error("unsupported state size: only 512/1024 are allowed")
             }
         }
     }
@@ -509,14 +508,14 @@ internal class Kupyna : Digest<Kupyna> {
             val x1 = c and 0x7F7F7F7F7F7F7F7FL shl 1 xor (c and -0x7f7f7f7f7f7f7f80L ushr 7) * 0x1DL
             var u: Long
             var v: Long
-            u = circularRightLong(c, 8) xor c
-            u = u xor circularRightLong(u, 16)
-            u = u xor circularRightLong(c, 48)
+            u = c.rotateRight(8) xor c
+            u = u xor u.rotateRight(16)
+            u = u xor c.rotateRight(48)
             v = u xor c xor x1
 
             // Multiply elements by 'x^2'
             v = v and 0x3F3F3F3F3F3F3F3FL shl 2 xor (v and -0x7f7f7f7f7f7f7f80L ushr 6) * 0x1DL xor (v and 0x4040404040404040L ushr 6) * 0x1DL
-            return u xor circularRightLong(v, 32) xor circularRightLong(x1, 40) xor circularRightLong(x1, 48)
+            return u xor v.rotateRight(32) xor x1.rotateRight(40) xor x1.rotateRight(48)
         }
 
         private val S0 = byteArrayOf(
@@ -1571,8 +1570,8 @@ internal class Kupyna : Digest<Kupyna> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 

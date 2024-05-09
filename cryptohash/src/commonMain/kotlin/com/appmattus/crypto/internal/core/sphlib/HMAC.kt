@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,15 +68,16 @@ internal class HMAC : DigestEngine<HMAC> {
      * @param outputLength   (optional) the HMAC output length (in bytes)
      */
     constructor(dig: Digest<*>, key: ByteArray, outputLength: Int? = null) {
+        @Suppress("NAME_SHADOWING")
         var key = key
         dig.reset()
         this.dig = dig
         var b = dig.blockLength
         if (b < 0) {
             /*
-			 * Virtual block length: inferred from the key
-			 * length, with rounding (used for Fugue-xxx).
-			 */
+             * Virtual block length: inferred from the key
+             * length, with rounding (used for Fugue-xxx).
+             */
             val n = -b
             b = n * ((key.size + (n - 1)) / n)
         }
@@ -89,9 +90,9 @@ internal class HMAC : DigestEngine<HMAC> {
         }
         key.copyInto(keyB, 0, 0, len)
         /*
-		 * Newly created arrays are guaranteed filled with zeroes,
-		 * hence the key padding is already done.
-		 */
+         * Newly created arrays are guaranteed filled with zeroes,
+         * hence the key padding is already done.
+         */
         processKey(keyB)
         this.outputLength = -1
         tmpOut = ByteArray(dig.digestLength)
@@ -150,11 +151,11 @@ internal class HMAC : DigestEngine<HMAC> {
         get() = if (outputLength < 0) dig.digestLength else outputLength
 
     /*
-	 * Internal block length is not defined for HMAC, which
-	 * is not, stricto-sensu, an iterated hash function.
-	 * The value 64 should provide correct buffering. Do NOT
-	 * change this value without checking doPadding().
-	 */
+     * Internal block length is not defined for HMAC, which
+     * is not, stricto-sensu, an iterated hash function.
+     * The value 64 should provide correct buffering. Do NOT
+     * change this value without checking doPadding().
+     */
     override val blockLength: Int
         get() = 64
 
@@ -176,13 +177,13 @@ internal class HMAC : DigestEngine<HMAC> {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         /*
-		 * This is slightly ugly... we need to get the still
-		 * buffered data, but the only way to get it from
-		 * DigestEngine is to input some more bytes and wait
-		 * for the processBlock() call. We set a variable
-		 * with the count of actual data bytes, so that
-		 * processBlock() knows what to do.
-		 */
+         * This is slightly ugly... we need to get the still
+         * buffered data, but the only way to get it from
+         * DigestEngine is to input some more bytes and wait
+         * for the processBlock() call. We set a variable
+         * with the count of actual data bytes, so that
+         * processBlock() knows what to do.
+         */
         onlyThis = flush()
         if (onlyThis > 0) update(zeroPad, 0, 64 - onlyThis)
         var olen = tmpOut.size
@@ -196,10 +197,10 @@ internal class HMAC : DigestEngine<HMAC> {
 
     override fun doInit() {
         /*
-		 * Empty: we do not want to do anything here because
-		 * it would prevent correct cloning. The initialization
-		 * job is done in the constructor.
-		 */
+         * Empty: we do not want to do anything here because
+         * it would prevent correct cloning. The initialization
+         * job is done in the constructor.
+         */
     }
 
     override fun toString(): String {

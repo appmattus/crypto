@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,31 +43,12 @@ abstract class HAVAL_3_128Test {
 
     @Test
     fun testHAVAL_3_128() {
-        testKat(
-            { digest() }, "",
-            "C68F39913F901F3DDF44C707357A7D70"
-        )
-        testKat(
-            { digest() }, "a",
-            "0CD40739683E15F01CA5DBCEEF4059F1"
-        )
-        testKat(
-            { digest() }, "HAVAL",
-            "DC1F3C893D17CC4EDD9AE94AF76A0AF0"
-        )
-        testKat(
-            { digest() }, "0123456789",
-            "D4BE2164EF387D9F4D46EA8EFB180CF5"
-        )
-        testKat(
-            { digest() }, "abcdefghijklmnopqrstuvwxyz",
-            "DC502247FB3EB8376109EDA32D361D82"
-        )
-        testKat(
-            { digest() }, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-                    "abcdefghijklmnopqrstuvwxyz0123456789",
-            "DE5EB3F7D9EB08FAE7A07D68E3047EC6"
-        )
+        testKat({ digest() }, "", "C68F39913F901F3DDF44C707357A7D70")
+        testKat({ digest() }, "a", "0CD40739683E15F01CA5DBCEEF4059F1")
+        testKat({ digest() }, "HAVAL", "DC1F3C893D17CC4EDD9AE94AF76A0AF0")
+        testKat({ digest() }, "0123456789", "D4BE2164EF387D9F4D46EA8EFB180CF5")
+        testKat({ digest() }, "abcdefghijklmnopqrstuvwxyz", "DC502247FB3EB8376109EDA32D361D82")
+        testKat({ digest() }, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", "DE5EB3F7D9EB08FAE7A07D68E3047EC6")
         testCollision(
             { digest() },
             "8b447763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
@@ -76,27 +57,27 @@ abstract class HAVAL_3_128Test {
                     "9972c4e59e0327145e55ddd8189083c9d9bbaa32c68fd7a7" +
                     "b3f4ff96000040ac6a467fc0fbffffd216405fd016405fb0" +
                     "e21200877f30f4",
-            ("8b487763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
+            "8b487763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
                     "46a31c4f5dca76428a7aa68bdc3a8d14d8e3b68d9930d6cd" +
                     "5dea867bae39a7328efd54362bbbac9a3c183889927ab6ba" +
                     "9972c4e59e0327145e55ddd8189083c9d9bbaa32c68fd7a7" +
                     "b3f4ff96000040ac6a467fc0fbffffd216405fd016405fb0" +
-                    "e21200877f30f4")
+                    "e21200877f30f4"
         )
         testCollision(
             { digest() },
-            ("8b447763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
+            "8b447763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
                     "46a31c4f5dca76428a7aa68bdc3a8d14d8e3b68d993056cd" +
                     "5dea867bae39a7328efd54362bbbac9a3c183889927ab6b2" +
                     "9972c4e59e0327145e55ddd8189083c9d9bbaa32c68fd7a7" +
                     "b3f4ff96000040ac6a467fc0fbffffd216405fd016405fb0" +
-                    "e212006369b1f5"),
-            ("8b487763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
+                    "e212006369b1f5",
+            "8b487763189fe5d9bb3caaf2ba92cbd6444a54ee76a59f8733" +
                     "46a31c4f5dca76428a7aa68bdc3a8d14d8e3b68d9930d6cd" +
                     "5dea867bae39a7328efd54362bbbac9a3c183889927ab6ba" +
                     "9972c4e59e0327145e55ddd8189083c9d9bbaa32c68fd7a7" +
                     "b3f4ff96000040ac6a467fc0fbffffd216405fd016405fb0" +
-                    "e212006369b1f5")
+                    "e212006369b1f5"
         )
     }
 }

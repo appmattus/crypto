@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,10 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
     private var currentAlgorithm: Algorithm? = null
     private var inputText: String = ""
 
-    override val container: Container<CryptoHashState, Unit> = container(CryptoHashState(algorithms = algorithms.map { it.algorithmName })) {
-        generateHash()
-    }
+    override val container: Container<CryptoHashState, Unit> =
+        container(CryptoHashState(algorithms = algorithms.map { it.algorithmName })) {
+            generateHash()
+        }
 
     fun selectAlgorithm(name: String) = intent {
         currentAlgorithm = algorithms.firstOrNull { it.algorithmName == name }
@@ -48,7 +49,7 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
 
     private fun generateHash() = intent {
         val digest = try {
-            currentAlgorithm?.let { it.createDigest() }?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
+            currentAlgorithm?.createDigest()?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
         } catch (expected: Exception) {
             expected.message ?: expected.toString()
         }
@@ -98,7 +99,7 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
             Algorithm.Whirlpool,
         )
 
-                private fun ByteArray.toHexString(): String {
+        private fun ByteArray.toHexString(): String {
             return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
         }
     }

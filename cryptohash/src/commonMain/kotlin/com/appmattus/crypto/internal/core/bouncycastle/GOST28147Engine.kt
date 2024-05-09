@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle
 
-import com.appmattus.crypto.internal.core.circularLeftInt
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 
@@ -110,13 +109,13 @@ internal class GOST28147Engine {
         outOff: Int
     ): Int {
         if (workingKey == null) {
-            throw IllegalStateException("GOST28147 engine not initialised")
+            error("GOST28147 engine not initialised")
         }
         if (inOff + blockSize > input.size) {
-            throw IllegalStateException("input buffer too short")
+            error("input buffer too short")
         }
         if (outOff + blockSize > out.size) {
-            throw IllegalStateException("output buffer too short")
+            error("output buffer too short")
         }
         gost28147(workingKey!!, input, inOff, out, outOff)
         return blockSize
@@ -127,9 +126,7 @@ internal class GOST28147Engine {
         userKey: ByteArray
     ): IntArray {
         this.forEncryption = forEncryption
-        if (userKey.size != 32) {
-            throw IllegalArgumentException("Key length invalid. Key needs to be 32 byte - 256 bit!!!")
-        }
+        require(userKey.size == 32) { "Key length invalid. Key needs to be 32 byte - 256 bit!!!" }
         return IntArray(8) { decodeLEInt(userKey, it * 4) }
     }
 
@@ -146,7 +143,7 @@ internal class GOST28147Engine {
         om += s[96 + (cm shr 6 * 4 and 0xF)].toInt() shl 6 * 4
         om += s[112 + (cm shr 7 * 4 and 0xF)].toInt() shl 7 * 4
 
-        return circularLeftInt(om, 11)
+        return om.rotateLeft(11)
     }
 
     @Suppress("NestedBlockDepth")

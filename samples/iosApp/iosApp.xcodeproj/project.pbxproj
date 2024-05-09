@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,8 +16,6 @@
 		C5D0B56125CD8C04000FAA1A /* SingleLineTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B56025CD8C04000FAA1A /* SingleLineTextRow.swift */; };
 		C5D0B56525CD8DB9000FAA1A /* TwoLineTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B56425CD8DB9000FAA1A /* TwoLineTextRow.swift */; };
 		C5D0B57A25CD9DB5000FAA1A /* CryptoHashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B57925CD9DB5000FAA1A /* CryptoHashView.swift */; };
-		C5D0B58225CDA472000FAA1A /* shared.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D0B58125CDA472000FAA1A /* shared.xcframework */; };
-		C5D0B58325CDA472000FAA1A /* shared.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C5D0B58125CDA472000FAA1A /* shared.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C5D0B58A25CDA73D000FAA1A /* CryptoHashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D0B58925CDA73D000FAA1A /* CryptoHashViewModel.swift */; };
 		C64875EE264DC19E00C7B999 /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64875ED264DC19E00C7B999 /* DataExtensions.swift */; };
 /* End PBXBuildFile section */
@@ -29,7 +27,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C5D0B58325CDA472000FAA1A /* shared.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,7 +46,6 @@
 		C5D0B56025CD8C04000FAA1A /* SingleLineTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLineTextRow.swift; sourceTree = "<group>"; };
 		C5D0B56425CD8DB9000FAA1A /* TwoLineTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineTextRow.swift; sourceTree = "<group>"; };
 		C5D0B57925CD9DB5000FAA1A /* CryptoHashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHashView.swift; sourceTree = "<group>"; };
-		C5D0B58125CDA472000FAA1A /* shared.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = shared.xcframework; path = "../shared/build/xcode-frameworks/shared.xcframework"; sourceTree = "<group>"; };
 		C5D0B58925CDA73D000FAA1A /* CryptoHashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHashViewModel.swift; sourceTree = "<group>"; };
 		C64875ED264DC19E00C7B999 /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -59,7 +55,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5D0B58225CDA472000FAA1A /* shared.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +105,6 @@
 		7555FFB0242A642200829871 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C5D0B58125CDA472000FAA1A /* shared.xcframework */,
 				446563EA2538941000A6AB4D /* Accessibility.framework */,
 			);
 			name = Frameworks;
@@ -142,7 +136,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "Crypto Samples" */;
 			buildPhases = (
-				7555FFB5242A651A00829871 /* ShellScript */,
+				7555FFB5242A651A00829871 /* Compile Kotlin */,
 				7555FF77242A565900829871 /* Sources */,
 				4468A06C25DF28330014F566 /* ShellScript */,
 				7555FF78242A565900829871 /* Frameworks */,
@@ -222,7 +216,7 @@
 			shellPath = /bin/sh;
 			shellScript = "./swiftlintw\n";
 		};
-		7555FFB5242A651A00829871 /* ShellScript */ = {
+		7555FFB5242A651A00829871 /* Compile Kotlin */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -231,13 +225,14 @@
 			);
 			inputPaths = (
 			);
+			name = "Compile Kotlin";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT/..\"\n./../gradlew :samples:shared:buildXcFramework -PXCODE_CONFIGURATION=${CONFIGURATION}\n";
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/../..\"\n./gradlew :samples:shared:embedAndSignAppleFrameworkForXcode\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -397,11 +392,20 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 9P44M9VMBB;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../../samples/shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+				);
 				INFOPLIST_FILE = iosApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					shared,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.appmattus.crypto.samples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -418,11 +422,16 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 9P44M9VMBB;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks";
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../../samples/shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = iosApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					shared,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.appmattus.crypto.samples;
 				PRODUCT_NAME = "$(TARGET_NAME)";

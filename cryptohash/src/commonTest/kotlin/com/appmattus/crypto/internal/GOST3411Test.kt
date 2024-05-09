@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("ClassName")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm

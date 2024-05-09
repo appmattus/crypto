@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,8 @@
  */
 
 package com.appmattus.crypto.internal.core.sphlib
+
+import com.appmattus.crypto.Digest
 
 /**
  *
@@ -68,9 +70,7 @@ internal class Hamsi224 : HamsiSmallCore<Hamsi224>() {
                 0x2c204b61, 0x74686f6c, 0x69656b65, 0x20556e69
             )
          */
-        val iV = intArrayOf(
-            -0x3c698599, -0x3c4393e0, 0x4bc3bcc3, -0x583c4395,
-            0x2c204b61, 0x74686f6c, 0x69656b65, 0x20556e69
-        )
+        @Suppress("PropertyWrapping")
+        val iV = intArrayOf(-0x3c698599, -0x3c4393e0, 0x4bc3bcc3, -0x583c4395, 0x2c204b61, 0x74686f6c, 0x69656b65, 0x20556e69)
     }
 }

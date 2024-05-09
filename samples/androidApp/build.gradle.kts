@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.android.application)
     kotlin("android")
     id("kotlin-parcelize")
     kotlin("kapt")
@@ -27,52 +27,45 @@ apply(plugin = "dagger.hilt.android.plugin")
 dependencies {
     implementation(project(":samples:shared"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core") {
-        version {
-            strictly(Versions.coroutinesNative)
-        }
-    }
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android") {
-        version {
-            strictly(Versions.coroutinesNative)
-        }
-    }
+    implementation(libs.kotlinX.coroutinesCore)
+    implementation(libs.kotlinX.coroutinesAndroid)
 
     // Architecture
-    implementation("androidx.fragment:fragment-ktx:${Versions.AndroidX.fragment}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.lifecycle}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.lifecycle}")
-    implementation("androidx.navigation:navigation-fragment-ktx:${Versions.AndroidX.navigation}")
-    implementation("androidx.navigation:navigation-ui-ktx:${Versions.AndroidX.navigation}")
-    implementation("org.orbit-mvi:orbit-viewmodel:${Versions.orbitMvi}")
+    implementation(libs.androidX.fragment)
+    implementation(libs.androidX.lifecycleRuntime)
+    implementation(libs.androidX.lifecycleViewmodel)
+    implementation(libs.androidX.navigationFragment)
+    implementation(libs.androidX.navigationUi)
+    implementation(libs.orbitCore)
+    implementation(libs.orbitViewmodel)
 
     // UI
-    implementation("com.google.android.material:material:${Versions.Google.material}")
-    implementation("androidx.appcompat:appcompat:${Versions.AndroidX.appCompat}")
-    implementation("androidx.constraintlayout:constraintlayout:${Versions.AndroidX.constraintLayout}")
-    implementation("androidx.vectordrawable:vectordrawable:${Versions.AndroidX.vectorDrawable}")
-    implementation("com.xwray:groupie:${Versions.groupie}")
-    implementation("com.xwray:groupie-viewbinding:${Versions.groupie}")
-    implementation("io.coil-kt:coil-svg:${Versions.coil}")
+    implementation(libs.google.material)
+    implementation(libs.androidX.appCompat)
+    implementation(libs.androidX.constraintLayout)
+    implementation(libs.androidX.vectorDrawable)
+    implementation(libs.groupie)
+    implementation(libs.groupieViewbinding)
 
     // Memory leak detection and fixes
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}")
-    implementation("com.squareup.leakcanary:plumber-android:${Versions.leakCanary}")
+    debugImplementation(libs.leakcanary.leakcanary)
+    implementation(libs.leakcanary.plumber)
 
     // Dependency Injection
-    implementation("com.google.dagger:hilt-android:${Versions.Google.dagger}")
-    kapt("com.google.dagger:hilt-compiler:${Versions.Google.dagger}")
+    implementation(libs.google.dagger.hiltAndroid)
+    kapt(libs.google.dagger.hiltCompiler)
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.desugar}")
+    coreLibraryDesugaring(libs.desugar)
 }
 
 android {
-    compileSdk = 31
+    namespace = "com.appmattus.crypto.samples"
+
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.appmattus.crypto.samples"
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -85,13 +78,6 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     buildFeatures {
@@ -102,4 +88,8 @@ android {
     sourceSets.all {
         java.srcDir("src/$name/kotlin")
     }
+}
+
+kotlin {
+    jvmToolchain(11)
 }

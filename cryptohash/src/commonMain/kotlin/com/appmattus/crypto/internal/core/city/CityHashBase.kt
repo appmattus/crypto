@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -157,10 +157,11 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
     fun cityHash128(data: ByteBuffer): UInt128 {
         val len = data.size
-        return if (len >= 16) cityHash128WithSeed(
-            data, 16, len - 16,
-            UInt128(data.decodeLEULong(8) + k0, data.decodeLEULong(0))
-        ) else cityHash128WithSeed(data, 0, data.size, UInt128(k1, k0))
+        return if (len >= 16) {
+            cityHash128WithSeed(data, 16, len - 16, UInt128(data.decodeLEULong(8) + k0, data.decodeLEULong(0)))
+        } else {
+            cityHash128WithSeed(data, 0, data.size, UInt128(k1, k0))
+        }
     }
 
     fun cityHash128WithSeed(data: ByteBuffer, seed: UInt128): UInt128 {
@@ -169,6 +170,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
     @Suppress("LongMethod")
     private fun cityHash128WithSeed(byteArray: ByteBuffer, offset: Int, len: Int, seed: UInt128): UInt128 {
+        @Suppress("NAME_SHADOWING")
         var len = len
         if (len < 128) {
             return cityMurmur(byteArray, offset, len, seed)
@@ -432,7 +434,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         internal const val k0: ULong = 0xc3a5c85c97cb3127uL
         internal const val k1: ULong = 0xb492b66fbe98f273uL
         internal const val k2: ULong = 0x9ae16a3b2f90404fuL
-        internal const val kMul: ULong = 0x9ddfea08eb382d69uL
+        private const val kMul: ULong = 0x9ddfea08eb382d69uL
 
         // Magic numbers for 32-bit hashing.  Copied from Murmur3.
         internal const val c1: UInt = 0xcc9e2d51u
@@ -451,7 +453,10 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
         internal fun mur(a: UInt, h: UInt): UInt {
             // Helper from Murmur3 for combining two 32-bit values.
+            @Suppress("NAME_SHADOWING")
             var a = a
+
+            @Suppress("NAME_SHADOWING")
             var h = h
             a *= c1
             a = a.rotateRight(17)
@@ -476,8 +481,8 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
         private fun hash32Len0to4(s: ByteBuffer): UInt {
             val len = s.size
-            var b: UInt = 0u
-            var c: UInt = 9u
+            var b = 0u
+            var c = 9u
             for (i in 0 until len) {
                 val v = s[i].toUInt()
                 b = b * c1 + v
@@ -490,7 +495,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             val len = s.size
             var a: UInt = len.toUInt()
             var b: UInt = len.toUInt() * 5u
-            var c: UInt = 9u
+            var c = 9u
             val d: UInt = b
             a += s.decodeLEUInt(0)
             b += s.decodeLEUInt(len - 4)
@@ -531,7 +536,8 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
                 val a: ULong = (s.decodeLEUInt(offset + 0).toULong() and 0xffffffffuL)
                 return hashLen16(
                     len.toULong() + (a shl 3),
-                    (s.decodeLEUInt(offset + len - 4).toULong() and 0xffffffffuL), mul
+                    (s.decodeLEUInt(offset + len - 4).toULong() and 0xffffffffuL),
+                    mul
                 )
             }
             if (len > 0) {
@@ -555,7 +561,8 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             val d: ULong = s.decodeLEULong(len - 16) * k2
             return hashLen16(
                 (a + b).rotateRight(43) + c.rotateRight(30) + d,
-                a + (b + k2).rotateRight(18) + c, mul
+                a + (b + k2).rotateRight(18) + c,
+                mul
             )
         }
 
@@ -563,7 +570,10 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         // Callers do best to use "random-looking" values for a and b.
         @Suppress("LongParameterList")
         private fun weakHashLen32WithSeeds(w: ULong, x: ULong, y: ULong, z: ULong, a: ULong, b: ULong): UInt128 {
+            @Suppress("NAME_SHADOWING")
             var a: ULong = a
+
+            @Suppress("NAME_SHADOWING")
             var b: ULong = b
             a += w
             b = (b + a + z).rotateRight(21)

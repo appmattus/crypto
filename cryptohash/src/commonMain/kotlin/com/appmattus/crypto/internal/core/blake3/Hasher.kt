@@ -21,7 +21,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@
 
 package com.appmattus.crypto.internal.core.blake3
 
-import com.appmattus.crypto.internal.core.circularRightInt
 import com.appmattus.crypto.internal.core.decodeLEInt
 import kotlin.math.min
 
@@ -61,7 +60,7 @@ internal class Hasher(
 
     fun reset() {
         chunkState = ChunkState(key, 0, flags)
-        cvStack = arrayOfNulls<IntArray>(54)
+        cvStack = arrayOfNulls(54)
         cvStackLen = 0
     }
 
@@ -91,7 +90,6 @@ internal class Hasher(
         var currPos = offset
         val end = offset + length
         while (currPos < end) {
-
             // If this chunk has chained in 16 64 bytes of input, add its CV to the stack
             if (chunkState.len() == CHUNK_LEN) {
                 val chunkCV = chunkState.createNode().chainingValue()
@@ -148,22 +146,20 @@ internal class Hasher(
     companion object {
         internal const val DEFAULT_HASH_LEN = 32
         internal const val OUT_LEN = 32
-        internal const val KEY_LEN = 32
+        private const val KEY_LEN = 32
         internal const val BLOCK_LEN = 64
         internal const val CHUNK_LEN = 1024
         internal const val CHUNK_START = 1
         internal const val CHUNK_END = 2
-        internal const val PARENT = 4
+        private const val PARENT = 4
         internal const val ROOT = 8
-        internal const val KEYED_HASH = 16
-        internal const val DERIVE_KEY_CONTEXT = 32
-        internal const val DERIVE_KEY_MATERIAL = 64
-        internal val IV = intArrayOf(
-            0x6A09E667, -0x4498517b, 0x3C6EF372, -0x5ab00ac6, 0x510E527F, -0x64fa9774, 0x1F83D9AB, 0x5BE0CD19
-        )
-        private val MSG_PERMUTATION = intArrayOf(
-            2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8
-        )
+        private const val KEYED_HASH = 16
+        private const val DERIVE_KEY_CONTEXT = 32
+        private const val DERIVE_KEY_MATERIAL = 64
+
+        @Suppress("PropertyWrapping")
+        internal val IV = intArrayOf(0x6A09E667, -0x4498517b, 0x3C6EF372, -0x5ab00ac6, 0x510E527F, -0x64fa9774, 0x1F83D9AB, 0x5BE0CD19)
+        private val MSG_PERMUTATION = intArrayOf(2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8)
 
         private fun wrappingAdd(a: Int, b: Int): Int {
             return a + b
@@ -172,13 +168,13 @@ internal class Hasher(
         @Suppress("LongParameterList")
         private fun g(state: IntArray, a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int) {
             state[a] = wrappingAdd((state[a] + state[b]), mx)
-            state[d] = circularRightInt(state[d] xor state[a], 16)
+            state[d] = (state[d] xor state[a]).rotateRight(16)
             state[c] = wrappingAdd(state[c], state[d])
-            state[b] = circularRightInt(state[b] xor state[c], 12)
+            state[b] = (state[b] xor state[c]).rotateRight(12)
             state[a] = wrappingAdd(wrappingAdd(state[a], state[b]), my)
-            state[d] = circularRightInt(state[d] xor state[a], 8)
+            state[d] = (state[d] xor state[a]).rotateRight(8)
             state[c] = wrappingAdd(state[c], state[d])
-            state[b] = circularRightInt(state[b] xor state[c], 7)
+            state[b] = (state[b] xor state[c]).rotateRight(7)
         }
 
         private fun roundFn(state: IntArray, m: IntArray) {

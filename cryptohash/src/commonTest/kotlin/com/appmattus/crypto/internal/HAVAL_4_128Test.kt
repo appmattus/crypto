@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,30 +42,11 @@ abstract class HAVAL_4_128Test {
 
     @Test
     fun testHAVAL_4_128() {
-        testKat(
-            { digest() }, "",
-            "EE6BBF4D6A46A679B3A856C88538BB98"
-        )
-        testKat(
-            { digest() }, "a",
-            "5CD07F03330C3B5020B29BA75911E17D"
-        )
-        testKat(
-            { digest() }, "HAVAL",
-            "958195D3DAC591030EAA0292A37A0CF2"
-        )
-        testKat(
-            { digest() }, "0123456789",
-            "2215D3702A80025C858062C53D76CBE5"
-        )
-        testKat(
-            { digest() }, "abcdefghijklmnopqrstuvwxyz",
-            "B2A73B99775FFB17CD8781B85EC66221"
-        )
-        testKat(
-            { digest() }, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-                    "abcdefghijklmnopqrstuvwxyz0123456789",
-            "CAD57C0563BDA208D66BB89EB922E2A2"
-        )
+        testKat({ digest() }, "", "EE6BBF4D6A46A679B3A856C88538BB98")
+        testKat({ digest() }, "a", "5CD07F03330C3B5020B29BA75911E17D")
+        testKat({ digest() }, "HAVAL", "958195D3DAC591030EAA0292A37A0CF2")
+        testKat({ digest() }, "0123456789", "2215D3702A80025C858062C53D76CBE5")
+        testKat({ digest() }, "abcdefghijklmnopqrstuvwxyz", "B2A73B99775FFB17CD8781B85EC66221")
+        testKat({ digest() }, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", "CAD57C0563BDA208D66BB89EB922E2A2")
     }
 }

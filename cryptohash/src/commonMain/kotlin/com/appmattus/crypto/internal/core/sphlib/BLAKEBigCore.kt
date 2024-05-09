@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
-import com.appmattus.crypto.internal.core.circularRightLong
 import com.appmattus.crypto.internal.core.decodeBELong
 import com.appmattus.crypto.internal.core.encodeBELong
 import kotlin.experimental.or
@@ -189,83 +188,83 @@ internal abstract class BLAKEBigCore<D : BLAKEBigCore<D>> : DigestEngine<D>() {
             var o0 = SIGMA[(r shl 4) + 0x0]
             var o1 = SIGMA[(r shl 4) + 0x1]
             v0 += v4 + (m[o0] xor CB[o1])
-            vC = circularRightLong(vC xor v0, 32)
+            vC = (vC xor v0).rotateRight(32)
             v8 += vC
-            v4 = circularRightLong(v4 xor v8, 25)
+            v4 = (v4 xor v8).rotateRight(25)
             v0 += v4 + (m[o1] xor CB[o0])
-            vC = circularRightLong(vC xor v0, 16)
+            vC = (vC xor v0).rotateRight(16)
             v8 += vC
-            v4 = circularRightLong(v4 xor v8, 11)
+            v4 = (v4 xor v8).rotateRight(11)
             o0 = SIGMA[(r shl 4) + 0x2]
             o1 = SIGMA[(r shl 4) + 0x3]
             v1 += v5 + (m[o0] xor CB[o1])
-            vD = circularRightLong(vD xor v1, 32)
+            vD = (vD xor v1).rotateRight(32)
             v9 += vD
-            v5 = circularRightLong(v5 xor v9, 25)
+            v5 = (v5 xor v9).rotateRight(25)
             v1 += v5 + (m[o1] xor CB[o0])
-            vD = circularRightLong(vD xor v1, 16)
+            vD = (vD xor v1).rotateRight(16)
             v9 += vD
-            v5 = circularRightLong(v5 xor v9, 11)
+            v5 = (v5 xor v9).rotateRight(11)
             o0 = SIGMA[(r shl 4) + 0x4]
             o1 = SIGMA[(r shl 4) + 0x5]
             v2 += v6 + (m[o0] xor CB[o1])
-            vE = circularRightLong(vE xor v2, 32)
+            vE = (vE xor v2).rotateRight(32)
             vA += vE
-            v6 = circularRightLong(v6 xor vA, 25)
+            v6 = (v6 xor vA).rotateRight(25)
             v2 += v6 + (m[o1] xor CB[o0])
-            vE = circularRightLong(vE xor v2, 16)
+            vE = (vE xor v2).rotateRight(16)
             vA += vE
-            v6 = circularRightLong(v6 xor vA, 11)
+            v6 = (v6 xor vA).rotateRight(11)
             o0 = SIGMA[(r shl 4) + 0x6]
             o1 = SIGMA[(r shl 4) + 0x7]
             v3 += v7 + (m[o0] xor CB[o1])
-            vF = circularRightLong(vF xor v3, 32)
+            vF = (vF xor v3).rotateRight(32)
             vB += vF
-            v7 = circularRightLong(v7 xor vB, 25)
+            v7 = (v7 xor vB).rotateRight(25)
             v3 += v7 + (m[o1] xor CB[o0])
-            vF = circularRightLong(vF xor v3, 16)
+            vF = (vF xor v3).rotateRight(16)
             vB += vF
-            v7 = circularRightLong(v7 xor vB, 11)
+            v7 = (v7 xor vB).rotateRight(11)
             o0 = SIGMA[(r shl 4) + 0x8]
             o1 = SIGMA[(r shl 4) + 0x9]
             v0 += v5 + (m[o0] xor CB[o1])
-            vF = circularRightLong(vF xor v0, 32)
+            vF = (vF xor v0).rotateRight(32)
             vA += vF
-            v5 = circularRightLong(v5 xor vA, 25)
+            v5 = (v5 xor vA).rotateRight(25)
             v0 += v5 + (m[o1] xor CB[o0])
-            vF = circularRightLong(vF xor v0, 16)
+            vF = (vF xor v0).rotateRight(16)
             vA += vF
-            v5 = circularRightLong(v5 xor vA, 11)
+            v5 = (v5 xor vA).rotateRight(11)
             o0 = SIGMA[(r shl 4) + 0xA]
             o1 = SIGMA[(r shl 4) + 0xB]
             v1 += v6 + (m[o0] xor CB[o1])
-            vC = circularRightLong(vC xor v1, 32)
+            vC = (vC xor v1).rotateRight(32)
             vB += vC
-            v6 = circularRightLong(v6 xor vB, 25)
+            v6 = (v6 xor vB).rotateRight(25)
             v1 += v6 + (m[o1] xor CB[o0])
-            vC = circularRightLong(vC xor v1, 16)
+            vC = (vC xor v1).rotateRight(16)
             vB += vC
-            v6 = circularRightLong(v6 xor vB, 11)
+            v6 = (v6 xor vB).rotateRight(11)
             o0 = SIGMA[(r shl 4) + 0xC]
             o1 = SIGMA[(r shl 4) + 0xD]
             v2 += v7 + (m[o0] xor CB[o1])
-            vD = circularRightLong(vD xor v2, 32)
+            vD = (vD xor v2).rotateRight(32)
             v8 += vD
-            v7 = circularRightLong(v7 xor v8, 25)
+            v7 = (v7 xor v8).rotateRight(25)
             v2 += v7 + (m[o1] xor CB[o0])
-            vD = circularRightLong(vD xor v2, 16)
+            vD = (vD xor v2).rotateRight(16)
             v8 += vD
-            v7 = circularRightLong(v7 xor v8, 11)
+            v7 = (v7 xor v8).rotateRight(11)
             o0 = SIGMA[(r shl 4) + 0xE]
             o1 = SIGMA[(r shl 4) + 0xF]
             v3 += v4 + (m[o0] xor CB[o1])
-            vE = circularRightLong(vE xor v3, 32)
+            vE = (vE xor v3).rotateRight(32)
             v9 += vE
-            v4 = circularRightLong(v4 xor v9, 25)
+            v4 = (v4 xor v9).rotateRight(25)
             v3 += v4 + (m[o1] xor CB[o0])
-            vE = circularRightLong(vE xor v3, 16)
+            vE = (vE xor v3).rotateRight(16)
             v9 += vE
-            v4 = circularRightLong(v4 xor v9, 11)
+            v4 = (v4 xor v9).rotateRight(11)
         }
         h0 = h0 xor (s0 xor v0 xor v8)
         h1 = h1 xor (s1 xor v1 xor v9)

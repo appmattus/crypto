@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,8 +53,8 @@ internal class SM3 : MDHelper<SM3>(false, 8) {
         }
     }
 
-    private inline fun p0(x: Int) = x xor circularLeftInt(x, 9) xor circularLeftInt(x, 17)
-    private inline fun p1(x: Int) = x xor circularLeftInt(x, 15) xor circularLeftInt(x, 23)
+    private inline fun p0(x: Int) = x xor x.rotateLeft(9) xor x.rotateLeft(17)
+    private inline fun p1(x: Int) = x xor x.rotateLeft(15) xor x.rotateLeft(23)
 
     private inline fun f1(x: Int, y: Int, z: Int) = x xor y xor z
     private inline fun ff(x: Int, y: Int, z: Int) = (x and y) xor (x and z) xor (y and z)
@@ -66,7 +66,7 @@ internal class SM3 : MDHelper<SM3>(false, 8) {
 
         // expand
         for (i in 16 until 68) {
-            w[i] = p1(w[i - 16] xor w[i - 9] xor circularLeftInt(w[i - 3], 15)) xor circularLeftInt(w[i - 13], 7) xor w[i - 6]
+            w[i] = p1(w[i - 16] xor w[i - 9] xor w[i - 3].rotateLeft(15)) xor w[i - 13].rotateLeft(7) xor w[i - 6]
         }
 
         // load internal state
@@ -75,8 +75,8 @@ internal class SM3 : MDHelper<SM3>(false, 8) {
         // compress data
         for (i in 0 until 64) {
             val t = if (i < 16) 0x79cc4519 else 0x7a879d8a
-            var s2 = circularLeftInt(x[0], 12)
-            val s1 = circularLeftInt(s2 + x[4] + circularLeftInt(t, i), 7)
+            var s2 = x[0].rotateLeft(12)
+            val s1 = (s2 + x[4] + t.rotateLeft(i)).rotateLeft(7)
             s2 = s2 xor s1
             val t1 = if (i < 16) {
                 f1(x[0], x[1], x[2]) + x[3] + s2 + (w[i] xor w[i + 4])
@@ -89,11 +89,11 @@ internal class SM3 : MDHelper<SM3>(false, 8) {
                 gg(x[4], x[5], x[6]) + x[7] + s1 + w[i]
             }
             x[3] = x[2]
-            x[2] = circularLeftInt(x[1], 9)
+            x[2] = x[1].rotateLeft(9)
             x[1] = x[0]
             x[0] = t1
             x[7] = x[6]
-            x[6] = circularLeftInt(x[5], 19)
+            x[6] = x[5].rotateLeft(19)
             x[5] = x[4]
             x[4] = p0(t2)
         }

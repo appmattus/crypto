@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
     private fun round(seed: Int, input: Int): Int {
         var seed2 = seed
         seed2 += input * prime2
-        seed2 = circularLeftInt(seed2, 13)
+        seed2 = seed2.rotateLeft(13)
         seed2 *= prime1
 
         return seed2
@@ -54,14 +54,14 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
             h2 += ((array[index].toInt() and 0xff) * prime5)
 
             index += 1
-            h2 = circularLeftInt(h2, 11) * prime1
+            h2 = h2.rotateLeft(11) * prime1
         }
 
         fun process4() {
             h2 += decodeLEInt(array, index) * prime3
 
             index += 4
-            h2 = circularLeftInt(h2, 17) * prime4
+            h2 = h2.rotateLeft(17) * prime4
         }
 
         val x = len and 15
@@ -79,7 +79,6 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
         state.largeLen = (length >= 16) || (state.totalLen >= 16)
 
         if (state.memSize + length < 16) {
-
             // fill in tmp buffer
             input.copyInto(state.mem, state.memSize, index + offset, index + offset + length)
             state.memSize += length
@@ -101,7 +100,6 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
         }
 
         if (index <= length - 16) {
-
             val limit = length - 16
 
             do {
@@ -128,12 +126,13 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
 
     override fun digest(): ByteArray {
         var h: Int = if (state.largeLen) {
-            circularLeftInt(state.v1, 1) +
-                    circularLeftInt(state.v2, 7) +
-                    circularLeftInt(state.v3, 12) +
-                    circularLeftInt(state.v4, 18)
+            state.v1.rotateLeft(1) +
+                    state.v2.rotateLeft(7) +
+                    state.v3.rotateLeft(12) +
+                    state.v4.rotateLeft(18)
         } else {
-            state.v3 /* == seed */ + prime5
+            // state.v3 == seed
+            state.v3 + prime5
         }
 
         h += state.totalLen

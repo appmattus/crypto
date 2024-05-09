@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,8 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
+import com.appmattus.crypto.Digest
+import com.appmattus.crypto.internal.core.decodeBEInt
 import com.appmattus.crypto.internal.core.encodeBEInt
 
 /**
@@ -94,10 +96,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                     rshift = 2
                     return
                 }
-                w = (buf!![off].toInt() shl 24
-                        or (buf[off + 1].toInt() and 0xFF shl 16)
-                        or (buf[off + 2].toInt() and 0xFF shl 8)
-                        or (buf[off + 3].toInt() and 0xFF))
+                w = decodeBEInt(buf!!, off)
                 off += 4
                 s[34] = s[34] xor s[18]
                 s[18] = w
@@ -129,10 +128,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                     rshift = 3
                     return
                 }
-                w = (buf[off].toInt() shl 24
-                        or (buf[off + 1].toInt() and 0xFF shl 16)
-                        or (buf[off + 2].toInt() and 0xFF shl 8)
-                        or (buf[off + 3].toInt() and 0xFF))
+                w = decodeBEInt(buf, off)
                 off += 4
                 s[25] = s[25] xor s[9]
                 s[9] = w
@@ -164,12 +160,10 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                     rshift = 0
                     return
                 }
-                w = (buf[off].toInt() shl 24
-                        or (buf[off + 1].toInt() and 0xFF shl 16)
-                        or (buf[off + 2].toInt() and 0xFF shl 8)
-                        or (buf[off + 3].toInt() and 0xFF))
+                w = decodeBEInt(buf, off)
                 off += 4
             }
+
             2 -> {
                 s[34] = s[34] xor s[18]
                 s[18] = w
@@ -201,10 +195,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                     rshift = 3
                     return
                 }
-                w = (buf!![off].toInt() shl 24
-                        or (buf[off + 1].toInt() and 0xFF shl 16)
-                        or (buf[off + 2].toInt() and 0xFF shl 8)
-                        or (buf[off + 3].toInt() and 0xFF))
+                w = decodeBEInt(buf!!, off)
                 off += 4
                 s[25] = s[25] xor s[9]
                 s[9] = w
@@ -236,12 +227,10 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                     rshift = 0
                     return
                 }
-                w = (buf[off].toInt() shl 24
-                        or (buf[off + 1].toInt() and 0xFF shl 16)
-                        or (buf[off + 2].toInt() and 0xFF shl 8)
-                        or (buf[off + 3].toInt() and 0xFF))
+                w = decodeBEInt(buf, off)
                 off += 4
             }
+
             3 -> {
                 s[25] = s[25] xor s[9]
                 s[9] = w
@@ -273,15 +262,11 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                     rshift = 0
                     return
                 }
-                w = (buf!![off].toInt() shl 24
-                        or (buf[off + 1].toInt() and 0xFF shl 16)
-                        or (buf[off + 2].toInt() and 0xFF shl 8)
-                        or (buf[off + 3].toInt() and 0xFF))
+                w = decodeBEInt(buf!!, off)
                 off += 4
             }
         }
         while (true) {
-
             /* ================ */
             s[16] = s[16] xor s[0]
             s[0] = w
@@ -313,10 +298,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                 rshift = 1
                 return
             }
-            w = (buf!![off].toInt() shl 24
-                    or (buf[off + 1].toInt() and 0xFF shl 16)
-                    or (buf[off + 2].toInt() and 0xFF shl 8)
-                    or (buf[off + 3].toInt() and 0xFF))
+            w = decodeBEInt(buf!!, off)
             off += 4
             /* ================ */
             s[7] = s[7] xor s[27]
@@ -349,10 +331,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                 rshift = 2
                 return
             }
-            w = (buf[off].toInt() shl 24
-                    or (buf[off + 1].toInt() and 0xFF shl 16)
-                    or (buf[off + 2].toInt() and 0xFF shl 8)
-                    or (buf[off + 3].toInt() and 0xFF))
+            w = decodeBEInt(buf, off)
             off += 4
             /* ================ */
             s[34] = s[34] xor s[18]
@@ -385,10 +364,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                 rshift = 3
                 return
             }
-            w = (buf[off].toInt() shl 24
-                    or (buf[off + 1].toInt() and 0xFF shl 16)
-                    or (buf[off + 2].toInt() and 0xFF shl 8)
-                    or (buf[off + 3].toInt() and 0xFF))
+            w = decodeBEInt(buf, off)
             off += 4
             /* ================ */
             s[25] = s[25] xor s[9]
@@ -421,10 +397,7 @@ internal class Fugue384 : FugueCore<Fugue384>() {
                 rshift = 0
                 return
             }
-            w = (buf[off].toInt() shl 24
-                    or (buf[off + 1].toInt() and 0xFF shl 16)
-                    or (buf[off + 2].toInt() and 0xFF shl 8)
-                    or (buf[off + 3].toInt() and 0xFF))
+            w = decodeBEInt(buf, off)
             off += 4
         }
     }

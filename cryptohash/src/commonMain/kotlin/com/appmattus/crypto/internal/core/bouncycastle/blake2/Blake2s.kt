@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,21 +159,17 @@ internal class Blake2s : Digest<Blake2s> {
         nodeDepth = digest.nodeDepth
         innerHashLength = digest.innerHashLength
     }
-    /**
-     * BLAKE2s for hashing.
-     *
-     * @param digestBits the desired digest length in bits. Must be a multiple of 8 and less than 256.
-     */
+
     // For Tree Hashing Mode, not used here:
     // private long f1 = 0L; // finalization flag, for last node: ~0L
     /**
      * BLAKE2s-256 for hashing.
+     *
+     * @param digestBits the desired digest length in bits. Must be a multiple of 8 and less than 256.
      */
     constructor(digestBits: Int = 256) {
-        if (digestBits < 8 || digestBits > 256 || digestBits % 8 != 0) {
-            throw IllegalArgumentException(
-                "BLAKE2s digest bit length must be a multiple of 8 and not greater than 256"
-            )
+        require(!(digestBits < 8 || digestBits > 256 || digestBits % 8 != 0)) {
+            "BLAKE2s digest bit length must be a multiple of 8 and not greater than 256"
         }
         digestSize = digestBits / 8
         init(null, null, null)
@@ -189,6 +185,7 @@ internal class Blake2s : Digest<Blake2s> {
      *
      * @param key a key up to 32 bytes or null
      */
+    @Suppress("unused")
     constructor(key: ByteArray?) {
         init(null, null, key)
     }
@@ -213,16 +210,13 @@ internal class Blake2s : Digest<Blake2s> {
         salt: ByteArray?,
         personalization: ByteArray?
     ) {
-        if (digestBytes < 1 || digestBytes > 32) {
-            throw IllegalArgumentException(
-                "Invalid digest length (required: 1 - 32)"
-            )
-        }
+        require(!(digestBytes < 1 || digestBytes > 32)) { "Invalid digest length (required: 1 - 32)" }
         digestSize = digestBytes
         init(salt, personalization, key)
     }
 
     // XOF root hash parameters
+    @Suppress("unused")
     internal constructor(digestBytes: Int, key: ByteArray?, salt: ByteArray?, personalization: ByteArray?, offset: Long) {
         digestSize = digestBytes
         nodeOffset = offset
@@ -230,6 +224,7 @@ internal class Blake2s : Digest<Blake2s> {
     }
 
     // XOF internal hash parameters
+    @Suppress("unused")
     internal constructor(digestBytes: Int, hashLength: Int, offset: Long) {
         digestSize = digestBytes
         nodeOffset = offset
@@ -245,11 +240,7 @@ internal class Blake2s : Digest<Blake2s> {
     private fun init(salt: ByteArray?, personalization: ByteArray?, key: ByteArray?) {
         buffer = ByteArray(byteLength)
         if (key != null && key.isNotEmpty()) {
-            if (key.size > 32) {
-                throw IllegalArgumentException(
-                    "Keys > 32 bytes are not supported"
-                )
-            }
+            require(key.size <= 32) { "Keys > 32 bytes are not supported" }
             this.key = key.copyInto(ByteArray(key.size), 0, 0, key.size)
             keyLength = key.size
             key.copyInto(buffer!!, 0, 0, key.size)
@@ -257,22 +248,16 @@ internal class Blake2s : Digest<Blake2s> {
         }
         if (chainValue == null) {
             chainValue = IntArray(8)
-            chainValue!![0] = (blake2s_IV[0]
-                    xor (digestSize or (keyLength shl 8) or (fanout shl 16 or (depth shl 24))))
+            chainValue!![0] = (blake2s_IV[0] xor (digestSize or (keyLength shl 8) or (fanout shl 16 or (depth shl 24))))
             chainValue!![1] = blake2s_IV[1] xor leafLength
             val nofHi = (nodeOffset shr 32).toInt()
             val nofLo = nodeOffset.toInt()
             chainValue!![2] = blake2s_IV[2] xor nofLo
-            chainValue!![3] = blake2s_IV[3] xor (nofHi or
-                    (nodeDepth shl 16) or (innerHashLength shl 24))
+            chainValue!![3] = blake2s_IV[3] xor (nofHi or (nodeDepth shl 16) or (innerHashLength shl 24))
             chainValue!![4] = blake2s_IV[4]
             chainValue!![5] = blake2s_IV[5]
             if (salt != null) {
-                if (salt.size != 8) {
-                    throw IllegalArgumentException(
-                        "Salt length must be exactly 8 bytes"
-                    )
-                }
+                require(salt.size == 8) { "Salt length must be exactly 8 bytes" }
                 this.salt = salt.copyInto(ByteArray(8), 0, 0, salt.size)
                 chainValue!![4] = chainValue!![4] xor decodeLEInt(salt, 0)
                 chainValue!![5] = chainValue!![5] xor decodeLEInt(salt, 4)
@@ -280,11 +265,7 @@ internal class Blake2s : Digest<Blake2s> {
             chainValue!![6] = blake2s_IV[6]
             chainValue!![7] = blake2s_IV[7]
             if (personalization != null) {
-                if (personalization.size != 8) {
-                    throw IllegalArgumentException(
-                        "Personalization length must be exactly 8 bytes"
-                    )
-                }
+                require(personalization.size == 8) { "Personalization length must be exactly 8 bytes" }
                 this.personalization = personalization.copyInto(ByteArray(8), 0, 0, personalization.size)
                 chainValue!![6] = chainValue!![6] xor decodeLEInt(personalization, 0)
                 chainValue!![7] = chainValue!![7] xor decodeLEInt(personalization, 4)
@@ -435,7 +416,6 @@ internal class Blake2s : Digest<Blake2s> {
             m[j] = decodeLEInt(message!!, messagePos + j * 4)
         }
         for (round in 0 until ROUNDS) {
-
             // G apply to columns of internalState:m[blake2s_sigma[round][2 *
             // blockPos]] /+1
             g(m[blake2s_sigma[round][0].toInt()], m[blake2s_sigma[round][1].toInt()], 0, 4, 8, 12)
@@ -473,6 +453,7 @@ internal class Blake2s : Digest<Blake2s> {
     /**
      * Overwrite the key if it is no longer used (zeroization).
      */
+    @Suppress("unused")
     fun clearKey() {
         if (key != null) {
             key?.fill(0)
@@ -484,6 +465,7 @@ internal class Blake2s : Digest<Blake2s> {
      * Overwrite the salt (pepper) if it is secret and no longer used
      * (zeroization).
      */
+    @Suppress("unused")
     fun clearSalt() {
         if (salt != null) {
             salt?.fill(0)
@@ -495,9 +477,14 @@ internal class Blake2s : Digest<Blake2s> {
          * BLAKE2s Initialization Vector
          */
         private val blake2s_IV = intArrayOf(
-            0x6a09e667, -0x4498517b, 0x3c6ef372,
-            -0x5ab00ac6, 0x510e527f, -0x64fa9774,
-            0x1f83d9ab, 0x5be0cd19
+            0x6a09e667,
+            -0x4498517b,
+            0x3c6ef372,
+            -0x5ab00ac6,
+            0x510e527f,
+            -0x64fa9774,
+            0x1f83d9ab,
+            0x5be0cd19
         )
 
         /**
@@ -534,6 +521,7 @@ internal class Blake2s : Digest<Blake2s> {
                     parameters.salt,
                     parameters.personalisation
                 )
+
                 else -> Blake2s(parameters.outputSizeBits)
             }
         }
@@ -557,8 +545,8 @@ internal class Blake2s : Digest<Blake2s> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 

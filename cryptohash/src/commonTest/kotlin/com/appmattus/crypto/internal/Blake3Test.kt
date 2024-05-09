@@ -272,7 +272,7 @@ abstract class Blake3Test(val algorithm: Algorithm.Blake3) {
         )
     }
 
-    fun testBlake3Kat(length: Int, hash: String, keyedHash: String, deriveKey: String) {
+    private fun testBlake3Kat(length: Int, hash: String, keyedHash: String, deriveKey: String) {
         val bytes = ByteArray(length) { (it % 251).toByte() }
 
         testKat(

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
     private fun round(seed: Long, input: Long): Long {
         var seed2 = seed
         seed2 += input * prime2
-        seed2 = circularLeftLong(seed2, 31)
+        seed2 = seed2.rotateLeft(31)
         seed2 *= prime1
 
         return seed2
@@ -61,20 +61,20 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
         fun process1() {
             h2 = h2 xor (array[index].toLong() and 0xff) * prime5
             index += 1
-            h2 = circularLeftLong(h2, 11) * prime1
+            h2 = h2.rotateLeft(11) * prime1
         }
 
         fun process4() {
             h2 = h2 xor ((decodeLEInt(array, index).toLong() and 0xFFFFFFFFL) * prime1)
             index += 4
-            h2 = circularLeftLong(h2, 23) * prime2 + prime3
+            h2 = h2.rotateLeft(23) * prime2 + prime3
         }
 
         fun process8() {
             val k1 = round(0, decodeLELong(array, index))
             index += 8
             h2 = h2 xor k1
-            h2 = circularLeftLong(h2, 27) * prime1 + prime4
+            h2 = h2.rotateLeft(27) * prime1 + prime4
         }
 
         val x = len and 31
@@ -92,7 +92,6 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
         state.totalLen += length
 
         if (state.memSize + length < 32) {
-
             // fill in tmp buffer
             input.copyInto(state.mem, state.memSize, index + offset, index + offset + length)
             state.memSize += length
@@ -114,7 +113,6 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
         }
 
         if (index <= length - 32) {
-
             val limit = length - 32
 
             do {
@@ -143,17 +141,18 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
         var h: Long
 
         if (state.totalLen >= 32) {
-            h = circularLeftLong(state.v1, 1) +
-                    circularLeftLong(state.v2, 7) +
-                    circularLeftLong(state.v3, 12) +
-                    circularLeftLong(state.v4, 18)
+            h = state.v1.rotateLeft(1) +
+                    state.v2.rotateLeft(7) +
+                    state.v3.rotateLeft(12) +
+                    state.v4.rotateLeft(18)
 
             h = mergeRound(h, state.v1)
             h = mergeRound(h, state.v2)
             h = mergeRound(h, state.v3)
             h = mergeRound(h, state.v4)
         } else {
-            h = state.v3 /* == seed */ + prime5
+            // state.v3 == seed
+            h = state.v3 + prime5
         }
 
         h += state.totalLen

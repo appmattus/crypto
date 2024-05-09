@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +43,8 @@ internal class SHA512_256 : Digest<SHA512_256> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 
@@ -87,10 +87,14 @@ internal class SHA512_256 : Digest<SHA512_256> {
     companion object {
         /** The initial value for SHA-512/256.  */
         private val initVal = longArrayOf(
-            0x22312194FC2BF72CL, -6965556091613846334,
-            0x2393B86B6F53B151L, -7622211418569250115,
-            -7626776825740460061, -4729309413028513390,
-            0x2B0199FC2C85B8AAL, 0x0EB72DDC81C52CA2L
+            0x22312194FC2BF72CL,
+            -6965556091613846334,
+            0x2393B86B6F53B151L,
+            -7622211418569250115,
+            -7626776825740460061,
+            -4729309413028513390,
+            0x2B0199FC2C85B8AAL,
+            0x0EB72DDC81C52CA2L
         )
     }
 }

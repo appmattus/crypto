@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,33 +44,32 @@ internal fun encodeLEInt(value: Int, buf: ByteArray, off: Int) {
  * @param off   the source offset
  * @return the decoded value
  */
-internal fun decodeLEInt(buf: ByteArray, off: Int): Int {
-    return ((buf[off + 3].toInt() and 0xFF shl 24)
-            or (buf[off + 2].toInt() and 0xFF shl 16)
-            or (buf[off + 1].toInt() and 0xFF shl 8)
-            or (buf[off].toInt() and 0xFF))
+internal inline fun decodeLEInt(buf: ByteArray, off: Int): Int {
+    return (buf[off + 3].toInt() and 0xFF shl 24) or
+            (buf[off + 2].toInt() and 0xFF shl 16) or
+            (buf[off + 1].toInt() and 0xFF shl 8) or
+            (buf[off].toInt() and 0xFF)
 }
 
-internal fun ByteArray.decodeLEShort(off: Int): Short {
-    return ((this[off + 1].toInt() and 0xFF shl 8)
-            or (this[off].toInt() and 0xFF)).toShort()
+internal inline fun ByteArray.decodeLEShort(off: Int): Short {
+    return ((this[off + 1].toInt() and 0xFF shl 8) or (this[off].toInt() and 0xFF)).toShort()
 }
 
-internal fun ByteBuffer.decodeLEInt(off: Int): Int {
-    return ((this[off + 3].toInt() and 0xFF shl 24)
-            or (this[off + 2].toInt() and 0xFF shl 16)
-            or (this[off + 1].toInt() and 0xFF shl 8)
-            or (this[off].toInt() and 0xFF))
+internal inline fun ByteBuffer.decodeLEInt(off: Int): Int {
+    return (this[off + 3].toInt() and 0xFF shl 24) or
+            (this[off + 2].toInt() and 0xFF shl 16) or
+            (this[off + 1].toInt() and 0xFF shl 8) or
+            (this[off].toInt() and 0xFF)
 }
 
-internal fun ByteBuffer.decodeBEInt(off: Int): Int {
-    return (this[off].toInt() and 0xFF shl 24
-            or (this[off + 1].toInt() and 0xFF shl 16)
-            or (this[off + 2].toInt() and 0xFF shl 8)
-            or (this[off + 3].toInt() and 0xFF))
+internal inline fun ByteBuffer.decodeBEInt(off: Int): Int {
+    return this[off].toInt() and 0xFF shl 24 or
+            (this[off + 1].toInt() and 0xFF shl 16) or
+            (this[off + 2].toInt() and 0xFF shl 8) or
+            (this[off + 3].toInt() and 0xFF)
 }
 
-internal fun ByteBuffer.decodeLEUInt(off: Int): UInt = decodeLEInt(off).toUInt()
+internal inline fun ByteBuffer.decodeLEUInt(off: Int): UInt = decodeLEInt(off).toUInt()
 
 /**
  * Decode a 64-bit little-endian integer.
@@ -79,31 +78,31 @@ internal fun ByteBuffer.decodeLEUInt(off: Int): UInt = decodeLEInt(off).toUInt()
  * @param off   the source offset
  * @return the decoded integer
  */
-internal fun decodeLELong(buf: ByteArray, off: Int): Long {
-    return (buf[off + 0].toLong() and 0xFF
-            or ((buf[off + 1].toLong() and 0xFF) shl 8)
-            or ((buf[off + 2].toLong() and 0xFF) shl 16)
-            or ((buf[off + 3].toLong() and 0xFF) shl 24)
-            or ((buf[off + 4].toLong() and 0xFF) shl 32)
-            or ((buf[off + 5].toLong() and 0xFF) shl 40)
-            or ((buf[off + 6].toLong() and 0xFF) shl 48)
-            or ((buf[off + 7].toLong() and 0xFF) shl 56))
+internal inline fun decodeLELong(buf: ByteArray, off: Int): Long {
+    return buf[off + 0].toLong() and 0xFF or
+            ((buf[off + 1].toLong() and 0xFF) shl 8) or
+            ((buf[off + 2].toLong() and 0xFF) shl 16) or
+            ((buf[off + 3].toLong() and 0xFF) shl 24) or
+            ((buf[off + 4].toLong() and 0xFF) shl 32) or
+            ((buf[off + 5].toLong() and 0xFF) shl 40) or
+            ((buf[off + 6].toLong() and 0xFF) shl 48) or
+            ((buf[off + 7].toLong() and 0xFF) shl 56)
 }
 
-internal fun ByteArray.decodeLEULong(off: Int): ULong = decodeLELong(this, off).toULong()
+internal inline fun ByteArray.decodeLEULong(off: Int): ULong = decodeLELong(this, off).toULong()
 
-internal fun ByteBuffer.decodeLELong(off: Int): Long {
-    return (this[off + 0].toLong() and 0xFF
-            or ((this[off + 1].toLong() and 0xFF) shl 8)
-            or ((this[off + 2].toLong() and 0xFF) shl 16)
-            or ((this[off + 3].toLong() and 0xFF) shl 24)
-            or ((this[off + 4].toLong() and 0xFF) shl 32)
-            or ((this[off + 5].toLong() and 0xFF) shl 40)
-            or ((this[off + 6].toLong() and 0xFF) shl 48)
-            or ((this[off + 7].toLong() and 0xFF) shl 56))
+internal inline fun ByteBuffer.decodeLELong(off: Int): Long {
+    return this[off + 0].toLong() and 0xFF or
+            ((this[off + 1].toLong() and 0xFF) shl 8) or
+            ((this[off + 2].toLong() and 0xFF) shl 16) or
+            ((this[off + 3].toLong() and 0xFF) shl 24) or
+            ((this[off + 4].toLong() and 0xFF) shl 32) or
+            ((this[off + 5].toLong() and 0xFF) shl 40) or
+            ((this[off + 6].toLong() and 0xFF) shl 48) or
+            ((this[off + 7].toLong() and 0xFF) shl 56)
 }
 
-internal fun ByteBuffer.decodeLEULong(off: Int): ULong = decodeLELong(off).toULong()
+internal inline fun ByteBuffer.decodeLEULong(off: Int): ULong = decodeLELong(off).toULong()
 
 /**
  * Encode a 64-bit integer with little-endian convention.
@@ -148,10 +147,10 @@ internal fun encodeBEInt(value: Int, buf: ByteArray, off: Int) {
  * @return the decoded value
  */
 internal fun decodeBEInt(buf: ByteArray, off: Int): Int {
-    return (buf[off].toInt() and 0xFF shl 24
-            or (buf[off + 1].toInt() and 0xFF shl 16)
-            or (buf[off + 2].toInt() and 0xFF shl 8)
-            or (buf[off + 3].toInt() and 0xFF))
+    return buf[off].toInt() and 0xFF shl 24 or
+            (buf[off + 1].toInt() and 0xFF shl 16) or
+            (buf[off + 2].toInt() and 0xFF shl 8) or
+            (buf[off + 3].toInt() and 0xFF)
 }
 
 /**
@@ -183,70 +182,14 @@ internal fun encodeBELong(value: Long, buf: ByteArray, off: Int) {
  * @return the decoded value
  */
 internal fun decodeBELong(buf: ByteArray, off: Int): Long {
-    return ((buf[off].toLong() and 0xFF) shl 56
-            or ((buf[off + 1].toLong() and 0xFF) shl 48)
-            or ((buf[off + 2].toLong() and 0xFF) shl 40)
-            or ((buf[off + 3].toLong() and 0xFF) shl 32)
-            or ((buf[off + 4].toLong() and 0xFF) shl 24)
-            or ((buf[off + 5].toLong() and 0xFF) shl 16)
-            or ((buf[off + 6].toLong() and 0xFF) shl 8)
-            or (buf[off + 7].toLong() and 0xFF))
-}
-
-/**
- * Perform a circular rotation by [n] to the left
- * of the 32-bit word [x]. The [n] parameter
- * must lie between 1 and 31 (inclusive).
- *
- * @param x   the value to rotate
- * @param n   the rotation count (between 1 and 31)
- * @return the rotated value
- */
-internal fun circularLeftInt(x: Int, n: Int): Int {
-    return x.rotateLeft(n)
-    // return x shl n or (x ushr -n)
-}
-
-/**
- * Perform a circular rotation by [n] to the right
- * of the 32-bit word [x]. The [n] parameter
- * must lie between 1 and 31 (inclusive).
- *
- * @param x   the value to rotate
- * @param n   the rotation count (between 1 and 31)
- * @return the rotated value
- */
-internal fun circularRightInt(x: Int, n: Int): Int {
-    return x.rotateRight(n)
-    // return x ushr n or (x shl -n)
-}
-
-/**
- * Perform a circular rotation by [n] to the left
- * of the 64-bit word [x]. The [n] parameter
- * must lie between 1 and 63 (inclusive).
- *
- * @param x   the value to rotate
- * @param n   the rotation count (between 1 and 63)
- * @return the rotated value
- */
-internal fun circularLeftLong(x: Long, n: Int): Long {
-    return x.rotateLeft(n)
-    // return (x shl n) or (x ushr -n)
-}
-
-/**
- * Perform a circular rotation by [n] to the right
- * of the 64-bit word [x]. The [n] parameter
- * must lie between 1 and 63 (inclusive).
- *
- * @param x   the value to rotate
- * @param n   the rotation count (between 1 and 63)
- * @return the rotated value
- */
-internal fun circularRightLong(x: Long, n: Int): Long {
-    return x.rotateRight(n)
-    // return x ushr n or (x shl -n)
+    return (buf[off].toLong() and 0xFF) shl 56 or
+            ((buf[off + 1].toLong() and 0xFF) shl 48) or
+            ((buf[off + 2].toLong() and 0xFF) shl 40) or
+            ((buf[off + 3].toLong() and 0xFF) shl 32) or
+            ((buf[off + 4].toLong() and 0xFF) shl 24) or
+            ((buf[off + 5].toLong() and 0xFF) shl 16) or
+            ((buf[off + 6].toLong() and 0xFF) shl 8) or
+            (buf[off + 7].toLong() and 0xFF)
 }
 
 internal fun UInt.reverseByteOrder(): UInt {

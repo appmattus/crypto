@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 
@@ -78,10 +79,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         makeMDPadding()
-        for (i in 0..4) encodeLEInt(
-            currentVal[i],
-            output, outputOffset + 4 * i
-        )
+        for (i in 0..4) encodeLEInt(currentVal[i], output, outputOffset + 4 * i)
     }
 
     override fun doInit() {
@@ -132,8 +130,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             }
         }
         for (i in 0..15) {
-            var t1 = (a1 + (b1 xor c1 xor d1) +
-                    x[i])
+            var t1 = (a1 + (b1 xor c1 xor d1) + x[i])
             t1 = (t1 shl s1[i] or (t1 ushr 32 - s1[i])) + e1
             a1 = e1
             e1 = d1
@@ -142,8 +139,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b1 = t1
         }
         for (i in 16..31) {
-            var t1 = (a1 + (c1 xor d1 and b1 xor d1) +
-                    x[r1[i]] + 0x5A827999)
+            var t1 = (a1 + (c1 xor d1 and b1 xor d1) + x[r1[i]] + 0x5A827999)
             t1 = (t1 shl s1[i] or (t1 ushr 32 - s1[i])) + e1
             a1 = e1
             e1 = d1
@@ -152,8 +148,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b1 = t1
         }
         for (i in 32..47) {
-            var t1 = (a1 + (b1 or c1.inv() xor d1) +
-                    x[r1[i]] + 0x6ED9EBA1)
+            var t1 = (a1 + (b1 or c1.inv() xor d1) + x[r1[i]] + 0x6ED9EBA1)
             t1 = (t1 shl s1[i] or (t1 ushr 32 - s1[i])) + e1
             a1 = e1
             e1 = d1
@@ -162,8 +157,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b1 = t1
         }
         for (i in 48..63) {
-            var t1 = (a1 + (b1 xor c1 and d1 xor c1) +
-                    x[r1[i]] + -0x70e44324)
+            var t1 = (a1 + (b1 xor c1 and d1 xor c1) + x[r1[i]] + -0x70e44324)
             t1 = (t1 shl s1[i] or (t1 ushr 32 - s1[i])) + e1
             a1 = e1
             e1 = d1
@@ -172,8 +166,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b1 = t1
         }
         for (i in 64..79) {
-            var t1 = (a1 + (b1 xor (c1 or d1.inv())) +
-                    x[r1[i]] + -0x56ac02b2)
+            var t1 = (a1 + (b1 xor (c1 or d1.inv())) + x[r1[i]] + -0x56ac02b2)
             t1 = (t1 shl s1[i] or (t1 ushr 32 - s1[i])) + e1
             a1 = e1
             e1 = d1
@@ -182,8 +175,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b1 = t1
         }
         for (i in 0..15) {
-            var t2 = (a2 + (b2 xor (c2 or d2.inv())) +
-                    x[r2[i]] + 0x50A28BE6)
+            var t2 = (a2 + (b2 xor (c2 or d2.inv())) + x[r2[i]] + 0x50A28BE6)
             t2 = (t2 shl s2[i] or (t2 ushr 32 - s2[i])) + e2
             a2 = e2
             e2 = d2
@@ -192,8 +184,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b2 = t2
         }
         for (i in 16..31) {
-            var t2 = (a2 + (b2 xor c2 and d2 xor c2) +
-                    x[r2[i]] + 0x5C4DD124)
+            var t2 = (a2 + (b2 xor c2 and d2 xor c2) + x[r2[i]] + 0x5C4DD124)
             t2 = (t2 shl s2[i] or (t2 ushr 32 - s2[i])) + e2
             a2 = e2
             e2 = d2
@@ -202,8 +193,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b2 = t2
         }
         for (i in 32..47) {
-            var t2 = (a2 + (b2 or c2.inv() xor d2) +
-                    x[r2[i]] + 0x6D703EF3)
+            var t2 = (a2 + (b2 or c2.inv() xor d2) + x[r2[i]] + 0x6D703EF3)
             t2 = (t2 shl s2[i] or (t2 ushr 32 - s2[i])) + e2
             a2 = e2
             e2 = d2
@@ -212,8 +202,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b2 = t2
         }
         for (i in 48..63) {
-            var t2 = (a2 + (c2 xor d2 and b2 xor d2) +
-                    x[r2[i]] + 0x7A6D76E9)
+            var t2 = (a2 + (c2 xor d2 and b2 xor d2) + x[r2[i]] + 0x7A6D76E9)
             t2 = (t2 shl s2[i] or (t2 ushr 32 - s2[i])) + e2
             a2 = e2
             e2 = d2
@@ -222,8 +211,7 @@ internal class RipeMD160 : MDHelper<RipeMD160>(true, 8) {
             b2 = t2
         }
         for (i in 64..79) {
-            var t2 = (a2 + (b2 xor c2 xor d2) +
-                    x[r2[i]])
+            var t2 = (a2 + (b2 xor c2 xor d2) + x[r2[i]])
             t2 = (t2 shl s2[i] or (t2 ushr 32 - s2[i])) + e2
             a2 = e2
             e2 = d2

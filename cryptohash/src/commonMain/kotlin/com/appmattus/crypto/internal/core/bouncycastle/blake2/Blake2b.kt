@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +62,6 @@ package com.appmattus.crypto.internal.core.bouncycastle.blake2
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.circularRightLong
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLELong
 
@@ -98,10 +97,10 @@ internal class Blake2b : Digest<Blake2b> {
     // Because this class does not implement the Tree Hashing Mode,
     // these parameters can be treated as constants (see init() function)
     /*
-	 * private int fanout = 1; // 0-255 private int depth = 1; // 1 - 255
-	 * private int leafLength= 0; private long nodeOffset = 0L; private int
-	 * nodeDepth = 0; private int innerHashLength = 0;
-	 */
+     * private int fanout = 1; // 0-255 private int depth = 1; // 1 - 255
+     * private int leafLength= 0; private long nodeOffset = 0L; private int
+     * nodeDepth = 0; private int innerHashLength = 0;
+     */
     // whenever this buffer overflows, it will be processed
     // in the compress() function.
     // For performance issues, long messages will not use this buffer.
@@ -141,10 +140,8 @@ internal class Blake2b : Digest<Blake2b> {
     // For Tree Hashing Mode, not used here:
     // private long f1 = 0L; // finalization flag, for last node: ~0L
     constructor(digestSize: Int = 512) {
-        if (digestSize < 8 || digestSize > 512 || digestSize % 8 != 0) {
-            throw IllegalArgumentException(
-                "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512"
-            )
+        require(!(digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)) {
+            "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512"
         }
         buffer = ByteArray(blockLength)
         keyLength = 0
@@ -161,15 +158,12 @@ internal class Blake2b : Digest<Blake2b> {
      *
      * @param key A key up to 64 bytes or null
      */
+    @Suppress("unused")
     constructor(key: ByteArray?) {
         buffer = ByteArray(blockLength)
         if (key != null) {
             this.key = key.copyInto(ByteArray(key.size), 0, 0, key.size)
-            if (key.size > 64) {
-                throw IllegalArgumentException(
-                    "Keys > 64 are not supported"
-                )
-            }
+            require(key.size <= 64) { "Keys > 64 are not supported" }
             keyLength = key.size
             key.copyInto(buffer!!, 0, 0, key.size)
             bufferPos = blockLength // zero padding
@@ -191,37 +185,23 @@ internal class Blake2b : Digest<Blake2b> {
      * @param personalization 16 bytes or null
      */
     constructor(key: ByteArray?, digestSize: Int, salt: ByteArray?, personalization: ByteArray?) {
-        if (digestSize < 8 || digestSize > 512 || digestSize % 8 != 0) {
-            throw IllegalArgumentException(
-                "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512"
-            )
+        require(!(digestSize < 8 || digestSize > 512 || digestSize % 8 != 0)) {
+            "BLAKE2b digest bit length must be a multiple of 8 and not greater than 512"
         }
         this.digestSize = digestSize / 8
 
         buffer = ByteArray(blockLength)
         if (salt != null) {
-            if (salt.size != 16) {
-                throw IllegalArgumentException(
-                    "salt length must be exactly 16 bytes"
-                )
-            }
+            require(salt.size == 16) { "salt length must be exactly 16 bytes" }
             this.salt = salt.copyInto(ByteArray(16), 0, 0, salt.size)
         }
         if (personalization != null) {
-            if (personalization.size != 16) {
-                throw IllegalArgumentException(
-                    "personalization length must be exactly 16 bytes"
-                )
-            }
+            require(personalization.size == 16) { "personalization length must be exactly 16 bytes" }
             this.personalization = personalization.copyInto(ByteArray(16), 0, 0, personalization.size)
         }
         if (key != null) {
             this.key = key.copyInto(ByteArray(key.size), 0, 0, key.size)
-            if (key.size > 64) {
-                throw IllegalArgumentException(
-                    "Keys > 64 are not supported"
-                )
-            }
+            require(key.size <= 64) { "Keys > 64 are not supported" }
             keyLength = key.size
             key.copyInto(buffer!!, 0, 0, key.size)
             bufferPos = blockLength // zero padding
@@ -233,8 +213,7 @@ internal class Blake2b : Digest<Blake2b> {
     private fun init() {
         if (chainValue == null) {
             chainValue = LongArray(8)
-            chainValue!![0] = (blake2b_IV[0]
-                    xor (digestSize.toLong() or (keyLength.toLong() shl 8) or 0x1010000L))
+            chainValue!![0] = (blake2b_IV[0] xor (digestSize.toLong() or (keyLength.toLong() shl 8) or 0x1010000L))
             // 0x1010000 = ((fanout << 16) | (depth << 24) | (leafLength <<
             // 32));
             // with fanout = 1; depth = 0; leafLength = 0;
@@ -407,7 +386,6 @@ internal class Blake2b : Digest<Blake2b> {
             m[j] = decodeLELong(message, messagePos + j * 8)
         }
         for (round in 0 until ROUNDS) {
-
             // G apply to columns of internalState:m[blake2b_sigma[round][2 *
             // blockPos]] /+1
             g(m[blake2b_sigma[round][0].toInt()], m[blake2b_sigma[round][1].toInt()], 0, 4, 8, 12)
@@ -429,19 +407,20 @@ internal class Blake2b : Digest<Blake2b> {
 
     private fun g(m1: Long, m2: Long, posA: Int, posB: Int, posC: Int, posD: Int) {
         internalState[posA] = internalState[posA] + internalState[posB] + m1
-        internalState[posD] = circularRightLong(internalState[posD] xor internalState[posA], 32)
+        internalState[posD] = (internalState[posD] xor internalState[posA]).rotateRight(32)
         internalState[posC] = internalState[posC] + internalState[posD]
-        internalState[posB] = circularRightLong(internalState[posB] xor internalState[posC], 24) // replaces 25 of BLAKE
+        internalState[posB] = (internalState[posB] xor internalState[posC]).rotateRight(24) // replaces 25 of BLAKE
         internalState[posA] = internalState[posA] + internalState[posB] + m2
-        internalState[posD] = circularRightLong(internalState[posD] xor internalState[posA], 16)
+        internalState[posD] = (internalState[posD] xor internalState[posA]).rotateRight(16)
         internalState[posC] = internalState[posC] + internalState[posD]
-        internalState[posB] = circularRightLong(internalState[posB] xor internalState[posC], 63) // replaces 11 of BLAKE
+        internalState[posB] = (internalState[posB] xor internalState[posC]).rotateRight(63) // replaces 11 of BLAKE
     }
 
     /**
      * Overwrite the key
      * if it is no longer used (zeroization)
      */
+    @Suppress("unused")
     fun clearKey() {
         if (key != null) {
             key?.fill(0)
@@ -453,6 +432,7 @@ internal class Blake2b : Digest<Blake2b> {
      * Overwrite the salt (pepper) if it
      * is secret and no longer used (zeroization)
      */
+    @Suppress("unused")
     fun clearSalt() {
         if (salt != null) {
             salt?.fill(0)
@@ -471,9 +451,14 @@ internal class Blake2b : Digest<Blake2b> {
     companion object {
         // Blake2b Initialization Vector:
         private val blake2b_IV = longArrayOf(
-            0x6a09e667f3bcc908L, -0x4498517a7b3558c5L, 0x3c6ef372fe94f82bL,
-            -0x5ab00ac5a0e2c90fL, 0x510e527fade682d1L, -0x64fa9773d4c193e1L,
-            0x1f83d9abfb41bd6bL, 0x5be0cd19137e2179L
+            0x6a09e667f3bcc908L,
+            -0x4498517a7b3558c5L,
+            0x3c6ef372fe94f82bL,
+            -0x5ab00ac5a0e2c90fL,
+            0x510e527fade682d1L,
+            -0x64fa9773d4c193e1L,
+            0x1f83d9abfb41bd6bL,
+            0x5be0cd19137e2179L
         )
 
         // Message word permutations:
@@ -501,6 +486,7 @@ internal class Blake2b : Digest<Blake2b> {
                     parameters.salt,
                     parameters.personalisation
                 )
+
                 else -> Blake2b(parameters.outputSizeBits)
             }
         }
@@ -524,8 +510,8 @@ internal class Blake2b : Digest<Blake2b> {
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 

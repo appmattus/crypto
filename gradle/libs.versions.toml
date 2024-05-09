@@ -1,0 +1,89 @@
+#
+# Copyright 2024 Appmattus Limited
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+[versions]
+
+kotlin = "1.9.24"
+
+androidGradlePlugin = "8.4.0"
+detektGradlePlugin = "1.23.6"
+gradleVersionsPlugin = "0.51.0"
+markdownlintGradlePlugin = "0.6.0"
+gradleMavenPublishPlugin = "0.28.0"
+dokkaPlugin = "1.9.20"
+
+kotlinX-coroutines = "1.8.0"
+
+# Sample app
+androidX-appCompat = "1.6.1"
+androidX-constraintLayout = "2.1.4"
+androidX-fragment = "1.7.0"
+androidX-lifecycle = "2.7.0"
+androidX-navigation = "2.7.7"
+androidX-vectorDrawable = "1.2.0"
+desugar = "2.0.4"
+google-dagger = "2.51.1"
+google-material = "1.12.0"
+groupie = "2.9.0"
+leakcanary = "2.14"
+orbitMvi = "7.1.0"
+
+# Testing
+bouncyCastle = "1.78.1"
+
+[libraries]
+
+kotlinX-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinX-coroutines" }
+
+# Sample app
+androidX-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidX-appCompat" }
+androidX-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidX-constraintLayout" }
+androidX-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidX-fragment" }
+androidX-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidX-lifecycle" }
+androidX-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidX-lifecycle" }
+androidX-navigationFragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidX-navigation" }
+androidX-navigationUi = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidX-navigation" }
+androidX-vectorDrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "androidX-vectorDrawable" }
+desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
+google-dagger-hiltAndroid = { module = "com.google.dagger:hilt-android", version.ref = "google-dagger" }
+google-dagger-hiltCompiler = { module = "com.google.dagger:hilt-compiler", version.ref = "google-dagger" }
+google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
+groupie = { module = "com.xwray:groupie", version.ref = "groupie" }
+groupieViewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupie" }
+kotlinX-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinX-coroutines" }
+leakcanary-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
+orbitCore = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitMvi" }
+orbitViewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
+
+# Tools
+detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektGradlePlugin" }
+
+# Testing
+bouncyCastle = { module = "org.bouncycastle:bcprov-jdk15to18", version.ref = "bouncyCastle" }
+
+# Plugins
+buildscript_detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
+
+[plugins]
+
+dokkaPlugin = { id = "org.jetbrains.dokka", version.ref = "dokkaPlugin" }
+gradleMavenPublishPlugin = { id = "com.vanniktech.maven.publish", version.ref = "gradleMavenPublishPlugin" }
+gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionsPlugin" }
+markdownlintGradlePlugin = { id = "com.appmattus.markdown", version.ref = "markdownlintGradlePlugin" }
+
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }

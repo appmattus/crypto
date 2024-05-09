@@ -1,0 +1,46 @@
+build:
+    maxIssues: 0
+
+style:
+    MagicNumber:
+        active: false
+    MaxLineLength:
+        active: false
+
+formatting:
+    StringTemplate:
+        excludes: ['**/*.gradle.kts']
+    ArgumentListWrapping:
+        maxLineLength: 145 # increased from 120
+        excludes: ['**/resources/**','**/commonTest/**/internal/**']
+    ContextReceiverMapping:
+        maxLineLength: 145 # increased from 120
+        excludes: ['**/resources/**','**/commonTest/**/internal/**']
+    FunctionSignature:
+        maxLineLength: 145 # increased from 120
+        excludes: ['**/resources/**,**/commonTest/**/internal/**']
+    MaximumLineLength:
+        active: false
+        maxLineLength: 145 # increased from 120
+        excludes: ['**/resources/**','**/commonTest/**/internal/**']
+    ParameterListWrapping:
+        maxLineLength: 145 # increased from 120
+        excludes: ['**/resources/**','**/commonTest/**/internal/**']
+    Indentation:
+        active: false
+    Filename:
+        excludes: ['**/commonTest/**/internal/**']
+    Wrapping:
+        excludes: ['**/commonTest/**/internal/**']
+
+naming:
+    ClassNaming:
+        excludes: ['**/commonTest/**/internal/**']
+
+complexity:
+    LargeClass:
+        excludes: ['**/commonTest/**/internal/**']
+    LongMethod:
+        excludes: ['**/commonTest/**/internal/**']
+    TooManyFunctions:
+        excludes: ['**/commonTest/**/internal/**']

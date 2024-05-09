@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 
@@ -150,10 +151,10 @@ internal class PANAMA : DigestEngine<PANAMA>() {
     override fun doInit() {
         buffer = IntArray(256)
         /*
-		 * engineReset() is not needed because in Java, "int"
-		 * variables and arrays of "int" are initialized upon
-		 * creation to the correct value (full of zeroes).
-		 */
+         * engineReset() is not needed because in Java, "int"
+         * variables and arrays of "int" are initialized upon
+         * creation to the correct value (full of zeroes).
+         */
     }
 
     override fun processBlock(data: ByteArray) {
@@ -170,9 +171,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
 
     @Suppress("JoinDeclarationAndAssignment", "LongMethod")
     private fun oneStep(push: Boolean) {
-        /*
-		 * Buffer update.
-		 */
+        // Buffer update.
         val ptr0 = bufferPtr
         val ptr24 = ptr0 - 64 and 248
         val ptr31 = ptr0 - 8 and 248
@@ -213,9 +212,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         }
         bufferPtr = ptr31
 
-        /*
-		 * Gamma transform.
-		 */
+        // Gamma transform.
         val g0: Int
         val g1: Int
         val g2: Int
@@ -251,9 +248,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         g15 = state15 xor (state16 or state0.inv())
         g16 = state16 xor (state0 or state1.inv())
 
-        /*
-		 * Pi transform.
-		 */
+        // Pi transform.
         val p0: Int
         val p1: Int
         val p2: Int
@@ -272,26 +267,24 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         val p15: Int
         val p16: Int
         p0 = g0
-        p1 = g7 shl 1 or (g7 ushr 32 - 1)
-        p2 = g14 shl 3 or (g14 ushr 32 - 3)
-        p3 = g4 shl 6 or (g4 ushr 32 - 6)
-        p4 = g11 shl 10 or (g11 ushr 32 - 10)
-        p5 = g1 shl 15 or (g1 ushr 32 - 15)
-        p6 = g8 shl 21 or (g8 ushr 32 - 21)
-        p7 = g15 shl 28 or (g15 ushr 32 - 28)
-        p8 = g5 shl 4 or (g5 ushr 32 - 4)
-        p9 = g12 shl 13 or (g12 ushr 32 - 13)
-        p10 = g2 shl 23 or (g2 ushr 32 - 23)
-        p11 = g9 shl 2 or (g9 ushr 32 - 2)
-        p12 = g16 shl 14 or (g16 ushr 32 - 14)
-        p13 = g6 shl 27 or (g6 ushr 32 - 27)
-        p14 = g13 shl 9 or (g13 ushr 32 - 9)
-        p15 = g3 shl 24 or (g3 ushr 32 - 24)
-        p16 = g10 shl 8 or (g10 ushr 32 - 8)
+        p1 = g7.rotateLeft(1)
+        p2 = g14.rotateLeft(3)
+        p3 = g4.rotateLeft(6)
+        p4 = g11.rotateLeft(10)
+        p5 = g1.rotateLeft(15)
+        p6 = g8.rotateLeft(21)
+        p7 = g15.rotateLeft(28)
+        p8 = g5.rotateLeft(4)
+        p9 = g12.rotateLeft(13)
+        p10 = g2.rotateLeft(23)
+        p11 = g9.rotateLeft(2)
+        p12 = g16.rotateLeft(14)
+        p13 = g6.rotateLeft(27)
+        p14 = g13.rotateLeft(9)
+        p15 = g3.rotateLeft(24)
+        p16 = g10.rotateLeft(8)
 
-        /*
-		 * Theta transform.
-		 */
+        // Theta transform.
         val t0: Int
         val t1: Int
         val t2: Int
@@ -327,9 +320,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         t15 = p15 xor p16 xor p2
         t16 = p16 xor p0 xor p3
 
-        /*
-		 * Sigma transform.
-		 */
+        // Sigma transform.
         val ptr16 = ptr0 xor 128
         state0 = t0 xor 1
         if (push) {

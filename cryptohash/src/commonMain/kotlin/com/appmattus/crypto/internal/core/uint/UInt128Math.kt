@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,7 @@ import com.appmattus.crypto.internal.core.uint.UInt128.Companion.ZERO
  */
 public fun UInt128.pow(n: Int): UInt128 {
     var exp = n
-    if (exp < 0) {
-        throw IllegalArgumentException("exp must be >= 0")
-    }
+    require(exp >= 0) { "exp must be >= 0" }
 
     var result = ONE
     var base: UInt128 = this

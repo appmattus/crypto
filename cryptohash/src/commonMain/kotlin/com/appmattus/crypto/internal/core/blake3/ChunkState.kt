@@ -70,7 +70,6 @@ internal class ChunkState(var chainingValue: IntArray, var chunkCounter: Long, v
     fun update(input: ByteArray) {
         var currPos = 0
         while (currPos < input.size) {
-
             // Chain the next 64 byte block into this chunk/node
             if (blockLen == BLOCK_LEN) {
                 val blockWords = wordsFromLEBytes(block)

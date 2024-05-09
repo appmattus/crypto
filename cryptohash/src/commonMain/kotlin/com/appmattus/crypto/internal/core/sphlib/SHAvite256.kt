@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,8 @@
  */
 
 package com.appmattus.crypto.internal.core.sphlib
+
+import com.appmattus.crypto.Digest
 
 /**
  *
@@ -62,9 +64,7 @@ internal class SHAvite256 : SHAviteSmallCore<SHAvite256>() {
 
     companion object {
         /** The initial value for SHAvite-256.  */
-        private val initVal = intArrayOf(
-            0x49BB3E47, 0x2674860D, -0x574c6d54, 0x021AC4E6,
-            0x409283CF, 0x620E5D86, 0x6D929DCB, -0x6933d575
-        )
+        @Suppress("PropertyWrapping")
+        private val initVal = intArrayOf(0x49BB3E47, 0x2674860D, -0x574c6d54, 0x021AC4E6, 0x409283CF, 0x620E5D86, 0x6D929DCB, -0x6933d575)
     }
 }

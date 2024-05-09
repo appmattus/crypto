@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,9 +86,7 @@ internal open class SHAKEDigest : KeccakDigest<SHAKEDigest> {
      * TODO Possible API change to support partial-byte suffixes.
      */
     private fun doFinal(out: ByteArray, outOff: Int, outLen: Int, partialByte: Byte, partialBits: Int): Int {
-        if (partialBits < 0 || partialBits > 7) {
-            throw IllegalArgumentException("'partialBits' must be in the range [0,7]")
-        }
+        require(partialBits in 0..7) { "'partialBits' must be in the range [0,7]" }
         var finalInput: Int = partialByte.toInt() and (1 shl partialBits) - 1 or (0x0F shl partialBits)
         var finalBits = partialBits + 4
         if (finalBits >= 8) {

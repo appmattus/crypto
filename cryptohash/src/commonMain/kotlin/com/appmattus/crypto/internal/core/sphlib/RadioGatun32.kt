@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 
@@ -116,6 +117,7 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
         var a17 = a[17]
         var a18 = a[18]
         var dp = 0
+        @Suppress("Wrapping")
         for (mk in 12 downTo 0) {
             val p0 = decodeLEInt(data, dp + 0)
             val p1 = decodeLEInt(data, dp + 4)
@@ -129,29 +131,41 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
             a17 = a17 xor p1
             a18 = a18 xor p2
             bj = mk * 3
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 0] = b[bj + 0] xor a01
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 1] = b[bj + 1] xor a02
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 2] = b[bj + 2] xor a03
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 0] = b[bj + 0] xor a04
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 1] = b[bj + 1] xor a05
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 2] = b[bj + 2] xor a06
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 0] = b[bj + 0] xor a07
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 1] = b[bj + 1] xor a08
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 2] = b[bj + 2] xor a09
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 0] = b[bj + 0] xor a10
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 1] = b[bj + 1] xor a11
-            if (3.let { bj += it; bj } == 39) bj = 0
+            bj += 3
+            if (bj == 39) bj = 0
             b[bj + 2] = b[bj + 2] xor a12
             var t00 = a00 xor (a01 or a02.inv())
             var t01 = a01 xor (a02 or a03.inv())
@@ -396,26 +410,26 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
         }
 
         /* not needed
-		a[ 0] = a00;
-		a[ 1] = a01;
-		a[ 2] = a02;
-		a[ 3] = a03;
-		a[ 4] = a04;
-		a[ 5] = a05;
-		a[ 6] = a06;
-		a[ 7] = a07;
-		a[ 8] = a08;
-		a[ 9] = a09;
-		a[10] = a10;
-		a[11] = a11;
-		a[12] = a12;
-		a[13] = a13;
-		a[14] = a14;
-		a[15] = a15;
-		a[16] = a16;
-		a[17] = a17;
-		a[18] = a18;
-		*/
+           a[ 0] = a00
+           a[ 1] = a01
+           a[ 2] = a02
+           a[ 3] = a03
+           a[ 4] = a04
+           a[ 5] = a05
+           a[ 6] = a06
+           a[ 7] = a07
+           a[ 8] = a08
+           a[ 9] = a09
+           a[10] = a10
+           a[11] = a11
+           a[12] = a12
+           a[13] = a13
+           a[14] = a14
+           a[15] = a15
+           a[16] = a16
+           a[17] = a17
+           a[18] = a18
+         */
     }
 
     override fun toString() = Algorithm.RadioGatun32.algorithmName

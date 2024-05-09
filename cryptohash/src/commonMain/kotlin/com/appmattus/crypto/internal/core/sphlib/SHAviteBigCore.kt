@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +71,6 @@ internal abstract class SHAviteBigCore<D : SHAviteBigCore<D>> : DigestEngine<D>(
      */
     protected abstract val initVal: IntArray
 
-    @Suppress("CascadeIf")
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         var ptr = flush()
         val bc = blockCount
@@ -126,8 +125,10 @@ internal abstract class SHAviteBigCore<D : SHAviteBigCore<D>> : DigestEngine<D>(
         val bc = blockCount + 1
         val bitLen = bc shl 10
         process(
-            data, bitLen.toInt(),
-            (bitLen ushr 32).toInt(), (bc ushr 54).toInt()
+            data,
+            bitLen.toInt(),
+            (bitLen ushr 32).toInt(),
+            (bc ushr 54).toInt()
         )
     }
 
@@ -182,22 +183,10 @@ internal abstract class SHAviteBigCore<D : SHAviteBigCore<D>> : DigestEngine<D>(
                 x1 = rk[u - 30]
                 x2 = rk[u - 29]
                 x3 = rk[u - 32]
-                t0 = (AES0[x0 and 0xFF]
-                        xor AES1[x1 ushr 8 and 0xFF]
-                        xor AES2[x2 ushr 16 and 0xFF]
-                        xor AES3[x3 ushr 24])
-                t1 = (AES0[x1 and 0xFF]
-                        xor AES1[x2 ushr 8 and 0xFF]
-                        xor AES2[x3 ushr 16 and 0xFF]
-                        xor AES3[x0 ushr 24])
-                t2 = (AES0[x2 and 0xFF]
-                        xor AES1[x3 ushr 8 and 0xFF]
-                        xor AES2[x0 ushr 16 and 0xFF]
-                        xor AES3[x1 ushr 24])
-                t3 = (AES0[x3 and 0xFF]
-                        xor AES1[x0 ushr 8 and 0xFF]
-                        xor AES2[x1 ushr 16 and 0xFF]
-                        xor AES3[x2 ushr 24])
+                t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+                t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+                t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+                t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
                 rk[u + 0] = t0 xor rk[u - 4]
                 rk[u + 1] = t1 xor rk[u - 3]
                 rk[u + 2] = t2 xor rk[u - 2]
@@ -218,22 +207,10 @@ internal abstract class SHAviteBigCore<D : SHAviteBigCore<D>> : DigestEngine<D>(
                 x1 = rk[u - 30]
                 x2 = rk[u - 29]
                 x3 = rk[u - 32]
-                t0 = (AES0[x0 and 0xFF]
-                        xor AES1[x1 ushr 8 and 0xFF]
-                        xor AES2[x2 ushr 16 and 0xFF]
-                        xor AES3[x3 ushr 24])
-                t1 = (AES0[x1 and 0xFF]
-                        xor AES1[x2 ushr 8 and 0xFF]
-                        xor AES2[x3 ushr 16 and 0xFF]
-                        xor AES3[x0 ushr 24])
-                t2 = (AES0[x2 and 0xFF]
-                        xor AES1[x3 ushr 8 and 0xFF]
-                        xor AES2[x0 ushr 16 and 0xFF]
-                        xor AES3[x1 ushr 24])
-                t3 = (AES0[x3 and 0xFF]
-                        xor AES1[x0 ushr 8 and 0xFF]
-                        xor AES2[x1 ushr 16 and 0xFF]
-                        xor AES3[x2 ushr 24])
+                t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+                t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+                t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+                t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
                 rk[u + 0] = t0 xor rk[u - 4]
                 rk[u + 1] = t1 xor rk[u - 3]
                 rk[u + 2] = t2 xor rk[u - 2]
@@ -290,82 +267,34 @@ internal abstract class SHAviteBigCore<D : SHAviteBigCore<D>> : DigestEngine<D>(
             x1 = p5 xor rk[u++]
             x2 = p6 xor rk[u++]
             x3 = p7 xor rk[u++]
-            t0 = (AES0[x0 and 0xFF]
-                    xor AES1[x1 ushr 8 and 0xFF]
-                    xor AES2[x2 ushr 16 and 0xFF]
-                    xor AES3[x3 ushr 24])
-            t1 = (AES0[x1 and 0xFF]
-                    xor AES1[x2 ushr 8 and 0xFF]
-                    xor AES2[x3 ushr 16 and 0xFF]
-                    xor AES3[x0 ushr 24])
-            t2 = (AES0[x2 and 0xFF]
-                    xor AES1[x3 ushr 8 and 0xFF]
-                    xor AES2[x0 ushr 16 and 0xFF]
-                    xor AES3[x1 ushr 24])
-            t3 = (AES0[x3 and 0xFF]
-                    xor AES1[x0 ushr 8 and 0xFF]
-                    xor AES2[x1 ushr 16 and 0xFF]
-                    xor AES3[x2 ushr 24])
+            t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+            t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+            t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+            t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
             x0 = t0 xor rk[u++]
             x1 = t1 xor rk[u++]
             x2 = t2 xor rk[u++]
             x3 = t3 xor rk[u++]
-            t0 = (AES0[x0 and 0xFF]
-                    xor AES1[x1 ushr 8 and 0xFF]
-                    xor AES2[x2 ushr 16 and 0xFF]
-                    xor AES3[x3 ushr 24])
-            t1 = (AES0[x1 and 0xFF]
-                    xor AES1[x2 ushr 8 and 0xFF]
-                    xor AES2[x3 ushr 16 and 0xFF]
-                    xor AES3[x0 ushr 24])
-            t2 = (AES0[x2 and 0xFF]
-                    xor AES1[x3 ushr 8 and 0xFF]
-                    xor AES2[x0 ushr 16 and 0xFF]
-                    xor AES3[x1 ushr 24])
-            t3 = (AES0[x3 and 0xFF]
-                    xor AES1[x0 ushr 8 and 0xFF]
-                    xor AES2[x1 ushr 16 and 0xFF]
-                    xor AES3[x2 ushr 24])
+            t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+            t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+            t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+            t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
             x0 = t0 xor rk[u++]
             x1 = t1 xor rk[u++]
             x2 = t2 xor rk[u++]
             x3 = t3 xor rk[u++]
-            t0 = (AES0[x0 and 0xFF]
-                    xor AES1[x1 ushr 8 and 0xFF]
-                    xor AES2[x2 ushr 16 and 0xFF]
-                    xor AES3[x3 ushr 24])
-            t1 = (AES0[x1 and 0xFF]
-                    xor AES1[x2 ushr 8 and 0xFF]
-                    xor AES2[x3 ushr 16 and 0xFF]
-                    xor AES3[x0 ushr 24])
-            t2 = (AES0[x2 and 0xFF]
-                    xor AES1[x3 ushr 8 and 0xFF]
-                    xor AES2[x0 ushr 16 and 0xFF]
-                    xor AES3[x1 ushr 24])
-            t3 = (AES0[x3 and 0xFF]
-                    xor AES1[x0 ushr 8 and 0xFF]
-                    xor AES2[x1 ushr 16 and 0xFF]
-                    xor AES3[x2 ushr 24])
+            t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+            t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+            t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+            t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
             x0 = t0 xor rk[u++]
             x1 = t1 xor rk[u++]
             x2 = t2 xor rk[u++]
             x3 = t3 xor rk[u++]
-            t0 = (AES0[x0 and 0xFF]
-                    xor AES1[x1 ushr 8 and 0xFF]
-                    xor AES2[x2 ushr 16 and 0xFF]
-                    xor AES3[x3 ushr 24])
-            t1 = (AES0[x1 and 0xFF]
-                    xor AES1[x2 ushr 8 and 0xFF]
-                    xor AES2[x3 ushr 16 and 0xFF]
-                    xor AES3[x0 ushr 24])
-            t2 = (AES0[x2 and 0xFF]
-                    xor AES1[x3 ushr 8 and 0xFF]
-                    xor AES2[x0 ushr 16 and 0xFF]
-                    xor AES3[x1 ushr 24])
-            t3 = (AES0[x3 and 0xFF]
-                    xor AES1[x0 ushr 8 and 0xFF]
-                    xor AES2[x1 ushr 16 and 0xFF]
-                    xor AES3[x2 ushr 24])
+            t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+            t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+            t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+            t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
             p0 = p0 xor t0
             p1 = p1 xor t1
             p2 = p2 xor t2
@@ -374,82 +303,34 @@ internal abstract class SHAviteBigCore<D : SHAviteBigCore<D>> : DigestEngine<D>(
             x1 = pD xor rk[u++]
             x2 = pE xor rk[u++]
             x3 = pF xor rk[u++]
-            t0 = (AES0[x0 and 0xFF]
-                    xor AES1[x1 ushr 8 and 0xFF]
-                    xor AES2[x2 ushr 16 and 0xFF]
-                    xor AES3[x3 ushr 24])
-            t1 = (AES0[x1 and 0xFF]
-                    xor AES1[x2 ushr 8 and 0xFF]
-                    xor AES2[x3 ushr 16 and 0xFF]
-                    xor AES3[x0 ushr 24])
-            t2 = (AES0[x2 and 0xFF]
-                    xor AES1[x3 ushr 8 and 0xFF]
-                    xor AES2[x0 ushr 16 and 0xFF]
-                    xor AES3[x1 ushr 24])
-            t3 = (AES0[x3 and 0xFF]
-                    xor AES1[x0 ushr 8 and 0xFF]
-                    xor AES2[x1 ushr 16 and 0xFF]
-                    xor AES3[x2 ushr 24])
+            t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+            t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+            t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+            t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
             x0 = t0 xor rk[u++]
             x1 = t1 xor rk[u++]
             x2 = t2 xor rk[u++]
             x3 = t3 xor rk[u++]
-            t0 = (AES0[x0 and 0xFF]
-                    xor AES1[x1 ushr 8 and 0xFF]
-                    xor AES2[x2 ushr 16 and 0xFF]
-                    xor AES3[x3 ushr 24])
-            t1 = (AES0[x1 and 0xFF]
-                    xor AES1[x2 ushr 8 and 0xFF]
-                    xor AES2[x3 ushr 16 and 0xFF]
-                    xor AES3[x0 ushr 24])
-            t2 = (AES0[x2 and 0xFF]
-                    xor AES1[x3 ushr 8 and 0xFF]
-                    xor AES2[x0 ushr 16 and 0xFF]
-                    xor AES3[x1 ushr 24])
-            t3 = (AES0[x3 and 0xFF]
-                    xor AES1[x0 ushr 8 and 0xFF]
-                    xor AES2[x1 ushr 16 and 0xFF]
-                    xor AES3[x2 ushr 24])
+            t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+            t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+            t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+            t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
             x0 = t0 xor rk[u++]
             x1 = t1 xor rk[u++]
             x2 = t2 xor rk[u++]
             x3 = t3 xor rk[u++]
-            t0 = (AES0[x0 and 0xFF]
-                    xor AES1[x1 ushr 8 and 0xFF]
-                    xor AES2[x2 ushr 16 and 0xFF]
-                    xor AES3[x3 ushr 24])
-            t1 = (AES0[x1 and 0xFF]
-                    xor AES1[x2 ushr 8 and 0xFF]
-                    xor AES2[x3 ushr 16 and 0xFF]
-                    xor AES3[x0 ushr 24])
-            t2 = (AES0[x2 and 0xFF]
-                    xor AES1[x3 ushr 8 and 0xFF]
-                    xor AES2[x0 ushr 16 and 0xFF]
-                    xor AES3[x1 ushr 24])
-            t3 = (AES0[x3 and 0xFF]
-                    xor AES1[x0 ushr 8 and 0xFF]
-                    xor AES2[x1 ushr 16 and 0xFF]
-                    xor AES3[x2 ushr 24])
+            t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+            t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+            t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+            t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
             x0 = t0 xor rk[u++]
             x1 = t1 xor rk[u++]
             x2 = t2 xor rk[u++]
             x3 = t3 xor rk[u++]
-            t0 = (AES0[x0 and 0xFF]
-                    xor AES1[x1 ushr 8 and 0xFF]
-                    xor AES2[x2 ushr 16 and 0xFF]
-                    xor AES3[x3 ushr 24])
-            t1 = (AES0[x1 and 0xFF]
-                    xor AES1[x2 ushr 8 and 0xFF]
-                    xor AES2[x3 ushr 16 and 0xFF]
-                    xor AES3[x0 ushr 24])
-            t2 = (AES0[x2 and 0xFF]
-                    xor AES1[x3 ushr 8 and 0xFF]
-                    xor AES2[x0 ushr 16 and 0xFF]
-                    xor AES3[x1 ushr 24])
-            t3 = (AES0[x3 and 0xFF]
-                    xor AES1[x0 ushr 8 and 0xFF]
-                    xor AES2[x1 ushr 16 and 0xFF]
-                    xor AES3[x2 ushr 24])
+            t0 = AES0[x0 and 0xFF] xor AES1[x1 ushr 8 and 0xFF] xor AES2[x2 ushr 16 and 0xFF] xor AES3[x3 ushr 24]
+            t1 = AES0[x1 and 0xFF] xor AES1[x2 ushr 8 and 0xFF] xor AES2[x3 ushr 16 and 0xFF] xor AES3[x0 ushr 24]
+            t2 = AES0[x2 and 0xFF] xor AES1[x3 ushr 8 and 0xFF] xor AES2[x0 ushr 16 and 0xFF] xor AES3[x1 ushr 24]
+            t3 = AES0[x3 and 0xFF] xor AES1[x0 ushr 8 and 0xFF] xor AES2[x1 ushr 16 and 0xFF] xor AES3[x2 ushr 24]
             p8 = p8 xor t0
             p9 = p9 xor t1
             pA = pA xor t2

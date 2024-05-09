@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,8 @@
  */
 
 package com.appmattus.crypto.internal.core.sphlib
+
+import com.appmattus.crypto.Digest
 
 /**
  *
@@ -61,9 +63,6 @@ internal class Fugue224 : Fugue2Core<Fugue224>() {
 
     companion object {
         /** The initial value for Fugue-224.  */
-        val iV = intArrayOf(
-            -0xb36edf3, 0x6286f757, -0x11c61fe4, -0x1f8b1c35,
-            -0x5eed839e, -0x65bc2deb, -0x42729866
-        )
+        val iV = intArrayOf(-0xb36edf3, 0x6286f757, -0x11c61fe4, -0x1f8b1c35, -0x5eed839e, -0x65bc2deb, -0x42729866)
     }
 }

@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,14 +87,8 @@ internal abstract class MDHelper<D : MDHelper<D>>(
             encodeLEInt(currentLength.toInt(), countBuf, 0)
             encodeLEInt((currentLength ushr 32).toInt(), countBuf, 4)
         } else {
-            encodeBEInt(
-                (currentLength ushr 32).toInt(),
-                countBuf, lenlen - 8
-            )
-            encodeBEInt(
-                currentLength.toInt(),
-                countBuf, lenlen - 4
-            )
+            encodeBEInt((currentLength ushr 32).toInt(), countBuf, lenlen - 8)
+            encodeBEInt(currentLength.toInt(), countBuf, lenlen - 4)
         }
         val endLen = dataLen + lenlen + blen and (blen - 1).inv()
         update(fbyte)
@@ -104,11 +98,11 @@ internal abstract class MDHelper<D : MDHelper<D>>(
         update(countBuf)
 
         /*
-		 * This code is used only for debugging purposes.
-		 *
-		if (flush() != 0)
-			throw new Error("panic: buffering went astray");
-		 *
-		 */
+         * This code is used only for debugging purposes.
+         *
+         * if (flush() != 0)
+         *   throw new Error("panic: buffering went astray");
+         *
+         */
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,8 +36,8 @@ internal interface ByteBuffer : Iterable<Byte> {
 
     /** Creates an iterator over the elements of the array. */
     override fun iterator(): Iterator<Byte> = iterator {
-        (0 until size).forEach {
-            yield(get(it))
+        for (i in 0 until size) {
+            yield(get(i))
         }
     }
 

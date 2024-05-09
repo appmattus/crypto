@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,9 +47,11 @@ internal class T1ha1_64le(private val seed: ULong = 0u) : NonIncrementalDigest<T
     }
 
     override fun copy(): T1ha1_64le {
-        return copyState(T1ha1_64le().apply {
-            hash = this@T1ha1_64le.hash
-        })
+        return copyState(
+            T1ha1_64le().apply {
+                hash = this@T1ha1_64le.hash
+            }
+        )
     }
 
     override fun toString() = "t1ha1_64le"

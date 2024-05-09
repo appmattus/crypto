@@ -15,7 +15,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,12 +67,8 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
      * @param pos position in the array to read the first of 32 bytes from
      */
     private fun updatePacket(packet: ByteArray, pos: Int) {
-        if (pos < 0) {
-            throw IllegalArgumentException("Pos ($pos) must be positive")
-        }
-        if (pos + 32 > packet.size) {
-            throw IllegalArgumentException("packet must have at least 32 bytes after pos")
-        }
+        require(pos >= 0) { "Pos ($pos) must be positive" }
+        require(pos + 32 <= packet.size) { "packet must have at least 32 bytes after pos" }
         val a0 = read64(packet, pos + 0)
         val a1 = read64(packet, pos + 8)
         val a2 = read64(packet, pos + 16)
@@ -121,12 +117,8 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
         require(pos >= 0) { "Pos ($pos) must be positive" }
         require(sizeMod32 in 0 until 32) { "size_mod32 ($sizeMod32) must be between 0 and 31" }
 
-        if (sizeMod32 < 0 || sizeMod32 >= 32) {
-            throw IllegalArgumentException("size_mod32 ($sizeMod32) must be between 0 and 31")
-        }
-        if (pos + sizeMod32 > bytes.size) {
-            throw IllegalArgumentException("bytes must have at least size_mod32 bytes after pos")
-        }
+        require(!(sizeMod32 < 0 || sizeMod32 >= 32)) { "size_mod32 ($sizeMod32) must be between 0 and 31" }
+        require(pos + sizeMod32 <= bytes.size) { "bytes must have at least size_mod32 bytes after pos" }
         val sizeMod4 = sizeMod32 and 3
         val remainder = sizeMod32 and 3.inv()
         val packet = ByteArray(32)
@@ -219,14 +211,20 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
 
         val hash = LongArray(4)
         modularReduction(
-            v1[1] + mul1[1], v1[0] + mul1[0],
-            v0[1] + mul0[1], v0[0] + mul0[0],
-            hash, 0
+            a3Unmasked = v1[1] + mul1[1],
+            a2 = v1[0] + mul1[0],
+            a1 = v0[1] + mul0[1],
+            a0 = v0[0] + mul0[0],
+            hash = hash,
+            pos = 0
         )
         modularReduction(
-            v1[3] + mul1[3], v1[2] + mul1[2],
-            v0[3] + mul0[3], v0[2] + mul0[2],
-            hash, 2
+            a3Unmasked = v1[3] + mul1[3],
+            a2 = v1[2] + mul1[2],
+            a1 = v0[3] + mul0[3],
+            a0 = v0[2] + mul0[2],
+            hash = hash,
+            pos = 2
         )
 
         reset()
@@ -247,10 +245,10 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
         v0[1] = mul0[1] xor key1
         v0[2] = mul0[2] xor key2
         v0[3] = mul0[3] xor key3
-        v1[0] = mul1[0] xor (key0 ushr 32 or (key0 shl 32))
-        v1[1] = mul1[1] xor (key1 ushr 32 or (key1 shl 32))
-        v1[2] = mul1[2] xor (key2 ushr 32 or (key2 shl 32))
-        v1[3] = mul1[3] xor (key3 ushr 32 or (key3 shl 32))
+        v1[0] = mul1[0] xor key0.rotateRight(32)
+        v1[1] = mul1[1] xor key1.rotateRight(32)
+        v1[2] = mul1[2] xor key2.rotateRight(32)
+        v1[3] = mul1[3] xor key3.rotateRight(32)
 
         bufferSize = 0
     }
@@ -282,8 +280,7 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
             val half0 = lanes[i] and 0xffffffffL
             val half1 = lanes[i] ushr 32 and 0xffffffffL
             lanes[i] = half0 shl count.toInt() and 0xffffffffL or (half0 ushr (32 - count).toInt())
-            lanes[i] = lanes[i] or ((half1 shl count.toInt() and 0xffffffffL or
-                    (half1 ushr (32 - count).toInt())) shl 32)
+            lanes[i] = lanes[i] or ((half1 shl count.toInt() and 0xffffffffL or (half1 ushr (32 - count).toInt())) shl 32)
         }
     }
 
@@ -361,7 +358,7 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
             64 -> longArrayOf(finalize64())
             128 -> finalize128()
             256 -> finalize256()
-            else -> throw IllegalStateException("Unsupported outputLengthBits ($outputLengthBits)")
+            else -> error("Unsupported outputLengthBits ($outputLengthBits)")
         }
 
         val digest = ByteArray(longDigest.size * 8)
@@ -381,8 +378,8 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
         val digest = digest()
 
-        if (length < digest.size) throw IllegalArgumentException("partial digests not returned")
-        if (output.size - offset < digest.size) throw IllegalArgumentException("insufficient space in the output buffer to store the digest")
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
 
         digest.copyInto(output, offset, 0, digest.size)
 

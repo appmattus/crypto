@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,9 +38,11 @@ internal class T1ha2_stream(private val seedX: ULong = 0u, private val seedY: UL
         get() = 32
 
     override fun copy(): T1ha2_stream {
-        return copyState(T1ha2_stream(seedX, seedY).apply {
-            state = this@T1ha2_stream.state.copy()
-        })
+        return copyState(
+            T1ha2_stream(seedX, seedY).apply {
+                state = this@T1ha2_stream.state.copy()
+            }
+        )
     }
 
     override fun toString() = "t1ha2-stream"

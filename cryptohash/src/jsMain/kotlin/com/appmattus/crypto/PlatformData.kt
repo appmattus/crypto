@@ -19,6 +19,7 @@ package com.appmattus.crypto
 /**
  * Represents the native platforms data type for Array like data. For JavaScript we are using [ByteArray]
  */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 actual typealias PlatformData = ByteArray
 
 /**

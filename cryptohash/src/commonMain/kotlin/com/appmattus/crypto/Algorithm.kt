@@ -25,47 +25,47 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Adler-32](https://en.wikipedia.org/wiki/Adler-32) with output size of 32 bits
      */
-    public object Adler32 : Algorithm("Adler32", 32)
+    public data object Adler32 : Algorithm("Adler32", 32)
 
     /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 224 bits
      */
-    public object BLAKE224 : Algorithm("BLAKE-224", 64)
+    public data object BLAKE224 : Algorithm("BLAKE-224", 64)
 
     /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 256 bits
      */
-    public object BLAKE256 : Algorithm("BLAKE-256", 64)
+    public data object BLAKE256 : Algorithm("BLAKE-256", 64)
 
     /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 384 bits
      */
-    public object BLAKE384 : Algorithm("BLAKE-384", 128)
+    public data object BLAKE384 : Algorithm("BLAKE-384", 128)
 
     /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 512 bits
      */
-    public object BLAKE512 : Algorithm("BLAKE-512", 128)
+    public data object BLAKE512 : Algorithm("BLAKE-512", 128)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 128 bits
      */
-    public object Blake2s_128 : Algorithm("BLAKE2S-128", 64)
+    public data object Blake2s_128 : Algorithm("BLAKE2S-128", 64)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 160 bits
      */
-    public object Blake2s_160 : Algorithm("BLAKE2S-160", 64)
+    public data object Blake2s_160 : Algorithm("BLAKE2S-160", 64)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 224 bits
      */
-    public object Blake2s_224 : Algorithm("BLAKE2S-224", 64)
+    public data object Blake2s_224 : Algorithm("BLAKE2S-224", 64)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 256 bits
      */
-    public object Blake2s_256 : Algorithm("BLAKE2S-256", 64)
+    public data object Blake2s_256 : Algorithm("BLAKE2S-256", 64)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of [outputSizeBits] bits (default: 256 bits)
@@ -86,22 +86,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 160 bits
      */
-    public object Blake2b_160 : Algorithm("BLAKE2B-160", 128)
+    public data object Blake2b_160 : Algorithm("BLAKE2B-160", 128)
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 256 bits
      */
-    public object Blake2b_256 : Algorithm("BLAKE2B-256", 128)
+    public data object Blake2b_256 : Algorithm("BLAKE2B-256", 128)
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 384 bits
      */
-    public object Blake2b_384 : Algorithm("BLAKE2B-384", 128)
+    public data object Blake2b_384 : Algorithm("BLAKE2B-384", 128)
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 512 bits
      */
-    public object Blake2b_512 : Algorithm("BLAKE2B-512", 128)
+    public data object Blake2b_512 : Algorithm("BLAKE2B-512", 128)
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of [outputSizeBits] bits (default: 512 bits)
@@ -161,7 +161,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [CityHash](https://github.com/google/cityhash) with output size of 32 bits
      */
-    public object CityHash32 : Algorithm("CityHash32", 4)
+    public data object CityHash32 : Algorithm("CityHash32", 4)
 
     /**
      * [CityHash](https://github.com/google/cityhash) with output size of 64 bits
@@ -201,25 +201,25 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [CityHash](https://github.com/google/cityhash) with output size of 256 bits
      */
-    public object CityHashCrc256 : Algorithm("CityHashCrc256", 32)
+    public data object CityHashCrc256 : Algorithm("CityHashCrc256", 32)
 
     /**
      * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Used by bzip.
      */
-    public object CRC32 : Algorithm("CRC32", 32)
+    public data object CRC32 : Algorithm("CRC32", 32)
 
     /**
      * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Used by ethernet (IEEE 802.3), gzip, zip, png, etc.
      */
-    public object CRC32B : Algorithm("CRC32B", 32)
+    public data object CRC32B : Algorithm("CRC32B", 32)
 
     /**
      * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Castagnoli's CRC, used by iSCSI, SCTP, Btrfs, ext4, etc.
      */
-    public object CRC32C : Algorithm("CRC32C", 32)
+    public data object CRC32C : Algorithm("CRC32C", 32)
 
     /**
      * [cSHAKE](https://keccak.team/keccak.html) with output size of 128 bits
@@ -240,42 +240,42 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 224 bits
      */
-    public object CubeHash224 : Algorithm("CubeHash-224", 32)
+    public data object CubeHash224 : Algorithm("CubeHash-224", 32)
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 256 bits
      */
-    public object CubeHash256 : Algorithm("CubeHash-256", 32)
+    public data object CubeHash256 : Algorithm("CubeHash-256", 32)
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 384 bits
      */
-    public object CubeHash384 : Algorithm("CubeHash-384", 32)
+    public data object CubeHash384 : Algorithm("CubeHash-384", 32)
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 512 bits
      */
-    public object CubeHash512 : Algorithm("CubeHash-512", 32)
+    public data object CubeHash512 : Algorithm("CubeHash-512", 32)
 
     /**
      * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 224 bits
      */
-    public object ECHO224 : Algorithm("ECHO-224", 192)
+    public data object ECHO224 : Algorithm("ECHO-224", 192)
 
     /**
      * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 256 bits
      */
-    public object ECHO256 : Algorithm("ECHO-256", 192)
+    public data object ECHO256 : Algorithm("ECHO-256", 192)
 
     /**
      * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 384 bits
      */
-    public object ECHO384 : Algorithm("ECHO-384", 128)
+    public data object ECHO384 : Algorithm("ECHO-384", 128)
 
     /**
      * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 512 bits
      */
-    public object ECHO512 : Algorithm("ECHO-512", 128)
+    public data object ECHO512 : Algorithm("ECHO-512", 128)
 
     /**
      * [FarmHash](https://github.com/google/farmhash) with output size of 32 bits
@@ -315,22 +315,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 224 bits
      */
-    public object Fugue224 : Algorithm("Fugue-224", 28)
+    public data object Fugue224 : Algorithm("Fugue-224", 28)
 
     /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 256 bits
      */
-    public object Fugue256 : Algorithm("Fugue-256", 32)
+    public data object Fugue256 : Algorithm("Fugue-256", 32)
 
     /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 384 bits
      */
-    public object Fugue384 : Algorithm("Fugue-384", 48)
+    public data object Fugue384 : Algorithm("Fugue-384", 48)
 
     /**
      * [Fugue](https://researcher.watson.ibm.com/researcher/files/us-csjutla/fugue_Oct09.pdf) with output size 512 bits
      */
-    public object Fugue512 : Algorithm("Fugue-512", 64)
+    public data object Fugue512 : Algorithm("Fugue-512", 64)
 
     /**
      * [GOST R 34.11-94](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 256 bits
@@ -350,127 +350,127 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Grøstl](https://www.groestl.info) with output size 224 bits
      */
-    public object Groestl224 : Algorithm("Groestl-224", 64)
+    public data object Groestl224 : Algorithm("Groestl-224", 64)
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 256 bits
      */
-    public object Groestl256 : Algorithm("Groestl-256", 64)
+    public data object Groestl256 : Algorithm("Groestl-256", 64)
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 384 bits
      */
-    public object Groestl384 : Algorithm("Groestl-384", 128)
+    public data object Groestl384 : Algorithm("Groestl-384", 128)
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 512 bits
      */
-    public object Groestl512 : Algorithm("Groestl-512", 128)
+    public data object Groestl512 : Algorithm("Groestl-512", 128)
 
     /**
      * [Hamsi](https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf) with output size 224 bits
      */
-    public object Hamsi224 : Algorithm("Hamsi-224", 32)
+    public data object Hamsi224 : Algorithm("Hamsi-224", 32)
 
     /**
      * [Hamsi](https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf) with output size 256 bits
      */
-    public object Hamsi256 : Algorithm("Hamsi-256", 32)
+    public data object Hamsi256 : Algorithm("Hamsi-256", 32)
 
     /**
      * [Hamsi](https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf) with output size 384 bits
      */
-    public object Hamsi384 : Algorithm("Hamsi-384", 32)
+    public data object Hamsi384 : Algorithm("Hamsi-384", 32)
 
     /**
      * [Hamsi](https://www.esat.kuleuven.be/cosic/publications/article-1203.pdf) with output size 512 bits
      */
-    public object Hamsi512 : Algorithm("Hamsi-512", 32)
+    public data object Hamsi512 : Algorithm("Hamsi-512", 32)
 
     /**
      * [Haraka v2](https://github.com/kste/haraka) with output size 256 bits
      */
-    public object Haraka256_256 : Algorithm("Haraka-256", 32)
+    public data object Haraka256_256 : Algorithm("Haraka-256", 32)
 
     /**
      * [Haraka v2](https://github.com/kste/haraka) with output size 256 bits
      */
-    public object Haraka512_256 : Algorithm("Haraka-512", 64)
+    public data object Haraka512_256 : Algorithm("Haraka-512", 64)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 128 bits
      */
-    public object HAVAL_3_128 : Algorithm("HAVAL-3-128", 128)
+    public data object HAVAL_3_128 : Algorithm("HAVAL-3-128", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 160 bits
      */
-    public object HAVAL_3_160 : Algorithm("HAVAL-3-160", 128)
+    public data object HAVAL_3_160 : Algorithm("HAVAL-3-160", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 192 bits
      */
-    public object HAVAL_3_192 : Algorithm("HAVAL-3-192", 128)
+    public data object HAVAL_3_192 : Algorithm("HAVAL-3-192", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 224 bits
      */
-    public object HAVAL_3_224 : Algorithm("HAVAL-3-224", 128)
+    public data object HAVAL_3_224 : Algorithm("HAVAL-3-224", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 3 rounds and output size 256 bits
      */
-    public object HAVAL_3_256 : Algorithm("HAVAL-3-256", 128)
+    public data object HAVAL_3_256 : Algorithm("HAVAL-3-256", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 128 bits
      */
-    public object HAVAL_4_128 : Algorithm("HAVAL-4-128", 128)
+    public data object HAVAL_4_128 : Algorithm("HAVAL-4-128", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 160 bits
      */
-    public object HAVAL_4_160 : Algorithm("HAVAL-4-160", 128)
+    public data object HAVAL_4_160 : Algorithm("HAVAL-4-160", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 192 bits
      */
-    public object HAVAL_4_192 : Algorithm("HAVAL-4-192", 128)
+    public data object HAVAL_4_192 : Algorithm("HAVAL-4-192", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 224 bits
      */
-    public object HAVAL_4_224 : Algorithm("HAVAL-4-224", 128)
+    public data object HAVAL_4_224 : Algorithm("HAVAL-4-224", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 4 rounds and output size 256 bits
      */
-    public object HAVAL_4_256 : Algorithm("HAVAL-4-256", 128)
+    public data object HAVAL_4_256 : Algorithm("HAVAL-4-256", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 128 bits
      */
-    public object HAVAL_5_128 : Algorithm("HAVAL-5-128", 128)
+    public data object HAVAL_5_128 : Algorithm("HAVAL-5-128", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 160 bits
      */
-    public object HAVAL_5_160 : Algorithm("HAVAL-5-160", 128)
+    public data object HAVAL_5_160 : Algorithm("HAVAL-5-160", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 192 bits
      */
-    public object HAVAL_5_192 : Algorithm("HAVAL-5-192", 128)
+    public data object HAVAL_5_192 : Algorithm("HAVAL-5-192", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 224 bits
      */
-    public object HAVAL_5_224 : Algorithm("HAVAL-5-224", 128)
+    public data object HAVAL_5_224 : Algorithm("HAVAL-5-224", 128)
 
     /**
      * [HAVAL](https://en.wikipedia.org/wiki/HAVAL) with 5 rounds and output size 256 bits
      */
-    public object HAVAL_5_256 : Algorithm("HAVAL-5-256", 128)
+    public data object HAVAL_5_256 : Algorithm("HAVAL-5-256", 128)
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 64 bits
@@ -496,22 +496,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 224 bits
      */
-    public object JH224 : Algorithm("JH-224", 64)
+    public data object JH224 : Algorithm("JH-224", 64)
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 256 bits
      */
-    public object JH256 : Algorithm("JH-256", 64)
+    public data object JH256 : Algorithm("JH-256", 64)
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 384 bits
      */
-    public object JH384 : Algorithm("JH-384", 64)
+    public data object JH384 : Algorithm("JH-384", 64)
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 512 bits
      */
-    public object JH512 : Algorithm("JH-512", 64)
+    public data object JH512 : Algorithm("JH-512", 64)
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 224 bits
@@ -541,37 +541,37 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 256 bits
      */
-    public object Kupyna_256 : Algorithm("Kupyna-256", 64)
+    public data object Kupyna_256 : Algorithm("Kupyna-256", 64)
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 384 bits
      */
-    public object Kupyna_384 : Algorithm("Kupyna-384", 128)
+    public data object Kupyna_384 : Algorithm("Kupyna-384", 128)
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 512 bits
      */
-    public object Kupyna_512 : Algorithm("Kupyna-512", 128)
+    public data object Kupyna_512 : Algorithm("Kupyna-512", 128)
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 224 bits
      */
-    public object Luffa224 : Algorithm("Luffa-224", 32)
+    public data object Luffa224 : Algorithm("Luffa-224", 32)
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 256 bits
      */
-    public object Luffa256 : Algorithm("Luffa-256", 32)
+    public data object Luffa256 : Algorithm("Luffa-256", 32)
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 384 bits
      */
-    public object Luffa384 : Algorithm("Luffa-384", 32)
+    public data object Luffa384 : Algorithm("Luffa-384", 32)
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 512 bits
      */
-    public object Luffa512 : Algorithm("Luffa-512", 32)
+    public data object Luffa512 : Algorithm("Luffa-512", 32)
 
     /**
      * [MetroHash](https://github.com/jandrewrogers/MetroHash) with output size of 64 bits
@@ -644,22 +644,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Panama](https://en.wikipedia.org/wiki/Panama_(cryptography)) with output size of 256 bits
      */
-    public object PANAMA : Algorithm("PANAMA", 32)
+    public data object PANAMA : Algorithm("PANAMA", 32)
 
     /**
      * [RadioGatún](https://en.wikipedia.org/wiki/RadioGatún) with 32-bit word width and output size of 256 bits
      */
-    public object RadioGatun32 : Algorithm("RadioGatún[32]", 156)
+    public data object RadioGatun32 : Algorithm("RadioGatún[32]", 156)
 
     /**
      * [RadioGatún](https://en.wikipedia.org/wiki/RadioGatún) with 64-bit word width and output size of 256 bits
      */
-    public object RadioGatun64 : Algorithm("RadioGatún[64]", 312)
+    public data object RadioGatun64 : Algorithm("RadioGatún[64]", 312)
 
     /**
      * Original [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 128 bits
      */
-    public object RipeMD : Algorithm("RipeMD", 64)
+    public data object RipeMD : Algorithm("RipeMD", 64)
 
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 128 bits
@@ -744,77 +744,77 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 192 bits
      */
-    public object Shabal192 : Algorithm("Shabal-192", 64)
+    public data object Shabal192 : Algorithm("Shabal-192", 64)
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 224 bits
      */
-    public object Shabal224 : Algorithm("Shabal-224", 64)
+    public data object Shabal224 : Algorithm("Shabal-224", 64)
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 256 bits
      */
-    public object Shabal256 : Algorithm("Shabal-256", 64)
+    public data object Shabal256 : Algorithm("Shabal-256", 64)
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 384 bits
      */
-    public object Shabal384 : Algorithm("Shabal-384", 64)
+    public data object Shabal384 : Algorithm("Shabal-384", 64)
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 512 bits
      */
-    public object Shabal512 : Algorithm("Shabal-512", 64)
+    public data object Shabal512 : Algorithm("Shabal-512", 64)
 
     /**
      * [SHAKE](https://keccak.team/keccak.html) with output size of 128 bits
      */
-    public object SHAKE128 : Algorithm("SHAKE128", 64)
+    public data object SHAKE128 : Algorithm("SHAKE128", 64)
 
     /**
      * [SHAKE](https://keccak.team/keccak.html) with output size of 256 bits
      */
-    public object SHAKE256 : Algorithm("SHAKE256", 128)
+    public data object SHAKE256 : Algorithm("SHAKE256", 128)
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 224 bits
      */
-    public object SHAvite224 : Algorithm("SHAvite-224", 64)
+    public data object SHAvite224 : Algorithm("SHAvite-224", 64)
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 256 bits
      */
-    public object SHAvite256 : Algorithm("SHAvite-256", 64)
+    public data object SHAvite256 : Algorithm("SHAvite-256", 64)
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 384 bits
      */
-    public object SHAvite384 : Algorithm("SHAvite-384", 128)
+    public data object SHAvite384 : Algorithm("SHAvite-384", 128)
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 512 bits
      */
-    public object SHAvite512 : Algorithm("SHAvite-512", 128)
+    public data object SHAvite512 : Algorithm("SHAvite-512", 128)
 
     /**
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 224 bits
      */
-    public object SIMD224 : Algorithm("SIMD-224", 64)
+    public data object SIMD224 : Algorithm("SIMD-224", 64)
 
     /**
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 256 bits
      */
-    public object SIMD256 : Algorithm("SIMD-256", 64)
+    public data object SIMD256 : Algorithm("SIMD-256", 64)
 
     /**
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 384 bits
      */
-    public object SIMD384 : Algorithm("SIMD-384", 128)
+    public data object SIMD384 : Algorithm("SIMD-384", 128)
 
     /**
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 512 bits
      */
-    public object SIMD512 : Algorithm("SIMD-512", 128)
+    public data object SIMD512 : Algorithm("SIMD-512", 128)
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 128 bits
@@ -940,7 +940,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Tiger2](https://www.cs.technion.ac.il/~biham/Reports/Tiger/) with output size of 192 bits
      */
-    public object Tiger2 : Algorithm("Tiger2", 64)
+    public data object Tiger2 : Algorithm("Tiger2", 64)
 
     /**
      * Latest version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
@@ -950,12 +950,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * Original version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
      */
-    public object Whirlpool0 : Algorithm("Whirlpool-0", 64)
+    public data object Whirlpool0 : Algorithm("Whirlpool-0", 64)
 
     /**
      * First version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
      */
-    public object WhirlpoolT : Algorithm("Whirlpool-T", 64)
+    public data object WhirlpoolT : Algorithm("Whirlpool-T", 64)
 
     /**
      * [wyhash](https://github.com/wangyi-fudan/wyhash) with output size of 64 bits

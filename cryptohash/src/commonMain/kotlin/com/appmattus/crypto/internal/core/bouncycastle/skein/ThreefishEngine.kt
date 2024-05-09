@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -125,7 +125,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
          */
         // Package protected for efficient access from inner class
         fun rotlXor(x: Long, n: Int, xor: Long): Long {
-            return x shl n or (x ushr -n) xor xor
+            return x.rotateLeft(n) xor xor
         }
 
         /**
@@ -133,8 +133,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
          */
         // Package protected for efficient access from inner class
         fun xorRotr(x: Long, n: Int, xor: Long): Long {
-            val xored = x xor xor
-            return xored ushr n or (xored shl -n)
+            return (x xor xor).rotateRight(n)
         }
 
         init {
@@ -188,34 +187,27 @@ internal class ThreefishEngine(blocksizeBits: Int) {
     fun init(forEncryption: Boolean, params: CipherParameters) {
         val keyBytes: ByteArray
         val tweakBytes: ByteArray?
-        if (params is TweakableBlockCipherParameters) {
-            keyBytes = params.key.key
-            tweakBytes = params.tweak
-        } else if (params is KeyParameter) {
-            keyBytes = params.key
-            tweakBytes = null
-        } else {
-            throw IllegalArgumentException(
-                "Invalid parameter passed to Threefish init - " +
-                        params::class.simpleName
-            )
+        when (params) {
+            is TweakableBlockCipherParameters -> {
+                keyBytes = params.key.key
+                tweakBytes = params.tweak
+            }
+
+            is KeyParameter -> {
+                keyBytes = params.key
+                tweakBytes = null
+            }
+
+            else -> throw IllegalArgumentException("Invalid parameter passed to Threefish init - ${params::class.simpleName}")
         }
-        var keyWords: LongArray?
         var tweakWords: LongArray? = null
-        if (keyBytes.size != blockSize) {
-            throw IllegalArgumentException(
-                "Threefish key must be same size as block (" + blockSize +
-                        " bytes)"
-            )
-        }
-        keyWords = LongArray(blocksizeWords)
+        require(keyBytes.size == blockSize) { "Threefish key must be same size as block ($blockSize bytes)" }
+        val keyWords = LongArray(blocksizeWords)
         for (i in keyWords.indices) {
             keyWords[i] = decodeLELong(keyBytes, i * 8)
         }
         if (tweakBytes != null) {
-            if (tweakBytes.size != TWEAK_SIZE_BYTES) {
-                throw IllegalArgumentException("Threefish tweak must be " + TWEAK_SIZE_BYTES + " bytes")
-            }
+            require(tweakBytes.size == TWEAK_SIZE_BYTES) { "Threefish tweak must be $TWEAK_SIZE_BYTES bytes" }
             tweakWords = longArrayOf(decodeLELong(tweakBytes, 0), decodeLELong(tweakBytes, 8))
         }
         init(forEncryption, keyWords, tweakWords)
@@ -235,12 +227,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
     }
 
     private fun setKey(key: LongArray) {
-        if (key.size != blocksizeWords) {
-            throw IllegalArgumentException(
-                "Threefish key must be same size as block (" + blocksizeWords +
-                        " words)"
-            )
-        }
+        require(key.size == blocksizeWords) { "Threefish key must be same size as block ($blocksizeWords words)" }
 
         /*
          * Full subkey schedule is deferred to execution to avoid per cipher overhead (10k for 512,
@@ -259,9 +246,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
     }
 
     private fun setTweak(tweak: LongArray) {
-        if (tweak.size != TWEAK_SIZE_WORDS) {
-            throw IllegalArgumentException("Tweak must be " + TWEAK_SIZE_WORDS + " words.")
-        }
+        require(tweak.size == TWEAK_SIZE_WORDS) { "Tweak must be $TWEAK_SIZE_WORDS words." }
 
         /*
          * Tweak schedule partially repeated to avoid mod computations during cipher operation
@@ -311,9 +296,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
      */
     @Suppress("ThrowsCount")
     fun processBlock(input: LongArray, out: LongArray): Int {
-        if (kw[blocksizeWords] == 0L) {
-            throw IllegalStateException("Threefish engine not initialised")
-        }
+        check(kw[blocksizeWords] != 0L) { "Threefish engine not initialised" }
         if (input.size != blocksizeWords) {
             throw DataLengthException("Input buffer too short")
         }
@@ -351,12 +334,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 9) {
-                throw IllegalArgumentException("Incorrect kw size, should be 9 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 9) { "Incorrect kw size, should be 9 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
 
             /*
              * Read 4 words of plaintext data, not using arrays for cipher state
@@ -395,14 +374,14 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                  * Permute schedule has a 2 round cycle, so permutes are inlined in the mix
                  * operations in each 4 round block.
                  */
-                b1 = rotlXor(b1, ROTATION_0_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_0_1, b3.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_1_0, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_1_1, b1.let { b2 += it; b2 })
-                b1 = rotlXor(b1, ROTATION_2_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_2_1, b3.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_3_0, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_3_1, b1.let { b2 += it; b2 })
+                b1 = rotlXor(b1, ROTATION_0_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_0_1, (b2 + b3).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_1_0, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_1_1, (b2 + b1).also { b2 = it })
+                b1 = rotlXor(b1, ROTATION_2_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_2_1, (b2 + b3).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_3_0, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_3_1, (b2 + b1).also { b2 = it })
 
                 /*
                  * Subkey injection for first 4 rounds.
@@ -415,14 +394,14 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                 /*
                  * 4 more rounds of mix/permute
                  */
-                b1 = rotlXor(b1, ROTATION_4_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_4_1, b3.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_5_0, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_5_1, b1.let { b2 += it; b2 })
-                b1 = rotlXor(b1, ROTATION_6_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_6_1, b3.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_7_0, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_7_1, b1.let { b2 += it; b2 })
+                b1 = rotlXor(b1, ROTATION_4_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_4_1, (b2 + b3).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_5_0, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_5_1, (b2 + b1).also { b2 = it })
+                b1 = rotlXor(b1, ROTATION_6_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_6_1, (b2 + b3).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_7_0, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_7_1, (b2 + b1).also { b2 = it })
 
                 /*
                  * Subkey injection for next 4 rounds.
@@ -451,12 +430,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 9) {
-                throw IllegalArgumentException("Incorrect kw size, should be 9 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 9) { "Incorrect kw size, should be 9 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
             var b0 = block[0]
             var b1 = block[1]
             var b2 = block[2]
@@ -565,12 +540,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 17) {
-                throw IllegalArgumentException("Incorrect kw size, should be 17 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 17) { "Incorrect kw size, should be 17 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
 
             /*
              * Read 8 words of plaintext data, not using arrays for cipher state
@@ -607,6 +578,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
              * inlining constant rotation values (avoiding array index/lookup).
              */
             var d = 1
+            @Suppress("Wrapping")
             while (d < ROUNDS_512 / 4) {
                 val dm9 = mod9[d]
                 val dm3 = mod3[d]
@@ -617,22 +589,22 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                  * Permute schedule has a 4 round cycle, so permutes are inlined in the mix
                  * operations in each 4 round block.
                  */
-                b1 = rotlXor(b1, ROTATION_0_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_0_1, b3.let { b2 += it; b2 })
-                b5 = rotlXor(b5, ROTATION_0_2, b5.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_0_3, b7.let { b6 += it; b6 })
-                b1 = rotlXor(b1, ROTATION_1_0, b1.let { b2 += it; b2 })
-                b7 = rotlXor(b7, ROTATION_1_1, b7.let { b4 += it; b4 })
-                b5 = rotlXor(b5, ROTATION_1_2, b5.let { b6 += it; b6 })
-                b3 = rotlXor(b3, ROTATION_1_3, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_2_0, b1.let { b4 += it; b4 })
-                b3 = rotlXor(b3, ROTATION_2_1, b3.let { b6 += it; b6 })
-                b5 = rotlXor(b5, ROTATION_2_2, b5.let { b0 += it; b0 })
-                b7 = rotlXor(b7, ROTATION_2_3, b7.let { b2 += it; b2 })
-                b1 = rotlXor(b1, ROTATION_3_0, b1.let { b6 += it; b6 })
-                b7 = rotlXor(b7, ROTATION_3_1, b7.let { b0 += it; b0 })
-                b5 = rotlXor(b5, ROTATION_3_2, b5.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_3_3, b3.let { b4 += it; b4 })
+                b1 = rotlXor(b1, ROTATION_0_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_0_1, (b2 + b3).also { b2 = it })
+                b5 = rotlXor(b5, ROTATION_0_2, (b4 + b5).also { b4 = it })
+                b7 = rotlXor(b7, ROTATION_0_3, (b6 + b7).also { b6 = it })
+                b1 = rotlXor(b1, ROTATION_1_0, (b2 + b1).also { b2 = it })
+                b7 = rotlXor(b7, ROTATION_1_1, (b4 + b7).also { b4 = it })
+                b5 = rotlXor(b5, ROTATION_1_2, (b6 + b5).also { b6 = it })
+                b3 = rotlXor(b3, ROTATION_1_3, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_2_0, (b4 + b1).also { b4 = it })
+                b3 = rotlXor(b3, ROTATION_2_1, (b6 + b3).also { b6 = it })
+                b5 = rotlXor(b5, ROTATION_2_2, (b0 + b5).also { b0 = it })
+                b7 = rotlXor(b7, ROTATION_2_3, (b2 + b7).also { b2 = it })
+                b1 = rotlXor(b1, ROTATION_3_0, (b6 + b1).also { b6 = it })
+                b7 = rotlXor(b7, ROTATION_3_1, (b0 + b7).also { b0 = it })
+                b5 = rotlXor(b5, ROTATION_3_2, (b2 + b5).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_3_3, (b4 + b3).also { b4 = it })
 
                 /*
                  * Subkey injection for first 4 rounds.
@@ -649,22 +621,22 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                 /*
                  * 4 more rounds of mix/permute
                  */
-                b1 = rotlXor(b1, ROTATION_4_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_4_1, b3.let { b2 += it; b2 })
-                b5 = rotlXor(b5, ROTATION_4_2, b5.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_4_3, b7.let { b6 += it; b6 })
-                b1 = rotlXor(b1, ROTATION_5_0, b1.let { b2 += it; b2 })
-                b7 = rotlXor(b7, ROTATION_5_1, b7.let { b4 += it; b4 })
-                b5 = rotlXor(b5, ROTATION_5_2, b5.let { b6 += it; b6 })
-                b3 = rotlXor(b3, ROTATION_5_3, b3.let { b0 += it; b0 })
-                b1 = rotlXor(b1, ROTATION_6_0, b1.let { b4 += it; b4 })
-                b3 = rotlXor(b3, ROTATION_6_1, b3.let { b6 += it; b6 })
-                b5 = rotlXor(b5, ROTATION_6_2, b5.let { b0 += it; b0 })
-                b7 = rotlXor(b7, ROTATION_6_3, b7.let { b2 += it; b2 })
-                b1 = rotlXor(b1, ROTATION_7_0, b1.let { b6 += it; b6 })
-                b7 = rotlXor(b7, ROTATION_7_1, b7.let { b0 += it; b0 })
-                b5 = rotlXor(b5, ROTATION_7_2, b5.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_7_3, b3.let { b4 += it; b4 })
+                b1 = rotlXor(b1, ROTATION_4_0, (b0 + b1).also { b0 = it })
+                b3 = rotlXor(b3, ROTATION_4_1, (b2 + b3).also { b2 = it })
+                b5 = rotlXor(b5, ROTATION_4_2, (b4 + b5).also { b4 = it })
+                b7 = rotlXor(b7, ROTATION_4_3, (b6 + b7).also { b6 = it })
+                b1 = rotlXor(b1, ROTATION_5_0, (b2 + b1).also { b2 = it })
+                b7 = rotlXor(b7, ROTATION_5_1, (b4 + b7).also { b4 = it })
+                b5 = rotlXor(b5, ROTATION_5_2, (b6 + b5).also { b6 = it })
+                b3 = rotlXor(b3, ROTATION_5_3, (b0 + b3).also { b0 = it })
+                b1 = rotlXor(b1, ROTATION_6_0, (b4 + b1).also { b4 = it })
+                b3 = rotlXor(b3, ROTATION_6_1, (b6 + b3).also { b6 = it })
+                b5 = rotlXor(b5, ROTATION_6_2, (b0 + b5).also { b0 = it })
+                b7 = rotlXor(b7, ROTATION_6_3, (b2 + b7).also { b2 = it })
+                b1 = rotlXor(b1, ROTATION_7_0, (b6 + b1).also { b6 = it })
+                b7 = rotlXor(b7, ROTATION_7_1, (b0 + b7).also { b0 = it })
+                b5 = rotlXor(b5, ROTATION_7_2, (b2 + b5).also { b2 = it })
+                b3 = rotlXor(b3, ROTATION_7_3, (b4 + b3).also { b4 = it })
 
                 /*
                  * Subkey injection for next 4 rounds.
@@ -701,12 +673,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 17) {
-                throw IllegalArgumentException("Incorrect kw size, should be 17 but is ${t.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 17) { "Incorrect kw size, should be 17 but is ${t.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
             var b0 = block[0]
             var b1 = block[1]
             var b2 = block[2]
@@ -883,12 +851,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 33) {
-                throw IllegalArgumentException("Incorrect kw size, should be 33 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 33) { "Incorrect kw size, should be 33 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
 
             /*
              * Read 16 words of plaintext data, not using arrays for cipher state
@@ -941,6 +905,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
              * inlining constant rotation values (avoiding array index/lookup).
              */
             var d = 1
+            @Suppress("Wrapping")
             while (d < ROUNDS_1024 / 4) {
                 val dm17 = mod17[d]
                 val dm3 = mod3[d]
@@ -951,38 +916,70 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                  * Permute schedule has a 4 round cycle, so permutes are inlined in the mix
                  * operations in each 4 round block.
                  */
-                b1 = rotlXor(b1, ROTATION_0_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_0_1, b3.let { b2 += it; b2 })
-                b5 = rotlXor(b5, ROTATION_0_2, b5.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_0_3, b7.let { b6 += it; b6 })
-                b9 = rotlXor(b9, ROTATION_0_4, b9.let { b8 += it; b8 })
-                b11 = rotlXor(b11, ROTATION_0_5, b11.let { b10 += it; b10 })
-                b13 = rotlXor(b13, ROTATION_0_6, b13.let { b12 += it; b12 })
-                b15 = rotlXor(b15, ROTATION_0_7, b15.let { b14 += it; b14 })
-                b9 = rotlXor(b9, ROTATION_1_0, b9.let { b0 += it; b0 })
-                b13 = rotlXor(b13, ROTATION_1_1, b13.let { b2 += it; b2 })
-                b11 = rotlXor(b11, ROTATION_1_2, b11.let { b6 += it; b6 })
-                b15 = rotlXor(b15, ROTATION_1_3, b15.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_1_4, b7.let { b10 += it; b10 })
-                b3 = rotlXor(b3, ROTATION_1_5, b3.let { b12 += it; b12 })
-                b5 = rotlXor(b5, ROTATION_1_6, b5.let { b14 += it; b14 })
-                b1 = rotlXor(b1, ROTATION_1_7, b1.let { b8 += it; b8 })
-                b7 = rotlXor(b7, ROTATION_2_0, b7.let { b0 += it; b0 })
-                b5 = rotlXor(b5, ROTATION_2_1, b5.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_2_2, b3.let { b4 += it; b4 })
-                b1 = rotlXor(b1, ROTATION_2_3, b1.let { b6 += it; b6 })
-                b15 = rotlXor(b15, ROTATION_2_4, b15.let { b12 += it; b12 })
-                b13 = rotlXor(b13, ROTATION_2_5, b13.let { b14 += it; b14 })
-                b11 = rotlXor(b11, ROTATION_2_6, b11.let { b8 += it; b8 })
-                b9 = rotlXor(b9, ROTATION_2_7, b9.let { b10 += it; b10 })
-                b15 = rotlXor(b15, ROTATION_3_0, b15.let { b0 += it; b0 })
-                b11 = rotlXor(b11, ROTATION_3_1, b11.let { b2 += it; b2 })
-                b13 = rotlXor(b13, ROTATION_3_2, b13.let { b6 += it; b6 })
-                b9 = rotlXor(b9, ROTATION_3_3, b9.let { b4 += it; b4 })
-                b1 = rotlXor(b1, ROTATION_3_4, b1.let { b14 += it; b14 })
-                b5 = rotlXor(b5, ROTATION_3_5, b5.let { b8 += it; b8 })
-                b3 = rotlXor(b3, ROTATION_3_6, b3.let { b10 += it; b10 })
-                b7 = rotlXor(b7, ROTATION_3_7, b7.let { b12 += it; b12 })
+                b0 += b1
+                b1 = rotlXor(b1, ROTATION_0_0, b0)
+                b2 += b3
+                b3 = rotlXor(b3, ROTATION_0_1, b2)
+                b4 += b5
+                b5 = rotlXor(b5, ROTATION_0_2, b4)
+                b6 += b7
+                b7 = rotlXor(b7, ROTATION_0_3, b6)
+                b8 += b9
+                b9 = rotlXor(b9, ROTATION_0_4, b8)
+                b10 += b11
+                b11 = rotlXor(b11, ROTATION_0_5, b10)
+                b12 += b13
+                b13 = rotlXor(b13, ROTATION_0_6, b12)
+                b14 += b15
+                b15 = rotlXor(b15, ROTATION_0_7, b14)
+                b0 += b9
+                b9 = rotlXor(b9, ROTATION_1_0, b0)
+                b2 += b13
+                b13 = rotlXor(b13, ROTATION_1_1, b2)
+                b6 += b11
+                b11 = rotlXor(b11, ROTATION_1_2, b6)
+                b4 += b15
+                b15 = rotlXor(b15, ROTATION_1_3, b4)
+                b10 += b7
+                b7 = rotlXor(b7, ROTATION_1_4, b10)
+                b12 += b3
+                b3 = rotlXor(b3, ROTATION_1_5, b12)
+                b14 += b5
+                b5 = rotlXor(b5, ROTATION_1_6, b14)
+                b8 += b1
+                b1 = rotlXor(b1, ROTATION_1_7, b8)
+                b0 += b7
+                b7 = rotlXor(b7, ROTATION_2_0, b0)
+                b2 += b5
+                b5 = rotlXor(b5, ROTATION_2_1, b2)
+                b4 += b3
+                b3 = rotlXor(b3, ROTATION_2_2, b4)
+                b6 += b1
+                b1 = rotlXor(b1, ROTATION_2_3, b6)
+                b12 += b15
+                b15 = rotlXor(b15, ROTATION_2_4, b12)
+                b14 += b13
+                b13 = rotlXor(b13, ROTATION_2_5, b14)
+                b8 += b11
+                b11 = rotlXor(b11, ROTATION_2_6, b8)
+                b10 += b9
+                b9 = rotlXor(b9, ROTATION_2_7, b10)
+                b0 += b15
+                b15 = rotlXor(b15, ROTATION_3_0, b0)
+                b2 += b11
+                b11 = rotlXor(b11, ROTATION_3_1, b2)
+                b6 += b13
+                b13 = rotlXor(b13, ROTATION_3_2, b6)
+                b4 += b9
+                b9 = rotlXor(b9, ROTATION_3_3, b4)
+                b14 += b1
+                b1 = rotlXor(b1, ROTATION_3_4, b14)
+                b8 += b5
+                b5 = rotlXor(b5, ROTATION_3_5, b8)
+                b10 += b3
+                b3 = rotlXor(b3, ROTATION_3_6, b10)
+                b12 += b7
+                b7 = rotlXor(b7, ROTATION_3_7, b12)
 
                 /*
                  * Subkey injection for first 4 rounds.
@@ -1007,38 +1004,70 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                 /*
                  * 4 more rounds of mix/permute
                  */
-                b1 = rotlXor(b1, ROTATION_4_0, b1.let { b0 += it; b0 })
-                b3 = rotlXor(b3, ROTATION_4_1, b3.let { b2 += it; b2 })
-                b5 = rotlXor(b5, ROTATION_4_2, b5.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_4_3, b7.let { b6 += it; b6 })
-                b9 = rotlXor(b9, ROTATION_4_4, b9.let { b8 += it; b8 })
-                b11 = rotlXor(b11, ROTATION_4_5, b11.let { b10 += it; b10 })
-                b13 = rotlXor(b13, ROTATION_4_6, b13.let { b12 += it; b12 })
-                b15 = rotlXor(b15, ROTATION_4_7, b15.let { b14 += it; b14 })
-                b9 = rotlXor(b9, ROTATION_5_0, b9.let { b0 += it; b0 })
-                b13 = rotlXor(b13, ROTATION_5_1, b13.let { b2 += it; b2 })
-                b11 = rotlXor(b11, ROTATION_5_2, b11.let { b6 += it; b6 })
-                b15 = rotlXor(b15, ROTATION_5_3, b15.let { b4 += it; b4 })
-                b7 = rotlXor(b7, ROTATION_5_4, b7.let { b10 += it; b10 })
-                b3 = rotlXor(b3, ROTATION_5_5, b3.let { b12 += it; b12 })
-                b5 = rotlXor(b5, ROTATION_5_6, b5.let { b14 += it; b14 })
-                b1 = rotlXor(b1, ROTATION_5_7, b1.let { b8 += it; b8 })
-                b7 = rotlXor(b7, ROTATION_6_0, b7.let { b0 += it; b0 })
-                b5 = rotlXor(b5, ROTATION_6_1, b5.let { b2 += it; b2 })
-                b3 = rotlXor(b3, ROTATION_6_2, b3.let { b4 += it; b4 })
-                b1 = rotlXor(b1, ROTATION_6_3, b1.let { b6 += it; b6 })
-                b15 = rotlXor(b15, ROTATION_6_4, b15.let { b12 += it; b12 })
-                b13 = rotlXor(b13, ROTATION_6_5, b13.let { b14 += it; b14 })
-                b11 = rotlXor(b11, ROTATION_6_6, b11.let { b8 += it; b8 })
-                b9 = rotlXor(b9, ROTATION_6_7, b9.let { b10 += it; b10 })
-                b15 = rotlXor(b15, ROTATION_7_0, b15.let { b0 += it; b0 })
-                b11 = rotlXor(b11, ROTATION_7_1, b11.let { b2 += it; b2 })
-                b13 = rotlXor(b13, ROTATION_7_2, b13.let { b6 += it; b6 })
-                b9 = rotlXor(b9, ROTATION_7_3, b9.let { b4 += it; b4 })
-                b1 = rotlXor(b1, ROTATION_7_4, b1.let { b14 += it; b14 })
-                b5 = rotlXor(b5, ROTATION_7_5, b5.let { b8 += it; b8 })
-                b3 = rotlXor(b3, ROTATION_7_6, b3.let { b10 += it; b10 })
-                b7 = rotlXor(b7, ROTATION_7_7, b7.let { b12 += it; b12 })
+                b0 += b1
+                b1 = rotlXor(b1, ROTATION_4_0, b0)
+                b2 += b3
+                b3 = rotlXor(b3, ROTATION_4_1, b2)
+                b4 += b5
+                b5 = rotlXor(b5, ROTATION_4_2, b4)
+                b6 += b7
+                b7 = rotlXor(b7, ROTATION_4_3, b6)
+                b8 += b9
+                b9 = rotlXor(b9, ROTATION_4_4, b8)
+                b10 += b11
+                b11 = rotlXor(b11, ROTATION_4_5, b10)
+                b12 += b13
+                b13 = rotlXor(b13, ROTATION_4_6, b12)
+                b14 += b15
+                b15 = rotlXor(b15, ROTATION_4_7, b14)
+                b0 += b9
+                b9 = rotlXor(b9, ROTATION_5_0, b0)
+                b2 += b13
+                b13 = rotlXor(b13, ROTATION_5_1, b2)
+                b6 += b11
+                b11 = rotlXor(b11, ROTATION_5_2, b6)
+                b4 += b15
+                b15 = rotlXor(b15, ROTATION_5_3, b4)
+                b10 += b7
+                b7 = rotlXor(b7, ROTATION_5_4, b10)
+                b12 += b3
+                b3 = rotlXor(b3, ROTATION_5_5, b12)
+                b14 += b5
+                b5 = rotlXor(b5, ROTATION_5_6, b14)
+                b8 += b1
+                b1 = rotlXor(b1, ROTATION_5_7, b8)
+                b0 += b7
+                b7 = rotlXor(b7, ROTATION_6_0, b0)
+                b2 += b5
+                b5 = rotlXor(b5, ROTATION_6_1, b2)
+                b4 += b3
+                b3 = rotlXor(b3, ROTATION_6_2, b4)
+                b6 += b1
+                b1 = rotlXor(b1, ROTATION_6_3, b6)
+                b12 += b15
+                b15 = rotlXor(b15, ROTATION_6_4, b12)
+                b14 += b13
+                b13 = rotlXor(b13, ROTATION_6_5, b14)
+                b8 += b11
+                b11 = rotlXor(b11, ROTATION_6_6, b8)
+                b10 += b9
+                b9 = rotlXor(b9, ROTATION_6_7, b10)
+                b0 += b15
+                b15 = rotlXor(b15, ROTATION_7_0, b0)
+                b2 += b11
+                b11 = rotlXor(b11, ROTATION_7_1, b2)
+                b6 += b13
+                b13 = rotlXor(b13, ROTATION_7_2, b6)
+                b4 += b9
+                b9 = rotlXor(b9, ROTATION_7_3, b4)
+                b14 += b1
+                b1 = rotlXor(b1, ROTATION_7_4, b14)
+                b8 += b5
+                b5 = rotlXor(b5, ROTATION_7_5, b8)
+                b10 += b3
+                b3 = rotlXor(b3, ROTATION_7_6, b10)
+                b12 += b7
+                b7 = rotlXor(b7, ROTATION_7_7, b12)
 
                 /*
                  * Subkey injection for next 4 rounds.
@@ -1091,12 +1120,8 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             val mod3 = MOD3
 
             /* Help the JIT avoid index bounds checks */
-            if (kw.size != 33) {
-                throw IllegalArgumentException("Incorrect kw size, should be 33 but is ${kw.size}")
-            }
-            if (t.size != 5) {
-                throw IllegalArgumentException("Incorrect t size, should be 5 but is ${t.size}")
-            }
+            require(kw.size == 33) { "Incorrect kw size, should be 33 but is ${kw.size}" }
+            require(t.size == 5) { "Incorrect t size, should be 5 but is ${t.size}" }
             var b0 = block[0]
             var b1 = block[1]
             var b2 = block[2]
@@ -1411,14 +1436,17 @@ internal class ThreefishEngine(blocksizeBits: Int) {
                 kw,
                 t
             )
+
             BLOCKSIZE_512 -> Threefish512Cipher(
                 kw,
                 t
             )
+
             BLOCKSIZE_1024 -> Threefish1024Cipher(
                 kw,
                 t
             )
+
             else -> throw IllegalArgumentException(
                 "Invalid blocksize - Threefish is defined with block size of 256, 512, or 1024 bits"
             )

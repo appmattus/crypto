@@ -15,7 +15,7 @@ import SwiftUI
 // limitations under the License.
 //
 
-import shared
+import Shared
 
 struct ContentView: View {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,9 +54,7 @@ class HmacSHA1Test {
             "2D51B2F7750E410584662E38F133435F4C4FD42A"
         )
 
-        /*
-		 * From FIPS 198a.
-		 */
+        // From FIPS 198a.
         testKat(
             {
                 HMAC(
@@ -85,11 +83,7 @@ class HmacSHA1Test {
                 HMAC(
                     SHA1(),
                     strtobin(
-                        ("505152535455565758595A5B5C5D5E5F606162636" +
-                                "465666768696A6B6C6D6E6F70717273747576777" +
-                                "8797A7B7C7D7E7F808182838485868788898A8B8" +
-                                "C8D8E8F909192939495969798999A9B9C9D9E9FA" +
-                                "0A1A2A3A4A5A6A7A8A9AAABACADAEAFB0B1B2B3")
+                        "505152535455565758595A5B5C5D5E5F606162636465666768696A6B6C6D6E6F707172737475767778797A7B7C7D7E7F808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9FA0A1A2A3A4A5A6A7A8A9AAABACADAEAFB0B1B2B3"
                     )
                 )
             }, "Sample #3",
@@ -99,11 +93,8 @@ class HmacSHA1Test {
             {
                 HMAC(
                     SHA1(),
-                    strtobin(
-                        ("707172737475767778797A7B7C7D7E7F808182838" +
-                                "485868788898A8B8C8D8E8F90919293949596979" +
-                                "8999A9B9C9D9E9FA0")
-                    ), 12
+                    strtobin("707172737475767778797A7B7C7D7E7F808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9FA0"),
+                    12
                 )
             }, "Sample #4",
             "9EA886EFE268DBECCE420C75"

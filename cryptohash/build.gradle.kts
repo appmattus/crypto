@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
@@ -30,210 +28,117 @@ plugins {
 val hostOs: String = System.getProperty("os.name")
 
 kotlin {
+    jvmToolchain(11)
+
     explicitApi()
 
     jvm()
 
-    // Darwin
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
-    tvosArm64()
-    tvosX64()
+    /* Disabled - Unit test failures, Blake, CubeHash, Haval, Luffa, SHA3, SHAKE, Tiger, cShake, HMac
+       js {
+           browser()
+           nodejs()
+           binaries.executable()
+       }
+     */
+
+    // Tier 1
+    // Apple macOS hosts only:
+    macosX64() // Running tests
+    macosArm64() // Running tests
+    iosSimulatorArm64() // Running tests
+    iosX64() // Running tests
+
+    // Tier 2
+    linuxX64() // Running tests
+    linuxArm64()
+    // Apple macOS hosts only:
+    watchosSimulatorArm64() // Running tests
+    watchosX64() // Running tests
     watchosArm32()
     watchosArm64()
-    watchosX64()
-    macosArm64()
-    macosX64()
+    tvosSimulatorArm64() // Running tests
+    tvosX64() // Running tests
+    tvosArm64()
+    iosArm64()
 
-    /* Disabled - Unit test failures, Blake, CubeHash, Haval, Luffa, SHA3, SHAKE, Tiger, cShake, HMac
-    js {
-        browser()
-        nodejs()
-        binaries.executable()
-    }
-    */
+    // Tier 3
+    androidNativeArm32()
+    androidNativeArm64()
+    androidNativeX86()
+    androidNativeX64()
+    mingwX64() // Running tests
+    // Apple macOS hosts only:
+    watchosDeviceArm64()
 
-    // Linux
-    linuxX64()
-    linuxArm32Hfp()
-    linuxArm64()
-    linuxMips32()
-    linuxMipsel32()
+    // Apply the default hierarchy again. It'll create, for example, the iosMain source set:
+    applyDefaultHierarchyTemplate()
 
-    // Windows
-    mingwX64()
-    mingwX86()
-
+    @Suppress("UnusedPrivateMember")
     sourceSets {
-        val commonMain by getting
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-            }
+        val androidAndLinuxAndMingwMain by creating {
+            dependsOn(commonMain.get())
         }
-        val jvmMain by getting
-        val jvmTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation("org.bouncycastle:bcprov-jdk15to18:1.70")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
-            }
+        val androidAndLinuxAndMingwTest by creating {
+            dependsOn(commonTest.get())
+        }
+        val apple64Main by creating {
+            dependsOn(appleMain.get())
+        }
+        val apple32Main by creating {
+            dependsOn(appleMain.get())
+        }
+
+        linuxMain.get().dependsOn(androidAndLinuxAndMingwMain)
+        mingwMain.get().dependsOn(androidAndLinuxAndMingwMain)
+        androidNativeMain.get().dependsOn(androidAndLinuxAndMingwMain)
+        linuxTest.get().dependsOn(androidAndLinuxAndMingwTest)
+        mingwTest.get().dependsOn(androidAndLinuxAndMingwTest)
+        androidNativeTest.get().dependsOn(androidAndLinuxAndMingwTest)
+
+        val macosX64Main by getting { dependsOn(apple64Main) }
+        val macosArm64Main by getting { dependsOn(apple64Main) }
+        val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val iosX64Main by getting { dependsOn(apple64Main) }
+        val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val watchosX64Main by getting { dependsOn(apple64Main) }
+        val watchosArm32Main by getting { dependsOn(apple32Main) }
+        val watchosArm64Main by getting { dependsOn(apple32Main) }
+        val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val tvosX64Main by getting { dependsOn(apple64Main) }
+        val tvosArm64Main by getting { dependsOn(apple64Main) }
+        val iosArm64Main by getting { dependsOn(apple64Main) }
+        val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(kotlin("test-common"))
+            implementation(kotlin("test-annotations-common"))
+        }
+
+        jvmTest.dependencies {
+            implementation(kotlin("test-junit"))
+            implementation(libs.bouncyCastle)
+            implementation(libs.kotlinX.coroutinesCore)
+        }
+
+        appleTest.dependencies {
+            implementation(libs.kotlinX.coroutinesCore)
         }
 
         /* Disabled - See reason above
-        val jsMain by getting
-        val jsTest by getting {
-            dependencies {
-                implementation(kotlin("test-js"))
-            }
-        }*/
-
-        val nativeMain by creating {
-            dependsOn(commonMain)
-        }
-        val nativeTest by creating {
-            dependsOn(commonTest)
-        }
-
-        val nativeAltTest by creating {
-            dependsOn(nativeTest)
-        }
-
-        // Darwin
-        val nativeDarwin64Main by creating {
-            dependsOn(commonMain)
-        }
-        val nativeDarwin64Test by creating {
-            dependsOn(commonTest)
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}")
-            }
-        }
-        val nativeDarwin32Main by creating {
-            dependsOn(commonMain)
-        }
-        val nativeDarwin32Test by creating {
-            dependsOn(commonTest)
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesNative}")
-            }
-        }
-        // ios
-        val iosArm64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val iosArm64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val iosX64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val iosX64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val iosSimulatorArm64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val iosSimulatorArm64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        // tvos
-        val tvosArm64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val tvosArm64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val tvosX64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val tvosX64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        // watchos
-        val watchosArm32Main by getting {
-            dependsOn(nativeDarwin32Main)
-        }
-        val watchosArm32Test by getting {
-            dependsOn(nativeDarwin32Test)
-        }
-        val watchosArm64Main by getting {
-            dependsOn(nativeDarwin32Main)
-        }
-        val watchosArm64Test by getting {
-            dependsOn(nativeDarwin32Test)
-        }
-        val watchosX64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val watchosX64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val macosArm64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val macosArm64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-        val macosX64Main by getting {
-            dependsOn(nativeDarwin64Main)
-        }
-        val macosX64Test by getting {
-            dependsOn(nativeDarwin64Test)
-        }
-
-        // Linux
-        val linuxX64Main by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxX64Test by getting {
-            dependsOn(nativeAltTest)
-        }
-        val linuxArm32HfpMain by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxArm32HfpTest by getting {
-            dependsOn(nativeAltTest)
-        }
-        val linuxArm64Main by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxArm64Test by getting {
-            dependsOn(nativeAltTest)
-        }
-        val linuxMips32Main by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxMips32Test by getting {
-            dependsOn(nativeAltTest)
-        }
-        val linuxMipsel32Main by getting {
-            dependsOn(nativeMain)
-        }
-        val linuxMipsel32Test by getting {
-            dependsOn(nativeAltTest)
-        }
-
-        // Windows
-        val mingwX64Main by getting {
-            dependsOn(nativeMain)
-        }
-        val mingwX64Test by getting {
-            dependsOn(nativeAltTest)
-        }
-        val mingwX86Main by getting {
-            dependsOn(nativeMain)
-        }
-        val mingwX86Test by getting {
-            dependsOn(nativeAltTest)
-        }
+           jsTest.dependencies {
+               implementation(kotlin("test-js"))
+           }
+         */
     }
 }
 
-tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString() }
+tasks.withType<Test>().configureEach {
+    jvmArgs(
+        "--add-opens=java.base/java.util.zip=ALL-UNNAMED",
+    )
+}
 
 tasks.withType<AbstractPublishToMaven>()
     .matching { it.publication.name in listOf("jvm", "js", "kotlinMultiplatform") }

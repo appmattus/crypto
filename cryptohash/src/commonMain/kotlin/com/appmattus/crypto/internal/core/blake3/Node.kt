@@ -21,7 +21,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,6 @@ internal class Node(
         while (outputCounter < outputsNeeded) {
             val words = compress(inputChainingValue, blockWords, outputCounter.toLong(), blockLen, flags or ROOT)
             for (word in words) {
-
                 encodeLEInt(word, buffer, 0)
 
                 for (b in buffer) {
@@ -83,7 +82,7 @@ internal class Node(
             }
             outputCounter += 1
         }
-        throw IllegalStateException("Uh oh something has gone horribly wrong. Please create an issue on https://github.com/rctcwyvrn/blake3")
+        error("Uh oh something has gone horribly wrong. Please create an issue on https://github.com/rctcwyvrn/blake3")
     }
 
     private fun floorDiv(x: Int, y: Int): Int {

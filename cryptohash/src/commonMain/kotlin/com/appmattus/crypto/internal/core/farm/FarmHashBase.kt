@@ -1,3 +1,19 @@
+/*
+ * Copyright 2022-2024 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.appmattus.crypto.internal.core.farm
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
@@ -53,7 +69,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
 
     private fun mkHash32Len0to4(s: ByteBuffer, offset: Int = 0, len: Int = s.size, seed: UInt = 0u): UInt {
         var b: UInt = seed
-        var c: UInt = 9u
+        var c = 9u
         for (i in 0 until len) {
             val v = s[offset + i]
             b = b * c1 + v.toUInt()
@@ -65,7 +81,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
     private fun mkHash32Len5to12(s: ByteBuffer, offset: Int = 0, len: Int = s.size, seed: UInt = 0u): UInt {
         var a: UInt = len.toUInt()
         var b: UInt = len.toUInt() * 5u
-        var c: UInt = 9u
+        var c = 9u
         val d: UInt = b + seed
 
         a += s.decodeLEUInt(offset + 0)
@@ -258,8 +274,10 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         v = weakHashLen32WithSeeds(s, pos, v.upper * mul, x + w.lower)
         w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
         return uoH(
-            hashLen16(v.lower + x, w.lower xor y, mul) + z - u,
-            uoH(v.upper + y, w.upper + z, k2, 30) xor x, k2, 31
+            x = hashLen16(v.lower + x, w.lower xor y, mul) + z - u,
+            y = uoH(v.upper + y, w.upper + z, k2, 30) xor x,
+            mul = k2,
+            r = 31
         )
     }
 
@@ -298,7 +316,7 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
     }
 
     @Suppress("ReturnCount")
-    fun naHash64(s: ByteBuffer): ULong {
+    private fun naHash64(s: ByteBuffer): ULong {
         val seed: ULong = 81u
         val len = s.size
         when {
@@ -386,7 +404,8 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
             val d: ULong = s.decodeLEULong(len - 16) * k2
             return hashLen16(
                 (a + b).rotateRight(43) + c.rotateRight(30) + d,
-                a + (b + k2).rotateRight(18) + c, mul
+                a + (b + k2).rotateRight(18) + c,
+                mul
             )
         }
 
@@ -394,7 +413,10 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
         // Callers do best to use "random-looking" values for a and b.
         @Suppress("LongParameterList")
         private fun weakHashLen32WithSeeds(w: ULong, x: ULong, y: ULong, z: ULong, a: ULong, b: ULong): UInt128 {
+            @Suppress("NAME_SHADOWING")
             var a: ULong = a
+
+            @Suppress("NAME_SHADOWING")
             var b: ULong = b
             a += w
             b = (b + a + z).rotateRight(21)
@@ -433,7 +455,8 @@ internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {
             val h: ULong = (z + s.decodeLEULong(len - 24)) * mul
             return hashLen16(
                 (e + f).rotateRight(43) + g.rotateRight(30) + h,
-                e + (f + a).rotateRight(18) + g, mul
+                e + (f + a).rotateRight(18) + g,
+                mul
             )
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,9 +44,11 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
     }
 
     override fun copy(): T1ha0_32le {
-        return copyState(T1ha0_32le().apply {
-            hash = this@T1ha0_32le.hash
-        })
+        return copyState(
+            T1ha0_32le().apply {
+                hash = this@T1ha0_32le.hash
+            }
+        )
     }
 
     override fun toString() = "t1ha0-32le"
@@ -120,7 +122,7 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
     }
 
     private fun tail32(data: ByteBuffer, v: Int, tail: Int): UInt {
-        var r: UInt = 0u
+        var r = 0u
 
         if (tail == 0) {
             return data.decodeLEInt(v).toUInt()

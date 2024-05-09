@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,7 +112,7 @@ internal class CSHAKEDigest : SHAKEDigest {
     private fun leftEncode(strLen: Long): ByteArray {
         var n: Byte = 1
         var v = strLen
-        while (8.let { v = v shr it; v } != 0L) {
+        while ((v shr 8).also { v = it } != 0L) {
             n++
         }
         val b = ByteArray(n + 1)

@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,21 +101,32 @@ internal class MD2 : DigestEngine<MD2>() {
             val u: Int = data[i].toInt() and 0xFF
             x[16 + i] = u
             x[32 + i] = x[i] xor u
-            tL = S[u xor tL].let { c[i] = c[i] xor it; c[i] }
+            tL = S[u xor tL].let {
+                c[i] = c[i] xor it
+                c[i]
+            }
         }
         l = tL
         var t = 0
         for (j in 0..17) {
             var k = 0
             while (k < 48) {
-                t = S[t].let { x[k + 0] = x[k + 0] xor it; x[k + 0] }
-                t = S[t].let { x[k + 1] = x[k + 1] xor it; x[k + 1] }
-                t = S[t].let { x[k + 2] = x[k + 2] xor it; x[k + 2] }
-                t = S[t].let { x[k + 3] = x[k + 3] xor it; x[k + 3] }
-                t = S[t].let { x[k + 4] = x[k + 4] xor it; x[k + 4] }
-                t = S[t].let { x[k + 5] = x[k + 5] xor it; x[k + 5] }
-                t = S[t].let { x[k + 6] = x[k + 6] xor it; x[k + 6] }
-                t = S[t].let { x[k + 7] = x[k + 7] xor it; x[k + 7] }
+                x[k + 0] = x[k + 0] xor S[t]
+                t = x[k + 0]
+                x[k + 1] = x[k + 1] xor S[t]
+                t = x[k + 1]
+                x[k + 2] = x[k + 2] xor S[t]
+                t = x[k + 2]
+                x[k + 3] = x[k + 3] xor S[t]
+                t = x[k + 3]
+                x[k + 4] = x[k + 4] xor S[t]
+                t = x[k + 4]
+                x[k + 5] = x[k + 5] xor S[t]
+                t = x[k + 5]
+                x[k + 6] = x[k + 6] xor S[t]
+                t = x[k + 6]
+                x[k + 7] = x[k + 7] xor S[t]
+                t = x[k + 7]
                 k += 8
             }
             t = t + j and 0xFF

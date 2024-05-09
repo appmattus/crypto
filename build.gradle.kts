@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2024 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,58 +14,59 @@
  * limitations under the License.
  */
 
-import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost.DEFAULT
-import io.gitlab.arturbosch.detekt.Detekt
-
-plugins {
-    id("io.gitlab.arturbosch.detekt") version Versions.detektGradlePlugin
-    id("com.appmattus.markdown") version Versions.markdownlintGradlePlugin
-    id("com.vanniktech.maven.publish") version Versions.gradleMavenPublishPlugin apply false
-    id("org.jetbrains.dokka") version Versions.dokkaPlugin
-}
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
-        classpath("com.android.tools.build:gradle:${Versions.androidGradlePlugin}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.Google.dagger}")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.AndroidX.navigation}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.google.dagger.get()}")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${libs.versions.androidX.navigation.get()}")
     }
 }
 
-apply(from = "$rootDir/gradle/scripts/dependencyUpdates.gradle.kts")
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.markdownlintGradlePlugin)
+    alias(libs.plugins.gradleMavenPublishPlugin) apply false
+    alias(libs.plugins.dokkaPlugin)
+    alias(libs.plugins.gradleVersionsPlugin)
+}
 
 allprojects {
     repositories {
-        gradlePluginPortal()
+        //noinspection JcenterRepositoryObsolete Just needed for Groupie
+        @Suppress("DEPRECATION")
+        jcenter()
         google()
         mavenCentral()
-        maven(url = "https://kotlin.bintray.com/kotlinx/")
     }
 }
 
-dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.detektGradlePlugin}")
-}
+apply(from = "gradle/scripts/detekt.gradle.kts")
 
-tasks.withType<Detekt> {
-    jvmTarget = "1.8"
-}
-
-detekt {
-    input = files(subprojects.map { File(it.projectDir, "src") })
-
-    buildUponDefaultConfig = true
-
-    autoCorrect = true
-
-    config = files("detekt-config.yml")
+tasks.withType<DependencyUpdatesTask> {
+    resolutionStrategy {
+        componentSelection {
+            all {
+                fun isNonStable(version: String) = listOf(
+                    "alpha",
+                    "beta",
+                    "rc",
+                    "cr",
+                    "m",
+                    "preview",
+                    "b",
+                    "ea"
+                ).any { qualifier ->
+                    version.matches(Regex("(?i).*[.-]$qualifier[.\\d-+]*"))
+                }
+                if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+                    reject("Release candidate")
+                }
+            }
+        }
+    }
 }
 
 tasks.maybeCreate("check").dependsOn(tasks.named("detekt"))
@@ -90,12 +91,6 @@ allprojects {
                     }
                 }
             }
-        }
-    }
-
-    plugins.withId("com.vanniktech.maven.publish.base") {
-        configure<MavenPublishBaseExtension> {
-            publishToMavenCentral(DEFAULT, System.getenv("SONATYPE_REPOSITORY_ID"))
         }
     }
 }
