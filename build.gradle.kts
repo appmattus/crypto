@@ -15,8 +15,6 @@
  */
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost
 
 buildscript {
     dependencies {
@@ -93,14 +91,6 @@ allprojects {
                     }
                 }
             }
-        }
-    }
-
-    plugins.withId("com.vanniktech.maven.publish.base") {
-        configure<MavenPublishBaseExtension> {
-            val repositoryId = System.getenv("SONATYPE_REPOSITORY_ID") // ?: error("Missing env variable: SONATYPE_REPOSITORY_ID")
-            val url = "https://oss.sonatype.org/service/local/staging/deployByRepositoryId/${repositoryId}/"
-            publishToMavenCentral(SonatypeHost(url), false)
         }
     }
 }
