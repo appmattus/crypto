@@ -62,7 +62,6 @@ package com.appmattus.crypto.internal.core.bouncycastle.blake2
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.circularRightLong
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLELong
 
@@ -408,13 +407,13 @@ internal class Blake2b : Digest<Blake2b> {
 
     private fun g(m1: Long, m2: Long, posA: Int, posB: Int, posC: Int, posD: Int) {
         internalState[posA] = internalState[posA] + internalState[posB] + m1
-        internalState[posD] = circularRightLong(internalState[posD] xor internalState[posA], 32)
+        internalState[posD] = (internalState[posD] xor internalState[posA]).rotateRight(32)
         internalState[posC] = internalState[posC] + internalState[posD]
-        internalState[posB] = circularRightLong(internalState[posB] xor internalState[posC], 24) // replaces 25 of BLAKE
+        internalState[posB] = (internalState[posB] xor internalState[posC]).rotateRight(24) // replaces 25 of BLAKE
         internalState[posA] = internalState[posA] + internalState[posB] + m2
-        internalState[posD] = circularRightLong(internalState[posD] xor internalState[posA], 16)
+        internalState[posD] = (internalState[posD] xor internalState[posA]).rotateRight(16)
         internalState[posC] = internalState[posC] + internalState[posD]
-        internalState[posB] = circularRightLong(internalState[posB] xor internalState[posC], 63) // replaces 11 of BLAKE
+        internalState[posB] = (internalState[posB] xor internalState[posC]).rotateRight(63) // replaces 11 of BLAKE
     }
 
     /**

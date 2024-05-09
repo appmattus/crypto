@@ -245,10 +245,10 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
         v0[1] = mul0[1] xor key1
         v0[2] = mul0[2] xor key2
         v0[3] = mul0[3] xor key3
-        v1[0] = mul1[0] xor (key0 ushr 32 or (key0 shl 32))
-        v1[1] = mul1[1] xor (key1 ushr 32 or (key1 shl 32))
-        v1[2] = mul1[2] xor (key2 ushr 32 or (key2 shl 32))
-        v1[3] = mul1[3] xor (key3 ushr 32 or (key3 shl 32))
+        v1[0] = mul1[0] xor key0.rotateRight(32)
+        v1[1] = mul1[1] xor key1.rotateRight(32)
+        v1[2] = mul1[2] xor key2.rotateRight(32)
+        v1[3] = mul1[3] xor key3.rotateRight(32)
 
         bufferSize = 0
     }

@@ -125,7 +125,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
          */
         // Package protected for efficient access from inner class
         fun rotlXor(x: Long, n: Int, xor: Long): Long {
-            return x shl n or (x ushr -n) xor xor
+            return x.rotateLeft(n) xor xor
         }
 
         /**
@@ -133,8 +133,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
          */
         // Package protected for efficient access from inner class
         fun xorRotr(x: Long, n: Int, xor: Long): Long {
-            val xored = x xor xor
-            return xored ushr n or (xored shl -n)
+            return (x xor xor).rotateRight(n)
         }
 
         init {

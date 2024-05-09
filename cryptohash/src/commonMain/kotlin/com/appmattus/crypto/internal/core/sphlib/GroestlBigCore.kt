@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
-import com.appmattus.crypto.internal.core.circularLeftLong
 import com.appmattus.crypto.internal.core.decodeBELong
 import com.appmattus.crypto.internal.core.encodeBELong
 
@@ -324,13 +323,13 @@ internal abstract class GroestlBigCore<D : GroestlBigCore<D>> : DigestEngine<D>(
         init {
             for (i in T0.indices) {
                 val v = T0[i]
-                T1[i] = circularLeftLong(v, 56)
-                T2[i] = circularLeftLong(v, 48)
-                T3[i] = circularLeftLong(v, 40)
-                T4[i] = circularLeftLong(v, 32)
-                T5[i] = circularLeftLong(v, 24)
-                T6[i] = circularLeftLong(v, 16)
-                T7[i] = circularLeftLong(v, 8)
+                T1[i] = v.rotateLeft(56)
+                T2[i] = v.rotateLeft(48)
+                T3[i] = v.rotateLeft(40)
+                T4[i] = v.rotateLeft(32)
+                T5[i] = v.rotateLeft(24)
+                T6[i] = v.rotateLeft(16)
+                T7[i] = v.rotateLeft(8)
             }
         }
     }

@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle
 
-import com.appmattus.crypto.internal.core.circularLeftInt
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 
@@ -144,7 +143,7 @@ internal class GOST28147Engine {
         om += s[96 + (cm shr 6 * 4 and 0xF)].toInt() shl 6 * 4
         om += s[112 + (cm shr 7 * 4 and 0xF)].toInt() shl 7 * 4
 
-        return circularLeftInt(om, 11)
+        return om.rotateLeft(11)
     }
 
     @Suppress("NestedBlockDepth")

@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.internal.core.decodeBEInt
 import com.appmattus.crypto.internal.core.encodeBEInt
 
 /**
@@ -103,10 +104,7 @@ internal class Fugue512 : FugueCore<Fugue512>() {
                     rshift = 2
                     return
                 }
-                w = buf!![off].toInt() shl 24 or
-                        (buf[off + 1].toInt() and 0xFF shl 16) or
-                        (buf[off + 2].toInt() and 0xFF shl 8) or
-                        (buf[off + 3].toInt() and 0xFF)
+                w = decodeBEInt(buf!!, off)
                 off += 4
                 s[34] = s[34] xor s[12]
                 s[12] = w
@@ -146,10 +144,7 @@ internal class Fugue512 : FugueCore<Fugue512>() {
                     rshift = 0
                     return
                 }
-                w = buf[off].toInt() shl 24 or
-                        (buf[off + 1].toInt() and 0xFF shl 16) or
-                        (buf[off + 2].toInt() and 0xFF shl 8) or
-                        (buf[off + 3].toInt() and 0xFF)
+                w = decodeBEInt(buf, off)
                 off += 4
             }
 
@@ -192,10 +187,7 @@ internal class Fugue512 : FugueCore<Fugue512>() {
                     rshift = 0
                     return
                 }
-                w = buf!![off].toInt() shl 24 or
-                        (buf[off + 1].toInt() and 0xFF shl 16) or
-                        (buf[off + 2].toInt() and 0xFF shl 8) or
-                        (buf[off + 3].toInt() and 0xFF)
+                w = decodeBEInt(buf!!, off)
                 off += 4
             }
         }
@@ -239,10 +231,7 @@ internal class Fugue512 : FugueCore<Fugue512>() {
                 rshift = 1
                 return
             }
-            w = buf!![off].toInt() shl 24 or
-                    (buf[off + 1].toInt() and 0xFF shl 16) or
-                    (buf[off + 2].toInt() and 0xFF shl 8) or
-                    (buf[off + 3].toInt() and 0xFF)
+            w = decodeBEInt(buf!!, off)
             off += 4
             /* ================ */
             s[10] = s[10] xor s[24]
@@ -283,10 +272,7 @@ internal class Fugue512 : FugueCore<Fugue512>() {
                 rshift = 2
                 return
             }
-            w = buf[off].toInt() shl 24 or
-                    (buf[off + 1].toInt() and 0xFF shl 16) or
-                    (buf[off + 2].toInt() and 0xFF shl 8) or
-                    (buf[off + 3].toInt() and 0xFF)
+            w = decodeBEInt(buf, off)
             off += 4
             /* ================ */
             s[34] = s[34] xor s[12]
@@ -327,8 +313,7 @@ internal class Fugue512 : FugueCore<Fugue512>() {
                 rshift = 0
                 return
             }
-            w =
-                (buf[off].toInt() shl 24 or (buf[off + 1].toInt() and 0xFF shl 16) or (buf[off + 2].toInt() and 0xFF shl 8) or (buf[off + 3].toInt() and 0xFF))
+            w = decodeBEInt(buf, off)
             off += 4
         }
     }

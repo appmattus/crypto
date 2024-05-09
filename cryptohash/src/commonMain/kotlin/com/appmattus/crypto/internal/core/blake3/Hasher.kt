@@ -38,7 +38,6 @@
 
 package com.appmattus.crypto.internal.core.blake3
 
-import com.appmattus.crypto.internal.core.circularRightInt
 import com.appmattus.crypto.internal.core.decodeLEInt
 import kotlin.math.min
 
@@ -169,13 +168,13 @@ internal class Hasher(
         @Suppress("LongParameterList")
         private fun g(state: IntArray, a: Int, b: Int, c: Int, d: Int, mx: Int, my: Int) {
             state[a] = wrappingAdd((state[a] + state[b]), mx)
-            state[d] = circularRightInt(state[d] xor state[a], 16)
+            state[d] = (state[d] xor state[a]).rotateRight(16)
             state[c] = wrappingAdd(state[c], state[d])
-            state[b] = circularRightInt(state[b] xor state[c], 12)
+            state[b] = (state[b] xor state[c]).rotateRight(12)
             state[a] = wrappingAdd(wrappingAdd(state[a], state[b]), my)
-            state[d] = circularRightInt(state[d] xor state[a], 8)
+            state[d] = (state[d] xor state[a]).rotateRight(8)
             state[c] = wrappingAdd(state[c], state[d])
-            state[b] = circularRightInt(state[b] xor state[c], 7)
+            state[b] = (state[b] xor state[c]).rotateRight(7)
         }
 
         private fun roundFn(state: IntArray, m: IntArray) {

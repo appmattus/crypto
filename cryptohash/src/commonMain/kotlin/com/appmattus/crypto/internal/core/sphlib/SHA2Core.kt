@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
-import com.appmattus.crypto.internal.core.circularLeftInt
 import com.appmattus.crypto.internal.core.decodeBEInt
 import com.appmattus.crypto.internal.core.encodeBEInt
 
@@ -102,13 +101,13 @@ internal abstract class SHA2Core<D : SHA2Core<D>> : MDHelper<D>(false, 8) {
         var h = currentVal[7]
         for (i in 0..15) w[i] = decodeBEInt(data, 4 * i)
         for (i in 16..63) {
-            w[i] = (circularLeftInt(w[i - 2], 15) xor circularLeftInt(w[i - 2], 13) xor (w[i - 2] ushr 10)) +
-                    w[i - 7] + (circularLeftInt(w[i - 15], 25) xor circularLeftInt(w[i - 15], 14) xor (w[i - 15] ushr 3)) + w[i - 16]
+            w[i] = (w[i - 2].rotateLeft(15) xor w[i - 2].rotateLeft(13) xor (w[i - 2] ushr 10)) +
+                    w[i - 7] + (w[i - 15].rotateLeft(25) xor w[i - 15].rotateLeft(14) xor (w[i - 15] ushr 3)) + w[i - 16]
         }
         for (i in 0..63) {
-            val t1 = h + (circularLeftInt(e, 26) xor circularLeftInt(e, 21) xor circularLeftInt(e, 7)) +
+            val t1 = h + (e.rotateLeft(26) xor e.rotateLeft(21) xor e.rotateLeft(7)) +
                     (f and e xor (g and e.inv())) + K[i] + w[i]
-            val t2 = (circularLeftInt(a, 30) xor circularLeftInt(a, 19) xor circularLeftInt(a, 10)) +
+            val t2 = (a.rotateLeft(30) xor a.rotateLeft(19) xor a.rotateLeft(10)) +
                     (a and b xor (a and c) xor (b and c))
             h = g
             g = f

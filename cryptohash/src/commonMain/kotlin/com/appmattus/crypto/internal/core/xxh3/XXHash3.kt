@@ -56,8 +56,6 @@
 
 package com.appmattus.crypto.internal.core.xxh3
 
-import com.appmattus.crypto.internal.core.circularLeftInt
-import com.appmattus.crypto.internal.core.circularLeftLong
 import com.appmattus.crypto.internal.core.decodeBEInt
 import com.appmattus.crypto.internal.core.decodeBELong
 import com.appmattus.crypto.internal.core.decodeLEInt
@@ -270,21 +268,6 @@ private fun XXH_isLittleEndian(): Boolean {
 }
 
 /**
- * 32-bit rotate left.
- *
- * @param x The 32-bit integer to be rotated.
- * @param r The number of bits to rotate.
- * @pre
- *   [r] > 0 && [r] < 32
- * @note
- *   [x] and [r] may be evaluated multiple times.
- * @return The rotated result.
- */
-private fun XXH_rotl32(x: Int, r: Int): Int = circularLeftInt(x, r)
-
-private fun XXH_rotl64(x: Long, r: Int) = circularLeftLong(x, r)
-
-/**
  * @fn xxh_u32 XXH_swap32(xxh_u32 x)
  * @brief A 32-bit byteswap.
  *
@@ -474,7 +457,7 @@ private fun XXH3_rrmxmx(h64: xxh_u64, len: xxh_u64): XXH64_hash_t {
     @Suppress("NAME_SHADOWING")
     var h64: xxh_u64 = h64
     /* this mix is inspired by Pelle Evensen's rrmxmx */
-    h64 = h64 xor (XXH_rotl64(h64, 49) xor XXH_rotl64(h64, 24))
+    h64 = h64 xor (h64.rotateLeft(49) xor h64.rotateLeft(24))
     h64 *= 0x9FB21C651E98DF25UL.toLong()
     h64 = h64 xor ((h64 ushr 35) + len)
     h64 *= 0x9FB21C651E98DF25UL.toLong()
@@ -1252,7 +1235,7 @@ private fun XXH3_len_1to3_128b(input: ByteArray, inputOffset: Int, len: size_t, 
     val c3: xxh_u8 = input[inputOffset + len - 1]
     val combinedl: xxh_u32 = ((c1.toInt() and 0xff) shl 16) or ((c2.toInt() and 0xff) shl 24) or
             ((c3.toInt() and 0xff) shl 0) or (len shl 8)
-    val combinedh: xxh_u32 = XXH_rotl32(XXH_swap32(combinedl), 13)
+    val combinedh: xxh_u32 = XXH_swap32(combinedl).rotateLeft(13)
     val bitflipl: xxh_u64 = ((XXH_readLE32(secret, 0).toLong() and 0xffffffff) xor (XXH_readLE32(secret, 4).toLong() and 0xffffffff)) + seed
     val bitfliph: xxh_u64 = ((XXH_readLE32(secret, 8).toLong() and 0xffffffff) xor (XXH_readLE32(secret, 12).toLong() and 0xffffffff)) - seed
     val keyed_lo: xxh_u64 = (combinedl.toLong() and 0xffffffff) xor bitflipl

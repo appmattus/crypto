@@ -40,7 +40,6 @@
 package com.appmattus.crypto.internal.core.bouncycastle
 
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.circularRightLong
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLEInt
 import com.appmattus.crypto.internal.core.encodeLELong
@@ -509,14 +508,14 @@ internal class Kupyna : Digest<Kupyna> {
             val x1 = c and 0x7F7F7F7F7F7F7F7FL shl 1 xor (c and -0x7f7f7f7f7f7f7f80L ushr 7) * 0x1DL
             var u: Long
             var v: Long
-            u = circularRightLong(c, 8) xor c
-            u = u xor circularRightLong(u, 16)
-            u = u xor circularRightLong(c, 48)
+            u = c.rotateRight(8) xor c
+            u = u xor u.rotateRight(16)
+            u = u xor c.rotateRight(48)
             v = u xor c xor x1
 
             // Multiply elements by 'x^2'
             v = v and 0x3F3F3F3F3F3F3F3FL shl 2 xor (v and -0x7f7f7f7f7f7f7f80L ushr 6) * 0x1DL xor (v and 0x4040404040404040L ushr 6) * 0x1DL
-            return u xor circularRightLong(v, 32) xor circularRightLong(x1, 40) xor circularRightLong(x1, 48)
+            return u xor v.rotateRight(32) xor x1.rotateRight(40) xor x1.rotateRight(48)
         }
 
         private val S0 = byteArrayOf(

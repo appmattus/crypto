@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
-import com.appmattus.crypto.internal.core.circularLeftLong
 import com.appmattus.crypto.internal.core.decodeBELong
 import com.appmattus.crypto.internal.core.encodeBELong
 
@@ -103,9 +102,9 @@ internal abstract class SHA2BigCore<D : SHA2BigCore<D>> : MDHelper<D>(false, 16)
         var h = currentVal[7]
         for (i in 0..15) w[i] = decodeBELong(data, 8 * i)
         for (i in 16..79) {
-            w[i] = (circularLeftLong(w[i - 2], 45) xor circularLeftLong(w[i - 2], 3) xor (w[i - 2] ushr 6)) +
+            w[i] = (w[i - 2].rotateLeft(45) xor w[i - 2].rotateLeft(3) xor (w[i - 2] ushr 6)) +
                     w[i - 7] +
-                    (circularLeftLong(w[i - 15], 63) xor circularLeftLong(w[i - 15], 56) xor (w[i - 15] ushr 7)) +
+                    (w[i - 15].rotateLeft(63) xor w[i - 15].rotateLeft(56) xor (w[i - 15] ushr 7)) +
                     w[i - 16]
         }
         for (i in 0..79) {
@@ -116,16 +115,16 @@ internal abstract class SHA2BigCore<D : SHA2BigCore<D>> : MDHelper<D>(false, 16)
              * simpler elementary expressions. Such a split
              * should not harm recent JDK optimizers.
              */
-            var t1 = circularLeftLong(e, 50)
-            t1 = t1 xor circularLeftLong(e, 46)
-            t1 = t1 xor circularLeftLong(e, 23)
+            var t1 = e.rotateLeft(50)
+            t1 = t1 xor e.rotateLeft(46)
+            t1 = t1 xor e.rotateLeft(23)
             t1 += h
             t1 += f and e xor (g and e.inv())
             t1 += K[i]
             t1 += w[i]
-            var t2 = circularLeftLong(a, 36)
-            t2 = t2 xor circularLeftLong(a, 30)
-            t2 = t2 xor circularLeftLong(a, 25)
+            var t2 = a.rotateLeft(36)
+            t2 = t2 xor a.rotateLeft(30)
+            t2 = t2 xor a.rotateLeft(25)
             t2 += a and b xor (a and c) xor (b and c)
             h = g
             g = f

@@ -267,22 +267,22 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         val p15: Int
         val p16: Int
         p0 = g0
-        p1 = g7 shl 1 or (g7 ushr 32 - 1)
-        p2 = g14 shl 3 or (g14 ushr 32 - 3)
-        p3 = g4 shl 6 or (g4 ushr 32 - 6)
-        p4 = g11 shl 10 or (g11 ushr 32 - 10)
-        p5 = g1 shl 15 or (g1 ushr 32 - 15)
-        p6 = g8 shl 21 or (g8 ushr 32 - 21)
-        p7 = g15 shl 28 or (g15 ushr 32 - 28)
-        p8 = g5 shl 4 or (g5 ushr 32 - 4)
-        p9 = g12 shl 13 or (g12 ushr 32 - 13)
-        p10 = g2 shl 23 or (g2 ushr 32 - 23)
-        p11 = g9 shl 2 or (g9 ushr 32 - 2)
-        p12 = g16 shl 14 or (g16 ushr 32 - 14)
-        p13 = g6 shl 27 or (g6 ushr 32 - 27)
-        p14 = g13 shl 9 or (g13 ushr 32 - 9)
-        p15 = g3 shl 24 or (g3 ushr 32 - 24)
-        p16 = g10 shl 8 or (g10 ushr 32 - 8)
+        p1 = g7.rotateLeft(1)
+        p2 = g14.rotateLeft(3)
+        p3 = g4.rotateLeft(6)
+        p4 = g11.rotateLeft(10)
+        p5 = g1.rotateLeft(15)
+        p6 = g8.rotateLeft(21)
+        p7 = g15.rotateLeft(28)
+        p8 = g5.rotateLeft(4)
+        p9 = g12.rotateLeft(13)
+        p10 = g2.rotateLeft(23)
+        p11 = g9.rotateLeft(2)
+        p12 = g16.rotateLeft(14)
+        p13 = g6.rotateLeft(27)
+        p14 = g13.rotateLeft(9)
+        p15 = g3.rotateLeft(24)
+        p16 = g10.rotateLeft(8)
 
         // Theta transform.
         val t0: Int
