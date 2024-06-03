@@ -24,16 +24,16 @@ jobs:
                 uses: gradle/actions/setup-gradle@v3
 
             -   name: konan cache
-                uses: actions/cache@v3
+                uses: actions/cache@v4
                 with:
                     path: ~/.konan
                     key: ${{ runner.os }}-konan
 
             -   name: Check
-                run: ./gradlew check
+                run: ./gradlew check --scan
 
             -   name: Build
-                run: ./gradlew build -x check -x lintVitalRelease
+                run: ./gradlew build -x check -x lintVitalRelease --scan
 
             -   name: Prepare tag properties (*nix)
                 if: runner.os != 'Windows' && startsWith(github.ref, 'refs/tags/')
@@ -51,4 +51,4 @@ jobs:
 
             -   name: Upload tag
                 if: startsWith(github.ref, 'refs/tags/')
-                run: ./gradlew publishAllPublicationsToMavenCentral -P"signing.secretKeyRingFile=$(echo $HOME/.gradle/sonatype-appmattus-keys.gpg)"
+                run: ./gradlew publishAllPublicationsToMavenCentral -P"signing.secretKeyRingFile=$(echo $HOME/.gradle/sonatype-appmattus-keys.gpg)" --scan
