@@ -32,6 +32,13 @@ jobs:
             -   name: Check
                 run: ./gradlew check --scan
 
+            -   name: Upload artifacts
+                if: failure()
+                uses: actions/upload-artifact@master
+                with:
+                    name: hs_err_pid.log
+                    path: 'hs_err_**.log'
+
             -   name: Build
                 run: ./gradlew build -x check -x lintVitalRelease --scan
 
