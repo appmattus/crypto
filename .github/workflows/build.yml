@@ -31,7 +31,7 @@ jobs:
                     key: ${{ runner.os }}-konan
 
             -   name: Check
-                run: ./gradlew check --scan
+                run: ./gradlew check
 
             -   name: Upload artifacts
                 if: failure()
@@ -41,9 +41,10 @@ jobs:
                     path: 'hs_err_**.log'
 
             -   name: Build
-                run: ./gradlew build -x check -x lintVitalRelease --scan
+                run: ./gradlew build -x check -x lintVitalRelease
 
             -   name: Prepare tag properties
+                if: startsWith(github.ref, 'refs/tags/')
                 run: |
                     echo "${{secrets.GPG_SIGNING_SECRET_KEY_RING_FILE_BASE64}}" > $HOME/.gradle/sonatype-appmattus-keys.gpg.b64
                     base64 -d -i $HOME/.gradle/sonatype-appmattus-keys.gpg.b64 -o $HOME/.gradle/sonatype-appmattus-keys.gpg
@@ -51,4 +52,4 @@ jobs:
 
             -   name: Upload tag
                 if: startsWith(github.ref, 'refs/tags/')
-                run: ./gradlew publishAllPublicationsToMavenCentral -P"signing.secretKeyRingFile=$(echo $HOME/.gradle/sonatype-appmattus-keys.gpg)" --scan
+                run: ./gradlew publishAllPublicationsToMavenCentral -P"signing.secretKeyRingFile=$(echo $HOME/.gradle/sonatype-appmattus-keys.gpg)"
