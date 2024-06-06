@@ -139,7 +139,3 @@ tasks.withType<Test>().configureEach {
         "--add-opens=java.base/java.util.zip=ALL-UNNAMED",
     )
 }
-
-tasks.withType<AbstractPublishToMaven>()
-    .matching { it.publication.name in listOf("jvm", "js", "kotlinMultiplatform") }
-    .configureEach { onlyIf { hostOs == "Linux" } }
