@@ -105,6 +105,7 @@ internal fun uint128DivMod(dividend: UInt128, divisor: UInt128): Pair<UInt128, U
 
 @Suppress("ReturnCount")
 internal fun uint128Shl(v: UInt128, n: Int): UInt128 {
+    val n = n and 0b1111111
     if (n == 0) {
         return v
     } else if (n >= UInt128.SIZE_BITS || n <= -UInt128.SIZE_BITS) {
@@ -125,6 +126,7 @@ internal fun uint128Shl(v: UInt128, n: Int): UInt128 {
 
 @Suppress("ReturnCount")
 internal fun uint128Shr(v: UInt128, n: Int): UInt128 {
+    val n = n and 0b1111111
     if (n == 0) {
         return v
     } else if (n >= UInt128.SIZE_BITS || n <= -UInt128.SIZE_BITS) {
