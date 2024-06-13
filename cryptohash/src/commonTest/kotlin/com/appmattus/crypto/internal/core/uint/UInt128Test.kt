@@ -254,9 +254,9 @@ class UInt128Test {
         assertEquals(UInt128(ULong.MAX_VALUE, ULong.MAX_VALUE - 1u), MAX_VALUE shl 1)
         assertEquals(UInt128(0uL, 2uL), ONE shl 1)
         assertEquals(UInt128(1uL, 0uL), UInt128(0uL, (1uL shl (ULong.SIZE_BITS - 1))) shl 1)
-        assertEquals(ZERO, ONE shl UInt128.SIZE_BITS)
-        assertEquals(ZERO, ONE shl -UInt128.SIZE_BITS)
-        assertEquals(ONE, 2u.toUInt128() shl -1)
+        assertEquals(ONE, ONE shl UInt128.SIZE_BITS)
+        assertEquals(ONE, ONE shl -UInt128.SIZE_BITS)
+        assertEquals((2uL shl -1).toUInt128(), 2u.toUInt128() shl -1)
 
         for (i in 0 until 64) {
             assertEquals((1uL shl i).toUInt128(), ONE shl i)
@@ -279,9 +279,9 @@ class UInt128Test {
         assertEquals(ZERO, ONE shr 1)
         assertEquals(ONE, UInt128(0uL, 2uL) shr 1)
         assertEquals(UInt128(0uL, 0x8000000000000000uL), UInt128(1uL, 0uL) shr 1)
-        assertEquals(ZERO, highBit shr UInt128.SIZE_BITS)
-        assertEquals(ZERO, highBit shr -UInt128.SIZE_BITS)
-        assertEquals(2u.toUInt128(), ONE shr -1)
+        assertEquals(highBit, highBit shr UInt128.SIZE_BITS)
+        assertEquals(highBit, highBit shr -UInt128.SIZE_BITS)
+        assertEquals((1uL shr -1).toUInt128(), ONE shr -1)
 
         val value = ULong.MAX_VALUE.toUInt128()
         for (i in 0 until 64) {
