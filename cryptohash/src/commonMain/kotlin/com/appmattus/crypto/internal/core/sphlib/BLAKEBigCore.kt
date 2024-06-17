@@ -52,20 +52,21 @@ import kotlin.experimental.or
  */
 internal abstract class BLAKEBigCore<D : BLAKEBigCore<D>> : DigestEngine<D>() {
 
-    private var h0: Long = 0
-    private var h1: Long = 0
-    private var h2: Long = 0
-    private var h3: Long = 0
-    private var h4: Long = 0
-    private var h5: Long = 0
-    private var h6: Long = 0
-    private var h7: Long = 0
-    private var s0: Long = 0
-    private var s1: Long = 0
-    private var s2: Long = 0
+    private var h0: Long = initVal[0]
+    private var h1: Long = initVal[1]
+    private var h2: Long = initVal[2]
+    private var h3: Long = initVal[3]
+    private var h4: Long = initVal[4]
+    private var h5: Long = initVal[5]
+    private var h6: Long = initVal[6]
+    private var h7: Long = initVal[7]
     private var s3: Long = 0
-    private var t0: Long = 0
+    private var s2: Long = 0
+    private var s1: Long = 0
+    private var s0: Long = 0
     private var t1: Long = 0
+    private var t0: Long = 0
+
     private lateinit var tmpM: LongArray
     private lateinit var tmpBuf: ByteArray
 

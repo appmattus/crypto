@@ -52,20 +52,20 @@ import kotlin.experimental.or
  */
 internal abstract class BLAKESmallCore<D : BLAKESmallCore<D>> : DigestEngine<D>() {
 
-    private var h0 = 0
-    private var h1 = 0
-    private var h2 = 0
-    private var h3 = 0
-    private var h4 = 0
-    private var h5 = 0
-    private var h6 = 0
-    private var h7 = 0
-    private var s0 = 0
-    private var s1 = 0
-    private var s2 = 0
-    private var s3 = 0
-    private var t0 = 0
-    private var t1 = 0
+    private var h0: Int = initVal[0]
+    private var h1: Int = initVal[1]
+    private var h2: Int = initVal[2]
+    private var h3: Int = initVal[3]
+    private var h4: Int = initVal[4]
+    private var h5: Int = initVal[5]
+    private var h6: Int = initVal[6]
+    private var h7: Int = initVal[7]
+    private var s0: Int = 0
+    private var s1: Int = 0
+    private var s2: Int = 0
+    private var s3: Int = 0
+    private var t0: Int = 0
+    private var t1: Int = 0
     private lateinit var tmpM: IntArray
     private lateinit var tmpBuf: ByteArray
 
