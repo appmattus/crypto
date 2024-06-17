@@ -73,14 +73,14 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
     /**
      * State variables.
      */
-    private var s0 = 0
-    private var s1 = 0
-    private var s2 = 0
-    private var s3 = 0
-    private var s4 = 0
-    private var s5 = 0
-    private var s6 = 0
-    private var s7 = 0
+    private var s0 = 0x243F6A88
+    private var s1 = -0x7a5cf72d
+    private var s2 = 0x13198A2E
+    private var s3 = 0x03707344
+    private var s4 = -0x5bf6c7de
+    private var s5 = 0x299F31D0
+    private var s6 = 0x082EFA98
+    private var s7 = -0x13b19377
 
     /**
      * Pre-allocated array for input words.

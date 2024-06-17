@@ -53,9 +53,9 @@ import com.appmattus.crypto.internal.core.encodeLELong
  */
 internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : MDHelper<D>(true, 8, fbyte) {
 
-    private var currentA: Long = 0
-    private var currentB: Long = 0
-    private var currentC: Long = 0
+    private var currentA: Long = 0x0123456789ABCDEFL
+    private var currentB: Long = -0x123456789abcdf0L
+    private var currentC: Long = -0xf695a4b3c4d1e79L
 
     override fun copyState(dest: D): D {
         dest.currentA = currentA

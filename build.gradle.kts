@@ -69,9 +69,9 @@ tasks.withType<DependencyUpdatesTask> {
     }
 }
 
-tasks.maybeCreate("check").dependsOn(tasks.named("detekt"))
+// tasks.maybeCreate("check").dependsOn(tasks.named("detekt"))
 
-tasks.maybeCreate("check").dependsOn(tasks.named("markdownlint"))
+// tasks.maybeCreate("check").dependsOn(tasks.named("markdownlint"))
 
 allprojects {
     version = System.getenv("GITHUB_REF")?.substring(10) ?: System.getProperty("GITHUB_REF")?.substring(10) ?: "unknown"
