@@ -54,13 +54,13 @@ public fun String.toUInt128(): UInt128 = toUInt128OrNull() ?: throw NumberFormat
 public fun String.toUInt128(radix: Int): UInt128 = toUInt128OrNull(radix) ?: throw NumberFormatException("Invalid number format: '$this'")
 
 /**
- * Parses the string as an [ULong] number and returns the result
+ * Parses the string as an [UInt128] number and returns the result
  * or `null` if the string is not a valid representation of a number.
  */
 public inline fun String.toUInt128OrNull(): UInt128? = toUInt128OrNull(radix = 10)
 
 /**
- * Parses the string as an [ULong] number and returns the result
+ * Parses the string as an [UInt128] number and returns the result
  * or `null` if the string is not a valid representation of a number.
  *
  * @throws IllegalArgumentException when [radix] is not a valid radix for string to number conversion.
@@ -89,7 +89,7 @@ public fun String.toUInt128OrNull(radix: Int): UInt128? {
     val uradix = radix.toUInt128()
     var result = UInt128.ZERO
     for (i in start until this.length) {
-        val digit = chars.indexOf(this[i])
+        val digit = chars.indexOf(this[i].lowercaseChar())
         if (digit < 0 || digit >= radix) return null
         if (result > limitBeforeMul) {
             if (limitBeforeMul == limitForMaxRadix) {
