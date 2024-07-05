@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/appmattus/crypto/branch/main/graph/badge.svg)](https://codecov.io/gh/appmattus/crypto)
 [![Maven Central](https://img.shields.io/maven-central/v/com.appmattus.crypto/cryptohash)](https://search.maven.org/search?q=g:com.appmattus.crypto)
 
-A collection of Kotlin Multiplatform Mobile libraries to aid in mobile app
+A collection of Kotlin Multiplatform libraries to aid in mobile app
 development.
 
 [cryptohash](cryptohash/README.md): A set of cryptographic (and
