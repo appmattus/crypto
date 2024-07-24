@@ -34,13 +34,11 @@ kotlin {
 
     jvm()
 
-    /* Disabled - Unit test failures, Blake, CubeHash, Haval, Luffa, SHA3, SHAKE, Tiger, cShake, HMac
-       js {
-           browser()
-           nodejs()
-           binaries.executable()
-       }
-     */
+    js {
+        browser()
+        nodejs()
+        binaries.executable()
+    }
 
     // Tier 1
     // Apple macOS hosts only:
@@ -126,11 +124,9 @@ kotlin {
             implementation(libs.kotlinX.coroutinesCore)
         }
 
-        /* Disabled - See reason above
-           jsTest.dependencies {
-               implementation(kotlin("test-js"))
-           }
-         */
+        jsTest.dependencies {
+            implementation(kotlin("test-js"))
+        }
     }
 }
 
