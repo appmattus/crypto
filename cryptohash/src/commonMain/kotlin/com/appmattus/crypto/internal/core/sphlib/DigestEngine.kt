@@ -123,7 +123,7 @@ internal abstract class DigestEngine<D : DigestEngine<D>> : Digest<D> {
         private set
 
     private fun adjustDigestLen() {
-        if (digestLen == 0) {
+        if (digestLen != digestLength) {
             digestLen = digestLength
             outputBuf = ByteArray(digestLen)
         }
