@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+@file:Suppress("NOTHING_TO_INLINE", "KotlinRedundantDiagnosticSuppress")
 
 package com.appmattus.crypto.internal.core.uint
 
@@ -30,6 +32,7 @@ public inline fun UInt128.countLeadingZeroBits(): Int =
 /**
  * Counts the number of consecutive least significant bits that are zero in the binary representation of this [UInt128] number.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt128.countTrailingZeroBits(): Int =
     if (lower == 0uL) ULong.SIZE_BITS + upper.countTrailingZeroBits() else lower.countTrailingZeroBits()
 

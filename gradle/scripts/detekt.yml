@@ -36,6 +36,8 @@ formatting:
 naming:
     ClassNaming:
         excludes: ['**/commonTest/**/internal/**']
+    FunctionNaming:
+        ignoreAnnotated: ['Composable']
 
 complexity:
     LargeClass:

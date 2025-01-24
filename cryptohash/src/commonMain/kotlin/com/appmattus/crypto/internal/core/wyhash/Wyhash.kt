@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+@file:Suppress("NOTHING_TO_INLINE", "KotlinRedundantDiagnosticSuppress")
 
 package com.appmattus.crypto.internal.core.wyhash
 
@@ -147,7 +149,8 @@ internal class Wyhash(
     companion object {
         // Default secret parameters
         @Suppress("PropertyWrapping")
-        val wyp: List<ULong> = listOf(0xa0761d6478bd642fuL, 0xe7037ed1a0b428dbuL, 0x8ebc6af09c88c6e3uL, 0x589965cc75374cc3uL)
+        val wyp: List<ULong> =
+            listOf(0xa0761d6478bd642fuL, 0xe7037ed1a0b428dbuL, 0x8ebc6af09c88c6e3uL, 0x589965cc75374cc3uL)
 
         // Make your own secret
         @OptIn(ExperimentalUnsignedTypes::class)

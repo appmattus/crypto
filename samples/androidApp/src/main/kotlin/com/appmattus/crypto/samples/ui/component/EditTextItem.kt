@@ -52,5 +52,3 @@ fun EditTextItemPreview() {
         EditTextItem("Value", {}, "Input")
     }
 }
-
-private val emptyListener: () -> Unit = {}

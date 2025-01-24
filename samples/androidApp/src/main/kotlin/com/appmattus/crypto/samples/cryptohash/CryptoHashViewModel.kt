@@ -34,7 +34,14 @@ class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<Cry
     private var inputText: String = ""
 
     override val container: Container<CryptoHashState, Unit> =
-        container(CryptoHashState(algorithms = algorithms.map { it.algorithmName }, currentAlgorithm = currentAlgorithm.algorithmName)) {
+        container(
+            CryptoHashState(
+                algorithms = algorithms.map {
+            it.algorithmName
+        },
+            currentAlgorithm = currentAlgorithm.algorithmName
+            )
+        ) {
             generateHash()
         }
 

@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,10 +123,14 @@ internal abstract class BMWBigCore<D : BMWBigCore<D>> : DigestEngine<D>() {
                     ((q[u - 3] ushr 2) xor (q[u - 3] shl 1) xor q[u - 3].rotateLeft(19) xor q[u - 3].rotateLeft(53)) +
                     ((q[u - 2] ushr 2) xor (q[u - 2] shl 2) xor q[u - 2].rotateLeft(28) xor q[u - 2].rotateLeft(59)) +
                     ((q[u - 1] ushr 1) xor (q[u - 1] shl 3) xor q[u - 1].rotateLeft(4) xor q[u - 1].rotateLeft(37)) +
-                    ((m[u - 16 + 0 and 15].rotateLeft((u - 16 + 0 and 15) + 1) +
+                    (
+                        (
+                            m[u - 16 + 0 and 15].rotateLeft((u - 16 + 0 and 15) + 1) +
                             m[u - 16 + 3 and 15].rotateLeft((u - 16 + 3 and 15) + 1) -
                             m[u - 16 + 10 and 15].rotateLeft((u - 16 + 10 and 15) + 1) +
-                            K[u - 16]) xor h[u - 16 + 7 and 15])
+                            K[u - 16]
+                        ) xor h[u - 16 + 7 and 15]
+                    )
         }
         for (u in 18..31) {
             @Suppress("Wrapping")
@@ -139,10 +143,14 @@ internal abstract class BMWBigCore<D : BMWBigCore<D>> : DigestEngine<D>() {
                     q[u - 4] + q[u - 3].rotateLeft(53) +
                     ((q[u - 2] ushr 1) xor q[u - 2]) +
                     ((q[u - 1] ushr 2) xor q[u - 1]) +
-                    ((m[u - 16 + 0 and 15].rotateLeft((u - 16 + 0 and 15) + 1) +
+                    (
+                        (
+                            m[u - 16 + 0 and 15].rotateLeft((u - 16 + 0 and 15) + 1) +
                             m[u - 16 + 3 and 15].rotateLeft((u - 16 + 3 and 15) + 1) -
                             m[u - 16 + 10 and 15].rotateLeft((u - 16 + 10 and 15) + 1) +
-                            K[u - 16]) xor h[u - 16 + 7 and 15])
+                            K[u - 16]
+                        ) xor h[u - 16 + 7 and 15]
+                    )
         }
         val xl = q[16] xor q[17] xor q[18] xor q[19] xor q[20] xor q[21] xor q[22] xor q[23]
         val xh = xl xor q[24] xor q[25] xor q[26] xor q[27] xor q[28] xor q[29] xor q[30] xor q[31]
