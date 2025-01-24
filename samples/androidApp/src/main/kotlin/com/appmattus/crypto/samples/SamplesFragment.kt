@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.appmattus.crypto.samples.databinding.RecyclerViewFragmentBinding
 import com.appmattus.crypto.samples.ui.component.SingleLineTextHeaderItem
 import com.appmattus.crypto.samples.ui.component.SingleLineTextItem
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,22 +39,13 @@ class SamplesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            adapter = GroupAdapter<GroupieViewHolder>().apply {
-                add(SingleLineTextHeaderItem("Samples"))
-                add(
-                    SingleLineTextItem("cryptohash") {
-                        findNavController().navigate(R.id.action_samplesFragment_to_cryptoHashFragment)
-                    }
-                )
+        binding.content.setContent {
+            Column {
+                SingleLineTextHeaderItem("Samples")
+                SingleLineTextItem("cryptohash") {
+                    findNavController().navigate(R.id.action_samplesFragment_to_cryptoHashFragment)
+                }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Fix memory leak with RecyclerView
-        binding.recyclerView.adapter = null
     }
 }

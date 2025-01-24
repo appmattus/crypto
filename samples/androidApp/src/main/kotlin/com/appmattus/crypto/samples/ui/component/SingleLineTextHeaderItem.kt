@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,39 +16,52 @@
 
 package com.appmattus.crypto.samples.ui.component
 
-import android.view.View
-import com.appmattus.crypto.samples.R
-import com.appmattus.crypto.samples.databinding.SingleLineTextHeaderItemBinding
-import com.xwray.groupie.Item
-import com.xwray.groupie.viewbinding.BindableItem
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
-data class SingleLineTextHeaderItem(
-    val primaryText: CharSequence,
-    val clickListener: () -> Unit = emptyListener
-) : BindableItem<SingleLineTextHeaderItemBinding>() {
-
-    override fun isSameAs(other: Item<*>): Boolean = primaryText == (other as? SingleLineTextItem)?.primaryText
-
-    override fun hasSameContentAs(other: Item<*>): Boolean {
-        return primaryText == (other as? SingleLineTextItem)?.primaryText
-    }
-
-    override fun initializeViewBinding(view: View) = SingleLineTextHeaderItemBinding.bind(view)
-
-    override fun getLayout() = R.layout.single_line_text_header_item
-
-    override fun bind(viewBinding: SingleLineTextHeaderItemBinding, position: Int) {
-        viewBinding.primaryText.text = primaryText
-
-        viewBinding.container.setOnClickListener {
-            clickListener()
-        }
-        if (clickListener == emptyListener) {
-            viewBinding.container.isClickable = false
-        }
-    }
-
-    companion object {
-        private val emptyListener: () -> Unit = {}
+@Composable
+fun SingleLineTextHeaderItem(
+    primaryText: String,
+    modifier: Modifier = Modifier,
+    clickListener: () -> Unit = emptyListener
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .apply {
+                if (clickListener != emptyListener) {
+                    clickable { clickListener() }
+                }
+            }
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = primaryText,
+            style = MaterialTheme.typography.titleLarge
+        )
+        // TODO Was headline6
     }
 }
+
+@Composable
+@Preview
+fun SingleLineTextHeaderItemPreview() {
+    Box(Modifier.background(Color.White)) {
+        SingleLineTextHeaderItem("Single Line Header Text")
+    }
+}
+
+private val emptyListener: () -> Unit = {}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,28 +20,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.appmattus.crypto.samples.databinding.RecyclerViewFragmentBinding
 import com.appmattus.crypto.samples.ui.component.AutoCompleteTextViewItem
 import com.appmattus.crypto.samples.ui.component.EditTextItem
 import com.appmattus.crypto.samples.ui.component.SingleLineTextHeaderItem
 import com.appmattus.crypto.samples.ui.component.TwoLineTextItem
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Section
 import dagger.hilt.android.AndroidEntryPoint
-import org.orbitmvi.orbit.viewmodel.observe
+import org.orbitmvi.orbit.compose.collectAsState
 
 @AndroidEntryPoint
 class CryptoHashFragment : Fragment() {
-
-    private val viewModel by viewModels<CryptoHashViewModel>()
-
-    private val inputSection = Section()
-    private val outputSection = Section()
 
     private lateinit var binding: RecyclerViewFragmentBinding
 
@@ -51,34 +42,24 @@ class CryptoHashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            adapter = GroupAdapter<GroupieViewHolder>().apply {
-                add(SingleLineTextHeaderItem("Samples > cryptohash"))
-                add(inputSection)
-                add(outputSection)
+        binding.content.setContent {
+            val viewModel = viewModel<CryptoHashViewModel>()
+            val state = viewModel.collectAsState().value
+
+            Column {
+                SingleLineTextHeaderItem("Samples > cryptohash")
+
+                AutoCompleteTextViewItem(
+                    options = state.algorithms,
+                    optionSelected = state.currentAlgorithm,
+                    onOptionSelected = { viewModel.selectAlgorithm(it) },
+                    label = "Algorithm"
+                )
+
+                EditTextItem(state.input, { viewModel.setInputText(it) }, "Input")
+
+                TwoLineTextItem("Hash", state.hash)
             }
         }
-
-        viewModel.observe(this, state = ::render)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Fix memory leak with RecyclerView
-        binding.recyclerView.adapter = null
-    }
-
-    private fun render(state: CryptoHashState) {
-        if (inputSection.itemCount == 0) {
-            buildList {
-                add(AutoCompleteTextViewItem("Algorithm", state.algorithms) { viewModel.selectAlgorithm(it) })
-                add(EditTextItem("Input") { viewModel.setInputText(it) })
-            }.let(inputSection::update)
-        }
-
-        listOf(
-            TwoLineTextItem("Hash", state.hash),
-        ).let(outputSection::update)
     }
 }

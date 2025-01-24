@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,42 +16,54 @@
 
 package com.appmattus.crypto.samples.ui.component
 
-import android.view.View
-import com.appmattus.crypto.samples.R
-import com.appmattus.crypto.samples.databinding.TwoLineTextItemBinding
-import com.xwray.groupie.Item
-import com.xwray.groupie.viewbinding.BindableItem
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
-data class TwoLineTextItem(
-    val primaryText: CharSequence,
-    val secondaryText: CharSequence,
-    val clickListener: () -> Unit = emptyListener
-) : BindableItem<TwoLineTextItemBinding>() {
-
-    override fun isSameAs(other: Item<*>): Boolean = primaryText == (other as? TwoLineTextItem)?.primaryText
-
-    override fun hasSameContentAs(other: Item<*>): Boolean {
-        return primaryText == (other as? TwoLineTextItem)?.primaryText &&
-                secondaryText == (other as? TwoLineTextItem)?.secondaryText
-    }
-
-    override fun initializeViewBinding(view: View) = TwoLineTextItemBinding.bind(view)
-
-    override fun getLayout() = R.layout.two_line_text_item
-
-    override fun bind(viewBinding: TwoLineTextItemBinding, position: Int) {
-        viewBinding.primaryText.text = primaryText
-        viewBinding.secondaryText.text = secondaryText
-
-        viewBinding.container.setOnClickListener {
-            clickListener()
-        }
-        if (clickListener == emptyListener) {
-            viewBinding.container.isClickable = false
-        }
-    }
-
-    companion object {
-        private val emptyListener: () -> Unit = {}
+@Composable
+fun TwoLineTextItem(
+    primaryText: String,
+    secondaryText: String,
+    modifier: Modifier = Modifier,
+    clickListener: () -> Unit = emptyListener
+) {
+    Column(
+        modifier
+            .fillMaxWidth()
+            .clickable { clickListener() }
+            .padding(16.dp)
+    ) {
+        Text(
+            text = primaryText,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = secondaryText,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.secondary
+        )
     }
 }
+
+@Composable
+@Preview
+fun TwoLineTextItemPreview() {
+    Box(Modifier.background(Color.White)) {
+        TwoLineTextItem(
+            primaryText = "Senior Android Engineer",
+            secondaryText = "Android platform team"
+        )
+    }
+}
+
+private val emptyListener: () -> Unit = {}

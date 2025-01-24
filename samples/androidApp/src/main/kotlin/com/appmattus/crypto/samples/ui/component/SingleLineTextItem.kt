@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,39 +16,46 @@
 
 package com.appmattus.crypto.samples.ui.component
 
-import android.view.View
-import com.appmattus.crypto.samples.R
-import com.appmattus.crypto.samples.databinding.SingleLineTextItemBinding
-import com.xwray.groupie.Item
-import com.xwray.groupie.viewbinding.BindableItem
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
-data class SingleLineTextItem(
-    val primaryText: CharSequence,
-    val clickListener: () -> Unit = emptyListener
-) : BindableItem<SingleLineTextItemBinding>() {
-
-    override fun isSameAs(other: Item<*>): Boolean = primaryText == (other as? SingleLineTextItem)?.primaryText
-
-    override fun hasSameContentAs(other: Item<*>): Boolean {
-        return primaryText == (other as? SingleLineTextItem)?.primaryText
-    }
-
-    override fun initializeViewBinding(view: View) = SingleLineTextItemBinding.bind(view)
-
-    override fun getLayout() = R.layout.single_line_text_item
-
-    override fun bind(viewBinding: SingleLineTextItemBinding, position: Int) {
-        viewBinding.primaryText.text = primaryText
-
-        viewBinding.container.setOnClickListener {
-            clickListener()
-        }
-        if (clickListener == emptyListener) {
-            viewBinding.container.isClickable = false
-        }
-    }
-
-    companion object {
-        private val emptyListener: () -> Unit = {}
+@Composable
+fun SingleLineTextItem(
+    primaryText: String,
+    modifier: Modifier = Modifier,
+    clickListener: () -> Unit = emptyListener
+) {
+    Surface(
+        onClick = { clickListener() },
+        color = Color.Transparent,
+        modifier = modifier
+    ) {
+        Text(
+            text = primaryText,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        )
     }
 }
+
+@Composable
+@Preview
+fun SingleLineTextItemPreview() {
+    Box(Modifier.background(Color.White)) {
+        SingleLineTextItem("Single Line Text")
+    }
+}
+
+private val emptyListener: () -> Unit = {}

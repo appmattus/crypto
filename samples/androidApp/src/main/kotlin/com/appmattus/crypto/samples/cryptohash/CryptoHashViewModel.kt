@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import com.appmattus.crypto.Algorithm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
@@ -29,35 +30,39 @@ import javax.inject.Inject
 @HiltViewModel
 class CryptoHashViewModel @Inject constructor() : ViewModel(), ContainerHost<CryptoHashState, Unit> {
 
-    private var currentAlgorithm: Algorithm? = null
+    private var currentAlgorithm: Algorithm = algorithms.first()
     private var inputText: String = ""
 
     override val container: Container<CryptoHashState, Unit> =
-        container(CryptoHashState(algorithms = algorithms.map { it.algorithmName })) {
+        container(CryptoHashState(algorithms = algorithms.map { it.algorithmName }, currentAlgorithm = currentAlgorithm.algorithmName)) {
             generateHash()
         }
 
     fun selectAlgorithm(name: String) = intent {
-        currentAlgorithm = algorithms.firstOrNull { it.algorithmName == name }
+        currentAlgorithm = algorithms.first { it.algorithmName == name }
+        reduce {
+            state.copy(currentAlgorithm = currentAlgorithm.algorithmName)
+        }
         generateHash()
     }
 
-    fun setInputText(input: String) = intent {
+    fun setInputText(input: String) = blockingIntent {
         inputText = input
+        reduce {
+            state.copy(input = input)
+        }
         generateHash()
     }
 
     private fun generateHash() = intent {
         val digest = try {
-            currentAlgorithm?.createDigest()?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
+            currentAlgorithm.createDigest().digest(inputText.encodeToByteArray()).toHexString()
         } catch (expected: Exception) {
             expected.message ?: expected.toString()
         }
 
         reduce {
-            state.copy(
-                hash = digest
-            )
+            state.copy(hash = digest)
         }
     }
 

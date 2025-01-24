@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import java.net.URI
 
 buildscript {
     dependencies {
@@ -31,13 +32,11 @@ plugins {
     alias(libs.plugins.gradleMavenPublishPlugin) apply false
     alias(libs.plugins.dokkaPlugin)
     alias(libs.plugins.gradleVersionsPlugin)
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 allprojects {
     repositories {
-        //noinspection JcenterRepositoryObsolete Just needed for Groupie
-        @Suppress("DEPRECATION")
-        jcenter()
         google()
         mavenCentral()
     }
@@ -86,7 +85,7 @@ allprojects {
 
                     sourceLink {
                         localDirectory.set(rootDir)
-                        remoteUrl.set(java.net.URL("https://github.com/appmattus/crypto/blob/main"))
+                        remoteUrl.set(URI("https://github.com/appmattus/crypto/blob/main").toURL())
                         remoteLineSuffix.set("#L")
                     }
                 }

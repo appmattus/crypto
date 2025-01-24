@@ -1,5 +1,5 @@
 #
-# Copyright 2024 Appmattus Limited
+# Copyright 2024-2025 Appmattus Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@
 
 kotlin = "2.0.0"
 
-androidGradlePlugin = "8.4.1"
-detektGradlePlugin = "1.23.6"
+androidGradlePlugin = "8.8.0"
+detektGradlePlugin = "1.23.7"
 gradleVersionsPlugin = "0.51.0"
 markdownlintGradlePlugin = "0.6.0"
 gradleMavenPublishPlugin = "0.28.0"
@@ -28,16 +28,13 @@ dokkaPlugin = "1.9.20"
 kotlinX-coroutines = "1.8.1"
 
 # Sample app
-androidX-appCompat = "1.7.0"
-androidX-constraintLayout = "2.1.4"
-androidX-fragment = "1.7.1"
-androidX-lifecycle = "2.8.1"
-androidX-navigation = "2.7.7"
-androidX-vectorDrawable = "1.2.0"
-desugar = "2.0.4"
+androidX-activity-compose = "1.10.0"
+androidX-fragment = "1.8.5"
+androidX-lifecycle = "2.8.7"
+androidX-lifecycle-viewmodel-compose = "2.8.7"
+androidX-navigation = "2.8.5"
+desugar = "2.1.4"
 google-dagger = "2.51.1"
-google-material = "1.12.0"
-groupie = "2.9.0"
 leakcanary = "2.14"
 orbitMvi = "8.0.0"
 
@@ -49,25 +46,25 @@ bouncyCastle = "1.78.1"
 kotlinX-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinX-coroutines" }
 
 # Sample app
-androidX-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidX-appCompat" }
-androidX-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidX-constraintLayout" }
 androidX-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidX-fragment" }
 androidX-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidX-lifecycle" }
 androidX-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidX-lifecycle" }
 androidX-navigationFragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidX-navigation" }
 androidX-navigationUi = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidX-navigation" }
-androidX-vectorDrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "androidX-vectorDrawable" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
 google-dagger-hiltAndroid = { module = "com.google.dagger:hilt-android", version.ref = "google-dagger" }
 google-dagger-hiltCompiler = { module = "com.google.dagger:hilt-compiler", version.ref = "google-dagger" }
-google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
-groupie = { module = "com.xwray:groupie", version.ref = "groupie" }
-groupieViewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupie" }
 kotlinX-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinX-coroutines" }
 leakcanary-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
 orbitCore = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitMvi" }
+orbitCompose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbitMvi" }
 orbitViewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
+androidX-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidX-compose-ui-toolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidX-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidX-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidX-activity-compose" }
+androidX-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidX-lifecycle-viewmodel-compose" }
 
 # Tools
 detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektGradlePlugin" }
@@ -76,7 +73,7 @@ detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", v
 bouncyCastle = { module = "org.bouncycastle:bcprov-jdk15to18", version.ref = "bouncyCastle" }
 
 # Plugins
-buildscript_detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
+buildscript-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
 
 [plugins]
 
@@ -87,3 +84,5 @@ markdownlintGradlePlugin = { id = "com.appmattus.markdown", version.ref = "markd
 
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

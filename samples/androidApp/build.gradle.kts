@@ -20,6 +20,7 @@ plugins {
     id("kotlin-parcelize")
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.compose.compiler)
 }
 
 apply(plugin = "dagger.hilt.android.plugin")
@@ -38,14 +39,21 @@ dependencies {
     implementation(libs.androidX.navigationUi)
     implementation(libs.orbitCore)
     implementation(libs.orbitViewmodel)
+    implementation(libs.orbitCompose)
 
     // UI
-    implementation(libs.google.material)
-    implementation(libs.androidX.appCompat)
-    implementation(libs.androidX.constraintLayout)
-    implementation(libs.androidX.vectorDrawable)
-    implementation(libs.groupie)
-    implementation(libs.groupieViewbinding)
+    val composeBom = platform("androidx.compose:compose-bom:2025.01.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    // Material Design 3
+    implementation(libs.androidX.compose.material3)
+    // Android Studio Preview support
+    implementation(libs.androidX.compose.ui.toolingPreview)
+    debugImplementation(libs.androidX.compose.ui.tooling)
+    // Integration with activities
+    implementation(libs.androidX.activity.compose)
+    // Integration with ViewModels
+    implementation(libs.androidX.lifecycle.viewmodel.compose)
 
     // Memory leak detection and fixes
     debugImplementation(libs.leakcanary.leakcanary)
@@ -61,11 +69,11 @@ dependencies {
 android {
     namespace = "com.appmattus.crypto.samples"
 
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.appmattus.crypto.samples"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -81,8 +89,9 @@ android {
     }
 
     buildFeatures {
-        buildConfig = true
+        buildConfig = false
         viewBinding = true
+        compose = true
     }
 
     sourceSets.all {
