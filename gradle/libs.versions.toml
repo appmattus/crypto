@@ -16,9 +16,9 @@
 
 [versions]
 
-kotlin = "2.0.0"
+kotlin = "2.1.0"
 
-androidGradlePlugin = "8.8.0"
+androidGradlePlugin = "8.7.3"
 detektGradlePlugin = "1.23.7"
 gradleVersionsPlugin = "0.51.0"
 markdownlintGradlePlugin = "0.6.0"

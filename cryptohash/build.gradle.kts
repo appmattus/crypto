@@ -121,26 +121,11 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlin("test"))
-            implementation(kotlin("test-common"))
-            implementation(kotlin("test-annotations-common"))
+            implementation(libs.kotlinX.coroutinesCore)
         }
 
         jvmTest.dependencies {
-            implementation(kotlin("test-junit"))
             implementation(libs.bouncyCastle)
-            implementation(libs.kotlinX.coroutinesCore)
-        }
-
-        appleTest.dependencies {
-            implementation(libs.kotlinX.coroutinesCore)
-        }
-
-        jsTest.dependencies {
-            implementation(kotlin("test-js"))
-        }
-
-        wasmJsTest.dependencies {
-            implementation(kotlin("test-wasm-js"))
         }
     }
 }
