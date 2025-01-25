@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2025 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -307,6 +307,16 @@ class UInt128Test {
         assertEquals(0xa0a0UL.toUInt128(), u16 and value)
         assertEquals(0xa0a0a0a0UL.toUInt128(), u32 and value)
         assertEquals(0xa0a0a0a0a0a0a0a0UL.toUInt128(), u64 and value)
+
+        assertEquals(ZERO, ZERO and ZERO)
+        assertEquals(ZERO, ZERO and ONE)
+        assertEquals(ZERO, ONE and ZERO)
+        assertEquals(ONE, ONE and ONE)
+
+        assertEquals(ZERO, ZERO and ZERO)
+        assertEquals(ZERO, ZERO and MAX_VALUE)
+        assertEquals(ZERO, MAX_VALUE and ZERO)
+        assertEquals(MAX_VALUE, MAX_VALUE and MAX_VALUE)
     }
 
     @Test
@@ -325,6 +335,16 @@ class UInt128Test {
         assertEquals(UInt128(0xf0f0f0f0f0f0f0f0UL, 0xf0f0f0f0f0f0fafaUL), u16 or value)
         assertEquals(UInt128(0xf0f0f0f0f0f0f0f0UL, 0xf0f0f0f0fafafafaUL), u32 or value)
         assertEquals(UInt128(0xf0f0f0f0f0f0f0f0UL, 0xfafafafafafafafaUL), u64 or value)
+
+        assertEquals(ZERO, ZERO or ZERO)
+        assertEquals(ONE, ZERO or ONE)
+        assertEquals(ONE, ONE or ZERO)
+        assertEquals(ONE, ONE or ONE)
+
+        assertEquals(ZERO, ZERO or ZERO)
+        assertEquals(MAX_VALUE, ZERO or MAX_VALUE)
+        assertEquals(MAX_VALUE, MAX_VALUE or ZERO)
+        assertEquals(MAX_VALUE, MAX_VALUE or MAX_VALUE)
     }
 
     @Test
@@ -343,13 +363,81 @@ class UInt128Test {
         assertEquals(UInt128(0xf0f0f0f0f0f0f0f0UL, 0xf0f0f0f0f0f05a5aUL), u16 xor value)
         assertEquals(UInt128(0xf0f0f0f0f0f0f0f0UL, 0xf0f0f0f05a5a5a5aUL), u32 xor value)
         assertEquals(UInt128(0xf0f0f0f0f0f0f0f0UL, 0x5a5a5a5a5a5a5a5aUL), u64 xor value)
+
+        assertEquals(ZERO, ZERO xor ZERO)
+        assertEquals(ONE, ZERO xor ONE)
+        assertEquals(ONE, ONE xor ZERO)
+        assertEquals(ZERO, ONE xor ONE)
+
+        assertEquals(ZERO, ZERO xor ZERO)
+        assertEquals(MAX_VALUE, ZERO xor MAX_VALUE)
+        assertEquals(MAX_VALUE, MAX_VALUE xor ZERO)
+        assertEquals(ZERO, MAX_VALUE xor MAX_VALUE)
+    }
+
+    @Test
+    fun testNand() {
+        assertEquals(MAX_VALUE, ZERO nand ZERO)
+        assertEquals(MAX_VALUE, ZERO nand ONE)
+        assertEquals(MAX_VALUE, ZERO nand MAX_VALUE)
+        assertEquals(MAX_VALUE, ONE nand ZERO)
+        assertEquals(MAX_VALUE, MAX_VALUE nand ZERO)
+        assertEquals(MAX_VALUE.dec(), ONE nand ONE)
+        assertEquals(ONE.inv(), ONE nand MAX_VALUE)
+        assertEquals(ZERO, MAX_VALUE nand MAX_VALUE)
+    }
+
+    @Test
+    fun testNor() {
+        val randomValue = "123456789ABCDEF0123456789ABCDEF0".toUInt128(16)
+
+        assertEquals(MAX_VALUE, ZERO nor ZERO)
+        assertEquals(MAX_VALUE.dec(), ZERO nor ONE)
+        assertEquals(ZERO, ZERO nor MAX_VALUE)
+        assertEquals(randomValue.inv(), ZERO nor randomValue)
+
+        assertEquals(MAX_VALUE.dec(), ONE nor ZERO)
+        assertEquals(MAX_VALUE.dec(), ONE nor ONE)
+        assertEquals(ZERO, ONE nor MAX_VALUE)
+        assertEquals(randomValue.inv().dec(), ONE nor randomValue)
+
+        assertEquals(ZERO, MAX_VALUE nor ONE)
+        assertEquals(ZERO, MAX_VALUE nor ONE)
+        assertEquals(ZERO, MAX_VALUE nor randomValue)
+    }
+
+    @Test
+    fun testXnor() {
+        val value = UInt128(0xf0f0f0f0f0f0f0f0UL, 0xf0f0f0f0f0f0f0f0UL)
+
+        assertEquals(MAX_VALUE, MAX_VALUE xnor MAX_VALUE)
+        assertEquals(MAX_VALUE, ZERO xnor ZERO)
+        assertEquals(MAX_VALUE, value xnor value)
+        assertEquals(ZERO, ZERO xnor MAX_VALUE)
+        assertEquals(ZERO, MAX_VALUE xnor ZERO)
+
+        assertEquals(MAX_VALUE, ZERO xnor ZERO)
+        assertEquals(MAX_VALUE.dec(), ZERO xnor ONE)
+        assertEquals(ZERO, ZERO xnor MAX_VALUE)
+
+        assertEquals(MAX_VALUE.dec(), ONE xnor ZERO)
+        assertEquals(MAX_VALUE, ONE xnor ONE)
+        assertEquals(ONE, ONE xnor MAX_VALUE)
+
+        assertEquals(ONE, MAX_VALUE xnor ONE)
+
+        assertEquals(value, value xnor MAX_VALUE)
+        assertEquals(value, MAX_VALUE xnor value)
+
+        assertEquals(MAX_VALUE - value, value xnor ZERO)
+        assertEquals(MAX_VALUE - value, ZERO xnor value)
     }
 
     @Test
     fun testInv() {
-        assertEquals(UInt128(0xffffffffffffffffUL, 0xffffffffffffffffUL), UInt128(0x0000000000000000UL, 0x0000000000000000UL).inv())
+        assertEquals(MAX_VALUE, ZERO.inv())
         assertEquals(UInt128(0xffffffffffffffffUL, 0x0000000000000000UL), UInt128(0x0000000000000000UL, 0xffffffffffffffffUL).inv())
-        assertEquals(UInt128(0x0000000000000000UL, 0x0000000000000000UL), UInt128(0xffffffffffffffffUL, 0xffffffffffffffffUL).inv())
+        assertEquals(ZERO, MAX_VALUE.inv())
     }
 
     @Test

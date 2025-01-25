@@ -308,6 +308,15 @@ public class UInt128(
     /** Performs a bitwise XOR operation between the two values. */
     public infix fun xor(other: UInt128): UInt128 = UInt128(upper xor other.upper, lower xor other.lower)
 
+    /** Performs a bitwise NAND operation between the two values. */
+    public infix fun nand(other: UInt128): UInt128 = UInt128(upper and other.upper, lower and other.lower).inv()
+
+    /** Performs a bitwise NOR operation between the two values. */
+    public infix fun nor(other: UInt128): UInt128 = UInt128(upper or other.upper, lower or other.lower).inv()
+
+    /** Performs a bitwise XNOR operation between the two values. */
+    public infix fun xnor(other: UInt128): UInt128 = UInt128(upper xor other.upper, lower xor other.lower).inv()
+
     /** Inverts the bits in this value. */
     public fun inv(): UInt128 = UInt128(upper.inv(), lower.inv())
 
