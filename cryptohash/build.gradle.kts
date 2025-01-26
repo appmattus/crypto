@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 /*
  * Copyright 2022-2025 Appmattus Limited
@@ -36,8 +36,7 @@ kotlin {
 
     jvm()
 
-    js {
-        moduleName = "appmattusCrypto"
+    js(IR) {
         browser()
         nodejs()
         binaries.executable()
@@ -45,7 +44,6 @@ kotlin {
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        moduleName = "appmattusCryptoWasm"
         browser()
         nodejs()
         binaries.executable()
