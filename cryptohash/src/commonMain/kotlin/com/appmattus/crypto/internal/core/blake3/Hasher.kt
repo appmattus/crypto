@@ -288,7 +288,7 @@ internal class Hasher(
         /**
          * Construct a new BLAKE3 key derivation mode hasher
          * The context string should be hardcoded, globally unique, and application-specific. <br></br><br></br>
-         * A good default format is *"[application] [commit timestamp] [purpose]"*, <br></br>
+         * A good default format is *"{application} {commit timestamp} {purpose}"*, <br></br>
          * eg "example.com 2019-12-25 16:18:03 session tokens v1"
          *
          * @param context Context string used to derive keys.
