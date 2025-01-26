@@ -46,7 +46,7 @@ tasks.named("detekt", Detekt::class.java).configure {
 
     parallel = true
 
-    autoCorrect = true
+    autoCorrect = false
     buildUponDefaultConfig = true
     config.setFrom(rootProject.files("gradle/scripts/detekt.yml"))
 
