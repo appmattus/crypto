@@ -16,7 +16,7 @@
 
 [versions]
 
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 
 androidGradlePlugin = "8.8.0"
 detektGradlePlugin = "1.23.7"
