@@ -86,6 +86,8 @@ The following algorithms are supported:
 ![badge][badge-linux]
 ![badge][badge-windows]
 ![badge][badge-jvm]
+![badge][badge-js]
+![badge][badge-wasm]
 [![Maven Central](https://img.shields.io/maven-central/v/com.appmattus.crypto/cryptohash)](https://search.maven.org/search?q=g:com.appmattus.crypto)
 
 Include the following dependency in your *build.gradle.kts* file:

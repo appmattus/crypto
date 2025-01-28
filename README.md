@@ -17,6 +17,9 @@ not so cryptographic) hashing functions.
 ![badge][badge-linux]
 ![badge][badge-windows]
 ![badge][badge-jvm]
+![badge][badge-js]
+![badge][badge-wasm]
+
 
 ## Contributing
 
