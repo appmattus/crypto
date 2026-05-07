@@ -71,90 +71,164 @@ internal abstract class BMWSmallCore<D : BMWSmallCore<D>> : DigestEngine<D>() {
     private fun compress(m: IntArray) {
         val h = h
         val q = q
-        q[0] = (((m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) +
-                (m[13] xor h[13]) + (m[14] xor h[14])) ushr 1
-                xor (((m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) +
-                (m[13] xor h[13]) + (m[14] xor h[14])) shl 3)
+        q[0] = (
+            (
+                (m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) +
+                (m[13] xor h[13]) + (m[14] xor h[14])
+            ) ushr 1
+                xor (
+                    (
+                        (m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) +
+                (m[13] xor h[13]) + (m[14] xor h[14])
+                    ) shl 3
+                )
                 xor ((m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) + (m[13] xor h[13]) + (m[14] xor h[14])).rotateLeft(4)
-                xor ((m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) + (m[13] xor h[13]) + (m[14] xor h[14])).rotateLeft(19)) +
+                xor ((m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) + (m[13] xor h[13]) + (m[14] xor h[14])).rotateLeft(19)
+        ) +
                 h[1]
-        q[1] = (((m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) +
-                (m[14] xor h[14])) - (m[15] xor h[15]) ushr 1
-                xor (((m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) +
-                (m[14] xor h[14])) - (m[15] xor h[15]) shl 2)
+        q[1] = (
+            (
+                (m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) +
+                (m[14] xor h[14])
+            ) - (m[15] xor h[15]) ushr 1
+                xor (
+                    (
+                        (m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) +
+                (m[14] xor h[14])
+                    ) - (m[15] xor h[15]) shl 2
+                )
                 xor ((m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) + (m[14] xor h[14]) - (m[15] xor h[15])).rotateLeft(8)
-                xor ((m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) + (m[14] xor h[14]) - (m[15] xor h[15])).rotateLeft(23)) +
+                xor ((m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) + (m[14] xor h[14]) - (m[15] xor h[15])).rotateLeft(23)
+        ) +
                 h[2]
-        q[2] = (((m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9]) -
-                (m[12] xor h[12]) + (m[15] xor h[15])) ushr 2
-                xor (((m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9]) -
-                (m[12] xor h[12]) + (m[15] xor h[15])) shl 1)
+        q[2] = (
+            (
+                (m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9]) -
+                (m[12] xor h[12]) + (m[15] xor h[15])
+            ) ushr 2
+                xor (
+                    (
+                        (m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9]) -
+                (m[12] xor h[12]) + (m[15] xor h[15])
+                    ) shl 1
+                )
                 xor (((m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9])) - (m[12] xor h[12]) + (m[15] xor h[15])).rotateLeft(12)
-                xor (((m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9])) - (m[12] xor h[12]) + (m[15] xor h[15])).rotateLeft(25)) +
+                xor (((m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9])) - (m[12] xor h[12]) + (m[15] xor h[15])).rotateLeft(25)
+        ) +
                 h[3]
-        q[3] = (((m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) -
-                (m[10] xor h[10]) + (m[13] xor h[13])) ushr 2
-                xor (((m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) -
-                (m[10] xor h[10]) + (m[13] xor h[13])) shl 2)
+        q[3] = (
+            (
+                (m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) -
+                (m[10] xor h[10]) + (m[13] xor h[13])
+            ) ushr 2
+                xor (
+                    (
+                        (m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) -
+                (m[10] xor h[10]) + (m[13] xor h[13])
+                    ) shl 2
+                )
                 xor ((m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) - (m[10] xor h[10]) + (m[13] xor h[13])).rotateLeft(15)
-                xor ((m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) - (m[10] xor h[10]) + (m[13] xor h[13])).rotateLeft(29)) +
+                xor ((m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) - (m[10] xor h[10]) + (m[13] xor h[13])).rotateLeft(29)
+        ) +
                 h[4]
-        q[4] = ((m[1] xor h[1]) + (m[2] xor h[2]) + (m[9] xor h[9]) - (m[11] xor h[11]) - (m[14] xor h[14]) ushr 1
-                xor (m[1] xor h[1]) + (m[2] xor h[2]) + (m[9] xor h[9]) - (m[11] xor h[11]) - (m[14] xor h[14])) + h[5]
-        q[5] = (((m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) -
-                (m[12] xor h[12]) + (m[15] xor h[15])) ushr 1
-                xor (((m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) -
-                (m[12] xor h[12]) + (m[15] xor h[15])) shl 3)
+        q[4] = (
+            (m[1] xor h[1]) + (m[2] xor h[2]) + (m[9] xor h[9]) - (m[11] xor h[11]) - (m[14] xor h[14]) ushr 1
+                xor (m[1] xor h[1]) + (m[2] xor h[2]) + (m[9] xor h[9]) - (m[11] xor h[11]) - (m[14] xor h[14])
+        ) + h[5]
+        q[5] = (
+            (
+                (m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) -
+                (m[12] xor h[12]) + (m[15] xor h[15])
+            ) ushr 1
+                xor (
+                    (
+                        (m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) -
+                (m[12] xor h[12]) + (m[15] xor h[15])
+                    ) shl 3
+                )
                 xor ((m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) - (m[12] xor h[12]) + (m[15] xor h[15])).rotateLeft(4)
-                xor ((m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) - (m[12] xor h[12]) + (m[15] xor h[15])).rotateLeft(19)) +
+                xor ((m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) - (m[12] xor h[12]) + (m[15] xor h[15])).rotateLeft(19)
+        ) +
                 h[6]
-        q[6] = (((m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) -
-                (m[11] xor h[11])) + (m[13] xor h[13]) ushr 1
-                xor (((m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) -
-                (m[11] xor h[11])) + (m[13] xor h[13]) shl 2)
+        q[6] = (
+            (
+                (m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) -
+                (m[11] xor h[11])
+            ) + (m[13] xor h[13]) ushr 1
+                xor (
+                    (
+                        (m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) -
+                (m[11] xor h[11])
+                    ) + (m[13] xor h[13]) shl 2
+                )
                 xor (((m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) - (m[11] xor h[11])) + (m[13] xor h[13])).rotateLeft(8)
-                xor (((m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) - (m[11] xor h[11])) + (m[13] xor h[13])).rotateLeft(23)) +
+                xor (((m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) - (m[11] xor h[11])) + (m[13] xor h[13])).rotateLeft(23)
+        ) +
                 h[7]
-        q[7] = (((m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) -
-                (m[12] xor h[12]) - (m[14] xor h[14])) ushr 2
-                xor (((m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) -
-                (m[12] xor h[12]) - (m[14] xor h[14])) shl 1)
+        q[7] = (
+            (
+                (m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) -
+                (m[12] xor h[12]) - (m[14] xor h[14])
+            ) ushr 2
+                xor (
+                    (
+                        (m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) -
+                (m[12] xor h[12]) - (m[14] xor h[14])
+                    ) shl 1
+                )
                 xor ((m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) - (m[12] xor h[12]) - (m[14] xor h[14])).rotateLeft(12)
-                xor ((m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) - (m[12] xor h[12]) - (m[14] xor h[14])).rotateLeft(25)) +
+                xor ((m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) - (m[12] xor h[12]) - (m[14] xor h[14])).rotateLeft(25)
+        ) +
                 h[8]
-        q[8] = (((m[2] xor h[2]) - (m[5] xor h[5]) - (m[6] xor h[6]) + (m[13] xor h[13]) - (m[15] xor h[15])) ushr 2 xor
+        q[8] = (
+            ((m[2] xor h[2]) - (m[5] xor h[5]) - (m[6] xor h[6]) + (m[13] xor h[13]) - (m[15] xor h[15])) ushr 2 xor
                 (((m[2] xor h[2]) - (m[5] xor h[5]) - (m[6] xor h[6]) + (m[13] xor h[13]) - (m[15] xor h[15])) shl 2) xor
                 (((m[2] xor h[2]) - (m[5] xor h[5]) - (m[6] xor h[6])) + (m[13] xor h[13]) - (m[15] xor h[15])).rotateLeft(15) xor
-                (((m[2] xor h[2]) - (m[5] xor h[5]) - (m[6] xor h[6])) + (m[13] xor h[13]) - (m[15] xor h[15])).rotateLeft(29)) +
+                (((m[2] xor h[2]) - (m[5] xor h[5]) - (m[6] xor h[6])) + (m[13] xor h[13]) - (m[15] xor h[15])).rotateLeft(29)
+        ) +
                 h[9]
-        q[9] = (((m[0] xor h[0]) - (m[3] xor h[3]) + (m[6] xor h[6]) - (m[7] xor h[7]) + (m[14] xor h[14])) ushr 1 xor
-                ((m[0] xor h[0]) - (m[3] xor h[3]) + (m[6] xor h[6]) - (m[7] xor h[7]) + (m[14] xor h[14]))) + h[10]
-        q[10] = (((m[8] xor h[8]) - (m[1] xor h[1]) - (m[4] xor h[4]) - (m[7] xor h[7])) + (m[15] xor h[15]) ushr 1 xor
+        q[9] = (
+            ((m[0] xor h[0]) - (m[3] xor h[3]) + (m[6] xor h[6]) - (m[7] xor h[7]) + (m[14] xor h[14])) ushr 1 xor
+                ((m[0] xor h[0]) - (m[3] xor h[3]) + (m[6] xor h[6]) - (m[7] xor h[7]) + (m[14] xor h[14]))
+        ) + h[10]
+        q[10] = (
+            ((m[8] xor h[8]) - (m[1] xor h[1]) - (m[4] xor h[4]) - (m[7] xor h[7])) + (m[15] xor h[15]) ushr 1 xor
                 (((m[8] xor h[8]) - (m[1] xor h[1]) - (m[4] xor h[4]) - (m[7] xor h[7])) + (m[15] xor h[15]) shl 3) xor
                 (((m[8] xor h[8]) - (m[1] xor h[1]) - (m[4] xor h[4]) - (m[7] xor h[7])) + (m[15] xor h[15])).rotateLeft(4) xor
-                (((m[8] xor h[8]) - (m[1] xor h[1]) - (m[4] xor h[4]) - (m[7] xor h[7])) + (m[15] xor h[15])).rotateLeft(19)) +
+                (((m[8] xor h[8]) - (m[1] xor h[1]) - (m[4] xor h[4]) - (m[7] xor h[7])) + (m[15] xor h[15])).rotateLeft(19)
+        ) +
                 h[11]
-        q[11] = (((m[8] xor h[8]) - (m[0] xor h[0]) - (m[2] xor h[2]) - (m[5] xor h[5])) + (m[9] xor h[9]) ushr 1 xor
+        q[11] = (
+            ((m[8] xor h[8]) - (m[0] xor h[0]) - (m[2] xor h[2]) - (m[5] xor h[5])) + (m[9] xor h[9]) ushr 1 xor
                 (((m[8] xor h[8]) - (m[0] xor h[0]) - (m[2] xor h[2]) - (m[5] xor h[5])) + (m[9] xor h[9]) shl 2) xor
                 (((m[8] xor h[8]) - (m[0] xor h[0]) - (m[2] xor h[2]) - (m[5] xor h[5])) + (m[9] xor h[9])).rotateLeft(8) xor
-                (((m[8] xor h[8]) - (m[0] xor h[0]) - (m[2] xor h[2]) - (m[5] xor h[5])) + (m[9] xor h[9])).rotateLeft(23)) +
+                (((m[8] xor h[8]) - (m[0] xor h[0]) - (m[2] xor h[2]) - (m[5] xor h[5])) + (m[9] xor h[9])).rotateLeft(23)
+        ) +
                 h[12]
-        q[12] = (((m[1] xor h[1]) + (m[3] xor h[3]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[10] xor h[10]) ushr 2 xor
+        q[12] = (
+            ((m[1] xor h[1]) + (m[3] xor h[3]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[10] xor h[10]) ushr 2 xor
                 (((m[1] xor h[1]) + (m[3] xor h[3]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[10] xor h[10]) shl 1) xor
                 ((m[1] xor h[1]) + (m[3] xor h[3]) - (m[6] xor h[6]) - (m[9] xor h[9]) + (m[10] xor h[10])).rotateLeft(12) xor
-                ((m[1] xor h[1]) + (m[3] xor h[3]) - (m[6] xor h[6]) - (m[9] xor h[9]) + (m[10] xor h[10])).rotateLeft(25)) +
+                ((m[1] xor h[1]) + (m[3] xor h[3]) - (m[6] xor h[6]) - (m[9] xor h[9]) + (m[10] xor h[10])).rotateLeft(25)
+        ) +
                 h[13]
-        q[13] = (((m[2] xor h[2]) + (m[4] xor h[4]) + (m[7] xor h[7]) + (m[10] xor h[10]) + (m[11] xor h[11])) ushr 2 xor
+        q[13] = (
+            ((m[2] xor h[2]) + (m[4] xor h[4]) + (m[7] xor h[7]) + (m[10] xor h[10]) + (m[11] xor h[11])) ushr 2 xor
                 (((m[2] xor h[2]) + (m[4] xor h[4]) + (m[7] xor h[7]) + (m[10] xor h[10]) + (m[11] xor h[11])) shl 2) xor
                 ((m[2] xor h[2]) + (m[4] xor h[4]) + (m[7] xor h[7]) + (m[10] xor h[10]) + (m[11] xor h[11])).rotateLeft(15) xor
-                ((m[2] xor h[2]) + (m[4] xor h[4]) + (m[7] xor h[7]) + (m[10] xor h[10]) + (m[11] xor h[11])).rotateLeft(29)) +
+                ((m[2] xor h[2]) + (m[4] xor h[4]) + (m[7] xor h[7]) + (m[10] xor h[10]) + (m[11] xor h[11])).rotateLeft(29)
+        ) +
                 h[14]
-        q[14] = ((m[3] xor h[3]) - (m[5] xor h[5]) + (m[8] xor h[8]) - (m[11] xor h[11]) - (m[12] xor h[12]) ushr 1 xor
-                (m[3] xor h[3]) - (m[5] xor h[5]) + (m[8] xor h[8]) - (m[11] xor h[11]) - (m[12] xor h[12])) + h[15]
-        q[15] = (((m[12] xor h[12]) - (m[4] xor h[4]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[13] xor h[13]) ushr 1 xor
+        q[14] = (
+            (m[3] xor h[3]) - (m[5] xor h[5]) + (m[8] xor h[8]) - (m[11] xor h[11]) - (m[12] xor h[12]) ushr 1 xor
+                (m[3] xor h[3]) - (m[5] xor h[5]) + (m[8] xor h[8]) - (m[11] xor h[11]) - (m[12] xor h[12])
+        ) + h[15]
+        q[15] = (
+            ((m[12] xor h[12]) - (m[4] xor h[4]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[13] xor h[13]) ushr 1 xor
                 (((m[12] xor h[12]) - (m[4] xor h[4]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[13] xor h[13]) shl 3) xor
                 (((m[12] xor h[12]) - (m[4] xor h[4]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[13] xor h[13])).rotateLeft(4) xor
-                (((m[12] xor h[12]) - (m[4] xor h[4]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[13] xor h[13])).rotateLeft(19)) +
+                (((m[12] xor h[12]) - (m[4] xor h[4]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[13] xor h[13])).rotateLeft(19)
+        ) +
                 h[0]
         q[16] = (q[0] ushr 1 xor (q[0] shl 2) xor q[0].rotateLeft(8) xor q[0].rotateLeft(23)) +
                 (q[1] ushr 2 xor (q[1] shl 1) xor q[1].rotateLeft(12) xor q[1].rotateLeft(25)) +
