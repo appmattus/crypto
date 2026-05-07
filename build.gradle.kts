@@ -26,12 +26,12 @@ buildscript {
 
 plugins {
     alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.androidKotlinMultiplatformLibrary) apply false
+    alias(libs.plugins.android.kotlinMultiplatformLibrary) apply false
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.composeCompiler) apply false
-    alias(libs.plugins.composeHotReload) apply false
-    alias(libs.plugins.composeMultiplatform) apply false
-    alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.compose.hotReload) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.markdownlintGradlePlugin)
     alias(libs.plugins.gradleMavenPublishPlugin) apply false
     alias(libs.plugins.dokkaPlugin)
