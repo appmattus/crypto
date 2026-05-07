@@ -36,7 +36,7 @@ plugins {
     alias(libs.plugins.gradleMavenPublishPlugin) apply false
     alias(libs.plugins.dokkaPlugin)
     alias(libs.plugins.gradleVersionsPlugin)
-    id("com.google.devtools.ksp") version "2.3.4" apply false
+    id("com.google.devtools.ksp") version "2.3.7" apply false
 }
 
 allprojects {
