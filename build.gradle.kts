@@ -31,13 +31,11 @@ plugins {
     alias(libs.plugins.gradleMavenPublishPlugin) apply false
     alias(libs.plugins.dokkaPlugin)
     alias(libs.plugins.gradleVersionsPlugin)
+    id("com.google.devtools.ksp") version "2.3.4" apply false
 }
 
 allprojects {
     repositories {
-        //noinspection JcenterRepositoryObsolete Just needed for Groupie
-        @Suppress("DEPRECATION")
-        jcenter()
         google()
         mavenCentral()
         maven("https://jitpack.io")
@@ -47,26 +45,21 @@ allprojects {
 apply(from = "gradle/scripts/detekt.gradle.kts")
 
 tasks.withType<DependencyUpdatesTask> {
-    resolutionStrategy {
-        componentSelection {
-            all {
-                fun isNonStable(version: String) = listOf(
-                    "alpha",
-                    "beta",
-                    "rc",
-                    "cr",
-                    "m",
-                    "preview",
-                    "b",
-                    "ea"
-                ).any { qualifier ->
-                    version.matches(Regex("(?i).*[.-]$qualifier[.\\d-+]*"))
-                }
-                if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
-                    reject("Release candidate")
-                }
-            }
-        }
+    fun isNonStable(version: String) = listOf(
+        "alpha",
+        "beta",
+        "rc",
+        "cr",
+        "m",
+        "preview",
+        "b",
+        "ea"
+    ).any { qualifier ->
+        version.matches(Regex("(?i).*[.-]$qualifier[.\\d-+]*"))
+    }
+
+    rejectVersionIf {
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
     }
 }
 
@@ -87,7 +80,7 @@ allprojects {
 
                     sourceLink {
                         localDirectory.set(rootDir)
-                        remoteUrl.set(java.net.URL("https://github.com/appmattus/crypto/blob/main"))
+                        remoteUrl.set(uri("https://github.com/appmattus/crypto/blob/main").toURL())
                         remoteLineSuffix.set("#L")
                     }
                 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 
 plugins {
     alias(libs.plugins.android.application)
-    kotlin("android")
     id("kotlin-parcelize")
-    kotlin("kapt")
+    id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -53,7 +52,7 @@ dependencies {
 
     // Dependency Injection
     implementation(libs.google.dagger.hiltAndroid)
-    kapt(libs.google.dagger.hiltCompiler)
+    ksp(libs.google.dagger.hiltCompiler)
 
     coreLibraryDesugaring(libs.desugar)
 }
@@ -64,7 +63,7 @@ android {
     compileSdk = 34
     defaultConfig {
         applicationId = "com.appmattus.crypto.samples"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -81,7 +80,6 @@ android {
     }
 
     buildFeatures {
-        buildConfig = true
         viewBinding = true
     }
 
