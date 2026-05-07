@@ -51,6 +51,14 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":cryptohash"))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.composeViewmodel)
+            implementation(libs.orbit.core)
+            implementation(libs.orbit.viewmodel)
+            implementation(libs.orbit.compose)
+            implementation(libs.androidX.navigation3.runtime)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

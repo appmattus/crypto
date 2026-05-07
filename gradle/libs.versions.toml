@@ -36,6 +36,7 @@ androidX-constraintLayout = "2.2.1"
 androidX-fragment = "1.8.9"
 androidX-lifecycle = "2.10.0"
 androidX-navigation = "2.9.8"
+androidX-navigation3 = "1.1.0"
 androidX-vectorDrawable = "1.2.0"
 compose-hotReload = "1.1.0"
 compose-material3 = "1.10.0-alpha05"
@@ -44,6 +45,7 @@ desugar = "2.1.5"
 google-dagger = "2.59.2"
 google-material = "1.13.0"
 groupie = "2.10.1"
+koin = "4.1.0"
 leakcanary = "2.14"
 orbitMvi = "11.0.0"
 
@@ -65,6 +67,8 @@ androidX-lifecycleViewmodelCompose = { module = "org.jetbrains.androidx.lifecycl
 androidX-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidX-lifecycle" }
 androidX-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidX-lifecycle" }
 androidX-navigationFragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidX-navigation" }
+androidX-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidX-navigation3" }
+androidX-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidX-navigation3" }
 androidX-navigationUi = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidX-navigation" }
 androidX-vectorDrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "androidX-vectorDrawable" }
 compose-componentsResources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
@@ -82,10 +86,14 @@ groupie = { module = "com.github.lisawray.groupie:groupie", version.ref = "group
 groupieViewbinding = { module = "com.github.lisawray.groupie:groupie-viewbinding", version.ref = "groupie" }
 kotlinX-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinX-coroutines" }
 kotlinX-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinX-coroutines" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-composeViewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 leakcanary-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
-orbitCore = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitMvi" }
-orbitViewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
+orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbitMvi" }
+orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitMvi" }
+orbit-viewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
 
 # Tools
 detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektGradlePlugin" }

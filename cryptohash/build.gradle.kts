@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("com.vanniktech.maven.publish")
@@ -37,6 +39,12 @@ kotlin {
     js {
         browser()
         nodejs()
+        binaries.executable()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
         binaries.executable()
     }
 
