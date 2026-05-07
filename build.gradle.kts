@@ -19,8 +19,6 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.google.dagger.get()}")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${libs.versions.androidX.navigation.get()}")
     }
 }
 
@@ -36,7 +34,6 @@ plugins {
     alias(libs.plugins.gradleMavenPublishPlugin) apply false
     alias(libs.plugins.dokkaPlugin)
     alias(libs.plugins.gradleVersionsPlugin)
-    id("com.google.devtools.ksp") version "2.3.7" apply false
 }
 
 allprojects {

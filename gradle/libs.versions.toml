@@ -31,22 +31,13 @@ dokkaPlugin = "2.2.0"
 kotlinX-coroutines = "1.10.2"
 
 # Sample app
-androidX-appCompat = "1.7.1"
-androidX-constraintLayout = "2.2.1"
-androidX-fragment = "1.8.9"
 androidX-lifecycle = "2.10.0"
-androidX-navigation = "2.9.8"
 androidX-navigation3 = "1.1.1"
-androidX-vectorDrawable = "1.2.0"
 compose-hotReload = "1.1.0"
 compose-material3 = "1.11.0-alpha07"
 compose-multiplatform = "1.10.3"
 desugar = "2.1.5"
-google-dagger = "2.59.2"
-google-material = "1.13.0"
-groupie = "2.10.1"
 koin = "4.2.1"
-leakcanary = "2.14"
 orbitMvi = "11.0.0"
 
 # Testing
@@ -59,18 +50,10 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 
 # Sample app
 androidX-activityCompose = { module = "androidx.activity:activity-compose", version = "1.13.0" }
-androidX-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidX-appCompat" }
-androidX-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidX-constraintLayout" }
-androidX-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidX-fragment" }
 androidX-lifecycleRuntimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidX-lifecycle" }
 androidX-lifecycleViewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidX-lifecycle" }
-androidX-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidX-lifecycle" }
-androidX-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidX-lifecycle" }
-androidX-navigationFragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidX-navigation" }
 androidX-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidX-navigation3" }
 androidX-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidX-navigation3" }
-androidX-navigationUi = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidX-navigation" }
-androidX-vectorDrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "androidX-vectorDrawable" }
 compose-componentsResources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material3" }
@@ -79,11 +62,6 @@ compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-mu
 compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-multiplatform" }
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
-google-dagger-hiltAndroid = { module = "com.google.dagger:hilt-android", version.ref = "google-dagger" }
-google-dagger-hiltCompiler = { module = "com.google.dagger:hilt-compiler", version.ref = "google-dagger" }
-google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
-groupie = { module = "com.github.lisawray.groupie:groupie", version.ref = "groupie" }
-groupieViewbinding = { module = "com.github.lisawray.groupie:groupie-viewbinding", version.ref = "groupie" }
 kotlinX-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinX-coroutines" }
 kotlinX-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinX-coroutines" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
