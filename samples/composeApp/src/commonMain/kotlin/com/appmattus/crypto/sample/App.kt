@@ -16,8 +16,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import cryptosample.composeapp.generated.resources.Res
-import cryptosample.composeapp.generated.resources.compose_multiplatform
+import crypto.samples.composeapp.generated.resources.Res
+import crypto.samples.composeapp.generated.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

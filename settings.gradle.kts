@@ -23,5 +23,5 @@ pluginManagement {
 }
 
 include(":cryptohash")
-// include(":samples:shared")
-// include(":samples:androidApp")
+include(":samples:composeApp")
+include(":samples:androidApp")
