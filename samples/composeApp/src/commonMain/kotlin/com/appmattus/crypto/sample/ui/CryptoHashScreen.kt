@@ -5,13 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +26,7 @@ import org.orbitmvi.orbit.compose.collectAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Suppress("UnusedParameter")
 fun CryptoHashScreen(
     onBack: () -> Unit
 ) {
@@ -41,14 +41,9 @@ fun CryptoHashScreen(
         verticalArrangement = Arrangement.spacedBy(0.dp)
     ) {
         SampleHeader(text = "Samples > cryptohash")
-        SampleRow(
-            text = "Back",
-            onClick = onBack
-        )
 
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             ExposedDropdownMenuBox(
                 expanded = expanded,
@@ -63,8 +58,9 @@ fun CryptoHashScreen(
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                     },
                     modifier = Modifier
-                        .menuAnchor()
+                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
                         .fillMaxWidth()
+                        .padding(16.dp)
                 )
 
                 DropdownMenu(
@@ -86,19 +82,15 @@ fun CryptoHashScreen(
             OutlinedTextField(
                 state = state.input,
                 label = { Text("Input") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             )
 
-            Text(
-                text = "Hash",
-                style = MaterialTheme.typography.titleMedium
+            TwoLineTextRow(
+                primaryText = "Hash",
+                secondaryText = state.hash
             )
-            SelectionContainer {
-                Text(
-                    text = state.hash,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
         }
     }
 }
