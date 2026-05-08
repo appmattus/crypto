@@ -1,9 +1,12 @@
 package com.appmattus.crypto.sample
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.appmattus.crypto.sample.app.AppRoute
 import com.appmattus.crypto.sample.app.AppViewModel
@@ -24,7 +27,11 @@ fun App() {
         }
     ) {
         MaterialTheme {
-            Surface {
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .safeDrawingPadding()
+            ) {
                 val appViewModel = koinInject<AppViewModel>()
                 val state by appViewModel.collectAsState()
                 when (state.backStack.last()) {
