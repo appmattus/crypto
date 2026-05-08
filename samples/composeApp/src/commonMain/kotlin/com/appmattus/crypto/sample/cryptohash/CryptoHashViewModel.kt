@@ -1,5 +1,7 @@
 package com.appmattus.crypto.sample.cryptohash
 
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
@@ -7,33 +9,39 @@ import org.orbitmvi.orbit.viewmodel.container
 
 class CryptoHashViewModel : ViewModel(), ContainerHost<CryptoHashState, Nothing> {
 
-    private var currentAlgorithmName: String = ""
-    private var inputText: String = ""
-
-    override val container: Container<CryptoHashState, Nothing> = container(CryptoHashState())
+    override val container: Container<CryptoHashState, Nothing> = container(
+        initialState = CryptoHashState(input = TextFieldState()),
+        onCreate = {
+            snapshotFlow { state.input.text.toString() }.collect { input ->
+                reduce {
+                    state.copy(
+                        hash = generateHash(
+                            algorithmName = state.selectedAlgorithm,
+                            inputText = input
+                        )
+                    )
+                }
+            }
+        }
+    )
 
     fun selectAlgorithm(name: String) = intent {
-        currentAlgorithmName = name
         reduce {
             state.copy(
                 selectedAlgorithm = name,
-                hash = generateHash()
+                hash = generateHash(
+                    algorithmName = name,
+                    inputText = state.input.text.toString()
+                )
             )
         }
     }
 
-    fun setInputText(input: String) = intent {
-        inputText = input
-        reduce {
-            state.copy(
-                input = input,
-                hash = generateHash()
-            )
-        }
-    }
-
-    private fun generateHash(): String {
-        val algorithm = cryptoHashAlgorithms.firstOrNull { it.algorithmName == currentAlgorithmName }
+    private fun generateHash(
+        algorithmName: String,
+        inputText: String
+    ): String {
+        val algorithm = cryptoHashAlgorithms.firstOrNull { it.algorithmName == algorithmName }
 
         return try {
             algorithm?.createDigest()?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"

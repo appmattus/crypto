@@ -84,8 +84,7 @@ fun CryptoHashScreen(
             }
 
             OutlinedTextField(
-                value = state.input,
-                onValueChange = viewModel::setInputText,
+                state = state.input,
                 label = { Text("Input") },
                 modifier = Modifier.fillMaxWidth()
             )
