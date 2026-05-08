@@ -6,10 +6,23 @@ import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
 
 class AppViewModel(
-    sampleHashPreview: SampleHashPreview
 ) : ViewModel(), ContainerHost<AppState, Nothing> {
 
     override val container: Container<AppState, Nothing> = container(
-        AppState(previewHash = sampleHashPreview.hash())
+        AppState()
     )
+
+    fun openCryptoHash() = intent {
+        reduce {
+            state.copy(backStack = state.backStack + AppRoute.CryptoHash)
+        }
+    }
+
+    fun navigateBack() = intent {
+        if (state.backStack.size > 1) {
+            reduce {
+                state.copy(backStack = state.backStack.dropLast(1))
+            }
+        }
+    }
 }
