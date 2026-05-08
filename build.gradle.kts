@@ -72,19 +72,17 @@ tasks.withType<DependencyUpdatesTask> {
 allprojects {
     version = System.getenv("GITHUB_REF")?.substring(10) ?: System.getProperty("GITHUB_REF")?.substring(10) ?: "unknown"
 
-    plugins.withType<org.jetbrains.dokka.gradle.DokkaPlugin> {
-        tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
-            dokkaSourceSets {
-                configureEach {
-                    if (name.startsWith("ios")) {
-                        displayName.set("ios")
-                    }
+    pluginManager.withPlugin("org.jetbrains.dokka") {
+        extensions.configure<org.jetbrains.dokka.gradle.DokkaExtension> {
+            dokkaSourceSets.configureEach {
+                if (name.startsWith("ios")) {
+                    displayName.set("ios")
+                }
 
-                    sourceLink {
-                        localDirectory.set(rootDir)
-                        remoteUrl.set(uri("https://github.com/appmattus/crypto/blob/main").toURL())
-                        remoteLineSuffix.set("#L")
-                    }
+                sourceLink {
+                    localDirectory.set(rootDir)
+                    remoteUrl("https://github.com/appmattus/crypto/blob/main")
+                    remoteLineSuffix.set("#L")
                 }
             }
         }
