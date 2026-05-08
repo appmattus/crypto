@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +19,20 @@ package com.appmattus.crypto.internal.core.uint
 /**
  * Counts the number of set bits in the binary representation of this [UInt128] number.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt128.countOneBits(): Int = upper.countOneBits() + lower.countOneBits()
 
 /**
  * Counts the number of consecutive most significant bits that are zero in the binary representation of this [UInt128] number.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt128.countLeadingZeroBits(): Int =
     if (upper == 0uL) ULong.SIZE_BITS + lower.countLeadingZeroBits() else upper.countLeadingZeroBits()
 
 /**
  * Counts the number of consecutive least significant bits that are zero in the binary representation of this [UInt128] number.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt128.countTrailingZeroBits(): Int =
     if (lower == 0uL) ULong.SIZE_BITS + upper.countTrailingZeroBits() else lower.countTrailingZeroBits()
 
@@ -37,6 +40,7 @@ public inline fun UInt128.countTrailingZeroBits(): Int =
  * Returns a number having a single bit set in the position of the most significant set bit of this [UInt128] number,
  * or zero, if this number is zero.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt128.takeHighestOneBit(): UInt128 =
     if (upper == 0uL) UInt128(0u, lower.takeHighestOneBit()) else UInt128(upper.takeHighestOneBit(), 0u)
 
@@ -44,6 +48,7 @@ public inline fun UInt128.takeHighestOneBit(): UInt128 =
  * Returns a number having a single bit set in the position of the least significant set bit of this [UInt128] number,
  * or zero, if this number is zero.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt128.takeLowestOneBit(): UInt128 =
     if (lower == 0uL) UInt128(upper.takeLowestOneBit(), 0u) else UInt128(0u, lower.takeLowestOneBit())
 
@@ -57,6 +62,7 @@ public inline fun UInt128.takeLowestOneBit(): UInt128 =
  * Rotating by a multiple of [UInt128.SIZE_BITS] (128) returns the same number, or more generally
  * `number.rotateLeft(n) == number.rotateLeft(n % 128)`
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt128.rotateLeft(bitCount: Int): UInt128 =
     (this shl (bitCount and 127)) or (this shr 128 - (bitCount and 127))
 
@@ -70,5 +76,6 @@ public inline fun UInt128.rotateLeft(bitCount: Int): UInt128 =
  * Rotating by a multiple of [UInt128.SIZE_BITS] (128) returns the same number, or more generally
  * `number.rotateRight(n) == number.rotateRight(n % 128)`
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt128.rotateRight(bitCount: Int): UInt128 =
     (this shr (bitCount and 127)) or (this shl 128 - (bitCount and 127))

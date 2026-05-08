@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,7 @@ private fun mux64(v: ULong, prime: ULong): ULong {
     return r.lower xor r.upper
 }
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun t1ha2Loop(state: T1haState256, data: ByteBuffer, len: Int): Int {
     val detent = len - 31
 
@@ -65,6 +66,7 @@ internal inline fun t1ha2Loop(state: T1haState256, data: ByteBuffer, len: Int): 
     return v
 }
 
+@Suppress("NOTHING_TO_INLINE")
 private inline fun t1ha2Update(s: T1haState256, data: ByteBuffer, offset: Int) {
     val w0: ULong = data.decodeLEULong(offset)
     val w1: ULong = data.decodeLEULong(offset + 8)
@@ -79,6 +81,7 @@ private inline fun t1ha2Update(s: T1haState256, data: ByteBuffer, offset: Int) {
     s.a = s.a xor (PRIME_5 * (d02 + w3))
 }
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun t1ha2Update(s: T1haState256, data: ByteArray, offset: Int) {
     val w0: ULong = data.decodeLEULong(offset)
     val w1: ULong = data.decodeLEULong(offset + 8)

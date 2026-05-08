@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,11 +197,13 @@ internal class Wyhash(
             return Pair(newSeed, wymixNormalProtection(newSeed, newSeed xor 0xe7037ed1a0b428dbuL))
         }
 
+        @Suppress("NOTHING_TO_INLINE")
         private inline fun wymixExtraProtection(a: ULong, b: ULong): ULong {
             val r = a.toUInt128() * b
             return (a xor r.lower) xor (b xor r.upper)
         }
 
+        @Suppress("NOTHING_TO_INLINE")
         private inline fun wymixNormalProtection(a: ULong, b: ULong): ULong {
             val r = a.toUInt128() * b
             return r.lower xor r.upper

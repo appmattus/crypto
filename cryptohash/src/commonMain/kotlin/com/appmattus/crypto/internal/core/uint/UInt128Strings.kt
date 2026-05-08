@@ -57,6 +57,7 @@ public fun String.toUInt128(radix: Int): UInt128 = toUInt128OrNull(radix) ?: thr
  * Parses the string as an [UInt128] number and returns the result
  * or `null` if the string is not a valid representation of a number.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun String.toUInt128OrNull(): UInt128? = toUInt128OrNull(radix = 10)
 
 /**
