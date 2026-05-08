@@ -17,13 +17,16 @@ import com.appmattus.crypto.sample.app.AppViewModel
 import com.appmattus.crypto.sample.di.sampleAppModule
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
+import org.koin.dsl.koinConfiguration
 
 @Composable
 @Preview
 fun App() {
-    KoinApplication(application = {
-        modules(sampleAppModule)
-    }) {
+    KoinApplication(
+        configuration = koinConfiguration {
+            modules(sampleAppModule)
+        }
+    ) {
         MaterialTheme {
             Surface {
                 val appViewModel = koinInject<AppViewModel>()

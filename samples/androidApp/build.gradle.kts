@@ -38,4 +38,6 @@ dependencies {
     implementation(project(":samples:composeApp"))
     implementation(libs.androidX.activityCompose)
     debugImplementation(libs.compose.uiTooling)
+    debugImplementation(libs.leakcanary.leakcanary)
+    implementation(libs.leakcanary.plumber)
 }

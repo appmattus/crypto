@@ -38,6 +38,7 @@ compose-material3 = "1.11.0-alpha07"
 compose-multiplatform = "1.10.3"
 desugar = "2.1.5"
 koin = "4.2.1"
+leakcanary = "2.14"
 orbitMvi = "11.0.0"
 
 # Testing
