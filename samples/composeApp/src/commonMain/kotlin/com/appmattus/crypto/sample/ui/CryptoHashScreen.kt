@@ -1,5 +1,6 @@
 package com.appmattus.crypto.sample.ui
 
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.appmattus.crypto.sample.cryptohash.CryptoHashState
 import com.appmattus.crypto.sample.cryptohash.CryptoHashViewModel
 import org.koin.compose.koinInject
 import org.orbitmvi.orbit.compose.collectAsState
@@ -32,6 +35,19 @@ fun CryptoHashScreen(
 ) {
     val viewModel = koinInject<CryptoHashViewModel>()
     val state by viewModel.collectAsState()
+
+    CryptoHashScreenContent(
+        state = state,
+        onAlgorithmSelected = viewModel::selectAlgorithm
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun CryptoHashScreenContent(
+    state: CryptoHashState,
+    onAlgorithmSelected: (String) -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(
@@ -72,7 +88,7 @@ fun CryptoHashScreen(
                             text = { Text(algorithm) },
                             onClick = {
                                 expanded = false
-                                viewModel.selectAlgorithm(algorithm)
+                                onAlgorithmSelected(algorithm)
                             }
                         )
                     }
@@ -92,5 +108,22 @@ fun CryptoHashScreen(
                 secondaryText = state.hash
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun CryptoHashScreenPreview() {
+    val inputState = remember { TextFieldState("hello world") }
+
+    SamplePreview {
+        CryptoHashScreenContent(
+            state = CryptoHashState(
+                selectedAlgorithm = "MD5",
+                input = inputState,
+                hash = "5eb63bbbe01eeed093cb22bb8f5acdc3"
+            ),
+            onAlgorithmSelected = {}
+        )
     }
 }

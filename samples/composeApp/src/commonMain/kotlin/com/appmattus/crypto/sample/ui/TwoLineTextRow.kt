@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -30,5 +31,16 @@ fun TwoLineTextRow(
                 style = MaterialTheme.typography.bodySmall
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun TwoLineTextRowPreview() {
+    SamplePreview {
+        TwoLineTextRow(
+            primaryText = "Hash",
+            secondaryText = "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2"
+        )
     }
 }
