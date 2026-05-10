@@ -1,6 +1,6 @@
 # Notices
 
-Copyright &copy; 2021 Appmattus Limited.
+Copyright &copy; 2021-2026 Appmattus Limited.
 
 Portions:
 
@@ -9,4 +9,4 @@ Portions:
 - Copyright &copy; 2007-2010 [Projet RNRT SAPHIR](https://github.com/sfuhrm/saphir-hash)
 - Copyright &copy; 2012-2021 [xxHash Library](https://github.com/Cyan4973/xxHash)
 
-Translations to Kotlin copyright &copy; 2021 Appmattus Limited.
+Translations to Kotlin copyright &copy; 2021-2026 Appmattus Limited.
