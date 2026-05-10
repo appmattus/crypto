@@ -19,10 +19,10 @@
 kotlin = "2.3.21"
 
 androidGradlePlugin = "9.2.1"
-android-compileSdk = "36"
+android-compileSdk = "37"
 android-minSdk = "24"
-android-targetSdk = "36"
-detektGradlePlugin = "1.23.7"
+android-targetSdk = "37"
+detektGradlePlugin = "1.23.8"
 gradleVersionsPlugin = "0.54.0"
 markdownlintGradlePlugin = "0.6.0"
 gradleMavenPublishPlugin = "0.36.0"

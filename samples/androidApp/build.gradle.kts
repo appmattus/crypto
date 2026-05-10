@@ -31,12 +31,14 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 }
 
 dependencies {
     implementation(project(":samples:composeApp"))
     implementation(libs.androidX.activityCompose)
+    coreLibraryDesugaring(libs.desugar)
     debugImplementation(libs.compose.uiTooling)
     debugImplementation(libs.leakcanary.leakcanary)
     implementation(libs.leakcanary.plumber)
