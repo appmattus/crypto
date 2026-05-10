@@ -21,12 +21,9 @@ import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
 
-class AppViewModel(
-) : ViewModel(), ContainerHost<AppState, Nothing> {
+class AppViewModel : ViewModel(), ContainerHost<AppState, Nothing> {
 
-    override val container: Container<AppState, Nothing> = container(
-        AppState()
-    )
+    override val container: Container<AppState, Nothing> = container(AppState())
 
     fun openCryptoHash() = intent {
         reduce {
