@@ -40,7 +40,7 @@ internal class XXH3_128(val parameters: Algorithm.XXH3_128) : AbstractDigest<XXH
     }
 
     override val digestLength: Int
-        get() = 8
+        get() = 16
 
     override fun reset() {
         when (parameters) {
