@@ -1,5 +1,5 @@
 #
-# Copyright 2024 Appmattus Limited
+# Copyright 2024-2026 Appmattus Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,58 +16,65 @@
 
 [versions]
 
-kotlin = "2.0.0"
+kotlin = "2.3.21"
 
-androidGradlePlugin = "8.4.1"
-detektGradlePlugin = "1.23.6"
-gradleVersionsPlugin = "0.51.0"
+androidGradlePlugin = "9.2.1"
+android-compileSdk = "37"
+android-minSdk = "24"
+android-targetSdk = "37"
+detektGradlePlugin = "1.23.8"
+gradleVersionsPlugin = "0.54.0"
 markdownlintGradlePlugin = "0.6.0"
-gradleMavenPublishPlugin = "0.28.0"
-dokkaPlugin = "1.9.20"
+gradleMavenPublishPlugin = "0.36.0"
+dokkaPlugin = "2.2.0"
 
-kotlinX-coroutines = "1.8.1"
+kotlinX-coroutines = "1.10.2"
 
 # Sample app
-androidX-appCompat = "1.7.0"
-androidX-constraintLayout = "2.1.4"
-androidX-fragment = "1.7.1"
-androidX-lifecycle = "2.8.1"
-androidX-navigation = "2.7.7"
-androidX-vectorDrawable = "1.2.0"
-desugar = "2.0.4"
-google-dagger = "2.51.1"
-google-material = "1.12.0"
-groupie = "2.9.0"
+androidX-lifecycle = "2.10.0"
+androidX-navigation3 = "1.1.1"
+compose-hotReload = "1.1.0"
+compose-material3 = "1.10.0-alpha05"
+compose-multiplatform = "1.10.3"
+desugar = "2.1.5"
+koin = "4.2.1"
 leakcanary = "2.14"
-orbitMvi = "8.0.0"
+orbitMvi = "11.0.0"
 
 # Testing
-bouncyCastle = "1.78.1"
+bouncyCastle = "1.84"
 
 [libraries]
 
 kotlinX-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinX-coroutines" }
+kotlinX-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinX-coroutines" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 # Sample app
-androidX-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidX-appCompat" }
-androidX-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidX-constraintLayout" }
-androidX-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "androidX-fragment" }
-androidX-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidX-lifecycle" }
-androidX-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidX-lifecycle" }
-androidX-navigationFragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidX-navigation" }
-androidX-navigationUi = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidX-navigation" }
-androidX-vectorDrawable = { module = "androidx.vectordrawable:vectordrawable", version.ref = "androidX-vectorDrawable" }
+androidX-activityCompose = { module = "androidx.activity:activity-compose", version = "1.13.0" }
+androidX-lifecycleRuntimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidX-lifecycle" }
+androidX-lifecycleViewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidX-lifecycle" }
+androidX-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "androidX-navigation3" }
+androidX-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "androidX-navigation3" }
+compose-componentsResources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material3" }
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
+compose-uiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-multiplatform" }
+compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
-google-dagger-hiltAndroid = { module = "com.google.dagger:hilt-android", version.ref = "google-dagger" }
-google-dagger-hiltCompiler = { module = "com.google.dagger:hilt-compiler", version.ref = "google-dagger" }
-google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
-groupie = { module = "com.xwray:groupie", version.ref = "groupie" }
-groupieViewbinding = { module = "com.xwray:groupie-viewbinding", version.ref = "groupie" }
 kotlinX-coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinX-coroutines" }
+kotlinX-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinX-coroutines" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-composeViewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 leakcanary-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 leakcanary-plumber = { module = "com.squareup.leakcanary:plumber-android", version.ref = "leakcanary" }
-orbitCore = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitMvi" }
-orbitViewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
+orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbitMvi" }
+orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbitMvi" }
+orbit-viewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbitMvi" }
+orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbitMvi" }
 
 # Tools
 detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektGradlePlugin" }
@@ -86,4 +93,9 @@ gradleVersionsPlugin = { id = "com.github.ben-manes.versions", version.ref = "gr
 markdownlintGradlePlugin = { id = "com.appmattus.markdown", version.ref = "markdownlintGradlePlugin" }
 
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-kotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hotReload" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

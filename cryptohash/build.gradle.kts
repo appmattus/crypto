@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     kotlin("multiplatform")
@@ -37,12 +39,20 @@ kotlin {
     js {
         browser()
         nodejs()
-        binaries.executable()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        nodejs()
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmWasi {
+        nodejs()
     }
 
     // Tier 1
     // Apple macOS hosts only:
-    macosX64() // Running tests
     macosArm64() // Running tests
     iosSimulatorArm64() // Running tests
     iosX64() // Running tests
@@ -52,11 +62,9 @@ kotlin {
     linuxArm64()
     // Apple macOS hosts only:
     watchosSimulatorArm64() // Running tests
-    watchosX64() // Running tests
     watchosArm32()
     watchosArm64()
     tvosSimulatorArm64() // Running tests
-    tvosX64() // Running tests
     tvosArm64()
     iosArm64()
 
@@ -94,16 +102,13 @@ kotlin {
         mingwTest.get().dependsOn(androidAndLinuxAndMingwTest)
         androidNativeTest.get().dependsOn(androidAndLinuxAndMingwTest)
 
-        val macosX64Main by getting { dependsOn(apple64Main) }
         val macosArm64Main by getting { dependsOn(apple64Main) }
         val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
         val iosX64Main by getting { dependsOn(apple64Main) }
         val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-        val watchosX64Main by getting { dependsOn(apple64Main) }
         val watchosArm32Main by getting { dependsOn(apple32Main) }
         val watchosArm64Main by getting { dependsOn(apple32Main) }
         val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-        val tvosX64Main by getting { dependsOn(apple64Main) }
         val tvosArm64Main by getting { dependsOn(apple64Main) }
         val iosArm64Main by getting { dependsOn(apple64Main) }
         val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,17 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${libs.versions.google.dagger.get()}")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${libs.versions.androidX.navigation.get()}")
     }
 }
 
 plugins {
     alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.kotlinMultiplatformLibrary) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.compose.hotReload) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.markdownlintGradlePlugin)
     alias(libs.plugins.gradleMavenPublishPlugin) apply false
     alias(libs.plugins.dokkaPlugin)
@@ -35,37 +38,30 @@ plugins {
 
 allprojects {
     repositories {
-        //noinspection JcenterRepositoryObsolete Just needed for Groupie
-        @Suppress("DEPRECATION")
-        jcenter()
         google()
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 
 apply(from = "gradle/scripts/detekt.gradle.kts")
 
 tasks.withType<DependencyUpdatesTask> {
-    resolutionStrategy {
-        componentSelection {
-            all {
-                fun isNonStable(version: String) = listOf(
-                    "alpha",
-                    "beta",
-                    "rc",
-                    "cr",
-                    "m",
-                    "preview",
-                    "b",
-                    "ea"
-                ).any { qualifier ->
-                    version.matches(Regex("(?i).*[.-]$qualifier[.\\d-+]*"))
-                }
-                if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
-                    reject("Release candidate")
-                }
-            }
-        }
+    fun isNonStable(version: String) = listOf(
+        "alpha",
+        "beta",
+        "rc",
+        "cr",
+        "m",
+        "preview",
+        "b",
+        "ea"
+    ).any { qualifier ->
+        version.matches(Regex("(?i).*[.-]$qualifier[.\\d-+]*"))
+    }
+
+    rejectVersionIf {
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
     }
 }
 
@@ -76,19 +72,17 @@ tasks.withType<DependencyUpdatesTask> {
 allprojects {
     version = System.getenv("GITHUB_REF")?.substring(10) ?: System.getProperty("GITHUB_REF")?.substring(10) ?: "unknown"
 
-    plugins.withType<org.jetbrains.dokka.gradle.DokkaPlugin> {
-        tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
-            dokkaSourceSets {
-                configureEach {
-                    if (name.startsWith("ios")) {
-                        displayName.set("ios")
-                    }
+    pluginManager.withPlugin("org.jetbrains.dokka") {
+        extensions.configure<org.jetbrains.dokka.gradle.DokkaExtension> {
+            dokkaSourceSets.configureEach {
+                if (name.startsWith("ios")) {
+                    displayName.set("ios")
+                }
 
-                    sourceLink {
-                        localDirectory.set(rootDir)
-                        remoteUrl.set(java.net.URL("https://github.com/appmattus/crypto/blob/main"))
-                        remoteLineSuffix.set("#L")
-                    }
+                sourceLink {
+                    localDirectory.set(rootDir)
+                    remoteUrl("https://github.com/appmattus/crypto/blob/main")
+                    remoteLineSuffix.set("#L")
                 }
             }
         }

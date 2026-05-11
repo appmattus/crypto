@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,6 +44,7 @@ internal fun encodeLEInt(value: Int, buf: ByteArray, off: Int) {
  * @param off   the source offset
  * @return the decoded value
  */
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun decodeLEInt(buf: ByteArray, off: Int): Int {
     return (buf[off + 3].toInt() and 0xFF shl 24) or
             (buf[off + 2].toInt() and 0xFF shl 16) or
@@ -51,10 +52,12 @@ internal inline fun decodeLEInt(buf: ByteArray, off: Int): Int {
             (buf[off].toInt() and 0xFF)
 }
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun ByteArray.decodeLEShort(off: Int): Short {
     return ((this[off + 1].toInt() and 0xFF shl 8) or (this[off].toInt() and 0xFF)).toShort()
 }
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun ByteBuffer.decodeLEInt(off: Int): Int {
     return (this[off + 3].toInt() and 0xFF shl 24) or
             (this[off + 2].toInt() and 0xFF shl 16) or
@@ -62,6 +65,7 @@ internal inline fun ByteBuffer.decodeLEInt(off: Int): Int {
             (this[off].toInt() and 0xFF)
 }
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun ByteBuffer.decodeBEInt(off: Int): Int {
     return this[off].toInt() and 0xFF shl 24 or
             (this[off + 1].toInt() and 0xFF shl 16) or
@@ -69,6 +73,7 @@ internal inline fun ByteBuffer.decodeBEInt(off: Int): Int {
             (this[off + 3].toInt() and 0xFF)
 }
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun ByteBuffer.decodeLEUInt(off: Int): UInt = decodeLEInt(off).toUInt()
 
 /**
@@ -78,6 +83,7 @@ internal inline fun ByteBuffer.decodeLEUInt(off: Int): UInt = decodeLEInt(off).t
  * @param off   the source offset
  * @return the decoded integer
  */
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun decodeLELong(buf: ByteArray, off: Int): Long {
     return buf[off + 0].toLong() and 0xFF or
             ((buf[off + 1].toLong() and 0xFF) shl 8) or
@@ -89,8 +95,10 @@ internal inline fun decodeLELong(buf: ByteArray, off: Int): Long {
             ((buf[off + 7].toLong() and 0xFF) shl 56)
 }
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun ByteArray.decodeLEULong(off: Int): ULong = decodeLELong(this, off).toULong()
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun ByteBuffer.decodeLELong(off: Int): Long {
     return this[off + 0].toLong() and 0xFF or
             ((this[off + 1].toLong() and 0xFF) shl 8) or
@@ -102,6 +110,7 @@ internal inline fun ByteBuffer.decodeLELong(off: Int): Long {
             ((this[off + 7].toLong() and 0xFF) shl 56)
 }
 
+@Suppress("NOTHING_TO_INLINE")
 internal inline fun ByteBuffer.decodeLEULong(off: Int): ULong = decodeLELong(off).toULong()
 
 /**

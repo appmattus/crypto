@@ -4,6 +4,8 @@ build:
 style:
     MagicNumber:
         active: false
+    UnusedPrivateMember:
+        ignoreAnnotated: ['Preview']
     MaxLineLength:
         active: false
 
@@ -34,6 +36,8 @@ formatting:
         excludes: ['**/commonTest/**/internal/**']
 
 naming:
+    FunctionNaming:
+        ignoreAnnotated: ['Composable']
     ClassNaming:
         excludes: ['**/commonTest/**/internal/**']
 
@@ -43,4 +47,5 @@ complexity:
     LongMethod:
         excludes: ['**/commonTest/**/internal/**']
     TooManyFunctions:
+        ignoreAnnotatedFunctions: ['Preview']
         excludes: ['**/commonTest/**/internal/**']

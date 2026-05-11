@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,6 +57,7 @@ public fun String.toUInt128(radix: Int): UInt128 = toUInt128OrNull(radix) ?: thr
  * Parses the string as an [UInt128] number and returns the result
  * or `null` if the string is not a valid representation of a number.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun String.toUInt128OrNull(): UInt128? = toUInt128OrNull(radix = 10)
 
 /**

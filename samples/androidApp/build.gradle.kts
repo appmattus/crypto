@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,60 +16,28 @@
 
 plugins {
     alias(libs.plugins.android.application)
-    kotlin("android")
-    id("kotlin-parcelize")
-    kotlin("kapt")
-    id("androidx.navigation.safeargs.kotlin")
-}
-
-apply(plugin = "dagger.hilt.android.plugin")
-
-dependencies {
-    implementation(project(":samples:shared"))
-
-    implementation(libs.kotlinX.coroutinesCore)
-    implementation(libs.kotlinX.coroutinesAndroid)
-
-    // Architecture
-    implementation(libs.androidX.fragment)
-    implementation(libs.androidX.lifecycleRuntime)
-    implementation(libs.androidX.lifecycleViewmodel)
-    implementation(libs.androidX.navigationFragment)
-    implementation(libs.androidX.navigationUi)
-    implementation(libs.orbitCore)
-    implementation(libs.orbitViewmodel)
-
-    // UI
-    implementation(libs.google.material)
-    implementation(libs.androidX.appCompat)
-    implementation(libs.androidX.constraintLayout)
-    implementation(libs.androidX.vectorDrawable)
-    implementation(libs.groupie)
-    implementation(libs.groupieViewbinding)
-
-    // Memory leak detection and fixes
-    debugImplementation(libs.leakcanary.leakcanary)
-    implementation(libs.leakcanary.plumber)
-
-    // Dependency Injection
-    implementation(libs.google.dagger.hiltAndroid)
-    kapt(libs.google.dagger.hiltCompiler)
-
-    coreLibraryDesugaring(libs.desugar)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.multiplatform)
 }
 
 android {
-    namespace = "com.appmattus.crypto.samples"
+    namespace = "com.appmattus.crypto.sample"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-    compileSdk = 34
     defaultConfig {
-        applicationId = "com.appmattus.crypto.samples"
-        minSdk = 21
-        targetSdk = 34
+        applicationId = "com.appmattus.crypto.sample"
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-        vectorDrawables.useSupportLibrary = true
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
@@ -77,19 +45,17 @@ android {
     }
 
     compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
-    }
-
-    buildFeatures {
-        buildConfig = true
-        viewBinding = true
-    }
-
-    sourceSets.all {
-        java.srcDir("src/$name/kotlin")
     }
 }
 
-kotlin {
-    jvmToolchain(11)
+dependencies {
+    implementation(project(":samples:composeApp"))
+    implementation(libs.androidX.activityCompose)
+    coreLibraryDesugaring(libs.desugar)
+    debugImplementation(libs.compose.uiTooling)
+    debugImplementation(libs.leakcanary.leakcanary)
+    implementation(libs.leakcanary.plumber)
 }

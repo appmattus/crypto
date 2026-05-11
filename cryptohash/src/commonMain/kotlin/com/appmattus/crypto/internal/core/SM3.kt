@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,11 +53,19 @@ internal class SM3 : MDHelper<SM3>(false, 8) {
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun p0(x: Int) = x xor x.rotateLeft(9) xor x.rotateLeft(17)
+
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun p1(x: Int) = x xor x.rotateLeft(15) xor x.rotateLeft(23)
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun f1(x: Int, y: Int, z: Int) = x xor y xor z
+
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun ff(x: Int, y: Int, z: Int) = (x and y) xor (x and z) xor (y and z)
+
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun gg(x: Int, y: Int, z: Int) = (x and y) xor (x.inv() and z)
 
     override fun processBlock(data: ByteArray) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,6 +66,7 @@ public class UInt128(
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun compareTo(other: UByte): Int = compareTo(other.toUInt128())
 
     /**
@@ -73,6 +74,7 @@ public class UInt128(
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun compareTo(other: UShort): Int = compareTo(other.toUInt128())
 
     /**
@@ -80,6 +82,7 @@ public class UInt128(
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun compareTo(other: UInt): Int = compareTo(other.toUInt128())
 
     /**
@@ -87,6 +90,7 @@ public class UInt128(
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun compareTo(other: ULong): Int = compareTo(other.toUInt128())
 
     /**
@@ -97,60 +101,76 @@ public class UInt128(
     public override fun compareTo(other: UInt128): Int = uint128Compare(this, other)
 
     /** Adds the [other] value to this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun plus(other: UByte): UInt128 = plus(other.toUInt128())
 
     /** Adds the [other] value to this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun plus(other: UShort): UInt128 = plus(other.toUInt128())
 
     /** Adds the [other] value to this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun plus(other: UInt): UInt128 = plus(other.toUInt128())
 
     /** Adds the [other] value to this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun plus(other: ULong): UInt128 = plus(other.toUInt128())
 
     /** Adds the [other] value to this value. */
     public operator fun plus(other: UInt128): UInt128 = uint128Plus(this, other)
 
     /** Subtracts the [other] value from this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun minus(other: UByte): UInt128 = minus(other.toUInt128())
 
     /** Subtracts the [other] value from this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun minus(other: UShort): UInt128 = minus(other.toUInt128())
 
     /** Subtracts the [other] value from this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun minus(other: UInt): UInt128 = minus(other.toUInt128())
 
     /** Subtracts the [other] value from this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun minus(other: ULong): UInt128 = minus(other.toUInt128())
 
     /** Subtracts the [other] value from this value. */
     public operator fun minus(other: UInt128): UInt128 = this + other.inv() + ONE
 
     /** Multiplies this value by the other value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun times(other: UByte): UInt128 = times(other.toUInt128())
 
     /** Multiplies this value by the other value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun times(other: UShort): UInt128 = times(other.toUInt128())
 
     /** Multiplies this value by the other value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun times(other: UInt): UInt128 = times(other.toUInt128())
 
     /** Multiplies this value by the other value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun times(other: ULong): UInt128 = times(other.toUInt128())
 
     /** Multiplies this value by the [other] value. */
     public operator fun times(other: UInt128): UInt128 = uint128Times(this, other)
 
     /** Divides this value by the [other] value, truncating the result to an integer that is closer to zero. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun div(other: UByte): UInt128 = div(other.toUInt128())
 
     /** Divides this value by the [other] value, truncating the result to an integer that is closer to zero. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun div(other: UShort): UInt128 = div(other.toUInt128())
 
     /** Divides this value by the [other] value, truncating the result to an integer that is closer to zero. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun div(other: UInt): UInt128 = div(other.toUInt128())
 
     /** Divides this value by the [other] value, truncating the result to an integer that is closer to zero. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun div(other: ULong): UInt128 = div(other.toUInt128())
 
     /** Divides this value by the [other] value, truncating the result to an integer that is closer to zero. */
@@ -161,6 +181,7 @@ public class UInt128(
      *
      * The result is always less than the divisor.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun rem(other: UByte): UInt128 = rem(other.toUInt128())
 
     /**
@@ -168,6 +189,7 @@ public class UInt128(
      *
      * The result is always less than the divisor.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun rem(other: UShort): UInt128 = rem(other.toUInt128())
 
     /**
@@ -175,6 +197,7 @@ public class UInt128(
      *
      * The result is always less than the divisor.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun rem(other: UInt): UInt128 = rem(other.toUInt128())
 
     /**
@@ -182,6 +205,7 @@ public class UInt128(
      *
      * The result is always less than the divisor.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun rem(other: ULong): UInt128 = rem(other.toUInt128())
 
     /**
@@ -196,6 +220,7 @@ public class UInt128(
      *
      * For unsigned types, the results of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun floorDiv(other: UByte): UInt128 = floorDiv(other.toUInt128())
 
     /**
@@ -203,6 +228,7 @@ public class UInt128(
      *
      * For unsigned types, the results of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun floorDiv(other: UShort): UInt128 = floorDiv(other.toUInt128())
 
     /**
@@ -210,6 +236,7 @@ public class UInt128(
      *
      * For unsigned types, the results of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun floorDiv(other: UInt): UInt128 = floorDiv(other.toUInt128())
 
     /**
@@ -217,6 +244,7 @@ public class UInt128(
      *
      * For unsigned types, the results of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun floorDiv(other: ULong): UInt128 = floorDiv(other.toUInt128())
 
     /**
@@ -224,6 +252,7 @@ public class UInt128(
      *
      * For unsigned types, the results of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun floorDiv(other: UInt128): UInt128 = div(other)
 
     /**
@@ -233,6 +262,7 @@ public class UInt128(
      *
      * For unsigned types, the remainders of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun mod(other: UByte): UByte = mod(other.toUInt128()).toUByte()
 
     /**
@@ -242,6 +272,7 @@ public class UInt128(
      *
      * For unsigned types, the remainders of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun mod(other: UShort): UShort = mod(other.toUInt128()).toUShort()
 
     /**
@@ -251,6 +282,7 @@ public class UInt128(
      *
      * For unsigned types, the remainders of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun mod(other: UInt): UInt = mod(other.toUInt128()).toUInt()
 
     /**
@@ -260,6 +292,7 @@ public class UInt128(
      *
      * For unsigned types, the remainders of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun mod(other: ULong): ULong = mod(other.toUInt128()).toULong()
 
     /**
@@ -269,6 +302,7 @@ public class UInt128(
      *
      * For unsigned types, the remainders of flooring division and truncating division are the same.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun mod(other: UInt128): UInt128 = rem(other)
 
     /** Returns this value incremented by one. */
@@ -278,6 +312,7 @@ public class UInt128(
     public operator fun dec(): UInt128 = this - ONE
 
     /** Creates a range from this value to the specified [other] value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline operator fun rangeTo(other: UInt128): UInt128Range = UInt128Range(this, other)
 
     /**
@@ -323,6 +358,7 @@ public class UInt128(
      * The resulting [Byte] value is represented by the least significant 8 bits of this [UInt128] value.
      * Note that the resulting [Byte] value may be negative.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toByte(): Byte = lower.toByte()
 
     /**
@@ -334,6 +370,7 @@ public class UInt128(
      * The resulting [Short] value is represented by the least significant 16 bits of this [UInt128] value.
      * Note that the resulting [Short] value may be negative.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toShort(): Short = lower.toShort()
 
     /**
@@ -345,6 +382,7 @@ public class UInt128(
      * The resulting [Int] value is represented by the least significant 32 bits of this [UInt128] value.
      * Note that the resulting [Int] value may be negative.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toInt(): Int = lower.toInt()
 
     /**
@@ -356,6 +394,7 @@ public class UInt128(
      * The resulting [Long] value is represented by the least significant 64 bits of this [UInt128] value.
      * Note that the resulting [Long] value may be negative.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toLong(): Long = lower.toLong()
 
     /**
@@ -366,6 +405,7 @@ public class UInt128(
      *
      * The resulting [UByte] value is represented by the least significant 8 bits of this [UInt128] value.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toUByte(): UByte = lower.toUByte()
 
     /**
@@ -376,6 +416,7 @@ public class UInt128(
      *
      * The resulting [UShort] value is represented by the least significant 16 bits of this [UInt128] value.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toUShort(): UShort = lower.toUShort()
 
     /**
@@ -386,6 +427,7 @@ public class UInt128(
      *
      * The resulting [UInt] value is represented by the least significant 32 bits of this [UInt128] value.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toUInt(): UInt = lower.toUInt()
 
     /**
@@ -396,9 +438,11 @@ public class UInt128(
      *
      * The resulting [ULong] value is represented by the least significant 64 bits of this [UInt128] value.
      */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toULong(): ULong = lower
 
     /** Returns this value. */
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun toUInt128(): UInt128 = this
 
     override fun equals(other: Any?): Boolean {
@@ -425,6 +469,7 @@ public class UInt128(
  * The least significant 8 bits of the resulting [UInt128] value are the same as the bits of this [UByte] value,
  * whereas the most significant 120 bits are filled with zeros.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UByte.toUInt128(): UInt128 = UInt128(0uL, toULong())
 
 /**
@@ -435,6 +480,7 @@ public inline fun UByte.toUInt128(): UInt128 = UInt128(0uL, toULong())
  * The least significant 16 bits of the resulting [UInt128] value are the same as the bits of this [UShort] value,
  * whereas the most significant 112 bits are filled with zeros.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UShort.toUInt128(): UInt128 = UInt128(0uL, toULong())
 
 /**
@@ -445,6 +491,7 @@ public inline fun UShort.toUInt128(): UInt128 = UInt128(0uL, toULong())
  * The least significant 32 bits of the resulting [UInt128] value are the same as the bits of this [UInt] value,
  * whereas the most significant 96 bits are filled with zeros.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun UInt.toUInt128(): UInt128 = UInt128(0uL, toULong())
 
 /**
@@ -455,6 +502,7 @@ public inline fun UInt.toUInt128(): UInt128 = UInt128(0uL, toULong())
  * The least significant 64 bits of the resulting [UInt128] value are the same as the bits of this [ULong] value,
  * whereas the most significant 64 bits are filled with zeros.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun ULong.toUInt128(): UInt128 = UInt128(0uL, this)
 
 /**
@@ -465,6 +513,7 @@ public inline fun ULong.toUInt128(): UInt128 = UInt128(0uL, this)
  * The least significant 8 bits of the resulting [UInt128] value are the same as the bits of this [Byte] value,
  * whereas the most significant 120 bits are filled with the sign bit of this value.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun Byte.toUInt128(): UInt128 = UInt128(if (this < 0) ULong.MAX_VALUE else 0uL, toULong())
 
 /**
@@ -475,6 +524,7 @@ public inline fun Byte.toUInt128(): UInt128 = UInt128(if (this < 0) ULong.MAX_VA
  * The least significant 16 bits of the resulting [UInt128] value are the same as the bits of this [Short] value,
  * whereas the most significant 112 bits are filled with the sign bit of this value.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun Short.toUInt128(): UInt128 = UInt128(if (this < 0) ULong.MAX_VALUE else 0uL, toULong())
 
 /**
@@ -485,6 +535,7 @@ public inline fun Short.toUInt128(): UInt128 = UInt128(if (this < 0) ULong.MAX_V
  * The least significant 32 bits of the resulting [UInt128] value are the same as the bits of this [Int] value,
  * whereas the most significant 96 bits are filled with the sign bit of this value.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun Int.toUInt128(): UInt128 = UInt128(if (this < 0) ULong.MAX_VALUE else 0uL, toULong())
 
 /**
@@ -495,4 +546,5 @@ public inline fun Int.toUInt128(): UInt128 = UInt128(if (this < 0) ULong.MAX_VAL
  * The least significant 64 bits of the resulting [UInt128] value are the same as the bits of this [Long] value,
  * whereas the most significant 64 bits are filled with the sign bit of this value.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun Long.toUInt128(): UInt128 = UInt128(if (this < 0) ULong.MAX_VALUE else 0uL, toULong())
