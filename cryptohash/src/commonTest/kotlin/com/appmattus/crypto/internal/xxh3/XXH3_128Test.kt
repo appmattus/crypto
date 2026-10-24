@@ -21,6 +21,7 @@ import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @Suppress("ClassName")
 class XXH3_128Test {
@@ -30,6 +31,15 @@ class XXH3_128Test {
         val seed: Long,
         val nResult: String
     )
+
+    @Test
+    fun digestLength() {
+        val digest = CoreDigest.create(Algorithm.XXH3_128())
+
+        val result = digest.digest(buffer(0))
+
+        assertEquals(digest.digestLength, result.size)
+    }
 
     @Test
     fun xxh3_128bits_seeded() {
