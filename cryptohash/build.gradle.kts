@@ -38,7 +38,13 @@ kotlin {
 
     js {
         browser()
-        nodejs()
+        nodejs {
+            testTask {
+                // Mocha's default 2s per-test timeout is too short for the larger known-answer tests on CI.
+                // Browser tests get the same setting from karma.config.d.
+                useMocha { timeout = "60s" }
+            }
+        }
     }
 
     @OptIn(ExperimentalWasmDsl::class)
