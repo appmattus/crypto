@@ -29,6 +29,7 @@ gradleMavenPublishPlugin = "0.36.0"
 dokkaPlugin = "2.2.0"
 
 kotlinX-coroutines = "1.10.2"
+uint128 = "1.0.0"
 
 # Sample app
 androidX-lifecycle = "2.10.0"
@@ -49,6 +50,7 @@ bouncyCastle = "1.84"
 kotlinX-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinX-coroutines" }
 kotlinX-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinX-coroutines" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+uint128 = { module = "com.appmattus.uint:uint128", version.ref = "uint128" }
 
 # Sample app
 androidX-activityCompose = { module = "androidx.activity:activity-compose", version = "1.13.0" }

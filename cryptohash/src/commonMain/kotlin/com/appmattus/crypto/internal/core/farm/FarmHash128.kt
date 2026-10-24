@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.core.farm
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.uint.UInt128
+import com.appmattus.uint.UInt128
 
 internal class FarmHash128(private val parameters: Algorithm.FarmHash128) : FarmHashBase<FarmHash128>() {
 

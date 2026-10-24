@@ -20,7 +20,7 @@ import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.city.CityHashBase
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
-import com.appmattus.crypto.internal.core.uint.UInt128
+import com.appmattus.uint.UInt128
 
 @Suppress("ReturnCount", "TooManyFunctions")
 internal abstract class FarmHashBase<D : FarmHashBase<D>> : CityHashBase<D>() {

@@ -20,7 +20,7 @@ import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
-import com.appmattus.crypto.internal.core.uint.toUInt128
+import com.appmattus.uint.toUInt128
 
 /**
  * [wyhash](https://github.com/wangyi-fudan/wyhash)

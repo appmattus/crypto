@@ -22,7 +22,7 @@ import com.appmattus.crypto.internal.core.NonIncrementalDigest
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.reverseByteOrder
-import com.appmattus.crypto.internal.core.uint.UInt128
+import com.appmattus.uint.UInt128
 
 @Suppress("TooManyFunctions")
 internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest<D>() {

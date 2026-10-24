@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.core.t1ha
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalDigest
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.uint.UInt128
+import com.appmattus.uint.UInt128
 
 @Suppress("ClassName")
 internal class T1ha2_atonce128(private val seed: ULong = 0u) : NonIncrementalDigest<T1ha2_atonce128>() {

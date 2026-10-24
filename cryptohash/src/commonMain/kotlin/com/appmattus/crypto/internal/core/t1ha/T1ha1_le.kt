@@ -21,8 +21,8 @@ import com.appmattus.crypto.internal.core.NonIncrementalDigest
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.uint.UInt128
-import com.appmattus.crypto.internal.core.uint.toUInt128
+import com.appmattus.uint.UInt128
+import com.appmattus.uint.toUInt128
 
 @Suppress("ClassName", "FunctionName")
 internal class T1ha1_le(private val seed: ULong = 0u) : NonIncrementalDigest<T1ha1_le>() {
