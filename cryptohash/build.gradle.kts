@@ -119,6 +119,10 @@ kotlin {
         val iosArm64Main by getting { dependsOn(apple64Main) }
         val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }
 
+        commonMain.dependencies {
+            implementation(libs.uint128)
+        }
+
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(kotlin("test-common"))

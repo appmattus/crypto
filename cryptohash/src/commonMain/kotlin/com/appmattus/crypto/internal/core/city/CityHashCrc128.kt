@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.core.city
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.uint.UInt128
+import com.appmattus.uint.UInt128
 
 internal class CityHashCrc128(private val parameters: Algorithm.CityHashCrc128) : CityHashBase<CityHashCrc128>() {
 
