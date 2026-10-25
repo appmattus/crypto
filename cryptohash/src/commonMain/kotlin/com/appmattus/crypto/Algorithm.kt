@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,34 @@ import com.appmattus.crypto.internal.core.wyhash.Wyhash.Companion.wyp
 
 @Suppress("ClassName")
 public sealed class Algorithm(public val algorithmName: String, internal val blockLength: Int) {
+
+    /**
+     * The named parameters, beyond [algorithmName], that configure this [Algorithm]. Used to implement [equals],
+     * [hashCode] and [toString] for algorithms that are not data classes or objects.
+     */
+    internal open val parameters: List<Pair<String, Any?>>
+        get() = emptyList()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Algorithm || this::class != other::class || algorithmName != other.algorithmName) return false
+        val otherParameters = other.parameters
+        return parameters.size == otherParameters.size &&
+            parameters.indices.all { parameterEquals(parameters[it].second, otherParameters[it].second) }
+    }
+
+    override fun hashCode(): Int = parameters.fold(algorithmName.hashCode()) { acc, (_, value) -> 31 * acc + parameterHashCode(value) }
+
+    /**
+     * The [algorithmName] followed by any [parameters]. Array and collection parameters, such as keys and secrets, are
+     * shown by size only.
+     */
+    override fun toString(): String = if (parameters.isEmpty()) {
+        algorithmName
+    } else {
+        parameters.joinToString(prefix = "$algorithmName(", postfix = ")") { (name, value) -> "$name=${parameterToString(value)}" }
+    }
+
     /**
      * [Adler-32](https://en.wikipedia.org/wiki/Adler-32) with output size of 32 bits
      */
@@ -80,7 +108,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
             internal val salt: ByteArray? = null,
             internal val personalisation: ByteArray? = null,
             outputSizeBits: Int = 256
-        ) : Blake2s(outputSizeBits)
+        ) : Blake2s(outputSizeBits) {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("key" to key, "salt" to salt, "personalisation" to personalisation)
+        }
     }
 
     /**
@@ -116,7 +147,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
             internal val salt: ByteArray? = null,
             internal val personalisation: ByteArray? = null,
             outputSizeBits: Int = 512
-        ) : Blake2b(outputSizeBits)
+        ) : Blake2b(outputSizeBits) {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("key" to key, "salt" to salt, "personalisation" to personalisation)
+        }
     }
 
     /**
@@ -126,37 +160,43 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [Blake3] using [key]ed hashing with output size of [digestLength] bytes (default: 32 bytes)
          */
-        public class Keyed(internal val key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength)
+        public class Keyed(internal val key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("key" to key)
+        }
 
         /**
          * [Blake3] using [context] to derive a key with output size of [digestLength] bytes (default: 32 bytes)
          */
-        public class DeriveKey(internal val context: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength)
+        public class DeriveKey(internal val context: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("context" to context)
+        }
     }
 
     /**
      * [Blue Midnight Wish](http://people.item.ntnu.no/~danilog/Hash/BMW-SecondRound/Supporting_Documentation/BlueMidnightWishDocumentation.pdf)
      * with output size of 224 bits
      */
-    public object BMW224 : Algorithm("BMW-224", 64), Hmac
+    public data object BMW224 : Algorithm("BMW-224", 64), Hmac
 
     /**
      * [Blue Midnight Wish](http://people.item.ntnu.no/~danilog/Hash/BMW-SecondRound/Supporting_Documentation/BlueMidnightWishDocumentation.pdf)
      * with output size of 256 bits
      */
-    public object BMW256 : Algorithm("BMW-256", 64), Hmac
+    public data object BMW256 : Algorithm("BMW-256", 64), Hmac
 
     /**
      * [Blue Midnight Wish](http://people.item.ntnu.no/~danilog/Hash/BMW-SecondRound/Supporting_Documentation/BlueMidnightWishDocumentation.pdf)
      * with output size of 384 bits
      */
-    public object BMW384 : Algorithm("BMW-384", 128), Hmac
+    public data object BMW384 : Algorithm("BMW-384", 128), Hmac
 
     /**
      * [Blue Midnight Wish](http://people.item.ntnu.no/~danilog/Hash/BMW-SecondRound/Supporting_Documentation/BlueMidnightWishDocumentation.pdf)
      * with output size of 512 bits
      */
-    public object BMW512 : Algorithm("BMW-512", 128), Hmac
+    public data object BMW512 : Algorithm("BMW-512", 128), Hmac
 
     /**
      * [CityHash](https://github.com/google/cityhash) with output size of 32 bits
@@ -170,12 +210,18 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [CityHash64] using [seed] with output size of 64 bits
          */
-        public class Seed(internal val seed: ULong) : CityHash64()
+        public class Seed(internal val seed: ULong) : CityHash64() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seed" to seed)
+        }
 
         /**
          * [CityHash64] using [seed1] and [seed2] with output size of 64 bits
          */
-        public class Seeds(internal val seed1: ULong, internal val seed2: ULong) : CityHash64()
+        public class Seeds(internal val seed1: ULong, internal val seed2: ULong) : CityHash64() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seed1" to seed1, "seed2" to seed2)
+        }
     }
 
     /**
@@ -185,7 +231,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [CityHash128] using seed ([seedLow] & [seedHigh]) with output size of 128 bits
          */
-        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : CityHash128()
+        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : CityHash128() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seedLow" to seedLow, "seedHigh" to seedHigh)
+        }
     }
 
     /**
@@ -195,7 +244,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [CityHash128] using seed ([seedLow] & [seedHigh]) with output size of 128 bits
          */
-        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : CityHashCrc128()
+        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : CityHashCrc128() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seedLow" to seedLow, "seedHigh" to seedHigh)
+        }
     }
 
     /**
@@ -227,7 +279,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public class cSHAKE128(
         internal val customisation: ByteArray? = null,
         internal val functionName: ByteArray? = null
-    ) : Algorithm("cSHAKE128", 64)
+    ) : Algorithm("cSHAKE128", 64) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("customisation" to customisation, "functionName" to functionName)
+    }
 
     /**
      * [cSHAKE](https://keccak.team/keccak.html) with output size of 256 bits
@@ -235,7 +290,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public class cSHAKE256(
         internal val customisation: ByteArray? = null,
         internal val functionName: ByteArray? = null
-    ) : Algorithm("cSHAKE256", 128)
+    ) : Algorithm("cSHAKE256", 128) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("customisation" to customisation, "functionName" to functionName)
+    }
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 224 bits
@@ -284,7 +342,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [FarmHash32] using [seed] with output size of 64 bits
          */
-        public class Seed(internal val seed: UInt) : FarmHash32()
+        public class Seed(internal val seed: UInt) : FarmHash32() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seed" to seed)
+        }
     }
 
     /**
@@ -294,12 +355,18 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [FarmHash64] using [seed] with output size of 64 bits
          */
-        public class Seed(internal val seed: ULong) : FarmHash64()
+        public class Seed(internal val seed: ULong) : FarmHash64() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seed" to seed)
+        }
 
         /**
          * [FarmHash64] using [seed1] and [seed2] with output size of 64 bits
          */
-        public class Seeds(internal val seed1: ULong, internal val seed2: ULong) : FarmHash64()
+        public class Seeds(internal val seed1: ULong, internal val seed2: ULong) : FarmHash64() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seed1" to seed1, "seed2" to seed2)
+        }
     }
 
     /**
@@ -309,7 +376,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [FarmHash128] using seed ([seedLow] & [seedHigh]) with output size of 128 bits
          */
-        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : FarmHash128()
+        public class Seed(internal val seedLow: ULong, internal val seedHigh: ULong) : FarmHash128() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seedLow" to seedLow, "seedHigh" to seedHigh)
+        }
     }
 
     /**
@@ -335,17 +405,17 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [GOST R 34.11-94](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 256 bits
      */
-    public object GOST3411_94 : Algorithm("GOST3411", 32), Hmac
+    public data object GOST3411_94 : Algorithm("GOST3411", 32), Hmac
 
     /**
      * [GOST R 34.11-2012](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 256 bits
      */
-    public object GOST3411_2012_256 : Algorithm("GOST3411-2012-256", 64), Hmac
+    public data object GOST3411_2012_256 : Algorithm("GOST3411-2012-256", 64), Hmac
 
     /**
      * [GOST R 34.11-2012](https://en.wikipedia.org/wiki/GOST_(hash_function)) with output size 512 bits
      */
-    public object GOST3411_2012_512 : Algorithm("GOST3411-2012-512", 64), Hmac
+    public data object GOST3411_2012_512 : Algorithm("GOST3411-2012-512", 64), Hmac
 
     /**
      * [Grøstl](https://www.groestl.info) with output size 224 bits
@@ -477,21 +547,30 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      */
     public class HighwayHash64(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-64", 32)
+    ) : Algorithm("HighwayHash-64", 32) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key)
+    }
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 128 bits
      */
     public class HighwayHash128(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-128", 32)
+    ) : Algorithm("HighwayHash-128", 32) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key)
+    }
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 256 bits
      */
     public class HighwayHash256(
         internal val key: LongArray
-    ) : Algorithm("HighwayHash-256", 32)
+    ) : Algorithm("HighwayHash-256", 32) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key)
+    }
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 224 bits
@@ -516,27 +595,27 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 224 bits
      */
-    public object Keccak224 : Algorithm("Keccak-224", 64), Hmac
+    public data object Keccak224 : Algorithm("Keccak-224", 64), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 256 bits
      */
-    public object Keccak256 : Algorithm("Keccak-256", 64), Hmac
+    public data object Keccak256 : Algorithm("Keccak-256", 64), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 288 bits
      */
-    public object Keccak288 : Algorithm("Keccak-288", 64), Hmac
+    public data object Keccak288 : Algorithm("Keccak-288", 64), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 384 bits
      */
-    public object Keccak384 : Algorithm("Keccak-384", 128), Hmac
+    public data object Keccak384 : Algorithm("Keccak-384", 128), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 512 bits
      */
-    public object Keccak512 : Algorithm("Keccak-512", 128), Hmac
+    public data object Keccak512 : Algorithm("Keccak-512", 128), Hmac
 
     /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 256 bits
@@ -586,17 +665,17 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [MD2](https://en.wikipedia.org/wiki/MD2_(hash_function)) with output size of 128 bits
      */
-    public object MD2 : Algorithm("MD2", 16), Hmac
+    public data object MD2 : Algorithm("MD2", 16), Hmac
 
     /**
      * [MD4](https://en.wikipedia.org/wiki/MD4) with output size of 128 bits
      */
-    public object MD4 : Algorithm("MD4", 64), Hmac
+    public data object MD4 : Algorithm("MD4", 64), Hmac
 
     /**
      * [MD5](https://en.wikipedia.org/wiki/MD5) with output size of 128 bits
      */
-    public object MD5 : Algorithm("MD5", 64), Hmac
+    public data object MD5 : Algorithm("MD5", 64), Hmac
 
     /**
      * [MurmurHash1](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash1.cpp) for x86 platform with output size of 32 bits
@@ -664,82 +743,82 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 128 bits
      */
-    public object RipeMD128 : Algorithm("RipeMD128", 64), Hmac
+    public data object RipeMD128 : Algorithm("RipeMD128", 64), Hmac
 
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 160 bits
      */
-    public object RipeMD160 : Algorithm("RipeMD160", 64), Hmac
+    public data object RipeMD160 : Algorithm("RipeMD160", 64), Hmac
 
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 256 bits
      */
-    public object RipeMD256 : Algorithm("RipeMD256", 64), Hmac
+    public data object RipeMD256 : Algorithm("RipeMD256", 64), Hmac
 
     /**
      * Strengthened [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 320 bits
      */
-    public object RipeMD320 : Algorithm("RipeMD320", 64), Hmac
+    public data object RipeMD320 : Algorithm("RipeMD320", 64), Hmac
 
     /**
      * [SHA-0](https://en.wikipedia.org/wiki/SHA-1#Development) with output size of 160 bits
      */
-    public object SHA_0 : Algorithm("SHA-0", 64), Hmac
+    public data object SHA_0 : Algorithm("SHA-0", 64), Hmac
 
     /**
      * [SHA-1](https://en.wikipedia.org/wiki/SHA-1) with output size of 160 bits
      */
-    public object SHA_1 : Algorithm("SHA-1", 64), Hmac
+    public data object SHA_1 : Algorithm("SHA-1", 64), Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 224 bits
      */
-    public object SHA_224 : Algorithm("SHA-224", 64), Hmac
+    public data object SHA_224 : Algorithm("SHA-224", 64), Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 256 bits
      */
-    public object SHA_256 : Algorithm("SHA-256", 64), Hmac
+    public data object SHA_256 : Algorithm("SHA-256", 64), Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 384 bits
      */
-    public object SHA_384 : Algorithm("SHA-384", 128), Hmac
+    public data object SHA_384 : Algorithm("SHA-384", 128), Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 512 bits
      */
-    public object SHA_512 : Algorithm("SHA-512", 128), Hmac
+    public data object SHA_512 : Algorithm("SHA-512", 128), Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 224 bits
      */
-    public object SHA_512_224 : Algorithm("SHA-512/224", 128), Hmac
+    public data object SHA_512_224 : Algorithm("SHA-512/224", 128), Hmac
 
     /**
      * [SHA-2](https://en.wikipedia.org/wiki/SHA-2) with output size of 256 bits
      */
-    public object SHA_512_256 : Algorithm("SHA-512/256", 128), Hmac
+    public data object SHA_512_256 : Algorithm("SHA-512/256", 128), Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 224 bits
      */
-    public object SHA3_224 : Algorithm("SHA3-224", 64), Hmac
+    public data object SHA3_224 : Algorithm("SHA3-224", 64), Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 256 bits
      */
-    public object SHA3_256 : Algorithm("SHA3-256", 64), Hmac
+    public data object SHA3_256 : Algorithm("SHA3-256", 64), Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 384 bits
      */
-    public object SHA3_384 : Algorithm("SHA3-384", 128), Hmac
+    public data object SHA3_384 : Algorithm("SHA3-384", 128), Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 512 bits
      */
-    public object SHA3_512 : Algorithm("SHA3-512", 128), Hmac
+    public data object SHA3_512 : Algorithm("SHA3-512", 128), Hmac
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 192 bits
@@ -819,67 +898,67 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 128 bits
      */
-    public object Skein256_128 : Algorithm("Skein-256-128", 32), Hmac
+    public data object Skein256_128 : Algorithm("Skein-256-128", 32), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 160 bits
      */
-    public object Skein256_160 : Algorithm("Skein-256-160", 32), Hmac
+    public data object Skein256_160 : Algorithm("Skein-256-160", 32), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 224 bits
      */
-    public object Skein256_224 : Algorithm("Skein-256-224", 32), Hmac
+    public data object Skein256_224 : Algorithm("Skein-256-224", 32), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 256 bits
      */
-    public object Skein256_256 : Algorithm("Skein-256-256", 32), Hmac
+    public data object Skein256_256 : Algorithm("Skein-256-256", 32), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 128 bits
      */
-    public object Skein512_128 : Algorithm("Skein-512-128", 64), Hmac
+    public data object Skein512_128 : Algorithm("Skein-512-128", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 160 bits
      */
-    public object Skein512_160 : Algorithm("Skein-512-160", 64), Hmac
+    public data object Skein512_160 : Algorithm("Skein-512-160", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 224 bits
      */
-    public object Skein512_224 : Algorithm("Skein-512-224", 64), Hmac
+    public data object Skein512_224 : Algorithm("Skein-512-224", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 256 bits
      */
-    public object Skein512_256 : Algorithm("Skein-512-256", 64), Hmac
+    public data object Skein512_256 : Algorithm("Skein-512-256", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 384 bits
      */
-    public object Skein512_384 : Algorithm("Skein-512-384", 64), Hmac
+    public data object Skein512_384 : Algorithm("Skein-512-384", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 512 bits and output size of 512 bits
      */
-    public object Skein512_512 : Algorithm("Skein-512-512", 64), Hmac
+    public data object Skein512_512 : Algorithm("Skein-512-512", 64), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 384 bits
      */
-    public object Skein1024_384 : Algorithm("Skein-1024-384", 128), Hmac
+    public data object Skein1024_384 : Algorithm("Skein-1024-384", 128), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 512 bits
      */
-    public object Skein1024_512 : Algorithm("Skein-1024-512", 128), Hmac
+    public data object Skein1024_512 : Algorithm("Skein-1024-512", 128), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 1024 bits and output size of 1024 bits
      */
-    public object Skein1024_1024 : Algorithm("Skein-1024-1024", 128), Hmac
+    public data object Skein1024_1024 : Algorithm("Skein-1024-1024", 128), Hmac
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of [blockSizeBits] bits and output size of [outputSizeBits] bits
@@ -894,48 +973,69 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
             blockSizeBits: Int,
             outputSizeBits: Int,
             internal val key: ByteArray,
-        ) : Skein(blockSizeBits, outputSizeBits)
+        ) : Skein(blockSizeBits, outputSizeBits) {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("key" to key)
+        }
     }
 
     /**
      * [SM3](https://en.wikipedia.org/wiki/SM3_(hash_function)) with output size of 256 bits
      */
-    public object SM3 : Algorithm("SM3", 64), Hmac
+    public data object SM3 : Algorithm("SM3", 64), Hmac
 
     /**
      * [t1ha0-32le](https://github.com/erthink/t1ha) with output size of 64 bits
      */
-    public class T1ha0_32le(internal val seed: ULong = 0u) : Algorithm("t1ha0-32le", 16)
+    public class T1ha0_32le(internal val seed: ULong = 0u) : Algorithm("t1ha0-32le", 16) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
 
     /**
      * [t1ha1-le](https://github.com/erthink/t1ha) with output size of 64 bits
      */
-    public class T1ha1_le(internal val seed: ULong = 0u) : Algorithm("t1ha1-le", 32)
+    public class T1ha1_le(internal val seed: ULong = 0u) : Algorithm("t1ha1-le", 32) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
 
     /**
      * [t1ha2-atonce](https://github.com/erthink/t1ha) with output size of 64 bits
      */
-    public class T1ha2_AtOnce(internal val seed: ULong = 0u) : Algorithm("t1ha2-atonce", 32)
+    public class T1ha2_AtOnce(internal val seed: ULong = 0u) : Algorithm("t1ha2-atonce", 32) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
 
     /**
      * [t1ha2-atonce128](https://github.com/erthink/t1ha) with output size of 128 bits
      */
-    public class T1ha2_AtOnce128(internal val seed: ULong = 0u) : Algorithm("t1ha2-atonce128", 32)
+    public class T1ha2_AtOnce128(internal val seed: ULong = 0u) : Algorithm("t1ha2-atonce128", 32) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
 
     /**
      * [t1ha2-stream](https://github.com/erthink/t1ha) with output size of 64 bits
      */
-    public class T1ha2_Stream(internal val seedX: ULong = 0u, internal val seedY: ULong = seedX) : Algorithm("t1ha2-stream", 32)
+    public class T1ha2_Stream(internal val seedX: ULong = 0u, internal val seedY: ULong = seedX) : Algorithm("t1ha2-stream", 32) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seedX" to seedX, "seedY" to seedY)
+    }
 
     /**
      * [t1ha2-stream128](https://github.com/erthink/t1ha) with output size of 128 bits
      */
-    public class T1ha2_Stream128(internal val seedX: ULong = 0u, internal val seedY: ULong = seedX) : Algorithm("t1ha2-stream128", 32)
+    public class T1ha2_Stream128(internal val seedX: ULong = 0u, internal val seedY: ULong = seedX) : Algorithm("t1ha2-stream128", 32) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seedX" to seedX, "seedY" to seedY)
+    }
 
     /**
      * [Tiger](https://www.cs.technion.ac.il/~biham/Reports/Tiger/) with output size of 192 bits
      */
-    public object Tiger : Algorithm("Tiger", 64), Hmac
+    public data object Tiger : Algorithm("Tiger", 64), Hmac
 
     /**
      * [Tiger2](https://www.cs.technion.ac.il/~biham/Reports/Tiger/) with output size of 192 bits
@@ -945,7 +1045,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * Latest version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
      */
-    public object Whirlpool : Algorithm("Whirlpool", 64), Hmac
+    public data object Whirlpool : Algorithm("Whirlpool", 64), Hmac
 
     /**
      * Original version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
@@ -965,6 +1065,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         internal val secret: List<ULong> = wyp,
         internal val extraProtection: Boolean = false
     ) : Algorithm("wyhash-64", 48) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed, "secret" to secret, "extraProtection" to extraProtection)
+
         public companion object {
             public fun makeSecret(seed: ULong): List<ULong> =
                 com.appmattus.crypto.internal.core.wyhash.Wyhash.makeSecret(seed)
@@ -974,7 +1077,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [wyhash](https://github.com/wangyi-fudan/wyhash) with output size of 32 bits
      */
-    public class Wyhash32(internal val seed: UInt = 0u) : Algorithm("wyhash-32", 8)
+    public class Wyhash32(internal val seed: UInt = 0u) : Algorithm("wyhash-32", 8) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
 
     /**
      * [xxHash](https://github.com/Cyan4973/xxHash) with output size of 32 bits
@@ -993,12 +1099,18 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [XXH3_64] using [seed] with output size of 64 bits
          */
-        public class Seeded(internal val seed: Long) : XXH3_64()
+        public class Seeded(internal val seed: Long) : XXH3_64() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seed" to seed)
+        }
 
         /**
          * [XXH3_64] using [secret] with output size of 64 bits
          */
-        public class Secret(internal val secret: ByteArray) : XXH3_64()
+        public class Secret(internal val secret: ByteArray) : XXH3_64() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("secret" to secret)
+        }
     }
 
     /**
@@ -1008,12 +1120,18 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [XXH3_128] using [seed] with output size of 128 bits
          */
-        public class Seeded(internal val seed: Long) : XXH3_128()
+        public class Seeded(internal val seed: Long) : XXH3_128() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("seed" to seed)
+        }
 
         /**
          * [XXH3_128] using [secret] with output size of 128 bits
          */
-        public class Secret(internal val secret: ByteArray) : XXH3_128()
+        public class Secret(internal val secret: ByteArray) : XXH3_128() {
+            override val parameters: List<Pair<String, Any?>>
+                get() = listOf("secret" to secret)
+        }
     }
 
     /**
@@ -1025,4 +1143,23 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * Create a hash of [input] using the [Algorithm]
      */
     public fun hash(input: ByteArray): ByteArray = createDigest().digest(input)
+}
+
+private fun parameterEquals(a: Any?, b: Any?): Boolean = when (a) {
+    is ByteArray -> b is ByteArray && a.contentEquals(b)
+    is LongArray -> b is LongArray && a.contentEquals(b)
+    else -> a == b
+}
+
+private fun parameterHashCode(value: Any?): Int = when (value) {
+    is ByteArray -> value.contentHashCode()
+    is LongArray -> value.contentHashCode()
+    else -> value.hashCode()
+}
+
+private fun parameterToString(value: Any?): String = when (value) {
+    is ByteArray -> "ByteArray(size=${value.size})"
+    is LongArray -> "LongArray(size=${value.size})"
+    is List<*> -> "List(size=${value.size})"
+    else -> value.toString()
 }
