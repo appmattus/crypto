@@ -57,15 +57,6 @@ class PlatformDigestTest {
     }
 
     @Test
-    fun digestRejectsImmutableData() {
-        val digest = Algorithm.SHA_256.createDigest().platform()
-
-        assertFailsWith<IllegalArgumentException> {
-            digest.digest(ByteArray(32).toData(), 0, 32)
-        }
-    }
-
-    @Test
     fun digestRejectsOutputTooSmallWithoutResettingDigest() {
         val digest = Algorithm.SHA_256.createDigest().platform()
         digest.update(input.toData())

@@ -98,8 +98,7 @@ public interface PlatformDigest<D : Digest<D>> {
      * Completes the hash computation by performing final operations
      * such as padding. The digest is reset after this call is made.
      *
-     * @param output output buffer for the computed digest. On Darwin platforms this must be an `NSMutableData`
-     * as `NSData` is immutable
+     * @param output output buffer for the computed digest
      *
      * @param offset offset into the output buffer to begin storing the digest
      *
@@ -107,7 +106,7 @@ public interface PlatformDigest<D : Digest<D>> {
      *
      * @return the number of bytes placed into [output]
      */
-    public fun digest(output: PlatformData, offset: Int, length: Int): Int
+    public fun digest(output: MutablePlatformData, offset: Int, length: Int): Int
 
     /**
      * Get the natural hash function output length (in bytes).

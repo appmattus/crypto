@@ -32,6 +32,13 @@ import platform.Foundation.replaceBytesInRange
 public actual typealias PlatformData = NSData
 
 /**
+ * Represents the native platforms mutable data type for Array like data, used as an output buffer. For Darwin we
+ * are using [NSMutableData]
+ */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+public actual typealias MutablePlatformData = NSMutableData
+
+/**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
 internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = object : PlatformDigest<D> {
@@ -40,7 +47,7 @@ internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = 
     override fun update(input: PlatformData, offset: Int, length: Int) = this@toPlatform.update(input.toByteArray(), offset, length)
     override fun digest(): PlatformData = this@toPlatform.digest().toData()
     override fun digest(input: PlatformData): PlatformData = this@toPlatform.digest(input.toByteArray()).toData()
-    override fun digest(output: PlatformData, offset: Int, length: Int): Int = this@toPlatform.digestInto(output, offset, length)
+    override fun digest(output: MutablePlatformData, offset: Int, length: Int): Int = this@toPlatform.digestInto(output, offset, length)
     override val digestLength: Int get() = this@toPlatform.digestLength
     override fun reset() = this@toPlatform.reset()
     override fun copy(): PlatformDigest<D> = this@toPlatform.copy().toPlatform()
@@ -49,11 +56,10 @@ internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = 
 }
 
 /**
- * Completes the digest into [output] which, as [NSData] is immutable, must be an [NSMutableData]
+ * Completes the digest into [output] at [offset], writing at most [length] bytes
  */
 @OptIn(ExperimentalForeignApi::class)
-private fun Digest<*>.digestInto(output: NSData, offset: Int, length: Int): Int {
-    require(output is NSMutableData) { "output must be NSMutableData as NSData is immutable" }
+private fun Digest<*>.digestInto(output: NSMutableData, offset: Int, length: Int): Int {
     val size = minOf(length, digestLength)
     require(offset >= 0 && size >= 0 && offset + size <= output.length.toInt()) {
         "offset $offset and length $size out of bounds for output of length ${output.length}"

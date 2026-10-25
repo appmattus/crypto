@@ -23,6 +23,12 @@ package com.appmattus.crypto
 public actual typealias PlatformData = ByteArray
 
 /**
+ * Represents the native platforms mutable data type for Array like data, used as an output buffer
+ */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+public actual typealias MutablePlatformData = ByteArray
+
+/**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
 internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = object : PlatformDigest<D> {
@@ -31,7 +37,7 @@ internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = 
     override fun update(input: PlatformData, offset: Int, length: Int) = this@toPlatform.update(input, offset, length)
     override fun digest(): PlatformData = this@toPlatform.digest()
     override fun digest(input: PlatformData): PlatformData = this@toPlatform.digest(input)
-    override fun digest(output: PlatformData, offset: Int, length: Int): Int = this@toPlatform.digest(output, offset, length)
+    override fun digest(output: MutablePlatformData, offset: Int, length: Int): Int = this@toPlatform.digest(output, offset, length)
     override val digestLength: Int get() = this@toPlatform.digestLength
     override fun reset() = this@toPlatform.reset()
     override fun copy(): PlatformDigest<D> = this@toPlatform.copy().toPlatform()
