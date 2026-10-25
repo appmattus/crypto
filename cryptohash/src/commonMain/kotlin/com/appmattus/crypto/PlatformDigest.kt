@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,7 +98,8 @@ public interface PlatformDigest<D : Digest<D>> {
      * Completes the hash computation by performing final operations
      * such as padding. The digest is reset after this call is made.
      *
-     * @param output output buffer for the computed digest
+     * @param output output buffer for the computed digest. On Darwin platforms this must be an `NSMutableData`
+     * as `NSData` is immutable
      *
      * @param offset offset into the output buffer to begin storing the digest
      *
