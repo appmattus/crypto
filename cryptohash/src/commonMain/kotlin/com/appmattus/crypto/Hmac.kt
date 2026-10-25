@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,10 @@ import com.appmattus.crypto.internal.core.sphlib.HMAC
 /**
  * Denotes an [Algorithm] supports HMAC.
  * While any algorithm should work, this marks algorithms that have tests in place.
+ *
+ * Only [Algorithm]s can implement this interface.
  */
-public interface Hmac {
+public sealed interface Hmac {
 
     /**
      * Create an HMAC [Digest] of the [Algorithm] for creating hashes
