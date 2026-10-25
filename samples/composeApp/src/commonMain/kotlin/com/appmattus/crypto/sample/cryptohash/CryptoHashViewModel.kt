@@ -19,13 +19,13 @@ package com.appmattus.crypto.sample.cryptohash
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
-import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.viewmodel.container
+import org.orbitmvi.orbit.OrbitContainer
+import org.orbitmvi.orbit.OrbitContainerHost
+import org.orbitmvi.orbit.viewmodel.orbitContainer
 
-class CryptoHashViewModel : ViewModel(), ContainerHost<CryptoHashState, Nothing> {
+class CryptoHashViewModel : ViewModel(), OrbitContainerHost<CryptoHashState, CryptoHashState, Nothing> {
 
-    override val container: Container<CryptoHashState, Nothing> = container(
+    override val container: OrbitContainer<CryptoHashState, CryptoHashState, Nothing> = orbitContainer(
         initialState = CryptoHashState(input = TextFieldState()),
         onCreate = {
             snapshotFlow { state.input.text.toString() }.collect { input ->

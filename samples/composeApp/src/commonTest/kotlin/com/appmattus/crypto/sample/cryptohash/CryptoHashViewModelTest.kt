@@ -20,7 +20,7 @@ import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshots.Snapshot.Companion.withMutableSnapshot
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.TestSettings
-import org.orbitmvi.orbit.test.test
+import org.orbitmvi.orbit.test.testWithInternalState
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -29,7 +29,7 @@ class CryptoHashViewModelTest {
 
     @Test
     fun initialStateContainsAlgorithmsAndDefaults() = runTest {
-        CryptoHashViewModel().test(this) {
+        CryptoHashViewModel().testWithInternalState(this) {
             val state = containerHost.container.stateFlow.value
 
             assertTrue(state.algorithms.contains("MD5"))
@@ -41,10 +41,10 @@ class CryptoHashViewModelTest {
 
     @Test
     fun selectingAlgorithmUpdatesHashForCurrentInput() = runTest {
-        CryptoHashViewModel().test(this) {
+        CryptoHashViewModel().testWithInternalState(this) {
             containerHost.selectAlgorithm("MD5")
 
-            val state = awaitState()
+            val state = awaitInternalState()
             assertEquals("MD5", state.selectedAlgorithm)
             assertEquals("d41d8cd98f00b204e9800998ecf8427e", state.hash)
         }
@@ -52,7 +52,7 @@ class CryptoHashViewModelTest {
 
     @Test
     fun editingInputWithoutAlgorithmSelectedKeepsHashUnavailable() = runTest {
-        CryptoHashViewModel().test(
+        CryptoHashViewModel().testWithInternalState(
             testScope = this,
             // Force a hash value in the initial state so we can observe it reset to `n/a`
             initialState = CryptoHashState(emptyList(), hash = "nothing"),
@@ -61,10 +61,10 @@ class CryptoHashViewModelTest {
             val onCreateJob = runOnCreate()
 
             withMutableSnapshot {
-                awaitState().input.setTextAndPlaceCursorAtEnd("hello world")
+                awaitInternalState().input.setTextAndPlaceCursorAtEnd("hello world")
             }
 
-            val state = awaitState()
+            val state = awaitInternalState()
             assertEquals("hello world", state.input.text.toString())
             assertEquals("n/a", state.hash)
 
@@ -74,17 +74,17 @@ class CryptoHashViewModelTest {
 
     @Test
     fun editingInputRecomputesHashForSelectedAlgorithm() = runTest {
-        CryptoHashViewModel().test(this) {
+        CryptoHashViewModel().testWithInternalState(this) {
             val onCreateJob = runOnCreate()
 
             containerHost.selectAlgorithm("MD5")
-            val state = awaitState()
+            val state = awaitInternalState()
             assertEquals("d41d8cd98f00b204e9800998ecf8427e", state.hash)
 
             withMutableSnapshot {
                 state.input.setTextAndPlaceCursorAtEnd("hello world")
             }
-            assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", awaitState().hash)
+            assertEquals("5eb63bbbe01eeed093cb22bb8f5acdc3", awaitInternalState().hash)
 
             onCreateJob.cancel()
         }
