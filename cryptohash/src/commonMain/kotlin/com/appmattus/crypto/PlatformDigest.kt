@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -106,7 +106,7 @@ public interface PlatformDigest<D : Digest<D>> {
      *
      * @return the number of bytes placed into [output]
      */
-    public fun digest(output: PlatformData, offset: Int, length: Int): Int
+    public fun digest(output: MutablePlatformData, offset: Int, length: Int): Int
 
     /**
      * Get the natural hash function output length (in bytes).
