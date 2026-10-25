@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,11 +76,15 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
          * [personalisation], or any combination thereof with output size of [outputSizeBits] bits (default: 256 bits)
          */
         public class Keyed(
-            internal val key: ByteArray,
-            internal val salt: ByteArray? = null,
-            internal val personalisation: ByteArray? = null,
+            key: ByteArray,
+            salt: ByteArray? = null,
+            personalisation: ByteArray? = null,
             outputSizeBits: Int = 256
-        ) : Blake2s(outputSizeBits)
+        ) : Blake2s(outputSizeBits) {
+            internal val key: ByteArray = key.copyOf()
+            internal val salt: ByteArray? = salt?.copyOf()
+            internal val personalisation: ByteArray? = personalisation?.copyOf()
+        }
     }
 
     /**
@@ -112,11 +116,15 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
          * [personalisation], or any combination thereof with output size of [outputSizeBits] bits (default: 512 bits)
          */
         public class Keyed(
-            internal val key: ByteArray,
-            internal val salt: ByteArray? = null,
-            internal val personalisation: ByteArray? = null,
+            key: ByteArray,
+            salt: ByteArray? = null,
+            personalisation: ByteArray? = null,
             outputSizeBits: Int = 512
-        ) : Blake2b(outputSizeBits)
+        ) : Blake2b(outputSizeBits) {
+            internal val key: ByteArray = key.copyOf()
+            internal val salt: ByteArray? = salt?.copyOf()
+            internal val personalisation: ByteArray? = personalisation?.copyOf()
+        }
     }
 
     /**
@@ -126,12 +134,16 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [Blake3] using [key]ed hashing with output size of [digestLength] bytes (default: 32 bytes)
          */
-        public class Keyed(internal val key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength)
+        public class Keyed(key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+            internal val key: ByteArray = key.copyOf()
+        }
 
         /**
          * [Blake3] using [context] to derive a key with output size of [digestLength] bytes (default: 32 bytes)
          */
-        public class DeriveKey(internal val context: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength)
+        public class DeriveKey(context: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+            internal val context: ByteArray = context.copyOf()
+        }
     }
 
     /**
@@ -225,17 +237,23 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [cSHAKE](https://keccak.team/keccak.html) with output size of 128 bits
      */
     public class cSHAKE128(
-        internal val customisation: ByteArray? = null,
-        internal val functionName: ByteArray? = null
-    ) : Algorithm("cSHAKE128", 64)
+        customisation: ByteArray? = null,
+        functionName: ByteArray? = null
+    ) : Algorithm("cSHAKE128", 64) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+        internal val functionName: ByteArray? = functionName?.copyOf()
+    }
 
     /**
      * [cSHAKE](https://keccak.team/keccak.html) with output size of 256 bits
      */
     public class cSHAKE256(
-        internal val customisation: ByteArray? = null,
-        internal val functionName: ByteArray? = null
-    ) : Algorithm("cSHAKE256", 128)
+        customisation: ByteArray? = null,
+        functionName: ByteArray? = null
+    ) : Algorithm("cSHAKE256", 128) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+        internal val functionName: ByteArray? = functionName?.copyOf()
+    }
 
     /**
      * [CubeHash](https://cubehash.cr.yp.to/) with output size of 224 bits
@@ -476,22 +494,28 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [HighwayHash](https://github.com/google/highwayhash) with output size 64 bits
      */
     public class HighwayHash64(
-        internal val key: LongArray
-    ) : Algorithm("HighwayHash-64", 32)
+        key: LongArray
+    ) : Algorithm("HighwayHash-64", 32) {
+        internal val key: LongArray = key.copyOf()
+    }
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 128 bits
      */
     public class HighwayHash128(
-        internal val key: LongArray
-    ) : Algorithm("HighwayHash-128", 32)
+        key: LongArray
+    ) : Algorithm("HighwayHash-128", 32) {
+        internal val key: LongArray = key.copyOf()
+    }
 
     /**
      * [HighwayHash](https://github.com/google/highwayhash) with output size 256 bits
      */
     public class HighwayHash256(
-        internal val key: LongArray
-    ) : Algorithm("HighwayHash-256", 32)
+        key: LongArray
+    ) : Algorithm("HighwayHash-256", 32) {
+        internal val key: LongArray = key.copyOf()
+    }
 
     /**
      * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 224 bits
@@ -893,8 +917,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         public class Keyed(
             blockSizeBits: Int,
             outputSizeBits: Int,
-            internal val key: ByteArray,
-        ) : Skein(blockSizeBits, outputSizeBits)
+            key: ByteArray,
+        ) : Skein(blockSizeBits, outputSizeBits) {
+            internal val key: ByteArray = key.copyOf()
+        }
     }
 
     /**
@@ -962,9 +988,11 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      */
     public class Wyhash(
         internal val seed: ULong = 0u,
-        internal val secret: List<ULong> = wyp,
+        secret: List<ULong> = wyp,
         internal val extraProtection: Boolean = false
     ) : Algorithm("wyhash-64", 48) {
+        internal val secret: List<ULong> = secret.toList()
+
         public companion object {
             public fun makeSecret(seed: ULong): List<ULong> =
                 com.appmattus.crypto.internal.core.wyhash.Wyhash.makeSecret(seed)
@@ -998,7 +1026,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [XXH3_64] using [secret] with output size of 64 bits
          */
-        public class Secret(internal val secret: ByteArray) : XXH3_64()
+        public class Secret(secret: ByteArray) : XXH3_64() {
+            @Suppress("MemberNameEqualsClassName")
+            internal val secret: ByteArray = secret.copyOf()
+        }
     }
 
     /**
@@ -1013,7 +1044,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [XXH3_128] using [secret] with output size of 128 bits
          */
-        public class Secret(internal val secret: ByteArray) : XXH3_128()
+        public class Secret(secret: ByteArray) : XXH3_128() {
+            @Suppress("MemberNameEqualsClassName")
+            internal val secret: ByteArray = secret.copyOf()
+        }
     }
 
     /**
