@@ -67,4 +67,37 @@ class PlatformDigestTest {
 
         assertContentEquals(expected, digest.digest().toByteArray())
     }
+
+    @Test
+    fun updateWithOffsetAndLengthHashesOnlyThatRange() {
+        val data = "xxhello worldyyy".encodeToByteArray()
+        val digest = Algorithm.SHA_256.createDigest().platform()
+
+        digest.update(data.toData(), 2, input.size)
+
+        assertContentEquals(expected, digest.digest().toByteArray())
+    }
+
+    @Test
+    fun updateWithRangeAtStartAndEndOfData() {
+        val data = ByteArray(64) { it.toByte() }
+        val digest = Algorithm.SHA_256.createDigest().platform()
+
+        digest.update(data.toData(), 0, 10)
+        digest.update(data.toData(), 54, 10)
+        digest.update(data.toData(), 64, 0)
+
+        assertContentEquals(Algorithm.SHA_256.hash(data.copyOfRange(0, 10) + data.copyOfRange(54, 64)), digest.digest().toByteArray())
+    }
+
+    @Test
+    fun updateRejectsOutOfBoundsRange() {
+        val data = ByteArray(16).toData()
+        val digest = Algorithm.SHA_256.createDigest().platform()
+
+        assertFailsWith<IndexOutOfBoundsException> { digest.update(data, -1, 4) }
+        assertFailsWith<IndexOutOfBoundsException> { digest.update(data, 0, -1) }
+        assertFailsWith<IndexOutOfBoundsException> { digest.update(data, 10, 7) }
+        assertFailsWith<IndexOutOfBoundsException> { digest.update(data, 17, 0) }
+    }
 }
