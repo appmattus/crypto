@@ -146,7 +146,7 @@ internal class Hasher(
     companion object {
         internal const val DEFAULT_HASH_LEN = 32
         internal const val OUT_LEN = 32
-        private const val KEY_LEN = 32
+        internal const val KEY_LEN = 32
         internal const val BLOCK_LEN = 64
         internal const val CHUNK_LEN = 1024
         internal const val CHUNK_START = 1
@@ -282,7 +282,7 @@ internal class Hasher(
          * @throws IllegalStateException If the key is not 32 bytes
          */
         fun newKeyedHasher(key: ByteArray): Hasher {
-            check(key.size == KEY_LEN) { "Invalid key length" }
+            require(key.size == KEY_LEN) { "Invalid key length" }
             return Hasher(wordsFromLEBytes(key), KEYED_HASH)
         }
 

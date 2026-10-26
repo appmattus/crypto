@@ -19,6 +19,7 @@ package com.appmattus.crypto
 import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.blake3.Hasher
 import com.appmattus.crypto.internal.core.wyhash.Wyhash.Companion.wyp
+import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
 
 @Suppress("ClassName")
 public sealed class Algorithm(public val algorithmName: String, internal val blockLength: Int) {
@@ -99,6 +100,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [BLAKE2s](https://www.blake2.net) with output size of [outputSizeBits] bits (default: 256 bits)
      */
     public open class Blake2s(internal val outputSizeBits: Int = 256) : Algorithm("Blake2s-$outputSizeBits", 64) {
+        init {
+            require(outputSizeBits in 8..256 && outputSizeBits % 8 == 0) {
+                "outputSizeBits must be a multiple of 8 between 8 and 256, was $outputSizeBits"
+            }
+        }
+
         /**
          * [Blake2s] tuned to your specific requirements, such as [key]ed hashing, hashing with a [salt], or
          * [personalisation], or any combination thereof with output size of [outputSizeBits] bits (default: 256 bits)
@@ -112,6 +119,15 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
             internal val key: ByteArray = key.copyOf()
             internal val salt: ByteArray? = salt?.copyOf()
             internal val personalisation: ByteArray? = personalisation?.copyOf()
+
+            init {
+                require(key.size <= 32) { "key must be at most 32 bytes, was ${key.size}" }
+                require(salt == null || salt.size == 8) { "salt must be exactly 8 bytes, was ${salt?.size}" }
+                require(personalisation == null || personalisation.size == 8) {
+                    "personalisation must be exactly 8 bytes, was ${personalisation?.size}"
+                }
+            }
+
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("key" to key, "salt" to salt, "personalisation" to personalisation)
         }
@@ -141,6 +157,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [BLAKE2b](https://www.blake2.net) with output size of [outputSizeBits] bits (default: 512 bits)
      */
     public open class Blake2b(internal val outputSizeBits: Int = 512) : Algorithm("Blake2b-$outputSizeBits", 128) {
+        init {
+            require(outputSizeBits in 8..512 && outputSizeBits % 8 == 0) {
+                "outputSizeBits must be a multiple of 8 between 8 and 512, was $outputSizeBits"
+            }
+        }
+
         /**
          * [Blake2b] tuned to your specific requirements, such as [key]ed hashing, hashing with a [salt], or
          * [personalisation], or any combination thereof with output size of [outputSizeBits] bits (default: 512 bits)
@@ -154,6 +176,15 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
             internal val key: ByteArray = key.copyOf()
             internal val salt: ByteArray? = salt?.copyOf()
             internal val personalisation: ByteArray? = personalisation?.copyOf()
+
+            init {
+                require(key.size <= 64) { "key must be at most 64 bytes, was ${key.size}" }
+                require(salt == null || salt.size == 16) { "salt must be exactly 16 bytes, was ${salt?.size}" }
+                require(personalisation == null || personalisation.size == 16) {
+                    "personalisation must be exactly 16 bytes, was ${personalisation?.size}"
+                }
+            }
+
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("key" to key, "salt" to salt, "personalisation" to personalisation)
         }
@@ -163,11 +194,20 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [BLAKE3](https://github.com/BLAKE3-team/BLAKE3) with output size of [digestLength] bytes (default: 32 bytes)
      */
     public open class Blake3(internal val digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Algorithm("Blake3-${digestLength shl 3}", 64) {
+        init {
+            require(digestLength > 0) { "digestLength must be greater than 0, was $digestLength" }
+        }
+
         /**
          * [Blake3] using [key]ed hashing with output size of [digestLength] bytes (default: 32 bytes)
          */
         public class Keyed(key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
             internal val key: ByteArray = key.copyOf()
+
+            init {
+                require(key.size == Hasher.KEY_LEN) { "key must be exactly ${Hasher.KEY_LEN} bytes, was ${key.size}" }
+            }
+
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("key" to key)
         }
@@ -561,6 +601,11 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         key: LongArray
     ) : Algorithm("HighwayHash-64", 32) {
         internal val key: LongArray = key.copyOf()
+
+        init {
+            require(key.size == HIGHWAY_HASH_KEY_SIZE) { "key must be exactly $HIGHWAY_HASH_KEY_SIZE longs, was ${key.size}" }
+        }
+
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("key" to key)
     }
@@ -572,6 +617,11 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         key: LongArray
     ) : Algorithm("HighwayHash-128", 32) {
         internal val key: LongArray = key.copyOf()
+
+        init {
+            require(key.size == HIGHWAY_HASH_KEY_SIZE) { "key must be exactly $HIGHWAY_HASH_KEY_SIZE longs, was ${key.size}" }
+        }
+
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("key" to key)
     }
@@ -583,6 +633,11 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         key: LongArray
     ) : Algorithm("HighwayHash-256", 32) {
         internal val key: LongArray = key.copyOf()
+
+        init {
+            require(key.size == HIGHWAY_HASH_KEY_SIZE) { "key must be exactly $HIGHWAY_HASH_KEY_SIZE longs, was ${key.size}" }
+        }
+
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("key" to key)
     }
@@ -980,6 +1035,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      */
     public open class Skein(internal val blockSizeBits: Int, internal val outputSizeBits: Int) :
         Algorithm("Skein-$blockSizeBits-$outputSizeBits", blockSizeBits shr 3) {
+        init {
+            require(blockSizeBits in SKEIN_BLOCK_SIZES) { "blockSizeBits must be one of $SKEIN_BLOCK_SIZES, was $blockSizeBits" }
+            require(outputSizeBits in SKEIN_OUTPUT_SIZES) {
+                "outputSizeBits must be one of $SKEIN_OUTPUT_SIZES, was $outputSizeBits"
+            }
+        }
 
         /**
          * [Skein] as [key]ed hash with internal state of [blockSizeBits] bits and output size of [outputSizeBits] bits
@@ -990,6 +1051,13 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
             key: ByteArray,
         ) : Skein(blockSizeBits, outputSizeBits) {
             internal val key: ByteArray = key.copyOf()
+
+            init {
+                require(key.isEmpty() || key.size >= SKEIN_MIN_KEY_SIZE) {
+                    "key must be empty or at least $SKEIN_MIN_KEY_SIZE bytes, was ${key.size}"
+                }
+            }
+
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("key" to key)
         }
@@ -1082,6 +1150,13 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         internal val extraProtection: Boolean = false
     ) : Algorithm("wyhash-64", 48) {
         internal val secret: List<ULong> = secret.toList()
+
+        init {
+            require(secret.size >= WYHASH_SECRET_SIZE) {
+                "secret must contain at least $WYHASH_SECRET_SIZE values, was ${secret.size}"
+            }
+        }
+
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("seed" to seed, "secret" to secret, "extraProtection" to extraProtection)
 
@@ -1127,6 +1202,13 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         public class Secret(secret: ByteArray) : XXH3_64() {
             @Suppress("MemberNameEqualsClassName")
             internal val secret: ByteArray = secret.copyOf()
+
+            init {
+                require(secret.size >= XXH3_SECRET_SIZE_MIN) {
+                    "secret must be at least $XXH3_SECRET_SIZE_MIN bytes, was ${secret.size}"
+                }
+            }
+
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("secret" to secret)
         }
@@ -1150,6 +1232,13 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         public class Secret(secret: ByteArray) : XXH3_128() {
             @Suppress("MemberNameEqualsClassName")
             internal val secret: ByteArray = secret.copyOf()
+
+            init {
+                require(secret.size >= XXH3_SECRET_SIZE_MIN) {
+                    "secret must be at least $XXH3_SECRET_SIZE_MIN bytes, was ${secret.size}"
+                }
+            }
+
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("secret" to secret)
         }
@@ -1184,3 +1273,9 @@ private fun parameterToString(value: Any?): String = when (value) {
     is List<*> -> "List(size=${value.size})"
     else -> value.toString()
 }
+
+private val SKEIN_BLOCK_SIZES = listOf(256, 512, 1024)
+private val SKEIN_OUTPUT_SIZES = listOf(128, 160, 224, 256, 384, 512, 1024)
+private const val SKEIN_MIN_KEY_SIZE = 16
+private const val HIGHWAY_HASH_KEY_SIZE = 4
+private const val WYHASH_SECRET_SIZE = 4
