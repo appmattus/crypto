@@ -78,22 +78,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 128 bits
      */
-    public data object Blake2s_128 : Algorithm("BLAKE2S-128", 64)
+    public data object Blake2s_128 : Algorithm("Blake2s-128", 64)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 160 bits
      */
-    public data object Blake2s_160 : Algorithm("BLAKE2S-160", 64)
+    public data object Blake2s_160 : Algorithm("Blake2s-160", 64)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 224 bits
      */
-    public data object Blake2s_224 : Algorithm("BLAKE2S-224", 64)
+    public data object Blake2s_224 : Algorithm("Blake2s-224", 64)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of 256 bits
      */
-    public data object Blake2s_256 : Algorithm("BLAKE2S-256", 64)
+    public data object Blake2s_256 : Algorithm("Blake2s-256", 64)
 
     /**
      * [BLAKE2s](https://www.blake2.net) with output size of [outputSizeBits] bits (default: 256 bits)
@@ -120,22 +120,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 160 bits
      */
-    public data object Blake2b_160 : Algorithm("BLAKE2B-160", 128)
+    public data object Blake2b_160 : Algorithm("Blake2b-160", 128)
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 256 bits
      */
-    public data object Blake2b_256 : Algorithm("BLAKE2B-256", 128)
+    public data object Blake2b_256 : Algorithm("Blake2b-256", 128)
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 384 bits
      */
-    public data object Blake2b_384 : Algorithm("BLAKE2B-384", 128)
+    public data object Blake2b_384 : Algorithm("Blake2b-384", 128)
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of 512 bits
      */
-    public data object Blake2b_512 : Algorithm("BLAKE2B-512", 128)
+    public data object Blake2b_512 : Algorithm("Blake2b-512", 128)
 
     /**
      * [BLAKE2b](https://www.blake2.net) with output size of [outputSizeBits] bits (default: 512 bits)
