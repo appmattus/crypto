@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,14 @@
 package com.appmattus.crypto
 
 import kotlinx.cinterop.BetaInteropApi
+import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.allocArrayOf
+import kotlinx.cinterop.convert
 import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.plus
+import kotlinx.cinterop.reinterpret
 import kotlinx.cinterop.usePinned
 import platform.Foundation.NSData
 import platform.Foundation.create
@@ -43,6 +47,23 @@ internal fun NSData.toByteArray(): ByteArray = ByteArray(this@toByteArray.length
     if (this@toByteArray.length > 0U) {
         usePinned {
             memcpy(it.addressOf(0), this@toByteArray.bytes, this@toByteArray.length)
+        }
+    }
+}
+
+/**
+ * Copy [length] bytes starting at [offset] into a new [ByteArray], without copying the rest of the data
+ */
+@OptIn(ExperimentalForeignApi::class)
+internal fun NSData.toByteArray(offset: Int, length: Int): ByteArray {
+    if (offset < 0 || length < 0 || offset.toLong() + length > this.length.toLong()) {
+        throw IndexOutOfBoundsException("offset $offset and length $length out of bounds for data of length ${this.length}")
+    }
+    return ByteArray(length).apply {
+        if (length > 0) {
+            usePinned {
+                memcpy(it.addressOf(0), this@toByteArray.bytes!!.reinterpret<ByteVar>() + offset, length.convert())
+            }
         }
     }
 }
