@@ -104,11 +104,14 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
          * [personalisation], or any combination thereof with output size of [outputSizeBits] bits (default: 256 bits)
          */
         public class Keyed(
-            internal val key: ByteArray,
-            internal val salt: ByteArray? = null,
-            internal val personalisation: ByteArray? = null,
+            key: ByteArray,
+            salt: ByteArray? = null,
+            personalisation: ByteArray? = null,
             outputSizeBits: Int = 256
         ) : Blake2s(outputSizeBits) {
+            internal val key: ByteArray = key.copyOf()
+            internal val salt: ByteArray? = salt?.copyOf()
+            internal val personalisation: ByteArray? = personalisation?.copyOf()
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("key" to key, "salt" to salt, "personalisation" to personalisation)
         }
@@ -143,11 +146,14 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
          * [personalisation], or any combination thereof with output size of [outputSizeBits] bits (default: 512 bits)
          */
         public class Keyed(
-            internal val key: ByteArray,
-            internal val salt: ByteArray? = null,
-            internal val personalisation: ByteArray? = null,
+            key: ByteArray,
+            salt: ByteArray? = null,
+            personalisation: ByteArray? = null,
             outputSizeBits: Int = 512
         ) : Blake2b(outputSizeBits) {
+            internal val key: ByteArray = key.copyOf()
+            internal val salt: ByteArray? = salt?.copyOf()
+            internal val personalisation: ByteArray? = personalisation?.copyOf()
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("key" to key, "salt" to salt, "personalisation" to personalisation)
         }
@@ -160,7 +166,8 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [Blake3] using [key]ed hashing with output size of [digestLength] bytes (default: 32 bytes)
          */
-        public class Keyed(internal val key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+        public class Keyed(key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+            internal val key: ByteArray = key.copyOf()
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("key" to key)
         }
@@ -168,7 +175,8 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [Blake3] using [context] to derive a key with output size of [digestLength] bytes (default: 32 bytes)
          */
-        public class DeriveKey(internal val context: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+        public class DeriveKey(context: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+            internal val context: ByteArray = context.copyOf()
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("context" to context)
         }
@@ -277,9 +285,11 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [cSHAKE](https://keccak.team/keccak.html) with output size of 128 bits
      */
     public class cSHAKE128(
-        internal val customisation: ByteArray? = null,
-        internal val functionName: ByteArray? = null
+        customisation: ByteArray? = null,
+        functionName: ByteArray? = null
     ) : Algorithm("cSHAKE128", 64) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+        internal val functionName: ByteArray? = functionName?.copyOf()
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("customisation" to customisation, "functionName" to functionName)
     }
@@ -288,9 +298,11 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [cSHAKE](https://keccak.team/keccak.html) with output size of 256 bits
      */
     public class cSHAKE256(
-        internal val customisation: ByteArray? = null,
-        internal val functionName: ByteArray? = null
+        customisation: ByteArray? = null,
+        functionName: ByteArray? = null
     ) : Algorithm("cSHAKE256", 128) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+        internal val functionName: ByteArray? = functionName?.copyOf()
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("customisation" to customisation, "functionName" to functionName)
     }
@@ -546,8 +558,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [HighwayHash](https://github.com/google/highwayhash) with output size 64 bits
      */
     public class HighwayHash64(
-        internal val key: LongArray
+        key: LongArray
     ) : Algorithm("HighwayHash-64", 32) {
+        internal val key: LongArray = key.copyOf()
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("key" to key)
     }
@@ -556,8 +569,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [HighwayHash](https://github.com/google/highwayhash) with output size 128 bits
      */
     public class HighwayHash128(
-        internal val key: LongArray
+        key: LongArray
     ) : Algorithm("HighwayHash-128", 32) {
+        internal val key: LongArray = key.copyOf()
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("key" to key)
     }
@@ -566,8 +580,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [HighwayHash](https://github.com/google/highwayhash) with output size 256 bits
      */
     public class HighwayHash256(
-        internal val key: LongArray
+        key: LongArray
     ) : Algorithm("HighwayHash-256", 32) {
+        internal val key: LongArray = key.copyOf()
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("key" to key)
     }
@@ -972,8 +987,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         public class Keyed(
             blockSizeBits: Int,
             outputSizeBits: Int,
-            internal val key: ByteArray,
+            key: ByteArray,
         ) : Skein(blockSizeBits, outputSizeBits) {
+            internal val key: ByteArray = key.copyOf()
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("key" to key)
         }
@@ -1062,9 +1078,10 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      */
     public class Wyhash(
         internal val seed: ULong = 0u,
-        internal val secret: List<ULong> = wyp,
+        secret: List<ULong> = wyp,
         internal val extraProtection: Boolean = false
     ) : Algorithm("wyhash-64", 48) {
+        internal val secret: List<ULong> = secret.toList()
         override val parameters: List<Pair<String, Any?>>
             get() = listOf("seed" to seed, "secret" to secret, "extraProtection" to extraProtection)
 
@@ -1107,7 +1124,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [XXH3_64] using [secret] with output size of 64 bits
          */
-        public class Secret(internal val secret: ByteArray) : XXH3_64() {
+        public class Secret(secret: ByteArray) : XXH3_64() {
+            @Suppress("MemberNameEqualsClassName")
+            internal val secret: ByteArray = secret.copyOf()
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("secret" to secret)
         }
@@ -1128,7 +1147,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [XXH3_128] using [secret] with output size of 128 bits
          */
-        public class Secret(internal val secret: ByteArray) : XXH3_128() {
+        public class Secret(secret: ByteArray) : XXH3_128() {
+            @Suppress("MemberNameEqualsClassName")
+            internal val secret: ByteArray = secret.copyOf()
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("secret" to secret)
         }
