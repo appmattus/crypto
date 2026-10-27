@@ -32,6 +32,7 @@ import com.appmattus.crypto.internal.core.SHA3_512
 import com.appmattus.crypto.internal.core.SHA512_224
 import com.appmattus.crypto.internal.core.SHA512_256
 import com.appmattus.crypto.internal.core.SM3
+import com.appmattus.crypto.internal.core.SipHash
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
 import com.appmattus.crypto.internal.core.XXHash32
 import com.appmattus.crypto.internal.core.XXHash64
@@ -333,6 +334,9 @@ internal object CoreDigest {
             Algorithm.SIMD256 -> SIMD256()
             Algorithm.SIMD384 -> SIMD384()
             Algorithm.SIMD512 -> SIMD512()
+
+            is Algorithm.SipHash -> SipHash(algorithm.key, algorithm.compressionRounds, algorithm.finalizationRounds, 64)
+            is Algorithm.SipHash128 -> SipHash(algorithm.key, algorithm.compressionRounds, algorithm.finalizationRounds, 128)
 
             Algorithm.Skein256_128 -> SkeinBouncycastleCore(256, 128)
             Algorithm.Skein256_160 -> SkeinBouncycastleCore(256, 160)
