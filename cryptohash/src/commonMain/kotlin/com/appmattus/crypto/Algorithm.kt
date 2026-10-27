@@ -688,6 +688,14 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data object Keccak512 : Algorithm("Keccak-512", 128), Hmac
 
     /**
+     * [komihash](https://github.com/avaneev/komihash) with output size of 64 bits
+     */
+    public class Komihash(internal val seed: ULong = 0u) : Algorithm("komihash", 64) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
+
+    /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 256 bits
      */
     public data object Kupyna_256 : Algorithm("Kupyna-256", 64)
@@ -804,6 +812,32 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [RadioGatún](https://en.wikipedia.org/wiki/RadioGatún) with 64-bit word width and output size of 256 bits
      */
     public data object RadioGatun64 : Algorithm("RadioGatún[64]", 312)
+
+    /**
+     * [rapidhash](https://github.com/Nicoshev/rapidhash) V3 with output size of 64 bits
+     */
+    public class Rapidhash(internal val seed: ULong = 0u) : Algorithm("rapidhash", 112) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
+
+    /**
+     * [rapidhashMicro](https://github.com/Nicoshev/rapidhash), the rapidhash V3 variant tuned for smaller code size,
+     * with output size of 64 bits
+     */
+    public class RapidhashMicro(internal val seed: ULong = 0u) : Algorithm("rapidhashMicro", 80) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
+
+    /**
+     * [rapidhashNano](https://github.com/Nicoshev/rapidhash), the rapidhash V3 variant tuned for the smallest code
+     * size, with output size of 64 bits
+     */
+    public class RapidhashNano(internal val seed: ULong = 0u) : Algorithm("rapidhashNano", 48) {
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("seed" to seed)
+    }
 
     /**
      * Original [RipeMD](https://en.wikipedia.org/wiki/RIPEMD) with output size of 128 bits
