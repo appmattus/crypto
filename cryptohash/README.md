@@ -86,6 +86,8 @@ The following algorithms are supported:
 ![badge][badge-linux]
 ![badge][badge-windows]
 ![badge][badge-jvm]
+![badge][badge-js]
+![badge][badge-wasm]
 [![Maven Central](https://img.shields.io/maven-central/v/com.appmattus.crypto/cryptohash)](https://search.maven.org/search?q=g:com.appmattus.crypto)
 
 Include the following dependency in your *build.gradle.kts* file:
@@ -96,9 +98,9 @@ commonMain {
 }
 ```
 
-To create a hash first create a digest with `Digest.create` providing the name
-of the hash you wish to use, then update with `update` and create the hash with
-`digest`:
+To create a hash, first create a digest by calling `createDigest()` on the
+`Algorithm` you wish to use, then update it with `update` and create the hash
+with `digest`:
 
 ```kotlin
 // Create a digest
@@ -110,6 +112,9 @@ val hash: ByteArray = digest.digest()
 
 // Alternatively use the shorthand form to update and generate with one function
 digest.digest(byteArray)
+
+// Or hash directly from the algorithm
+val sha256: ByteArray = Algorithm.SHA_256.hash(byteArray)
 
 // HMAC - For algorithms that support HMAC you can create an HMAC digest with a
 // key and then use as above
@@ -123,7 +128,7 @@ convert the digest into a platform specific implementation with `platform()`:
 
 ```swift
 // Create a digest
-let digest = Algorithm.Blake2b_512().createDigest().platform()
+let digest = Algorithm.Blake2b_512.shared.createDigest().platform()
 
 // Update the digest with data and generate the hash
 digest.update(data)
@@ -137,7 +142,7 @@ digest.digest(data)
 
 Inspired by the Flutter [crypto](https://pub.dev/packages/crypto)
 package. Pure Kotlin implementations based on [saphir](https://github.com/sfuhrm/saphir-hash),
-[Bouncy Castle](https://github.com/bcgit/bc-java/), [blake3](https://github.com/rctcwyvrn/blake3).
+[Bouncy Castle](https://github.com/bcgit/bc-java/), [blake3](https://github.com/rctcwyvrn/blake3)
 and [HighwayHash](https://github.com/google/highwayhash/).
 
 [badge-android]: http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat
