@@ -95,6 +95,12 @@ kotlin {
         val androidAndLinuxAndMingwTest by creating {
             dependsOn(commonTest.get())
         }
+        val apple64Main by creating {
+            dependsOn(appleMain.get())
+        }
+        val apple32Main by creating {
+            dependsOn(appleMain.get())
+        }
 
         listOf(jvmMain, jsMain, wasmJsMain, wasmWasiMain, linuxMain, mingwMain, androidNativeMain).forEach {
             it.get().dependsOn(byteArrayMain)
@@ -102,6 +108,17 @@ kotlin {
         linuxTest.get().dependsOn(androidAndLinuxAndMingwTest)
         mingwTest.get().dependsOn(androidAndLinuxAndMingwTest)
         androidNativeTest.get().dependsOn(androidAndLinuxAndMingwTest)
+
+        val macosArm64Main by getting { dependsOn(apple64Main) }
+        val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val iosX64Main by getting { dependsOn(apple64Main) }
+        val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val watchosArm32Main by getting { dependsOn(apple32Main) }
+        val watchosArm64Main by getting { dependsOn(apple32Main) }
+        val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val tvosArm64Main by getting { dependsOn(apple64Main) }
+        val iosArm64Main by getting { dependsOn(apple64Main) }
+        val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }
 
         commonMain.dependencies {
             implementation(libs.uint128)
