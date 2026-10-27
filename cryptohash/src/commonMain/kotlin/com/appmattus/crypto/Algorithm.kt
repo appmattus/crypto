@@ -327,7 +327,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public class cSHAKE128(
         customisation: ByteArray? = null,
         functionName: ByteArray? = null
-    ) : Algorithm("cSHAKE128", 64) {
+    ) : Algorithm("cSHAKE128", 168) {
         internal val customisation: ByteArray? = customisation?.copyOf()
         internal val functionName: ByteArray? = functionName?.copyOf()
         override val parameters: List<Pair<String, Any?>>
@@ -340,7 +340,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public class cSHAKE256(
         customisation: ByteArray? = null,
         functionName: ByteArray? = null
-    ) : Algorithm("cSHAKE256", 128) {
+    ) : Algorithm("cSHAKE256", 136) {
         internal val customisation: ByteArray? = customisation?.copyOf()
         internal val functionName: ByteArray? = functionName?.copyOf()
         override val parameters: List<Pair<String, Any?>>
@@ -390,7 +390,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [FarmHash](https://github.com/google/farmhash) with output size of 32 bits
      */
-    public open class FarmHash32 : Algorithm("FarmHash32", 8) {
+    public open class FarmHash32 : Algorithm("FarmHash32", 4) {
         /**
          * [FarmHash32] using [seed] with output size of 64 bits
          */
@@ -665,27 +665,27 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 224 bits
      */
-    public data object Keccak224 : Algorithm("Keccak-224", 64), Hmac
+    public data object Keccak224 : Algorithm("Keccak-224", 144), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 256 bits
      */
-    public data object Keccak256 : Algorithm("Keccak-256", 64), Hmac
+    public data object Keccak256 : Algorithm("Keccak-256", 136), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 288 bits
      */
-    public data object Keccak288 : Algorithm("Keccak-288", 64), Hmac
+    public data object Keccak288 : Algorithm("Keccak-288", 128), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 384 bits
      */
-    public data object Keccak384 : Algorithm("Keccak-384", 128), Hmac
+    public data object Keccak384 : Algorithm("Keccak-384", 104), Hmac
 
     /**
      * [Keccak](https://keccak.team/keccak.html) without output size 512 bits
      */
-    public data object Keccak512 : Algorithm("Keccak-512", 128), Hmac
+    public data object Keccak512 : Algorithm("Keccak-512", 72), Hmac
 
     /**
      * [KMAC128](https://doi.org/10.6028/NIST.SP.800-185), the Keccak message authentication code from NIST SP 800-185,
@@ -993,22 +993,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 224 bits
      */
-    public data object SHA3_224 : Algorithm("SHA3-224", 64), Hmac
+    public data object SHA3_224 : Algorithm("SHA3-224", 144), Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 256 bits
      */
-    public data object SHA3_256 : Algorithm("SHA3-256", 64), Hmac
+    public data object SHA3_256 : Algorithm("SHA3-256", 136), Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 384 bits
      */
-    public data object SHA3_384 : Algorithm("SHA3-384", 128), Hmac
+    public data object SHA3_384 : Algorithm("SHA3-384", 104), Hmac
 
     /**
      * [SHA-3](https://keccak.team/keccak.html) with output size of 512 bits
      */
-    public data object SHA3_512 : Algorithm("SHA3-512", 128), Hmac
+    public data object SHA3_512 : Algorithm("SHA3-512", 72), Hmac
 
     /**
      * [Shabal](https://www.cs.rit.edu/~ark/20090927/Round2Candidates/Shabal.pdf) with output size of 192 bits
@@ -1038,12 +1038,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [SHAKE](https://keccak.team/keccak.html) with output size of 128 bits
      */
-    public data object SHAKE128 : Algorithm("SHAKE128", 64)
+    public data object SHAKE128 : Algorithm("SHAKE128", 168)
 
     /**
      * [SHAKE](https://keccak.team/keccak.html) with output size of 256 bits
      */
-    public data object SHAKE256 : Algorithm("SHAKE256", 128)
+    public data object SHAKE256 : Algorithm("SHAKE256", 136)
 
     /**
      * [SHAvite-3](https://www.cs.technion.ac.il/~orrd/SHAvite-3/) with output size of 224 bits
@@ -1084,6 +1084,46 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 512 bits
      */
     public data object SIMD512 : Algorithm("SIMD-512", 128)
+
+    /**
+     * [SipHash](https://www.aumasson.jp/siphash/siphash.pdf), a keyed pseudorandom function with output size of 64 bits,
+     * using a 16 byte [key], [compressionRounds] compression rounds and [finalizationRounds] finalization rounds
+     * (default: SipHash-2-4)
+     */
+    public class SipHash(
+        key: ByteArray,
+        internal val compressionRounds: Int = 2,
+        internal val finalizationRounds: Int = 4
+    ) : Algorithm("SipHash-$compressionRounds-$finalizationRounds", 8) {
+        internal val key: ByteArray = key.copyOf()
+
+        init {
+            requireValidSipHashParameters(key, compressionRounds, finalizationRounds)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key)
+    }
+
+    /**
+     * [SipHash](https://www.aumasson.jp/siphash/siphash.pdf), a keyed pseudorandom function with output size of 128
+     * bits, using a 16 byte [key], [compressionRounds] compression rounds and [finalizationRounds] finalization rounds
+     * (default: SipHash128-2-4)
+     */
+    public class SipHash128(
+        key: ByteArray,
+        internal val compressionRounds: Int = 2,
+        internal val finalizationRounds: Int = 4
+    ) : Algorithm("SipHash128-$compressionRounds-$finalizationRounds", 8) {
+        internal val key: ByteArray = key.copyOf()
+
+        init {
+            requireValidSipHashParameters(key, compressionRounds, finalizationRounds)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key)
+    }
 
     /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 128 bits
@@ -1339,12 +1379,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [xxHash](https://github.com/Cyan4973/xxHash) with output size of 32 bits
      */
-    public data class XXHash32(val seed: Int = 0) : Algorithm("XXH32", 32)
+    public data class XXHash32(val seed: Int = 0) : Algorithm("XXH32", 16)
 
     /**
      * [xxHash](https://github.com/Cyan4973/xxHash) with output size of 64 bits
      */
-    public data class XXHash64(val seed: Long = 0) : Algorithm("XXH64", 64)
+    public data class XXHash64(val seed: Long = 0) : Algorithm("XXH64", 32)
 
     /**
      * [xxHash3](https://github.com/Cyan4973/xxHash) with output size of 64 bits
@@ -1442,8 +1482,16 @@ private const val SKEIN_MIN_KEY_SIZE = 16
 private const val HIGHWAY_HASH_KEY_SIZE = 4
 private const val WYHASH_SECRET_SIZE = 4
 
+private const val SIPHASH_KEY_SIZE = 16
+
 private fun requireValidXofOutputSize(outputSizeBits: Int) {
     require(outputSizeBits > 0 && outputSizeBits % 8 == 0) {
         "outputSizeBits must be a positive multiple of 8, was $outputSizeBits"
     }
+}
+
+private fun requireValidSipHashParameters(key: ByteArray, compressionRounds: Int, finalizationRounds: Int) {
+    require(key.size == SIPHASH_KEY_SIZE) { "key must be exactly $SIPHASH_KEY_SIZE bytes, was ${key.size}" }
+    require(compressionRounds > 0) { "compressionRounds must be greater than 0, was $compressionRounds" }
+    require(finalizationRounds > 0) { "finalizationRounds must be greater than 0, was $finalizationRounds" }
 }

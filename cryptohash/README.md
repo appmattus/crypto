@@ -35,6 +35,7 @@ The following algorithms are supported:
 - Blake3
 - HMAC
 - KMAC128, KMAC256
+- SipHash-2-4, SipHash128-2-4 (with configurable rounds)
 - Skein
 
 ## Unkeyed cryptographic hash functions

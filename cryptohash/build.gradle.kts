@@ -88,7 +88,8 @@ kotlin {
 
     @Suppress("UnusedPrivateMember")
     sourceSets {
-        val androidAndLinuxAndMingwMain by creating {
+        // Platforms that use ByteArray as PlatformData, i.e. everything other than Darwin
+        val byteArrayMain by creating {
             dependsOn(commonMain.get())
         }
         val androidAndLinuxAndMingwTest by creating {
@@ -101,9 +102,9 @@ kotlin {
             dependsOn(appleMain.get())
         }
 
-        linuxMain.get().dependsOn(androidAndLinuxAndMingwMain)
-        mingwMain.get().dependsOn(androidAndLinuxAndMingwMain)
-        androidNativeMain.get().dependsOn(androidAndLinuxAndMingwMain)
+        listOf(jvmMain, jsMain, wasmJsMain, wasmWasiMain, linuxMain, mingwMain, androidNativeMain).forEach {
+            it.get().dependsOn(byteArrayMain)
+        }
         linuxTest.get().dependsOn(androidAndLinuxAndMingwTest)
         mingwTest.get().dependsOn(androidAndLinuxAndMingwTest)
         androidNativeTest.get().dependsOn(androidAndLinuxAndMingwTest)
