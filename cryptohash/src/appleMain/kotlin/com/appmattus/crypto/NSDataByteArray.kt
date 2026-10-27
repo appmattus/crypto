@@ -37,7 +37,7 @@ import platform.posix.memcpy
 internal fun ByteArray.toData(): NSData = memScoped {
     NSData.create(
         bytes = allocArrayOf(this@toData),
-        length = this@toData.size.toULong()
+        length = this@toData.size.convert()
     )
 }
 
