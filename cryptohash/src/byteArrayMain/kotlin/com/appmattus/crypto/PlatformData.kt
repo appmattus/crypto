@@ -17,13 +17,14 @@
 package com.appmattus.crypto
 
 /**
- * Represents the native platforms data type for Array like data. For (non-Darwin) native we are using [ByteArray]
+ * Represents the native platforms data type for Array like data. For platforms other than Darwin we are using [ByteArray]
  */
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 public actual typealias PlatformData = ByteArray
 
 /**
- * Represents the native platforms mutable data type for Array like data, used as an output buffer
+ * Represents the native platforms mutable data type for Array like data, used as an output buffer. For platforms other
+ * than Darwin we are using [ByteArray]
  */
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 public actual typealias MutablePlatformData = ByteArray
