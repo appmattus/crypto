@@ -161,7 +161,7 @@ internal class Blake2b : Digest<Blake2b> {
     @Suppress("unused")
     constructor(key: ByteArray?) {
         buffer = ByteArray(blockLength)
-        if (key != null) {
+        if (key != null && key.isNotEmpty()) {
             this.key = key.copyInto(ByteArray(key.size), 0, 0, key.size)
             require(key.size <= 64) { "Keys > 64 are not supported" }
             keyLength = key.size
@@ -199,7 +199,7 @@ internal class Blake2b : Digest<Blake2b> {
             require(personalization.size == 16) { "personalization length must be exactly 16 bytes" }
             this.personalization = personalization.copyInto(ByteArray(16), 0, 0, personalization.size)
         }
-        if (key != null) {
+        if (key != null && key.isNotEmpty()) {
             this.key = key.copyInto(ByteArray(key.size), 0, 0, key.size)
             require(key.size <= 64) { "Keys > 64 are not supported" }
             keyLength = key.size
