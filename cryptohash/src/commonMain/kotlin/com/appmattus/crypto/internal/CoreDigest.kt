@@ -40,6 +40,7 @@ import com.appmattus.crypto.internal.core.bouncycastle.GOST3411
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_256
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_512
 import com.appmattus.crypto.internal.core.bouncycastle.Kupyna
+import com.appmattus.crypto.internal.core.bouncycastle.ascon.Ascon
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2b
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2s
 import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka256_256
@@ -152,6 +153,10 @@ internal object CoreDigest {
     fun create(algorithm: Algorithm): Digest<*> {
         return when (algorithm) {
             Algorithm.Adler32 -> Adler32()
+
+            Algorithm.AsconHash256 -> Ascon.hash256()
+            is Algorithm.AsconXof128 -> Ascon.xof128(algorithm.outputSizeBits / 8)
+            is Algorithm.AsconCXof128 -> Ascon.cxof128(algorithm.customisation ?: ByteArray(0), algorithm.outputSizeBits / 8)
 
             Algorithm.BLAKE224 -> BLAKE224()
             Algorithm.BLAKE256 -> BLAKE256()
