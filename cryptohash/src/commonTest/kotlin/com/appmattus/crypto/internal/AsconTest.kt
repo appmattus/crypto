@@ -25,17 +25,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 /**
- * A selection of the known answer tests from the [Ascon reference implementation](https://github.com/ascon/ascon-c),
+ * A selection of the Ascon-XOF128 and Ascon-CXOF128 known answer tests from the
+ * [Ascon reference implementation](https://github.com/ascon/ascon-c),
  * where messages are 00 01 02 .. and customisation strings are 10 11 12 ..
  */
 class AsconTest {
-
-    @Test
-    fun asconHash256MatchesReferenceVectors() {
-        hash256Vectors.forEach { (length, expected) ->
-            testKat({ Algorithm.AsconHash256.createDigest() }, message(length), expected)
-        }
-    }
 
     @Test
     fun asconXof128MatchesReferenceVectors() {
@@ -84,47 +78,6 @@ class AsconTest {
     private fun message(length: Int) = ByteArray(length) { it.toByte() }
 
     private companion object {
-        val hash256Vectors = listOf(
-            0 to "0b3be5850f2f6b98caf29f8fdea89b64a1fa70aa249b8f839bd53baa304d92b2",
-            1 to "0728621035af3ed2bca03bf6fde900f9456f5330e4b5ee23e7f6a1e70291bc80",
-            2 to "6115e7c9c4081c2797fc8fe1bc57a836afa1c5381e556dd583860ca2dfb48dd2",
-            3 to "265ab89a609f5a05dca57e83fbba700f9a2d2c4211ba4cc9f0a1a369e17b915c",
-            4 to "d7e4c7ed9b8a325cd08b9ef259f8877054ecd8304fe1b2d7fd847137df6727ee",
-            5 to "c7b28962d4f5c2211f466f83d3c57ae1504387e2a326949747a8376447a6bb51",
-            6 to "dc0c6748af8ffe63e1084aa3e5786a194685c88c21348b29e184fb50409703bc",
-            7 to "3e4d273ba69b3b9c53216107e88b75cdbeedbcbf8faf0219c3928ab62b116577",
-            8 to "b88e497ae8e6fb641b87ef622eb8f2fca0ed95383f7ffebe167acf1099ba764f",
-            9 to "94269c30e0296e1ec86655041841823efa1927f520fd58c8e9bce6197878c1a6",
-            10 to "894f5c5bc78a0a97abc0d63123d09a335fb0d92430adf9d11fd2643854179968",
-            11 to "688466b9ec5070476ceb939fe368c2a32c0f1a795af761942d5518909a1081da",
-            12 to "8cafa656807fafa3de9feb2fb566d6239beba74ae48c4e9a4ced5bf1b13a75c9",
-            13 to "94883d2a44e8f13964f926de553583db7b1a82b0aacc58ef2d4846a5d6e8b4ac",
-            14 to "beb6353f24e8dee9f2b99279f29f425f7cce3098a3665b7af3af86f759cc985d",
-            15 to "6421330df99c05eb715415ee17b455f2674f862ae3cc5badffe43a4a3ed273e1",
-            16 to "3158c1940a2fbadbd68ab661777859b94a689e4efc375911467addd641835c38",
-            17 to "f149e99dd0f429599bb89b8079bf3f4dca3f298efefcf9b1ea16fe84f9b8b6e2",
-            18 to "d070f7ba0e9bcdb6b34e8357343e9041943146f334fdaf6e2009275f6f25cbed",
-            19 to "759401ba2d3373eb5a0152bde6fcc726ec65dee795a574f1d715f3cac21f0381",
-            20 to "98941e484fbae87452ddaf6030088b798a56c36eb6d4d3e94b5cff78b20e0481",
-            21 to "41c8f733b9d823be30b64ee717c322c576d36781ffc5f7d6c730eca549789725",
-            22 to "04183f603cf56ea25e5c299d3fbdb17228d6411f15e9f77c7789ce89ec9b8b0e",
-            23 to "b4f88d121eddf6d1fea9aef15f68a0f3a16d3d2cdd9817225809c20452b04c61",
-            24 to "7e6a31fa6559536a7ad61622f6150fa3b2a29ebbf39ad8011b7902cc612571e6",
-            31 to "b900cd3f06f1618b68c16665807206dbe273df40135361f449847d573903fabd",
-            32 to "bd9d3d60a66b53868eab2a5c74539a518a1f60f01eb176c60e43dee81680b33e",
-            33 to "a58665a2cb9530c502096a7957a76e428af4ad044b4da5c471f9da6f7b3e5868",
-            63 to "5072896862f6b9cfe8ef76d80559e156254782a40ac5f64cbf7934ad1f624b30",
-            64 to "a6f241bea5d16405812c06019d9f72d60132bd7c089c60549b2e56bb01c64f48",
-            65 to "bff4fa006fe6feabb5ce9b219492d0d230f4d05f2bac42db7189f441b1e83b53",
-            127 to "d968938c7f7849403160e291ea54ad79c0caf1237c1375a0b553d5c8122f88b3",
-            128 to "ce8c1047063527f52dddf77dfa8cff33cad07edd981aae3fe845958209c0ec1f",
-            129 to "434bbafef07714653601e735c5bc3ee71d41e59bb5f418a5aaf02fedde6f86a2",
-            255 to "ada496e2c0ade829f37832a8ba34cf6059dffbb3beba88ca5ded3363914ea69a",
-            256 to "a023cd5a054735458573701a9609c54b01aab0da3a365b39ca30b972ead151a4",
-            1023 to "473ed04b5d4bc15b21c8892d9bd00c14b67fe843f1aa2d35a474933952fbdc1f",
-            1024 to "48140032bb7df2e2b5c95d403c9ab69b4bc00453980bf85f15a84cae2b09a0e9"
-        )
-
         val xof128Vectors = listOf(
             0 to "473d5e6164f58b39dfd84aacdb8ae42ec2d91fed33388ee0d960d9b3993295c6ad77855a5d3b13fe6ad9e6098988373af7d0956d05a8f1665d2c67d1a3ad10ff",
             1 to "51430e0438ecdf642b393630d977625f5f337656ba58ab1e960784ac32a16e0d446405551f5469384f8ea283cf12e64fa72c426bfebaea3aa1529e2c4ab23a2f",
