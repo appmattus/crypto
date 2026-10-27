@@ -34,6 +34,7 @@ The following algorithms are supported:
 - Blake2b, Blake2s
 - Blake3
 - HMAC
+- SipHash-2-4, SipHash128-2-4 (with configurable rounds)
 - Skein
 
 ## Unkeyed cryptographic hash functions

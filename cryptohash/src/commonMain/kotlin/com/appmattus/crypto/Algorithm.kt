@@ -966,6 +966,46 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data object SIMD512 : Algorithm("SIMD-512", 128)
 
     /**
+     * [SipHash](https://www.aumasson.jp/siphash/siphash.pdf), a keyed pseudorandom function with output size of 64 bits,
+     * using a 16 byte [key], [compressionRounds] compression rounds and [finalizationRounds] finalization rounds
+     * (default: SipHash-2-4)
+     */
+    public class SipHash(
+        key: ByteArray,
+        internal val compressionRounds: Int = 2,
+        internal val finalizationRounds: Int = 4
+    ) : Algorithm("SipHash-$compressionRounds-$finalizationRounds", 8) {
+        internal val key: ByteArray = key.copyOf()
+
+        init {
+            requireValidSipHashParameters(key, compressionRounds, finalizationRounds)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key)
+    }
+
+    /**
+     * [SipHash](https://www.aumasson.jp/siphash/siphash.pdf), a keyed pseudorandom function with output size of 128
+     * bits, using a 16 byte [key], [compressionRounds] compression rounds and [finalizationRounds] finalization rounds
+     * (default: SipHash128-2-4)
+     */
+    public class SipHash128(
+        key: ByteArray,
+        internal val compressionRounds: Int = 2,
+        internal val finalizationRounds: Int = 4
+    ) : Algorithm("SipHash128-$compressionRounds-$finalizationRounds", 8) {
+        internal val key: ByteArray = key.copyOf()
+
+        init {
+            requireValidSipHashParameters(key, compressionRounds, finalizationRounds)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key)
+    }
+
+    /**
      * [Skein](https://www.schneier.com/academic/skein/) with internal state of 256 bits and output size of 128 bits
      */
     public data object Skein256_128 : Algorithm("Skein-256-128", 32), Hmac
@@ -1279,3 +1319,11 @@ private val SKEIN_OUTPUT_SIZES = listOf(128, 160, 224, 256, 384, 512, 1024)
 private const val SKEIN_MIN_KEY_SIZE = 16
 private const val HIGHWAY_HASH_KEY_SIZE = 4
 private const val WYHASH_SECRET_SIZE = 4
+
+private const val SIPHASH_KEY_SIZE = 16
+
+private fun requireValidSipHashParameters(key: ByteArray, compressionRounds: Int, finalizationRounds: Int) {
+    require(key.size == SIPHASH_KEY_SIZE) { "key must be exactly $SIPHASH_KEY_SIZE bytes, was ${key.size}" }
+    require(compressionRounds > 0) { "compressionRounds must be greater than 0, was $compressionRounds" }
+    require(finalizationRounds > 0) { "finalizationRounds must be greater than 0, was $finalizationRounds" }
+}
