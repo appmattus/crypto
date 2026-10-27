@@ -688,6 +688,48 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data object Keccak512 : Algorithm("Keccak-512", 128), Hmac
 
     /**
+     * [KMAC128](https://doi.org/10.6028/NIST.SP.800-185), the Keccak message authentication code from NIST SP 800-185,
+     * keyed with [key] and with output size of [outputSizeBits] bits (default: 256 bits).
+     * An optional [customisation] string separates uses of the same key.
+     */
+    public class KMAC128(
+        key: ByteArray,
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 256
+    ) : Algorithm("KMAC128", 168) {
+        internal val key: ByteArray = key.copyOf()
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            requireValidXofOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key, "customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
+
+    /**
+     * [KMAC256](https://doi.org/10.6028/NIST.SP.800-185), the Keccak message authentication code from NIST SP 800-185,
+     * keyed with [key] and with output size of [outputSizeBits] bits (default: 512 bits).
+     * An optional [customisation] string separates uses of the same key.
+     */
+    public class KMAC256(
+        key: ByteArray,
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 512
+    ) : Algorithm("KMAC256", 136) {
+        internal val key: ByteArray = key.copyOf()
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            requireValidXofOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("key" to key, "customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
+
+    /**
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 256 bits
      */
     public data object Kupyna_256 : Algorithm("Kupyna-256", 64)
@@ -701,6 +743,42 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [Kupyna (aka DSTU7564)](https://en.wikipedia.org/wiki/Kupyna) with output size 512 bits
      */
     public data object Kupyna_512 : Algorithm("Kupyna-512", 128)
+
+    /**
+     * [KT128](https://www.rfc-editor.org/rfc/rfc9861), the KangarooTwelve tree hash from RFC 9861, with output
+     * size of [outputSizeBits] bits (default: 256 bits) and an optional [customisation] string.
+     */
+    public class KT128(
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 256
+    ) : Algorithm("KT128", 168) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            requireValidXofOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
+
+    /**
+     * [KT256](https://www.rfc-editor.org/rfc/rfc9861), the KangarooTwelve tree hash from RFC 9861, with output
+     * size of [outputSizeBits] bits (default: 512 bits) and an optional [customisation] string.
+     */
+    public class KT256(
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 512
+    ) : Algorithm("KT256", 136) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            requireValidXofOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
 
     /**
      * [Luffa](https://www.hitachi.com/rd/yrl/crypto/luffa/) with output size of 224 bits
@@ -794,6 +872,48 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * [Panama](https://en.wikipedia.org/wiki/Panama_(cryptography)) with output size of 256 bits
      */
     public data object PANAMA : Algorithm("PANAMA", 32)
+
+    /**
+     * [ParallelHash128](https://doi.org/10.6028/NIST.SP.800-185) from NIST SP 800-185, which hashes the input in
+     * independent blocks of [blockSize] bytes, with output size of [outputSizeBits] bits (default: 256 bits) and
+     * an optional [customisation] string.
+     */
+    public class ParallelHash128(
+        internal val blockSize: Int,
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 256
+    ) : Algorithm("ParallelHash128", 168) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            require(blockSize > 0) { "blockSize must be greater than 0, was $blockSize" }
+            requireValidXofOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("blockSize" to blockSize, "customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
+
+    /**
+     * [ParallelHash256](https://doi.org/10.6028/NIST.SP.800-185) from NIST SP 800-185, which hashes the input in
+     * independent blocks of [blockSize] bytes, with output size of [outputSizeBits] bits (default: 512 bits) and
+     * an optional [customisation] string.
+     */
+    public class ParallelHash256(
+        internal val blockSize: Int,
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 512
+    ) : Algorithm("ParallelHash256", 136) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            require(blockSize > 0) { "blockSize must be greater than 0, was $blockSize" }
+            requireValidXofOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("blockSize" to blockSize, "customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
 
     /**
      * [RadioGatún](https://en.wikipedia.org/wiki/RadioGatún) with 32-bit word width and output size of 256 bits
@@ -1127,6 +1247,48 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data object Tiger2 : Algorithm("Tiger2", 64)
 
     /**
+     * [TupleHash128](https://doi.org/10.6028/NIST.SP.800-185) from NIST SP 800-185, which hashes a tuple of byte
+     * arrays, with output size of [outputSizeBits] bits (default: 256 bits) and an optional [customisation] string.
+     *
+     * Each call to [Digest.update] adds one element to the tuple, so `update(a); update(b)` hashes the tuple `(a, b)`,
+     * which differs from `update(a + b)`. [hash] treats its input as a tuple with one element.
+     */
+    public class TupleHash128(
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 256
+    ) : Algorithm("TupleHash128", 168) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            requireValidXofOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
+
+    /**
+     * [TupleHash256](https://doi.org/10.6028/NIST.SP.800-185) from NIST SP 800-185, which hashes a tuple of byte
+     * arrays, with output size of [outputSizeBits] bits (default: 512 bits) and an optional [customisation] string.
+     *
+     * Each call to [Digest.update] adds one element to the tuple, so `update(a); update(b)` hashes the tuple `(a, b)`,
+     * which differs from `update(a + b)`. [hash] treats its input as a tuple with one element.
+     */
+    public class TupleHash256(
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 512
+    ) : Algorithm("TupleHash256", 136) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            requireValidXofOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
+
+    /**
      * Latest version of [Whirlpool](https://en.wikipedia.org/wiki/Whirlpool_(hash_function)) with output size of 512 bits
      */
     public data object Whirlpool : Algorithm("Whirlpool", 64), Hmac
@@ -1279,3 +1441,9 @@ private val SKEIN_OUTPUT_SIZES = listOf(128, 160, 224, 256, 384, 512, 1024)
 private const val SKEIN_MIN_KEY_SIZE = 16
 private const val HIGHWAY_HASH_KEY_SIZE = 4
 private const val WYHASH_SECRET_SIZE = 4
+
+private fun requireValidXofOutputSize(outputSizeBits: Int) {
+    require(outputSizeBits > 0 && outputSizeBits % 8 == 0) {
+        "outputSizeBits must be a positive multiple of 8, was $outputSizeBits"
+    }
+}
