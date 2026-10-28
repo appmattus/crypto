@@ -260,7 +260,6 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
         bitsInQueue = rate
     }
 
-
     override fun update(input: ByteArray) {
         update(input, 0, input.size)
     }
