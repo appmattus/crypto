@@ -29,7 +29,9 @@ plugins {
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.compose.hotReload) apply false
     alias(libs.plugins.compose.multiplatform) apply false
+    alias(libs.plugins.kotlin.allopen) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlinX.benchmark) apply false
     alias(libs.plugins.markdownlintGradlePlugin)
     alias(libs.plugins.gradleMavenPublishPlugin) apply false
     alias(libs.plugins.dokkaPlugin)

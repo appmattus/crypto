@@ -28,6 +28,7 @@ markdownlintGradlePlugin = "0.6.0"
 gradleMavenPublishPlugin = "0.37.0"
 dokkaPlugin = "2.2.0"
 
+kotlinX-benchmark = "0.5.0"
 kotlinX-coroutines = "1.11.0"
 uint128 = "1.0.0"
 
@@ -47,6 +48,7 @@ bouncyCastle = "1.86"
 
 [libraries]
 
+kotlinX-benchmarkRuntime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinX-benchmark" }
 kotlinX-coroutinesCore = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinX-coroutines" }
 kotlinX-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinX-coroutines" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -100,4 +102,6 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hotReload" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinX-benchmark = { id = "org.jetbrains.kotlinx.benchmark", version.ref = "kotlinX-benchmark" }
