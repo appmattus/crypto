@@ -1,0 +1,175 @@
+/*
+ * Copyright 2026 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.appmattus.crypto.internal.core.rapidhash
+
+import com.appmattus.crypto.internal.bytes.ByteBuffer
+import com.appmattus.crypto.internal.core.NonIncrementalDigest
+import com.appmattus.crypto.internal.core.decodeLEUInt
+import com.appmattus.crypto.internal.core.decodeLEULong
+import com.appmattus.crypto.internal.core.encodeBELong
+
+/**
+ * [rapidhash](https://github.com/Nicoshev/rapidhash) V3 and its rapidhashMicro and rapidhashNano variants, which
+ * differ only in how many bytes they process per round of their bulk loop
+ */
+internal class Rapidhash(
+    private val seed: ULong,
+    private val variant: Variant
+) : NonIncrementalDigest<Rapidhash>() {
+
+    /**
+     * @param lanes the number of independent 16-byte lanes in the bulk loop
+     * @param tailSecrets the secret used for each 16-byte block that remains after the bulk loop
+     */
+    internal enum class Variant(val algorithmName: String, val lanes: Int, val tailSecrets: IntArray) {
+        Rapidhash("rapidhash", 7, intArrayOf(2, 2, 1, 1, 2, 1)),
+        Micro("rapidhashMicro", 5, intArrayOf(2, 2, 1, 1)),
+        Nano("rapidhashNano", 3, intArrayOf(2, 2))
+    }
+
+    private var hash: ULong = 0u
+
+    override val digestLength: Int
+        get() = 8
+
+    override val blockLength: Int
+        get() = variant.lanes * 16
+
+    override fun process(input: ByteBuffer) {
+        val len = input.size
+        var seed = seed xor mix(seed xor secret[2], secret[1])
+        var p = 0
+        var i = len.toULong()
+        val a: ULong
+        val b: ULong
+
+        if (len <= 16) {
+            when {
+                len >= 8 -> {
+                    seed = seed xor len.toULong()
+                    a = input.decodeLEULong(0)
+                    b = input.decodeLEULong(len - 8)
+                }
+                len >= 4 -> {
+                    seed = seed xor len.toULong()
+                    a = input.decodeLEUInt(0).toULong()
+                    b = input.decodeLEUInt(len - 4).toULong()
+                }
+                len > 0 -> {
+                    a = (input.byteAt(0) shl 45) or input.byteAt(len - 1)
+                    b = input.byteAt(len shr 1)
+                }
+                else -> {
+                    a = 0u
+                    b = 0u
+                }
+            }
+        } else {
+            val bulkSize = variant.lanes * 16
+            if (len > bulkSize) {
+                seed = bulk(input, seed)
+                val blocks = (len - 1) / bulkSize
+                p = blocks * bulkSize
+                i -= p.toULong()
+            }
+
+            var k = 0
+            while (k < variant.tailSecrets.size && i > (16 * (k + 1)).toULong()) {
+                seed = mix(input.decodeLEULong(p + 16 * k) xor secret[variant.tailSecrets[k]], input.decodeLEULong(p + 16 * k + 8) xor seed)
+                k++
+            }
+
+            a = input.decodeLEULong(p + i.toInt() - 16) xor i
+            b = input.decodeLEULong(p + i.toInt() - 8)
+        }
+
+        var lo = a xor secret[1]
+        val hi = b xor seed
+        val high = multiplyHigh(lo, hi)
+        lo *= hi
+        hash = mix(lo xor secret[7], high xor secret[1] xor i)
+    }
+
+    // The bulk loop, processing bulkSize bytes per round while more than bulkSize bytes remain
+    private fun bulk(input: ByteBuffer, seed: ULong): ULong {
+        val bulkSize = variant.lanes * 16
+        val lanes = MutableList(variant.lanes) { seed }
+        var p = 0
+        do {
+            for (k in lanes.indices) {
+                lanes[k] = mix(input.decodeLEULong(p + 16 * k) xor secret[k], input.decodeLEULong(p + 16 * k + 8) xor lanes[k])
+            }
+            p += bulkSize
+        } while (input.size - p > bulkSize)
+        return lanes.reduce { acc, lane -> acc xor lane }
+    }
+
+    private fun ByteBuffer.byteAt(index: Int): ULong = get(index).toULong() and 0xffu
+
+    override fun digest(): ByteArray {
+        val digest = ByteArray(digestLength)
+        encodeBELong(hash.toLong(), digest, 0)
+
+        reset()
+
+        return digest
+    }
+
+    override fun copy(): Rapidhash {
+        return copyState(
+            Rapidhash(seed, variant).apply {
+                hash = this@Rapidhash.hash
+            }
+        )
+    }
+
+    override fun toString(): String = variant.algorithmName
+
+    private companion object {
+        private val secret = listOf(
+            0x2d358dccaa6c78a5u,
+            0x8bb84b93962eacc9u,
+            0x4b33a62ed433d4a3u,
+            0x4d5a2da51de1aa47u,
+            0xa0761d6478bd642fu,
+            0xe7037ed1a0b428dbu,
+            0x90ed1765281c388cu,
+            0xaaaaaaaaaaaaaaaau
+        )
+
+        // 64 x 64 -> 128 bit multiply, returning the xor of the high and low halves
+        private fun mix(a: ULong, b: ULong): ULong = (a * b) xor multiplyHigh(a, b)
+    }
+}
+
+/**
+ * The high 64 bits of the 128-bit product of [a] and [b]
+ */
+internal fun multiplyHigh(a: ULong, b: ULong): ULong {
+    val aLow = a and 0xffffffffu
+    val aHigh = a shr 32
+    val bLow = b and 0xffffffffu
+    val bHigh = b shr 32
+
+    val lowLow = aLow * bLow
+    val highLow = aHigh * bLow
+    val lowHigh = aLow * bHigh
+    val highHigh = aHigh * bHigh
+
+    val middle = (lowLow shr 32) + (highLow and 0xffffffffu) + (lowHigh and 0xffffffffu)
+    return highHigh + (highLow shr 32) + (lowHigh shr 32) + (middle shr 32)
+}
