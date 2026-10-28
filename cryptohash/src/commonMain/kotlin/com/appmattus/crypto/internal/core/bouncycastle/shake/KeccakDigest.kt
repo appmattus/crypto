@@ -244,12 +244,12 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
             state[i] = state[i] xor decodeLELong(data, off)
             off += 8
         }
-        keccakPermutation()
+        keccakPermutation(state)
     }
 
     private fun keccakExtract() {
 //        assert 0 == bitsInQueue;
-        keccakPermutation()
+        keccakPermutation(state)
 
         var bsOff = 0
         for (i in 0 until (rate ushr 6)) {
@@ -260,165 +260,6 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
         bitsInQueue = rate
     }
 
-    @Suppress("LongMethod")
-    private fun keccakPermutation() {
-        val a = state
-        var a00 = a[0]
-        var a01 = a[1]
-        var a02 = a[2]
-        var a03 = a[3]
-        var a04 = a[4]
-        var a05 = a[5]
-        var a06 = a[6]
-        var a07 = a[7]
-        var a08 = a[8]
-        var a09 = a[9]
-        var a10 = a[10]
-        var a11 = a[11]
-        var a12 = a[12]
-        var a13 = a[13]
-        var a14 = a[14]
-        var a15 = a[15]
-        var a16 = a[16]
-        var a17 = a[17]
-        var a18 = a[18]
-        var a19 = a[19]
-        var a20 = a[20]
-        var a21 = a[21]
-        var a22 = a[22]
-        var a23 = a[23]
-        var a24 = a[24]
-        for (i in 0..23) {
-            // theta
-            var c0 = a00 xor a05 xor a10 xor a15 xor a20
-            var c1 = a01 xor a06 xor a11 xor a16 xor a21
-            val c2 = a02 xor a07 xor a12 xor a17 xor a22
-            val c3 = a03 xor a08 xor a13 xor a18 xor a23
-            val c4 = a04 xor a09 xor a14 xor a19 xor a24
-            val d1 = (c1 shl 1) or (c1 ushr -1) xor c4
-            val d2 = (c2 shl 1) or (c2 ushr -1) xor c0
-            val d3 = (c3 shl 1) or (c3 ushr -1) xor c1
-            val d4 = (c4 shl 1) or (c4 ushr -1) xor c2
-            val d0 = (c0 shl 1) or (c0 ushr -1) xor c3
-            a00 = a00 xor d1
-            a05 = a05 xor d1
-            a10 = a10 xor d1
-            a15 = a15 xor d1
-            a20 = a20 xor d1
-            a01 = a01 xor d2
-            a06 = a06 xor d2
-            a11 = a11 xor d2
-            a16 = a16 xor d2
-            a21 = a21 xor d2
-            a02 = a02 xor d3
-            a07 = a07 xor d3
-            a12 = a12 xor d3
-            a17 = a17 xor d3
-            a22 = a22 xor d3
-            a03 = a03 xor d4
-            a08 = a08 xor d4
-            a13 = a13 xor d4
-            a18 = a18 xor d4
-            a23 = a23 xor d4
-            a04 = a04 xor d0
-            a09 = a09 xor d0
-            a14 = a14 xor d0
-            a19 = a19 xor d0
-            a24 = a24 xor d0
-
-            // rho/pi
-            c1 = (a01 shl 1) or (a01 ushr 63)
-            a01 = (a06 shl 44) or (a06 ushr 20)
-            a06 = (a09 shl 20) or (a09 ushr 44)
-            a09 = (a22 shl 61) or (a22 ushr 3)
-            a22 = (a14 shl 39) or (a14 ushr 25)
-            a14 = (a20 shl 18) or (a20 ushr 46)
-            a20 = (a02 shl 62) or (a02 ushr 2)
-            a02 = (a12 shl 43) or (a12 ushr 21)
-            a12 = (a13 shl 25) or (a13 ushr 39)
-            a13 = (a19 shl 8) or (a19 ushr 56)
-            a19 = (a23 shl 56) or (a23 ushr 8)
-            a23 = (a15 shl 41) or (a15 ushr 23)
-            a15 = (a04 shl 27) or (a04 ushr 37)
-            a04 = (a24 shl 14) or (a24 ushr 50)
-            a24 = (a21 shl 2) or (a21 ushr 62)
-            a21 = (a08 shl 55) or (a08 ushr 9)
-            a08 = (a16 shl 45) or (a16 ushr 19)
-            a16 = (a05 shl 36) or (a05 ushr 28)
-            a05 = (a03 shl 28) or (a03 ushr 36)
-            a03 = (a18 shl 21) or (a18 ushr 43)
-            a18 = (a17 shl 15) or (a17 ushr 49)
-            a17 = (a11 shl 10) or (a11 ushr 54)
-            a11 = (a07 shl 6) or (a07 ushr 58)
-            a07 = (a10 shl 3) or (a10 ushr 61)
-            a10 = c1
-
-            // chi
-            c0 = a00 xor (a01.inv() and a02)
-            c1 = a01 xor (a02.inv() and a03)
-            a02 = a02 xor (a03.inv() and a04)
-            a03 = a03 xor (a04.inv() and a00)
-            a04 = a04 xor (a00.inv() and a01)
-            a00 = c0
-            a01 = c1
-            c0 = a05 xor (a06.inv() and a07)
-            c1 = a06 xor (a07.inv() and a08)
-            a07 = a07 xor (a08.inv() and a09)
-            a08 = a08 xor (a09.inv() and a05)
-            a09 = a09 xor (a05.inv() and a06)
-            a05 = c0
-            a06 = c1
-            c0 = a10 xor (a11.inv() and a12)
-            c1 = a11 xor (a12.inv() and a13)
-            a12 = a12 xor (a13.inv() and a14)
-            a13 = a13 xor (a14.inv() and a10)
-            a14 = a14 xor (a10.inv() and a11)
-            a10 = c0
-            a11 = c1
-            c0 = a15 xor (a16.inv() and a17)
-            c1 = a16 xor (a17.inv() and a18)
-            a17 = a17 xor (a18.inv() and a19)
-            a18 = a18 xor (a19.inv() and a15)
-            a19 = a19 xor (a15.inv() and a16)
-            a15 = c0
-            a16 = c1
-            c0 = a20 xor (a21.inv() and a22)
-            c1 = a21 xor (a22.inv() and a23)
-            a22 = a22 xor (a23.inv() and a24)
-            a23 = a23 xor (a24.inv() and a20)
-            a24 = a24 xor (a20.inv() and a21)
-            a20 = c0
-            a21 = c1
-
-            // iota
-            a00 = a00 xor KeccakRoundConstants[i]
-        }
-        a[0] = a00
-        a[1] = a01
-        a[2] = a02
-        a[3] = a03
-        a[4] = a04
-        a[5] = a05
-        a[6] = a06
-        a[7] = a07
-        a[8] = a08
-        a[9] = a09
-        a[10] = a10
-        a[11] = a11
-        a[12] = a12
-        a[13] = a13
-        a[14] = a14
-        a[15] = a15
-        a[16] = a16
-        a[17] = a17
-        a[18] = a18
-        a[19] = a19
-        a[20] = a20
-        a[21] = a21
-        a[22] = a22
-        a[23] = a23
-        a[24] = a24
-    }
 
     override fun update(input: ByteArray) {
         update(input, 0, input.size)
@@ -444,15 +285,177 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
 
     override val blockLength: Int
         get() = byteLength
-
-    companion object {
-        private val KeccakRoundConstants = longArrayOf(
-            0x0000000000000001L, 0x0000000000008082L,
-            -0x7fffffffffff7f76L, -0x7fffffff7fff8000L, 0x000000000000808bL, 0x0000000080000001L, -0x7fffffff7fff7f7fL,
-            -0x7fffffffffff7ff7L, 0x000000000000008aL, 0x0000000000000088L, 0x0000000080008009L, 0x000000008000000aL,
-            0x000000008000808bL, -0x7fffffffffffff75L, -0x7fffffffffff7f77L, -0x7fffffffffff7ffdL, -0x7fffffffffff7ffeL,
-            -0x7fffffffffffff80L, 0x000000000000800aL, -0x7fffffff7ffffff6L, -0x7fffffff7fff7f7fL, -0x7fffffffffff7f80L,
-            0x0000000080000001L, -0x7fffffff7fff7ff8L
-        )
-    }
 }
+
+/**
+ * The Keccak-f[1600] permutation of the 25 lane [state], with the state held in local variables so the JVM can
+ * JIT-compile it
+ */
+@Suppress("LongMethod")
+internal fun keccakPermutation(state: LongArray) {
+    val a = state
+    var a00 = a[0]
+    var a01 = a[1]
+    var a02 = a[2]
+    var a03 = a[3]
+    var a04 = a[4]
+    var a05 = a[5]
+    var a06 = a[6]
+    var a07 = a[7]
+    var a08 = a[8]
+    var a09 = a[9]
+    var a10 = a[10]
+    var a11 = a[11]
+    var a12 = a[12]
+    var a13 = a[13]
+    var a14 = a[14]
+    var a15 = a[15]
+    var a16 = a[16]
+    var a17 = a[17]
+    var a18 = a[18]
+    var a19 = a[19]
+    var a20 = a[20]
+    var a21 = a[21]
+    var a22 = a[22]
+    var a23 = a[23]
+    var a24 = a[24]
+    for (i in 0..23) {
+        // theta
+        var c0 = a00 xor a05 xor a10 xor a15 xor a20
+        var c1 = a01 xor a06 xor a11 xor a16 xor a21
+        val c2 = a02 xor a07 xor a12 xor a17 xor a22
+        val c3 = a03 xor a08 xor a13 xor a18 xor a23
+        val c4 = a04 xor a09 xor a14 xor a19 xor a24
+        val d1 = (c1 shl 1) or (c1 ushr -1) xor c4
+        val d2 = (c2 shl 1) or (c2 ushr -1) xor c0
+        val d3 = (c3 shl 1) or (c3 ushr -1) xor c1
+        val d4 = (c4 shl 1) or (c4 ushr -1) xor c2
+        val d0 = (c0 shl 1) or (c0 ushr -1) xor c3
+        a00 = a00 xor d1
+        a05 = a05 xor d1
+        a10 = a10 xor d1
+        a15 = a15 xor d1
+        a20 = a20 xor d1
+        a01 = a01 xor d2
+        a06 = a06 xor d2
+        a11 = a11 xor d2
+        a16 = a16 xor d2
+        a21 = a21 xor d2
+        a02 = a02 xor d3
+        a07 = a07 xor d3
+        a12 = a12 xor d3
+        a17 = a17 xor d3
+        a22 = a22 xor d3
+        a03 = a03 xor d4
+        a08 = a08 xor d4
+        a13 = a13 xor d4
+        a18 = a18 xor d4
+        a23 = a23 xor d4
+        a04 = a04 xor d0
+        a09 = a09 xor d0
+        a14 = a14 xor d0
+        a19 = a19 xor d0
+        a24 = a24 xor d0
+
+        // rho/pi
+        c1 = (a01 shl 1) or (a01 ushr 63)
+        a01 = (a06 shl 44) or (a06 ushr 20)
+        a06 = (a09 shl 20) or (a09 ushr 44)
+        a09 = (a22 shl 61) or (a22 ushr 3)
+        a22 = (a14 shl 39) or (a14 ushr 25)
+        a14 = (a20 shl 18) or (a20 ushr 46)
+        a20 = (a02 shl 62) or (a02 ushr 2)
+        a02 = (a12 shl 43) or (a12 ushr 21)
+        a12 = (a13 shl 25) or (a13 ushr 39)
+        a13 = (a19 shl 8) or (a19 ushr 56)
+        a19 = (a23 shl 56) or (a23 ushr 8)
+        a23 = (a15 shl 41) or (a15 ushr 23)
+        a15 = (a04 shl 27) or (a04 ushr 37)
+        a04 = (a24 shl 14) or (a24 ushr 50)
+        a24 = (a21 shl 2) or (a21 ushr 62)
+        a21 = (a08 shl 55) or (a08 ushr 9)
+        a08 = (a16 shl 45) or (a16 ushr 19)
+        a16 = (a05 shl 36) or (a05 ushr 28)
+        a05 = (a03 shl 28) or (a03 ushr 36)
+        a03 = (a18 shl 21) or (a18 ushr 43)
+        a18 = (a17 shl 15) or (a17 ushr 49)
+        a17 = (a11 shl 10) or (a11 ushr 54)
+        a11 = (a07 shl 6) or (a07 ushr 58)
+        a07 = (a10 shl 3) or (a10 ushr 61)
+        a10 = c1
+
+        // chi
+        c0 = a00 xor (a01.inv() and a02)
+        c1 = a01 xor (a02.inv() and a03)
+        a02 = a02 xor (a03.inv() and a04)
+        a03 = a03 xor (a04.inv() and a00)
+        a04 = a04 xor (a00.inv() and a01)
+        a00 = c0
+        a01 = c1
+        c0 = a05 xor (a06.inv() and a07)
+        c1 = a06 xor (a07.inv() and a08)
+        a07 = a07 xor (a08.inv() and a09)
+        a08 = a08 xor (a09.inv() and a05)
+        a09 = a09 xor (a05.inv() and a06)
+        a05 = c0
+        a06 = c1
+        c0 = a10 xor (a11.inv() and a12)
+        c1 = a11 xor (a12.inv() and a13)
+        a12 = a12 xor (a13.inv() and a14)
+        a13 = a13 xor (a14.inv() and a10)
+        a14 = a14 xor (a10.inv() and a11)
+        a10 = c0
+        a11 = c1
+        c0 = a15 xor (a16.inv() and a17)
+        c1 = a16 xor (a17.inv() and a18)
+        a17 = a17 xor (a18.inv() and a19)
+        a18 = a18 xor (a19.inv() and a15)
+        a19 = a19 xor (a15.inv() and a16)
+        a15 = c0
+        a16 = c1
+        c0 = a20 xor (a21.inv() and a22)
+        c1 = a21 xor (a22.inv() and a23)
+        a22 = a22 xor (a23.inv() and a24)
+        a23 = a23 xor (a24.inv() and a20)
+        a24 = a24 xor (a20.inv() and a21)
+        a20 = c0
+        a21 = c1
+
+        // iota
+        a00 = a00 xor KECCAK_ROUND_CONSTANTS[i]
+    }
+    a[0] = a00
+    a[1] = a01
+    a[2] = a02
+    a[3] = a03
+    a[4] = a04
+    a[5] = a05
+    a[6] = a06
+    a[7] = a07
+    a[8] = a08
+    a[9] = a09
+    a[10] = a10
+    a[11] = a11
+    a[12] = a12
+    a[13] = a13
+    a[14] = a14
+    a[15] = a15
+    a[16] = a16
+    a[17] = a17
+    a[18] = a18
+    a[19] = a19
+    a[20] = a20
+    a[21] = a21
+    a[22] = a22
+    a[23] = a23
+    a[24] = a24
+}
+
+private val KECCAK_ROUND_CONSTANTS = longArrayOf(
+    0x0000000000000001L, 0x0000000000008082L,
+    -0x7fffffffffff7f76L, -0x7fffffff7fff8000L, 0x000000000000808bL, 0x0000000080000001L, -0x7fffffff7fff7f7fL,
+    -0x7fffffffffff7ff7L, 0x000000000000008aL, 0x0000000000000088L, 0x0000000080008009L, 0x000000008000000aL,
+    0x000000008000808bL, -0x7fffffffffffff75L, -0x7fffffffffff7f77L, -0x7fffffffffff7ffdL, -0x7fffffffffff7ffeL,
+    -0x7fffffffffffff80L, 0x000000000000800aL, -0x7fffffff7ffffff6L, -0x7fffffff7fff7f7fL, -0x7fffffffffff7f80L,
+    0x0000000080000001L, -0x7fffffff7fff7ff8L
+)
