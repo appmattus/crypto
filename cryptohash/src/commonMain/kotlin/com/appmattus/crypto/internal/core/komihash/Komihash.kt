@@ -193,11 +193,9 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
         private fun ByteBuffer.byteAt(index: Int): ULong = get(index).toULong() and 0xffu
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
         encodeBELong(hash.toLong(), digest, 0)
-
-        reset()
 
         return digest
     }

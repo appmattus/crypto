@@ -39,9 +39,17 @@ internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Dige
         internalBuffer.add(input, offset, length)
     }
 
+    final override fun digest(): ByteArray {
+        process(internalBuffer)
+        val digest = result()
+
+        reset()
+
+        return digest
+    }
+
     final override fun digest(input: ByteArray): ByteArray {
         internalBuffer.add(input)
-        process(internalBuffer)
 
         return digest()
     }
@@ -57,7 +65,15 @@ internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Dige
         return digest.size
     }
 
+    /**
+     * Hash all the data passed to [update] since the last [reset]
+     */
     abstract fun process(input: ByteBuffer)
+
+    /**
+     * The hash computed by the last call to [process]
+     */
+    protected abstract fun result(): ByteArray
 
     final override fun reset() {
         internalBuffer = ByteArrayArray()

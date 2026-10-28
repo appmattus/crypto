@@ -35,7 +35,7 @@ internal class CityHashCrc256 : CityHashBase<CityHashCrc256>() {
         cityHashCrc256(input, h)
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
 
         encodeBELong(h[0].toLong(), digest, 0)

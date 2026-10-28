@@ -156,4 +156,20 @@ class ByteArrayArrayTest {
 
         assertContentEquals(listOf(10, 11, 3, 4, 5, 6, 16, 17), bytes.toList())
     }
+
+    @Test
+    fun copyOfCopiesContentIndependently() {
+        val baa = ByteArrayArray()
+        baa.add(byteArrayOf(1, 2, 3))
+        baa.add(byteArrayOf(4, 5))
+
+        val copy = baa.copyOf()
+        baa.add(byteArrayOf(6))
+        copy.add(byteArrayOf(7, 8))
+
+        assertEquals(6, baa.size)
+        assertContentEquals(listOf<Byte>(1, 2, 3, 4, 5, 6), baa.toList())
+        assertEquals(7, copy.size)
+        assertContentEquals(listOf<Byte>(1, 2, 3, 4, 5, 7, 8), copy.toList())
+    }
 }

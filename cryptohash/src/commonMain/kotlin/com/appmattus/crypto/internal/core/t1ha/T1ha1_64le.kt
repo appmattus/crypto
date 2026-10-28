@@ -37,18 +37,16 @@ internal class T1ha1_64le(private val seed: ULong = 0u) : NonIncrementalDigest<T
         hash = t1ha1_le(input, seed)
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
         encodeBELong(hash.toLong(), digest, 0)
-
-        reset()
 
         return digest
     }
 
     override fun copy(): T1ha1_64le {
         return copyState(
-            T1ha1_64le().apply {
+            T1ha1_64le(seed).apply {
                 hash = this@T1ha1_64le.hash
             }
         )

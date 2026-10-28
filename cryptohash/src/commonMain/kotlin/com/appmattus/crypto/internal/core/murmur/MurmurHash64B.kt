@@ -104,7 +104,7 @@ internal class MurmurHash64B(private val seed: ULong = 0u) : NonIncrementalDiges
         private const val r: Int = 24
     }
 
-    override fun digest() = ByteArray(digestLength).apply {
+    override fun result() = ByteArray(digestLength).apply {
         encodeBEInt(h1.toInt(), this, 0)
         encodeBEInt(h2.toInt(), this, 4)
     }

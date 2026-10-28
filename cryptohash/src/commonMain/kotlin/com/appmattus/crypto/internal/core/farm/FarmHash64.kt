@@ -40,7 +40,7 @@ internal class FarmHash64(private val parameters: Algorithm.FarmHash64) : FarmHa
         }
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
 
         encodeBELong(h.toLong(), digest, 0)

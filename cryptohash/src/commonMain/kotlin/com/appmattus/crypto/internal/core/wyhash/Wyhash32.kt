@@ -91,7 +91,7 @@ internal class Wyhash32(
                 (data[p + k - 1].toUInt() and 0xffu)
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         return ByteArray(digestLength).apply {
             encodeBEInt(result.toInt(), this, 0)
         }

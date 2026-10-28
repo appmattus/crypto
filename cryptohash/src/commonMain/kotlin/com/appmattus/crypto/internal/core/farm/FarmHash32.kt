@@ -39,7 +39,7 @@ internal class FarmHash32(private val parameters: Algorithm.FarmHash32) : FarmHa
         }
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
 
         encodeBEInt(h.toInt(), digest, 0)
