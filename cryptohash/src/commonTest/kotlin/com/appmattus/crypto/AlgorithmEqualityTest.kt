@@ -37,6 +37,7 @@ class AlgorithmEqualityTest {
         assertEqualAndSameHash(Algorithm.Wyhash(seed = 3u), Algorithm.Wyhash(seed = 3u))
         assertEqualAndSameHash(Algorithm.XXH3_64.Seeded(4), Algorithm.XXH3_64.Seeded(4))
         assertEqualAndSameHash(Algorithm.cSHAKE128(), Algorithm.cSHAKE128())
+        assertEqualAndSameHash(Algorithm.Rapidhash(5u), Algorithm.Rapidhash(5u))
     }
 
     @Test
@@ -52,6 +53,7 @@ class AlgorithmEqualityTest {
         assertNotEquals<Algorithm>(Algorithm.CityHash64(), Algorithm.CityHash64.Seed(0u))
         assertNotEquals<Algorithm>(Algorithm.FarmHash64.Seed(1u), Algorithm.CityHash64.Seed(1u))
         assertNotEquals<Algorithm>(Algorithm.XXH3_64.Seeded(1), Algorithm.XXH3_128.Seeded(1))
+        assertNotEquals<Algorithm>(Algorithm.RapidhashMicro(1u), Algorithm.RapidhashNano(1u))
         assertNotEquals<Algorithm>(Algorithm.Blake2b(512), Algorithm.Blake2b_512)
     }
 

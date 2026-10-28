@@ -18,10 +18,12 @@ The following algorithms are supported:
 - CityHash32, CityHash64, CityHash128, CityHashCrc128, CityHashCrc256
 - FarmHash32, FarmHash64, FarmHash128
 - HighwayHash-64, HighwayHash-128, HighwayHash-256
+- komihash
 - MetroHash64, MetroHash128
 - MurmurHash1
 - MurmurHash2, MurmurHash64A, MurmurHash64B, MurmurHash2A (aka CMurmurHash2A)
 - MurmurHash3-x86-32, MurmurHash3-x86-128, MurmurHash3-x64-128
+- rapidhash, rapidhashMicro, rapidhashNano
 - t1ha0-32le
 - t1ha1-le
 - t1ha2-atonce, t1ha2-atonce128, t1ha2-stream, t1ha2-stream128

@@ -60,6 +60,7 @@ import com.appmattus.crypto.internal.core.farm.FarmHash128
 import com.appmattus.crypto.internal.core.farm.FarmHash32
 import com.appmattus.crypto.internal.core.farm.FarmHash64
 import com.appmattus.crypto.internal.core.google.HighwayHash
+import com.appmattus.crypto.internal.core.komihash.Komihash
 import com.appmattus.crypto.internal.core.metro.MetroHash128
 import com.appmattus.crypto.internal.core.metro.MetroHash64
 import com.appmattus.crypto.internal.core.murmur.MurmurHash1
@@ -70,6 +71,7 @@ import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_128
 import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_32
 import com.appmattus.crypto.internal.core.murmur.MurmurHash64A
 import com.appmattus.crypto.internal.core.murmur.MurmurHash64B
+import com.appmattus.crypto.internal.core.rapidhash.Rapidhash
 import com.appmattus.crypto.internal.core.sphlib.BLAKE224
 import com.appmattus.crypto.internal.core.sphlib.BLAKE256
 import com.appmattus.crypto.internal.core.sphlib.BLAKE384
@@ -271,6 +273,8 @@ internal object CoreDigest {
             is Algorithm.KMAC128 -> KMAC(128, algorithm.key, algorithm.customisation, algorithm.outputSizeBits / 8)
             is Algorithm.KMAC256 -> KMAC(256, algorithm.key, algorithm.customisation, algorithm.outputSizeBits / 8)
 
+            is Algorithm.Komihash -> Komihash(algorithm.seed)
+
             Algorithm.Kupyna_256 -> Kupyna(256)
             Algorithm.Kupyna_384 -> Kupyna(384)
             Algorithm.Kupyna_512 -> Kupyna(512)
@@ -312,6 +316,10 @@ internal object CoreDigest {
 
             Algorithm.RadioGatun32 -> RadioGatun32()
             Algorithm.RadioGatun64 -> RadioGatun64()
+
+            is Algorithm.Rapidhash -> Rapidhash(algorithm.seed, Rapidhash.Variant.Rapidhash)
+            is Algorithm.RapidhashMicro -> Rapidhash(algorithm.seed, Rapidhash.Variant.Micro)
+            is Algorithm.RapidhashNano -> Rapidhash(algorithm.seed, Rapidhash.Variant.Nano)
 
             Algorithm.RipeMD -> RipeMD()
             Algorithm.RipeMD128 -> RipeMD128()
