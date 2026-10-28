@@ -16,87 +16,48 @@
 
 package com.appmattus.crypto.internal.bytes
 
-internal class ByteArrayArray : ByteBuffer {
+/**
+ * A [ByteBuffer] backed by a single growable array, so [get] is constant time however many arrays were added
+ */
+internal class ByteArrayArray private constructor(private var bytes: ByteArray, size: Int) : ByteBuffer {
 
-    private var bytes: MutableList<ByteArray> = mutableListOf()
-    private var sizes: MutableList<Int> = mutableListOf()
+    constructor() : this(ByteArray(0), 0)
 
-    override var size: Int = 0
+    override var size: Int = size
         private set
 
     override fun add(value: ByteArray, offset: Int, length: Int) {
         if (length > 0) {
-            bytes += value.copyOfRange(offset, offset + length)
-            sizes += length
+            if (size + length > bytes.size) {
+                bytes = bytes.copyOf(maxOf(size + length, bytes.size * 2, MIN_CAPACITY))
+            }
+            value.copyInto(bytes, size, offset, offset + length)
             size += length
         }
     }
 
-    override fun copyOf(): ByteArrayArray {
-        val source = this
-        return ByteArrayArray().apply {
-            for (i in 0 until source.bytes.size) {
-                add(source.bytes[i], 0, source.sizes[i])
-            }
-        }
-    }
+    override fun copyOf() = ByteArrayArray(bytes.copyOf(size), size)
 
     /**
      * Returns the array element at the given [index].  This method can be called using the index operator.
      *
-     * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException] except in Kotlin/JS
-     * where the behavior is unspecified.
+     * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException].
      */
     override operator fun get(index: Int): Byte {
-        val pos = position(index)
-        return bytes[pos.first][pos.second]
-    }
-
-    private fun position(index: Int): Pair<Int, Int> {
-        var listIndex = 0
-        var totalIndex = 0
-
-        if (bytes.size == 0) {
-            throw IndexOutOfBoundsException("Index $index out of bounds for length 0")
+        if (index < 0 || index >= size) {
+            throw IndexOutOfBoundsException("Index $index out of bounds for length $size")
         }
-
-        while (index >= totalIndex + sizes[listIndex]) {
-            totalIndex += sizes[listIndex]
-            listIndex++
-
-            if (listIndex >= bytes.size) {
-                throw IndexOutOfBoundsException("Index $index out of bounds for length $size")
-            }
-        }
-
-        return Pair(listIndex, index - totalIndex)
+        return bytes[index]
     }
 
     override fun copyInto(destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int): ByteArray {
-        var destOffset = destinationOffset
-        var len = endIndex - startIndex
-        var index = startIndex
-
-        while (len > 0) {
-            val pos = position(index)
-
-            val available = sizes[pos.first] - pos.second
-
-            if (available >= len) {
-                // this array contains all the data we need...
-                bytes[pos.first].copyInto(destination, destOffset, pos.second, pos.second + len)
-                len = 0
-                destOffset += len
-                index += len
-            } else {
-                // partial bytes
-                bytes[pos.first].copyInto(destination, destOffset, pos.second, pos.second + available)
-                len -= available
-                destOffset += available
-                index += available
-            }
+        if (startIndex < 0 || endIndex > size || startIndex > endIndex) {
+            throw IndexOutOfBoundsException("Range $startIndex..$endIndex out of bounds for length $size")
         }
+        return bytes.copyInto(destination, destinationOffset, startIndex, endIndex)
+    }
 
-        return destination
+    private companion object {
+        const val MIN_CAPACITY = 64
     }
 }

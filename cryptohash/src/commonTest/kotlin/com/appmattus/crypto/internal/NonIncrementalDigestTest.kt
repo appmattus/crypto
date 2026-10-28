@@ -49,7 +49,18 @@ class NonIncrementalDigestTest {
         Algorithm.Rapidhash(),
         Algorithm.RapidhashMicro(),
         Algorithm.RapidhashNano(),
-        Algorithm.Komihash()
+        Algorithm.Komihash(),
+        // Seeded variants, as copy() must keep the seed
+        Algorithm.CityHash64.Seed(5u),
+        Algorithm.FarmHash64.Seed(5u),
+        Algorithm.MurmurHash2(5u),
+        Algorithm.MurmurHash64A(5u),
+        Algorithm.Wyhash32(5u),
+        Algorithm.T1ha0_32le(5u),
+        Algorithm.T1ha1_le(5u),
+        Algorithm.T1ha2_AtOnce(5u),
+        Algorithm.Rapidhash(5u),
+        Algorithm.Komihash(5u)
     )
 
     @Test

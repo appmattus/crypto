@@ -46,7 +46,7 @@ internal class T1ha1_le(private val seed: ULong = 0u) : NonIncrementalDigest<T1h
 
     override fun copy(): T1ha1_le {
         return copyState(
-            T1ha1_le().apply {
+            T1ha1_le(seed).apply {
                 hash = this@T1ha1_le.hash
             }
         )
