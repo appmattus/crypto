@@ -32,9 +32,12 @@ internal class ByteArrayArray : ByteBuffer {
         }
     }
 
-    override fun copyOf() = ByteArrayArray().apply {
-        for (i in 0 until bytes.size) {
-            add(bytes[i].copyOf(), 0, sizes[i])
+    override fun copyOf(): ByteArrayArray {
+        val source = this
+        return ByteArrayArray().apply {
+            for (i in 0 until source.bytes.size) {
+                add(source.bytes[i], 0, source.sizes[i])
+            }
         }
     }
 

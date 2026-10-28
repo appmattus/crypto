@@ -34,11 +34,9 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
         hash = t1ha0_32le(input, seed)
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
         encodeBELong(hash.toLong(), digest, 0)
-
-        reset()
 
         return digest
     }

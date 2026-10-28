@@ -35,7 +35,7 @@ internal class CityHash32 : CityHashBase<CityHash32>() {
         h = cityHash32(input)
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
 
         encodeBEInt(h.toInt(), digest, 0)

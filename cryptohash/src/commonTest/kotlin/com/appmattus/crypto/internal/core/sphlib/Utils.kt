@@ -29,10 +29,16 @@ fun testKat(dig: () -> Digest<*>, data: ByteArray, ref: String, inBackground: Bo
     executeInBackground(inBackground) {
         val digest = dig()
         /*
-         * First test the hashing itself.
+         * First test update() followed by digest() on a fresh digest.
          */
-        val out = digest.digest(data)
-        assertEquals(ref.lowercase(), out.toHexString().lowercase())
+        digest.update(data)
+        assertEquals(ref.lowercase(), digest.digest().toHexString().lowercase())
+
+        /*
+         * Then the hashing itself, twice, to check digest() resets.
+         */
+        assertEquals(ref.lowercase(), digest.digest(data).toHexString().lowercase())
+        assertEquals(ref.lowercase(), digest.digest(data).toHexString().lowercase())
 
         /*
          * Now the update() API; this also exercises auto-reset.

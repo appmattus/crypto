@@ -40,7 +40,7 @@ internal class CityHash128(private val parameters: Algorithm.CityHash128) : City
         }
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
 
         encodeBELong(h.lower.toLong(), digest, 0)

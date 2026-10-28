@@ -43,12 +43,10 @@ internal class T1ha2_atonce128(private val seed: ULong = 0u) : NonIncrementalDig
 
     override fun toString() = "t1ha2-atonce128"
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
         encodeBELong(hashResult.upper.toLong(), digest, 0)
         encodeBELong(hashResult.lower.toLong(), digest, 8)
-
-        reset()
 
         return digest
     }

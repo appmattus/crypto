@@ -76,7 +76,7 @@ internal class MurmurHash2(private val seed: UInt = 0u) : NonIncrementalDigest<M
         private const val r: Int = 24
     }
 
-    override fun digest(): ByteArray {
+    override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
 
         encodeBEInt(h.toInt(), digest, 0)
