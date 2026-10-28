@@ -23,5 +23,6 @@ pluginManagement {
 }
 
 include(":cryptohash")
+include(":benchmarks")
 include(":samples:composeApp")
 include(":samples:androidApp")
