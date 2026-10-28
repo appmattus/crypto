@@ -71,6 +71,7 @@ class AlgorithmEqualityTest {
         assertEqualAndSameHash(Algorithm.Blake2b.Keyed(byteArrayOf(1, 2)), Algorithm.Blake2b.Keyed(byteArrayOf(1, 2)))
         assertEqualAndSameHash(Algorithm.XXH3_64.Secret(ByteArray(136) { 7 }), Algorithm.XXH3_64.Secret(ByteArray(136) { 7 }))
         assertEqualAndSameHash(Algorithm.HighwayHash64(longArrayOf(1, 2, 3, 4)), Algorithm.HighwayHash64(longArrayOf(1, 2, 3, 4)))
+        assertEqualAndSameHash(Algorithm.KMAC128(byteArrayOf(1), byteArrayOf(2)), Algorithm.KMAC128(byteArrayOf(1), byteArrayOf(2)))
 
         assertNotEquals<Algorithm>(Algorithm.Blake2b.Keyed(byteArrayOf(1, 2)), Algorithm.Blake2b.Keyed(byteArrayOf(1, 3)))
         assertNotEquals<Algorithm>(Algorithm.HighwayHash64(longArrayOf(1, 2, 3, 4)), Algorithm.HighwayHash64(longArrayOf(1, 2, 3, 5)))
@@ -106,6 +107,11 @@ class AlgorithmEqualityTest {
         )
         assertEquals("HighwayHash-64(key=LongArray(size=4))", Algorithm.HighwayHash64(longArrayOf(1, 2, 3, 4)).toString())
         assertEquals("wyhash-64(seed=0, secret=List(size=4), extraProtection=false)", Algorithm.Wyhash().toString())
+        assertEquals("KT128(customisation=null, outputSizeBits=256)", Algorithm.KT128().toString())
+        assertEquals(
+            "ParallelHash256(blockSize=8, customisation=ByteArray(size=1), outputSizeBits=512)",
+            Algorithm.ParallelHash256(8, byteArrayOf(1)).toString()
+        )
     }
 
     private fun assertEqualAndSameHash(expected: Algorithm, actual: Algorithm) {

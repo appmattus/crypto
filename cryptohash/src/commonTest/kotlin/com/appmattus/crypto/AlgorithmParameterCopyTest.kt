@@ -64,9 +64,10 @@ class AlgorithmParameterCopyTest {
     }
 
     @Test
-    fun cShakeCopiesParameters() {
+    fun keccakBasedAlgorithmsCopyParameters() {
         val customisation = "custom".encodeToByteArray()
         val functionName = "function".encodeToByteArray()
+        val key = "key".encodeToByteArray()
         assertUnaffectedByMutation(Algorithm.cSHAKE128(customisation, functionName)) {
             customisation.fill(0)
             functionName.fill(0)
@@ -75,6 +76,20 @@ class AlgorithmParameterCopyTest {
             customisation.fill(1)
             functionName.fill(1)
         }
+        assertUnaffectedByMutation(Algorithm.KMAC128(key, customisation)) {
+            key.fill(2)
+            customisation.fill(2)
+        }
+        assertUnaffectedByMutation(Algorithm.KMAC256(key, customisation)) {
+            key.fill(3)
+            customisation.fill(3)
+        }
+        assertUnaffectedByMutation(Algorithm.TupleHash128(customisation)) { customisation.fill(4) }
+        assertUnaffectedByMutation(Algorithm.TupleHash256(customisation)) { customisation.fill(5) }
+        assertUnaffectedByMutation(Algorithm.ParallelHash128(8, customisation)) { customisation.fill(6) }
+        assertUnaffectedByMutation(Algorithm.ParallelHash256(8, customisation)) { customisation.fill(7) }
+        assertUnaffectedByMutation(Algorithm.KT128(customisation)) { customisation.fill(8) }
+        assertUnaffectedByMutation(Algorithm.KT256(customisation)) { customisation.fill(9) }
     }
 
     @Test

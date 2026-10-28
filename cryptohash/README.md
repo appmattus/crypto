@@ -36,6 +36,7 @@ The following algorithms are supported:
 - Blake2b, Blake2s
 - Blake3
 - HMAC
+- KMAC128, KMAC256
 - SipHash-2-4, SipHash128-2-4 (with configurable rounds)
 - Skein
 
@@ -60,11 +61,13 @@ The following algorithms are supported:
   HAVAL-256-3, HAVAL-256-4, HAVAL-256-5
 - JH-224, JH-256, JH-384, JH-512
 - Keccak-224, Keccak-256, Keccak-288, Keccak-384, Keccak-512
+- KT128 (aka KangarooTwelve), KT256
 - Kupyna-256 (aka DSTU7564-256), Kupyna-384 (aka DSTU7564-384), Kupyna-512 (aka
   DSTU7564-512)
 - Luffa-224, Luffa-256, Luffa-384, Luffa-512
 - MD2, MD4, MD5
 - PANAMA
+- ParallelHash128, ParallelHash256
 - RadioGatun32, RadioGatun64
 - RIPEMD, RIPEMD-128, RIPEMD-160, RIPEMD-256, RIPEMD-320
 - SHA-0, SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, SHA-512/256
@@ -78,6 +81,7 @@ The following algorithms are supported:
   Skein-1024-384, Skein-1024-512, Skein-1024-1024
 - SM3
 - Tiger, Tiger2
+- TupleHash128, TupleHash256
 - Whirlpool, Whirlpool-0, Whirlpool-T
 
 ## Getting started

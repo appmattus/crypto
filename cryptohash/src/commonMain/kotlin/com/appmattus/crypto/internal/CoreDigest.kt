@@ -46,8 +46,12 @@ import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2b
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2s
 import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka256_256
 import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka512_256
+import com.appmattus.crypto.internal.core.bouncycastle.kangaroo.KangarooTwelve
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.SHAKEDigest
+import com.appmattus.crypto.internal.core.bouncycastle.sp800185.KMAC
+import com.appmattus.crypto.internal.core.bouncycastle.sp800185.ParallelHash
+import com.appmattus.crypto.internal.core.bouncycastle.sp800185.TupleHash
 import com.appmattus.crypto.internal.core.city.CityHash128
 import com.appmattus.crypto.internal.core.city.CityHash32
 import com.appmattus.crypto.internal.core.city.CityHash64
@@ -271,11 +275,17 @@ internal object CoreDigest {
             Algorithm.Keccak384 -> Keccak384()
             Algorithm.Keccak512 -> Keccak512()
 
+            is Algorithm.KMAC128 -> KMAC(128, algorithm.key, algorithm.customisation, algorithm.outputSizeBits / 8)
+            is Algorithm.KMAC256 -> KMAC(256, algorithm.key, algorithm.customisation, algorithm.outputSizeBits / 8)
+
             is Algorithm.Komihash -> Komihash(algorithm.seed)
 
             Algorithm.Kupyna_256 -> Kupyna(256)
             Algorithm.Kupyna_384 -> Kupyna(384)
             Algorithm.Kupyna_512 -> Kupyna(512)
+
+            is Algorithm.KT128 -> KangarooTwelve(128, algorithm.customisation, algorithm.outputSizeBits / 8)
+            is Algorithm.KT256 -> KangarooTwelve(256, algorithm.customisation, algorithm.outputSizeBits / 8)
 
             Algorithm.Luffa224 -> Luffa224()
             Algorithm.Luffa256 -> Luffa256()
@@ -301,6 +311,13 @@ internal object CoreDigest {
             is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
 
             Algorithm.PANAMA -> PANAMA()
+
+            is Algorithm.ParallelHash128 -> {
+                ParallelHash(128, algorithm.blockSize, algorithm.customisation, algorithm.outputSizeBits / 8)
+            }
+            is Algorithm.ParallelHash256 -> {
+                ParallelHash(256, algorithm.blockSize, algorithm.customisation, algorithm.outputSizeBits / 8)
+            }
 
             Algorithm.RadioGatun32 -> RadioGatun32()
             Algorithm.RadioGatun64 -> RadioGatun64()
@@ -378,6 +395,9 @@ internal object CoreDigest {
 
             Algorithm.Tiger -> Tiger()
             Algorithm.Tiger2 -> Tiger2()
+
+            is Algorithm.TupleHash128 -> TupleHash(128, algorithm.customisation, algorithm.outputSizeBits / 8)
+            is Algorithm.TupleHash256 -> TupleHash(256, algorithm.customisation, algorithm.outputSizeBits / 8)
 
             Algorithm.Whirlpool -> Whirlpool()
             Algorithm.Whirlpool0 -> Whirlpool0()
