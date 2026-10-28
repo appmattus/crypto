@@ -57,6 +57,46 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data object Adler32 : Algorithm("Adler32", 32)
 
     /**
+     * [Ascon-Hash256](https://doi.org/10.6028/NIST.SP.800-232) from NIST SP 800-232 with output size of 256 bits
+     */
+    public data object AsconHash256 : Algorithm("Ascon-Hash256", 8)
+
+    /**
+     * [Ascon-XOF128](https://doi.org/10.6028/NIST.SP.800-232) from NIST SP 800-232 with output size of
+     * [outputSizeBits] bits (default: 256 bits)
+     */
+    public class AsconXof128(internal val outputSizeBits: Int = 256) : Algorithm("Ascon-XOF128", 8) {
+        init {
+            requireValidAsconOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("outputSizeBits" to outputSizeBits)
+    }
+
+    /**
+     * [Ascon-CXOF128](https://doi.org/10.6028/NIST.SP.800-232) from NIST SP 800-232, the customisable variant of
+     * [AsconXof128], with a [customisation] string of at most 256 bytes and output size of [outputSizeBits] bits
+     * (default: 256 bits)
+     */
+    public class AsconCXof128(
+        customisation: ByteArray? = null,
+        internal val outputSizeBits: Int = 256
+    ) : Algorithm("Ascon-CXOF128", 8) {
+        internal val customisation: ByteArray? = customisation?.copyOf()
+
+        init {
+            require((customisation?.size ?: 0) <= ASCON_CUSTOMISATION_MAX_SIZE) {
+                "customisation must be at most $ASCON_CUSTOMISATION_MAX_SIZE bytes, was ${customisation?.size}"
+            }
+            requireValidAsconOutputSize(outputSizeBits)
+        }
+
+        override val parameters: List<Pair<String, Any?>>
+            get() = listOf("customisation" to customisation, "outputSizeBits" to outputSizeBits)
+    }
+
+    /**
      * [BLAKE](https://en.wikipedia.org/wiki/BLAKE_(hash_function)) with output size of 224 bits
      */
     public data object BLAKE224 : Algorithm("BLAKE-224", 64)
@@ -1346,6 +1386,14 @@ private fun parameterToString(value: Any?): String = when (value) {
     is LongArray -> "LongArray(size=${value.size})"
     is List<*> -> "List(size=${value.size})"
     else -> value.toString()
+}
+
+private const val ASCON_CUSTOMISATION_MAX_SIZE = 256
+
+private fun requireValidAsconOutputSize(outputSizeBits: Int) {
+    require(outputSizeBits > 0 && outputSizeBits % 8 == 0) {
+        "outputSizeBits must be a positive multiple of 8, was $outputSizeBits"
+    }
 }
 
 private val SKEIN_BLOCK_SIZES = listOf(256, 512, 1024)
