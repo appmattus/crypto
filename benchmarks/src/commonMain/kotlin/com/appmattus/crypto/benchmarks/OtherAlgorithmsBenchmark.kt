@@ -29,7 +29,7 @@ import kotlinx.benchmark.State
 @State(Scope.Benchmark)
 open class OtherAlgorithmsBenchmark {
 
-    @Param("Blake2b-512", "Blake2s-256", "Blake3-256", "XXH64", "XXH3-64", "MurmurHash3-x64-128")
+    @Param("Blake2b-512", "Blake2s-256", "Blake3-256", "XXH64", "XXH3-64", "MurmurHash3-x64-128", "CRC32")
     var algorithm: String = ""
 
     @Param(SIZE_SMALL, SIZE_MEDIUM, SIZE_LARGE)
