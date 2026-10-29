@@ -91,6 +91,10 @@ internal abstract class SHA2Core<D : SHA2Core<D>> : MDHelper<D>(false, 8) {
     }
 
     override fun processBlock(data: ByteArray) {
+        // Local copies avoid the lateinit and companion object checks on every access in Kotlin/Native
+        val currentVal = this.currentVal
+        val w = this.w
+        val k = K
         var a = currentVal[0]
         var b = currentVal[1]
         var c = currentVal[2]
@@ -106,7 +110,7 @@ internal abstract class SHA2Core<D : SHA2Core<D>> : MDHelper<D>(false, 8) {
         }
         for (i in 0..63) {
             val t1 = h + (e.rotateLeft(26) xor e.rotateLeft(21) xor e.rotateLeft(7)) +
-                    (f and e xor (g and e.inv())) + K[i] + w[i]
+                    (f and e xor (g and e.inv())) + k[i] + w[i]
             val t2 = (a.rotateLeft(30) xor a.rotateLeft(19) xor a.rotateLeft(10)) +
                     (a and b xor (a and c) xor (b and c))
             h = g
