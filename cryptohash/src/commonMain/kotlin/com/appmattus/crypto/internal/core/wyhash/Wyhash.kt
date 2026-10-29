@@ -19,8 +19,8 @@ package com.appmattus.crypto.internal.core.wyhash
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.multiplyHigh
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
-import com.appmattus.uint.toUInt128
 
 /**
  * [wyhash](https://github.com/wangyi-fudan/wyhash)
@@ -199,14 +199,12 @@ internal class Wyhash(
 
         @Suppress("NOTHING_TO_INLINE")
         private inline fun wymixExtraProtection(a: ULong, b: ULong): ULong {
-            val r = a.toUInt128() * b
-            return (a xor r.lower) xor (b xor r.upper)
+            return (a xor (a * b)) xor (b xor multiplyHigh(a, b))
         }
 
         @Suppress("NOTHING_TO_INLINE")
         private inline fun wymixNormalProtection(a: ULong, b: ULong): ULong {
-            val r = a.toUInt128() * b
-            return r.lower xor r.upper
+            return (a * b) xor multiplyHigh(a, b)
         }
     }
 }

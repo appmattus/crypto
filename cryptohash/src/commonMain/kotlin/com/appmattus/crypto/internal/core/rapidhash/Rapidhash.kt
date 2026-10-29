@@ -21,6 +21,7 @@ import com.appmattus.crypto.internal.core.NonIncrementalDigest
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.multiplyHigh
 
 /**
  * [rapidhash](https://github.com/Nicoshev/rapidhash) V3 and its rapidhashMicro and rapidhashNano variants, which
@@ -152,22 +153,4 @@ internal class Rapidhash(
         // 64 x 64 -> 128 bit multiply, returning the xor of the high and low halves
         private fun mix(a: ULong, b: ULong): ULong = (a * b) xor multiplyHigh(a, b)
     }
-}
-
-/**
- * The high 64 bits of the 128-bit product of [a] and [b]
- */
-internal fun multiplyHigh(a: ULong, b: ULong): ULong {
-    val aLow = a and 0xffffffffu
-    val aHigh = a shr 32
-    val bLow = b and 0xffffffffu
-    val bHigh = b shr 32
-
-    val lowLow = aLow * bLow
-    val highLow = aHigh * bLow
-    val lowHigh = aLow * bHigh
-    val highHigh = aHigh * bHigh
-
-    val middle = (lowLow shr 32) + (highLow and 0xffffffffu) + (lowHigh and 0xffffffffu)
-    return highHigh + (highLow shr 32) + (lowHigh shr 32) + (middle shr 32)
 }

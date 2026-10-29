@@ -59,7 +59,15 @@ internal val otherAlgorithms: Map<String, Algorithm> = listOf(
     Algorithm.XXHash64(),
     Algorithm.XXH3_64(),
     Algorithm.MurmurHash3_X64_128(),
-    Algorithm.CRC32
+    Algorithm.CRC32,
+    // These rely on 64x64 -> 128-bit multiplies
+    Algorithm.XXH3_128(),
+    Algorithm.Rapidhash(),
+    Algorithm.Komihash(),
+    Algorithm.Wyhash(),
+    Algorithm.T1ha1_le(),
+    Algorithm.T1ha2_AtOnce(),
+    Algorithm.T1ha2_AtOnce128()
 ).associateBy { it.algorithmName }
 
 /**

@@ -21,8 +21,8 @@ package com.appmattus.crypto.internal.core.t1ha
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
+import com.appmattus.crypto.internal.core.multiplyHigh
 import com.appmattus.uint.UInt128
-import com.appmattus.uint.toUInt128
 
 internal fun initAB(s: T1haState256, x: ULong, y: ULong) {
     s.a = x
@@ -47,8 +47,7 @@ private fun final64(a: ULong, b: ULong): ULong {
 
 /* xor high and low parts of full 128-bit product */
 private fun mux64(v: ULong, prime: ULong): ULong {
-    val r = v.toUInt128() * prime
-    return r.lower xor r.upper
+    return (v * prime) xor multiplyHigh(v, prime)
 }
 
 @Suppress("NOTHING_TO_INLINE")
@@ -100,33 +99,33 @@ internal fun t1ha2TailAB(s: T1haState256, data: ByteBuffer, offset: Int, len: In
     var v = offset
 
     if (len >= 25) {
-        ((s.b + data.decodeLEULong(v)).toUInt128() * PRIME_4).let {
-            s.a = s.a xor it.lower
-            s.b += it.upper
+        (s.b + data.decodeLEULong(v)).let {
+            s.a = s.a xor (it * PRIME_4)
+            s.b += multiplyHigh(it, PRIME_4)
         }
         // mixup64(s.a, s.b, data.decodeLEULong(v), prime_4);
         v += 8
     }
     if (len >= 17) {
-        ((s.a + data.decodeLEULong(v)).toUInt128() * PRIME_3).let {
-            s.b = s.b xor it.lower
-            s.a += it.upper
+        (s.a + data.decodeLEULong(v)).let {
+            s.b = s.b xor (it * PRIME_3)
+            s.a += multiplyHigh(it, PRIME_3)
         }
         // mixup64(s.b, s.a, data.decodeLEULong(v), prime_3);
         v += 8
     }
     if (len >= 9) {
-        ((s.b + data.decodeLEULong(v)).toUInt128() * PRIME_2).let {
-            s.a = s.a xor it.lower
-            s.b += it.upper
+        (s.b + data.decodeLEULong(v)).let {
+            s.a = s.a xor (it * PRIME_2)
+            s.b += multiplyHigh(it, PRIME_2)
         }
         // mixup64(s.c, s.b, data.decodeLEULong(v), prime_2);
         v += 8
     }
     if (len >= 1) {
-        ((s.a + tail64(data, v, len and 7)).toUInt128() * PRIME_1).let {
-            s.b = s.b xor it.lower
-            s.a += it.upper
+        (s.a + tail64(data, v, len and 7)).let {
+            s.b = s.b xor (it * PRIME_1)
+            s.a += multiplyHigh(it, PRIME_1)
         }
         // mixup64(s.d, s.c, tail64(data, v, len and 7), prime_1);
     }
@@ -138,33 +137,33 @@ internal fun t1ha2TailABCD(s: T1haState256, data: ByteBuffer, offset: Int, len: 
     var v = offset
 
     if (len >= 25) {
-        ((s.d + data.decodeLEULong(v)).toUInt128() * PRIME_4).let {
-            s.a = s.a xor it.lower
-            s.d += it.upper
+        (s.d + data.decodeLEULong(v)).let {
+            s.a = s.a xor (it * PRIME_4)
+            s.d += multiplyHigh(it, PRIME_4)
         }
         // mixup64(s.a, s.d, data.decodeLEULong(v), prime_4);
         v += 8
     }
     if (len >= 17) {
-        ((s.a + data.decodeLEULong(v)).toUInt128() * PRIME_3).let {
-            s.b = s.b xor it.lower
-            s.a += it.upper
+        (s.a + data.decodeLEULong(v)).let {
+            s.b = s.b xor (it * PRIME_3)
+            s.a += multiplyHigh(it, PRIME_3)
         }
         // mixup64(s.b, s.a, data.decodeLEULong(v), prime_3);
         v += 8
     }
     if (len >= 9) {
-        ((s.b + data.decodeLEULong(v)).toUInt128() * PRIME_2).let {
-            s.c = s.c xor it.lower
-            s.b += it.upper
+        (s.b + data.decodeLEULong(v)).let {
+            s.c = s.c xor (it * PRIME_2)
+            s.b += multiplyHigh(it, PRIME_2)
         }
         // mixup64(s.c, s.b, data.decodeLEULong(v), prime_2);
         v += 8
     }
     if (len >= 1) {
-        ((s.c + tail64(data, v, len and 7)).toUInt128() * PRIME_1).let {
-            s.d = s.d xor it.lower
-            s.c += it.upper
+        (s.c + tail64(data, v, len and 7)).let {
+            s.d = s.d xor (it * PRIME_1)
+            s.c += multiplyHigh(it, PRIME_1)
         }
         // mixup64(s.d, s.c, tail64(data, v, len and 7), prime_1);
     }
@@ -210,24 +209,24 @@ private fun final128(a: ULong, b: ULong, c: ULong, d: ULong): UInt128 {
     var c1 = c
     var d1 = d
 
-    ((b1 + (c1.rotateRight(41) xor d1)).toUInt128() * PRIME_0).let {
-        a1 = a1 xor it.lower
-        b1 += it.upper
+    (b1 + (c1.rotateRight(41) xor d1)).let {
+        a1 = a1 xor (it * PRIME_0)
+        b1 += multiplyHigh(it, PRIME_0)
     }
 
-    ((c1 + (d1.rotateRight(23) xor a1)).toUInt128() * PRIME_6).let {
-        b1 = b1 xor it.lower
-        c1 += it.upper
+    (c1 + (d1.rotateRight(23) xor a1)).let {
+        b1 = b1 xor (it * PRIME_6)
+        c1 += multiplyHigh(it, PRIME_6)
     }
 
-    ((d1 + (a1.rotateRight(19) xor b1)).toUInt128() * PRIME_5).let {
-        c1 = c1 xor it.lower
-        d1 += it.upper
+    (d1 + (a1.rotateRight(19) xor b1)).let {
+        c1 = c1 xor (it * PRIME_5)
+        d1 += multiplyHigh(it, PRIME_5)
     }
 
-    ((a1 + (b1.rotateRight(31) xor c1)).toUInt128() * PRIME_4).let {
-        d1 = d1 xor it.lower
-        a1 += it.upper
+    (a1 + (b1.rotateRight(31) xor c1)).let {
+        d1 = d1 xor (it * PRIME_4)
+        a1 += multiplyHigh(it, PRIME_4)
     }
 
     return UInt128(c1 + d1, a1 xor b1)

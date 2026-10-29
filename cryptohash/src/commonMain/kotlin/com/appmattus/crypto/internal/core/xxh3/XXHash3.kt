@@ -62,6 +62,7 @@ import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.multiplyHigh
 import com.appmattus.crypto.internal.core.reverseByteOrder
 
 /**
@@ -374,45 +375,8 @@ private fun XXH_mult32to64(x: Int, y: Int): Long {
  * @param rhs The 64-bit integers to be multiplied
  * @return The 128-bit result represented in an [XXH128_hash_t].
  */
-private fun XXH_mult64to128(lhs: xxh_u64, rhs: xxh_u64): XXH128_hash_t {
-    /*
-     * Portable scalar method. Optimized for 32-bit and 64-bit ALUs.
-     *
-     * This is a fast and simple grade school multiply, which is shown below
-     * with base 10 arithmetic instead of base 0x100000000.
-     *
-     *           9 3 // D2 lhs = 93
-     *         x 7 5 // D2 rhs = 75
-     *     ----------
-     *           1 5 // D2 lo_lo = (93 % 10) * (75 % 10) = 15
-     *         4 5 | // D2 hi_lo = (93 / 10) * (75 % 10) = 45
-     *         2 1 | // D2 lo_hi = (93 % 10) * (75 / 10) = 21
-     *     + 6 3 | | // D2 hi_hi = (93 / 10) * (75 / 10) = 63
-     *     ---------
-     *         2 7 | // D2 cross = (15 / 10) + (45 % 10) + 21 = 27
-     *     + 6 7 | | // D2 upper = (27 / 10) + (45 / 10) + 63 = 67
-     *     ---------
-     *       6 9 7 5 // D4 res = (27 * 10) + (15 % 10) + (67 * 100) = 6975
-     *
-     * The reasons for adding the products like this are:
-     *  1. It avoids manual carry tracking. Just like how
-     *     (9 * 9) + 9 + 9 = 99, the same applies with this for UINT64_MAX.
-     *     This avoids a lot of complexity.
-     */
-
-    /* First calculate all of the cross products. */
-    val lo_lo: xxh_u64 = XXH_mult32to64((lhs and 0xFFFFFFFF).toInt(), (rhs and 0xFFFFFFFF).toInt())
-    val hi_lo: xxh_u64 = XXH_mult32to64((lhs ushr 32).toInt(), (rhs and 0xFFFFFFFF).toInt())
-    val lo_hi: xxh_u64 = XXH_mult32to64((lhs and 0xFFFFFFFF).toInt(), (rhs ushr 32).toInt())
-    val hi_hi: xxh_u64 = XXH_mult32to64((lhs ushr 32).toInt(), (rhs ushr 32).toInt())
-
-    /* Now add the products together. These will never overflow. */
-    val cross: xxh_u64 = (lo_lo ushr 32) + (hi_lo and 0xFFFFFFFF) + lo_hi
-    val upper: xxh_u64 = (hi_lo ushr 32) + (cross ushr 32) + hi_hi
-    val lower: xxh_u64 = (cross shl 32) or (lo_lo and 0xFFFFFFFF)
-
-    return XXH128_hash_t(low64 = lower, high64 = upper)
-}
+private fun XXH_mult64to128(lhs: xxh_u64, rhs: xxh_u64): XXH128_hash_t =
+    XXH128_hash_t(low64 = lhs * rhs, high64 = multiplyHigh(lhs.toULong(), rhs.toULong()).toLong())
 
 /**
  * Calculates a 64-bit to 128-bit multiply, then XOR folds it.
@@ -426,8 +390,7 @@ private fun XXH_mult64to128(lhs: xxh_u64, rhs: xxh_u64): XXH128_hash_t {
  * @see [XXH_mult64to128]
  */
 private fun XXH3_mul128_fold64(lhs: xxh_u64, rhs: xxh_u64): xxh_u64 {
-    val product = XXH_mult64to128(lhs, rhs)
-    return product.low64 xor product.high64
+    return (lhs * rhs) xor multiplyHigh(lhs.toULong(), rhs.toULong()).toLong()
 }
 
 /*! Seems to produce slightly better code on GCC for some reason. */

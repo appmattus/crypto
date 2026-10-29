@@ -21,7 +21,7 @@ import com.appmattus.crypto.internal.core.NonIncrementalDigest
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.rapidhash.multiplyHigh
+import com.appmattus.crypto.internal.core.multiplyHigh
 
 /**
  * [komihash](https://github.com/avaneev/komihash) version 5

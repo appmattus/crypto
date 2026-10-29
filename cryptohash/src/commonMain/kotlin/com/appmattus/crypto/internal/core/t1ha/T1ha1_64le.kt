@@ -21,8 +21,7 @@ import com.appmattus.crypto.internal.core.NonIncrementalDigest
 import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.uint.UInt128
-import com.appmattus.uint.toUInt128
+import com.appmattus.crypto.internal.core.multiplyHigh
 
 @Suppress("ClassName", "FunctionName")
 internal class T1ha1_64le(private val seed: ULong = 0u) : NonIncrementalDigest<T1ha1_64le>() {
@@ -157,14 +156,7 @@ internal class T1ha1_64le(private val seed: ULong = 0u) : NonIncrementalDigest<T
         return r
     }
 
-    private fun mux64(v: ULong, prime: ULong): ULong {
-        val r = mul_64x64_128(v, prime)
-        return r.lower xor r.upper
-    }
-
-    private fun mul_64x64_128(a: ULong, b: ULong): UInt128 {
-        return a.toUInt128() * b
-    }
+    private fun mux64(v: ULong, prime: ULong): ULong = (v * prime) xor multiplyHigh(v, prime)
 
     companion object {
 
