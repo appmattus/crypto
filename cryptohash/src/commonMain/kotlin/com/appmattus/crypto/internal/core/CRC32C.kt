@@ -34,11 +34,7 @@ internal class CRC32C : Digest<CRC32C> {
     }
 
     override fun update(input: ByteArray, offset: Int, length: Int) {
-        var len = length
-        var pos = offset
-        var c: Int = checksum.inv()
-        while (--len >= 0) c = crcTable[c xor input[pos++].toInt() and 0xff] xor (c ushr 8)
-        checksum = c.inv()
+        checksum = updateReflectedCrc32(checksum.inv(), crcTables, input, offset, length).inv()
     }
 
     override fun digest(): ByteArray {
@@ -172,5 +168,8 @@ internal class CRC32C : Digest<CRC32C> {
             0x79b737ba, 0x8bdcb4b9.toInt(), 0x988c474d.toInt(), 0x6ae7c44e,
             0xbe2da0a5.toInt(), 0x4c4623a6, 0x5f16d052, 0xad7d5351.toInt(),
         )
+
+        /** Slicing-by-8 tables derived from [crcTable]. */
+        private val crcTables = reflectedSlicingTables(crcTable)
     }
 }

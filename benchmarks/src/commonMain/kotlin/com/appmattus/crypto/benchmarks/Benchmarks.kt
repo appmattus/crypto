@@ -58,7 +58,8 @@ internal val otherAlgorithms: Map<String, Algorithm> = listOf(
     Algorithm.Blake3(),
     Algorithm.XXHash64(),
     Algorithm.XXH3_64(),
-    Algorithm.MurmurHash3_X64_128()
+    Algorithm.MurmurHash3_X64_128(),
+    Algorithm.CRC32
 ).associateBy { it.algorithmName }
 
 /**
