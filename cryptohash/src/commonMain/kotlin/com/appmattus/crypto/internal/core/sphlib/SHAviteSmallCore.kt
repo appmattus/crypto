@@ -118,8 +118,14 @@ internal abstract class SHAviteSmallCore<D : SHAviteSmallCore<D>> : DigestEngine
         process(data, bitLen.toInt(), (bitLen ushr 32).toInt())
     }
 
-    @Suppress("JoinDeclarationAndAssignment", "LongMethod")
+    @Suppress("JoinDeclarationAndAssignment", "LongMethod", "VariableNaming")
     private fun process(data: ByteArray, cnt0: Int, cnt1: Int) {
+        val h = this.h
+        val rk = this.rk
+        val AES0 = AES0
+        val AES1 = AES1
+        val AES2 = AES2
+        val AES3 = AES3
         var p0: Int
         var p1: Int
         var p2: Int

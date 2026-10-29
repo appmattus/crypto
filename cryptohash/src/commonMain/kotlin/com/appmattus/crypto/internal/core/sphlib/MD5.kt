@@ -90,6 +90,8 @@ internal class MD5 : MDHelper<MD5>(true, 8) {
 
     @Suppress("LongMethod")
     override fun processBlock(data: ByteArray) {
+        val currentVal = this.currentVal
+        val x = this.x
         var a = currentVal[0]
         var b = currentVal[1]
         var c = currentVal[2]

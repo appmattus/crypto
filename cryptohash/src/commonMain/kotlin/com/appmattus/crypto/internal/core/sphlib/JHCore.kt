@@ -57,8 +57,10 @@ internal abstract class JHCore<D : JHCore<D>> : DigestEngine<D>() {
         doReset()
     }
 
-    @Suppress("JoinDeclarationAndAssignment", "LongMethod")
+    @Suppress("JoinDeclarationAndAssignment", "LongMethod", "VariableNaming")
     private fun doS(r: Int) {
+        val h = this.h
+        val C = C
         var x0: Long
         var x1: Long
         var x2: Long
@@ -149,6 +151,7 @@ internal abstract class JHCore<D : JHCore<D>> : DigestEngine<D>() {
 
     @Suppress("JoinDeclarationAndAssignment")
     private fun doL() {
+        val h = this.h
         var x0: Long
         var x1: Long
         var x2: Long
@@ -208,6 +211,7 @@ internal abstract class JHCore<D : JHCore<D>> : DigestEngine<D>() {
     }
 
     private fun doWgen(c: Long, n: Int) {
+        val h = this.h
         h[2] = h[2] and c shl n or (h[2] ushr n and c)
         h[3] = h[3] and c shl n or (h[3] ushr n and c)
         h[6] = h[6] and c shl n or (h[6] ushr n and c)
@@ -220,6 +224,7 @@ internal abstract class JHCore<D : JHCore<D>> : DigestEngine<D>() {
 
     @Suppress("JoinDeclarationAndAssignment")
     private fun doW6() {
+        val h = this.h
         var t: Long
         t = h[2]
         h[2] = h[3]
@@ -236,6 +241,7 @@ internal abstract class JHCore<D : JHCore<D>> : DigestEngine<D>() {
     }
 
     override fun processBlock(data: ByteArray) {
+        val h = this.h
         val m0h = decodeBELong(data, 0)
         val m0l = decodeBELong(data, 8)
         val m1h = decodeBELong(data, 16)

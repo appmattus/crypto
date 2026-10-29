@@ -95,7 +95,11 @@ internal class MD2 : DigestEngine<MD2>() {
         engineReset()
     }
 
+    @Suppress("VariableNaming")
     override fun processBlock(data: ByteArray) {
+        val x = this.x
+        val c = this.c
+        val S = S
         var tL = l
         for (i in 0..15) {
             val u: Int = data[i].toInt() and 0xFF

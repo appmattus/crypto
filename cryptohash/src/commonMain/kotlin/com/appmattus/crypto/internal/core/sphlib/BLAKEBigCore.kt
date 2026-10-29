@@ -163,8 +163,10 @@ internal abstract class BLAKEBigCore<D : BLAKEBigCore<D>> : DigestEngine<D>() {
         engineReset()
     }
 
-    @Suppress("LongMethod")
+    @Suppress("LongMethod", "VariableNaming")
     override fun processBlock(data: ByteArray) {
+        val SIGMA = SIGMA
+        val CB = CB
         t0 += 1024
         if (t0 and 0x3FF.inv() == 0L) t1++
         var v0 = h0

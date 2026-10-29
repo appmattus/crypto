@@ -97,6 +97,8 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
 
     @Suppress("ComplexMethod", "LongMethod")
     override fun processBlock(data: ByteArray) {
+        val a = this.a
+        val b = this.b
         var a00 = a[0]
         var a01 = a[1]
         var a02 = a[2]
@@ -282,6 +284,8 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
      */
     @Suppress("NAME_SHADOWING", "LongMethod")
     private fun blank(num: Int, out: ByteArray, off: Int) {
+        val a = this.a
+        val b = this.b
         var num = num
         var off = off
         var a00 = a[0]

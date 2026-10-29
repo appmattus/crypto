@@ -171,6 +171,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
 
     @Suppress("JoinDeclarationAndAssignment", "LongMethod")
     private fun oneStep(push: Boolean) {
+        val buffer = this.buffer
         // Buffer update.
         val ptr0 = bufferPtr
         val ptr24 = ptr0 - 64 and 248
