@@ -140,8 +140,6 @@ internal class Kupyna : Digest<Kupyna> {
 
     @Suppress("NAME_SHADOWING")
     fun doFinal(out: ByteArray?, outOff: Int): Int {
-        val state = this.state
-        val buf = this.buf
         // Apply padding: terminator byte and 96-bit length field
         var outOff = outOff
         run {
@@ -191,7 +189,6 @@ internal class Kupyna : Digest<Kupyna> {
     }
 
     private fun processBlock(input: ByteArray, inOff: Int) {
-        val state = this.state
         var pos = inOff
         for (col in 0 until columns) {
             val word: Long = decodeLELong(input, pos)

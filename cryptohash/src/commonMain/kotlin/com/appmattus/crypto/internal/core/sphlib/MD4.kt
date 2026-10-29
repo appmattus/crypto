@@ -88,7 +88,6 @@ internal class MD4 : MDHelper<MD4>(true, 8) {
 
     @Suppress("JoinDeclarationAndAssignment", "LongMethod")
     override fun processBlock(data: ByteArray) {
-        val currentVal = this.currentVal
         /*
          * This method could have been made simpler by using
          * external methods for 32-bit decoding, or the round

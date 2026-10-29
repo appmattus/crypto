@@ -87,7 +87,6 @@ internal class SHA1 : MDHelper<SHA1>(false, 8) {
 
     @Suppress("LongMethod")
     override fun processBlock(data: ByteArray) {
-        val currentVal = this.currentVal
         var a = currentVal[0]
         var b = currentVal[1]
         var c = currentVal[2]

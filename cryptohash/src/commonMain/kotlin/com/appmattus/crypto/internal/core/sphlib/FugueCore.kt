@@ -172,10 +172,6 @@ internal abstract class FugueCore<D : FugueCore<D>> : Digest<D> {
 
     @Suppress("JoinDeclarationAndAssignment", "LongMethod")
     protected fun smix(i0: Int, i1: Int, i2: Int, i3: Int) {
-        val mixtab0 = mixtab0
-        val mixtab1 = mixtab1
-        val mixtab2 = mixtab2
-        val mixtab3 = mixtab3
         var c0 = 0
         var c1 = 0
         var c2 = 0

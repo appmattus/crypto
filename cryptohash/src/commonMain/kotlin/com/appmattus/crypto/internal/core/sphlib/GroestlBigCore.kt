@@ -398,9 +398,8 @@ internal abstract class GroestlBigCore<D : GroestlBigCore<D>> : DigestEngine<D>(
         engineReset()
     }
 
-    @Suppress("LongMethod", "VariableNaming")
+    @Suppress("LongMethod")
     private fun doPermP(x: LongArray) {
-        val T0 = T0
         for (r in 0..13) {
             x[0x0] = x[0x0] xor (r.toLong() shl 56)
             x[0x1] = x[0x1] xor ((0x10 + r).toLong() shl 56)
@@ -565,9 +564,8 @@ internal abstract class GroestlBigCore<D : GroestlBigCore<D>> : DigestEngine<D>(
         }
     }
 
-    @Suppress("LongMethod", "VariableNaming")
+    @Suppress("LongMethod")
     private fun doPermQ(x: LongArray) {
-        val T0 = T0
         for (r in 0..13) {
             x[0x0] = x[0x0] xor (r.toLong() xor -0x01L)
             x[0x1] = x[0x1] xor (r.toLong() xor -0x11L)
@@ -733,8 +731,6 @@ internal abstract class GroestlBigCore<D : GroestlBigCore<D>> : DigestEngine<D>(
     }
 
     override fun processBlock(data: ByteArray) {
-        val h = this.h
-        val m = this.m
         for (i in 0..15) {
             m[i] = decodeBELong(data, i * 8)
             g[i] = m[i] xor h[i]

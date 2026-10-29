@@ -270,9 +270,8 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
         engineReset()
     }
 
-    @Suppress("LongMethod", "VariableNaming")
+    @Suppress("LongMethod")
     private fun doPermP(x: LongArray) {
-        val T0 = T0
         var r = 0
         while (r < 10) {
             x[0] = x[0] xor (r.toLong() shl 56)
@@ -423,9 +422,8 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
         }
     }
 
-    @Suppress("LongMethod", "VariableNaming")
+    @Suppress("LongMethod")
     private fun doPermQ(x: LongArray) {
-        val T0 = T0
         var r = 0
         while (r < 10) {
             x[0] = x[0] xor (r.toLong() xor -0x01L)
@@ -577,8 +575,6 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
     }
 
     override fun processBlock(data: ByteArray) {
-        val h = this.h
-        val m = this.m
         for (i in 0..7) {
             m[i] = decodeBELong(data, i * 8)
             g[i] = m[i] xor h[i]
