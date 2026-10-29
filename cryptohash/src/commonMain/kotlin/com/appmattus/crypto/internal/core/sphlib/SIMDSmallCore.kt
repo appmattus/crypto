@@ -106,6 +106,7 @@ internal abstract class SIMDSmallCore<D : SIMDSmallCore<D>> : DigestEngine<D>() 
 
     @Suppress("LocalVariableName", "VariableNaming", "LongMethod")
     private fun fft32(x: ByteArray, xb: Int, xs: Int, qoff: Int) {
+        val q = this.q
         val xd = xs shl 1
         run {
             var d1_0: Int
@@ -298,205 +299,49 @@ internal abstract class SIMDSmallCore<D : SIMDSmallCore<D>> : DigestEngine<D>() 
         }
     }
 
-    @Suppress("JoinDeclarationAndAssignment", "LongMethod")
+    /**
+     * One round of eight steps, using the IF function for the first four steps and MAJ for the last four
+     */
     private fun oneRound(isp: Int, p0: Int, p1: Int, p2: Int, p3: Int) {
-        var tmp: Int
-        tA[0] = state[0].rotateLeft(p0)
-        tA[1] = state[1].rotateLeft(p0)
-        tA[2] = state[2].rotateLeft(p0)
-        tA[3] = state[3].rotateLeft(p0)
-        tmp = state[12] + w[0] + (state[4] xor state[8] and state[0] xor state[8])
-        state[0] = tmp.rotateLeft(p1) + tA[pp4k[isp + 0] xor 0]
-        state[12] = state[8]
-        state[8] = state[4]
-        state[4] = tA[0]
-        tmp = state[13] + w[1] + (state[5] xor state[9] and state[1] xor state[9])
-        state[1] = tmp.rotateLeft(p1) + tA[pp4k[isp + 0] xor 1]
-        state[13] = state[9]
-        state[9] = state[5]
-        state[5] = tA[1]
-        tmp = state[14] + w[2] + (state[6] xor state[10] and state[2] xor state[10])
-        state[2] = tmp.rotateLeft(p1) + tA[pp4k[isp + 0] xor 2]
-        state[14] = state[10]
-        state[10] = state[6]
-        state[6] = tA[2]
-        tmp = state[15] + w[3] + (state[7] xor state[11] and state[3] xor state[11])
-        state[3] = tmp.rotateLeft(p1) + tA[pp4k[isp + 0] xor 3]
-        state[15] = state[11]
-        state[11] = state[7]
-        state[7] = tA[3]
-        tA[0] = state[0].rotateLeft(p1)
-        tA[1] = state[1].rotateLeft(p1)
-        tA[2] = state[2].rotateLeft(p1)
-        tA[3] = state[3].rotateLeft(p1)
-        tmp = state[12] + w[4] + (state[4] xor state[8] and state[0] xor state[8])
-        state[0] = tmp.rotateLeft(p2) + tA[pp4k[isp + 1] xor 0]
-        state[12] = state[8]
-        state[8] = state[4]
-        state[4] = tA[0]
-        tmp = state[13] + w[5] + (state[5] xor state[9] and state[1] xor state[9])
-        state[1] = tmp.rotateLeft(p2) + tA[pp4k[isp + 1] xor 1]
-        state[13] = state[9]
-        state[9] = state[5]
-        state[5] = tA[1]
-        tmp = state[14] + w[6] + (state[6] xor state[10] and state[2] xor state[10])
-        state[2] = tmp.rotateLeft(p2) + tA[pp4k[isp + 1] xor 2]
-        state[14] = state[10]
-        state[10] = state[6]
-        state[6] = tA[2]
-        tmp = state[15] + w[7] + (state[7] xor state[11] and state[3] xor state[11])
-        state[3] = tmp.rotateLeft(p2) + tA[pp4k[isp + 1] xor 3]
-        state[15] = state[11]
-        state[11] = state[7]
-        state[7] = tA[3]
-        tA[0] = state[0].rotateLeft(p2)
-        tA[1] = state[1].rotateLeft(p2)
-        tA[2] = state[2].rotateLeft(p2)
-        tA[3] = state[3].rotateLeft(p2)
-        tmp = state[12] + w[8] + (state[4] xor state[8] and state[0] xor state[8])
-        state[0] = tmp.rotateLeft(p3) + tA[pp4k[isp + 2] xor 0]
-        state[12] = state[8]
-        state[8] = state[4]
-        state[4] = tA[0]
-        tmp = state[13] + w[9] + (state[5] xor state[9] and state[1] xor state[9])
-        state[1] = tmp.rotateLeft(p3) + tA[pp4k[isp + 2] xor 1]
-        state[13] = state[9]
-        state[9] = state[5]
-        state[5] = tA[1]
-        tmp = state[14] + w[10] + (state[6] xor state[10] and state[2] xor state[10])
-        state[2] = tmp.rotateLeft(p3) + tA[pp4k[isp + 2] xor 2]
-        state[14] = state[10]
-        state[10] = state[6]
-        state[6] = tA[2]
-        tmp = state[15] + w[11] + (state[7] xor state[11] and state[3] xor state[11])
-        state[3] = tmp.rotateLeft(p3) + tA[pp4k[isp + 2] xor 3]
-        state[15] = state[11]
-        state[11] = state[7]
-        state[7] = tA[3]
-        tA[0] = state[0].rotateLeft(p3)
-        tA[1] = state[1].rotateLeft(p3)
-        tA[2] = state[2].rotateLeft(p3)
-        tA[3] = state[3].rotateLeft(p3)
-        tmp = state[12] + w[12] + (state[4] xor state[8] and state[0] xor state[8])
-        state[0] = tmp.rotateLeft(p0) + tA[pp4k[isp + 3] xor 0]
-        state[12] = state[8]
-        state[8] = state[4]
-        state[4] = tA[0]
-        tmp = state[13] + w[13] + (state[5] xor state[9] and state[1] xor state[9])
-        state[1] = tmp.rotateLeft(p0) + tA[pp4k[isp + 3] xor 1]
-        state[13] = state[9]
-        state[9] = state[5]
-        state[5] = tA[1]
-        tmp = state[14] + w[14] + (state[6] xor state[10] and state[2] xor state[10])
-        state[2] = tmp.rotateLeft(p0) + tA[pp4k[isp + 3] xor 2]
-        state[14] = state[10]
-        state[10] = state[6]
-        state[6] = tA[2]
-        tmp = state[15] + w[15] + (state[7] xor state[11] and state[3] xor state[11])
-        state[3] = tmp.rotateLeft(p0) + tA[pp4k[isp + 3] xor 3]
-        state[15] = state[11]
-        state[11] = state[7]
-        state[7] = tA[3]
-        tA[0] = state[0].rotateLeft(p0)
-        tA[1] = state[1].rotateLeft(p0)
-        tA[2] = state[2].rotateLeft(p0)
-        tA[3] = state[3].rotateLeft(p0)
-        tmp = state[12] + w[16] + (state[0] and state[4] or (state[0] or state[4] and state[8]))
-        state[0] = tmp.rotateLeft(p1) + tA[pp4k[isp + 4] xor 0]
-        state[12] = state[8]
-        state[8] = state[4]
-        state[4] = tA[0]
-        tmp = state[13] + w[17] + (state[1] and state[5] or (state[1] or state[5] and state[9]))
-        state[1] = tmp.rotateLeft(p1) + tA[pp4k[isp + 4] xor 1]
-        state[13] = state[9]
-        state[9] = state[5]
-        state[5] = tA[1]
-        tmp = state[14] + w[18] + (state[2] and state[6] or (state[2] or state[6] and state[10]))
-        state[2] = tmp.rotateLeft(p1) + tA[pp4k[isp + 4] xor 2]
-        state[14] = state[10]
-        state[10] = state[6]
-        state[6] = tA[2]
-        tmp = state[15] + w[19] + (state[3] and state[7] or (state[3] or state[7] and state[11]))
-        state[3] = tmp.rotateLeft(p1) + tA[pp4k[isp + 4] xor 3]
-        state[15] = state[11]
-        state[11] = state[7]
-        state[7] = tA[3]
-        tA[0] = state[0].rotateLeft(p1)
-        tA[1] = state[1].rotateLeft(p1)
-        tA[2] = state[2].rotateLeft(p1)
-        tA[3] = state[3].rotateLeft(p1)
-        tmp = state[12] + w[20] + (state[0] and state[4] or (state[0] or state[4] and state[8]))
-        state[0] = tmp.rotateLeft(p2) + tA[pp4k[isp + 5] xor 0]
-        state[12] = state[8]
-        state[8] = state[4]
-        state[4] = tA[0]
-        tmp = state[13] + w[21] + (state[1] and state[5] or (state[1] or state[5] and state[9]))
-        state[1] = tmp.rotateLeft(p2) + tA[pp4k[isp + 5] xor 1]
-        state[13] = state[9]
-        state[9] = state[5]
-        state[5] = tA[1]
-        tmp = state[14] + w[22] + (state[2] and state[6] or (state[2] or state[6] and state[10]))
-        state[2] = tmp.rotateLeft(p2) + tA[pp4k[isp + 5] xor 2]
-        state[14] = state[10]
-        state[10] = state[6]
-        state[6] = tA[2]
-        tmp = state[15] + w[23] + (state[3] and state[7] or (state[3] or state[7] and state[11]))
-        state[3] = tmp.rotateLeft(p2) + tA[pp4k[isp + 5] xor 3]
-        state[15] = state[11]
-        state[11] = state[7]
-        state[7] = tA[3]
-        tA[0] = state[0].rotateLeft(p2)
-        tA[1] = state[1].rotateLeft(p2)
-        tA[2] = state[2].rotateLeft(p2)
-        tA[3] = state[3].rotateLeft(p2)
-        tmp = state[12] + w[24] + (state[0] and state[4] or (state[0] or state[4] and state[8]))
-        state[0] = tmp.rotateLeft(p3) + tA[pp4k[isp + 6] xor 0]
-        state[12] = state[8]
-        state[8] = state[4]
-        state[4] = tA[0]
-        tmp = state[13] + w[25] + (state[1] and state[5] or (state[1] or state[5] and state[9]))
-        state[1] = tmp.rotateLeft(p3) + tA[pp4k[isp + 6] xor 1]
-        state[13] = state[9]
-        state[9] = state[5]
-        state[5] = tA[1]
-        tmp = state[14] + w[26] + (state[2] and state[6] or (state[2] or state[6] and state[10]))
-        state[2] = tmp.rotateLeft(p3) + tA[pp4k[isp + 6] xor 2]
-        state[14] = state[10]
-        state[10] = state[6]
-        state[6] = tA[2]
-        tmp = state[15] + w[27] + (state[3] and state[7] or (state[3] or state[7] and state[11]))
-        state[3] = tmp.rotateLeft(p3) + tA[pp4k[isp + 6] xor 3]
-        state[15] = state[11]
-        state[11] = state[7]
-        state[7] = tA[3]
-        tA[0] = state[0].rotateLeft(p3)
-        tA[1] = state[1].rotateLeft(p3)
-        tA[2] = state[2].rotateLeft(p3)
-        tA[3] = state[3].rotateLeft(p3)
-        tmp = state[12] + w[28] + (state[0] and state[4] or (state[0] or state[4] and state[8]))
-        state[0] = tmp.rotateLeft(p0) + tA[pp4k[isp + 7] xor 0]
-        state[12] = state[8]
-        state[8] = state[4]
-        state[4] = tA[0]
-        tmp = state[13] + w[29] + (state[1] and state[5] or (state[1] or state[5] and state[9]))
-        state[1] = tmp.rotateLeft(p0) + tA[pp4k[isp + 7] xor 1]
-        state[13] = state[9]
-        state[9] = state[5]
-        state[5] = tA[1]
-        tmp = state[14] + w[30] + (state[2] and state[6] or (state[2] or state[6] and state[10]))
-        state[2] = tmp.rotateLeft(p0) + tA[pp4k[isp + 7] xor 2]
-        state[14] = state[10]
-        state[10] = state[6]
-        state[6] = tA[2]
-        tmp = state[15] + w[31] + (state[3] and state[7] or (state[3] or state[7] and state[11]))
-        state[3] = tmp.rotateLeft(p0) + tA[pp4k[isp + 7] xor 3]
-        state[15] = state[11]
-        state[11] = state[7]
-        state[7] = tA[3]
+        step(w, 0, false, p0, p1, pp4k[isp + 0])
+        step(w, 4, false, p1, p2, pp4k[isp + 1])
+        step(w, 8, false, p2, p3, pp4k[isp + 2])
+        step(w, 12, false, p3, p0, pp4k[isp + 3])
+        step(w, 16, true, p0, p1, pp4k[isp + 4])
+        step(w, 20, true, p1, p2, pp4k[isp + 5])
+        step(w, 24, true, p2, p3, pp4k[isp + 6])
+        step(w, 28, true, p3, p0, pp4k[isp + 7])
+    }
+
+    /**
+     * One step of the round function over the 4 lanes of [state], with message words [words] from [offset], the
+     * MAJ boolean function if [majority] or IF otherwise, rotations [r] and [s], and lane permutation [permutation]
+     */
+    @Suppress("LongParameterList")
+    private fun step(words: IntArray, offset: Int, majority: Boolean, r: Int, s: Int, permutation: Int) {
+        val state = this.state
+        val tA = this.tA
+        for (j in 0 until 4) {
+            tA[j] = state[j].rotateLeft(r)
+        }
+        for (j in 0 until 4) {
+            val a = state[j]
+            val b = state[j + 4]
+            val c = state[j + 8]
+            val f = if (majority) (a and b) or ((a or b) and c) else ((b xor c) and a) xor c
+            val tmp = state[j + 12] + words[offset + j] + f
+            state[j] = tmp.rotateLeft(s) + tA[permutation xor j]
+            state[j + 12] = c
+            state[j + 8] = b
+            state[j + 4] = tA[j]
+        }
     }
 
     @Suppress("JoinDeclarationAndAssignment", "ComplexMethod", "LongMethod")
     private fun compress(x: ByteArray, last: Boolean) {
+        val q = this.q
+        val w = this.w
+        val state = this.state
         fft32(x, 0 + 1 * 0, 1 shl 2, 0 + 0)
         fft32(x, 0 + 1 * 2, 1 shl 2, 0 + 32)
         var m = q[0]
@@ -680,114 +525,10 @@ internal abstract class SIMDSmallCore<D : SIMDSmallCore<D>> : DigestEngine<D>() 
             u += 4
         }
         oneRound(0, 4, 13, 10, 25)
-        run {
-            val tA0: Int = state[0].rotateLeft(4)
-            val tA1: Int = state[1].rotateLeft(4)
-            val tA2: Int = state[2].rotateLeft(4)
-            val tA3: Int = state[3].rotateLeft(4)
-            var tmp: Int
-            tmp = state[12] + tmpState[0] + ((state[4] xor state[8]) and state[0] xor state[8])
-            state[0] = tmp.rotateLeft(13) + tA3
-            state[12] = state[8]
-            state[8] = state[4]
-            state[4] = tA0
-            tmp = state[13] + tmpState[1] + ((state[5] xor state[9]) and state[1] xor state[9])
-            state[1] = tmp.rotateLeft(13) + tA2
-            state[13] = state[9]
-            state[9] = state[5]
-            state[5] = tA1
-            tmp = state[14] + tmpState[2] + ((state[6] xor state[10]) and state[2] xor state[10])
-            state[2] = tmp.rotateLeft(13) + tA1
-            state[14] = state[10]
-            state[10] = state[6]
-            state[6] = tA2
-            tmp = state[15] + tmpState[3] + ((state[7] xor state[11]) and state[3] xor state[11])
-            state[3] = tmp.rotateLeft(13) + tA0
-            state[15] = state[11]
-            state[11] = state[7]
-            state[7] = tA3
-        }
-        run {
-            val tA0: Int = state[0].rotateLeft(13)
-            val tA1: Int = state[1].rotateLeft(13)
-            val tA2: Int = state[2].rotateLeft(13)
-            val tA3: Int = state[3].rotateLeft(13)
-            var tmp: Int
-            tmp = state[12] + tmpState[4] + ((state[4] xor state[8]) and state[0] xor state[8])
-            state[0] = tmp.rotateLeft(10) + tA1
-            state[12] = state[8]
-            state[8] = state[4]
-            state[4] = tA0
-            tmp = state[13] + tmpState[5] + ((state[5] xor state[9]) and state[1] xor state[9])
-            state[1] = tmp.rotateLeft(10) + tA0
-            state[13] = state[9]
-            state[9] = state[5]
-            state[5] = tA1
-            tmp = state[14] + tmpState[6] + ((state[6] xor state[10]) and state[2] xor state[10])
-            state[2] = tmp.rotateLeft(10) + tA3
-            state[14] = state[10]
-            state[10] = state[6]
-            state[6] = tA2
-            tmp = state[15] + tmpState[7] + ((state[7] xor state[11]) and state[3] xor state[11])
-            state[3] = tmp.rotateLeft(10) + tA2
-            state[15] = state[11]
-            state[11] = state[7]
-            state[7] = tA3
-        }
-        run {
-            val tA0: Int = state[0].rotateLeft(10)
-            val tA1: Int = state[1].rotateLeft(10)
-            val tA2: Int = state[2].rotateLeft(10)
-            val tA3: Int = state[3].rotateLeft(10)
-            var tmp: Int
-            tmp = state[12] + tmpState[8] + ((state[4] xor state[8]) and state[0] xor state[8])
-            state[0] = tmp.rotateLeft(25) + tA2
-            state[12] = state[8]
-            state[8] = state[4]
-            state[4] = tA0
-            tmp = state[13] + tmpState[9] + ((state[5] xor state[9]) and state[1] xor state[9])
-            state[1] = tmp.rotateLeft(25) + tA3
-            state[13] = state[9]
-            state[9] = state[5]
-            state[5] = tA1
-            tmp = state[14] + tmpState[10] + ((state[6] xor state[10]) and state[2] xor state[10])
-            state[2] = tmp.rotateLeft(25) + tA0
-            state[14] = state[10]
-            state[10] = state[6]
-            state[6] = tA2
-            tmp = state[15] + tmpState[11] + ((state[7] xor state[11]) and state[3] xor state[11])
-            state[3] = tmp.rotateLeft(25) + tA1
-            state[15] = state[11]
-            state[11] = state[7]
-            state[7] = tA3
-        }
-        run {
-            val tA0: Int = state[0].rotateLeft(25)
-            val tA1: Int = state[1].rotateLeft(25)
-            val tA2: Int = state[2].rotateLeft(25)
-            val tA3: Int = state[3].rotateLeft(25)
-            var tmp: Int
-            tmp = state[12] + tmpState[12] + ((state[4] xor state[8]) and state[0] xor state[8])
-            state[0] = tmp.rotateLeft(4) + tA3
-            state[12] = state[8]
-            state[8] = state[4]
-            state[4] = tA0
-            tmp = state[13] + tmpState[13] + ((state[5] xor state[9]) and state[1] xor state[9])
-            state[1] = tmp.rotateLeft(4) + tA2
-            state[13] = state[9]
-            state[9] = state[5]
-            state[5] = tA1
-            tmp = state[14] + tmpState[14] + ((state[6] xor state[10]) and state[2] xor state[10])
-            state[2] = tmp.rotateLeft(4) + tA1
-            state[14] = state[10]
-            state[10] = state[6]
-            state[6] = tA2
-            tmp = state[15] + tmpState[15] + ((state[7] xor state[11]) and state[3] xor state[11])
-            state[3] = tmp.rotateLeft(4) + tA0
-            state[15] = state[11]
-            state[11] = state[7]
-            state[7] = tA3
-        }
+        step(tmpState, 0, false, 4, 13, 3)
+        step(tmpState, 4, false, 13, 10, 1)
+        step(tmpState, 8, false, 10, 25, 2)
+        step(tmpState, 12, false, 25, 4, 3)
     }
 
     override fun toString(): String {
