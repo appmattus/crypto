@@ -122,7 +122,7 @@ internal class MD4 : Digest<MD4> {
             Nl = hashObject.Nl
             Nh = hashObject.Nh
 
-            for (i in 0..CC_MD4_BLOCK_LONG.toInt()) {
+            for (i in 0 until CC_MD4_BLOCK_LONG.toInt()) {
                 data[i] = hashObject.data[i]
             }
 

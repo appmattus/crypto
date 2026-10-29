@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.ios
+package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
@@ -28,33 +28,43 @@ import kotlinx.cinterop.usePinned
 import platform.zlib.crc32
 import platform.zlib.uBytefVar
 
-@OptIn(ExperimentalForeignApi::class)
-internal class CRC32B : Digest<CRC32B> {
+/**
+ * A CRC32B [Digest] backed by zlib's `crc32`, which uses the CPU's CRC or carry-less multiply instructions
+ */
+@OptIn(ExperimentalForeignApi::class, UnsafeNumber::class)
+internal class ZlibCrc32B : Digest<ZlibCrc32B> {
 
-    private var crc: ULong = 0UL
+    private var checksum = 0
+
+    private val oneByte = ByteArray(1)
 
     override fun update(input: Byte) {
-        update(ByteArray(1) { input })
+        oneByte[0] = input
+        update(oneByte, 0, 1)
     }
 
     override fun update(input: ByteArray) {
         update(input, 0, input.size)
     }
 
-    @OptIn(UnsafeNumber::class)
     override fun update(input: ByteArray, offset: Int, length: Int) {
+        checkBounds(input, offset, length)
         if (length > 0) {
             input.usePinned {
                 @Suppress("UNCHECKED_CAST")
-                crc = crc32(crc.convert(), it.addressOf(offset) as CPointer<uBytefVar>, length.toUInt()).toULong()
+                val data = it.addressOf(offset) as CPointer<uBytefVar>
+                checksum = crc32(checksum.toUInt().convert(), data, length.toUInt()).convert<UInt>().toInt()
             }
         }
     }
 
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
-        encodeBEInt(crc.toInt(), digest, 0)
+
+        encodeBEInt(checksum, digest, 0)
+
         reset()
+
         return digest
     }
 
@@ -63,46 +73,17 @@ internal class CRC32B : Digest<CRC32B> {
         return digest()
     }
 
-    /**
-     * Completes the hash computation by performing final
-     * operations such as padding.
-     *
-     * @param output the output buffer in which to store the digest
-     *
-     * @param offset offset to start from in the output buffer
-     *
-     * @param length number of bytes within buf allotted for the digest. This
-     * implementation does not return partial digests. The presence of this
-     * parameter is solely for consistency in our API's. If the value of this
-     * parameter is less than the actual digest length, the method will throw
-     * an Exception.
-     * This parameter is ignored if its value is greater than or equal to
-     * the actual digest length.
-     *
-     * @return the length of the digest stored in the output buffer.
-     */
-    override fun digest(output: ByteArray, offset: Int, length: Int): Int {
-        val digest = digest()
-
-        require(length >= digest.size) { "partial digests not returned" }
-        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
-
-        digest.copyInto(output, offset, 0, digest.size)
-
-        return digest.size
-    }
+    override fun digest(output: ByteArray, offset: Int, length: Int): Int = writeWholeDigest(digest(), output, offset, length)
 
     override val digestLength: Int
         get() = 4
 
     override fun reset() {
-        crc = 0UL
+        checksum = 0
     }
 
-    override fun copy(): CRC32B {
-        val digest = CRC32B()
-        digest.crc = crc
-        return digest
+    override fun copy(): ZlibCrc32B = ZlibCrc32B().also {
+        it.checksum = checksum
     }
 
     override val blockLength: Int

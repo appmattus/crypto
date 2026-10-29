@@ -16,8 +16,9 @@
 
 package com.appmattus.crypto.internal
 
-import com.appmattus.crypto.internal.core.ios.SHA384
+import com.appmattus.crypto.Algorithm
+import kotlin.test.assertNotNull
 
 internal class SHA384PlatformTest : SHA384Test() {
-    override fun digest() = SHA384()
+    override fun digest() = assertNotNull(CommonCryptoDigest.create(Algorithm.SHA_384))
 }

@@ -169,13 +169,13 @@ internal class SHA512_224 : Digest<SHA512_224> {
         val digest = SHA512_224()
 
         digest.hashObject = nativeHeap.alloc<CC_SHA512_CTX> {
-            for (i in 0..2) {
+            for (i in 0 until 2) {
                 count[i] = hashObject.count[i]
             }
-            for (i in 0..8) {
+            for (i in 0 until 8) {
                 hash[i] = hashObject.hash[i]
             }
-            for (i in 0..16) {
+            for (i in 0 until 16) {
                 wbuf[i] = hashObject.wbuf[i]
             }
         }

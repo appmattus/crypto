@@ -16,8 +16,9 @@
 
 package com.appmattus.crypto.internal
 
-import com.appmattus.crypto.internal.core.ios.SHA512
+import com.appmattus.crypto.Algorithm
+import kotlin.test.assertNotNull
 
 internal class SHA512PlatformTest : SHA512Test() {
-    override fun digest() = SHA512()
+    override fun digest() = assertNotNull(CommonCryptoDigest.create(Algorithm.SHA_512))
 }

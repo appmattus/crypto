@@ -24,7 +24,8 @@ import kotlinx.benchmark.Setup
 import kotlinx.benchmark.State
 
 /**
- * cryptohash's own implementations of the algorithms that the platforms also provide
+ * cryptohash, through [com.appmattus.crypto.Algorithm.createDigest], for the algorithms that the platforms also provide.
+ * Where cryptohash delegates to the platform, this measures that delegation.
  */
 @State(Scope.Benchmark)
 open class CryptohashBenchmark {

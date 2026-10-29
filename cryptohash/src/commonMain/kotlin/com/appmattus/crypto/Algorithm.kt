@@ -20,6 +20,7 @@ import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.blake3.Hasher
 import com.appmattus.crypto.internal.core.wyhash.Wyhash.Companion.wyp
 import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
+import com.appmattus.crypto.internal.platformDigest
 
 @Suppress("ClassName")
 public sealed class Algorithm(public val algorithmName: String, internal val blockLength: Int) {
@@ -1521,9 +1522,12 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     }
 
     /**
-     * Create a [Digest] of the [Algorithm] for creating hashes
+     * Create a [Digest] of the [Algorithm] for creating hashes.
+     *
+     * Where the platform has its own faster implementation of the algorithm, such as JVM `MessageDigest` or Apple
+     * CommonCrypto, the digest uses it. The results are identical either way.
      */
-    public fun createDigest(): Digest<*> = CoreDigest.create(this)
+    public fun createDigest(): Digest<*> = platformDigest(this) ?: CoreDigest.create(this)
 
     /**
      * Create a hash of [input] using the [Algorithm]

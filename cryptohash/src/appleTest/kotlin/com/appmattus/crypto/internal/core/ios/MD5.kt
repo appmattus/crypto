@@ -121,7 +121,7 @@ internal class MD5 : Digest<MD5> {
             D = hashObject.D
             Nl = hashObject.Nl
             Nh = hashObject.Nh
-            for (i in 0..CC_MD5_BLOCK_LONG.toInt()) {
+            for (i in 0 until CC_MD5_BLOCK_LONG.toInt()) {
                 data[i] = hashObject.data[i]
             }
             num = hashObject.num
