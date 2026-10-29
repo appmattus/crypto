@@ -5,7 +5,7 @@ built into each platform. This module is not published.
 
 | Benchmark                  | Platforms                | What it measures                                                                |
 |----------------------------|--------------------------|---------------------------------------------------------------------------------|
-| `CryptohashBenchmark`      | JVM, macOS, Linux        | cryptohash's own implementation of each algorithm the platforms also provide    |
+| `CryptohashBenchmark`      | JVM, macOS, Linux        | `Algorithm.createDigest()` for each algorithm the platforms also provide        |
 | `JvmPlatformBenchmark`     | JVM                      | `java.security.MessageDigest`, and `java.util.zip` for Adler32, CRC32B, CRC32C  |
 | `ApplePlatformBenchmark`   | macOS                    | CommonCrypto, and zlib for Adler32 and CRC32B                                   |
 | `OtherAlgorithmsBenchmark` | JVM, macOS, Linux        | popular algorithms only cryptohash provides, as a reference point               |
@@ -16,6 +16,10 @@ platform benchmarks check during setup that the platform gives the same output a
 like with like.
 
 The JVM has no MD4. Apple has no SHA-512/224, SHA-512/256, SHA-3 or CRC32C.
+
+`Algorithm.createDigest()` delegates SHA-1, SHA-2, CRC32B and CRC32C to the JVM, and SHA-1, SHA-224, SHA-256, SHA-384,
+SHA-512 and CRC32B to Apple, so `CryptohashBenchmark` measures that delegation for those algorithms. The other
+algorithms, and every algorithm on Linux, use cryptohash's own implementation.
 
 ## Running
 

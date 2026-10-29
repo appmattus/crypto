@@ -170,6 +170,6 @@ internal class CRC32B : Digest<CRC32B> {
         )
 
         /** Slicing-by-8 tables derived from [crcTable]. */
-        private val crcTables = reflectedSlicingTables(crcTable)
+        internal val crcTables = reflectedSlicingTables(crcTable)
     }
 }

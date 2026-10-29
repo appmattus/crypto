@@ -92,6 +92,10 @@ kotlin {
         val byteArrayMain by creating {
             dependsOn(commonMain.get())
         }
+        // Platforms without their own hash implementations to delegate to
+        val portableMain by creating {
+            dependsOn(byteArrayMain)
+        }
         val androidAndLinuxAndMingwTest by creating {
             dependsOn(commonTest.get())
         }
@@ -102,8 +106,9 @@ kotlin {
             dependsOn(appleMain.get())
         }
 
-        listOf(jvmMain, jsMain, wasmJsMain, wasmWasiMain, linuxMain, mingwMain, androidNativeMain).forEach {
-            it.get().dependsOn(byteArrayMain)
+        jvmMain.get().dependsOn(byteArrayMain)
+        listOf(jsMain, wasmJsMain, wasmWasiMain, linuxMain, mingwMain, androidNativeMain).forEach {
+            it.get().dependsOn(portableMain)
         }
         linuxTest.get().dependsOn(androidAndLinuxAndMingwTest)
         mingwTest.get().dependsOn(androidAndLinuxAndMingwTest)

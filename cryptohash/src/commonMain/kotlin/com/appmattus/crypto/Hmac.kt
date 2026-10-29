@@ -16,7 +16,6 @@
 
 package com.appmattus.crypto
 
-import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.sphlib.HMAC
 
 /**
@@ -30,7 +29,7 @@ public sealed interface Hmac {
     /**
      * Create an HMAC [Digest] of the [Algorithm] for creating hashes
      */
-    public fun createHmac(key: ByteArray, outputLength: Int? = null): Digest<*> = HMAC(CoreDigest.create(this as Algorithm), key, outputLength)
+    public fun createHmac(key: ByteArray, outputLength: Int? = null): Digest<*> = HMAC((this as Algorithm).createDigest(), key, outputLength)
 
     /**
      * Create an HMAC hash of [input] using the [Algorithm]
