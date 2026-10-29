@@ -116,13 +116,13 @@ internal class MD2 : Digest<MD2> {
 
         digest.hashObject = nativeHeap.alloc<CC_MD2_CTX> {
             num = hashObject.num
-            for (i in 0..CC_MD2_DIGEST_LENGTH) {
+            for (i in 0 until CC_MD2_DIGEST_LENGTH) {
                 data[i] = hashObject.data[i]
             }
-            for (i in 0..CC_MD2_BLOCK_LONG.toInt()) {
+            for (i in 0 until CC_MD2_BLOCK_LONG.toInt()) {
                 cksm[i] = hashObject.cksm[i]
             }
-            for (i in 0..CC_MD2_BLOCK_LONG.toInt()) {
+            for (i in 0 until CC_MD2_BLOCK_LONG.toInt()) {
                 state[i] = hashObject.state[i]
             }
         }

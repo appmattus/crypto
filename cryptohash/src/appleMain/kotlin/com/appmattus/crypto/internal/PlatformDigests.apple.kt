@@ -43,15 +43,3 @@ internal fun checkBounds(input: ByteArray, offset: Int, length: Int) {
         throw IndexOutOfBoundsException("offset $offset and length $length out of bounds for size ${input.size}")
     }
 }
-
-/**
- * Copies [digest] into [output], as the core digests do
- */
-internal fun copyDigest(digest: ByteArray, output: ByteArray, offset: Int, length: Int): Int {
-    require(length >= digest.size) { "partial digests not returned" }
-    require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
-
-    digest.copyInto(output, offset, 0, digest.size)
-
-    return digest.size
-}

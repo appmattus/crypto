@@ -77,16 +77,7 @@ internal class JvmCrc32 private constructor(
         return digest()
     }
 
-    override fun digest(output: ByteArray, offset: Int, length: Int): Int {
-        val digest = digest()
-
-        require(length >= digest.size) { "partial digests not returned" }
-        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
-
-        digest.copyInto(output, offset, 0, digest.size)
-
-        return digest.size
-    }
+    override fun digest(output: ByteArray, offset: Int, length: Int): Int = writeWholeDigest(digest(), output, offset, length)
 
     override val digestLength: Int
         get() = 4

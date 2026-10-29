@@ -16,8 +16,9 @@
 
 package com.appmattus.crypto.internal
 
-import com.appmattus.crypto.internal.core.ios.SHA224
+import com.appmattus.crypto.Algorithm
+import kotlin.test.assertNotNull
 
 internal class SHA224PlatformTest : SHA224Test() {
-    override fun digest() = SHA224()
+    override fun digest() = assertNotNull(CommonCryptoDigest.create(Algorithm.SHA_224))
 }

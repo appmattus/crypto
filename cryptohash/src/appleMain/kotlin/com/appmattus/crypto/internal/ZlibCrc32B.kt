@@ -73,7 +73,7 @@ internal class ZlibCrc32B : Digest<ZlibCrc32B> {
         return digest()
     }
 
-    override fun digest(output: ByteArray, offset: Int, length: Int): Int = copyDigest(digest(), output, offset, length)
+    override fun digest(output: ByteArray, offset: Int, length: Int): Int = writeWholeDigest(digest(), output, offset, length)
 
     override val digestLength: Int
         get() = 4

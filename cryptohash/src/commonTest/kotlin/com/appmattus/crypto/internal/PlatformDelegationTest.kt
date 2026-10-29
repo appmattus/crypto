@@ -104,6 +104,28 @@ class PlatformDelegationTest {
         assertContentEquals(expected(algorithm, 100), output.copyOfRange(3, output.size), "$algorithm")
     }
 
+    @Test
+    fun digestIntoShortOrLongOutput() = delegated.forEach { algorithm ->
+        val digestLength = CoreDigest.create(algorithm).digestLength
+        for (length in listOf(1, digestLength / 2, digestLength - 1, digestLength, digestLength + 4)) {
+            val expected = digestInto(CoreDigest.create(algorithm), length)
+            val actual = digestInto(algorithm.createDigest(), length)
+            assertEquals(expected, actual, "$algorithm length=$length")
+        }
+    }
+
+    /**
+     * What [Digest.digest] does with an output buffer of [length] bytes: what it writes, or the exception it throws
+     */
+    private fun digestInto(digest: Digest<*>, length: Int): String = try {
+        digest.update(data, 0, 100)
+        val output = ByteArray(length + 2)
+        val written = digest.digest(output, 2, length)
+        "$written " + output.toList()
+    } catch (e: IllegalArgumentException) {
+        "throws " + e::class.simpleName
+    }
+
     private fun expected(algorithm: Algorithm, length: Int) = CoreDigest.create(algorithm).run {
         update(data, 0, length)
         digest()

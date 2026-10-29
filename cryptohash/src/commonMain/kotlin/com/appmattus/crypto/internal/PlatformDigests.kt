@@ -24,3 +24,30 @@ import com.appmattus.crypto.Digest
  * same results, or null to use [CoreDigest].
  */
 internal expect fun platformDigest(algorithm: Algorithm): Digest<*>?
+
+/**
+ * Writes [digest] into [output] as the core [com.appmattus.crypto.internal.core.sphlib.DigestEngine] digests, such as
+ * SHA-1 and SHA-256, do: the whole digest when [length] allows, otherwise only its first [length] bytes.
+ *
+ * @return the number of bytes written
+ */
+internal fun writeTruncatedDigest(digest: ByteArray, output: ByteArray, offset: Int, length: Int): Int {
+    val written = minOf(length, digest.size)
+    digest.copyInto(output, offset, 0, written)
+    return written
+}
+
+/**
+ * Writes [digest] into [output] as the other core digests, such as CRC32B and SHA-512/224, do: refusing to write a
+ * partial digest.
+ *
+ * @return the number of bytes written
+ */
+internal fun writeWholeDigest(digest: ByteArray, output: ByteArray, offset: Int, length: Int): Int {
+    require(length >= digest.size) { "partial digests not returned" }
+    require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
+
+    digest.copyInto(output, offset, 0, digest.size)
+
+    return digest.size
+}

@@ -105,7 +105,7 @@ internal class CommonCryptoDigest private constructor(
         return digest()
     }
 
-    override fun digest(output: ByteArray, offset: Int, length: Int): Int = copyDigest(digest(), output, offset, length)
+    override fun digest(output: ByteArray, offset: Int, length: Int): Int = writeTruncatedDigest(digest(), output, offset, length)
 
     override val digestLength: Int
         get() = functions.digestLength

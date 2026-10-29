@@ -46,14 +46,12 @@ internal class JvmMessageDigest private constructor(
     override fun digest(input: ByteArray): ByteArray = messageDigest.digest(input)
 
     override fun digest(output: ByteArray, offset: Int, length: Int): Int {
-        val digest = digest()
-
-        require(length >= digest.size) { "partial digests not returned" }
-        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
-
-        digest.copyInto(output, offset, 0, digest.size)
-
-        return digest.size
+        // Match the core digests, where SHA-512/224 and SHA-512/256 don't write partial digests
+        return if (algorithm == Algorithm.SHA_512_224 || algorithm == Algorithm.SHA_512_256) {
+            writeWholeDigest(digest(), output, offset, length)
+        } else {
+            writeTruncatedDigest(digest(), output, offset, length)
+        }
     }
 
     override val digestLength: Int
