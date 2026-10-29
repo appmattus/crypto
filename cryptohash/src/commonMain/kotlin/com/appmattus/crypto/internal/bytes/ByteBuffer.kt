@@ -16,15 +16,19 @@
 
 package com.appmattus.crypto.internal.bytes
 
-internal interface ByteBuffer : Iterable<Byte> {
+/**
+ * An abstract class rather than an interface, as Kotlin/Native dispatches class calls more cheaply than interface
+ * calls, which matters for the word decoders called in every hash's inner loop
+ */
+internal abstract class ByteBuffer : Iterable<Byte> {
 
-    val size: Int
+    abstract val size: Int
 
     fun add(value: ByteArray) = add(value, 0, value.size)
 
-    fun add(value: ByteArray, offset: Int, length: Int)
+    abstract fun add(value: ByteArray, offset: Int, length: Int)
 
-    fun copyOf(): ByteBuffer
+    abstract fun copyOf(): ByteBuffer
 
     /**
      * Returns the array element at the given [index].  This method can be called using the index operator.
@@ -32,31 +36,31 @@ internal interface ByteBuffer : Iterable<Byte> {
      * If the [index] is out of bounds of this array, throws an [IndexOutOfBoundsException] except in Kotlin/JS
      * where the behavior is unspecified.
      */
-    operator fun get(index: Int): Byte
+    abstract operator fun get(index: Int): Byte
 
     /**
-     * Decodes the 32-bit little-endian integer at [off].
+     * Decodes the 32-bit little-endian integer at [off], reading the bytes directly rather than one at a time through
+     * [get].
      *
-     * The bytes are read directly, rather than one at a time through [get]. Unlike [get], [off] isn't checked against
-     * [size], so callers must keep all four bytes within it.
+     * @throws IndexOutOfBoundsException if the four bytes aren't all within [size]
      */
-    fun decodeLEInt(off: Int): Int
+    abstract fun decodeLEInt(off: Int): Int
 
     /**
-     * Decodes the 32-bit big-endian integer at [off].
+     * Decodes the 32-bit big-endian integer at [off], reading the bytes directly rather than one at a time through
+     * [get].
      *
-     * The bytes are read directly, rather than one at a time through [get]. Unlike [get], [off] isn't checked against
-     * [size], so callers must keep all four bytes within it.
+     * @throws IndexOutOfBoundsException if the four bytes aren't all within [size]
      */
-    fun decodeBEInt(off: Int): Int
+    abstract fun decodeBEInt(off: Int): Int
 
     /**
-     * Decodes the 64-bit little-endian integer at [off].
+     * Decodes the 64-bit little-endian integer at [off], reading the bytes directly rather than one at a time through
+     * [get].
      *
-     * The bytes are read directly, rather than one at a time through [get]. Unlike [get], [off] isn't checked against
-     * [size], so callers must keep all eight bytes within it.
+     * @throws IndexOutOfBoundsException if the eight bytes aren't all within [size]
      */
-    fun decodeLELong(off: Int): Long
+    abstract fun decodeLELong(off: Int): Long
 
     /** Creates an iterator over the elements of the array. */
     override fun iterator(): Iterator<Byte> = iterator {
@@ -65,5 +69,5 @@ internal interface ByteBuffer : Iterable<Byte> {
         }
     }
 
-    fun copyInto(destination: ByteArray, destinationOffset: Int = 0, startIndex: Int = 0, endIndex: Int = size): ByteArray
+    abstract fun copyInto(destination: ByteArray, destinationOffset: Int = 0, startIndex: Int = 0, endIndex: Int = size): ByteArray
 }

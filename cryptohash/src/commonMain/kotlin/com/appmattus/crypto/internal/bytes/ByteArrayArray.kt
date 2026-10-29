@@ -23,7 +23,7 @@ import com.appmattus.crypto.internal.core.decodeLELong
 /**
  * A [ByteBuffer] backed by a single growable array, so [get] is constant time however many arrays were added
  */
-internal class ByteArrayArray private constructor(private var bytes: ByteArray, size: Int) : ByteBuffer {
+internal class ByteArrayArray private constructor(private var bytes: ByteArray, size: Int) : ByteBuffer() {
 
     constructor() : this(ByteArray(0), 0)
 
@@ -54,11 +54,30 @@ internal class ByteArrayArray private constructor(private var bytes: ByteArray, 
         return bytes[index]
     }
 
-    override fun decodeLEInt(off: Int): Int = decodeLEInt(bytes, off)
+    override fun decodeLEInt(off: Int): Int {
+        checkRange(off, Int.SIZE_BYTES)
+        return decodeLEInt(bytes, off)
+    }
 
-    override fun decodeBEInt(off: Int): Int = decodeBEInt(bytes, off)
+    override fun decodeBEInt(off: Int): Int {
+        checkRange(off, Int.SIZE_BYTES)
+        return decodeBEInt(bytes, off)
+    }
 
-    override fun decodeLELong(off: Int): Long = decodeLELong(bytes, off)
+    override fun decodeLELong(off: Int): Long {
+        checkRange(off, Long.SIZE_BYTES)
+        return decodeLELong(bytes, off)
+    }
+
+    // One check per word, against size rather than the backing array, which may be longer
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun checkRange(off: Int, length: Int) {
+        if (off < 0 || off > size - length) throwOutOfRange(off, length)
+    }
+
+    // Kept out of line so the decoders stay small enough to inline
+    private fun throwOutOfRange(off: Int, length: Int): Nothing =
+        throw IndexOutOfBoundsException("Range $off..${off + length} out of bounds for length $size")
 
     override fun copyInto(destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int): ByteArray {
         if (startIndex < 0 || endIndex > size || startIndex > endIndex) {

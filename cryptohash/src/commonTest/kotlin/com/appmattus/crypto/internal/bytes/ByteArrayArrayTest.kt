@@ -172,4 +172,31 @@ class ByteArrayArrayTest {
         assertEquals(7, copy.size)
         assertContentEquals(listOf<Byte>(1, 2, 3, 4, 5, 7, 8), copy.toList())
     }
+
+    @Test
+    fun decodesWordsAcrossAddedArrays() {
+        val baa = ByteArrayArray()
+        baa.add(byteArrayOf(1, 2, 3))
+        baa.add(byteArrayOf(4, 5, 6, 7, 8, 9))
+
+        assertEquals(0x04030201, baa.decodeLEInt(0))
+        assertEquals(0x02030405, baa.decodeBEInt(1))
+        assertEquals(0x0908070605040302L, baa.decodeLELong(1))
+    }
+
+    @Test
+    fun decodeRejectsWordsPastSizeEvenWithinCapacity() {
+        // The backing array grows to at least 64 bytes, so these reads would fit it but not the 9-byte content
+        val baa = ByteArrayArray()
+        baa.add(ByteArray(9))
+
+        assertEquals(0L, baa.decodeLELong(1))
+        assertEquals(0, baa.decodeLEInt(5))
+
+        val long = assertFailsWith<IndexOutOfBoundsException> { baa.decodeLELong(2) }
+        assertEquals("Range 2..10 out of bounds for length 9", long.message)
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeLEInt(6) }
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeBEInt(6) }
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeLEInt(-1) }
+    }
 }
