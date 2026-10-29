@@ -16,6 +16,10 @@
 
 package com.appmattus.crypto.internal.bytes
 
+import com.appmattus.crypto.internal.core.decodeBEInt
+import com.appmattus.crypto.internal.core.decodeLEInt
+import com.appmattus.crypto.internal.core.decodeLELong
+
 /**
  * A [ByteBuffer] backed by a single growable array, so [get] is constant time however many arrays were added
  */
@@ -49,6 +53,12 @@ internal class ByteArrayArray private constructor(private var bytes: ByteArray, 
         }
         return bytes[index]
     }
+
+    override fun decodeLEInt(off: Int): Int = decodeLEInt(bytes, off)
+
+    override fun decodeBEInt(off: Int): Int = decodeBEInt(bytes, off)
+
+    override fun decodeLELong(off: Int): Long = decodeLELong(bytes, off)
 
     override fun copyInto(destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int): ByteArray {
         if (startIndex < 0 || endIndex > size || startIndex > endIndex) {

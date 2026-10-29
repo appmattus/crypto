@@ -37,8 +37,9 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
         get() = 64
 
     override fun process(input: ByteBuffer) {
+        val len = input.size
         val state = State(seed)
-        hash = if (input.size < 32) state.hashShort(input) else state.hashLong(input)
+        hash = if (len < 32) state.hashShort(input, len) else state.hashLong(input, len)
     }
 
     /**
@@ -77,8 +78,7 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
 
         // Messages shorter than 32 bytes
         @Suppress("CyclomaticComplexMethod", "NestedBlockDepth")
-        fun hashShort(input: ByteBuffer): ULong {
-            val len = input.size
+        fun hashShort(input: ByteBuffer, len: Int): ULong {
             var r1h = seed1
             var r2h = seed5
 
@@ -120,11 +120,14 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
         }
 
         // Messages of 32 bytes or more
-        fun hashLong(input: ByteBuffer): ULong {
+        fun hashLong(input: ByteBuffer, len: Int): ULong {
             var offset = 0
-            var remaining = input.size
+            var remaining = len
 
             if (remaining > 63) {
+                // Locals rather than the properties, which Kotlin/Native would otherwise read and write every round
+                var seed1 = seed1
+                var seed5 = seed5
                 var seed2 = IVAL2 xor seed1
                 var seed3 = IVAL3 xor seed1
                 var seed4 = IVAL4 xor seed1
@@ -160,8 +163,8 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
                     seed3 = seed3 xor seed6
                 } while (remaining > 63)
 
-                seed5 = seed5 xor seed6 xor seed7 xor seed8
-                seed1 = seed1 xor seed2 xor seed3 xor seed4
+                this.seed5 = seed5 xor seed6 xor seed7 xor seed8
+                this.seed1 = seed1 xor seed2 xor seed3 xor seed4
             }
 
             if (remaining > 31) {

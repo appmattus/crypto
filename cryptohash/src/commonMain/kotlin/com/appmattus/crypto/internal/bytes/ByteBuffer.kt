@@ -34,6 +34,30 @@ internal interface ByteBuffer : Iterable<Byte> {
      */
     operator fun get(index: Int): Byte
 
+    /**
+     * Decodes the 32-bit little-endian integer at [off].
+     *
+     * The bytes are read directly, rather than one at a time through [get]. Unlike [get], [off] isn't checked against
+     * [size], so callers must keep all four bytes within it.
+     */
+    fun decodeLEInt(off: Int): Int
+
+    /**
+     * Decodes the 32-bit big-endian integer at [off].
+     *
+     * The bytes are read directly, rather than one at a time through [get]. Unlike [get], [off] isn't checked against
+     * [size], so callers must keep all four bytes within it.
+     */
+    fun decodeBEInt(off: Int): Int
+
+    /**
+     * Decodes the 64-bit little-endian integer at [off].
+     *
+     * The bytes are read directly, rather than one at a time through [get]. Unlike [get], [off] isn't checked against
+     * [size], so callers must keep all eight bytes within it.
+     */
+    fun decodeLELong(off: Int): Long
+
     /** Creates an iterator over the elements of the array. */
     override fun iterator(): Iterator<Byte> = iterator {
         for (i in 0 until size) {
