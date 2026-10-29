@@ -205,7 +205,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass32(inw: IntArray) {
+        val K2 = K2
+        val wp2 = wp2
         var x0 = s0
         var x1 = s1
         var x2 = s2
@@ -236,7 +239,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass33(inw: IntArray) {
+        val K3 = K3
+        val wp3 = wp3
         var x0 = s0
         var x1 = s1
         var x2 = s2
@@ -298,7 +304,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass42(inw: IntArray) {
+        val K2 = K2
+        val wp2 = wp2
         var x0 = s0
         var x1 = s1
         var x2 = s2
@@ -329,7 +338,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass43(inw: IntArray) {
+        val K3 = K3
+        val wp3 = wp3
         var x0 = s0
         var x1 = s1
         var x2 = s2
@@ -360,7 +372,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass44(inw: IntArray) {
+        val K4 = K4
+        val wp4 = wp4
         var x0 = s0
         var x1 = s1
         var x2 = s2
@@ -422,7 +437,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass52(inw: IntArray) {
+        val K2 = K2
+        val wp2 = wp2
         var x0 = s0
         var x1 = s1
         var x2 = s2
@@ -453,7 +471,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass53(inw: IntArray) {
+        val K3 = K3
+        val wp3 = wp3
         var x0 = s0
         var x1 = s1
         var x2 = s2
@@ -484,7 +505,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass54(inw: IntArray) {
+        val K4 = K4
+        val wp4 = wp4
         var x0 = s0
         var x1 = s1
         var x2 = s2
@@ -515,7 +539,10 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
         s7 = x7
     }
 
+    @Suppress("VariableNaming")
     private fun pass55(inw: IntArray) {
+        val K5 = K5
+        val wp5 = wp5
         var x0 = s0
         var x1 = s1
         var x2 = s2

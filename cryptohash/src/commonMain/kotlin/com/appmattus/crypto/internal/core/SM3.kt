@@ -69,6 +69,9 @@ internal class SM3 : MDHelper<SM3>(false, 8) {
     private inline fun gg(x: Int, y: Int, z: Int) = (x and y) xor (x.inv() and z)
 
     override fun processBlock(data: ByteArray) {
+        val currentVal = this.currentVal
+        val w = this.w
+        val x = this.x
         // load data
         for (i in 0 until 16) w[i] = decodeBEInt(data, 4 * i)
 

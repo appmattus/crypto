@@ -90,6 +90,8 @@ internal class RipeMD : MDHelper<RipeMD>(true, 8) {
 
     @Suppress("JoinDeclarationAndAssignment", "LongMethod")
     override fun processBlock(data: ByteArray) {
+        val currentVal = this.currentVal
+        val x = this.x
         val h0: Int
         val h1: Int
         val h2: Int

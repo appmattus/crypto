@@ -151,7 +151,13 @@ internal abstract class ECHOSmallCore<D : ECHOSmallCore<D>> : DigestEngine<D>() 
         compress(data)
     }
 
+    @Suppress("VariableNaming")
     private fun aes2RoundsAll() {
+        val w = this.w
+        val AES0 = AES0
+        val AES1 = AES1
+        val AES2 = AES2
+        val AES3 = AES3
         for (n in 0..15) {
             val j = n shl 2
             val y0 = AES0[w[j + 0] and 0xFF] xor
@@ -185,6 +191,7 @@ internal abstract class ECHOSmallCore<D : ECHOSmallCore<D>> : DigestEngine<D>() 
     }
 
     private fun mixColumn(ia: Int, ib: Int, ic: Int, id: Int) {
+        val w = this.w
         for (n in 0..3) {
             val a = w[(ia shl 2) + n]
             val b = w[(ib shl 2) + n]
@@ -205,6 +212,7 @@ internal abstract class ECHOSmallCore<D : ECHOSmallCore<D>> : DigestEngine<D>() 
 
     @Suppress("LongMethod")
     private fun compress(data: ByteArray) {
+        val w = this.w
         var tmp: Int
         k0 = c0
         k1 = c1

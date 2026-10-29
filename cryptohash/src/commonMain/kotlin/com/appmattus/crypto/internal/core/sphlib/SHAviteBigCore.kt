@@ -142,8 +142,14 @@ internal abstract class SHAviteBigCore<D : SHAviteBigCore<D>> : DigestEngine<D>(
      * @param cnt1   the second bit count word
      * @param cnt2   the third bit count word
      */
-    @Suppress("JoinDeclarationAndAssignment", "LongMethod")
+    @Suppress("JoinDeclarationAndAssignment", "LongMethod", "VariableNaming")
     private fun process(data: ByteArray, cnt0: Int, cnt1: Int, cnt2: Int) {
+        val h = this.h
+        val rk = this.rk
+        val AES0 = AES0
+        val AES1 = AES1
+        val AES2 = AES2
+        val AES3 = AES3
         var p0: Int
         var p1: Int
         var p2: Int
