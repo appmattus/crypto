@@ -20,6 +20,12 @@ internal interface ByteBuffer : Iterable<Byte> {
 
     val size: Int
 
+    /**
+     * The backing array, whose first [size] bytes are this buffer's contents. It may be longer than [size], and must
+     * not be modified. Reading it directly avoids a call and a bounds check per byte through [get].
+     */
+    val array: ByteArray
+
     fun add(value: ByteArray) = add(value, 0, value.size)
 
     fun add(value: ByteArray, offset: Int, length: Int)

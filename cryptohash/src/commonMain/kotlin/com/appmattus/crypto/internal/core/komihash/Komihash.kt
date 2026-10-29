@@ -18,8 +18,8 @@ package com.appmattus.crypto.internal.core.komihash
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalDigest
-import com.appmattus.crypto.internal.core.decodeLEUInt
-import com.appmattus.crypto.internal.core.decodeLEULong
+import com.appmattus.crypto.internal.core.decodeLEInt
+import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.multiplyHigh
 
@@ -37,8 +37,11 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
         get() = 64
 
     override fun process(input: ByteBuffer) {
+        // Read the backing array directly, rather than a byte at a time through the ByteBuffer interface
+        val bytes = input.array
+        val len = input.size
         val state = State(seed)
-        hash = if (input.size < 32) state.hashShort(input) else state.hashLong(input)
+        hash = if (len < 32) state.hashShort(bytes, len) else state.hashLong(bytes, len)
     }
 
     /**
@@ -63,8 +66,8 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
             seed1 = seed1 xor seed5
         }
 
-        fun hash16(input: ByteBuffer, offset: Int) {
-            multiply(input.decodeLEULong(offset) xor seed1, input.decodeLEULong(offset + 8) xor seed5)
+        fun hash16(input: ByteArray, offset: Int) {
+            multiply(input.leLong(offset) xor seed1, input.leLong(offset + 8) xor seed5)
             seed1 = seed1 xor seed5
         }
 
@@ -77,8 +80,7 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
 
         // Messages shorter than 32 bytes
         @Suppress("CyclomaticComplexMethod", "NestedBlockDepth")
-        fun hashShort(input: ByteBuffer): ULong {
-            val len = input.size
+        fun hashShort(input: ByteArray, len: Int): ULong {
             var r1h = seed1
             var r2h = seed5
 
@@ -88,15 +90,15 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
             }
 
             if (len > 7) {
-                r1h = r1h xor input.decodeLEULong(0)
+                r1h = r1h xor input.leLong(0)
                 if (len < 12) {
                     val ml8 = (len * 8) xor 88
                     val m = input.byteAt(len - 3) or (input.byteAt(len - 1) shl 16) or (1uL shl 24) or (input.byteAt(len - 2) shl 8)
                     r2h = r2h xor (m shr ml8)
                 } else {
                     val mhs = 128 - len * 8
-                    val mh = (input.decodeLEUInt(len - 4).toULong() or (1uL shl 32)) shr mhs
-                    val ml = input.decodeLEUInt(8).toULong()
+                    val mh = (input.leInt(len - 4).toULong() or (1uL shl 32)) shr mhs
+                    val ml = input.leInt(8).toULong()
                     r2h = r2h xor ((mh shl 32) or ml)
                 }
             } else if (len != 0) {
@@ -110,8 +112,8 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
                     }
                 } else {
                     val mhs = 64 - len * 8
-                    val mh = (input.decodeLEUInt(len - 4).toULong() or (1uL shl 32)) shr mhs
-                    val ml = input.decodeLEUInt(0).toULong()
+                    val mh = (input.leInt(len - 4).toULong() or (1uL shl 32)) shr mhs
+                    val ml = input.leInt(0).toULong()
                     r1h = r1h xor ((mh shl 32) or ml)
                 }
             }
@@ -120,11 +122,14 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
         }
 
         // Messages of 32 bytes or more
-        fun hashLong(input: ByteBuffer): ULong {
+        fun hashLong(input: ByteArray, len: Int): ULong {
             var offset = 0
-            var remaining = input.size
+            var remaining = len
 
             if (remaining > 63) {
+                // Locals rather than the properties, which Kotlin/Native would otherwise read and write every round
+                var seed1 = seed1
+                var seed5 = seed5
                 var seed2 = IVAL2 xor seed1
                 var seed3 = IVAL3 xor seed1
                 var seed4 = IVAL4 xor seed1
@@ -133,14 +138,14 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
                 var seed8 = IVAL8 xor seed5
 
                 do {
-                    val u1 = input.decodeLEULong(offset) xor seed1
-                    val v1 = input.decodeLEULong(offset + 32) xor seed5
-                    val u2 = input.decodeLEULong(offset + 8) xor seed2
-                    val v2 = input.decodeLEULong(offset + 40) xor seed6
-                    val u3 = input.decodeLEULong(offset + 16) xor seed3
-                    val v3 = input.decodeLEULong(offset + 48) xor seed7
-                    val u4 = input.decodeLEULong(offset + 24) xor seed4
-                    val v4 = input.decodeLEULong(offset + 56) xor seed8
+                    val u1 = input.leLong(offset) xor seed1
+                    val v1 = input.leLong(offset + 32) xor seed5
+                    val u2 = input.leLong(offset + 8) xor seed2
+                    val v2 = input.leLong(offset + 40) xor seed6
+                    val u3 = input.leLong(offset + 16) xor seed3
+                    val v3 = input.leLong(offset + 48) xor seed7
+                    val u4 = input.leLong(offset + 24) xor seed4
+                    val v4 = input.leLong(offset + 56) xor seed8
 
                     seed1 = u1 * v1
                     seed5 += multiplyHigh(u1, v1)
@@ -160,8 +165,8 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
                     seed3 = seed3 xor seed6
                 } while (remaining > 63)
 
-                seed5 = seed5 xor seed6 xor seed7 xor seed8
-                seed1 = seed1 xor seed2 xor seed3 xor seed4
+                this.seed5 = seed5 xor seed6 xor seed7 xor seed8
+                this.seed1 = seed1 xor seed2 xor seed3 xor seed4
             }
 
             if (remaining > 31) {
@@ -181,16 +186,16 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
         }
 
         // The final 0 to 15 bytes, which may be read together with earlier bytes of the message
-        private fun tail(input: ByteBuffer, offset: Int, remaining: Int): ULong {
-            val last = (input.decodeLEULong(offset + remaining - 8) shr 8) or (1uL shl 56)
+        private fun tail(input: ByteArray, offset: Int, remaining: Int): ULong {
+            val last = (input.leLong(offset + remaining - 8) shr 8) or (1uL shl 56)
             return if (remaining < 8) {
                 finish((last shr ((remaining * 8) xor 56)) xor seed1, seed5)
             } else {
-                finish(input.decodeLEULong(offset) xor seed1, (last shr ((remaining * 8) xor 120)) xor seed5)
+                finish(input.leLong(offset) xor seed1, (last shr ((remaining * 8) xor 120)) xor seed5)
             }
         }
 
-        private fun ByteBuffer.byteAt(index: Int): ULong = get(index).toULong() and 0xffu
+        private fun ByteArray.byteAt(index: Int): ULong = this[index].toULong() and 0xffu
     }
 
     override fun result(): ByteArray {
@@ -223,3 +228,9 @@ internal class Komihash(private val seed: ULong) : NonIncrementalDigest<Komihash
         private const val VAL10: ULong = 0xAAAAAAAAAAAAAAAAu
     }
 }
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun ByteArray.leLong(offset: Int): ULong = decodeLELong(this, offset).toULong()
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun ByteArray.leInt(offset: Int): UInt = decodeLEInt(this, offset).toUInt()

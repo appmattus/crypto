@@ -26,6 +26,9 @@ internal class ByteArrayArray private constructor(private var bytes: ByteArray, 
     override var size: Int = size
         private set
 
+    override val array: ByteArray
+        get() = bytes
+
     override fun add(value: ByteArray, offset: Int, length: Int) {
         if (length > 0) {
             if (size + length > bytes.size) {
