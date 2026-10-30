@@ -17,7 +17,6 @@
 package com.appmattus.crypto.internal.core
 
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.bytes.ByteArrayArray
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 
 /**
@@ -25,7 +24,7 @@ import com.appmattus.crypto.internal.bytes.ByteBuffer
  */
 internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Digest<D> {
 
-    private var internalBuffer = ByteArrayArray()
+    private var internalBuffer = ByteBuffer()
 
     final override fun update(input: Byte) {
         internalBuffer.add(byteArrayOf(input))
@@ -76,7 +75,7 @@ internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Dige
     protected abstract fun result(): ByteArray
 
     final override fun reset() {
-        internalBuffer = ByteArrayArray()
+        internalBuffer = ByteBuffer()
     }
 
     /**

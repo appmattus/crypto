@@ -16,10 +16,8 @@
 
 package com.appmattus.crypto.internal.core.city
 
-import com.appmattus.crypto.internal.bytes.ByteArrayArray
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalDigest
-import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.reverseByteOrder
 import com.appmattus.uint.UInt128
@@ -392,7 +390,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         val buf = ByteArray(240)
         s.copyInto(buf, 0, 0, s.size)
 
-        val bytes = ByteArrayArray().apply { add(buf) }
+        val bytes = ByteBuffer().apply { add(buf) }
         cityHashCrc256Long(bytes, s.size.toUInt().inv(), result)
     }
 

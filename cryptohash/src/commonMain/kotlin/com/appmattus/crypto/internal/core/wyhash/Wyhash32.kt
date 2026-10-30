@@ -18,7 +18,6 @@ package com.appmattus.crypto.internal.core.wyhash
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalDigest
-import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.encodeBEInt
 
 /**

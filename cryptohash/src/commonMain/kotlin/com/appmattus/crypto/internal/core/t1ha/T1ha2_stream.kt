@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.core.t1ha
 
-import com.appmattus.crypto.internal.bytes.ByteArrayArray
+import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.encodeLELong
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
@@ -69,7 +69,7 @@ internal class T1ha2_stream(private val seedX: ULong = 0u, private val seedY: UL
 
         squash(state)
 
-        val hash = t1ha2TailAB(state, ByteArrayArray().apply { add(blockBuffer) }, 0, rem)
+        val hash = t1ha2TailAB(state, ByteBuffer().apply { add(blockBuffer) }, 0, rem)
 
         encodeBELong(hash.toLong(), output, 0)
     }

@@ -18,7 +18,6 @@ package com.appmattus.crypto.internal.core.farm
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.city.CityHashBase
-import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.uint.UInt128
 
