@@ -21,11 +21,11 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class ByteArrayArrayTest {
+class ByteBufferTest {
 
     @Test
     fun noContent() {
-        val baa = ByteArrayArray()
+        val baa = ByteBuffer()
 
         val exception = assertFailsWith<IndexOutOfBoundsException> {
             baa[0]
@@ -36,7 +36,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun noContent2() {
-        val baa = ByteArrayArray()
+        val baa = ByteBuffer()
 
         val exception = assertFailsWith<IndexOutOfBoundsException> {
             baa[1]
@@ -47,7 +47,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun x() {
-        val baa = ByteArrayArray().apply {
+        val baa = ByteBuffer().apply {
             add(byteArrayOf(2, 3, 4))
             add(byteArrayOf(5, 6))
             add(byteArrayOf(7))
@@ -63,7 +63,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun x2() {
-        val baa = ByteArrayArray().apply {
+        val baa = ByteBuffer().apply {
             add(byteArrayOf(2, 3, 4), 1, 2)
             add(byteArrayOf(5, 6), 0, 1)
             add(byteArrayOf(7))
@@ -77,7 +77,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun outOfBounds() {
-        val baa = ByteArrayArray().apply {
+        val baa = ByteBuffer().apply {
             add(byteArrayOf(2, 3, 4))
             add(byteArrayOf(5, 6))
             add(byteArrayOf(7))
@@ -92,7 +92,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun iterator() {
-        val baa = ByteArrayArray().apply {
+        val baa = ByteBuffer().apply {
             add(byteArrayOf(2, 3, 4), 1, 2)
             add(byteArrayOf(5, 6), 0, 1)
             add(byteArrayOf(7))
@@ -103,7 +103,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun copyIntoAll() {
-        val baa = ByteArrayArray().apply {
+        val baa = ByteBuffer().apply {
             add(byteArrayOf(2, 3, 4))
             add(byteArrayOf(5, 6))
             add(byteArrayOf(7))
@@ -119,7 +119,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun copyIntoPartial() {
-        val baa = ByteArrayArray().apply {
+        val baa = ByteBuffer().apply {
             add(byteArrayOf(2, 3, 4))
             add(byteArrayOf(5, 6, 7))
         }
@@ -139,7 +139,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun copyIntoPartialWithOffset() {
-        val baa = ByteArrayArray().apply {
+        val baa = ByteBuffer().apply {
             add(byteArrayOf(2, 3, 4))
             add(byteArrayOf(5, 6, 7))
         }
@@ -159,7 +159,7 @@ class ByteArrayArrayTest {
 
     @Test
     fun copyOfCopiesContentIndependently() {
-        val baa = ByteArrayArray()
+        val baa = ByteBuffer()
         baa.add(byteArrayOf(1, 2, 3))
         baa.add(byteArrayOf(4, 5))
 
@@ -171,5 +171,32 @@ class ByteArrayArrayTest {
         assertContentEquals(listOf<Byte>(1, 2, 3, 4, 5, 6), baa.toList())
         assertEquals(7, copy.size)
         assertContentEquals(listOf<Byte>(1, 2, 3, 4, 5, 7, 8), copy.toList())
+    }
+
+    @Test
+    fun decodesWordsAcrossAddedArrays() {
+        val baa = ByteBuffer()
+        baa.add(byteArrayOf(1, 2, 3))
+        baa.add(byteArrayOf(4, 5, 6, 7, 8, 9))
+
+        assertEquals(0x04030201, baa.decodeLEInt(0))
+        assertEquals(0x02030405, baa.decodeBEInt(1))
+        assertEquals(0x0908070605040302L, baa.decodeLELong(1))
+    }
+
+    @Test
+    fun decodeRejectsWordsPastSizeEvenWithinCapacity() {
+        // The backing array grows to at least 64 bytes, so these reads would fit it but not the 9-byte content
+        val baa = ByteBuffer()
+        baa.add(ByteArray(9))
+
+        assertEquals(0L, baa.decodeLELong(1))
+        assertEquals(0, baa.decodeLEInt(5))
+
+        val long = assertFailsWith<IndexOutOfBoundsException> { baa.decodeLELong(2) }
+        assertEquals("Range 2..10 out of bounds for length 9", long.message)
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeLEInt(6) }
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeBEInt(6) }
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeLEInt(-1) }
     }
 }

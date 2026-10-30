@@ -18,7 +18,6 @@ package com.appmattus.crypto.internal.core.t1ha
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalDigest
-import com.appmattus.crypto.internal.core.decodeLEUInt
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.multiplyHigh
