@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class SIMD256CoreTest : SIMD256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SIMD256)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SIMD256)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class SIMD256CoreTest : SIMD256Test() {
  */
 abstract class SIMD256Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testSIMD256() {

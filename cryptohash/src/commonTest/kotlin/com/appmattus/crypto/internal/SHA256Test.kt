@@ -27,7 +27,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class SHA256CoreTest : SHA256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SHA_256)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SHA_256)
 
     @Test
     fun hasImplementation() {
@@ -40,7 +40,7 @@ class SHA256CoreTest : SHA256Test() {
  */
 abstract class SHA256Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     /**
      * From https://www.di-mgt.com.au/sha_testvectors.html

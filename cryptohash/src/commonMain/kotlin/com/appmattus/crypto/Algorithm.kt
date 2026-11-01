@@ -1527,7 +1527,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * Where the platform has its own faster implementation of the algorithm, such as JVM `MessageDigest` or Apple
      * CommonCrypto, the digest uses it. The results are identical either way.
      */
-    public fun createDigest(): Digest<*> = platformDigest(this) ?: CoreDigest.create(this)
+    public fun createDigest(): Digest = platformDigest(this) ?: CoreDigest.create(this)
 
     /**
      * Create a hash of [input] using the [Algorithm]

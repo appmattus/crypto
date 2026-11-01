@@ -51,7 +51,7 @@ import kotlin.math.min
  * Following the naming conventions used in the C source code to enable easy review of the implementation.
  */
 @Suppress("TooManyFunctions")
-internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
+internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
     protected var state = LongArray(25)
     private var dataQueue = ByteArray(192)
     protected var rate = 0
@@ -78,12 +78,14 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
     open val digestSize: Int
         get() = fixedOutputLength / 8
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         absorb(input)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         absorb(input, offset, length)
+        return this
     }
 
     open fun doFinal(out: ByteArray, outOff: Int): Int {
@@ -260,8 +262,9 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
         bitsInQueue = rate
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
     override fun digest(): ByteArray {

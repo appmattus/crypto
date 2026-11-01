@@ -67,7 +67,7 @@ internal class HMAC : DigestEngine<HMAC> {
      * @param key            the MAC key
      * @param outputLength   (optional) the HMAC output length (in bytes)
      */
-    constructor(dig: Digest<*>, key: ByteArray, outputLength: Int? = null) {
+    constructor(dig: Digest, key: ByteArray, outputLength: Int? = null) {
         @Suppress("NAME_SHADOWING")
         var key = key
         dig.reset()
@@ -112,7 +112,7 @@ internal class HMAC : DigestEngine<HMAC> {
      * @param kopad          the (internal) opad key
      * @param outputLength   the output length, or -1
      */
-    private constructor(dig: Digest<*>, kipad: ByteArray, kopad: ByteArray, outputLength: Int) {
+    private constructor(dig: Digest, kipad: ByteArray, kopad: ByteArray, outputLength: Int) {
         this.dig = dig
         this.kipad = kipad
         this.kopad = kopad
@@ -120,7 +120,7 @@ internal class HMAC : DigestEngine<HMAC> {
         tmpOut = ByteArray(dig.digestLength)
     }
 
-    private var dig: Digest<*>
+    private var dig: Digest
     private lateinit var kipad: ByteArray
     private lateinit var kopad: ByteArray
     private var outputLength: Int

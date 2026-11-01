@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.core.blake3
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
-internal class Blake3(private val parameters: Algorithm.Blake3) : Digest<Blake3> {
+internal class Blake3(private val parameters: Algorithm.Blake3) : Digest {
 
     private var hasher = when (parameters) {
         is Algorithm.Blake3.Keyed -> Hasher.newKeyedHasher(parameters.key)
@@ -32,17 +32,20 @@ internal class Blake3(private val parameters: Algorithm.Blake3) : Digest<Blake3>
      */
     private val singleByte = ByteArray(1)
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         singleByte[0] = input
         update(singleByte, 0, 1)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         hasher.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

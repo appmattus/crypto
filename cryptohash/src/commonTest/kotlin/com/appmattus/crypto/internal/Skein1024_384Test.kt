@@ -27,7 +27,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Skein1024_384CoreTest : Skein1024_384Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Skein1024_384)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Skein1024_384)
 
     @Test
     fun hasImplementation() {
@@ -40,7 +40,7 @@ class Skein1024_384CoreTest : Skein1024_384Test() {
  */
 abstract class Skein1024_384Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     // From specification - skein_golden_kat.txt
     @Test

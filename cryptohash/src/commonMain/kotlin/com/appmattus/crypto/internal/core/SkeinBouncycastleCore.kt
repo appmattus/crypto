@@ -28,7 +28,7 @@ internal class SkeinBouncycastleCore(
     private val blockSizeBits: Int,
     private val outputSizeBits: Int,
     private val key: ByteArray? = null
-) : Digest<SkeinBouncycastleCore> {
+) : Digest {
 
     init {
         require(blockSizeBits in listOf(256, 512, 1024))
@@ -47,16 +47,19 @@ internal class SkeinBouncycastleCore(
         init(params)
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         engine.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         engine.update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         engine.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

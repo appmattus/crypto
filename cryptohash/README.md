@@ -118,6 +118,9 @@ val digest = Algorithm.Blake2b_512.createDigest()
 digest.update(byteArray)
 val hash: ByteArray = digest.digest()
 
+// update returns the digest, so calls can be chained
+val chained: ByteArray = digest.update(part1).update(part2).digest()
+
 // Alternatively use the shorthand form to update and generate with one function
 digest.digest(byteArray)
 

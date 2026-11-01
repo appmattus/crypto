@@ -34,7 +34,7 @@ import platform.CoreCrypto.CC_SHA512_Update
 
 @OptIn(ExperimentalForeignApi::class)
 @Suppress("ClassName")
-internal class SHA512_224 : Digest<SHA512_224> {
+internal class SHA512_224 : Digest {
 
     private var hashObject: CC_SHA512_CTX = nativeHeap.alloc<CC_SHA512_CTX>().also {
         CC_SHA512_Init(it.ptr)
@@ -68,20 +68,23 @@ internal class SHA512_224 : Digest<SHA512_224> {
         it.count[2] = it.hash[0]
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         update(ByteArray(1) { input })
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         if (length > 0) {
             input.usePinned {
                 CC_SHA512_Update(hashObject.ptr, it.addressOf(offset), length.toUInt())
             }
         }
+        return this
     }
 
     override fun digest(): ByteArray {

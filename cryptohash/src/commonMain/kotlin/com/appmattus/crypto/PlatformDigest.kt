@@ -45,21 +45,25 @@ package com.appmattus.crypto
  * ... etc.
  * ```
  */
-public interface PlatformDigest<D : Digest<D>> {
+public interface PlatformDigest {
 
     /**
      * Updates the digest using the specified byte.
      *
      * @param input the byte with which to update the digest.
+     *
+     * @return this digest, so calls can be chained
      */
-    public fun update(input: Byte)
+    public fun update(input: Byte): PlatformDigest
 
     /**
      * Updates the digest using the specified array of bytes.
      *
      * @param input the array of bytes.
+     *
+     * @return this digest, so calls can be chained
      */
-    public fun update(input: PlatformData)
+    public fun update(input: PlatformData): PlatformDigest
 
     /**
      * Updates the digest using the specified array of bytes, starting
@@ -70,8 +74,10 @@ public interface PlatformDigest<D : Digest<D>> {
      * @param offset the offset to start from in the array of bytes.
      *
      * @param length the number of bytes to use, starting at [offset]
+     *
+     * @return this digest, so calls can be chained
      */
-    public fun update(input: PlatformData, offset: Int, length: Int)
+    public fun update(input: PlatformData, offset: Int, length: Int): PlatformDigest
 
     /**
      * Completes the hash computation by performing final operations
@@ -126,7 +132,7 @@ public interface PlatformDigest<D : Digest<D>> {
      *
      * @return the clone
      */
-    public fun copy(): PlatformDigest<D>
+    public fun copy(): PlatformDigest
 
     /**
      * Return the "block length" for the hash function. This

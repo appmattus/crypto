@@ -39,6 +39,7 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.sp800185
 
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.AbstractDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 
@@ -55,7 +56,7 @@ internal class KMAC private constructor(
     private val key: ByteArray,
     private val outputLength: Int,
     private val cshake: CSHAKEDigest
-) : AbstractDigest<KMAC>() {
+) : AbstractDigest() {
 
     constructor(bitLength: Int, key: ByteArray, customisation: ByteArray?, outputLength: Int) : this(
         bitLength = bitLength,
@@ -80,8 +81,9 @@ internal class KMAC private constructor(
         }
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         cshake.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

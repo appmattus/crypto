@@ -23,13 +23,13 @@ package com.appmattus.crypto
  * val hash = Algorithm.SHA_256.createDigest().update("Hello, ").update("world!").digest()
  * ```
  */
-public fun <T : Digest<*>> T.update(input: String): T = apply { update(input.encodeToByteArray()) }
+public fun <T : Digest> T.update(input: String): T = apply { update(input.encodeToByteArray()) }
 
 /**
  * Update the digest with the UTF-8 encoding of [input], then complete the hash computation and return the digest
  * value. This resets the digest so it can be used again.
  */
-public fun Digest<*>.digest(input: String): ByteArray = digest(input.encodeToByteArray())
+public fun Digest.digest(input: String): ByteArray = digest(input.encodeToByteArray())
 
 /**
  * Throws if [offset] and [length] don't fit within [input], so every algorithm reports a bad range the same way and

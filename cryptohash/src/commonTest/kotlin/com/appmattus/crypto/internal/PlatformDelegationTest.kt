@@ -117,7 +117,7 @@ class PlatformDelegationTest {
     /**
      * What [Digest.digest] does with an output buffer of [length] bytes: what it writes, or the exception it throws
      */
-    private fun digestInto(digest: Digest<*>, length: Int): String = try {
+    private fun digestInto(digest: Digest, length: Int): String = try {
         digest.update(data, 0, 100)
         val output = ByteArray(length + 2)
         val written = digest.digest(output, 2, length)
@@ -131,7 +131,7 @@ class PlatformDelegationTest {
         digest()
     }
 
-    private fun assertSame(algorithm: Algorithm, length: Int, block: Digest<*>.() -> Unit) {
+    private fun assertSame(algorithm: Algorithm, length: Int, block: Digest.() -> Unit) {
         val expected = CoreDigest.create(algorithm).apply(block).digest()
         val actual = algorithm.createDigest().apply(block).digest()
         assertContentEquals(expected, actual, "$algorithm length=$length")
@@ -162,37 +162,37 @@ class PlatformDelegationTest {
 // The known-answer tests again, through Algorithm.createDigest
 
 class SHA1CreateDigestTest : SHA1Test() {
-    override fun digest(): Digest<*> = Algorithm.SHA_1.createDigest()
+    override fun digest(): Digest = Algorithm.SHA_1.createDigest()
 }
 
 class SHA224CreateDigestTest : SHA224Test() {
-    override fun digest(): Digest<*> = Algorithm.SHA_224.createDigest()
+    override fun digest(): Digest = Algorithm.SHA_224.createDigest()
 }
 
 class SHA256CreateDigestTest : SHA256Test() {
-    override fun digest(): Digest<*> = Algorithm.SHA_256.createDigest()
+    override fun digest(): Digest = Algorithm.SHA_256.createDigest()
 }
 
 class SHA384CreateDigestTest : SHA384Test() {
-    override fun digest(): Digest<*> = Algorithm.SHA_384.createDigest()
+    override fun digest(): Digest = Algorithm.SHA_384.createDigest()
 }
 
 class SHA512CreateDigestTest : SHA512Test() {
-    override fun digest(): Digest<*> = Algorithm.SHA_512.createDigest()
+    override fun digest(): Digest = Algorithm.SHA_512.createDigest()
 }
 
 class SHA512_224CreateDigestTest : SHA512_224Test() {
-    override fun digest(): Digest<*> = Algorithm.SHA_512_224.createDigest()
+    override fun digest(): Digest = Algorithm.SHA_512_224.createDigest()
 }
 
 class SHA512_256CreateDigestTest : SHA512_256Test() {
-    override fun digest(): Digest<*> = Algorithm.SHA_512_256.createDigest()
+    override fun digest(): Digest = Algorithm.SHA_512_256.createDigest()
 }
 
 class CRC32BCreateDigestTest : CRC32BTest() {
-    override fun digest(): Digest<*> = Algorithm.CRC32B.createDigest()
+    override fun digest(): Digest = Algorithm.CRC32B.createDigest()
 }
 
 class CRC32CCreateDigestTest : CRC32CTest() {
-    override fun digest(): Digest<*> = Algorithm.CRC32C.createDigest()
+    override fun digest(): Digest = Algorithm.CRC32C.createDigest()
 }

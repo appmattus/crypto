@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class CRC32CoreTest : CRC32Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.CRC32)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.CRC32)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class CRC32CoreTest : CRC32Test() {
  */
 abstract class CRC32Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     // From https://github.com/php/php-src/blob/master/ext/hash/tests/crc32.phpt
     @Test

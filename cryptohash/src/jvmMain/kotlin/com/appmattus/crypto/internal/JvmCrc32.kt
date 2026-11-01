@@ -36,22 +36,24 @@ internal class JvmCrc32 private constructor(
     private val tables: Array<IntArray>,
     private val combiner: Crc32Combiner,
     private val newChecksum: () -> Checksum
-) : Digest<JvmCrc32> {
+) : Digest {
 
     private var checksum = 0
 
     private val platform: Checksum by lazy(LazyThreadSafetyMode.NONE) { newChecksum() }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         val c = checksum.inv()
         checksum = (tables[0][(c xor input.toInt()) and 0xff] xor (c ushr 8)).inv()
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         checksum = if (length < PLATFORM_THRESHOLD) {
             updateReflectedCrc32(checksum.inv(), tables, input, offset, length).inv()
         } else {
@@ -60,6 +62,7 @@ internal class JvmCrc32 private constructor(
             platform.update(input, offset, length)
             combiner.combine(checksum, platform.value.toInt(), length)
         }
+        return this
     }
 
     override fun digest(): ByteArray {

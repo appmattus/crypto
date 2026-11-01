@@ -26,7 +26,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class DSTU7564_512CoreTest : DSTU7564_512Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Kupyna_512)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Kupyna_512)
 
     @Test
     fun hasImplementation() {
@@ -39,7 +39,7 @@ class DSTU7564_512CoreTest : DSTU7564_512Test() {
  */
 abstract class DSTU7564_512Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun abc() {

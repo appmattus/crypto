@@ -50,7 +50,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * https://github.com/Roman-Oliynykov/Kupyna-reference
  */
 @Suppress("TooManyFunctions", "LargeClass")
-internal class Kupyna : Digest<Kupyna> {
+internal class Kupyna : Digest {
     override var digestLength = 0
         private set
     private var byteLength = 0
@@ -108,16 +108,17 @@ internal class Kupyna : Digest<Kupyna> {
         buf = ByteArray(byteLength)
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         buf[bufOff++] = input
         if (bufOff == byteLength) {
             processBlock(buf, 0)
             bufOff = 0
             ++inputBlocks
         }
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var inOff = offset
         var len = length
         while (bufOff != 0 && len > 0) {
@@ -136,6 +137,7 @@ internal class Kupyna : Digest<Kupyna> {
                 --len
             }
         }
+        return this
     }
 
     @Suppress("NAME_SHADOWING")
@@ -1552,8 +1554,9 @@ internal class Kupyna : Digest<Kupyna> {
         )
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
     override fun digest(): ByteArray {

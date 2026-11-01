@@ -19,22 +19,25 @@ package com.appmattus.crypto.internal.core
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
-internal class CRC32C : Digest<CRC32C> {
+internal class CRC32C : Digest {
 
     private var checksum = 0
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         var c: Int = checksum.inv()
         c = crcTable[c xor input.toInt() and 0xff] xor (c ushr 8)
         checksum = c.inv()
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         checksum = updateReflectedCrc32(checksum.inv(), crcTables, input, offset, length).inv()
+        return this
     }
 
     override fun digest(): ByteArray {

@@ -70,7 +70,7 @@ import kotlin.experimental.xor
  * Base class for GOST3411-2012 256-bit and GOST3411-2012 512-bit digests.
  */
 @Suppress("ClassName", "TooManyFunctions", "LargeClass")
-internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArray) : Digest<D> {
+internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArray) : Digest {
     private val iv = ByteArray(64)
     private val n = ByteArray(64)
     private val sigma = ByteArray(64)
@@ -85,8 +85,9 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
     val byteLength: Int
         get() = 64
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
     override fun digest(): ByteArray {
@@ -112,7 +113,7 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
         return digest.size
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         block[--bOff] = input
         if (bOff == 0) {
             gN(h, n, block)
@@ -120,9 +121,10 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
             addMod512(sigma, block)
             bOff = 64
         }
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var inOff = offset
         var len = length
         while (bOff != 64 && len > 0) {
@@ -142,6 +144,7 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
             update(input[inOff++])
             len--
         }
+        return this
     }
 
     open fun doFinal(out: ByteArray, outOff: Int): Int {

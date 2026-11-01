@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Adler32CoreTest : Adler32Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Adler32)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Adler32)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class Adler32CoreTest : Adler32Test() {
  */
 abstract class Adler32Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     /**
      * From https://github.com/froydnj/ironclad/blob/master/testing/test-vectors/adler32.testvec

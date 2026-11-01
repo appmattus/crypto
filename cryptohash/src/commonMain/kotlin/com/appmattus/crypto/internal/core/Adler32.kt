@@ -19,11 +19,11 @@ package com.appmattus.crypto.internal.core
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
-internal class Adler32 : Digest<Adler32> {
+internal class Adler32 : Digest {
 
     private var checksum = 1
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         // We could make a length 1 byte array and call update again, but I
         // would rather not have that overhead
         var s1 = checksum and 0xffff
@@ -31,13 +31,15 @@ internal class Adler32 : Digest<Adler32> {
         s1 = (s1 + (input.toInt() and 0xFF)) % BASE
         s2 = (s1 + s2) % BASE
         checksum = (s2 shl 16) + s1
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var len = length
         var pos = offset
 
@@ -61,6 +63,7 @@ internal class Adler32 : Digest<Adler32> {
         }
 
         checksum = s2 shl 16 or s1
+        return this
     }
 
     override fun digest(): ByteArray {

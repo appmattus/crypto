@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class RadioGatun32CoreTest : RadioGatun32Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.RadioGatun32)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.RadioGatun32)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class RadioGatun32CoreTest : RadioGatun32Test() {
  */
 abstract class RadioGatun32Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun quickBrownFox() {

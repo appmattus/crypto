@@ -39,6 +39,7 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.sp800185
 
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.AbstractDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 
@@ -56,7 +57,7 @@ internal class TupleHash private constructor(
     private val bitLength: Int,
     private val outputLength: Int,
     private val cshake: CSHAKEDigest
-) : AbstractDigest<TupleHash>() {
+) : AbstractDigest() {
 
     constructor(bitLength: Int, customisation: ByteArray?, outputLength: Int) : this(
         bitLength = bitLength,
@@ -64,8 +65,9 @@ internal class TupleHash private constructor(
         cshake = CSHAKEDigest(bitLength, "TupleHash".encodeToByteArray(), customisation)
     )
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         cshake.update(XofUtils.encodeString(input, offset, length))
+        return this
     }
 
     override fun digest(): ByteArray {

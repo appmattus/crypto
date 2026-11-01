@@ -22,7 +22,7 @@ import com.appmattus.crypto.Digest
 /**
  * Delegates SHA-1 and SHA-2 to CommonCrypto, and CRC32B to zlib, which are both part of every Apple OS.
  */
-internal actual fun platformDigest(algorithm: Algorithm): Digest<*>? = when (algorithm) {
+internal actual fun platformDigest(algorithm: Algorithm): Digest? = when (algorithm) {
     Algorithm.SHA_1,
     Algorithm.SHA_224,
     Algorithm.SHA_256,

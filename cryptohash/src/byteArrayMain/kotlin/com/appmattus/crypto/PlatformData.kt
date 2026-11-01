@@ -32,16 +32,18 @@ public actual typealias MutablePlatformData = ByteArray
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
-internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = object : PlatformDigest<D> {
-    override fun update(input: Byte) = this@toPlatform.update(input)
-    override fun update(input: PlatformData) = this@toPlatform.update(input)
-    override fun update(input: PlatformData, offset: Int, length: Int) = this@toPlatform.update(input, offset, length)
+internal actual fun Digest.toPlatform(): PlatformDigest = object : PlatformDigest {
+    override fun update(input: Byte): PlatformDigest = apply { this@toPlatform.update(input) }
+    override fun update(input: PlatformData): PlatformDigest = apply { this@toPlatform.update(input) }
+    override fun update(input: PlatformData, offset: Int, length: Int): PlatformDigest = apply {
+        this@toPlatform.update(input, offset, length)
+    }
     override fun digest(): PlatformData = this@toPlatform.digest()
     override fun digest(input: PlatformData): PlatformData = this@toPlatform.digest(input)
     override fun digest(output: MutablePlatformData, offset: Int, length: Int): Int = this@toPlatform.digest(output, offset, length)
     override val digestLength: Int get() = this@toPlatform.digestLength
     override fun reset() = this@toPlatform.reset()
-    override fun copy(): PlatformDigest<D> = this@toPlatform.copy().toPlatform()
+    override fun copy(): PlatformDigest = this@toPlatform.copy().toPlatform()
     override val blockLength: Int get() = this@toPlatform.blockLength
     override fun toString(): String = this@toPlatform.toString()
 }

@@ -20,20 +20,23 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.encodeBEInt
 
-internal class CRC32B : Digest<CRC32B> {
+internal class CRC32B : Digest {
 
     private var crc = java.util.zip.CRC32()
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         crc.update(input.toInt())
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         crc.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         crc.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

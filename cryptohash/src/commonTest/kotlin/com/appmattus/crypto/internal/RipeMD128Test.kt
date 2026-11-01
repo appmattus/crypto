@@ -24,7 +24,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class RipeMD128CoreTest : RipeMD128Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.RipeMD128)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.RipeMD128)
 
     @Test
     fun hasImplementation() {
@@ -37,7 +37,7 @@ class RipeMD128CoreTest : RipeMD128Test() {
  */
 abstract class RipeMD128Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     /**
      * Tests from https://homes.esat.kuleuven.be/~bosselae/ripemd160.html

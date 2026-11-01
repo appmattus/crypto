@@ -62,20 +62,22 @@ internal class CommonCryptoDigest private constructor(
     private val algorithm: Algorithm,
     private val functions: Functions,
     private val context: LongArray
-) : Digest<CommonCryptoDigest> {
+) : Digest {
 
     private val oneByte = ByteArray(1)
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         oneByte[0] = input
         update(oneByte, 0, 1)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         checkBounds(input, offset, length)
         if (length > 0) {
             context.usePinned { pinnedContext ->
@@ -84,6 +86,7 @@ internal class CommonCryptoDigest private constructor(
                 }
             }
         }
+        return this
     }
 
     override fun digest(): ByteArray {

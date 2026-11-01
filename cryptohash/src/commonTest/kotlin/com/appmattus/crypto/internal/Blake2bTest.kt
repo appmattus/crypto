@@ -25,7 +25,7 @@ import kotlin.test.assertNotNull
 
 class Blake2bCoreTest : Blake2bTest() {
 
-    override fun digest(algorithm: Algorithm): Digest<*> = CoreDigest.create(algorithm)
+    override fun digest(algorithm: Algorithm): Digest = CoreDigest.create(algorithm)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class Blake2bCoreTest : Blake2bTest() {
  */
 abstract class Blake2bTest {
 
-    abstract fun digest(algorithm: Algorithm): Digest<*>
+    abstract fun digest(algorithm: Algorithm): Digest
 
     // From https://github.com/pyca/pynacl/blob/main/tests/data/crypto-test-vectors-blake2-salt-personalization.txt
     @Test

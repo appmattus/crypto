@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Haraka512_256CoreTest : Haraka512_256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Haraka512_256)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Haraka512_256)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class Haraka512_256CoreTest : Haraka512_256Test() {
  */
 abstract class Haraka512_256Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     // From https://eprint.iacr.org/2016/098.pdf
     @Test

@@ -28,7 +28,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class SHA3_384CoreTest : SHA3_384Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SHA3_384)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SHA3_384)
 
     @Test
     fun hasImplementation() {
@@ -41,7 +41,7 @@ class SHA3_384CoreTest : SHA3_384Test() {
  */
 abstract class SHA3_384Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     /**
      * Tests from https://www.di-mgt.com.au/sha_testvectors.html

@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Shabal192CoreTest : Shabal192Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Shabal192)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Shabal192)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class Shabal192CoreTest : Shabal192Test() {
  */
 abstract class Shabal192Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testShabal192() {

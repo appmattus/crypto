@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.bouncycastle.haraka
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 
 /**
  * Haraka-256 v2, https://eprint.iacr.org/2016/098.pdf
@@ -108,15 +109,17 @@ internal class Haraka256_256 : HarakaCore<Haraka256_256> {
         off = digest.off
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         require(off + 1 <= 32) { "total input cannot be more than 32 bytes" }
         buffer[off++] = input
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         require(off + length <= 32) { "total input cannot be more than 32 bytes" }
         input.copyInto(buffer, off, offset, offset + length)
         off += length
+        return this
     }
 
     override fun doFinal(out: ByteArray, outOff: Int): Int {

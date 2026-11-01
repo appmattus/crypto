@@ -74,6 +74,17 @@ class ConveniencesTest {
     }
 
     @Test
+    fun updateMembersChain() = algorithms.forEach {
+        val digest = it.createDigest()
+        assertSame(digest, digest.update(bytes[0]), it.algorithmName)
+        assertSame(digest, digest.update(bytes, 1, 4), it.algorithmName)
+        assertSame(digest, digest.update(bytes.copyOfRange(5, 10)), it.algorithmName)
+
+        val chained = it.createDigest().update(bytes[0]).update(bytes, 1, 9).update(bytes.copyOfRange(10, bytes.size)).digest()
+        assertContentEquals(it.hash(bytes), chained, it.algorithmName)
+    }
+
+    @Test
     fun updateStringChains() = algorithms.forEach {
         val digest = it.createDigest()
         assertSame(digest, digest.update("The quick "), it.algorithmName)

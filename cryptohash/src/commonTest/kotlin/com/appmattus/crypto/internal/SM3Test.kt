@@ -24,7 +24,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class SM3CoreTest : SM3Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SM3)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SM3)
 
     @Test
     fun hasImplementation() {
@@ -37,7 +37,7 @@ class SM3CoreTest : SM3Test() {
  */
 abstract class SM3Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     // From https://tools.ietf.org/html/draft-oscca-cfrg-sm3-01
     @Test

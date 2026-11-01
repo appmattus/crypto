@@ -24,7 +24,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class TigerCoreTest : TigerTest() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Tiger)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Tiger)
 
     @Test
     fun hasImplementation() {
@@ -37,7 +37,7 @@ class TigerCoreTest : TigerTest() {
  */
 abstract class TigerTest {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testTiger() {

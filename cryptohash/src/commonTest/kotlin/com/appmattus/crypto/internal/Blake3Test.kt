@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Blake3CoreTest : Blake3Test(Algorithm.Blake3(131)) {
-    override fun digest(): Digest<*> = CoreDigest.create(algorithm)
+    override fun digest(): Digest = CoreDigest.create(algorithm)
 
     @Test
     fun hasImplementation() {
@@ -32,7 +32,7 @@ class Blake3CoreTest : Blake3Test(Algorithm.Blake3(131)) {
 }
 
 class Blake3KeyedTest : Blake3Test(Algorithm.Blake3.Keyed("whats the Elvish word for friend".encodeToByteArray(), 131)) {
-    override fun digest(): Digest<*> = CoreDigest.create(algorithm)
+    override fun digest(): Digest = CoreDigest.create(algorithm)
 
     @Test
     fun hasImplementation() {
@@ -41,7 +41,7 @@ class Blake3KeyedTest : Blake3Test(Algorithm.Blake3.Keyed("whats the Elvish word
 }
 
 class Blake3DeriveKeyTest : Blake3Test(Algorithm.Blake3.DeriveKey("BLAKE3 2019-12-27 16:29:52 test vectors context".encodeToByteArray(), 131)) {
-    override fun digest(): Digest<*> = CoreDigest.create(algorithm)
+    override fun digest(): Digest = CoreDigest.create(algorithm)
 
     @Test
     fun hasImplementation() {
@@ -54,7 +54,7 @@ class Blake3DeriveKeyTest : Blake3Test(Algorithm.Blake3.DeriveKey("BLAKE3 2019-1
  */
 abstract class Blake3Test(val algorithm: Algorithm.Blake3) {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     // From https://github.com/BLAKE3-team/BLAKE3/blob/master/test_vectors/test_vectors.json
     @Test

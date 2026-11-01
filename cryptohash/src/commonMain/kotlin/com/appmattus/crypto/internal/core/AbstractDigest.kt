@@ -18,20 +18,22 @@ package com.appmattus.crypto.internal.core
 
 import com.appmattus.crypto.Digest
 
-internal abstract class AbstractDigest<D : Digest<D>> : Digest<D> {
+internal abstract class AbstractDigest : Digest {
 
     /**
      * Buffer for single byte update method
      */
     private val singleByte = ByteArray(1)
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         singleByte[0] = input
         update(singleByte, 0, 1)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
     override fun digest(input: ByteArray): ByteArray {

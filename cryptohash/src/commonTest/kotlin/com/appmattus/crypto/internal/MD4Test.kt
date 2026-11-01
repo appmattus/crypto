@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class MD4CoreTest : MD4Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.MD4)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.MD4)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class MD4CoreTest : MD4Test() {
  */
 abstract class MD4Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testMD4() {

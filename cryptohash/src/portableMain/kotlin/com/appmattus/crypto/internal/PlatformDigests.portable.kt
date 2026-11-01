@@ -19,4 +19,4 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
-internal actual fun platformDigest(algorithm: Algorithm): Digest<*>? = null
+internal actual fun platformDigest(algorithm: Algorithm): Digest? = null

@@ -16,6 +16,8 @@
 
 package com.appmattus.crypto.internal.core
 
+import com.appmattus.crypto.Digest
+
 /**
  * [SipHash](https://www.aumasson.jp/siphash/siphash.pdf) with [compressionRounds] compression and [finalizationRounds]
  * finalization rounds, producing a 64-bit tag or, with [outputBits] of 128, the 128-bit SipHash128 variant.
@@ -28,7 +30,7 @@ internal class SipHash private constructor(
     private val compressionRounds: Int,
     private val finalizationRounds: Int,
     private val outputBits: Int
-) : AbstractDigest<SipHash>() {
+) : AbstractDigest() {
 
     constructor(key: ByteArray, compressionRounds: Int, finalizationRounds: Int, outputBits: Int) : this(
         decodeLELong(key, 0),
@@ -51,14 +53,14 @@ internal class SipHash private constructor(
         reset()
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var pos = offset
         val end = offset + length
         totalLength += length
 
         if (bufferPos > 0) {
             while (bufferPos < WORD_BYTES && pos < end) buffer[bufferPos++] = input[pos++]
-            if (bufferPos < WORD_BYTES) return
+            if (bufferPos < WORD_BYTES) return this
             processWord(decodeLELong(buffer, 0))
             bufferPos = 0
         }
@@ -69,6 +71,7 @@ internal class SipHash private constructor(
         }
 
         while (pos < end) buffer[bufferPos++] = input[pos++]
+        return this
     }
 
     override fun digest(): ByteArray {

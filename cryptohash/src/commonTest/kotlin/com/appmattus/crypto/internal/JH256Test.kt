@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class JH256CoreTest : JH256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.JH256)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.JH256)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class JH256CoreTest : JH256Test() {
  */
 abstract class JH256Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testJH256() {

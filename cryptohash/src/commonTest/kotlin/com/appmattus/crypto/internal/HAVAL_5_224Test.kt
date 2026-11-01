@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class HAVAL_5_224CoreTest : HAVAL_5_224Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.HAVAL_5_224)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.HAVAL_5_224)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class HAVAL_5_224CoreTest : HAVAL_5_224Test() {
  */
 abstract class HAVAL_5_224Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testHAVAL_5_224() {

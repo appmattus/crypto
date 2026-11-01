@@ -44,12 +44,13 @@ import com.appmattus.crypto.Digest
 /**
  * Base class for Haraka v2, https://eprint.iacr.org/2016/098.pdf
  */
-internal abstract class HarakaCore<D : HarakaCore<D>> : Digest<D> {
+internal abstract class HarakaCore<D : HarakaCore<D>> : Digest {
 
     abstract fun doFinal(out: ByteArray, outOff: Int): Int
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
     override fun digest(): ByteArray {

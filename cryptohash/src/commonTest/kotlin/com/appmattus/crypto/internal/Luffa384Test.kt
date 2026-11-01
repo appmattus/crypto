@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Luffa384CoreTest : Luffa384Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Luffa384)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Luffa384)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class Luffa384CoreTest : Luffa384Test() {
  */
 abstract class Luffa384Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testLuffa384() {

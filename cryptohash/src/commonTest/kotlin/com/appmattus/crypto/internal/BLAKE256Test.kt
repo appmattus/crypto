@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class BLAKE256CoreTest : BLAKE256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.BLAKE256)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.BLAKE256)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class BLAKE256CoreTest : BLAKE256Test() {
  */
 abstract class BLAKE256Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testBLAKE256() {
