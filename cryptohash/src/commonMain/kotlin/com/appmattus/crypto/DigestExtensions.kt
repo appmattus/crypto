@@ -23,7 +23,7 @@ package com.appmattus.crypto
  * val hash = Algorithm.SHA_256.createDigest().update("Hello, ").update("world!").digest()
  * ```
  */
-public fun <T : Digest<*>> T.update(input: String): T = apply { update(input.encodeToByteArray()) }
+public fun <T : Digest<T>> T.update(input: String): T = apply { update(input.encodeToByteArray()) }
 
 /**
  * Update the digest with the UTF-8 encoding of [input], then complete the hash computation and return the digest
