@@ -19,6 +19,7 @@ package com.appmattus.crypto
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertSame
 
 class ConveniencesTest {
 
@@ -70,5 +71,12 @@ class ConveniencesTest {
         assertContentEquals(it.hash(bytes), digest.digest(), it.algorithmName)
 
         assertContentEquals(it.hash(bytes), it.createDigest().digest(text), it.algorithmName)
+    }
+
+    @Test
+    fun updateStringChains() = algorithms.forEach {
+        val digest = it.createDigest()
+        assertSame(digest, digest.update("The quick "), it.algorithmName)
+        assertContentEquals(it.hash(bytes), digest.update("brown fox ").update("£ € 😀").digest(), it.algorithmName)
     }
 }

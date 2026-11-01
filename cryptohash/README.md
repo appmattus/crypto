@@ -128,9 +128,8 @@ val sha256: ByteArray = Algorithm.SHA_256.hash(byteArray)
 val part: ByteArray = Algorithm.SHA_256.hash(byteArray, offset, length)
 val text: ByteArray = Algorithm.SHA_256.hash("Hello, world!")
 
-// Digests accept strings too
-digest.update("Hello, ")
-digest.digest("world!")
+// Digests accept strings too, and updating with a string returns the digest for chaining
+digest.update("Hello, ").update("world").digest("!")
 
 // HMAC - For algorithms that support HMAC you can create an HMAC digest with a
 // key and then use as above

@@ -17,9 +17,13 @@
 package com.appmattus.crypto
 
 /**
- * Update the digest with the UTF-8 encoding of [input]
+ * Update the digest with the UTF-8 encoding of [input], returning the digest so calls can be chained:
+ *
+ * ```kotlin
+ * val hash = Algorithm.SHA_256.createDigest().update("Hello, ").update("world!").digest()
+ * ```
  */
-public fun Digest<*>.update(input: String): Unit = update(input.encodeToByteArray())
+public fun <T : Digest<*>> T.update(input: String): T = apply { update(input.encodeToByteArray()) }
 
 /**
  * Update the digest with the UTF-8 encoding of [input], then complete the hash computation and return the digest
