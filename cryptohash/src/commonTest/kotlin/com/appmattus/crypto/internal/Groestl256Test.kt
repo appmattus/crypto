@@ -24,7 +24,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Groestl256CoreTest : Groestl256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Groestl256)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Groestl256)
 
     @Test
     fun hasImplementation() {
@@ -37,7 +37,7 @@ class Groestl256CoreTest : Groestl256Test() {
  */
 abstract class Groestl256Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun quickBrownFox() {

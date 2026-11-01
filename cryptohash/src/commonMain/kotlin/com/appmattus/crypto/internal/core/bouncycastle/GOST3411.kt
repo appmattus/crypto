@@ -47,7 +47,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * implementation of GOST R 34.11-94
  */
 @Suppress("TooManyFunctions")
-internal class GOST3411() : Digest<GOST3411> {
+internal class GOST3411() : Digest {
     private val h = ByteArray(32)
     private val l = ByteArray(32)
     private val m = ByteArray(32)
@@ -63,7 +63,7 @@ internal class GOST3411() : Digest<GOST3411> {
         reset()
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         xBuf[xBufOff++] = input
         if (xBufOff == xBuf.size) {
             sumByteArray(xBuf) // calc sum M
@@ -71,9 +71,10 @@ internal class GOST3411() : Digest<GOST3411> {
             xBufOff = 0
         }
         byteCount++
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var inOff = offset
         var len = length
         while (xBufOff != 0 && len > 0) {
@@ -97,6 +98,7 @@ internal class GOST3411() : Digest<GOST3411> {
             inOff++
             len--
         }
+        return this
     }
 
     // (i + 1 + 4(k - 1)) = 8i + k      i = 0-3, k = 1-8
@@ -285,8 +287,9 @@ internal class GOST3411() : Digest<GOST3411> {
         )
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
     override fun digest(): ByteArray {

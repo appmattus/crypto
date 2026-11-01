@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class CubeHash512CoreTest : CubeHash512Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.CubeHash512)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.CubeHash512)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class CubeHash512CoreTest : CubeHash512Test() {
  */
 abstract class CubeHash512Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testCubeHash512() {

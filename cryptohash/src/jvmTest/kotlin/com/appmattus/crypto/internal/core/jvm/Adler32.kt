@@ -20,20 +20,23 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.encodeBEInt
 
-internal class Adler32 : Digest<Adler32> {
+internal class Adler32 : Digest {
 
     private var adler = java.util.zip.Adler32()
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         adler.update(input.toInt())
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         adler.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         adler.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

@@ -39,6 +39,7 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.ascon
 
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.AbstractDigest
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLELong
@@ -51,13 +52,13 @@ internal class Ascon private constructor(
     private val name: String,
     private val outputLength: Int,
     private val initialState: LongArray
-) : AbstractDigest<Ascon>() {
+) : AbstractDigest() {
 
     private val state = initialState.copyOf()
     private val buffer = ByteArray(RATE)
     private var bufferOffset = 0
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var off = offset
         var len = length
 
@@ -83,6 +84,7 @@ internal class Ascon private constructor(
             input.copyInto(buffer, 0, off, off + len)
             bufferOffset = len
         }
+        return this
     }
 
     override fun digest(): ByteArray {

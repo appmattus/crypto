@@ -27,7 +27,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class SHA1CoreTest : SHA1Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SHA_1)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SHA_1)
 
     @Test
     fun hasImplementation() {
@@ -40,7 +40,7 @@ class SHA1CoreTest : SHA1Test() {
  */
 abstract class SHA1Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     /**
      * From https://www.di-mgt.com.au/sha_testvectors.html

@@ -41,21 +41,25 @@ package com.appmattus.crypto
  * ... etc.
  * ```
  */
-public interface Digest<D : Digest<D>> {
+public interface Digest {
 
     /**
      * Updates the digest using the specified byte.
      *
      * @param input the byte with which to update the digest.
+     *
+     * @return this digest, so calls can be chained
      */
-    public fun update(input: Byte)
+    public fun update(input: Byte): Digest
 
     /**
      * Updates the digest using the specified array of bytes.
      *
      * @param input the array of bytes.
+     *
+     * @return this digest, so calls can be chained
      */
-    public fun update(input: ByteArray)
+    public fun update(input: ByteArray): Digest
 
     /**
      * Updates the digest using the specified array of bytes, starting
@@ -66,8 +70,10 @@ public interface Digest<D : Digest<D>> {
      * @param offset the offset to start from in the array of bytes.
      *
      * @param length the number of bytes to use, starting at [offset]
+     *
+     * @return this digest, so calls can be chained
      */
-    public fun update(input: ByteArray, offset: Int, length: Int)
+    public fun update(input: ByteArray, offset: Int, length: Int): Digest
 
     /**
      * Completes the hash computation by performing final operations
@@ -122,7 +128,7 @@ public interface Digest<D : Digest<D>> {
      *
      * @return the clone
      */
-    public fun copy(): D
+    public fun copy(): Digest
 
     /**
      * Return the "block length" for the hash function. This
@@ -154,8 +160,8 @@ public interface Digest<D : Digest<D>> {
     /**
      * A platform specific implementation of this [Digest]. For example, uses [NSData] instead of [ByteArray] on iOS.
      */
-    public fun platform(): PlatformDigest<*> = toPlatform()
+    public fun platform(): PlatformDigest = toPlatform()
 }
 
-// fun ByteArray.hmac(digest: Digest<*>, key: ByteArray): ByteArray = HMAC(digest, key).digest(this)
-// fun ByteArray.hmac(digest: Digest<*>, key: ByteArray, outputLength: Int): ByteArray = HMAC(digest, key, outputLength).digest(this)
+// fun ByteArray.hmac(digest: Digest, key: ByteArray): ByteArray = HMAC(digest, key).digest(this)
+// fun ByteArray.hmac(digest: Digest, key: ByteArray, outputLength: Int): ByteArray = HMAC(digest, key, outputLength).digest(this)

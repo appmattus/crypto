@@ -28,7 +28,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class cSHAKE128CoreTest : cSHAKE128Test() {
-    override fun digest(algorithm: Algorithm.cSHAKE128): Digest<*> = CoreDigest.create(algorithm)
+    override fun digest(algorithm: Algorithm.cSHAKE128): Digest = CoreDigest.create(algorithm)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class cSHAKE128CoreTest : cSHAKE128Test() {
 
 // cSHAKE128 with no customisation matches SHAKE128
 class cSHAKE128asShakeTest : SHAKE128Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.cSHAKE128())
+    override fun digest(): Digest = CoreDigest.create(Algorithm.cSHAKE128())
 
     @Test
     fun hasImplementation() {
@@ -51,7 +51,7 @@ class cSHAKE128asShakeTest : SHAKE128Test() {
  */
 abstract class cSHAKE128Test {
 
-    abstract fun digest(algorithm: Algorithm.cSHAKE128): Digest<*>
+    abstract fun digest(algorithm: Algorithm.cSHAKE128): Digest
 
     private val customisation = "Email Signature".encodeToByteArray()
 
@@ -132,7 +132,7 @@ abstract class cSHAKE128Test {
         )
     }
 
-    private fun testKatLen(dig: Digest<*>, data: ByteArray, ref: String) {
+    private fun testKatLen(dig: Digest, data: ByteArray, ref: String) {
         val buffer = ByteArray(ref.length / 2)
 
         /*

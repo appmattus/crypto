@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class WhirlpoolTCoreTest : WhirlpoolTTest() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.WhirlpoolT)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.WhirlpoolT)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class WhirlpoolTCoreTest : WhirlpoolTTest() {
  */
 abstract class WhirlpoolTTest {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun empty() {

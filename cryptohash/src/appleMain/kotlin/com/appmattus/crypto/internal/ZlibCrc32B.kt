@@ -32,22 +32,24 @@ import platform.zlib.uBytefVar
  * A CRC32B [Digest] backed by zlib's `crc32`, which uses the CPU's CRC or carry-less multiply instructions
  */
 @OptIn(ExperimentalForeignApi::class, UnsafeNumber::class)
-internal class ZlibCrc32B : Digest<ZlibCrc32B> {
+internal class ZlibCrc32B : Digest {
 
     private var checksum = 0
 
     private val oneByte = ByteArray(1)
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         oneByte[0] = input
         update(oneByte, 0, 1)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         checkBounds(input, offset, length)
         if (length > 0) {
             input.usePinned {
@@ -56,6 +58,7 @@ internal class ZlibCrc32B : Digest<ZlibCrc32B> {
                 checksum = crc32(checksum.toUInt().convert(), data, length.toUInt()).convert<UInt>().toInt()
             }
         }
+        return this
     }
 
     override fun digest(): ByteArray {

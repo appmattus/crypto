@@ -58,7 +58,7 @@ import com.appmattus.crypto.Digest
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
 @Suppress("TooManyFunctions")
-internal abstract class DigestEngine<D : DigestEngine<D>> : Digest<D> {
+internal abstract class DigestEngine<D : DigestEngine<D>> : Digest {
     /**
      * Reset the hash algorithm state.
      */
@@ -161,21 +161,23 @@ internal abstract class DigestEngine<D : DigestEngine<D>> : Digest<D> {
         blockCount = 0
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         blockBuffer[inputLen++] = input
         if (inputLen == blockLen) {
             processBlock(blockBuffer)
             blockCount++
             inputLen = 0
         }
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
     @Suppress("NAME_SHADOWING")
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var offset = offset
         var len = length
         while (len > 0) {
@@ -192,6 +194,7 @@ internal abstract class DigestEngine<D : DigestEngine<D>> : Digest<D> {
                 inputLen = 0
             }
         }
+        return this
     }
 
     /**

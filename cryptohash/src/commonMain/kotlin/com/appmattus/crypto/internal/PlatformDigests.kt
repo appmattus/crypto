@@ -23,7 +23,7 @@ import com.appmattus.crypto.Digest
  * The platform's own implementation of [algorithm], when it has one that is faster than cryptohash's and gives the
  * same results, or null to use [CoreDigest].
  */
-internal expect fun platformDigest(algorithm: Algorithm): Digest<*>?
+internal expect fun platformDigest(algorithm: Algorithm): Digest?
 
 /**
  * Writes [digest] into [output] as the core [com.appmattus.crypto.internal.core.sphlib.DigestEngine] digests, such as

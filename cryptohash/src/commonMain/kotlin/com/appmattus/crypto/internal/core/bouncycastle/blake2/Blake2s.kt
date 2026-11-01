@@ -79,7 +79,7 @@ import com.appmattus.crypto.internal.core.encodeLEInt
  * between 1 and 32 bytes.
  */
 @Suppress("ThrowsCount", "LongParameterList", "TooManyFunctions")
-internal class Blake2s : Digest<Blake2s> {
+internal class Blake2s : Digest {
 
     /**
      * Return the size in bytes of the digest produced by this message digest.
@@ -288,7 +288,7 @@ internal class Blake2s : Digest<Blake2s> {
      *
      * @param input the input byte to be entered.
      */
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         // process the buffer if full else add to buffer:
         val remainingLength: Int = byteLength - bufferPos // left bytes of buffer
         if (remainingLength == 0) { // full buffer
@@ -304,6 +304,7 @@ internal class Blake2s : Digest<Blake2s> {
             buffer!![bufferPos] = input
             bufferPos++
         }
+        return this
     }
 
     /**
@@ -313,9 +314,10 @@ internal class Blake2s : Digest<Blake2s> {
      * @param offset  the offset into the byte array where the data starts.
      * @param length     the length of the data.
      */
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    @Suppress("ReturnCount")
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         if (length == 0) {
-            return
+            return this
         }
         var remainingLength = 0 // left bytes of buffer
         if (bufferPos != 0) { // commenced, incomplete buffer
@@ -334,7 +336,7 @@ internal class Blake2s : Digest<Blake2s> {
             } else {
                 input.copyInto(buffer!!, bufferPos, offset, offset + length)
                 bufferPos += length
-                return
+                return this
             }
         }
 
@@ -355,6 +357,7 @@ internal class Blake2s : Digest<Blake2s> {
         // fill the buffer with left bytes, this might be a full block
         input.copyInto(buffer!!, 0, messagePos, offset + length)
         bufferPos += offset + length - messagePos
+        return this
     }
 
     /**
@@ -527,8 +530,9 @@ internal class Blake2s : Digest<Blake2s> {
         }
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
     override fun digest(): ByteArray {

@@ -23,20 +23,23 @@ internal class MessageDigestPlatform(
     private val algorithm: String,
     override val blockLength: Int,
     messageDigest: MessageDigest? = null
-) : Digest<MessageDigestPlatform> {
+) : Digest {
 
     private var messageDigest = messageDigest ?: MessageDigest.getInstance(algorithm)
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         messageDigest.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         messageDigest.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         messageDigest.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray = messageDigest.digest()

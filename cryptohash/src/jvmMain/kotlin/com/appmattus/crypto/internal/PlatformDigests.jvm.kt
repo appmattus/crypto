@@ -23,7 +23,7 @@ import com.appmattus.crypto.Digest
  * Delegates to JVM `MessageDigest`, which uses CPU SHA instructions where available, and to `java.util.zip`, which
  * uses carry-less multiply instructions for CRCs. Algorithms the running JVM doesn't provide fall back to [CoreDigest].
  */
-internal actual fun platformDigest(algorithm: Algorithm): Digest<*>? = when (algorithm) {
+internal actual fun platformDigest(algorithm: Algorithm): Digest? = when (algorithm) {
     Algorithm.SHA_1,
     Algorithm.SHA_224,
     Algorithm.SHA_256,

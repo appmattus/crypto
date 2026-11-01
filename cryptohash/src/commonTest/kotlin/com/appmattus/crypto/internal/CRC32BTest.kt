@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class CRC32BCoreTest : CRC32BTest() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.CRC32B)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.CRC32B)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class CRC32BCoreTest : CRC32BTest() {
  */
 abstract class CRC32BTest {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     /**
      * From https://github.com/froydnj/ironclad/blob/master/testing/test-vectors/crc32.testvec

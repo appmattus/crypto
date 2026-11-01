@@ -27,7 +27,7 @@ import kotlin.test.assertNotNull
 
 class SkeinCoreTest : SkeinTest() {
 
-    override fun digest(algorithm: Algorithm): Digest<*> = CoreDigest.create(algorithm)
+    override fun digest(algorithm: Algorithm): Digest = CoreDigest.create(algorithm)
 
     @Test
     fun hasImplementation() {
@@ -40,7 +40,7 @@ class SkeinCoreTest : SkeinTest() {
  */
 abstract class SkeinTest {
 
-    abstract fun digest(algorithm: Algorithm): Digest<*>
+    abstract fun digest(algorithm: Algorithm): Digest
 
     // From https://github.com/pyca/pynacl/blob/main/tests/data/crypto-test-vectors-blake2-salt-personalization.txt
     @Test

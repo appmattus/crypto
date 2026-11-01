@@ -31,4 +31,4 @@ public expect class MutablePlatformData
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
-internal expect fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D>
+internal expect fun Digest.toPlatform(): PlatformDigest

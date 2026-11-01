@@ -26,7 +26,7 @@ import kotlin.test.assertNotNull
 
 class Blake2s_128CoreTest : Blake2s_128Test() {
 
-    override fun digest(algorithm: Algorithm): Digest<*> = CoreDigest.create(algorithm)
+    override fun digest(algorithm: Algorithm): Digest = CoreDigest.create(algorithm)
 
     @Test
     fun hasImplementation() {
@@ -39,7 +39,7 @@ class Blake2s_128CoreTest : Blake2s_128Test() {
  */
 abstract class Blake2s_128Test {
 
-    abstract fun digest(algorithm: Algorithm): Digest<*>
+    abstract fun digest(algorithm: Algorithm): Digest
 
     private val mainAlgorithm = Algorithm.Blake2s_128
     private val keyedAlgorithm = Algorithm.Blake2s.Keyed(

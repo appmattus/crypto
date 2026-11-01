@@ -49,7 +49,7 @@ import com.appmattus.crypto.Digest
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
 @Suppress("TooManyFunctions")
-internal abstract class FugueCore<D : FugueCore<D>> : Digest<D> {
+internal abstract class FugueCore<D : FugueCore<D>> : Digest {
     private var bitCount: Long = 0
     private var partial = 0
     private var partialLen = 0
@@ -62,7 +62,7 @@ internal abstract class FugueCore<D : FugueCore<D>> : Digest<D> {
         doReset()
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         bitCount += 8
         partial = partial shl 8 or (input.toInt() and 0xFF)
         if (++partialLen == 4) {
@@ -70,13 +70,15 @@ internal abstract class FugueCore<D : FugueCore<D>> : Digest<D> {
             partial = 0
             partialLen = 0
         }
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var off = offset
         var len = length
         bitCount += len.toLong() shl 3
@@ -94,6 +96,7 @@ internal abstract class FugueCore<D : FugueCore<D>> : Digest<D> {
             partialLen = len
             while (len-- > 0) partial = (partial shl 8 or (input[off++].toInt() and 0xFF))
         }
+        return this
     }
 
     /**

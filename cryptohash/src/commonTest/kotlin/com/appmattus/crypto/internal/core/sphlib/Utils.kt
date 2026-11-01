@@ -25,7 +25,7 @@ import com.appmattus.crypto.internal.executeInBackground
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
-fun testKat(dig: () -> Digest<*>, data: ByteArray, ref: String, inBackground: Boolean = true) {
+fun testKat(dig: () -> Digest, data: ByteArray, ref: String, inBackground: Boolean = true) {
     executeInBackground(inBackground) {
         val digest = dig()
         /*
@@ -59,15 +59,15 @@ fun testKat(dig: () -> Digest<*>, data: ByteArray, ref: String, inBackground: Bo
     }
 }
 
-fun testKat(dig: () -> Digest<*>, data: String, ref: String, inBackground: Boolean = true) {
+fun testKat(dig: () -> Digest, data: String, ref: String, inBackground: Boolean = true) {
     testKat(dig, data.encodeToByteArray(), ref, inBackground)
 }
 
-fun testKatHex(dig: () -> Digest<*>, data: String, ref: String, inBackground: Boolean = true) {
+fun testKatHex(dig: () -> Digest, data: String, ref: String, inBackground: Boolean = true) {
     testKat(dig, strtobin(data), ref, inBackground)
 }
 
-fun testKatMillionA(dig: () -> Digest<*>, ref: String) {
+fun testKatMillionA(dig: () -> Digest, ref: String) {
     executeInBackground {
         val digest = dig()
         val buf = ByteArray(1000)
@@ -77,7 +77,7 @@ fun testKatMillionA(dig: () -> Digest<*>, ref: String) {
     }
 }
 
-fun testKatExtremelyLong(dig: () -> Digest<*>, ref: String) {
+fun testKatExtremelyLong(dig: () -> Digest, ref: String) {
     executeInBackground {
         val digest = dig()
         val buf = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmno".encodeToByteArray()
@@ -88,7 +88,7 @@ fun testKatExtremelyLong(dig: () -> Digest<*>, ref: String) {
     }
 }
 
-fun testCollision(dig: () -> Digest<*>, s1: String, s2: String) {
+fun testCollision(dig: () -> Digest, s1: String, s2: String) {
     executeInBackground {
         val digest = dig()
         val msg1 = strtobin(s1)

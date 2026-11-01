@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Keccak288CoreTest : Keccak288Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Keccak288)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Keccak288)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class Keccak288CoreTest : Keccak288Test() {
  */
 abstract class Keccak288Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun abc() {

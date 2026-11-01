@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class ECHO224CoreTest : ECHO224Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.ECHO224)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.ECHO224)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class ECHO224CoreTest : ECHO224Test() {
  */
 abstract class ECHO224Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testECHO224() {

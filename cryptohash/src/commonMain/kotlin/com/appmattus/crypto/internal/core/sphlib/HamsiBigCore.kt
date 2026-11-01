@@ -48,7 +48,7 @@ import com.appmattus.crypto.Digest
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
 @Suppress("TooManyFunctions", "LargeClass")
-internal abstract class HamsiBigCore<D : HamsiBigCore<D>> : Digest<D> {
+internal abstract class HamsiBigCore<D : HamsiBigCore<D>> : Digest {
     private val h: IntArray = IntArray(16)
     private var bitCount: Long = 0
     private var partial: Long = 0
@@ -58,7 +58,7 @@ internal abstract class HamsiBigCore<D : HamsiBigCore<D>> : Digest<D> {
         reset()
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         bitCount += 8
         partial = partial shl 8 or (input.toLong() and 0xFF)
         partialLen++
@@ -75,13 +75,15 @@ internal abstract class HamsiBigCore<D : HamsiBigCore<D>> : Digest<D> {
             )
             partialLen = 0
         }
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var off = offset
         var len = length
         bitCount += len.toLong() shl 3
@@ -91,7 +93,7 @@ internal abstract class HamsiBigCore<D : HamsiBigCore<D>> : Digest<D> {
                 partialLen++
                 len--
             }
-            if (partialLen < 8) return
+            if (partialLen < 8) return this
             process(
                 (partial ushr 56).toInt() and 0xFF,
                 (partial ushr 48).toInt() and 0xFF,
@@ -120,6 +122,7 @@ internal abstract class HamsiBigCore<D : HamsiBigCore<D>> : Digest<D> {
         }
         partialLen = len
         while (len-- > 0) partial = partial shl 8 or (input[off++].toLong() and 0xFF)
+        return this
     }
 
     override fun digest(): ByteArray {

@@ -35,26 +35,29 @@ import platform.CoreCrypto.CC_MD2_Init
 import platform.CoreCrypto.CC_MD2_Update
 
 @OptIn(ExperimentalForeignApi::class)
-internal class MD2 : Digest<MD2> {
+internal class MD2 : Digest {
 
     private var hashObject: CC_MD2_CTX = nativeHeap.alloc<CC_MD2_CTX>().also {
         CC_MD2_Init(it.ptr)
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         update(ByteArray(1) { input })
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         if (length > 0) {
             input.usePinned {
                 CC_MD2_Update(hashObject.ptr, it.addressOf(offset), length.toUInt())
             }
         }
+        return this
     }
 
     override fun digest(): ByteArray {

@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class SHAvite384CoreTest : SHAvite384Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SHAvite384)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SHAvite384)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class SHAvite384CoreTest : SHAvite384Test() {
  */
 abstract class SHAvite384Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testSHAvite384() {

@@ -16,10 +16,12 @@
 
 package com.appmattus.crypto.internal.core
 
+import com.appmattus.crypto.Digest
+
 /**
  * @property seed A seed for generate digest. Default is 0.
  */
-internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() {
+internal class XXHash32(private val seed: Int = 0) : AbstractDigest() {
 
     private var state = State32()
 
@@ -72,7 +74,7 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
         return avalanche(h2)
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var index = 0
 
         state.totalLen += length
@@ -83,7 +85,7 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
             input.copyInto(state.mem, state.memSize, index + offset, index + offset + length)
             state.memSize += length
 
-            return
+            return this
         }
 
         if (state.memSize > 0) {
@@ -122,6 +124,7 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest<XXHash32>() 
 
             state.memSize = length - index
         }
+        return this
     }
 
     override fun digest(): ByteArray {

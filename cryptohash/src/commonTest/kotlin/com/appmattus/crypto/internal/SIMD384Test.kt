@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class SIMD384CoreTest : SIMD384Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SIMD384)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SIMD384)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class SIMD384CoreTest : SIMD384Test() {
  */
 abstract class SIMD384Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testSIMD384() {

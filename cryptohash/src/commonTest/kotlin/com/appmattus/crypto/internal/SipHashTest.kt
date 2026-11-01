@@ -80,7 +80,7 @@ class SipHashTest {
         assertEquals("SipHash-2-4(key=ByteArray(size=16))", Algorithm.SipHash(key).toString())
     }
 
-    private fun assertVectors(vectors: List<String>, createDigest: () -> Digest<*>) {
+    private fun assertVectors(vectors: List<String>, createDigest: () -> Digest) {
         vectors.forEachIndexed { length, expected ->
             val message = ByteArray(length) { it.toByte() }
 

@@ -24,7 +24,7 @@ import kotlin.test.assertNotNull
 
 class HighwayHash128CoreTest : HighwayHash128Test() {
 
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.HighwayHash128(key))
+    override fun digest(): Digest = CoreDigest.create(Algorithm.HighwayHash128(key))
 
     @Test
     fun hasImplementation() {
@@ -39,7 +39,7 @@ abstract class HighwayHash128Test {
 
     var key: LongArray = longArrayOf(0, 0, 0, 0)
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     // From https://github.com/google/highwayhash/blob/master/highwayhash/highwayhash_test.cc
     @Test

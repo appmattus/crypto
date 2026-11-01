@@ -27,18 +27,21 @@ import java.security.NoSuchAlgorithmException
 internal class JvmMessageDigest private constructor(
     private val algorithm: Algorithm,
     private val messageDigest: MessageDigest
-) : Digest<JvmMessageDigest> {
+) : Digest {
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Digest {
         messageDigest.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Digest {
         messageDigest.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         messageDigest.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray = messageDigest.digest()

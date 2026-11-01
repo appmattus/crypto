@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Hamsi384CoreTest : Hamsi384Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Hamsi384)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Hamsi384)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class Hamsi384CoreTest : Hamsi384Test() {
  */
 abstract class Hamsi384Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testHamsi384() {

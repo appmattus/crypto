@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class BMW256CoreTest : BMW256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.BMW256)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.BMW256)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class BMW256CoreTest : BMW256Test() {
  */
 abstract class BMW256Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testBMW256() {

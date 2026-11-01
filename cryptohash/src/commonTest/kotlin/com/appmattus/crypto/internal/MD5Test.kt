@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class MD5CoreTest : MD5Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.MD5)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.MD5)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class MD5CoreTest : MD5Test() {
  */
 abstract class MD5Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testMD5() {

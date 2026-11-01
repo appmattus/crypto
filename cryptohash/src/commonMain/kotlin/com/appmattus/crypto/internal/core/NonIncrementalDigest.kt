@@ -22,20 +22,23 @@ import com.appmattus.crypto.internal.bytes.ByteBuffer
 /**
  * Allows non-incremental hashing algorithms to be used incrementally by storing data in an internal buffer
  */
-internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Digest<D> {
+internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Digest {
 
     private var internalBuffer = ByteBuffer()
 
-    final override fun update(input: Byte) {
+    final override fun update(input: Byte): Digest {
         internalBuffer.add(byteArrayOf(input))
+        return this
     }
 
-    final override fun update(input: ByteArray) {
+    final override fun update(input: ByteArray): Digest {
         internalBuffer.add(input)
+        return this
     }
 
-    final override fun update(input: ByteArray, offset: Int, length: Int) {
+    final override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         internalBuffer.add(input, offset, length)
+        return this
     }
 
     final override fun digest(): ByteArray {

@@ -24,7 +24,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class PANAMACoreTest : PANAMATest() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.PANAMA)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.PANAMA)
 
     @Test
     fun hasImplementation() {
@@ -37,7 +37,7 @@ class PANAMACoreTest : PANAMATest() {
  */
 abstract class PANAMATest {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testPANAMA() {

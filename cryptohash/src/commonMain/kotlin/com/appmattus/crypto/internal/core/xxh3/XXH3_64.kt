@@ -17,19 +17,21 @@
 package com.appmattus.crypto.internal.core.xxh3
 
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.AbstractDigest
 import com.appmattus.crypto.internal.core.encodeBELong
 
 @Suppress("ClassName")
-internal class XXH3_64(val parameters: Algorithm.XXH3_64) : AbstractDigest<XXH3_64>() {
+internal class XXH3_64(val parameters: Algorithm.XXH3_64) : AbstractDigest() {
     private var state = XXH3_createState()
 
     init {
         reset()
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         XXH3_64bits_update(state, input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

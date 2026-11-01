@@ -23,6 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertSame
 
 @OptIn(ExperimentalForeignApi::class)
 class PlatformDigestTest {
@@ -31,6 +32,17 @@ class PlatformDigestTest {
     private val expected = Algorithm.SHA_256.hash(input)
 
     private fun mutableData(size: Int) = NSMutableData().apply { setLength(size.convert()) }
+
+    @Test
+    fun updateChains() {
+        val digest = Algorithm.SHA_256.createDigest().platform()
+
+        assertSame(digest, digest.update(input[0]))
+        assertSame(digest, digest.update(input.toData(), 1, 4))
+        val hash = digest.update(input.copyOfRange(5, input.size).toData()).digest()
+
+        assertContentEquals(expected, hash.toByteArray())
+    }
 
     @Test
     fun digestWritesIntoMutableDataAtOffset() {

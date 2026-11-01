@@ -25,7 +25,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class SHA0CoreTest : SHA0Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SHA_0)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SHA_0)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class SHA0CoreTest : SHA0Test() {
  */
 abstract class SHA0Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testSHA0() {

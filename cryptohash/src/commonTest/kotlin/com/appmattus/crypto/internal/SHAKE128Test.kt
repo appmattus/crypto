@@ -27,7 +27,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class SHAKE128CoreTest : SHAKE128Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.SHAKE128)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.SHAKE128)
 
     @Test
     fun hasImplementation() {
@@ -40,7 +40,7 @@ class SHAKE128CoreTest : SHAKE128Test() {
  */
 abstract class SHAKE128Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     // From https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/SHAKE128_Msg1600.pdf
     @Test
@@ -158,7 +158,7 @@ abstract class SHAKE128Test {
         )
     }
 
-    private fun testKatLen(dig: () -> Digest<*>, data: ByteArray, ref: String) {
+    private fun testKatLen(dig: () -> Digest, data: ByteArray, ref: String) {
         executeInBackground {
             val digest = dig()
             val buffer = ByteArray(ref.length / 2)
@@ -186,7 +186,7 @@ abstract class SHAKE128Test {
         }
     }
 
-    private fun testKatLen(dig: () -> Digest<*>, data: String, ref: String) {
+    private fun testKatLen(dig: () -> Digest, data: String, ref: String) {
         testKatLen(dig, data.encodeToByteArray(), ref)
     }
 }

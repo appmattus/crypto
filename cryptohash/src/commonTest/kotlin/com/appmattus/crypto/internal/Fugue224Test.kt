@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Fugue224CoreTest : Fugue224Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Fugue224)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Fugue224)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class Fugue224CoreTest : Fugue224Test() {
  */
 abstract class Fugue224Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testFugue224() {

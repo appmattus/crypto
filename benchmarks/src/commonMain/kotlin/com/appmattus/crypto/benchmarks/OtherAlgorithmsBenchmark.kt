@@ -38,7 +38,7 @@ open class OtherAlgorithmsBenchmark {
     @Param(SIZE_SMALL, SIZE_MEDIUM, SIZE_LARGE)
     var size: Int = 0
 
-    private lateinit var digest: Digest<*>
+    private lateinit var digest: Digest
     private lateinit var input: ByteArray
 
     @Setup

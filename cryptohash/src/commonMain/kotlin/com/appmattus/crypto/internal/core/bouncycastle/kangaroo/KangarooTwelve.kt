@@ -39,6 +39,7 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.kangaroo
 
+import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.AbstractDigest
 
 /**
@@ -56,7 +57,7 @@ internal class KangarooTwelve private constructor(
     private val outputLength: Int,
     private val tree: KangarooSponge,
     private val leaf: KangarooSponge
-) : AbstractDigest<KangarooTwelve>() {
+) : AbstractDigest() {
 
     constructor(strength: Int, customisation: ByteArray?, outputLength: Int) : this(
         strength = strength,
@@ -70,14 +71,14 @@ internal class KangarooTwelve private constructor(
     private var currentNode = 0
     private var processed = 0
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         val sponge = if (currentNode == 0) tree else leaf
         val space = BLOCK_SIZE - processed
 
         if (space >= length) {
             sponge.absorb(input, offset, length)
             processed += length
-            return
+            return this
         }
 
         if (space > 0) {
@@ -95,6 +96,7 @@ internal class KangarooTwelve private constructor(
             processed += dataLength
             count += dataLength
         }
+        return this
     }
 
     private fun switchLeaf(moreToCome: Boolean) {

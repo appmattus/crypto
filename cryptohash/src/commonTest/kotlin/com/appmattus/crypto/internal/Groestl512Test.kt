@@ -23,7 +23,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Groestl512CoreTest : Groestl512Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.Groestl512)
+    override fun digest(): Digest = CoreDigest.create(Algorithm.Groestl512)
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class Groestl512CoreTest : Groestl512Test() {
  */
 abstract class Groestl512Test {
 
-    abstract fun digest(): Digest<*>
+    abstract fun digest(): Digest
 
     @Test
     fun testGroestl512() {

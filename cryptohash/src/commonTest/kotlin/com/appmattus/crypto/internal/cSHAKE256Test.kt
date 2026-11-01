@@ -28,7 +28,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class cSHAKE256CoreTest : cSHAKE256Test() {
-    override fun digest(algorithm: Algorithm.cSHAKE256): Digest<*> = CoreDigest.create(algorithm)
+    override fun digest(algorithm: Algorithm.cSHAKE256): Digest = CoreDigest.create(algorithm)
 
     @Test
     fun hasImplementation() {
@@ -38,7 +38,7 @@ class cSHAKE256CoreTest : cSHAKE256Test() {
 
 // cSHAKE256 with no customisation matches SHAKE256
 class cSHAKE256asShakeTest : SHAKE256Test() {
-    override fun digest(): Digest<*> = CoreDigest.create(Algorithm.cSHAKE256())
+    override fun digest(): Digest = CoreDigest.create(Algorithm.cSHAKE256())
 
     @Test
     fun hasImplementation() {
@@ -51,7 +51,7 @@ class cSHAKE256asShakeTest : SHAKE256Test() {
  */
 abstract class cSHAKE256Test {
 
-    abstract fun digest(algorithm: Algorithm.cSHAKE256): Digest<*>
+    abstract fun digest(algorithm: Algorithm.cSHAKE256): Digest
 
     // From https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Standards-and-Guidelines/documents/examples/cSHAKE_samples.pdf
     @Test
@@ -132,7 +132,7 @@ abstract class cSHAKE256Test {
         )
     }
 
-    private fun testKatLen(dig: Digest<*>, data: ByteArray, ref: String) {
+    private fun testKatLen(dig: Digest, data: ByteArray, ref: String) {
         val buffer = ByteArray(ref.length / 2)
 
         /*

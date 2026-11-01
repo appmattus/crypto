@@ -41,16 +41,18 @@ public actual typealias MutablePlatformData = NSMutableData
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
-internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = object : PlatformDigest<D> {
-    override fun update(input: Byte) = this@toPlatform.update(input)
-    override fun update(input: PlatformData) = this@toPlatform.update(input.toByteArray())
-    override fun update(input: PlatformData, offset: Int, length: Int) = this@toPlatform.update(input.toByteArray(offset, length))
+internal actual fun Digest.toPlatform(): PlatformDigest = object : PlatformDigest {
+    override fun update(input: Byte): PlatformDigest = apply { this@toPlatform.update(input) }
+    override fun update(input: PlatformData): PlatformDigest = apply { this@toPlatform.update(input.toByteArray()) }
+    override fun update(input: PlatformData, offset: Int, length: Int): PlatformDigest = apply {
+        this@toPlatform.update(input.toByteArray(offset, length))
+    }
     override fun digest(): PlatformData = this@toPlatform.digest().toData()
     override fun digest(input: PlatformData): PlatformData = this@toPlatform.digest(input.toByteArray()).toData()
     override fun digest(output: MutablePlatformData, offset: Int, length: Int): Int = this@toPlatform.digestInto(output, offset, length)
     override val digestLength: Int get() = this@toPlatform.digestLength
     override fun reset() = this@toPlatform.reset()
-    override fun copy(): PlatformDigest<D> = this@toPlatform.copy().toPlatform()
+    override fun copy(): PlatformDigest = this@toPlatform.copy().toPlatform()
     override val blockLength: Int get() = this@toPlatform.blockLength
     override fun toString(): String = this@toPlatform.toString()
 }
@@ -59,7 +61,7 @@ internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = 
  * Completes the digest into [output] at [offset], writing at most [length] bytes
  */
 @OptIn(ExperimentalForeignApi::class)
-private fun Digest<*>.digestInto(output: NSMutableData, offset: Int, length: Int): Int {
+private fun Digest.digestInto(output: NSMutableData, offset: Int, length: Int): Int {
     val size = minOf(length, digestLength)
     require(offset >= 0 && size >= 0 && offset + size <= output.length.toInt()) {
         "offset $offset and length $size out of bounds for output of length ${output.length}"
