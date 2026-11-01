@@ -35,4 +35,22 @@ public sealed interface Hmac {
      * Create an HMAC hash of [input] using the [Algorithm]
      */
     public fun hmac(key: ByteArray, input: ByteArray, outputLength: Int? = null): ByteArray = createHmac(key, outputLength).digest(input)
+
+    /**
+     * Create an HMAC hash of the [length] bytes of [input] starting at [offset] using the [Algorithm]
+     *
+     * @throws IndexOutOfBoundsException if [offset] and [length] don't fit within [input]
+     */
+    public fun hmac(key: ByteArray, input: ByteArray, offset: Int, length: Int, outputLength: Int? = null): ByteArray {
+        checkRange(input, offset, length)
+        return createHmac(key, outputLength).run {
+            update(input, offset, length)
+            digest()
+        }
+    }
+
+    /**
+     * Create an HMAC hash of the UTF-8 encoding of [input] using the [Algorithm]
+     */
+    public fun hmac(key: ByteArray, input: String, outputLength: Int? = null): ByteArray = hmac(key, input.encodeToByteArray(), outputLength)
 }
