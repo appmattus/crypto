@@ -85,8 +85,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
     val byteLength: Int
         get() = 64
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): D {
+        return update(input, 0, input.size)
     }
 
     override fun digest(): ByteArray {
@@ -112,7 +112,7 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
         return digest.size
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): D {
         block[--bOff] = input
         if (bOff == 0) {
             gN(h, n, block)
@@ -120,9 +120,11 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
             addMod512(sigma, block)
             bOff = 64
         }
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): D {
         var inOff = offset
         var len = length
         while (bOff != 64 && len > 0) {
@@ -142,6 +144,8 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
             update(input[inOff++])
             len--
         }
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
     open fun doFinal(out: ByteArray, outOff: Int): Int {
