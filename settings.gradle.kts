@@ -22,6 +22,11 @@ pluginManagement {
     }
 }
 
+plugins {
+    // Lets Gradle download the JDK 11 toolchain that jvmToolchain(11) asks for when no matching JDK is installed
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
+
 include(":cryptohash")
 include(":benchmarks")
 include(":samples:composeApp")
