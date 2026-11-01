@@ -1533,6 +1533,24 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * Create a hash of [input] using the [Algorithm]
      */
     public fun hash(input: ByteArray): ByteArray = createDigest().digest(input)
+
+    /**
+     * Create a hash of the [length] bytes of [input] starting at [offset] using the [Algorithm]
+     *
+     * @throws IndexOutOfBoundsException if [offset] and [length] don't fit within [input]
+     */
+    public fun hash(input: ByteArray, offset: Int, length: Int): ByteArray {
+        checkRange(input, offset, length)
+        return createDigest().run {
+            update(input, offset, length)
+            digest()
+        }
+    }
+
+    /**
+     * Create a hash of the UTF-8 encoding of [input] using the [Algorithm]
+     */
+    public fun hash(input: String): ByteArray = hash(input.encodeToByteArray())
 }
 
 private fun parameterEquals(a: Any?, b: Any?): Boolean = when (a) {

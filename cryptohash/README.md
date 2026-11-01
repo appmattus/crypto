@@ -124,9 +124,23 @@ digest.digest(byteArray)
 // Or hash directly from the algorithm
 val sha256: ByteArray = Algorithm.SHA_256.hash(byteArray)
 
+// Hash part of an array, or the UTF-8 encoding of a string
+val part: ByteArray = Algorithm.SHA_256.hash(byteArray, offset, length)
+val text: ByteArray = Algorithm.SHA_256.hash("Hello, world!")
+
+// Digests accept strings too
+digest.update("Hello, ")
+digest.digest("world!")
+
 // HMAC - For algorithms that support HMAC you can create an HMAC digest with a
 // key and then use as above
 val hmac = Algorithm.SHA3_256.createHmac(key)
+
+// Or create an HMAC hash directly, from an array, part of an array or a string
+val mac: ByteArray = Algorithm.SHA_256.hmac(key, "Hello, world!")
+
+// Kotlin's standard library converts a hash to hex
+val hex: String = Algorithm.SHA_256.hash("Hello, world!").toHexString()
 ```
 
 To use the library directly with Swift on iOS, macOS, tvOS or watchOS, follow
