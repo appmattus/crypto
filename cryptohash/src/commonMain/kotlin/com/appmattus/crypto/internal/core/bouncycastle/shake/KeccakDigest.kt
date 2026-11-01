@@ -80,12 +80,14 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
 
     override fun update(input: Byte): D {
         absorb(input)
-        return this
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
     override fun update(input: ByteArray, offset: Int, length: Int): D {
         absorb(input, offset, length)
-        return this
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
     open fun doFinal(out: ByteArray, outOff: Int): Int {
