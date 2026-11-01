@@ -29,16 +29,19 @@ internal class JvmMessageDigest private constructor(
     private val messageDigest: MessageDigest
 ) : Digest<JvmMessageDigest> {
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): JvmMessageDigest {
         messageDigest.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): JvmMessageDigest {
         messageDigest.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): JvmMessageDigest {
         messageDigest.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray = messageDigest.digest()

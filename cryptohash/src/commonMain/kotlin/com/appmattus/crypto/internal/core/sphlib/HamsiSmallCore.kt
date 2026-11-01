@@ -58,7 +58,7 @@ internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest<D> {
         reset()
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): D {
         bitCount += 8
         partial = partial shl 8 or (input.toInt() and 0xFF)
         partialLen++
@@ -71,13 +71,15 @@ internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest<D> {
             )
             partialLen = 0
         }
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): D {
+        return update(input, 0, input.size)
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): D {
         var off = offset
         var len = length
         bitCount += len.toLong() shl 3
@@ -87,7 +89,10 @@ internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest<D> {
                 partialLen++
                 len--
             }
-            if (partialLen < 4) return
+            if (partialLen < 4) {
+                @Suppress("UNCHECKED_CAST")
+                return this as D
+            }
             process(
                 partial ushr 24,
                 partial ushr 16 and 0xFF,
@@ -108,6 +113,9 @@ internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest<D> {
         }
         partialLen = len
         while (len-- > 0) partial = partial shl 8 or (input[off++].toInt() and 0xFF)
+
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
     override fun digest(): ByteArray {

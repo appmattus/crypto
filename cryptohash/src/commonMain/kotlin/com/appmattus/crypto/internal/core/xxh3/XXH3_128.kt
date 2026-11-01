@@ -27,8 +27,9 @@ internal class XXH3_128(val parameters: Algorithm.XXH3_128) : AbstractDigest<XXH
         reset()
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): XXH3_128 {
         XXH3_128bits_update(state, input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

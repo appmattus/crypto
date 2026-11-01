@@ -253,7 +253,7 @@ internal class Blake2b : Digest<Blake2b> {
      *
      * @param input the input byte to be entered.
      */
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Blake2b {
         // process the buffer if full else add to buffer:
         val remainingLength = blockLength - bufferPos
         if (remainingLength == 0) {
@@ -269,8 +269,9 @@ internal class Blake2b : Digest<Blake2b> {
         } else {
             buffer!![bufferPos] = input
             bufferPos++
-            return
+            return this
         }
+        return this
     }
 
     /**
@@ -280,9 +281,9 @@ internal class Blake2b : Digest<Blake2b> {
      * @param offset  the offset into the byte array where the data starts.
      * @param length     the length of the data.
      */
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Blake2b {
         if (length == 0) {
-            return
+            return this
         }
         var remainingLength = 0 // left bytes of buffer
 
@@ -304,7 +305,7 @@ internal class Blake2b : Digest<Blake2b> {
             } else {
                 input.copyInto(buffer!!, bufferPos, offset, offset + length)
                 bufferPos += length
-                return
+                return this
             }
         }
 
@@ -325,6 +326,7 @@ internal class Blake2b : Digest<Blake2b> {
         // fill the buffer with left bytes, this might be a full block
         input.copyInto(buffer!!, 0, messagePos, offset + length)
         bufferPos += offset + length - messagePos
+        return this
     }
 
     /**
@@ -492,8 +494,8 @@ internal class Blake2b : Digest<Blake2b> {
         }
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): Blake2b {
+        return update(input, 0, input.size)
     }
 
     override fun digest(): ByteArray {

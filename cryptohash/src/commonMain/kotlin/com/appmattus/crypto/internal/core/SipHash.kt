@@ -51,14 +51,14 @@ internal class SipHash private constructor(
         reset()
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): SipHash {
         var pos = offset
         val end = offset + length
         totalLength += length
 
         if (bufferPos > 0) {
             while (bufferPos < WORD_BYTES && pos < end) buffer[bufferPos++] = input[pos++]
-            if (bufferPos < WORD_BYTES) return
+            if (bufferPos < WORD_BYTES) return this
             processWord(decodeLELong(buffer, 0))
             bufferPos = 0
         }
@@ -69,6 +69,8 @@ internal class SipHash private constructor(
         }
 
         while (pos < end) buffer[bufferPos++] = input[pos++]
+
+        return this
     }
 
     override fun digest(): ByteArray {

@@ -86,7 +86,7 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
         return avalanche(h2)
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): XXHash64 {
         var index = 0
 
         state.totalLen += length
@@ -96,7 +96,7 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
             input.copyInto(state.mem, state.memSize, index + offset, index + offset + length)
             state.memSize += length
 
-            return
+            return this
         }
 
         if (state.memSize > 0) {
@@ -135,6 +135,8 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest<XXHash64>()
 
             state.memSize = length - index
         }
+
+        return this
     }
 
     override fun digest(): ByteArray {

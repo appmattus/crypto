@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,13 @@ internal abstract class AbstractDigest<D : Digest<D>> : Digest<D> {
      */
     private val singleByte = ByteArray(1)
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): D {
         singleByte[0] = input
-        update(singleByte, 0, 1)
+        return update(singleByte, 0, 1)
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): D {
+        return update(input, 0, input.size)
     }
 
     override fun digest(input: ByteArray): ByteArray {

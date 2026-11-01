@@ -38,16 +38,16 @@ internal class ZlibCrc32B : Digest<ZlibCrc32B> {
 
     private val oneByte = ByteArray(1)
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): ZlibCrc32B {
         oneByte[0] = input
-        update(oneByte, 0, 1)
+        return update(oneByte, 0, 1)
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): ZlibCrc32B {
+        return update(input, 0, input.size)
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): ZlibCrc32B {
         checkBounds(input, offset, length)
         if (length > 0) {
             input.usePinned {
@@ -56,6 +56,7 @@ internal class ZlibCrc32B : Digest<ZlibCrc32B> {
                 checksum = crc32(checksum.toUInt().convert(), data, length.toUInt()).convert<UInt>().toInt()
             }
         }
+        return this
     }
 
     override fun digest(): ByteArray {

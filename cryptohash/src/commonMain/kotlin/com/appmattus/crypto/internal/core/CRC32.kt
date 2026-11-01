@@ -23,18 +23,20 @@ internal class CRC32 : Digest<CRC32> {
 
     private var checksum = 0
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): CRC32 {
         var c: Int = checksum.inv()
         c = (c shl 8) xor crcTable[(c ushr 24) xor (input.toInt() and 0xff)]
         checksum = c.inv()
+        return this
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): CRC32 {
+        return update(input, 0, input.size)
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): CRC32 {
         checksum = updateCrc32(checksum.inv(), crcTables, input, offset, length).inv()
+        return this
     }
 
     override fun digest(): ByteArray {

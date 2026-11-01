@@ -32,17 +32,18 @@ internal class Blake3(private val parameters: Algorithm.Blake3) : Digest<Blake3>
      */
     private val singleByte = ByteArray(1)
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Blake3 {
         singleByte[0] = input
-        update(singleByte, 0, 1)
+        return update(singleByte, 0, 1)
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): Blake3 {
+        return update(input, 0, input.size)
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Blake3 {
         hasher.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

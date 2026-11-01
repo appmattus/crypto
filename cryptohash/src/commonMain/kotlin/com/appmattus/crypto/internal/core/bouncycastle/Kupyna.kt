@@ -108,16 +108,17 @@ internal class Kupyna : Digest<Kupyna> {
         buf = ByteArray(byteLength)
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Kupyna {
         buf[bufOff++] = input
         if (bufOff == byteLength) {
             processBlock(buf, 0)
             bufOff = 0
             ++inputBlocks
         }
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Kupyna {
         var inOff = offset
         var len = length
         while (bufOff != 0 && len > 0) {
@@ -136,6 +137,7 @@ internal class Kupyna : Digest<Kupyna> {
                 --len
             }
         }
+        return this
     }
 
     @Suppress("NAME_SHADOWING")
@@ -1552,8 +1554,8 @@ internal class Kupyna : Digest<Kupyna> {
         )
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): Kupyna {
+        return update(input, 0, input.size)
     }
 
     override fun digest(): ByteArray {

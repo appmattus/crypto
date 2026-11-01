@@ -57,7 +57,7 @@ internal class Ascon private constructor(
     private val buffer = ByteArray(RATE)
     private var bufferOffset = 0
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Ascon {
         var off = offset
         var len = length
 
@@ -83,6 +83,7 @@ internal class Ascon private constructor(
             input.copyInto(buffer, 0, off, off + len)
             bufferOffset = len
         }
+        return this
     }
 
     override fun digest(): ByteArray {

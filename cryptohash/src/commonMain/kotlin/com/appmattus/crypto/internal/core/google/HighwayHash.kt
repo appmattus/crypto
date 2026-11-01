@@ -307,19 +307,19 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
         hash[pos + 0] = a0 xor (a2 shl 1) xor (a2 shl 2)
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): HighwayHash {
         singleByte[0] = input
-        update(singleByte, 0, 1)
+        return update(singleByte, 0, 1)
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): HighwayHash {
+        return update(input, 0, input.size)
     }
 
     private var buffer = ByteArray(32)
     private var bufferSize = 0
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): HighwayHash {
         var processed = 0
 
         if (bufferSize != 0) {
@@ -346,6 +346,7 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
             input.copyInto(buffer, bufferSize, processed + offset, offset + length)
             bufferSize += length - processed
         }
+        return this
     }
 
     override fun digest(): ByteArray {

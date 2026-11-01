@@ -78,12 +78,14 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
     open val digestSize: Int
         get() = fixedOutputLength / 8
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): D {
         absorb(input)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): D {
         absorb(input, offset, length)
+        return this
     }
 
     open fun doFinal(out: ByteArray, outOff: Int): Int {
@@ -260,8 +262,8 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest<D> {
         bitsInQueue = rate
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): D {
+        return update(input, 0, input.size)
     }
 
     override fun digest(): ByteArray {

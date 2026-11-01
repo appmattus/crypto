@@ -72,19 +72,20 @@ internal class ShabalGeneric(private val outSize: Int) : Digest<ShabalGeneric> {
         reset()
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): ShabalGeneric {
         buf[ptr++] = input
         if (ptr == 64) {
             w = core(state, w, buf, 0, 1)
             ptr = 0
         }
+        return this
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): ShabalGeneric {
+        return update(input, 0, input.size)
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): ShabalGeneric {
         var off = offset
         var len = length
         if (ptr != 0) {
@@ -92,7 +93,7 @@ internal class ShabalGeneric(private val outSize: Int) : Digest<ShabalGeneric> {
             if (len < rlen) {
                 input.copyInto(buf, ptr, off, off + len)
                 ptr += len
-                return
+                return this
             } else {
                 input.copyInto(buf, ptr, off, off + rlen)
                 off += rlen
@@ -108,6 +109,7 @@ internal class ShabalGeneric(private val outSize: Int) : Digest<ShabalGeneric> {
         }
         input.copyInto(buf, 0, off, off + len)
         ptr = len
+        return this
     }
 
     override val digestLength: Int

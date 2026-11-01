@@ -42,9 +42,9 @@ public actual typealias MutablePlatformData = NSMutableData
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
 internal actual fun <D : Digest<D>> Digest<D>.toPlatform(): PlatformDigest<D> = object : PlatformDigest<D> {
-    override fun update(input: Byte) = this@toPlatform.update(input)
-    override fun update(input: PlatformData) = this@toPlatform.update(input.toByteArray())
-    override fun update(input: PlatformData, offset: Int, length: Int) = this@toPlatform.update(input.toByteArray(offset, length))
+    override fun update(input: Byte): D = this@toPlatform.update(input)
+    override fun update(input: PlatformData): D = this@toPlatform.update(input.toByteArray())
+    override fun update(input: PlatformData, offset: Int, length: Int): D = this@toPlatform.update(input.toByteArray(offset, length))
     override fun digest(): PlatformData = this@toPlatform.digest().toData()
     override fun digest(input: PlatformData): PlatformData = this@toPlatform.digest(input.toByteArray()).toData()
     override fun digest(output: MutablePlatformData, offset: Int, length: Int): Int = this@toPlatform.digestInto(output, offset, length)

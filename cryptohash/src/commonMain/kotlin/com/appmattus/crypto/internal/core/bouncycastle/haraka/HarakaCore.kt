@@ -48,8 +48,8 @@ internal abstract class HarakaCore<D : HarakaCore<D>> : Digest<D> {
 
     abstract fun doFinal(out: ByteArray, outOff: Int): Int
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): D {
+        return update(input, 0, input.size)
     }
 
     override fun digest(): ByteArray {

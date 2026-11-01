@@ -26,16 +26,22 @@ internal abstract class NonIncrementalDigest<D : NonIncrementalDigest<D>> : Dige
 
     private var internalBuffer = ByteBuffer()
 
-    final override fun update(input: Byte) {
+    final override fun update(input: Byte): D {
         internalBuffer.add(byteArrayOf(input))
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
-    final override fun update(input: ByteArray) {
+    final override fun update(input: ByteArray): D {
         internalBuffer.add(input)
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
-    final override fun update(input: ByteArray, offset: Int, length: Int) {
+    final override fun update(input: ByteArray, offset: Int, length: Int): D {
         internalBuffer.add(input, offset, length)
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
     final override fun digest(): ByteArray {

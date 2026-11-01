@@ -52,14 +52,14 @@ public interface PlatformDigest<D : Digest<D>> {
      *
      * @param input the byte with which to update the digest.
      */
-    public fun update(input: Byte)
+    public fun update(input: Byte): D
 
     /**
      * Updates the digest using the specified array of bytes.
      *
      * @param input the array of bytes.
      */
-    public fun update(input: PlatformData)
+    public fun update(input: PlatformData): D
 
     /**
      * Updates the digest using the specified array of bytes, starting
@@ -71,7 +71,7 @@ public interface PlatformDigest<D : Digest<D>> {
      *
      * @param length the number of bytes to use, starting at [offset]
      */
-    public fun update(input: PlatformData, offset: Int, length: Int)
+    public fun update(input: PlatformData, offset: Int, length: Int): D
 
     /**
      * Completes the hash computation by performing final operations

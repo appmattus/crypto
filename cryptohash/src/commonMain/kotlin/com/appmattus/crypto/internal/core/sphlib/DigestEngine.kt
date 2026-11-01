@@ -161,21 +161,23 @@ internal abstract class DigestEngine<D : DigestEngine<D>> : Digest<D> {
         blockCount = 0
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): D {
         blockBuffer[inputLen++] = input
         if (inputLen == blockLen) {
             processBlock(blockBuffer)
             blockCount++
             inputLen = 0
         }
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): D {
+        return update(input, 0, input.size)
     }
 
     @Suppress("NAME_SHADOWING")
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): D {
         var offset = offset
         var len = length
         while (len > 0) {
@@ -192,6 +194,8 @@ internal abstract class DigestEngine<D : DigestEngine<D>> : Digest<D> {
                 inputLen = 0
             }
         }
+        @Suppress("UNCHECKED_CAST")
+        return this as D
     }
 
     /**

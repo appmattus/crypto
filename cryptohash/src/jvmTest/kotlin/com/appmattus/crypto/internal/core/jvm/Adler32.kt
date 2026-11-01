@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,19 @@ internal class Adler32 : Digest<Adler32> {
 
     private var adler = java.util.zip.Adler32()
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Adler32 {
         adler.update(input.toInt())
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): Adler32 {
         adler.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Adler32 {
         adler.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ internal class GOST3411() : Digest<GOST3411> {
         reset()
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): GOST3411 {
         xBuf[xBufOff++] = input
         if (xBufOff == xBuf.size) {
             sumByteArray(xBuf) // calc sum M
@@ -71,9 +71,11 @@ internal class GOST3411() : Digest<GOST3411> {
             xBufOff = 0
         }
         byteCount++
+
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): GOST3411 {
         var inOff = offset
         var len = length
         while (xBufOff != 0 && len > 0) {
@@ -97,6 +99,8 @@ internal class GOST3411() : Digest<GOST3411> {
             inOff++
             len--
         }
+
+        return this
     }
 
     // (i + 1 + 4(k - 1)) = 8i + k      i = 0-3, k = 1-8
@@ -285,8 +289,9 @@ internal class GOST3411() : Digest<GOST3411> {
         )
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): GOST3411 {
         update(input, 0, input.size)
+        return this
     }
 
     override fun digest(): ByteArray {

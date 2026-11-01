@@ -74,7 +74,7 @@ internal class ParallelHash private constructor(
     private var blockCount = 0L
     private val compressorOutput = ByteArray(bitLength * 2 / 8)
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): ParallelHash {
         var off = offset
         var len = length
 
@@ -100,6 +100,7 @@ internal class ParallelHash private constructor(
             input.copyInto(buffer, 0, off, off + len)
             bufferOffset = len
         }
+        return this
     }
 
     private fun compress(input: ByteArray, offset: Int, length: Int) {

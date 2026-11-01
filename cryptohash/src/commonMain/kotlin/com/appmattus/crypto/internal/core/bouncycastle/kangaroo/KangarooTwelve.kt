@@ -70,14 +70,14 @@ internal class KangarooTwelve private constructor(
     private var currentNode = 0
     private var processed = 0
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): KangarooTwelve {
         val sponge = if (currentNode == 0) tree else leaf
         val space = BLOCK_SIZE - processed
 
         if (space >= length) {
             sponge.absorb(input, offset, length)
             processed += length
-            return
+            return this
         }
 
         if (space > 0) {
@@ -95,6 +95,7 @@ internal class KangarooTwelve private constructor(
             processed += dataLength
             count += dataLength
         }
+        return this
     }
 
     private fun switchLeaf(moreToCome: Boolean) {

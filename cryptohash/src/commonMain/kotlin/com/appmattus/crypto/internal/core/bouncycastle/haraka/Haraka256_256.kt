@@ -108,15 +108,17 @@ internal class Haraka256_256 : HarakaCore<Haraka256_256> {
         off = digest.off
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Haraka256_256 {
         require(off + 1 <= 32) { "total input cannot be more than 32 bytes" }
         buffer[off++] = input
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Haraka256_256 {
         require(off + length <= 32) { "total input cannot be more than 32 bytes" }
         input.copyInto(buffer, off, offset, offset + length)
         off += length
+        return this
     }
 
     override fun doFinal(out: ByteArray, outOff: Int): Int {

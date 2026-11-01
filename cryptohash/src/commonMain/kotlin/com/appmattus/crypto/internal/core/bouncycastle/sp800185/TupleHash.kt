@@ -64,8 +64,9 @@ internal class TupleHash private constructor(
         cshake = CSHAKEDigest(bitLength, "TupleHash".encodeToByteArray(), customisation)
     )
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): TupleHash {
         cshake.update(XofUtils.encodeString(input, offset, length))
+        return this
     }
 
     override fun digest(): ByteArray {

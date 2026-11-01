@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ internal class Adler32 : Digest<Adler32> {
 
     private var checksum = 1
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): Adler32 {
         // We could make a length 1 byte array and call update again, but I
         // would rather not have that overhead
         var s1 = checksum and 0xffff
@@ -31,13 +31,14 @@ internal class Adler32 : Digest<Adler32> {
         s1 = (s1 + (input.toInt() and 0xFF)) % BASE
         s2 = (s1 + s2) % BASE
         checksum = (s2 shl 16) + s1
+        return this
     }
 
-    override fun update(input: ByteArray) {
-        update(input, 0, input.size)
+    override fun update(input: ByteArray): Adler32 {
+        return update(input, 0, input.size)
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): Adler32 {
         var len = length
         var pos = offset
 
@@ -61,6 +62,8 @@ internal class Adler32 : Digest<Adler32> {
         }
 
         checksum = s2 shl 16 or s1
+
+        return this
     }
 
     override fun digest(): ByteArray {

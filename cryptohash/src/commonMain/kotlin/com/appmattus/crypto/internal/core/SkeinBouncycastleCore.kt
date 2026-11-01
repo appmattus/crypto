@@ -47,16 +47,19 @@ internal class SkeinBouncycastleCore(
         init(params)
     }
 
-    override fun update(input: Byte) {
+    override fun update(input: Byte): SkeinBouncycastleCore {
         engine.update(input)
+        return this
     }
 
-    override fun update(input: ByteArray) {
+    override fun update(input: ByteArray): SkeinBouncycastleCore {
         engine.update(input, 0, input.size)
+        return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): SkeinBouncycastleCore {
         engine.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

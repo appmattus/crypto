@@ -80,8 +80,9 @@ internal class KMAC private constructor(
         }
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) {
+    override fun update(input: ByteArray, offset: Int, length: Int): KMAC {
         cshake.update(input, offset, length)
+        return this
     }
 
     override fun digest(): ByteArray {

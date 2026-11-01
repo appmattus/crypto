@@ -24,11 +24,20 @@ import com.appmattus.crypto.internal.core.sphlib.SHA2BigCore
 internal class SHA512_256 : Digest<SHA512_256> {
     private var delegate = Hash()
 
-    override fun update(input: Byte) = delegate.update(input)
+    override fun update(input: Byte): SHA512_256 {
+        delegate.update(input)
+        return this
+    }
 
-    override fun update(input: ByteArray) = delegate.update(input)
+    override fun update(input: ByteArray): SHA512_256 {
+        delegate.update(input)
+        return this
+    }
 
-    override fun update(input: ByteArray, offset: Int, length: Int) = delegate.update(input, offset, length)
+    override fun update(input: ByteArray, offset: Int, length: Int): SHA512_256 {
+        delegate.update(input, offset, length)
+        return this
+    }
 
     override fun digest(): ByteArray {
         val result = delegate.digest()
