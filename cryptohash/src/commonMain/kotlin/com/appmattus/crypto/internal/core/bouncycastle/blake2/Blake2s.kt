@@ -314,6 +314,7 @@ internal class Blake2s : Digest<Blake2s> {
      * @param offset  the offset into the byte array where the data starts.
      * @param length     the length of the data.
      */
+    @Suppress("ReturnCount")
     override fun update(input: ByteArray, offset: Int, length: Int): Blake2s {
         if (length == 0) {
             return this
