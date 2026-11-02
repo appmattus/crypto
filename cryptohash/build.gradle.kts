@@ -156,3 +156,5 @@ tasks.withType<Test>().configureEach {
         "--add-opens=java.base/java.util.zip=ALL-UNNAMED",
     )
 }
+
+apply(from = "hermes/hermes.gradle.kts")
