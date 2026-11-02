@@ -56,6 +56,8 @@
         var passed = 0, failed = 0, skipped = 0;
 
         function run(node, path) {
+            var started = Date.now();
+            var failedBefore = failed;
             node.tests.forEach(function (t) {
                 var name = path.concat([t.name]).join(' > ');
                 if (t.skip) {
@@ -73,6 +75,10 @@
                     print('FAILED ' + name + '\n    ' + (e && e.stack ? e.stack : e));
                 }
             });
+            // One line per test class, so slow suites show up in the log as they run
+            if (node.tests.length > 0) {
+                print((failed > failedBefore ? 'FAIL ' : 'ok   ') + path.join(' > ') + ' (' + (Date.now() - started) + ' ms)');
+            }
             node.suites.forEach(function (child) {
                 run(child, path.concat([child.name]));
             });
