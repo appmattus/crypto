@@ -16,9 +16,12 @@
 
 // Runs the JS unit tests on Hermes, the JavaScript engine React Native uses, with ./gradlew :cryptohash:jsHermesTest.
 //
-// The Hermes CLI comes from the hermes-engine-cli npm package. The JS test executable's modules are UMD, which
-// register themselves on globalThis when there's no module loader, so they're joined in dependency order between
-// test-shim.js, which provides describe/it and console, and test-run.js, which runs the tests.
+// - The Hermes CLI comes from the hermes-engine-cli npm package.
+// - The JS test executable's modules are UMD, which register themselves on globalThis when there's no module loader, so
+//   they're joined in dependency order between test-shim.js, which provides describe/it and console, and test-run.js,
+//   which runs the tests.
+// - That CLI can't parse class syntax, so Babel rewrites classes as functions first, as React Native's Babel preset
+//   does. Babel is installed with npm ci from package-lock.json, so node and npm must be on the PATH.
 
 val hermesCliVersion = "0.12.0"
 
@@ -103,11 +106,48 @@ val jsHermesBundle = tasks.register("jsHermesBundle") {
     }
 }
 
+val isWindows = hermesBinDir == "win64-bin"
+val babelDir = layout.buildDirectory.dir("hermes/babel")
+
+val hermesBabelInstall = tasks.register<Exec>("hermesBabelInstall") {
+    description = "Installs Babel from package-lock.json for the Hermes tests"
+    val sources = listOf("package.json", "package-lock.json", "transform-classes.js").map {
+        layout.projectDirectory.file("hermes/$it")
+    }
+    inputs.files(sources)
+    outputs.dir(babelDir)
+    workingDir(babelDir)
+    executable = if (isWindows) "npm.cmd" else "npm"
+    args("ci", "--no-audit", "--no-fund")
+    doFirst {
+        val dir = babelDir.get().asFile
+        dir.deleteRecursively()
+        dir.mkdirs()
+        sources.forEach { it.asFile.copyTo(dir.resolve(it.asFile.name)) }
+    }
+}
+
+val hermesTransformedBundle = layout.buildDirectory.file("hermes/test-bundle.es5.js")
+
+val jsHermesTransform = tasks.register<Exec>("jsHermesTransform") {
+    description = "Rewrites the classes in the Hermes test bundle as functions"
+    dependsOn(hermesBabelInstall, jsHermesBundle)
+    inputs.file(hermesBundle)
+    outputs.file(hermesTransformedBundle)
+    executable = "node"
+    args(
+        babelDir.get().file("transform-classes.js").asFile.path,
+        hermesBundle.get().asFile.path,
+        hermesTransformedBundle.get().asFile.path
+    )
+}
+
 tasks.register<Exec>("jsHermesTest") {
     description = "Runs the JS unit tests on the Hermes JavaScript engine"
     group = "verification"
-    dependsOn(extractHermes, jsHermesBundle)
-    inputs.file(hermesBundle)
-    executable = layout.buildDirectory.file("hermes/bin/" + if (hermesBinDir == "win64-bin") "hermes.exe" else "hermes").get().asFile.path
-    args(hermesBundle.get().asFile.path)
+    dependsOn(extractHermes, jsHermesTransform)
+    inputs.file(hermesTransformedBundle)
+    executable = layout.buildDirectory.file("hermes/bin/" + if (isWindows) "hermes.exe" else "hermes").get().asFile.path
+    // -w hides compile-time warnings about globals such as console, which the shim defines at run time
+    args("-w", hermesTransformedBundle.get().asFile.path)
 }
