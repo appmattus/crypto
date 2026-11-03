@@ -16,10 +16,11 @@
 
 // Runs before the Kotlin/JS test code in the Hermes test bundle.
 //
-// The Hermes CLI has no test framework and no console, only print(). kotlin.test's JS output registers tests through
-// whatever Jasmine/Mocha-style describe/it functions exist globally, so this defines minimal ones that collect the
-// tests, and __hermesRunTests runs them once everything has loaded.
+// The Hermes CLI has no test framework. kotlin.test's JS output registers tests through whatever Jasmine/Mocha-style
+// describe/it functions exist globally, so this defines minimal ones that collect the tests, and __hermesRunTests runs
+// them once everything has loaded.
 (function (global) {
+    // Older Hermes CLIs have only print(), so fall back to it for console
     if (typeof global.console === 'undefined') {
         var log = function () {
             print(Array.prototype.join.call(arguments, ' '));

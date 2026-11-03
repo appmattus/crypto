@@ -1,9 +1,0 @@
-{
-  "name": "cryptohash-hermes-test",
-  "private": true,
-  "description": "Babel, to rewrite ES2015 classes before the JS tests run on the Hermes CLI, as React Native's Babel preset does",
-  "devDependencies": {
-    "@babel/core": "7.29.7",
-    "@babel/plugin-transform-classes": "7.29.11"
-  }
-}

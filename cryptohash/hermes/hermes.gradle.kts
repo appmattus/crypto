@@ -16,54 +16,54 @@
 
 // Runs the JS unit tests on Hermes, the JavaScript engine React Native uses, with ./gradlew :cryptohash:jsHermesTest.
 //
-// - The Hermes CLI comes from the hermes-engine-cli npm package.
+// - The hermes CLI is built from source at hermesVersion, the Hermes that React Native 0.88 ships. Hermes publishes
+//   prebuilt binaries only for the hermesc compiler, not the CLI. The build needs git, CMake, Ninja, a C++ compiler
+//   and the ICU development files (libicu-dev on Debian/Ubuntu), and is reused until hermesVersion changes.
+// - Pass -Phermes.path=/path/to/hermes to use an existing hermes binary instead.
 // - The JS test executable's modules are UMD, which register themselves on globalThis when there's no module loader, so
-//   they're joined in dependency order between test-shim.js, which provides describe/it and console, and test-run.js,
-//   which runs the tests.
-// - That CLI can't parse class syntax, so Babel rewrites classes as functions first, as React Native's Babel preset
-//   does. Babel is installed with npm ci from package-lock.json, so node and npm must be on the PATH.
+//   they're joined in dependency order between test-shim.js, which provides describe/it, and test-run.js, which runs
+//   the tests.
 
-val hermesCliVersion = "0.12.0"
+val hermesVersion = "260318099.0.2"
+val hermesPath: Provider<String> = providers.gradleProperty("hermes.path")
+val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
 
-repositories {
-    exclusiveContent {
-        forRepository {
-            ivy {
-                name = "npmRegistry"
-                url = uri("https://registry.npmjs.org/")
-                patternLayout { artifact("[module]/-/[module]-[revision].[ext]") }
-                metadataSources { artifact() }
-            }
-        }
-        filter { includeModule("npm", "hermes-engine-cli") }
-    }
+val hermesDir = layout.buildDirectory.dir("hermes/$hermesVersion")
+val hermesSourceDir = hermesDir.map { it.dir("src") }
+val hermesBuildDir = hermesDir.map { it.dir("build") }
+val hermesBinary = hermesBuildDir.map { it.file(if (isWindows) "bin/hermes.exe" else "bin/hermes") }
+
+val hermesSource = tasks.register<Exec>("hermesSource") {
+    description = "Clones the Hermes source at version $hermesVersion"
+    onlyIf { !hermesPath.isPresent }
+    inputs.property("version", hermesVersion)
+    outputs.dir(hermesSourceDir)
+    doFirst { hermesSourceDir.get().asFile.deleteRecursively() }
+    commandLine(
+        "git", "clone", "--quiet", "--depth", "1", "--branch", "hermes-v$hermesVersion",
+        "https://github.com/meta/hermes.git", hermesSourceDir.get().asFile.path
+    )
 }
 
-val hermesCli: Configuration = configurations.create("hermesCli") {
-    isCanBeConsumed = false
-    isTransitive = false
+val hermesConfigure = tasks.register<Exec>("hermesConfigure") {
+    description = "Configures the Hermes CLI build with CMake"
+    onlyIf { !hermesPath.isPresent }
+    dependsOn(hermesSource)
+    inputs.property("version", hermesVersion)
+    outputs.file(hermesBuildDir.map { it.file("build.ninja") })
+    commandLine(
+        "cmake", "-S", hermesSourceDir.get().asFile.path, "-B", hermesBuildDir.get().asFile.path, "-G", "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release", "-DHERMES_ENABLE_DEBUGGER=OFF"
+    )
 }
 
-dependencies {
-    hermesCli("npm:hermes-engine-cli:$hermesCliVersion@tgz")
-}
-
-val hermesBinDir = when {
-    org.gradle.internal.os.OperatingSystem.current().isMacOsX -> "osx-bin"
-    org.gradle.internal.os.OperatingSystem.current().isWindows -> "win64-bin"
-    else -> "linux64-bin"
-}
-
-val extractHermes = tasks.register<Sync>("extractHermes") {
-    description = "Extracts the Hermes CLI for this OS from the hermes-engine-cli npm package"
-    from({ tarTree(resources.gzip(hermesCli.singleFile)) }) {
-        include("package/$hermesBinDir/**")
-        // Strip the package/<os>-bin/ prefix
-        eachFile { path = relativePath.segments.drop(2).joinToString("/") }
-        filePermissions { unix("rwxr-xr-x") }
-    }
-    includeEmptyDirs = false
-    into(layout.buildDirectory.dir("hermes/bin"))
+val buildHermes = tasks.register<Exec>("buildHermes") {
+    description = "Builds the Hermes CLI from source"
+    onlyIf { !hermesPath.isPresent }
+    dependsOn(hermesConfigure)
+    inputs.property("version", hermesVersion)
+    outputs.file(hermesBinary)
+    commandLine("cmake", "--build", hermesBuildDir.get().asFile.path, "--target", "hermes")
 }
 
 val jsTestExecutableDir = layout.buildDirectory.dir("compileSync/js/test/testDevelopmentExecutable/kotlin")
@@ -106,48 +106,12 @@ val jsHermesBundle = tasks.register("jsHermesBundle") {
     }
 }
 
-val isWindows = hermesBinDir == "win64-bin"
-val babelDir = layout.buildDirectory.dir("hermes/babel")
-
-val hermesBabelInstall = tasks.register<Exec>("hermesBabelInstall") {
-    description = "Installs Babel from package-lock.json for the Hermes tests"
-    val sources = listOf("package.json", "package-lock.json", "transform-classes.js").map {
-        layout.projectDirectory.file("hermes/$it")
-    }
-    inputs.files(sources)
-    outputs.dir(babelDir)
-    workingDir(babelDir)
-    executable = if (isWindows) "npm.cmd" else "npm"
-    args("ci", "--no-audit", "--no-fund")
-    doFirst {
-        val dir = babelDir.get().asFile
-        dir.deleteRecursively()
-        dir.mkdirs()
-        sources.forEach { it.asFile.copyTo(dir.resolve(it.asFile.name)) }
-    }
-}
-
-val hermesTransformedBundle = layout.buildDirectory.file("hermes/test-bundle.es5.js")
-
-val jsHermesTransform = tasks.register<Exec>("jsHermesTransform") {
-    description = "Rewrites the classes in the Hermes test bundle as functions"
-    dependsOn(hermesBabelInstall, jsHermesBundle)
-    inputs.file(hermesBundle)
-    outputs.file(hermesTransformedBundle)
-    executable = "node"
-    args(
-        babelDir.get().file("transform-classes.js").asFile.path,
-        hermesBundle.get().asFile.path,
-        hermesTransformedBundle.get().asFile.path
-    )
-}
-
 tasks.register<Exec>("jsHermesTest") {
     description = "Runs the JS unit tests on the Hermes JavaScript engine"
     group = "verification"
-    dependsOn(extractHermes, jsHermesTransform)
-    inputs.file(hermesTransformedBundle)
-    executable = layout.buildDirectory.file("hermes/bin/" + if (isWindows) "hermes.exe" else "hermes").get().asFile.path
-    // -w hides compile-time warnings about globals such as console, which the shim defines at run time
-    args("-w", hermesTransformedBundle.get().asFile.path)
+    dependsOn(buildHermes, jsHermesBundle)
+    inputs.file(hermesBundle)
+    executable = hermesPath.orElse(hermesBinary.map { it.asFile.path }).get()
+    // -w hides compile-time warnings about globals such as print, which only exist at run time
+    args("-w", hermesBundle.get().asFile.path)
 }
