@@ -16,15 +16,15 @@
 
 // Runs the JS unit tests on Hermes, the JavaScript engine React Native uses, with ./gradlew :cryptohash:jsHermesTest.
 //
-// - The hermes CLI is built from source at hermesVersion, the Hermes that React Native 0.88 ships. Hermes publishes
-//   prebuilt binaries only for the hermesc compiler, not the CLI. The build needs git, CMake, Ninja, a C++ compiler
-//   and the ICU development files (libicu-dev on Debian/Ubuntu), and is reused until hermesVersion changes.
+// - The hermes CLI is built from source at hermesVersion, the Hermes React Native 0.88.1 pins in sdks/.hermesv1version.
+//   Hermes publishes prebuilt binaries only for the hermesc compiler, not the CLI. The build needs git, CMake, Ninja, a
+//   C++ compiler and the ICU development files (libicu-dev on Debian/Ubuntu), and is reused until hermesVersion changes.
 // - Pass -Phermes.path=/path/to/hermes to use an existing hermes binary instead.
 // - The JS test executable's modules are UMD, which register themselves on globalThis when there's no module loader, so
 //   they're joined in dependency order between test-shim.js, which provides describe/it, and test-run.js, which runs
 //   the tests.
 
-val hermesVersion = "260318099.0.2"
+val hermesVersion = "260318099.0.5"
 val hermesPath: Provider<String> = providers.gradleProperty("hermes.path")
 val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
 
