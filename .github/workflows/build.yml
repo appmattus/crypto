@@ -47,7 +47,8 @@ jobs:
             -   name: Hermes tests
                 run: ./gradlew :cryptohash:jsHermesTest -Phermes.path=$HOME/hermes-cli/hermes
 
-    build:
+    # check and build each take the best part of an hour on macOS and share no outputs, so they run as parallel jobs
+    check:
         runs-on: macos-26
         steps:
             -   uses: actions/checkout@v7
@@ -76,16 +77,55 @@ jobs:
                     name: hs_err_pid.log
                     path: 'hs_err_**.log'
 
+    build:
+        runs-on: macos-26
+        steps:
+            -   uses: actions/checkout@v7
+            -   uses: actions/setup-java@v6
+                with:
+                    distribution: 'zulu'
+                    java-version: '17'
+                    cache: 'gradle'
+
+            -   name: Setup Gradle
+                uses: gradle/actions/setup-gradle@v6
+
+            -   name: konan cache
+                uses: actions/cache@v6
+                with:
+                    path: ~/.konan
+                    key: ${{ runner.os }}-konan
+
             -   name: Build
                 run: ./gradlew build -x check -x lintVitalRelease
 
+    # Releases publish only once every other job has passed
+    publish:
+        if: startsWith(github.ref, 'refs/tags/')
+        needs: [ check, build, hermes ]
+        runs-on: macos-26
+        steps:
+            -   uses: actions/checkout@v7
+            -   uses: actions/setup-java@v6
+                with:
+                    distribution: 'zulu'
+                    java-version: '17'
+                    cache: 'gradle'
+
+            -   name: Setup Gradle
+                uses: gradle/actions/setup-gradle@v6
+
+            -   name: konan cache
+                uses: actions/cache@v6
+                with:
+                    path: ~/.konan
+                    key: ${{ runner.os }}-konan
+
             -   name: Prepare tag properties
-                if: startsWith(github.ref, 'refs/tags/')
                 run: |
                     echo "${{secrets.GPG_SIGNING_SECRET_KEY_RING_FILE_BASE64}}" > $HOME/.gradle/sonatype-appmattus-keys.gpg.b64
                     base64 -d -i $HOME/.gradle/sonatype-appmattus-keys.gpg.b64 -o $HOME/.gradle/sonatype-appmattus-keys.gpg
                     echo "${{secrets.GPG_GRADLE_PROPERTIES}}" > $HOME/.gradle/gradle.properties
 
             -   name: Upload tag
-                if: startsWith(github.ref, 'refs/tags/')
                 run: ./gradlew publishAllPublicationsToMavenCentral -P"signing.secretKeyRingFile=$(echo $HOME/.gradle/sonatype-appmattus-keys.gpg)"
