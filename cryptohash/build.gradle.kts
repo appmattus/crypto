@@ -96,6 +96,10 @@ kotlin {
         val portableMain by creating {
             dependsOn(byteArrayMain)
         }
+        // Portable platforms whose Long is a 64-bit machine integer, i.e. everything other than Kotlin/JS
+        val nativeLongMain by creating {
+            dependsOn(portableMain)
+        }
         val androidAndLinuxAndMingwTest by creating {
             dependsOn(commonTest.get())
         }
@@ -107,8 +111,9 @@ kotlin {
         }
 
         jvmMain.get().dependsOn(byteArrayMain)
-        listOf(jsMain, wasmJsMain, wasmWasiMain, linuxMain, mingwMain, androidNativeMain).forEach {
-            it.get().dependsOn(portableMain)
+        jsMain.get().dependsOn(portableMain)
+        listOf(wasmJsMain, wasmWasiMain, linuxMain, mingwMain, androidNativeMain).forEach {
+            it.get().dependsOn(nativeLongMain)
         }
         linuxTest.get().dependsOn(androidAndLinuxAndMingwTest)
         mingwTest.get().dependsOn(androidAndLinuxAndMingwTest)
