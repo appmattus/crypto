@@ -15,5 +15,10 @@
  */
 package com.appmattus.crypto.internal.core.bouncycastle.blake2
 
-internal actual fun blake2bCompress(chainValue: LongArray, internalState: LongArray, message: ByteArray, messagePos: Int) =
-    blake2bCompressLong(chainValue, internalState, message, messagePos)
+internal actual fun blake2bCompress(
+    chainValue: LongArray,
+    internalState: LongArray,
+    messageWords: LongArray,
+    message: ByteArray,
+    messagePos: Int
+) = blake2bCompressLong(chainValue, internalState, messageWords, message, messagePos)

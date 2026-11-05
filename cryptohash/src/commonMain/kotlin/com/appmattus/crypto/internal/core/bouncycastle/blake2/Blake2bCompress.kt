@@ -43,17 +43,30 @@ import com.appmattus.crypto.internal.core.decodeLELong
 
 /**
  * Compresses one 128-byte block of [message] from [messagePos] into the eight-word [chainValue], using the already
- * initialised sixteen-word [internalState] as the working state.
+ * initialised sixteen-word [internalState] as the working state and [messageWords] as scratch for the block's sixteen
+ * message words.
  *
  * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
  */
-internal expect fun blake2bCompress(chainValue: LongArray, internalState: LongArray, message: ByteArray, messagePos: Int)
+internal expect fun blake2bCompress(
+    chainValue: LongArray,
+    internalState: LongArray,
+    messageWords: LongArray,
+    message: ByteArray,
+    messagePos: Int
+)
 
 /**
  * The [Long] implementation of [blake2bCompress], for platforms whose [Long] is a 64-bit machine integer
  */
-internal fun blake2bCompressLong(chainValue: LongArray, internalState: LongArray, message: ByteArray, messagePos: Int) {
-    val m = LongArray(16)
+internal fun blake2bCompressLong(
+    chainValue: LongArray,
+    internalState: LongArray,
+    messageWords: LongArray,
+    message: ByteArray,
+    messagePos: Int
+) {
+    val m = messageWords
     for (j in 0..15) {
         m[j] = decodeLELong(message, messagePos + j * 8)
     }
