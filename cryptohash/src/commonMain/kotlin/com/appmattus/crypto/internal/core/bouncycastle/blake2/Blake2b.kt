@@ -108,6 +108,10 @@ internal class Blake2b : Digest {
 
     // Position of last inserted byte:
     private var bufferPos = 0 // a value from 0 up to 128
+
+    // The message words of the block being compressed, reused across blocks
+    private val messageWords = LongArray(16)
+
     private val internalState = LongArray(16) // In the Blake2b paper it is
 
     // called: v
@@ -347,6 +351,7 @@ internal class Blake2b : Digest {
         compress(buffer!!, 0)
         buffer?.fill(0) // Holds eventually the key if input is null
         internalState.fill(0L)
+        messageWords.fill(0L)
         var i = 0
         while (i < chainValue!!.size && i * 8 < digestSize) {
             val bytes = ByteArray(8)
@@ -384,7 +389,7 @@ internal class Blake2b : Digest {
 
     private fun compress(message: ByteArray, messagePos: Int) {
         initializeInternalState()
-        blake2bCompress(chainValue!!, internalState, message, messagePos)
+        blake2bCompress(chainValue!!, internalState, messageWords, message, messagePos)
     }
 
     /**

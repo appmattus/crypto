@@ -41,8 +41,15 @@ private inline fun readIntLE(data: ByteArray, offset: Int): Int =
         ((data[offset + 2].toInt() and 0xff) shl 16) or
         (data[offset + 3].toInt() shl 24)
 
-@Suppress("MagicNumber")
-internal actual fun blake2bCompress(chainValue: LongArray, internalState: LongArray, message: ByteArray, messagePos: Int) {
+// messageWords is unused: the message words are held as Int pairs in mHigh and mLow instead
+@Suppress("MagicNumber", "UnusedParameter")
+internal actual fun blake2bCompress(
+    chainValue: LongArray,
+    internalState: LongArray,
+    messageWords: LongArray,
+    message: ByteArray,
+    messagePos: Int
+) {
     val mh = mHigh
     val ml = mLow
     val vh = vHigh
