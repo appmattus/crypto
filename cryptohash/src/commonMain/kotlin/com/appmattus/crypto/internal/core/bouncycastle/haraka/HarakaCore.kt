@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -375,44 +375,19 @@ internal abstract class HarakaCore<D : HarakaCore<D>> : Digest {
             return S[x.toInt() and 0xFF ushr 4][x.toInt() and 0xF]
         }
 
-        private fun subBytes(s: ByteArray): ByteArray {
-            val out = ByteArray(s.size)
-            out[0] = sBox(s[0])
-            out[1] = sBox(s[1])
-            out[2] = sBox(s[2])
-            out[3] = sBox(s[3])
-            out[4] = sBox(s[4])
-            out[5] = sBox(s[5])
-            out[6] = sBox(s[6])
-            out[7] = sBox(s[7])
-            out[8] = sBox(s[8])
-            out[9] = sBox(s[9])
-            out[10] = sBox(s[10])
-            out[11] = sBox(s[11])
-            out[12] = sBox(s[12])
-            out[13] = sBox(s[13])
-            out[14] = sBox(s[14])
-            out[15] = sBox(s[15])
-            return out
-        }
+        // The source byte of each output byte after ShiftRows
+        private val SHIFT_ROWS = intArrayOf(0, 5, 10, 15, 4, 9, 14, 3, 8, 13, 2, 7, 12, 1, 6, 11)
 
-        private fun shiftRows(s: ByteArray): ByteArray {
-            return byteArrayOf(
-                s[0], s[5], s[10], s[15],
-                s[4], s[9], s[14], s[3],
-                s[8], s[13], s[2], s[7],
-                s[12], s[1], s[6], s[11]
-            )
-        }
-
-        @Suppress("NAME_SHADOWING")
+        /** One AES round of [s] with round key [rk], returning the result in a new array and leaving [s] as it was */
         fun aesEnc(s: ByteArray, rk: ByteArray): ByteArray {
-            var s = s
-            s = subBytes(s)
-            s = shiftRows(s)
-            s = mixColumns(s)
-            xorReverse(s, rk)
-            return s
+            // SubBytes and ShiftRows together
+            val out = ByteArray(16)
+            for (i in 0..15) {
+                out[i] = sBox(s[SHIFT_ROWS[i]])
+            }
+            mixColumns(out)
+            xorReverse(out, rk)
+            return out
         }
 
         private fun xTime(x: Byte): Byte {
@@ -452,20 +427,18 @@ internal abstract class HarakaCore<D : HarakaCore<D>> : Digest {
             return out
         }
 
-        private fun mixColumns(s: ByteArray): ByteArray {
-            val out = ByteArray(s.size)
-            var j = 0
+        /** MixColumns on [s], in place */
+        private fun mixColumns(s: ByteArray) {
             for (i in 0..3) {
-                out[j++] =
-                    (xTime(s[4 * i]).toInt() xor xTime(s[4 * i + 1]).toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] =
-                    (s[4 * i].toInt() xor xTime(s[4 * i + 1]).toInt() xor xTime(s[4 * i + 2]).toInt() xor s[4 * i + 2].toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] =
-                    (s[4 * i].toInt() xor s[4 * i + 1].toInt() xor xTime(s[4 * i + 2]).toInt() xor xTime(s[4 * i + 3]).toInt() xor s[4 * i + 3].toInt()).toByte()
-                out[j++] =
-                    (xTime(s[4 * i]).toInt() xor s[4 * i].toInt() xor s[4 * i + 1].toInt() xor s[4 * i + 2].toInt() xor xTime(s[4 * i + 3]).toInt()).toByte()
+                val s0 = s[4 * i]
+                val s1 = s[4 * i + 1]
+                val s2 = s[4 * i + 2]
+                val s3 = s[4 * i + 3]
+                s[4 * i] = (xTime(s0).toInt() xor xTime(s1).toInt() xor s1.toInt() xor s2.toInt() xor s3.toInt()).toByte()
+                s[4 * i + 1] = (s0.toInt() xor xTime(s1).toInt() xor xTime(s2).toInt() xor s2.toInt() xor s3.toInt()).toByte()
+                s[4 * i + 2] = (s0.toInt() xor s1.toInt() xor xTime(s2).toInt() xor xTime(s3).toInt() xor s3.toInt()).toByte()
+                s[4 * i + 3] = (xTime(s0).toInt() xor s0.toInt() xor s1.toInt() xor s2.toInt() xor xTime(s3).toInt()).toByte()
             }
-            return out
         }
     }
 }
