@@ -64,14 +64,7 @@ internal inline fun ByteArray.decodeLEShort(off: Int): Short {
  */
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun decodeLELong(buf: ByteArray, off: Int): Long {
-    return buf[off + 0].toLong() and 0xFF or
-            ((buf[off + 1].toLong() and 0xFF) shl 8) or
-            ((buf[off + 2].toLong() and 0xFF) shl 16) or
-            ((buf[off + 3].toLong() and 0xFF) shl 24) or
-            ((buf[off + 4].toLong() and 0xFF) shl 32) or
-            ((buf[off + 5].toLong() and 0xFF) shl 40) or
-            ((buf[off + 6].toLong() and 0xFF) shl 48) or
-            ((buf[off + 7].toLong() and 0xFF) shl 56)
+    return (decodeLEInt(buf, off + 4).toLong() shl 32) or (decodeLEInt(buf, off).toLong() and 0xFFFFFFFFL)
 }
 
 @Suppress("NOTHING_TO_INLINE")
