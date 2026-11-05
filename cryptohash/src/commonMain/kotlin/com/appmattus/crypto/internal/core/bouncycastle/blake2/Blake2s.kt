@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,6 +118,11 @@ internal class Blake2s : Digest {
      * Internal state, in the BLAKE2 paper it is called v
      */
     private var internalState = IntArray(16)
+
+    /**
+     * The message words of the block being compressed, reused across blocks
+     */
+    private val messageWords = IntArray(16)
 
     /**
      * State vector, in the BLAKE2 paper it is called h
@@ -378,6 +383,7 @@ internal class Blake2s : Digest {
         compress(buffer, 0)
         buffer?.fill(0) // Holds eventually the key if input is null
         internalState.fill(0)
+        messageWords.fill(0)
         var i = 0
         while (i < chainValue!!.size && i * 4 < digestSize) {
             val bytes = ByteArray(4)
@@ -414,7 +420,7 @@ internal class Blake2s : Digest {
 
     private fun compress(message: ByteArray?, messagePos: Int) {
         initializeInternalState()
-        val m = IntArray(16)
+        val m = messageWords
         for (j in 0..15) {
             m[j] = decodeLEInt(message!!, messagePos + j * 4)
         }
