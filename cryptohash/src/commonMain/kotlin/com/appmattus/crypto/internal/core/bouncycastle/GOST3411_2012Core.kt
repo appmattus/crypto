@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,6 +81,9 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
     // Temporary buffers
     private val tmp = ByteArray(64)
     private val block = ByteArray(64)
+
+    // f()'s result words, reused across calls
+    private val res = LongArray(8)
     private var bOff = 64
     val byteLength: Int
         get() = 64
@@ -179,7 +182,7 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
 
     @Suppress("LongMethod")
     private fun f(v: ByteArray) {
-        val res = LongArray(8)
+        val res = this.res
         var r: Long = 0
         r = r xor T[0][v[56].toInt() and 0xFF]
         r = r xor T[1][v[48].toInt() and 0xFF]
