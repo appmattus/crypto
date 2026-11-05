@@ -21,7 +21,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,9 @@ internal class ChunkState(var chainingValue: IntArray, var chunkCounter: Long, v
     var blockLen = 0
     var blocksCompressed = 0
 
+    // The words of the block being compressed, reused across blocks
+    private val blockWords = IntArray(16)
+
     fun copyOf(): ChunkState {
         return ChunkState(chainingValue, chunkCounter, flags).also {
             it.block = block.copyOf()
@@ -72,10 +75,11 @@ internal class ChunkState(var chainingValue: IntArray, var chunkCounter: Long, v
         while (currPos < input.size) {
             // Chain the next 64 byte block into this chunk/node
             if (blockLen == BLOCK_LEN) {
-                val blockWords = wordsFromLEBytes(block)
+                wordsFromLEBytes(block, blockWords)
                 chainingValue = compress(chainingValue, blockWords, chunkCounter, BLOCK_LEN, flags or startFlag()).copyOfRange(0, 8)
                 blocksCompressed += 1
-                block = ByteArray(BLOCK_LEN)
+                // The final block is zero-padded, so clear it rather than allocating a new one
+                block.fill(0)
                 blockLen = 0
             }
 
