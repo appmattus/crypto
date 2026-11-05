@@ -156,11 +156,24 @@ internal class Hasher(
         private const val KEYED_HASH = 16
         private const val DERIVE_KEY_CONTEXT = 32
         private const val DERIVE_KEY_MATERIAL = 64
+        private const val ROUNDS = 7
 
         @Suppress("PropertyWrapping")
         internal val IV =
             intArrayOf(0x6A09E667, -0x4498517b, 0x3C6EF372, -0x5ab00ac6, 0x510E527F, -0x64fa9774, 0x1F83D9AB, 0x5BE0CD19)
         private val MSG_PERMUTATION = intArrayOf(2, 6, 3, 10, 7, 0, 4, 13, 1, 11, 12, 5, 9, 14, 15, 8)
+
+        /**
+         * The message word order for each of the 7 rounds: row 0 is the identity, and each later row is the one
+         * before it permuted by [MSG_PERMUTATION]. Reading words through these lets [compress] mix the message
+         * without building a permuted copy every round.
+         */
+        private val MSG_SCHEDULE: Array<IntArray> = Array(ROUNDS) { IntArray(16) }.also { rows ->
+            for (i in 0..15) rows[0][i] = i
+            for (r in 1 until ROUNDS) {
+                for (i in 0..15) rows[r][i] = rows[r - 1][MSG_PERMUTATION[i]]
+            }
+        }
 
         private fun wrappingAdd(a: Int, b: Int): Int {
             return a + b
@@ -178,31 +191,21 @@ internal class Hasher(
             state[b] = (state[b] xor state[c]).rotateRight(7)
         }
 
-        private fun roundFn(state: IntArray, m: IntArray) {
+        private fun roundFn(state: IntArray, m: IntArray, s: IntArray) {
             // Mix columns
-            g(state, 0, 4, 8, 12, m[0], m[1])
-            g(state, 1, 5, 9, 13, m[2], m[3])
-            g(state, 2, 6, 10, 14, m[4], m[5])
-            g(state, 3, 7, 11, 15, m[6], m[7])
+            g(state, 0, 4, 8, 12, m[s[0]], m[s[1]])
+            g(state, 1, 5, 9, 13, m[s[2]], m[s[3]])
+            g(state, 2, 6, 10, 14, m[s[4]], m[s[5]])
+            g(state, 3, 7, 11, 15, m[s[6]], m[s[7]])
 
             // Mix diagonals
-            g(state, 0, 5, 10, 15, m[8], m[9])
-            g(state, 1, 6, 11, 12, m[10], m[11])
-            g(state, 2, 7, 8, 13, m[12], m[13])
-            g(state, 3, 4, 9, 14, m[14], m[15])
+            g(state, 0, 5, 10, 15, m[s[8]], m[s[9]])
+            g(state, 1, 6, 11, 12, m[s[10]], m[s[11]])
+            g(state, 2, 7, 8, 13, m[s[12]], m[s[13]])
+            g(state, 3, 4, 9, 14, m[s[14]], m[s[15]])
         }
 
-        private fun permute(m: IntArray): IntArray {
-            val permuted = IntArray(16)
-            for (i in 0..15) {
-                permuted[i] = m[MSG_PERMUTATION[i]]
-            }
-            return permuted
-        }
-
-        @Suppress("NAME_SHADOWING")
         fun compress(chainingValue: IntArray, blockWords: IntArray, counter: Long, blockLen: Int, flags: Int): IntArray {
-            var blockWords = blockWords
             val counterInt = (counter and 0xffffffffL).toInt()
             val counterShift = (counter shr 32 and 0xffffffffL).toInt()
             val state = intArrayOf(
@@ -223,19 +226,9 @@ internal class Hasher(
                 blockLen,
                 flags
             )
-            roundFn(state, blockWords) // Round 1
-            blockWords = permute(blockWords)
-            roundFn(state, blockWords) // Round 2
-            blockWords = permute(blockWords)
-            roundFn(state, blockWords) // Round 3
-            blockWords = permute(blockWords)
-            roundFn(state, blockWords) // Round 4
-            blockWords = permute(blockWords)
-            roundFn(state, blockWords) // Round 5
-            blockWords = permute(blockWords)
-            roundFn(state, blockWords) // Round 6
-            blockWords = permute(blockWords)
-            roundFn(state, blockWords) // Round 7
+            for (round in 0 until ROUNDS) {
+                roundFn(state, blockWords, MSG_SCHEDULE[round])
+            }
             for (i in 0..7) {
                 state[i] = state[i] xor state[i + 8]
                 state[i + 8] = state[i + 8] xor chainingValue[i]
@@ -246,6 +239,13 @@ internal class Hasher(
         fun wordsFromLEBytes(bytes: ByteArray): IntArray {
             return IntArray(bytes.size / 4) { i ->
                 decodeLEInt(bytes, i * 4)
+            }
+        }
+
+        /** Decodes [bytes] into [out] as little-endian words, without allocating */
+        fun wordsFromLEBytes(bytes: ByteArray, out: IntArray) {
+            for (i in out.indices) {
+                out[i] = decodeLEInt(bytes, i * 4)
             }
         }
 
