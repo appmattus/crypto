@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -290,11 +290,18 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
 }
 
 /**
- * The Keccak-f[1600] permutation of the 25 lane [state], with the state held in local variables so the JVM can
- * JIT-compile it
+ * The Keccak-f[1600] permutation of the 25 lane [state].
+ *
+ * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
+ */
+internal expect fun keccakPermutation(state: LongArray)
+
+/**
+ * The [Long] implementation of [keccakPermutation], for platforms whose [Long] is a 64-bit machine integer. The state
+ * is held in local variables so the JVM can JIT-compile it.
  */
 @Suppress("LongMethod")
-internal fun keccakPermutation(state: LongArray) {
+internal fun keccakPermutationLong(state: LongArray) {
     val a = state
     var a00 = a[0]
     var a01 = a[1]
@@ -453,7 +460,8 @@ internal fun keccakPermutation(state: LongArray) {
     a[24] = a24
 }
 
-private val KECCAK_ROUND_CONSTANTS = longArrayOf(
+/** The 24 Keccak-f[1600] round constants */
+internal val KECCAK_ROUND_CONSTANTS = longArrayOf(
     0x0000000000000001L, 0x0000000000008082L,
     -0x7fffffffffff7f76L, -0x7fffffff7fff8000L, 0x000000000000808bL, 0x0000000080000001L, -0x7fffffff7fff7f7fL,
     -0x7fffffffffff7ff7L, 0x000000000000008aL, 0x0000000000000088L, 0x0000000080008009L, 0x000000008000000aL,
