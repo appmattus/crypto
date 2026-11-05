@@ -39,6 +39,8 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.kangaroo
 
+import com.appmattus.crypto.internal.core.bouncycastle.shake.keccakPermutation
+
 /**
  * Keccak sponge using the 12 round Keccak-p[1600, 12] permutation with padding left to the caller, as used by
  * [KangarooTwelve].
@@ -58,9 +60,6 @@ internal class KangarooSponge private constructor(
         bytesInQueue = 0,
         squeezing = false
     )
-
-    // permute()'s scratch for the theta column parities and the chi row, reused across permutations
-    private val scratch = LongArray(5)
 
     fun copy(): KangarooSponge = KangarooSponge(rateBytes, state.copyOf(), queue.copyOf(), bytesInQueue, squeezing)
 
@@ -142,60 +141,10 @@ internal class KangarooSponge private constructor(
         }
     }
 
-    private fun permute() {
-        val a = state
-        val c = scratch
-        for (round in ROUND_CONSTANTS.indices) {
-            // theta
-            for (x in 0 until 5) {
-                c[x] = a[x] xor a[x + 5] xor a[x + 10] xor a[x + 15] xor a[x + 20]
-            }
-            for (x in 0 until 5) {
-                val d = c[(x + 4) % 5] xor c[(x + 1) % 5].rotateLeft(1)
-                for (y in 0 until 25 step 5) {
-                    a[x + y] = a[x + y] xor d
-                }
-            }
-
-            // rho and pi
-            var current = a[1]
-            for (t in 0 until 24) {
-                val lane = PI_LANES[t]
-                val next = a[lane]
-                a[lane] = current.rotateLeft(RHO_OFFSETS[t])
-                current = next
-            }
-
-            // chi
-            for (y in 0 until 25 step 5) {
-                for (x in 0 until 5) {
-                    c[x] = a[y + x]
-                }
-                for (x in 0 until 5) {
-                    a[y + x] = c[x] xor (c[(x + 1) % 5].inv() and c[(x + 2) % 5])
-                }
-            }
-
-            // iota
-            a[0] = a[0] xor ROUND_CONSTANTS[round]
-        }
-    }
+    private fun permute() = keccakPermutation(state, ROUNDS)
 
     private companion object {
-        // The last 12 of the 24 Keccak-f[1600] round constants
-        private val ROUND_CONSTANTS = longArrayOf(
-            0x000000008000808buL.toLong(), 0x800000000000008buL.toLong(), 0x8000000000008089uL.toLong(),
-            0x8000000000008003uL.toLong(), 0x8000000000008002uL.toLong(), 0x8000000000000080uL.toLong(),
-            0x000000000000800auL.toLong(), 0x800000008000000auL.toLong(), 0x8000000080008081uL.toLong(),
-            0x8000000000008080uL.toLong(), 0x0000000080000001uL.toLong(), 0x8000000080008008uL.toLong()
-        )
-
-        private val RHO_OFFSETS = intArrayOf(
-            1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 2, 14, 27, 41, 56, 8, 25, 43, 62, 18, 39, 61, 20, 44
-        )
-
-        private val PI_LANES = intArrayOf(
-            10, 7, 11, 17, 18, 3, 5, 16, 8, 21, 24, 4, 15, 23, 19, 13, 12, 2, 20, 14, 22, 9, 6, 1
-        )
+        // Keccak-p[1600, 12]: the last 12 of Keccak-f[1600]'s 24 rounds
+        private const val ROUNDS = 12
     }
 }

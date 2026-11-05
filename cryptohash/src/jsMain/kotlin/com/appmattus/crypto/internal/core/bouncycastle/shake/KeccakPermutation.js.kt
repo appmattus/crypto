@@ -34,7 +34,7 @@ private val roundConstantsLow = IntArray(24) { KECCAK_ROUND_CONSTANTS[it].toInt(
 private fun join(high: Int, low: Int): Long = (high.toLong() shl 32) or (low.toLong() and 0xffffffffL)
 
 @Suppress("LongMethod", "MagicNumber")
-internal actual fun keccakPermutation(state: LongArray) {
+internal actual fun keccakPermutation(state: LongArray, rounds: Int) {
     var a00h = (state[0] ushr 32).toInt()
     var a00l = state[0].toInt()
     var a01h = (state[1] ushr 32).toInt()
@@ -85,7 +85,7 @@ internal actual fun keccakPermutation(state: LongArray) {
     var a23l = state[23].toInt()
     var a24h = (state[24] ushr 32).toInt()
     var a24l = state[24].toInt()
-    for (i in 0..23) {
+    for (i in KECCAK_F_ROUNDS - rounds until KECCAK_F_ROUNDS) {
         // theta
         val c0h = a00h xor a05h xor a10h xor a15h xor a20h
         val c0l = a00l xor a05l xor a10l xor a15l xor a20l
