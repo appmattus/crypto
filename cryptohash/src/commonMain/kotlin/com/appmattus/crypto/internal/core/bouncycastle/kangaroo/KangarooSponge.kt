@@ -59,6 +59,9 @@ internal class KangarooSponge private constructor(
         squeezing = false
     )
 
+    // permute()'s scratch for the theta column parities and the chi row, reused across permutations
+    private val scratch = LongArray(5)
+
     fun copy(): KangarooSponge = KangarooSponge(rateBytes, state.copyOf(), queue.copyOf(), bytesInQueue, squeezing)
 
     fun initSponge() {
@@ -141,7 +144,7 @@ internal class KangarooSponge private constructor(
 
     private fun permute() {
         val a = state
-        val c = LongArray(5)
+        val c = scratch
         for (round in ROUND_CONSTANTS.indices) {
             // theta
             for (x in 0 until 5) {
