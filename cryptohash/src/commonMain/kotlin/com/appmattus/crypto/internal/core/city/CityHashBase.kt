@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.appmattus.crypto.internal.core.city
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalDigest
 import com.appmattus.crypto.internal.core.decodeLEULong
+import com.appmattus.crypto.internal.core.mulLow
 import com.appmattus.crypto.internal.core.reverseByteOrder
 import com.appmattus.uint.UInt128
 
@@ -119,18 +120,18 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         var z: ULong = hashLen16(s.decodeLEULong(len - 48) + len.toULong(), s.decodeLEULong(len - 24))
         var v: UInt128 = weakHashLen32WithSeeds(s, len - 64, len.toULong(), z)
         var w: UInt128 = weakHashLen32WithSeeds(s, len - 32, y + k1, x)
-        x = x * k1 + s.decodeLEULong(0)
+        x = mulLow(x, k1) + s.decodeLEULong(0)
 
         // Decrease len to the nearest multiple of 64, and operate on 64-byte chunks.
         len = len - 1 and 63.inv()
         var pos = 0
         do {
-            x = (x + y + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37) * k1
-            y = (y + v.upper + s.decodeLEULong(pos + 48)).rotateRight(42) * k1
+            x = mulLow((x + y + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37), k1)
+            y = mulLow((y + v.upper + s.decodeLEULong(pos + 48)).rotateRight(42), k1)
             x = x xor w.upper
             y += v.lower + s.decodeLEULong(pos + 40)
-            z = (z + w.lower).rotateRight(33) * k1
-            v = weakHashLen32WithSeeds(s, pos, v.upper * k1, x + w.lower)
+            z = mulLow((z + w.lower).rotateRight(33), k1)
+            v = weakHashLen32WithSeeds(s, pos, mulLow(v.upper, k1), x + w.lower)
             w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
             // swap z,x value
             val swapValue = x
@@ -140,7 +141,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             len -= 64
         } while (len != 0)
         return hashLen16(
-            hashLen16(v.lower, w.lower) + shiftMix(y) * k1 + z,
+            hashLen16(v.lower, w.lower) + mulLow(shiftMix(y), k1) + z,
             hashLen16(v.upper, w.upper) + x
         )
     }
@@ -180,36 +181,36 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         var w: UInt128
         var x: ULong = seed.lower
         var y: ULong = seed.upper
-        var z = len.toULong() * k1
+        var z = mulLow(len.toULong(), k1)
 
-        val lower = (y xor k1).rotateRight(49) * k1 + byteArray.decodeLEULong(offset)
-        val upper = lower.rotateRight(42) * k1 + byteArray.decodeLEULong(offset + 8)
+        val lower = mulLow((y xor k1).rotateRight(49), k1) + byteArray.decodeLEULong(offset)
+        val upper = mulLow(lower.rotateRight(42), k1) + byteArray.decodeLEULong(offset + 8)
         v = UInt128(upper, lower)
         w = UInt128(
-            upper = (x + byteArray.decodeLEULong(offset + 88)).rotateRight(53) * k1,
-            lower = (y + z).rotateRight(35) * k1 + x
+            upper = mulLow((x + byteArray.decodeLEULong(offset + 88)).rotateRight(53), k1),
+            lower = mulLow((y + z).rotateRight(35), k1) + x
         )
 
         // This is the same inner loop as CityHash64(), manually unrolled.
         var pos = offset
         do {
-            x = (x + y + v.lower + byteArray.decodeLEULong(pos + 8)).rotateRight(37) * k1
-            y = (y + v.upper + byteArray.decodeLEULong(pos + 48)).rotateRight(42) * k1
+            x = mulLow((x + y + v.lower + byteArray.decodeLEULong(pos + 8)).rotateRight(37), k1)
+            y = mulLow((y + v.upper + byteArray.decodeLEULong(pos + 48)).rotateRight(42), k1)
             x = x xor w.upper
             y += v.lower + byteArray.decodeLEULong(pos + 40)
-            z = (z + w.lower).rotateRight(33) * k1
-            v = weakHashLen32WithSeeds(byteArray, pos, v.upper * k1, x + w.lower)
+            z = mulLow((z + w.lower).rotateRight(33), k1)
+            v = weakHashLen32WithSeeds(byteArray, pos, mulLow(v.upper, k1), x + w.lower)
             w = weakHashLen32WithSeeds(byteArray, pos + 32, z + w.upper, y + byteArray.decodeLEULong(pos + 16))
             var swapValue = x
             x = z
             z = swapValue
             pos += 64
-            x = (x + y + v.lower + byteArray.decodeLEULong(pos + 8)).rotateRight(37) * k1
-            y = (y + v.upper + byteArray.decodeLEULong(pos + 48)).rotateRight(42) * k1
+            x = mulLow((x + y + v.lower + byteArray.decodeLEULong(pos + 8)).rotateRight(37), k1)
+            y = mulLow((y + v.upper + byteArray.decodeLEULong(pos + 48)).rotateRight(42), k1)
             x = x xor w.upper
             y += v.lower + byteArray.decodeLEULong(pos + 40)
-            z = (z + w.lower).rotateRight(33) * k1
-            v = weakHashLen32WithSeeds(byteArray, pos, v.upper * k1, x + w.lower)
+            z = mulLow((z + w.lower).rotateRight(33), k1)
+            v = weakHashLen32WithSeeds(byteArray, pos, mulLow(v.upper, k1), x + w.lower)
             w = weakHashLen32WithSeeds(byteArray, pos + 32, z + w.upper, y + byteArray.decodeLEULong(pos + 16))
             swapValue = x
             x = z
@@ -217,23 +218,23 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             pos += 64
             len -= 128
         } while (len >= 128)
-        x += (v.lower + z).rotateRight(49) * k0
-        y = y * k0 + (w.upper).rotateRight(37)
-        z = z * k0 + (w.lower).rotateRight(27)
-        w = UInt128(w.upper, w.lower * 9u)
-        v = UInt128(v.upper, v.lower * k0)
+        x += mulLow((v.lower + z).rotateRight(49), k0)
+        y = mulLow(y, k0) + (w.upper).rotateRight(37)
+        z = mulLow(z, k0) + (w.lower).rotateRight(27)
+        w = UInt128(w.upper, mulLow(w.lower, 9u))
+        v = UInt128(v.upper, mulLow(v.lower, k0))
 
         // If 0 < len < 128, hash up to 4 chunks of 32 bytes each from the end of s.
         var tailDone = 0
         while (tailDone < len) {
             tailDone += 32
-            y = (x + y).rotateRight(42) * k0 + v.upper
+            y = mulLow((x + y).rotateRight(42), k0) + v.upper
             w = UInt128(w.upper, w.lower + byteArray.decodeLEULong(pos + len - tailDone + 16))
-            x = x * k0 + w.lower
+            x = mulLow(x, k0) + w.lower
             z += w.upper + byteArray.decodeLEULong(pos + len - tailDone)
             w = UInt128(w.upper + v.lower, w.lower)
             v = weakHashLen32WithSeeds(byteArray, pos + len - tailDone, v.lower + z, v.upper)
-            v = UInt128(v.upper, v.lower * k0)
+            v = UInt128(v.upper, mulLow(v.lower, k0))
         }
         // At this point our 56 bytes of state should contain more than
         // enough information for a strong 128-bit hash.  We use two
@@ -256,7 +257,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         var b: ULong = s.decodeLEULong(96) + k0
         var c: ULong = hashLen16(b, len.toULong())
         result[0] = c
-        var d: ULong = s.decodeLEULong(120) * k0 + len.toULong()
+        var d: ULong = mulLow(s.decodeLEULong(120), k0) + len.toULong()
         result[1] = d
         var e: ULong = s.decodeLEULong(184) + seed.toULong()
         var f: ULong = 0u
@@ -377,11 +378,11 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         z = hashLen16(b, c) + a
         y = hashLen16(g, h) + c
         result[0] = e + z + y + x
-        a = shiftMix((a + y) * k0) * k0 + b
+        a = mulLow(shiftMix(mulLow(a + y, k0)), k0) + b
         result[1] += a + result[0]
-        a = shiftMix(a * k0) * k0 + c
+        a = mulLow(shiftMix(mulLow(a, k0)), k0) + c
         result[2] = a + result[1]
-        a = shiftMix((a + e) * k0) * k0
+        a = mulLow(shiftMix(mulLow(a + e, k0)), k0)
         result[3] = a + result[2]
     }
 
@@ -411,7 +412,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             val u: ULong = seed.upper + result[0]
             val v: ULong = seed.lower + result[1]
             UInt128(
-                hashLen16(v.rotateRight(32), u * k0 + result[3]),
+                hashLen16(v.rotateRight(32), mulLow(u, k0) + result[3]),
                 hashLen16(u, v + result[2])
             )
         }
@@ -511,26 +512,26 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
         internal fun hashLen16(u: ULong, v: ULong, mul: ULong): ULong {
             // Murmur-inspired hashing.
-            var a: ULong = (u xor v) * mul
+            var a: ULong = mulLow(u xor v, mul)
             a = a xor (a shr 47)
-            var b: ULong = (v xor a) * mul
+            var b: ULong = mulLow(v xor a, mul)
             b = b xor (b shr 47)
-            b *= mul
+            b = mulLow(b, mul)
             return b
         }
 
         @Suppress("ReturnCount")
         internal fun hashLen0to16(s: ByteBuffer, offset: Int = 0, len: Int = s.size): ULong {
             if (len >= 8) {
-                val mul: ULong = k2 + len.toULong() * 2u
+                val mul: ULong = k2 + (len * 2).toULong()
                 val a: ULong = s.decodeLEULong(offset + 0) + k2
                 val b: ULong = s.decodeLEULong(offset + len - 8)
-                val c: ULong = b.rotateRight(37) * mul + a
-                val d: ULong = (a.rotateRight(25) + b) * mul
+                val c: ULong = mulLow(b.rotateRight(37), mul) + a
+                val d: ULong = mulLow(a.rotateRight(25) + b, mul)
                 return hashLen16(c, d, mul)
             }
             if (len >= 4) {
-                val mul: ULong = k2 + len.toULong() * 2u
+                val mul: ULong = k2 + (len * 2).toULong()
                 val a: ULong = (s.decodeLEUInt(offset + 0).toULong() and 0xffffffffuL)
                 return hashLen16(
                     len.toULong() + (a shl 3),
@@ -544,7 +545,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
                 val c: ULong = s[offset + len - 1].toULong() and 0xffu
                 val y: UInt = a.toUInt() + (b.toUInt() shl 8)
                 val z: UInt = len.toUInt() + (c.toUInt() shl 2)
-                return shiftMix(y * k2 xor z * k0) * k2
+                return mulLow(shiftMix(mulLow(y.toULong(), k2) xor mulLow(z.toULong(), k0)), k2)
             }
             return k2
         }
@@ -552,11 +553,11 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         // This probably works well for 16-byte strings as well, but it may be overkill in that case.
         private fun hashLen17to32(s: ByteBuffer): ULong {
             val len = s.size
-            val mul: ULong = k2 + len.toULong() * 2u
-            val a: ULong = s.decodeLEULong(0) * k1
+            val mul: ULong = k2 + (len * 2).toULong()
+            val a: ULong = mulLow(s.decodeLEULong(0), k1)
             val b: ULong = s.decodeLEULong(8)
-            val c: ULong = s.decodeLEULong(len - 8) * mul
-            val d: ULong = s.decodeLEULong(len - 16) * k2
+            val c: ULong = mulLow(s.decodeLEULong(len - 8), mul)
+            val d: ULong = mulLow(s.decodeLEULong(len - 16), k2)
             return hashLen16(
                 (a + b).rotateRight(43) + c.rotateRight(30) + d,
                 a + (b + k2).rotateRight(18) + c,
@@ -597,23 +598,23 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         // Return an 8-byte hash for 33 to 64 bytes.
         private fun hashLen33to64(s: ByteBuffer): ULong {
             val len = s.size
-            val mul: ULong = k2 + len.toULong() * 2u
-            var a: ULong = s.decodeLEULong(0) * k2
+            val mul: ULong = k2 + (len * 2).toULong()
+            var a: ULong = mulLow(s.decodeLEULong(0), k2)
             var b: ULong = s.decodeLEULong(8)
             val c: ULong = s.decodeLEULong(len - 24)
             val d: ULong = s.decodeLEULong(len - 32)
-            val e: ULong = s.decodeLEULong(16) * k2
-            val f: ULong = s.decodeLEULong(24) * 9u
+            val e: ULong = mulLow(s.decodeLEULong(16), k2)
+            val f: ULong = mulLow(s.decodeLEULong(24), 9u)
             val g: ULong = s.decodeLEULong(len - 8)
-            val h: ULong = s.decodeLEULong(len - 16) * mul
-            val u: ULong = (a + g).rotateRight(43) + (b.rotateRight(30) + c) * 9u
+            val h: ULong = mulLow(s.decodeLEULong(len - 16), mul)
+            val u: ULong = (a + g).rotateRight(43) + mulLow(b.rotateRight(30) + c, 9u)
             val v: ULong = (a + g xor d) + f + 1u
-            val w: ULong = ((u + v) * mul).reverseByteOrder() + h
+            val w: ULong = mulLow(u + v, mul).reverseByteOrder() + h
             val x: ULong = (e + f).rotateRight(42) + c
-            val y: ULong = (((v + w) * mul).reverseByteOrder() + g) * mul
+            val y: ULong = mulLow(mulLow(v + w, mul).reverseByteOrder() + g, mul)
             val z: ULong = e + f + c
-            a = ((x + z) * mul + y).reverseByteOrder() + b
-            b = shiftMix((z + a) * mul + d + h) * mul
+            a = (mulLow(x + z, mul) + y).reverseByteOrder() + b
+            b = mulLow(shiftMix(mulLow(z + a, mul) + d + h), mul)
             return b + x
         }
 
@@ -623,11 +624,11 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         // depending on NDEBUG.
         private fun hash128to64(x: UInt128): ULong {
             // Murmur-inspired hashing.
-            var a: ULong = (x.lower xor x.upper) * kMul
+            var a: ULong = mulLow(x.lower xor x.upper, kMul)
             a = a xor (a shr 47)
-            var b: ULong = (x.upper xor a) * kMul
+            var b: ULong = mulLow(x.upper xor a, kMul)
             b = b xor (b shr 47)
-            b *= kMul
+            b = mulLow(b, kMul)
             return b
         }
 
@@ -639,8 +640,8 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             var d: ULong
             var l = len - 16
             if (l <= 0) { // len <= 16
-                a = shiftMix(a * k1) * k1
-                c = b * k1 + hashLen0to16(s, offset, len)
+                a = mulLow(shiftMix(mulLow(a, k1)), k1)
+                c = mulLow(b, k1) + hashLen0to16(s, offset, len)
                 d = shiftMix(a + if (len >= 8) s.decodeLEULong(offset + 0) else c)
             } else { // len > 16
                 c = hashLen16(s.decodeLEULong(offset + len - 8) + k1, a)
@@ -648,11 +649,11 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
                 a += d
                 var pos = 0
                 do {
-                    a = a xor shiftMix(s.decodeLEULong(offset + pos) * k1) * k1
-                    a *= k1
+                    a = a xor mulLow(shiftMix(mulLow(s.decodeLEULong(offset + pos), k1)), k1)
+                    a = mulLow(a, k1)
                     b = b xor a
-                    c = c xor shiftMix(s.decodeLEULong(offset + pos + 8) * k1) * k1
-                    c *= k1
+                    c = c xor mulLow(shiftMix(mulLow(s.decodeLEULong(offset + pos + 8), k1)), k1)
+                    c = mulLow(c, k1)
                     d = d xor c
                     pos += 16
                     l -= 16
