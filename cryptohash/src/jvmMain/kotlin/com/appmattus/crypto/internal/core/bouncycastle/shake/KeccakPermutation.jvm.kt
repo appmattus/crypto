@@ -15,4 +15,4 @@
  */
 package com.appmattus.crypto.internal.core.bouncycastle.shake
 
-internal actual fun keccakPermutation(state: LongArray) = keccakPermutationLong(state)
+internal actual fun keccakPermutation(state: LongArray, rounds: Int) = keccakPermutationLong(state, rounds)

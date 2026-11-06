@@ -290,18 +290,19 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
 }
 
 /**
- * The Keccak-f[1600] permutation of the 25 lane [state].
+ * The Keccak-p[1600, [rounds]] permutation of the 25 lane [state]: the last [rounds] rounds of Keccak-f[1600], which
+ * is the default of all 24. KangarooTwelve uses 12.
  *
  * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
  */
-internal expect fun keccakPermutation(state: LongArray)
+internal expect fun keccakPermutation(state: LongArray, rounds: Int = KECCAK_F_ROUNDS)
 
 /**
  * The [Long] implementation of [keccakPermutation], for platforms whose [Long] is a 64-bit machine integer. The state
  * is held in local variables so the JVM can JIT-compile it.
  */
 @Suppress("LongMethod")
-internal fun keccakPermutationLong(state: LongArray) {
+internal fun keccakPermutationLong(state: LongArray, rounds: Int) {
     val a = state
     var a00 = a[0]
     var a01 = a[1]
@@ -328,7 +329,7 @@ internal fun keccakPermutationLong(state: LongArray) {
     var a22 = a[22]
     var a23 = a[23]
     var a24 = a[24]
-    for (i in 0..23) {
+    for (i in KECCAK_F_ROUNDS - rounds until KECCAK_F_ROUNDS) {
         // theta
         var c0 = a00 xor a05 xor a10 xor a15 xor a20
         var c1 = a01 xor a06 xor a11 xor a16 xor a21
@@ -459,6 +460,9 @@ internal fun keccakPermutationLong(state: LongArray) {
     a[23] = a23
     a[24] = a24
 }
+
+/** The number of rounds of Keccak-f[1600] */
+internal const val KECCAK_F_ROUNDS = 24
 
 /** The 24 Keccak-f[1600] round constants */
 internal val KECCAK_ROUND_CONSTANTS = longArrayOf(
