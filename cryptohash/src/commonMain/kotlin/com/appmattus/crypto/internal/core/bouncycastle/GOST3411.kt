@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -131,14 +131,34 @@ internal class GOST3411() : Digest {
         cipher.processBlock(input, inOff, s, sOff)
     }
 
-    // (in:) n16||..||n1 ==> (out:) n1^n2^n3^n4^n13^n16||n16||..||n2
-    private var wS = ShortArray(16)
-    private var wS2 = ShortArray(16)
-    private fun fw(input: ByteArray) {
-        cpyBytesToShort(input, wS)
-        wS2[15] = (wS[0].toInt() xor wS[1].toInt() xor wS[2].toInt() xor wS[3].toInt() xor wS[12].toInt() xor wS[15].toInt()).toShort()
-        wS.copyInto(wS2, 0, 1, 1 + 15)
-        cpyShortToBytes(wS2, input)
+    // Working space for psi(): the 32 input bytes followed by 2 bytes for each of up to 61 rounds
+    private val psiBuffer = ByteArray(32 + 2 * 61)
+
+    /**
+     * Applies the psi transform [rounds] times to [input], in place:
+     * (in:) n16||..||n1 ==> (out:) n1^n2^n3^n4^n13^n16||n16||..||n2
+     *
+     * Each round drops the first 16-bit little-endian word and appends the XOR of words 1, 2, 3, 4, 13 and 16. So
+     * rather than shifting the array every round, the rounds append 2 bytes each to a buffer, and the result is the
+     * last 32 bytes.
+     */
+    @Suppress("MagicNumber")
+    private fun psi(input: ByteArray, rounds: Int) {
+        val b = psiBuffer
+        input.copyInto(b, 0, 0, 32)
+        var o = 0
+        repeat(rounds) {
+            b[o + 32] = (
+                b[o].toInt() xor b[o + 2].toInt() xor b[o + 4].toInt() xor b[o + 6].toInt() xor
+                b[o + 24].toInt() xor b[o + 30].toInt()
+            ).toByte()
+            b[o + 33] = (
+                b[o + 1].toInt() xor b[o + 3].toInt() xor b[o + 5].toInt() xor b[o + 7].toInt() xor
+                b[o + 25].toInt() xor b[o + 31].toInt()
+            ).toByte()
+            o += 2
+        }
+        b.copyInto(input, 0, o, o + 32)
     }
 
     // block processing
@@ -176,19 +196,15 @@ internal class GOST3411() : Digest {
         }
 
         // x(M, H) = y61(H^y(M^y12(S)))
-        for (n in 0..11) {
-            fw(s)
-        }
+        psi(s, 12)
         for (n in 0..31) {
             s[n] = (s[n].toInt() xor m[n].toInt()).toByte()
         }
-        fw(s)
+        psi(s, 1)
         for (n in 0..31) {
             s[n] = (h[n].toInt() xor s[n].toInt()).toByte()
         }
-        for (n in 0..60) {
-            fw(s)
-        }
+        psi(s, 61)
         s.copyInto(h, 0, 0, h.size)
     }
 
@@ -247,19 +263,6 @@ internal class GOST3411() : Digest {
             val sum: Int = (sum[i].toInt() and 0xff) + (input[i].toInt() and 0xff) + carry
             this.sum[i] = sum.toByte()
             carry = sum ushr 8
-        }
-    }
-
-    private fun cpyBytesToShort(s: ByteArray, wS: ShortArray) {
-        for (i in 0 until s.size / 2) {
-            wS[i] = (s[i * 2 + 1].toInt() shl 8 and 0xFF00 or (s[i * 2].toInt() and 0xFF)).toShort()
-        }
-    }
-
-    private fun cpyShortToBytes(wS: ShortArray, s: ByteArray) {
-        for (i in 0 until s.size / 2) {
-            s[i * 2 + 1] = (wS[i].toInt() shr 8).toByte()
-            s[i * 2] = wS[i].toByte()
         }
     }
 
