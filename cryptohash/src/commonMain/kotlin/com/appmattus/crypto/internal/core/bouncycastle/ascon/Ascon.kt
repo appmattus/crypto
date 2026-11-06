@@ -94,7 +94,7 @@ internal class Ascon private constructor(
         var offset = 0
         while (outputLength - offset > RATE) {
             encodeLELong(state[0], output, offset)
-            permute(state)
+            asconPermutation(state)
             offset += RATE
         }
         val last = ByteArray(RATE).also { encodeLELong(state[0], it, 0) }
@@ -131,11 +131,6 @@ internal class Ascon private constructor(
         private const val XOF128_IV = 0x0000080000cc0003L
         private const val CXOF128_IV = 0x0000080000cc0004L
 
-        // Declared before the initial states, which are computed with the permutation
-        private val ROUND_CONSTANTS = longArrayOf(
-            0xf0, 0xe1, 0xd2, 0xc3, 0xb4, 0xa5, 0x96, 0x87, 0x78, 0x69, 0x5a, 0x4b
-        )
-
         private val hash256State = initialise(HASH256_IV)
         private val xof128State = initialise(XOF128_IV)
         private val cxof128State = initialise(CXOF128_IV)
@@ -151,7 +146,7 @@ internal class Ascon private constructor(
         fun cxof128(customisation: ByteArray, outputLength: Int): Ascon {
             val state = cxof128State.copyOf()
             state[0] = state[0] xor (customisation.size.toLong() * 8)
-            permute(state)
+            asconPermutation(state)
 
             var offset = 0
             while (customisation.size - offset >= RATE) {
@@ -163,11 +158,11 @@ internal class Ascon private constructor(
             return Ascon("Ascon-CXOF128", outputLength, state)
         }
 
-        private fun initialise(iv: Long) = longArrayOf(iv, 0, 0, 0, 0).also { permute(it) }
+        private fun initialise(iv: Long) = longArrayOf(iv, 0, 0, 0, 0).also { asconPermutation(it) }
 
         private fun absorbBlock(state: LongArray, input: ByteArray, offset: Int) {
             state[0] = state[0] xor decodeLELong(input, offset)
-            permute(state)
+            asconPermutation(state)
         }
 
         // Absorb the final partial block of length bytes, padded with a single 1 bit
@@ -177,40 +172,7 @@ internal class Ascon private constructor(
                 value = value or ((input[i].toLong() and 0xff) shl (8 * i))
             }
             state[0] = state[0] xor value xor (1L shl (8 * length))
-            permute(state)
-        }
-
-        private fun permute(state: LongArray) {
-            var x0 = state[0]
-            var x1 = state[1]
-            var x2 = state[2]
-            var x3 = state[3]
-            var x4 = state[4]
-
-            for (c in ROUND_CONSTANTS) {
-                x2 = x2 xor c
-                val x0x4 = x0 xor x4
-                val x1x2c = x1 xor x2
-                val x1orx2c = x1 or x2
-
-                val t0 = x3 xor x1orx2c xor x0 xor (x1 and x0x4)
-                val t1 = x0x4 xor (x1orx2c or x3) xor (x1 and x2 and x3)
-                val t2 = x1x2c xor (x4 and x3.inv())
-                val t3 = (x0 or (x3 xor x4)) xor x1x2c
-                val t4 = x3 xor (x1 or x4) xor (x0 and x1)
-
-                x0 = t0 xor t0.rotateRight(19) xor t0.rotateRight(28)
-                x1 = t1 xor t1.rotateRight(39) xor t1.rotateRight(61)
-                x2 = (t2 xor t2.rotateRight(1) xor t2.rotateRight(6)).inv()
-                x3 = t3 xor t3.rotateRight(10) xor t3.rotateRight(17)
-                x4 = t4 xor t4.rotateRight(7) xor t4.rotateRight(41)
-            }
-
-            state[0] = x0
-            state[1] = x1
-            state[2] = x2
-            state[3] = x3
-            state[4] = x4
+            asconPermutation(state)
         }
     }
 }
