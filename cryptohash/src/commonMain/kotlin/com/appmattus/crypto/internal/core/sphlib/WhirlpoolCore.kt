@@ -63,8 +63,9 @@ internal abstract class WhirlpoolCore<D : WhirlpoolCore<D>>(
     private val rc: LongArray
 ) : MDHelper<D>(false, 32) {
 
-    // The eight-word chaining value
-    private val state = LongArray(8)
+    // The eight-word chaining value. DigestEngine's constructor calls doInit before this class's properties are
+    // initialised, so it is created there rather than with an initialiser.
+    private lateinit var state: LongArray
 
     // The eight 256-entry lookup tables
     private val tables = arrayOf(t0, t1, t2, t3, t4, t5, t6, t7)
@@ -97,7 +98,7 @@ internal abstract class WhirlpoolCore<D : WhirlpoolCore<D>>(
     }
 
     override fun doInit() {
-        engineReset()
+        state = LongArray(8)
     }
 
     override fun processBlock(data: ByteArray) {
