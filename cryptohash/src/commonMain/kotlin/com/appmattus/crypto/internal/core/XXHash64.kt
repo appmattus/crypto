@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,31 +105,16 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest() {
             // some data left from previous update
             input.copyInto(state.mem, state.memSize, index + offset, index + offset + (32 - state.memSize))
 
-            state.v1 = round(state.v1, decodeLELong(state.mem, 0))
-            state.v2 = round(state.v2, decodeLELong(state.mem, 8))
-            state.v3 = round(state.v3, decodeLELong(state.mem, 16))
-            state.v4 = round(state.v4, decodeLELong(state.mem, 24))
+            xxh64Stripes(state, state.mem, 0, 1)
 
             index += 32 - state.memSize
             state.memSize = 0
         }
 
         if (index <= length - 32) {
-            val limit = length - 32
-
-            do {
-                state.v1 = round(state.v1, decodeLELong(input, index + offset))
-                index += 8
-
-                state.v2 = round(state.v2, decodeLELong(input, index + offset))
-                index += 8
-
-                state.v3 = round(state.v3, decodeLELong(input, index + offset))
-                index += 8
-
-                state.v4 = round(state.v4, decodeLELong(input, index + offset))
-                index += 8
-            } while (index <= limit)
+            val stripes = (length - index) / 32
+            xxh64Stripes(state, input, index + offset, stripes)
+            index += stripes * 32
         }
 
         if (index < length) {
