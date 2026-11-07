@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.appmattus.crypto.internal.core.murmur
 
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.rotateLeft
 import com.appmattus.crypto.internal.core.sphlib.DigestEngine
 
 // Based on the public domain https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp

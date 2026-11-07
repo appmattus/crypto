@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalDigest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.rotateRight
 
 @Suppress("ClassName", "FunctionName")
 internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T1ha0_32le>() {

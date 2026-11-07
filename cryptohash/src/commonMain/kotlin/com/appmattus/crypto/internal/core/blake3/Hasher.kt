@@ -39,6 +39,7 @@
 package com.appmattus.crypto.internal.core.blake3
 
 import com.appmattus.crypto.internal.core.decodeLEInt
+import com.appmattus.crypto.internal.core.rotateRight
 import kotlin.math.min
 
 /**
