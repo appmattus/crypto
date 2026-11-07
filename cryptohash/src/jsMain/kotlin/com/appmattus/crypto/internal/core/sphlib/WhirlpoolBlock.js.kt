@@ -94,23 +94,26 @@ private class WhirlpoolJs {
     }
 
     /**
-     * The table-lookup round function into tHigh and tLow: word j is the XOR over k of table k at byte k of word j - k
+     * The table-lookup round function into tHigh and tLow: word j is the XOR over k of table k at byte k of word j - k.
+     * The loop over k is written out, so each byte comes from a fixed shift of a fixed half.
      */
     @Suppress("MagicNumber")
     private fun transform(t: SplitTables, high: IntArray, low: IntArray) {
         val th = t.high
         val tl = t.low
+        val outHigh = tHigh
+        val outLow = tLow
         for (j in 0..7) {
-            var resultHigh = 0
-            var resultLow = 0
-            for (k in 0..7) {
-                val w = (j - k) and 7
-                val b = if (k < 4) (low[w] ushr (k shl 3)) and 0xff else (high[w] ushr ((k - 4) shl 3)) and 0xff
-                resultHigh = resultHigh xor th[(k shl 8) + b]
-                resultLow = resultLow xor tl[(k shl 8) + b]
-            }
-            tHigh[j] = resultHigh
-            tLow[j] = resultLow
+            val b0 = low[j] and 0xff
+            val b1 = 256 + ((low[(j - 1) and 7] ushr 8) and 0xff)
+            val b2 = 512 + ((low[(j - 2) and 7] ushr 16) and 0xff)
+            val b3 = 768 + (low[(j - 3) and 7] ushr 24)
+            val b4 = 1024 + (high[(j - 4) and 7] and 0xff)
+            val b5 = 1280 + ((high[(j - 5) and 7] ushr 8) and 0xff)
+            val b6 = 1536 + ((high[(j - 6) and 7] ushr 16) and 0xff)
+            val b7 = 1792 + (high[(j - 7) and 7] ushr 24)
+            outHigh[j] = th[b0] xor th[b1] xor th[b2] xor th[b3] xor th[b4] xor th[b5] xor th[b6] xor th[b7]
+            outLow[j] = tl[b0] xor tl[b1] xor tl[b2] xor tl[b3] xor tl[b4] xor tl[b5] xor tl[b6] xor tl[b7]
         }
     }
 }

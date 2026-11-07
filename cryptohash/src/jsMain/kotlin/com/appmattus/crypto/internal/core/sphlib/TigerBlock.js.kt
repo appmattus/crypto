@@ -83,107 +83,180 @@ private class TigerJs {
         state[2] = (h.toLong() shl 32) or (l.toLong() and 0xffffffffL)
     }
 
-    /** Eight rounds over the message words, starting with the chaining values at [a], [b] and [c] in their roles */
-    @Suppress("MagicNumber")
-    private fun pass(a: Int, b: Int, c: Int, mul: Int) {
-        round(a, b, c, 0, mul)
-        round(b, c, a, 1, mul)
-        round(c, a, b, 2, mul)
-        round(a, b, c, 3, mul)
-        round(b, c, a, 4, mul)
-        round(c, a, b, 5, mul)
-        round(a, b, c, 6, mul)
-        round(b, c, a, 7, mul)
-    }
-
-    /** c = c xor x, a = a - low(c), b = (b + high(c)) * mul, for words [a], [b] and [c] and message word [x] */
-    @Suppress("MagicNumber")
-    private fun round(a: Int, b: Int, c: Int, x: Int, mul: Int) {
-        val ch = sH[c] xor xH[x]
-        val cl = sL[c] xor xL[x]
-        sH[c] = ch
-        sL[c] = cl
-
-        // a = a - (T1[byte 0] xor T2[byte 2] xor T3[byte 4] xor T4[byte 6])
-        var i0 = cl and 0xff
-        var i1 = 256 + ((cl ushr 16) and 0xff)
-        var i2 = 512 + (ch and 0xff)
-        var i3 = 768 + ((ch ushr 16) and 0xff)
-        var th = tH[i0] xor tH[i1] xor tH[i2] xor tH[i3]
-        var tl = tL[i0] xor tL[i1] xor tL[i2] xor tL[i3]
-        val al = sL[a]
-        sL[a] = al - tl
-        sH[a] = sH[a] - th - carry(al, tl)
-
-        // b = b + (T4[byte 1] xor T3[byte 3] xor T2[byte 5] xor T1[byte 7])
-        i0 = 768 + ((cl ushr 8) and 0xff)
-        i1 = 512 + (cl ushr 24)
-        i2 = 256 + ((ch ushr 8) and 0xff)
-        i3 = ch ushr 24
-        th = tH[i0] xor tH[i1] xor tH[i2] xor tH[i3]
-        tl = tL[i0] xor tL[i1] xor tL[i2] xor tL[i3]
-        var bl = sL[b] + tl
-        var bh = sH[b] + th + carry(bl, tl)
-
-        // b = b * mul, as b * 4 + b, b * 8 - b or b * 8 + b
+    /**
+     * Eight rounds over the message words, starting with the chaining values at [ia], [ib] and [ic] in the roles a, b
+     * and c. Each round is c = c xor x, a = a - low(c), b = (b + high(c)) * mul, then the roles rotate, so the next
+     * round's a, b and c are this round's b, c and a. The words are held in locals rather than the state arrays.
+     */
+    @Suppress("LongMethod", "MagicNumber")
+    private fun pass(ia: Int, ib: Int, ic: Int, mul: Int) {
+        val tH = tH
+        val tL = tL
+        val xH = xH
+        val xL = xL
+        var aH = sH[ia]
+        var aL = sL[ia]
+        var bH = sH[ib]
+        var bL = sL[ib]
+        var cH = sH[ic]
+        var cL = sL[ic]
+        // b * mul is b * 4 + b, b * 8 - b or b * 8 + b
         val n = if (mul == 5) 2 else 3
-        val sh = (bh shl n) or (bl ushr (32 - n))
-        val sl = bl shl n
-        if (mul == 7) {
-            bh = sh - bh - carry(sl, bl)
-            bl = sl - bl
-        } else {
-            val l = sl + bl
-            bh = sh + bh + carry(l, bl)
-            bl = l
+        for (x in 0..7) {
+            cH = cH xor xH[x]
+            cL = cL xor xL[x]
+
+            // a = a - (T1[byte 0] xor T2[byte 2] xor T3[byte 4] xor T4[byte 6])
+            var i0 = cL and 0xff
+            var i1 = 256 + ((cL ushr 16) and 0xff)
+            var i2 = 512 + (cH and 0xff)
+            var i3 = 768 + ((cH ushr 16) and 0xff)
+            var th = tH[i0] xor tH[i1] xor tH[i2] xor tH[i3]
+            var tl = tL[i0] xor tL[i1] xor tL[i2] xor tL[i3]
+            val al = aL
+            aL = al - tl
+            aH = aH - th - carry(al, tl)
+
+            // b = b + (T4[byte 1] xor T3[byte 3] xor T2[byte 5] xor T1[byte 7])
+            i0 = 768 + ((cL ushr 8) and 0xff)
+            i1 = 512 + (cL ushr 24)
+            i2 = 256 + ((cH ushr 8) and 0xff)
+            i3 = cH ushr 24
+            th = tH[i0] xor tH[i1] xor tH[i2] xor tH[i3]
+            tl = tL[i0] xor tL[i1] xor tL[i2] xor tL[i3]
+            var l = bL + tl
+            var h = bH + th + carry(l, tl)
+
+            // b = b * mul
+            val sh = (h shl n) or (l ushr (32 - n))
+            val sl = l shl n
+            if (mul == 7) {
+                h = sh - h - carry(sl, l)
+                l = sl - l
+            } else {
+                val sum = sl + l
+                h = sh + h + carry(sum, l)
+                l = sum
+            }
+
+            // The next round's a, b and c are this round's b, c and a
+            bH = cH
+            bL = cL
+            cH = aH
+            cL = aL
+            aH = h
+            aL = l
         }
-        sH[b] = bh
-        sL[b] = bl
+        // Eight rotations leave a holding the word that started as c, b the one that started as a, and c the one
+        // that started as b
+        sH[ic] = aH
+        sL[ic] = aL
+        sH[ia] = bH
+        sL[ia] = bL
+        sH[ib] = cH
+        sL[ib] = cL
     }
 
-    @Suppress("MagicNumber")
+    /** The key schedule on the message words, held in locals rather than the arrays while it runs */
+    @Suppress("LongMethod", "MagicNumber")
     private fun keySchedule() {
+        val xH = xH
+        val xL = xL
+        var x0h = xH[0]
+        var x0l = xL[0]
+        var x1h = xH[1]
+        var x1l = xL[1]
+        var x2h = xH[2]
+        var x2l = xL[2]
+        var x3h = xH[3]
+        var x3l = xL[3]
+        var x4h = xH[4]
+        var x4l = xL[4]
+        var x5h = xH[5]
+        var x5l = xL[5]
+        var x6h = xH[6]
+        var x6l = xL[6]
+        var x7h = xH[7]
+        var x7l = xL[7]
+        var hi: Int
+        var lo: Int
+        var t: Int
         // x0 -= x7 xor 0xA5A5A5A5A5A5A5A5
-        subXor(0, xH[7] xor -0x5a5a5a5b, xL[7] xor -0x5a5a5a5b)
-        xorInto(1, 0)
-        addInto(2, 1)
+        hi = x7h xor -0x5a5a5a5b
+        lo = x7l xor -0x5a5a5a5b
+        t = x0l
+        x0l = t - lo
+        x0h = x0h - hi - carry(t, lo)
+        x1h = x1h xor x0h
+        x1l = x1l xor x0l
+        t = x2l + x1l
+        x2h = x2h + x1h + carry(t, x1l)
+        x2l = t
         // x3 -= x2 xor (x1.inv() shl 19)
-        subXor(3, xH[2] xor ((xH[1].inv() shl 19) or (xL[1].inv() ushr 13)), xL[2] xor (xL[1].inv() shl 19))
-        xorInto(4, 3)
-        addInto(5, 4)
+        hi = x2h xor ((x1h.inv() shl 19) or (x1l.inv() ushr 13))
+        lo = x2l xor (x1l.inv() shl 19)
+        t = x3l
+        x3l = t - lo
+        x3h = x3h - hi - carry(t, lo)
+        x4h = x4h xor x3h
+        x4l = x4l xor x3l
+        t = x5l + x4l
+        x5h = x5h + x4h + carry(t, x4l)
+        x5l = t
         // x6 -= x5 xor (x4.inv() ushr 23)
-        subXor(6, xH[5] xor (xH[4].inv() ushr 23), xL[5] xor ((xL[4].inv() ushr 23) or (xH[4].inv() shl 9)))
-        xorInto(7, 6)
-        addInto(0, 7)
+        hi = x5h xor (x4h.inv() ushr 23)
+        lo = x5l xor ((x4l.inv() ushr 23) or (x4h.inv() shl 9))
+        t = x6l
+        x6l = t - lo
+        x6h = x6h - hi - carry(t, lo)
+        x7h = x7h xor x6h
+        x7l = x7l xor x6l
+        t = x0l + x7l
+        x0h = x0h + x7h + carry(t, x7l)
+        x0l = t
         // x1 -= x0 xor (x7.inv() shl 19)
-        subXor(1, xH[0] xor ((xH[7].inv() shl 19) or (xL[7].inv() ushr 13)), xL[0] xor (xL[7].inv() shl 19))
-        xorInto(2, 1)
-        addInto(3, 2)
+        hi = x0h xor ((x7h.inv() shl 19) or (x7l.inv() ushr 13))
+        lo = x0l xor (x7l.inv() shl 19)
+        t = x1l
+        x1l = t - lo
+        x1h = x1h - hi - carry(t, lo)
+        x2h = x2h xor x1h
+        x2l = x2l xor x1l
+        t = x3l + x2l
+        x3h = x3h + x2h + carry(t, x2l)
+        x3l = t
         // x4 -= x3 xor (x2.inv() ushr 23)
-        subXor(4, xH[3] xor (xH[2].inv() ushr 23), xL[3] xor ((xL[2].inv() ushr 23) or (xH[2].inv() shl 9)))
-        xorInto(5, 4)
-        addInto(6, 5)
+        hi = x3h xor (x2h.inv() ushr 23)
+        lo = x3l xor ((x2l.inv() ushr 23) or (x2h.inv() shl 9))
+        t = x4l
+        x4l = t - lo
+        x4h = x4h - hi - carry(t, lo)
+        x5h = x5h xor x4h
+        x5l = x5l xor x4l
+        t = x6l + x5l
+        x6h = x6h + x5h + carry(t, x5l)
+        x6l = t
         // x7 -= x6 xor 0x0123456789ABCDEF
-        subXor(7, xH[6] xor 0x01234567, xL[6] xor -0x76543211)
-    }
-
-    /** x[i] = x[i] - (h, l) */
-    private fun subXor(i: Int, h: Int, l: Int) {
-        val xl = xL[i]
-        xL[i] = xl - l
-        xH[i] = xH[i] - h - carry(xl, l)
-    }
-
-    /** x[i] = x[i] xor x[j] */
-    private fun xorInto(i: Int, j: Int) {
-        xH[i] = xH[i] xor xH[j]
-        xL[i] = xL[i] xor xL[j]
-    }
-
-    /** x[i] = x[i] + x[j] */
-    private fun addInto(i: Int, j: Int) {
-        val l = xL[i] + xL[j]
-        xH[i] = xH[i] + xH[j] + carry(l, xL[j])
-        xL[i] = l
+        hi = x6h xor 0x01234567
+        lo = x6l xor -0x76543211
+        t = x7l
+        x7l = t - lo
+        x7h = x7h - hi - carry(t, lo)
+        xH[0] = x0h
+        xL[0] = x0l
+        xH[1] = x1h
+        xL[1] = x1l
+        xH[2] = x2h
+        xL[2] = x2l
+        xH[3] = x3h
+        xL[3] = x3l
+        xH[4] = x4h
+        xL[4] = x4l
+        xH[5] = x5h
+        xL[5] = x5l
+        xH[6] = x6h
+        xL[6] = x6l
+        xH[7] = x7h
+        xL[7] = x7l
     }
 }
