@@ -62,6 +62,7 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.rotateRight
 
 /**
  * Implementation of the cryptographic hash function BLAKE2s.
@@ -446,17 +447,13 @@ internal class Blake2s : Digest {
 
     private fun g(m1: Int, m2: Int, posA: Int, posB: Int, posC: Int, posD: Int) {
         internalState[posA] = internalState[posA] + internalState[posB] + m1
-        internalState[posD] = rotr32(internalState[posD] xor internalState[posA], 16)
+        internalState[posD] = (internalState[posD] xor internalState[posA]).rotateRight(16)
         internalState[posC] = internalState[posC] + internalState[posD]
-        internalState[posB] = rotr32(internalState[posB] xor internalState[posC], 12)
+        internalState[posB] = (internalState[posB] xor internalState[posC]).rotateRight(12)
         internalState[posA] = internalState[posA] + internalState[posB] + m2
-        internalState[posD] = rotr32(internalState[posD] xor internalState[posA], 8)
+        internalState[posD] = (internalState[posD] xor internalState[posA]).rotateRight(8)
         internalState[posC] = internalState[posC] + internalState[posD]
-        internalState[posB] = rotr32(internalState[posB] xor internalState[posC], 7)
-    }
-
-    private fun rotr32(x: Int, rot: Int): Int {
-        return x ushr rot or (x shl 32 - rot)
+        internalState[posB] = (internalState[posB] xor internalState[posC]).rotateRight(7)
     }
 
     /**

@@ -41,6 +41,7 @@ package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.rotateLeft
 
 /**
  * This class implements BMW-224 and BMW-256.

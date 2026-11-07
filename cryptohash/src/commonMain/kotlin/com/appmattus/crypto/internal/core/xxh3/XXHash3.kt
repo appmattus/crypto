@@ -64,6 +64,7 @@ import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.encodeLELong
 import com.appmattus.crypto.internal.core.multiplyHigh
 import com.appmattus.crypto.internal.core.reverseByteOrder
+import com.appmattus.crypto.internal.core.rotateLeft
 
 /**
  * XXH3 is a more recent hash algorithm featuring:
