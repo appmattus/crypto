@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -304,7 +304,7 @@ internal class ThreefishEngine(blocksizeBits: Int) {
             throw OutputLengthException("Output buffer too short")
         }
         if (forEncryption) {
-            cipher!!.encryptBlock(input, out)
+            if (!threefishEncryptBlock(kw, t, input, out)) cipher!!.encryptBlock(input, out)
         } else {
             cipher!!.decryptBlock(input, out)
         }
@@ -1453,3 +1453,11 @@ internal class ThreefishEngine(blocksizeBits: Int) {
         }
     }
 }
+
+/**
+ * Encrypts [block] into [out] with the extended key words [kw] and tweak words [t], where the platform has its own
+ * implementation, returning false where the caller should use the common [Long] one instead.
+ *
+ * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
+ */
+internal expect fun threefishEncryptBlock(kw: LongArray, t: LongArray, block: LongArray, out: LongArray): Boolean
