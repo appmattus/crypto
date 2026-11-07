@@ -68,110 +68,6 @@ internal abstract class BMWBigCore<D : BMWBigCore<D>> : DigestEngine<D>() {
 
     protected abstract val initVal: LongArray
 
-    @Suppress("LongMethod")
-    private fun compress(m: LongArray) {
-        val h = h
-        val q = q
-        val w = w
-        w[0] = (m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) + (m[13] xor h[13]) + (m[14] xor h[14])
-        w[1] = ((m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) + (m[14] xor h[14])) - (m[15] xor h[15])
-        w[2] = (m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9]) - (m[12] xor h[12]) + (m[15] xor h[15])
-        w[3] = (m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) - (m[10] xor h[10]) + (m[13] xor h[13])
-        w[4] = (m[1] xor h[1]) + (m[2] xor h[2]) + (m[9] xor h[9]) - (m[11] xor h[11]) - (m[14] xor h[14])
-        w[5] = (m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) - (m[12] xor h[12]) + (m[15] xor h[15])
-        w[6] = ((m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) - (m[11] xor h[11])) + (m[13] xor h[13])
-        w[7] = (m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) - (m[12] xor h[12]) - (m[14] xor h[14])
-        w[8] = (m[2] xor h[2]) - (m[5] xor h[5]) - (m[6] xor h[6]) + (m[13] xor h[13]) - (m[15] xor h[15])
-        w[9] = (m[0] xor h[0]) - (m[3] xor h[3]) + (m[6] xor h[6]) - (m[7] xor h[7]) + (m[14] xor h[14])
-        w[10] = ((m[8] xor h[8]) - (m[1] xor h[1]) - (m[4] xor h[4]) - (m[7] xor h[7])) + (m[15] xor h[15])
-        w[11] = ((m[8] xor h[8]) - (m[0] xor h[0]) - (m[2] xor h[2]) - (m[5] xor h[5])) + (m[9] xor h[9])
-        w[12] = ((m[1] xor h[1]) + (m[3] xor h[3]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[10] xor h[10])
-        w[13] = (m[2] xor h[2]) + (m[4] xor h[4]) + (m[7] xor h[7]) + (m[10] xor h[10]) + (m[11] xor h[11])
-        w[14] = (m[3] xor h[3]) - (m[5] xor h[5]) + (m[8] xor h[8]) - (m[11] xor h[11]) - (m[12] xor h[12])
-        w[15] = ((m[12] xor h[12]) - (m[4] xor h[4]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[13] xor h[13])
-        run {
-            var u = 0
-            while (u < 15) {
-                q[u + 0] = ((w[u + 0] ushr 1) xor (w[u + 0] shl 3) xor w[u + 0].rotateLeft(4) xor w[u + 0].rotateLeft(37)) +
-                        h[u + 1]
-                q[u + 1] = ((w[u + 1] ushr 1) xor (w[u + 1] shl 2) xor w[u + 1].rotateLeft(13) xor w[u + 1].rotateLeft(43)) +
-                        h[u + 2]
-                q[u + 2] = ((w[u + 2] ushr 2) xor (w[u + 2] shl 1) xor w[u + 2].rotateLeft(19) xor w[u + 2].rotateLeft(53)) +
-                        h[u + 3]
-                q[u + 3] = ((w[u + 3] ushr 2) xor (w[u + 3] shl 2) xor w[u + 3].rotateLeft(28) xor w[u + 3].rotateLeft(59)) +
-                        h[u + 4]
-                q[u + 4] = ((w[u + 4] ushr 1) xor w[u + 4]) + h[u + 5]
-                u += 5
-            }
-        }
-        q[15] = (((w[15] ushr 1) xor (w[15] shl 3) xor w[15].rotateLeft(4) xor w[15].rotateLeft(37)) + h[0])
-        for (u in 16..17) {
-            @Suppress("Wrapping")
-            q[u] = ((q[u - 16] ushr 1) xor (q[u - 16] shl 2) xor q[u - 16].rotateLeft(13) xor q[u - 16].rotateLeft(43)) +
-                    ((q[u - 15] ushr 2) xor (q[u - 15] shl 1) xor q[u - 15].rotateLeft(19) xor q[u - 15].rotateLeft(53)) +
-                    ((q[u - 14] ushr 2) xor (q[u - 14] shl 2) xor q[u - 14].rotateLeft(28) xor q[u - 14].rotateLeft(59)) +
-                    ((q[u - 13] ushr 1) xor (q[u - 13] shl 3) xor q[u - 13].rotateLeft(4) xor q[u - 13].rotateLeft(37)) +
-                    ((q[u - 12] ushr 1) xor (q[u - 12] shl 2) xor q[u - 12].rotateLeft(13) xor q[u - 12].rotateLeft(43)) +
-                    ((q[u - 11] ushr 2) xor (q[u - 11] shl 1) xor q[u - 11].rotateLeft(19) xor q[u - 11].rotateLeft(53)) +
-                    ((q[u - 10] ushr 2) xor (q[u - 10] shl 2) xor q[u - 10].rotateLeft(28) xor q[u - 10].rotateLeft(59)) +
-                    ((q[u - 9] ushr 1) xor (q[u - 9] shl 3) xor q[u - 9].rotateLeft(4) xor q[u - 9].rotateLeft(37)) +
-                    ((q[u - 8] ushr 1) xor (q[u - 8] shl 2) xor q[u - 8].rotateLeft(13) xor q[u - 8].rotateLeft(43)) +
-                    ((q[u - 7] ushr 2) xor (q[u - 7] shl 1) xor q[u - 7].rotateLeft(19) xor q[u - 7].rotateLeft(53)) +
-                    ((q[u - 6] ushr 2) xor (q[u - 6] shl 2) xor q[u - 6].rotateLeft(28) xor q[u - 6].rotateLeft(59)) +
-                    ((q[u - 5] ushr 1) xor (q[u - 5] shl 3) xor q[u - 5].rotateLeft(4) xor q[u - 5].rotateLeft(37)) +
-                    ((q[u - 4] ushr 1) xor (q[u - 4] shl 2) xor q[u - 4].rotateLeft(13) xor q[u - 4].rotateLeft(43)) +
-                    ((q[u - 3] ushr 2) xor (q[u - 3] shl 1) xor q[u - 3].rotateLeft(19) xor q[u - 3].rotateLeft(53)) +
-                    ((q[u - 2] ushr 2) xor (q[u - 2] shl 2) xor q[u - 2].rotateLeft(28) xor q[u - 2].rotateLeft(59)) +
-                    ((q[u - 1] ushr 1) xor (q[u - 1] shl 3) xor q[u - 1].rotateLeft(4) xor q[u - 1].rotateLeft(37)) +
-                    (
-                        (
-                            m[u - 16 + 0 and 15].rotateLeft((u - 16 + 0 and 15) + 1) +
-                            m[u - 16 + 3 and 15].rotateLeft((u - 16 + 3 and 15) + 1) -
-                            m[u - 16 + 10 and 15].rotateLeft((u - 16 + 10 and 15) + 1) +
-                            K[u - 16]
-                        ) xor h[u - 16 + 7 and 15]
-                    )
-        }
-        for (u in 18..31) {
-            @Suppress("Wrapping")
-            q[u] = q[u - 16] + q[u - 15].rotateLeft(5) +
-                    q[u - 14] + q[u - 13].rotateLeft(11) +
-                    q[u - 12] + q[u - 11].rotateLeft(27) +
-                    q[u - 10] + q[u - 9].rotateLeft(32) +
-                    q[u - 8] + q[u - 7].rotateLeft(37) +
-                    q[u - 6] + q[u - 5].rotateLeft(43) +
-                    q[u - 4] + q[u - 3].rotateLeft(53) +
-                    ((q[u - 2] ushr 1) xor q[u - 2]) +
-                    ((q[u - 1] ushr 2) xor q[u - 1]) +
-                    (
-                        (
-                            m[u - 16 + 0 and 15].rotateLeft((u - 16 + 0 and 15) + 1) +
-                            m[u - 16 + 3 and 15].rotateLeft((u - 16 + 3 and 15) + 1) -
-                            m[u - 16 + 10 and 15].rotateLeft((u - 16 + 10 and 15) + 1) +
-                            K[u - 16]
-                        ) xor h[u - 16 + 7 and 15]
-                    )
-        }
-        val xl = q[16] xor q[17] xor q[18] xor q[19] xor q[20] xor q[21] xor q[22] xor q[23]
-        val xh = xl xor q[24] xor q[25] xor q[26] xor q[27] xor q[28] xor q[29] xor q[30] xor q[31]
-        h[0] = ((xh shl 5) xor (q[16] ushr 5) xor m[0]) + (xl xor q[24] xor q[0])
-        h[1] = ((xh ushr 7) xor (q[17] shl 8) xor m[1]) + (xl xor q[25] xor q[1])
-        h[2] = ((xh ushr 5) xor (q[18] shl 5) xor m[2]) + (xl xor q[26] xor q[2])
-        h[3] = ((xh ushr 1) xor (q[19] shl 5) xor m[3]) + (xl xor q[27] xor q[3])
-        h[4] = ((xh ushr 3) xor (q[20] shl 0) xor m[4]) + (xl xor q[28] xor q[4])
-        h[5] = ((xh shl 6) xor (q[21] ushr 6) xor m[5]) + (xl xor q[29] xor q[5])
-        h[6] = ((xh ushr 4) xor (q[22] shl 6) xor m[6]) + (xl xor q[30] xor q[6])
-        h[7] = ((xh ushr 11) xor (q[23] shl 2) xor m[7]) + (xl xor q[31] xor q[7])
-        h[8] = h[4].rotateLeft(9) + (xh xor q[24] xor m[8]) + ((xl shl 8) xor q[23] xor q[8])
-        h[9] = h[5].rotateLeft(10) + (xh xor q[25] xor m[9]) + ((xl ushr 6) xor q[16] xor q[9])
-        h[10] = h[6].rotateLeft(11) + (xh xor q[26] xor m[10]) + ((xl shl 6) xor q[17] xor q[10])
-        h[11] = h[7].rotateLeft(12) + (xh xor q[27] xor m[11]) + ((xl shl 4) xor q[18] xor q[11])
-        h[12] = h[0].rotateLeft(13) + (xh xor q[28] xor m[12]) + ((xl ushr 3) xor q[19] xor q[12])
-        h[13] = h[1].rotateLeft(14) + (xh xor q[29] xor m[13]) + ((xl ushr 4) xor q[20] xor q[13])
-        h[14] = h[2].rotateLeft(15) + (xh xor q[30] xor m[14]) + ((xl ushr 7) xor q[21] xor q[14])
-        h[15] = h[3].rotateLeft(16) + (xh xor q[31] xor m[15]) + ((xl ushr 2) xor q[22] xor q[15])
-    }
-
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         val buf = blockBuffer
         var ptr = flush()
@@ -189,7 +85,7 @@ internal abstract class BMWBigCore<D : BMWBigCore<D>> : DigestEngine<D>() {
         h = h2
         h2 = tmp
         FINAL.copyInto(h, 0, 0, 16)
-        compress(h2)
+        bmwBigCompress(h2, h, q, w)
         val outLen = digestLength ushr 3
         var i = 0
         var j = 16 - outLen
@@ -211,7 +107,7 @@ internal abstract class BMWBigCore<D : BMWBigCore<D>> : DigestEngine<D>() {
 
     override fun processBlock(data: ByteArray) {
         for (i in 0..15) m[i] = decodeLELong(data, i * 8)
-        compress(m)
+        bmwBigCompress(m, h, q, w)
     }
 
     companion object {
@@ -225,17 +121,129 @@ internal abstract class BMWBigCore<D : BMWBigCore<D>> : DigestEngine<D>() {
             -0x5555555555555554L, -0x5555555555555553L,
             -0x5555555555555552L, -0x5555555555555551L
         )
-
-        @Suppress("INTEGER_OVERFLOW")
-        private val K = longArrayOf(
-            16L * 0x0555555555555555L, 17L * 0x0555555555555555L,
-            18L * 0x0555555555555555L, 19L * 0x0555555555555555L,
-            20L * 0x0555555555555555L, 21L * 0x0555555555555555L,
-            22L * 0x0555555555555555L, 23L * 0x0555555555555555L,
-            24L * 0x0555555555555555L, 25L * 0x0555555555555555L,
-            26L * 0x0555555555555555L, 27L * 0x0555555555555555L,
-            28L * 0x0555555555555555L, 29L * 0x0555555555555555L,
-            30L * 0x0555555555555555L, 31L * 0x0555555555555555L
-        )
     }
 }
+
+/**
+ * Compresses the sixteen message words [m] into the sixteen-word chain value [h], using [q] and [w] as scratch.
+ *
+ * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
+ */
+internal expect fun bmwBigCompress(m: LongArray, h: LongArray, q: LongArray, w: LongArray)
+
+/**
+ * The [Long] implementation of [bmwBigCompress], for platforms whose [Long] is a 64-bit machine integer
+ */
+@Suppress("LongMethod")
+internal fun bmwBigCompressLong(m: LongArray, h: LongArray, q: LongArray, w: LongArray) {
+    w[0] = (m[5] xor h[5]) - (m[7] xor h[7]) + (m[10] xor h[10]) + (m[13] xor h[13]) + (m[14] xor h[14])
+    w[1] = ((m[6] xor h[6]) - (m[8] xor h[8]) + (m[11] xor h[11]) + (m[14] xor h[14])) - (m[15] xor h[15])
+    w[2] = (m[0] xor h[0]) + (m[7] xor h[7]) + (m[9] xor h[9]) - (m[12] xor h[12]) + (m[15] xor h[15])
+    w[3] = (m[0] xor h[0]) - (m[1] xor h[1]) + (m[8] xor h[8]) - (m[10] xor h[10]) + (m[13] xor h[13])
+    w[4] = (m[1] xor h[1]) + (m[2] xor h[2]) + (m[9] xor h[9]) - (m[11] xor h[11]) - (m[14] xor h[14])
+    w[5] = (m[3] xor h[3]) - (m[2] xor h[2]) + (m[10] xor h[10]) - (m[12] xor h[12]) + (m[15] xor h[15])
+    w[6] = ((m[4] xor h[4]) - (m[0] xor h[0]) - (m[3] xor h[3]) - (m[11] xor h[11])) + (m[13] xor h[13])
+    w[7] = (m[1] xor h[1]) - (m[4] xor h[4]) - (m[5] xor h[5]) - (m[12] xor h[12]) - (m[14] xor h[14])
+    w[8] = (m[2] xor h[2]) - (m[5] xor h[5]) - (m[6] xor h[6]) + (m[13] xor h[13]) - (m[15] xor h[15])
+    w[9] = (m[0] xor h[0]) - (m[3] xor h[3]) + (m[6] xor h[6]) - (m[7] xor h[7]) + (m[14] xor h[14])
+    w[10] = ((m[8] xor h[8]) - (m[1] xor h[1]) - (m[4] xor h[4]) - (m[7] xor h[7])) + (m[15] xor h[15])
+    w[11] = ((m[8] xor h[8]) - (m[0] xor h[0]) - (m[2] xor h[2]) - (m[5] xor h[5])) + (m[9] xor h[9])
+    w[12] = ((m[1] xor h[1]) + (m[3] xor h[3]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[10] xor h[10])
+    w[13] = (m[2] xor h[2]) + (m[4] xor h[4]) + (m[7] xor h[7]) + (m[10] xor h[10]) + (m[11] xor h[11])
+    w[14] = (m[3] xor h[3]) - (m[5] xor h[5]) + (m[8] xor h[8]) - (m[11] xor h[11]) - (m[12] xor h[12])
+    w[15] = ((m[12] xor h[12]) - (m[4] xor h[4]) - (m[6] xor h[6]) - (m[9] xor h[9])) + (m[13] xor h[13])
+    run {
+        var u = 0
+        while (u < 15) {
+            q[u + 0] = ((w[u + 0] ushr 1) xor (w[u + 0] shl 3) xor w[u + 0].rotateLeft(4) xor w[u + 0].rotateLeft(37)) +
+                    h[u + 1]
+            q[u + 1] = ((w[u + 1] ushr 1) xor (w[u + 1] shl 2) xor w[u + 1].rotateLeft(13) xor w[u + 1].rotateLeft(43)) +
+                    h[u + 2]
+            q[u + 2] = ((w[u + 2] ushr 2) xor (w[u + 2] shl 1) xor w[u + 2].rotateLeft(19) xor w[u + 2].rotateLeft(53)) +
+                    h[u + 3]
+            q[u + 3] = ((w[u + 3] ushr 2) xor (w[u + 3] shl 2) xor w[u + 3].rotateLeft(28) xor w[u + 3].rotateLeft(59)) +
+                    h[u + 4]
+            q[u + 4] = ((w[u + 4] ushr 1) xor w[u + 4]) + h[u + 5]
+            u += 5
+        }
+    }
+    q[15] = (((w[15] ushr 1) xor (w[15] shl 3) xor w[15].rotateLeft(4) xor w[15].rotateLeft(37)) + h[0])
+    for (u in 16..17) {
+        @Suppress("Wrapping")
+        q[u] = ((q[u - 16] ushr 1) xor (q[u - 16] shl 2) xor q[u - 16].rotateLeft(13) xor q[u - 16].rotateLeft(43)) +
+                ((q[u - 15] ushr 2) xor (q[u - 15] shl 1) xor q[u - 15].rotateLeft(19) xor q[u - 15].rotateLeft(53)) +
+                ((q[u - 14] ushr 2) xor (q[u - 14] shl 2) xor q[u - 14].rotateLeft(28) xor q[u - 14].rotateLeft(59)) +
+                ((q[u - 13] ushr 1) xor (q[u - 13] shl 3) xor q[u - 13].rotateLeft(4) xor q[u - 13].rotateLeft(37)) +
+                ((q[u - 12] ushr 1) xor (q[u - 12] shl 2) xor q[u - 12].rotateLeft(13) xor q[u - 12].rotateLeft(43)) +
+                ((q[u - 11] ushr 2) xor (q[u - 11] shl 1) xor q[u - 11].rotateLeft(19) xor q[u - 11].rotateLeft(53)) +
+                ((q[u - 10] ushr 2) xor (q[u - 10] shl 2) xor q[u - 10].rotateLeft(28) xor q[u - 10].rotateLeft(59)) +
+                ((q[u - 9] ushr 1) xor (q[u - 9] shl 3) xor q[u - 9].rotateLeft(4) xor q[u - 9].rotateLeft(37)) +
+                ((q[u - 8] ushr 1) xor (q[u - 8] shl 2) xor q[u - 8].rotateLeft(13) xor q[u - 8].rotateLeft(43)) +
+                ((q[u - 7] ushr 2) xor (q[u - 7] shl 1) xor q[u - 7].rotateLeft(19) xor q[u - 7].rotateLeft(53)) +
+                ((q[u - 6] ushr 2) xor (q[u - 6] shl 2) xor q[u - 6].rotateLeft(28) xor q[u - 6].rotateLeft(59)) +
+                ((q[u - 5] ushr 1) xor (q[u - 5] shl 3) xor q[u - 5].rotateLeft(4) xor q[u - 5].rotateLeft(37)) +
+                ((q[u - 4] ushr 1) xor (q[u - 4] shl 2) xor q[u - 4].rotateLeft(13) xor q[u - 4].rotateLeft(43)) +
+                ((q[u - 3] ushr 2) xor (q[u - 3] shl 1) xor q[u - 3].rotateLeft(19) xor q[u - 3].rotateLeft(53)) +
+                ((q[u - 2] ushr 2) xor (q[u - 2] shl 2) xor q[u - 2].rotateLeft(28) xor q[u - 2].rotateLeft(59)) +
+                ((q[u - 1] ushr 1) xor (q[u - 1] shl 3) xor q[u - 1].rotateLeft(4) xor q[u - 1].rotateLeft(37)) +
+                (
+                    (
+                        m[u - 16 + 0 and 15].rotateLeft((u - 16 + 0 and 15) + 1) +
+                        m[u - 16 + 3 and 15].rotateLeft((u - 16 + 3 and 15) + 1) -
+                        m[u - 16 + 10 and 15].rotateLeft((u - 16 + 10 and 15) + 1) +
+                        BMW_BIG_K[u - 16]
+                    ) xor h[u - 16 + 7 and 15]
+                )
+    }
+    for (u in 18..31) {
+        @Suppress("Wrapping")
+        q[u] = q[u - 16] + q[u - 15].rotateLeft(5) +
+                q[u - 14] + q[u - 13].rotateLeft(11) +
+                q[u - 12] + q[u - 11].rotateLeft(27) +
+                q[u - 10] + q[u - 9].rotateLeft(32) +
+                q[u - 8] + q[u - 7].rotateLeft(37) +
+                q[u - 6] + q[u - 5].rotateLeft(43) +
+                q[u - 4] + q[u - 3].rotateLeft(53) +
+                ((q[u - 2] ushr 1) xor q[u - 2]) +
+                ((q[u - 1] ushr 2) xor q[u - 1]) +
+                (
+                    (
+                        m[u - 16 + 0 and 15].rotateLeft((u - 16 + 0 and 15) + 1) +
+                        m[u - 16 + 3 and 15].rotateLeft((u - 16 + 3 and 15) + 1) -
+                        m[u - 16 + 10 and 15].rotateLeft((u - 16 + 10 and 15) + 1) +
+                        BMW_BIG_K[u - 16]
+                    ) xor h[u - 16 + 7 and 15]
+                )
+    }
+    val xl = q[16] xor q[17] xor q[18] xor q[19] xor q[20] xor q[21] xor q[22] xor q[23]
+    val xh = xl xor q[24] xor q[25] xor q[26] xor q[27] xor q[28] xor q[29] xor q[30] xor q[31]
+    h[0] = ((xh shl 5) xor (q[16] ushr 5) xor m[0]) + (xl xor q[24] xor q[0])
+    h[1] = ((xh ushr 7) xor (q[17] shl 8) xor m[1]) + (xl xor q[25] xor q[1])
+    h[2] = ((xh ushr 5) xor (q[18] shl 5) xor m[2]) + (xl xor q[26] xor q[2])
+    h[3] = ((xh ushr 1) xor (q[19] shl 5) xor m[3]) + (xl xor q[27] xor q[3])
+    h[4] = ((xh ushr 3) xor (q[20] shl 0) xor m[4]) + (xl xor q[28] xor q[4])
+    h[5] = ((xh shl 6) xor (q[21] ushr 6) xor m[5]) + (xl xor q[29] xor q[5])
+    h[6] = ((xh ushr 4) xor (q[22] shl 6) xor m[6]) + (xl xor q[30] xor q[6])
+    h[7] = ((xh ushr 11) xor (q[23] shl 2) xor m[7]) + (xl xor q[31] xor q[7])
+    h[8] = h[4].rotateLeft(9) + (xh xor q[24] xor m[8]) + ((xl shl 8) xor q[23] xor q[8])
+    h[9] = h[5].rotateLeft(10) + (xh xor q[25] xor m[9]) + ((xl ushr 6) xor q[16] xor q[9])
+    h[10] = h[6].rotateLeft(11) + (xh xor q[26] xor m[10]) + ((xl shl 6) xor q[17] xor q[10])
+    h[11] = h[7].rotateLeft(12) + (xh xor q[27] xor m[11]) + ((xl shl 4) xor q[18] xor q[11])
+    h[12] = h[0].rotateLeft(13) + (xh xor q[28] xor m[12]) + ((xl ushr 3) xor q[19] xor q[12])
+    h[13] = h[1].rotateLeft(14) + (xh xor q[29] xor m[13]) + ((xl ushr 4) xor q[20] xor q[13])
+    h[14] = h[2].rotateLeft(15) + (xh xor q[30] xor m[14]) + ((xl ushr 7) xor q[21] xor q[14])
+    h[15] = h[3].rotateLeft(16) + (xh xor q[31] xor m[15]) + ((xl ushr 2) xor q[22] xor q[15])
+}
+
+/** The constants added into the message expansion, k times 0x0555555555555555 for k from 16 to 31 */
+@Suppress("INTEGER_OVERFLOW")
+internal val BMW_BIG_K = longArrayOf(
+    16L * 0x0555555555555555L, 17L * 0x0555555555555555L,
+    18L * 0x0555555555555555L, 19L * 0x0555555555555555L,
+    20L * 0x0555555555555555L, 21L * 0x0555555555555555L,
+    22L * 0x0555555555555555L, 23L * 0x0555555555555555L,
+    24L * 0x0555555555555555L, 25L * 0x0555555555555555L,
+    26L * 0x0555555555555555L, 27L * 0x0555555555555555L,
+    28L * 0x0555555555555555L, 29L * 0x0555555555555555L,
+    30L * 0x0555555555555555L, 31L * 0x0555555555555555L
+)
