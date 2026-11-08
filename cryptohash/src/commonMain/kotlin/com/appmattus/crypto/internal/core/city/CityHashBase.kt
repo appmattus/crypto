@@ -146,145 +146,6 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         return if (len < 128) cityMurmur(byteArray, offset, len, seed) else cityHash128Over128(byteArray, offset, len, seed)
     }
 
-    // Requires len >= 240.
-    @Suppress("LongMethod")
-    private fun cityHashCrc256Long(s: ByteBuffer, seed: UInt, result: Array<ULong>) {
-        var len = s.size
-        var offset = 0
-
-        var a: ULong = s.decodeLEULong(56) + k0
-        var b: ULong = s.decodeLEULong(96) + k0
-        var c: ULong = hashLen16(b, len.toULong())
-        result[0] = c
-        var d: ULong = mulLow(s.decodeLEULong(120), k0) + len.toULong()
-        result[1] = d
-        var e: ULong = s.decodeLEULong(184) + seed.toULong()
-        var f: ULong = 0u
-        var g: ULong = 0u
-        var h: ULong = c + d
-        var x: ULong = seed.toULong()
-        var y: ULong = 0u
-        var z: ULong = 0u
-
-        // 240 bytes of input per iter.
-        var iters = len / 240
-        len -= iters * 240
-
-        fun chunk(r: Int) {
-            // PERMUTE3(x, z, y)
-            val swapValue = x
-            x = y
-            y = z
-            z = swapValue
-
-            b += s.decodeLEULong(offset)
-            c += s.decodeLEULong(offset + 8)
-            d += s.decodeLEULong(offset + 16)
-            e += s.decodeLEULong(offset + 24)
-            f += s.decodeLEULong(offset + 32)
-            a += b
-            h += f
-            b += c
-            f += d
-            g += e
-            e += z
-            g += x
-            z = crc32_u64(z, b + g)
-            y = crc32_u64(y, e + h)
-            x = crc32_u64(x, f + a)
-            e = e.rotateRight(r)
-            c += e
-            offset += 40
-        }
-
-        do {
-            chunk(0)
-            // PERMUTE3(a, h, c)
-            var swapValue = a
-            a = c
-            c = h
-            h = swapValue
-
-            chunk(33)
-            // PERMUTE3(a, h, f)
-            swapValue = a
-            a = f
-            f = h
-            h = swapValue
-
-            chunk(0)
-            // PERMUTE3(b, h, f)
-            swapValue = b
-            b = f
-            f = h
-            h = swapValue
-
-            chunk(42)
-            // PERMUTE3(b, h, d)
-            swapValue = b
-            b = d
-            d = h
-            h = swapValue
-
-            chunk(0)
-            // PERMUTE3(b, h, e)
-            swapValue = b
-            b = e
-            e = h
-            h = swapValue
-
-            chunk(33)
-            // PERMUTE3(a, h, e)
-            swapValue = a
-            a = e
-            e = h
-            h = swapValue
-        } while (--iters > 0)
-
-        while (len >= 40) {
-            chunk(29)
-            e = e xor a.rotateRight(20)
-            h += b.rotateRight(30)
-            g = g xor c.rotateRight(40)
-            f += d.rotateRight(34)
-            // PERMUTE3(c, h, g)
-            val swapValue = c
-            c = g
-            g = h
-            h = swapValue
-
-            len -= 40
-        }
-        if (len > 0) {
-            offset = offset + len - 40
-            chunk(33)
-            e = e xor a.rotateRight(43)
-            h += b.rotateRight(42)
-            g = g xor c.rotateRight(41)
-            f += d.rotateRight(40)
-        }
-        result[0] = result[0] xor h
-        result[1] = result[1] xor g
-        g += h
-        a = hashLen16(a, g + z)
-        x += y shl 32
-        b += x
-        c = hashLen16(c, z) + h
-        d = hashLen16(d, e + result[0])
-        g += e
-        h += hashLen16(x, f)
-        e = hashLen16(a, d) + g
-        z = hashLen16(b, c) + a
-        y = hashLen16(g, h) + c
-        result[0] = e + z + y + x
-        a = mulLow(shiftMix(mulLow(a + y, k0)), k0) + b
-        result[1] += a + result[0]
-        a = mulLow(shiftMix(mulLow(a, k0)), k0) + c
-        result[2] = a + result[1]
-        a = mulLow(shiftMix(mulLow(a + e, k0)), k0)
-        result[3] = a + result[2]
-    }
-
     // Requires len < 240.
     private fun cityHashCrc256Short(s: ByteBuffer, result: Array<ULong>) {
         val buf = ByteArray(240)
@@ -694,4 +555,152 @@ internal fun cityHash128Over128Long(byteArray: ByteBuffer, offset: Int, len: Int
         hashLen16(x + w.upper, y + v.upper),
         hashLen16(x + v.upper, w.upper) + y
     )
+}
+
+/**
+ * CityHashCrc256 of [s] with [seed] into the four words of [result]. Requires [s] to be at least 240 bytes.
+ *
+ * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
+ */
+internal expect fun cityHashCrc256Long(s: ByteBuffer, seed: UInt, result: Array<ULong>)
+
+/**
+ * The [ULong] implementation of [cityHashCrc256Long], for platforms whose [Long] is a 64-bit machine integer
+ */
+@Suppress("LongMethod")
+internal fun cityHashCrc256LongULong(s: ByteBuffer, seed: UInt, result: Array<ULong>) {
+    var len = s.size
+    var offset = 0
+
+    var a: ULong = s.decodeLEULong(56) + k0
+    var b: ULong = s.decodeLEULong(96) + k0
+    var c: ULong = hashLen16(b, len.toULong())
+    result[0] = c
+    var d: ULong = mulLow(s.decodeLEULong(120), k0) + len.toULong()
+    result[1] = d
+    var e: ULong = s.decodeLEULong(184) + seed.toULong()
+    var f: ULong = 0u
+    var g: ULong = 0u
+    var h: ULong = c + d
+    var x: ULong = seed.toULong()
+    var y: ULong = 0u
+    var z: ULong = 0u
+
+    // 240 bytes of input per iter.
+    var iters = len / 240
+    len -= iters * 240
+
+    fun chunk(r: Int) {
+        // PERMUTE3(x, z, y)
+        val swapValue = x
+        x = y
+        y = z
+        z = swapValue
+
+        b += s.decodeLEULong(offset)
+        c += s.decodeLEULong(offset + 8)
+        d += s.decodeLEULong(offset + 16)
+        e += s.decodeLEULong(offset + 24)
+        f += s.decodeLEULong(offset + 32)
+        a += b
+        h += f
+        b += c
+        f += d
+        g += e
+        e += z
+        g += x
+        z = crc32_u64(z, b + g)
+        y = crc32_u64(y, e + h)
+        x = crc32_u64(x, f + a)
+        e = e.rotateRight(r)
+        c += e
+        offset += 40
+    }
+
+    do {
+        chunk(0)
+        // PERMUTE3(a, h, c)
+        var swapValue = a
+        a = c
+        c = h
+        h = swapValue
+
+        chunk(33)
+        // PERMUTE3(a, h, f)
+        swapValue = a
+        a = f
+        f = h
+        h = swapValue
+
+        chunk(0)
+        // PERMUTE3(b, h, f)
+        swapValue = b
+        b = f
+        f = h
+        h = swapValue
+
+        chunk(42)
+        // PERMUTE3(b, h, d)
+        swapValue = b
+        b = d
+        d = h
+        h = swapValue
+
+        chunk(0)
+        // PERMUTE3(b, h, e)
+        swapValue = b
+        b = e
+        e = h
+        h = swapValue
+
+        chunk(33)
+        // PERMUTE3(a, h, e)
+        swapValue = a
+        a = e
+        e = h
+        h = swapValue
+    } while (--iters > 0)
+
+    while (len >= 40) {
+        chunk(29)
+        e = e xor a.rotateRight(20)
+        h += b.rotateRight(30)
+        g = g xor c.rotateRight(40)
+        f += d.rotateRight(34)
+        // PERMUTE3(c, h, g)
+        val swapValue = c
+        c = g
+        g = h
+        h = swapValue
+
+        len -= 40
+    }
+    if (len > 0) {
+        offset = offset + len - 40
+        chunk(33)
+        e = e xor a.rotateRight(43)
+        h += b.rotateRight(42)
+        g = g xor c.rotateRight(41)
+        f += d.rotateRight(40)
+    }
+    result[0] = result[0] xor h
+    result[1] = result[1] xor g
+    g += h
+    a = hashLen16(a, g + z)
+    x += y shl 32
+    b += x
+    c = hashLen16(c, z) + h
+    d = hashLen16(d, e + result[0])
+    g += e
+    h += hashLen16(x, f)
+    e = hashLen16(a, d) + g
+    z = hashLen16(b, c) + a
+    y = hashLen16(g, h) + c
+    result[0] = e + z + y + x
+    a = mulLow(shiftMix(mulLow(a + y, k0)), k0) + b
+    result[1] += a + result[0]
+    a = mulLow(shiftMix(mulLow(a, k0)), k0) + c
+    result[2] = a + result[1]
+    a = mulLow(shiftMix(mulLow(a + e, k0)), k0)
+    result[3] = a + result[2]
 }
