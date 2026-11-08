@@ -18,6 +18,11 @@ package com.appmattus.crypto.internal.core.city
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalDigest
+import com.appmattus.crypto.internal.core.city.CityHashBase.Companion.hashLen16
+import com.appmattus.crypto.internal.core.city.CityHashBase.Companion.k0
+import com.appmattus.crypto.internal.core.city.CityHashBase.Companion.k1
+import com.appmattus.crypto.internal.core.city.CityHashBase.Companion.shiftMix
+import com.appmattus.crypto.internal.core.city.CityHashBase.Companion.weakHashLen32WithSeeds
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.mulLow
 import com.appmattus.crypto.internal.core.reverseByteOrder
@@ -107,44 +112,13 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
 
     @Suppress("ReturnCount")
     fun cityHash64(s: ByteBuffer): ULong {
-        var len = s.size
-        when {
-            len <= 16 -> return hashLen0to16(s)
-            len <= 32 -> return hashLen17to32(s)
-            len <= 64 -> return hashLen33to64(s)
+        val len = s.size
+        return when {
+            len <= 16 -> hashLen0to16(s)
+            len <= 32 -> hashLen17to32(s)
+            len <= 64 -> hashLen33to64(s)
+            else -> cityHash64Over64(s)
         }
-
-        // For strings over 64 bytes we hash the end lowValue, and then as we
-        // loop we keep 56 bytes of state: v, w, x, y, and z.
-        var x: ULong = s.decodeLEULong(len - 40)
-        var y: ULong = s.decodeLEULong(len - 16) + s.decodeLEULong(len - 56)
-        var z: ULong = hashLen16(s.decodeLEULong(len - 48) + len.toULong(), s.decodeLEULong(len - 24))
-        var v: UInt128 = weakHashLen32WithSeeds(s, len - 64, len.toULong(), z)
-        var w: UInt128 = weakHashLen32WithSeeds(s, len - 32, y + k1, x)
-        x = mulLow(x, k1) + s.decodeLEULong(0)
-
-        // Decrease len to the nearest multiple of 64, and operate on 64-byte chunks.
-        len = len - 1 and 63.inv()
-        var pos = 0
-        do {
-            x = mulLow((x + y + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37), k1)
-            y = mulLow((y + v.upper + s.decodeLEULong(pos + 48)).rotateRight(42), k1)
-            x = x xor w.upper
-            y += v.lower + s.decodeLEULong(pos + 40)
-            z = mulLow((z + w.lower).rotateRight(33), k1)
-            v = weakHashLen32WithSeeds(s, pos, mulLow(v.upper, k1), x + w.lower)
-            w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
-            // swap z,x value
-            val swapValue = x
-            x = z
-            z = swapValue
-            pos += 64
-            len -= 64
-        } while (len != 0)
-        return hashLen16(
-            hashLen16(v.lower, w.lower) + mulLow(shiftMix(y), k1) + z,
-            hashLen16(v.upper, w.upper) + x
-        )
     }
 
     fun cityHash64WithSeed(s: ByteBuffer, seed: ULong): ULong {
@@ -168,84 +142,8 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         return cityHash128WithSeed(data, 0, data.size, seed)
     }
 
-    @Suppress("LongMethod")
     private fun cityHash128WithSeed(byteArray: ByteBuffer, offset: Int, len: Int, seed: UInt128): UInt128 {
-        @Suppress("NAME_SHADOWING")
-        var len = len
-        if (len < 128) {
-            return cityMurmur(byteArray, offset, len, seed)
-        }
-
-        // We expect len >= 128 to be the common case.  Keep 56 bytes of state:
-        // v, w, x, y, and z.
-        var v: UInt128
-        var w: UInt128
-        var x: ULong = seed.lower
-        var y: ULong = seed.upper
-        var z = mulLow(len.toULong(), k1)
-
-        val lower = mulLow((y xor k1).rotateRight(49), k1) + byteArray.decodeLEULong(offset)
-        val upper = mulLow(lower.rotateRight(42), k1) + byteArray.decodeLEULong(offset + 8)
-        v = UInt128(upper, lower)
-        w = UInt128(
-            upper = mulLow((x + byteArray.decodeLEULong(offset + 88)).rotateRight(53), k1),
-            lower = mulLow((y + z).rotateRight(35), k1) + x
-        )
-
-        // This is the same inner loop as CityHash64(), manually unrolled.
-        var pos = offset
-        do {
-            x = mulLow((x + y + v.lower + byteArray.decodeLEULong(pos + 8)).rotateRight(37), k1)
-            y = mulLow((y + v.upper + byteArray.decodeLEULong(pos + 48)).rotateRight(42), k1)
-            x = x xor w.upper
-            y += v.lower + byteArray.decodeLEULong(pos + 40)
-            z = mulLow((z + w.lower).rotateRight(33), k1)
-            v = weakHashLen32WithSeeds(byteArray, pos, mulLow(v.upper, k1), x + w.lower)
-            w = weakHashLen32WithSeeds(byteArray, pos + 32, z + w.upper, y + byteArray.decodeLEULong(pos + 16))
-            var swapValue = x
-            x = z
-            z = swapValue
-            pos += 64
-            x = mulLow((x + y + v.lower + byteArray.decodeLEULong(pos + 8)).rotateRight(37), k1)
-            y = mulLow((y + v.upper + byteArray.decodeLEULong(pos + 48)).rotateRight(42), k1)
-            x = x xor w.upper
-            y += v.lower + byteArray.decodeLEULong(pos + 40)
-            z = mulLow((z + w.lower).rotateRight(33), k1)
-            v = weakHashLen32WithSeeds(byteArray, pos, mulLow(v.upper, k1), x + w.lower)
-            w = weakHashLen32WithSeeds(byteArray, pos + 32, z + w.upper, y + byteArray.decodeLEULong(pos + 16))
-            swapValue = x
-            x = z
-            z = swapValue
-            pos += 64
-            len -= 128
-        } while (len >= 128)
-        x += mulLow((v.lower + z).rotateRight(49), k0)
-        y = mulLow(y, k0) + (w.upper).rotateRight(37)
-        z = mulLow(z, k0) + (w.lower).rotateRight(27)
-        w = UInt128(w.upper, mulLow(w.lower, 9u))
-        v = UInt128(v.upper, mulLow(v.lower, k0))
-
-        // If 0 < len < 128, hash up to 4 chunks of 32 bytes each from the end of s.
-        var tailDone = 0
-        while (tailDone < len) {
-            tailDone += 32
-            y = mulLow((x + y).rotateRight(42), k0) + v.upper
-            w = UInt128(w.upper, w.lower + byteArray.decodeLEULong(pos + len - tailDone + 16))
-            x = mulLow(x, k0) + w.lower
-            z += w.upper + byteArray.decodeLEULong(pos + len - tailDone)
-            w = UInt128(w.upper + v.lower, w.lower)
-            v = weakHashLen32WithSeeds(byteArray, pos + len - tailDone, v.lower + z, v.upper)
-            v = UInt128(v.upper, mulLow(v.lower, k0))
-        }
-        // At this point our 56 bytes of state should contain more than
-        // enough information for a strong 128-bit hash.  We use two
-        // different 56-byte-to-8-byte hashes to get a 16-byte final result.
-        x = hashLen16(x, v.lower)
-        y = hashLen16(y + z, w.lower)
-        return UInt128(
-            hashLen16(x + w.upper, y + v.upper),
-            hashLen16(x + v.upper, w.upper) + y
-        )
+        return if (len < 128) cityMurmur(byteArray, offset, len, seed) else cityHash128Over128(byteArray, offset, len, seed)
     }
 
     // Requires len >= 240.
@@ -585,7 +483,7 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
         }
 
         // Return a 16-byte hash for s[0] ... s[31], a, and b.  Quick and dirty.
-        private fun weakHashLen32WithSeeds(s: ByteBuffer, offset: Int, a: ULong, b: ULong): UInt128 {
+        internal fun weakHashLen32WithSeeds(s: ByteBuffer, offset: Int, a: ULong, b: ULong): UInt128 {
             return weakHashLen32WithSeeds(
                 w = s.decodeLEULong(offset),
                 x = s.decodeLEULong(offset + 8),
@@ -665,4 +563,135 @@ internal abstract class CityHashBase<D : CityHashBase<D>> : NonIncrementalDigest
             return UInt128(hashLen16(b, a), a xor b)
         }
     }
+}
+
+/**
+ * [CityHashBase.cityHash64] for inputs over 64 bytes, the main loop over 64-byte chunks.
+ *
+ * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
+ */
+internal expect fun cityHash64Over64(s: ByteBuffer): ULong
+
+/**
+ * The [ULong] implementation of [cityHash64Over64], for platforms whose [Long] is a 64-bit machine integer
+ */
+internal fun cityHash64Over64Long(s: ByteBuffer): ULong {
+    var len = s.size
+    // For strings over 64 bytes we hash the end lowValue, and then as we
+    // loop we keep 56 bytes of state: v, w, x, y, and z.
+    var x: ULong = s.decodeLEULong(len - 40)
+    var y: ULong = s.decodeLEULong(len - 16) + s.decodeLEULong(len - 56)
+    var z: ULong = hashLen16(s.decodeLEULong(len - 48) + len.toULong(), s.decodeLEULong(len - 24))
+    var v: UInt128 = weakHashLen32WithSeeds(s, len - 64, len.toULong(), z)
+    var w: UInt128 = weakHashLen32WithSeeds(s, len - 32, y + k1, x)
+    x = mulLow(x, k1) + s.decodeLEULong(0)
+
+    // Decrease len to the nearest multiple of 64, and operate on 64-byte chunks.
+    len = len - 1 and 63.inv()
+    var pos = 0
+    do {
+        x = mulLow((x + y + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37), k1)
+        y = mulLow((y + v.upper + s.decodeLEULong(pos + 48)).rotateRight(42), k1)
+        x = x xor w.upper
+        y += v.lower + s.decodeLEULong(pos + 40)
+        z = mulLow((z + w.lower).rotateRight(33), k1)
+        v = weakHashLen32WithSeeds(s, pos, mulLow(v.upper, k1), x + w.lower)
+        w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
+        // swap z,x value
+        val swapValue = x
+        x = z
+        z = swapValue
+        pos += 64
+        len -= 64
+    } while (len != 0)
+    return hashLen16(
+        hashLen16(v.lower, w.lower) + mulLow(shiftMix(y), k1) + z,
+        hashLen16(v.upper, w.upper) + x
+    )
+}
+
+/**
+ * CityHash128 with a seed for [len] bytes from [offset] of [byteArray], when [len] is at least 128.
+ *
+ * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
+ */
+internal expect fun cityHash128Over128(byteArray: ByteBuffer, offset: Int, len: Int, seed: UInt128): UInt128
+
+/**
+ * The [ULong] implementation of [cityHash128Over128], for platforms whose [Long] is a 64-bit machine integer
+ */
+@Suppress("LongMethod")
+internal fun cityHash128Over128Long(byteArray: ByteBuffer, offset: Int, len: Int, seed: UInt128): UInt128 {
+    @Suppress("NAME_SHADOWING")
+    var len = len
+    // We expect len >= 128 to be the common case.  Keep 56 bytes of state:
+    // v, w, x, y, and z.
+    var v: UInt128
+    var w: UInt128
+    var x: ULong = seed.lower
+    var y: ULong = seed.upper
+    var z = mulLow(len.toULong(), k1)
+
+    val lower = mulLow((y xor k1).rotateRight(49), k1) + byteArray.decodeLEULong(offset)
+    val upper = mulLow(lower.rotateRight(42), k1) + byteArray.decodeLEULong(offset + 8)
+    v = UInt128(upper, lower)
+    w = UInt128(
+        upper = mulLow((x + byteArray.decodeLEULong(offset + 88)).rotateRight(53), k1),
+        lower = mulLow((y + z).rotateRight(35), k1) + x
+    )
+
+    // This is the same inner loop as CityHash64(), manually unrolled.
+    var pos = offset
+    do {
+        x = mulLow((x + y + v.lower + byteArray.decodeLEULong(pos + 8)).rotateRight(37), k1)
+        y = mulLow((y + v.upper + byteArray.decodeLEULong(pos + 48)).rotateRight(42), k1)
+        x = x xor w.upper
+        y += v.lower + byteArray.decodeLEULong(pos + 40)
+        z = mulLow((z + w.lower).rotateRight(33), k1)
+        v = weakHashLen32WithSeeds(byteArray, pos, mulLow(v.upper, k1), x + w.lower)
+        w = weakHashLen32WithSeeds(byteArray, pos + 32, z + w.upper, y + byteArray.decodeLEULong(pos + 16))
+        var swapValue = x
+        x = z
+        z = swapValue
+        pos += 64
+        x = mulLow((x + y + v.lower + byteArray.decodeLEULong(pos + 8)).rotateRight(37), k1)
+        y = mulLow((y + v.upper + byteArray.decodeLEULong(pos + 48)).rotateRight(42), k1)
+        x = x xor w.upper
+        y += v.lower + byteArray.decodeLEULong(pos + 40)
+        z = mulLow((z + w.lower).rotateRight(33), k1)
+        v = weakHashLen32WithSeeds(byteArray, pos, mulLow(v.upper, k1), x + w.lower)
+        w = weakHashLen32WithSeeds(byteArray, pos + 32, z + w.upper, y + byteArray.decodeLEULong(pos + 16))
+        swapValue = x
+        x = z
+        z = swapValue
+        pos += 64
+        len -= 128
+    } while (len >= 128)
+    x += mulLow((v.lower + z).rotateRight(49), k0)
+    y = mulLow(y, k0) + (w.upper).rotateRight(37)
+    z = mulLow(z, k0) + (w.lower).rotateRight(27)
+    w = UInt128(w.upper, mulLow(w.lower, 9u))
+    v = UInt128(v.upper, mulLow(v.lower, k0))
+
+    // If 0 < len < 128, hash up to 4 chunks of 32 bytes each from the end of s.
+    var tailDone = 0
+    while (tailDone < len) {
+        tailDone += 32
+        y = mulLow((x + y).rotateRight(42), k0) + v.upper
+        w = UInt128(w.upper, w.lower + byteArray.decodeLEULong(pos + len - tailDone + 16))
+        x = mulLow(x, k0) + w.lower
+        z += w.upper + byteArray.decodeLEULong(pos + len - tailDone)
+        w = UInt128(w.upper + v.lower, w.lower)
+        v = weakHashLen32WithSeeds(byteArray, pos + len - tailDone, v.lower + z, v.upper)
+        v = UInt128(v.upper, mulLow(v.lower, k0))
+    }
+    // At this point our 56 bytes of state should contain more than
+    // enough information for a strong 128-bit hash.  We use two
+    // different 56-byte-to-8-byte hashes to get a 16-byte final result.
+    x = hashLen16(x, v.lower)
+    y = hashLen16(y + z, w.lower)
+    return UInt128(
+        hashLen16(x + w.upper, y + v.upper),
+        hashLen16(x + v.upper, w.upper) + y
+    )
 }
