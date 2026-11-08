@@ -48,11 +48,16 @@ import com.appmattus.crypto.internal.core.encodeLELong
  */
 @Suppress("TooManyFunctions")
 internal class GOST3411() : Digest {
-    private val h = ByteArray(32)
+    // The chaining value, read and written by the block function
+    internal val h = ByteArray(32)
+
     private val l = ByteArray(32)
     private val m = ByteArray(32)
     private val sum = ByteArray(32)
-    private val c = Array(4) { ByteArray(32) }
+
+    // The constants mixed into the key schedule, read by the block function
+    internal val c = Array(4) { ByteArray(32) }
+
     private val xBuf = ByteArray(32)
     private var xBufOff = 0
     private var byteCount: Long = 0
@@ -161,12 +166,19 @@ internal class GOST3411() : Digest {
         b.copyInto(input, 0, o, o + 32)
     }
 
+    private fun processBlock(input: ByteArray, inOff: Int) = gost3411ProcessBlock(this, input, inOff)
+
     // block processing
     var s = ByteArray(32)
     var u = ByteArray(32)
     var v = ByteArray(32)
     var w = ByteArray(32)
-    private fun processBlock(input: ByteArray, inOff: Int) {
+
+    /**
+     * The common implementation of the block function, processing the 32 bytes of [input] from [inOff] into [h].
+     * Kotlin/JS has its own, in gost3411ProcessBlock.
+     */
+    internal fun processBlockBytes(input: ByteArray, inOff: Int) {
         input.copyInto(m, 0, inOff, inOff + 32)
 
         // key step 1
@@ -278,7 +290,7 @@ internal class GOST3411() : Digest {
             0xFF.toByte(), 0x00, 0x00, 0x00, 0xFF.toByte(), 0xFF.toByte(), 0x00, 0xFF.toByte()
         )
 
-        private val sBox = byteArrayOf(
+        internal val sBox = byteArrayOf(
             0x0A, 0x04, 0x05, 0x06, 0x08, 0x01, 0x03, 0x07, 0x0D, 0x0C, 0x0E, 0x00, 0x09, 0x02, 0x0B, 0x0F,
             0x05, 0x0F, 0x04, 0x00, 0x02, 0x0D, 0x0B, 0x09, 0x01, 0x07, 0x06, 0x03, 0x0C, 0x0E, 0x0A, 0x08,
             0x07, 0x0F, 0x0C, 0x0E, 0x09, 0x04, 0x01, 0x00, 0x03, 0x0B, 0x05, 0x02, 0x06, 0x0A, 0x08, 0x0D,
@@ -353,3 +365,10 @@ internal class GOST3411() : Digest {
         byteCount = t.byteCount
     }
 }
+
+/**
+ * Processes the 32 bytes of [input] from [inOff] into the chaining value of [digest].
+ *
+ * Kotlin/JS has its own implementation, working on 32-bit words, as copying and converting bytes is slow there.
+ */
+internal expect fun gost3411ProcessBlock(digest: GOST3411, input: ByteArray, inOff: Int)
