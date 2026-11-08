@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3341,18 +3341,78 @@ object CityHashTest {
         ),
     )
 
-    val data: ByteArray = ByteArray(kDataSize)
+    val data: ByteArray = generateData(kDataSize)
 
-    init {
-        var a: ULong = 9u
-        var b: ULong = 777u
-        for (i in 0 until kDataSize) {
-            a += b
-            b += a
-            a = (a xor (a shr 41)) * k0
-            b = (b xor (b shr 41)) * k0 + i.toUInt()
-            val u: Byte = (b shr 37).toByte()
-            data[i] = u
+    /**
+     * The pseudo-random test data from CityHash's own tests. Starting from a = 9 and b = 777, for each i:
+     *
+     * ```
+     * a += b
+     * b += a
+     * a = (a xor (a shr 41)) * k0
+     * b = (b xor (b shr 41)) * k0 + i
+     * data[i] = (b shr 37).toByte()
+     * ```
+     *
+     * This works on the 32-bit halves of a and b rather than ULong, as Kotlin/JS allocates an object for every Long
+     * operation, which made generating the data take about 11 seconds on Hermes. CityHashTestDataTest checks it against
+     * the ULong form above.
+     */
+    @Suppress("MagicNumber")
+    internal fun generateData(size: Int): ByteArray {
+        val result = ByteArray(size)
+        var ah = 0
+        var al = 9
+        var bh = 0
+        var bl = 777
+        for (i in 0 until size) {
+            // a += b
+            var sum = al + bl
+            ah += bh + carry(sum, bl)
+            al = sum
+            // b += a
+            sum = bl + al
+            bh += ah + carry(sum, al)
+            bl = sum
+            // a = (a xor (a shr 41)) * k0, where a shr 41 is just the high half shifted right by 9
+            al = timesK0(ah, al xor (ah ushr 9))
+            ah = productHigh
+            // b = (b xor (b shr 41)) * k0 + i
+            bl = timesK0(bh, bl xor (bh ushr 9))
+            bh = productHigh
+            sum = bl + i
+            bh += carry(sum, i)
+            bl = sum
+            // b shr 37 is the high half shifted right by 5
+            result[i] = (bh ushr 5).toByte()
         }
+        return result
     }
+
+    // The halves of k0, 0xc3a5c85c and 0x97cb3127, as constants so they're set before data is generated
+    private const val K0_HIGH = -0x3c5a37a4
+    private const val K0_LOW = -0x6834ced9
+
+    /** The high half of the last product from [timesK0] */
+    private var productHigh = 0
+
+    /** Returns the low half of (h, l) * k0, modulo 2^64, leaving the high half in [productHigh] */
+    @Suppress("MagicNumber")
+    private fun timesK0(h: Int, l: Int): Int {
+        // The full 64-bit product of the low halves, from 16-bit pieces so no partial product loses bits
+        val a0 = l and 0xffff
+        val a1 = l ushr 16
+        val b0 = K0_LOW and 0xffff
+        val b1 = K0_LOW ushr 16
+        val p00 = a0 * b0
+        val p01 = a0 * b1
+        val p10 = a1 * b0
+        val mid = (p00 ushr 16) + (p01 and 0xffff) + (p10 and 0xffff)
+        // The cross terms only affect the high half
+        productHigh = a1 * b1 + (p01 ushr 16) + (p10 ushr 16) + (mid ushr 16) + h * K0_LOW + l * K0_HIGH
+        return l * K0_LOW
+    }
+
+    /** The carry out of an unsigned 32-bit addition, given the [sum] and one of its [operand]s */
+    private fun carry(sum: Int, operand: Int): Int = if ((sum xor Int.MIN_VALUE) < (operand xor Int.MIN_VALUE)) 1 else 0
 }

@@ -25,7 +25,6 @@ object FarmHashTest {
 
     const val kTestSize: Int = 300
 
-    // The same pseudo-random data as the CityHash tests, which use the same generator, so it's only generated once.
-    // Generating it takes millions of ULong operations, which is slow on Kotlin/JS.
+    // The same pseudo-random data as the CityHash tests, which use the same generator, so it's only generated once
     val data: ByteArray get() = CityHashTest.data
 }
