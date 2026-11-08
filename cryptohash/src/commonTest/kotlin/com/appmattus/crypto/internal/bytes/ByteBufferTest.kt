@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -198,5 +198,18 @@ class ByteBufferTest {
         assertFailsWith<IndexOutOfBoundsException> { baa.decodeLEInt(6) }
         assertFailsWith<IndexOutOfBoundsException> { baa.decodeBEInt(6) }
         assertFailsWith<IndexOutOfBoundsException> { baa.decodeLEInt(-1) }
+    }
+
+    @Test
+    fun addsSingleBytesAcrossGrowth() {
+        // 200 single bytes grow the backing array past its minimum capacity twice, mixed with an added array
+        val baa = ByteBuffer()
+        val expected = ByteArray(203) { it.toByte() }
+        for (i in 0 until 100) baa.add(expected[i])
+        baa.add(expected, 100, 3)
+        for (i in 103 until 203) baa.add(expected[i])
+
+        assertEquals(203, baa.size)
+        assertContentEquals(expected, baa.copyInto(ByteArray(203)))
     }
 }

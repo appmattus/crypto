@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import com.appmattus.crypto.internal.core.decodeLELong
  * the array in a register across a loop's reads, instead of making a call per word. Every read is still checked
  * against [size], which is smaller than the array when it has spare capacity.
  */
-@Suppress("NOTHING_TO_INLINE")
+@Suppress("NOTHING_TO_INLINE", "TooManyFunctions")
 internal class ByteBuffer private constructor(bytes: ByteArray, size: Int) : Iterable<Byte> {
 
     constructor() : this(ByteArray(0), 0)
@@ -51,6 +51,14 @@ internal class ByteBuffer private constructor(bytes: ByteArray, size: Int) : Ite
             value.copyInto(bytes, size, offset, offset + length)
             size += length
         }
+    }
+
+    /** Appends a single byte, without the array that [add] of a [ByteArray] would need */
+    fun add(value: Byte) {
+        if (size == bytes.size) {
+            bytes = bytes.copyOf(maxOf(bytes.size * 2, MIN_CAPACITY))
+        }
+        bytes[size++] = value
     }
 
     fun copyOf() = ByteBuffer(bytes.copyOf(size), size)
