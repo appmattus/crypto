@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,24 +121,6 @@ class XXH3_64Test {
     companion object {
         private val PRIME64 = 11400714785074694797u.toLong()
 
-        private val PRIME32 = 2654435761u.toLong() and 0xffffffff
-
-        private fun buffer(size: Int): ByteArray {
-            /*
-             * Fills a test buffer with pseudorandom data.
-             *
-             * This is used in the sanity check - its values must not be changed.
-             */
-            val buffer = ByteArray(size)
-
-            var byteGen: Long = PRIME32
-
-            for (i in 0 until size) {
-                buffer[i] = (byteGen ushr 56).toByte()
-                byteGen *= PRIME64
-            }
-
-            return buffer
-        }
+        private fun buffer(size: Int): ByteArray = xxh3TestBuffer(size)
     }
 }
