@@ -34,7 +34,9 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is Algorithm || this::class != other::class || algorithmName != other.algorithmName) return false
+        // The name is compared before the class as it's far cheaper, notably on Kotlin/JS where each ::class is a lookup,
+        // and almost every mismatch differs by name. CoreDigest.create compares against each algorithm in turn.
+        if (other !is Algorithm || algorithmName != other.algorithmName || this::class != other::class) return false
         val otherParameters = other.parameters
         return parameters.size == otherParameters.size &&
             parameters.indices.all { parameterEquals(parameters[it].second, otherParameters[it].second) }
