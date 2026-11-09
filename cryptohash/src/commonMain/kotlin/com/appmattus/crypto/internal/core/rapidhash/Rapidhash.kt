@@ -50,87 +50,8 @@ internal class Rapidhash(
         get() = variant.lanes * 16
 
     override fun process(input: ByteBuffer) {
-        hash = hash(input, input.size)
+        hash = rapidhash(input, input.size, seed, variant)
     }
-
-    @Suppress("CyclomaticComplexMethod")
-    private fun hash(input: ByteBuffer, len: Int): ULong {
-        val secret = secrets
-        var seed = seed xor mix(seed xor secret[2].toULong(), secret[1].toULong())
-        var p = 0
-        var i = len.toULong()
-        val a: ULong
-        val b: ULong
-
-        if (len <= 16) {
-            when {
-                len >= 8 -> {
-                    seed = seed xor len.toULong()
-                    a = input.decodeLEULong(0)
-                    b = input.decodeLEULong(len - 8)
-                }
-                len >= 4 -> {
-                    seed = seed xor len.toULong()
-                    a = input.decodeLEUInt(0).toULong()
-                    b = input.decodeLEUInt(len - 4).toULong()
-                }
-                len > 0 -> {
-                    a = (input.byteAt(0) shl 45) or input.byteAt(len - 1)
-                    b = input.byteAt(len shr 1)
-                }
-                else -> {
-                    a = 0u
-                    b = 0u
-                }
-            }
-        } else {
-            val bulkSize = variant.lanes * 16
-            if (len > bulkSize) {
-                seed = bulk(input, len, seed, secret)
-                val blocks = (len - 1) / bulkSize
-                p = blocks * bulkSize
-                i -= p.toULong()
-            }
-
-            val tailSecrets = variant.tailSecrets
-            var k = 0
-            while (k < tailSecrets.size && i > (16 * (k + 1)).toULong()) {
-                seed = mix(input.decodeLEULong(p + 16 * k) xor secret[tailSecrets[k]].toULong(), input.decodeLEULong(p + 16 * k + 8) xor seed)
-                k++
-            }
-
-            a = input.decodeLEULong(p + i.toInt() - 16) xor i
-            b = input.decodeLEULong(p + i.toInt() - 8)
-        }
-
-        var lo = a xor secret[1].toULong()
-        val hi = b xor seed
-        val high = multiplyHigh(lo, hi)
-        lo *= hi
-        return mix(lo xor secret[7].toULong(), high xor secret[1].toULong() xor i)
-    }
-
-    // The bulk loop, processing bulkSize bytes per round while more than bulkSize bytes remain
-    private fun bulk(input: ByteBuffer, len: Int, seed: ULong, secret: LongArray): ULong {
-        val laneCount = variant.lanes
-        val bulkSize = laneCount * 16
-        // A LongArray, as a List<ULong> would box every lane on every round
-        val lanes = LongArray(laneCount) { seed.toLong() }
-        var p = 0
-        do {
-            for (k in 0 until laneCount) {
-                val offset = p + 16 * k
-                lanes[k] = mix(input.decodeLEULong(offset) xor secret[k].toULong(), input.decodeLEULong(offset + 8) xor lanes[k].toULong()).toLong()
-            }
-            p += bulkSize
-        } while (len - p > bulkSize)
-
-        var result = 0L
-        for (lane in lanes) result = result xor lane
-        return result.toULong()
-    }
-
-    private fun ByteBuffer.byteAt(index: Int): ULong = get(index).toULong() and 0xffu
 
     override fun result(): ByteArray {
         val digest = ByteArray(digestLength)
@@ -148,21 +69,104 @@ internal class Rapidhash(
     }
 
     override fun toString(): String = variant.algorithmName
-
-    private companion object {
-        // A LongArray, as a List<ULong> would box each value
-        private val secrets = longArrayOf(
-            0x2d358dccaa6c78a5u.toLong(),
-            0x8bb84b93962eacc9u.toLong(),
-            0x4b33a62ed433d4a3u.toLong(),
-            0x4d5a2da51de1aa47u.toLong(),
-            0xa0761d6478bd642fu.toLong(),
-            0xe7037ed1a0b428dbu.toLong(),
-            0x90ed1765281c388cu.toLong(),
-            0xaaaaaaaaaaaaaaaau.toLong()
-        )
-
-        // 64 x 64 -> 128 bit multiply, returning the xor of the high and low halves
-        private fun mix(a: ULong, b: ULong): ULong = (a * b) xor multiplyHigh(a, b)
-    }
 }
+
+/**
+ * The rapidhash of the first [len] bytes of [input]. Kotlin/JS has its own version working on Int pairs, as a Long
+ * there allocates on every operation; the other platforms call [rapidhashLong].
+ */
+internal expect fun rapidhash(input: ByteBuffer, len: Int, seed: ULong, variant: Rapidhash.Variant): ULong
+
+@Suppress("CyclomaticComplexMethod")
+internal fun rapidhashLong(input: ByteBuffer, len: Int, hashSeed: ULong, variant: Rapidhash.Variant): ULong {
+    val secret = secrets
+    var seed = hashSeed xor mix(hashSeed xor secret[2].toULong(), secret[1].toULong())
+    var p = 0
+    var i = len.toULong()
+    val a: ULong
+    val b: ULong
+
+    if (len <= 16) {
+        when {
+            len >= 8 -> {
+                seed = seed xor len.toULong()
+                a = input.decodeLEULong(0)
+                b = input.decodeLEULong(len - 8)
+            }
+            len >= 4 -> {
+                seed = seed xor len.toULong()
+                a = input.decodeLEUInt(0).toULong()
+                b = input.decodeLEUInt(len - 4).toULong()
+            }
+            len > 0 -> {
+                a = (input.byteAt(0) shl 45) or input.byteAt(len - 1)
+                b = input.byteAt(len shr 1)
+            }
+            else -> {
+                a = 0u
+                b = 0u
+            }
+        }
+    } else {
+        val bulkSize = variant.lanes * 16
+        if (len > bulkSize) {
+            seed = bulk(input, len, seed, secret, variant)
+            val blocks = (len - 1) / bulkSize
+            p = blocks * bulkSize
+            i -= p.toULong()
+        }
+
+        val tailSecrets = variant.tailSecrets
+        var k = 0
+        while (k < tailSecrets.size && i > (16 * (k + 1)).toULong()) {
+            seed = mix(input.decodeLEULong(p + 16 * k) xor secret[tailSecrets[k]].toULong(), input.decodeLEULong(p + 16 * k + 8) xor seed)
+            k++
+        }
+
+        a = input.decodeLEULong(p + i.toInt() - 16) xor i
+        b = input.decodeLEULong(p + i.toInt() - 8)
+    }
+
+    var lo = a xor secret[1].toULong()
+    val hi = b xor seed
+    val high = multiplyHigh(lo, hi)
+    lo *= hi
+    return mix(lo xor secret[7].toULong(), high xor secret[1].toULong() xor i)
+}
+
+// The bulk loop, processing bulkSize bytes per round while more than bulkSize bytes remain
+private fun bulk(input: ByteBuffer, len: Int, seed: ULong, secret: LongArray, variant: Rapidhash.Variant): ULong {
+    val laneCount = variant.lanes
+    val bulkSize = laneCount * 16
+    // A LongArray, as a List<ULong> would box every lane on every round
+    val lanes = LongArray(laneCount) { seed.toLong() }
+    var p = 0
+    do {
+        for (k in 0 until laneCount) {
+            val offset = p + 16 * k
+            lanes[k] = mix(input.decodeLEULong(offset) xor secret[k].toULong(), input.decodeLEULong(offset + 8) xor lanes[k].toULong()).toLong()
+        }
+        p += bulkSize
+    } while (len - p > bulkSize)
+
+    var result = 0L
+    for (lane in lanes) result = result xor lane
+    return result.toULong()
+}
+
+private fun ByteBuffer.byteAt(index: Int): ULong = get(index).toULong() and 0xffu
+
+// A LongArray, as a List<ULong> would box each value
+private val secrets = longArrayOf(
+    0x2d358dccaa6c78a5u.toLong(),
+    0x8bb84b93962eacc9u.toLong(),
+    0x4b33a62ed433d4a3u.toLong(),
+    0x4d5a2da51de1aa47u.toLong(),
+    0xa0761d6478bd642fu.toLong(),
+    0xe7037ed1a0b428dbu.toLong(),
+    0x90ed1765281c388cu.toLong(),
+    0xaaaaaaaaaaaaaaaau.toLong()
+)
+
+// 64 x 64 -> 128 bit multiply, returning the xor of the high and low halves
+private fun mix(a: ULong, b: ULong): ULong = (a * b) xor multiplyHigh(a, b)
