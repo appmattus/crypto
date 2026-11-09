@@ -123,29 +123,50 @@ internal class KangarooSponge private constructor(
     }
 
     private fun absorbBlock(data: ByteArray, offset: Int) {
-        for (i in 0 until (rateBytes shr 3)) {
-            var value = 0L
-            for (j in 7 downTo 0) {
-                value = (value shl 8) or (data[offset + i * 8 + j].toLong() and 0xff)
-            }
-            state[i] = state[i] xor value
-        }
+        kangarooAbsorbLanes(state, data, offset, rateBytes shr 3)
         permute()
     }
 
-    private fun extract() {
-        for (i in 0 until (rateBytes shr 3)) {
-            val value = state[i]
-            for (j in 0 until 8) {
-                queue[i * 8 + j] = (value ushr (8 * j)).toByte()
-            }
-        }
-    }
+    private fun extract() = kangarooExtractLanes(state, queue, rateBytes shr 3)
 
     private fun permute() = keccakPermutation(state, ROUNDS)
 
     private companion object {
         // Keccak-p[1600, 12]: the last 12 of Keccak-f[1600]'s 24 rounds
         private const val ROUNDS = 12
+    }
+}
+
+/**
+ * XORs [lanes] 8-byte little-endian words of [data], from [offset], into the first [lanes] words of [state].
+ *
+ * Kotlin/JS has its own version working on 32-bit halves, as its [Long] is an object and allocates on every operation;
+ * the other platforms call [kangarooAbsorbLanesLong].
+ */
+internal expect fun kangarooAbsorbLanes(state: LongArray, data: ByteArray, offset: Int, lanes: Int)
+
+/**
+ * Writes the first [lanes] words of [state] to [queue] as 8-byte little-endian words.
+ *
+ * Kotlin/JS has its own version working on 32-bit halves; the other platforms call [kangarooExtractLanesLong].
+ */
+internal expect fun kangarooExtractLanes(state: LongArray, queue: ByteArray, lanes: Int)
+
+internal fun kangarooAbsorbLanesLong(state: LongArray, data: ByteArray, offset: Int, lanes: Int) {
+    for (i in 0 until lanes) {
+        var value = 0L
+        for (j in 7 downTo 0) {
+            value = (value shl 8) or (data[offset + i * 8 + j].toLong() and 0xff)
+        }
+        state[i] = state[i] xor value
+    }
+}
+
+internal fun kangarooExtractLanesLong(state: LongArray, queue: ByteArray, lanes: Int) {
+    for (i in 0 until lanes) {
+        val value = state[i]
+        for (j in 0 until 8) {
+            queue[i * 8 + j] = (value ushr (8 * j)).toByte()
+        }
     }
 }
