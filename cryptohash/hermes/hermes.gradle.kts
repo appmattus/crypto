@@ -15,6 +15,8 @@
  */
 
 // Runs the JS unit tests on Hermes, the JavaScript engine React Native uses, with ./gradlew :cryptohash:jsHermesTest.
+// ./gradlew :cryptohash:jsHermesBytecodeTest runs them from optimised bytecode instead, compiled the way a React Native
+// release build compiles an app's JS, as hermesc -O -emit-binary.
 //
 // - The hermes CLI is built from source at hermesVersion, the Hermes React Native 0.88.1 pins in sdks/.hermesv1version.
 //   Hermes publishes prebuilt binaries only for the hermesc compiler, not the CLI. The build needs git, CMake, Ninja, a
@@ -106,12 +108,35 @@ val jsHermesBundle = tasks.register("jsHermesBundle") {
     }
 }
 
+val hermesExecutable: Provider<String> = hermesPath.orElse(hermesBinary.map { it.asFile.path })
+
 tasks.register<Exec>("jsHermesTest") {
     description = "Runs the JS unit tests on the Hermes JavaScript engine"
     group = "verification"
     dependsOn(buildHermes, jsHermesBundle)
     inputs.file(hermesBundle)
-    executable = hermesPath.orElse(hermesBinary.map { it.asFile.path }).get()
+    executable = hermesExecutable.get()
     // -w hides compile-time warnings about globals such as print, which only exist at run time
     args("-w", hermesBundle.get().asFile.path)
+}
+
+val hermesBytecode = layout.buildDirectory.file("hermes/test-bundle.hbc")
+
+val jsHermesBytecode = tasks.register<Exec>("jsHermesBytecode") {
+    description = "Compiles the Hermes test bundle to optimised Hermes bytecode, as a React Native release build does"
+    dependsOn(buildHermes, jsHermesBundle)
+    inputs.file(hermesBundle)
+    outputs.file(hermesBytecode)
+    executable = hermesExecutable.get()
+    // The hermes CLI compiles with the same compiler as hermesc, so this matches hermesc -O -emit-binary
+    args("-w", "-O", "-emit-binary", "-out", hermesBytecode.get().asFile.path, hermesBundle.get().asFile.path)
+}
+
+tasks.register<Exec>("jsHermesBytecodeTest") {
+    description = "Runs the JS unit tests on the Hermes JavaScript engine from optimised bytecode"
+    group = "verification"
+    dependsOn(jsHermesBytecode)
+    inputs.file(hermesBytecode)
+    executable = hermesExecutable.get()
+    args(hermesBytecode.get().asFile.path)
 }
