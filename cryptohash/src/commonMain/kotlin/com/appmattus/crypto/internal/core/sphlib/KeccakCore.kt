@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,9 +39,8 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
-import com.appmattus.crypto.internal.core.bouncycastle.shake.keccakPermutation
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.bouncycastle.shake.KECCAK_F_ROUNDS
+import com.appmattus.crypto.internal.core.bouncycastle.shake.KeccakState
 
 /**
  * This class implements the core operations for the Keccak digest
@@ -51,7 +50,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
 internal abstract class KeccakCore<D : KeccakCore<D>>(private val markByte: Byte = 0x01) : DigestEngine<D>() {
-    private lateinit var a: LongArray
+    private lateinit var a: KeccakState
     private lateinit var tmpOut: ByteArray
 
     override fun engineReset() {
@@ -60,12 +59,8 @@ internal abstract class KeccakCore<D : KeccakCore<D>>(private val markByte: Byte
 
     override fun processBlock(data: ByteArray) {
         /* Input block */
-        var i = 0
-        while (i < data.size) {
-            a[i ushr 3] = a[i ushr 3] xor decodeLELong(data, i)
-            i += 8
-        }
-        keccakPermutation(a)
+        a.absorb(data, 0, data.size ushr 3)
+        a.permute(KECCAK_F_ROUNDS)
     }
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
@@ -80,16 +75,12 @@ internal abstract class KeccakCore<D : KeccakCore<D>>(private val markByte: Byte
         }
         processBlock(buf)
         val dlen = digestLength
-        var i = 0
-        while (i < dlen) {
-            encodeLELong(a[i ushr 3], tmpOut, i)
-            i += 8
-        }
+        a.extract(tmpOut, tmpOut.size ushr 3)
         tmpOut.copyInto(output, outputOffset, 0, dlen)
     }
 
     override fun doInit() {
-        a = LongArray(25)
+        a = KeccakState()
         tmpOut = ByteArray(digestLength + 7 and 7.inv())
         doReset()
     }
@@ -98,11 +89,11 @@ internal abstract class KeccakCore<D : KeccakCore<D>>(private val markByte: Byte
         get() = 200 - 2 * digestLength
 
     private fun doReset() {
-        a.fill(0)
+        a.clear()
     }
 
     override fun copyState(dest: D): D {
-        a.copyInto(dest.a, 0, 0, 25)
+        dest.a.copyFrom(a)
         return super.copyState(dest)
     }
 }

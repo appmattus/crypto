@@ -39,7 +39,7 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.kangaroo
 
-import com.appmattus.crypto.internal.core.bouncycastle.shake.keccakPermutation
+import com.appmattus.crypto.internal.core.bouncycastle.shake.KeccakState
 import com.appmattus.crypto.internal.core.copyBytes
 
 /**
@@ -48,7 +48,7 @@ import com.appmattus.crypto.internal.core.copyBytes
  */
 internal class KangarooSponge private constructor(
     val rateBytes: Int,
-    private val state: LongArray,
+    private val state: KeccakState,
     private val queue: ByteArray,
     private var bytesInQueue: Int,
     private var squeezing: Boolean
@@ -56,16 +56,17 @@ internal class KangarooSponge private constructor(
 
     constructor(strength: Int) : this(
         rateBytes = (1600 - (strength shl 1)) shr 3,
-        state = LongArray(25),
+        state = KeccakState(),
         queue = ByteArray((1600 - (strength shl 1)) shr 3),
         bytesInQueue = 0,
         squeezing = false
     )
 
-    fun copy(): KangarooSponge = KangarooSponge(rateBytes, state.copyOf(), queue.copyOf(), bytesInQueue, squeezing)
+    fun copy(): KangarooSponge =
+        KangarooSponge(rateBytes, KeccakState().apply { copyFrom(state) }, queue.copyOf(), bytesInQueue, squeezing)
 
     fun initSponge() {
-        state.fill(0)
+        state.clear()
         queue.fill(0)
         bytesInQueue = 0
         squeezing = false
@@ -123,26 +124,13 @@ internal class KangarooSponge private constructor(
     }
 
     private fun absorbBlock(data: ByteArray, offset: Int) {
-        for (i in 0 until (rateBytes shr 3)) {
-            var value = 0L
-            for (j in 7 downTo 0) {
-                value = (value shl 8) or (data[offset + i * 8 + j].toLong() and 0xff)
-            }
-            state[i] = state[i] xor value
-        }
+        state.absorb(data, offset, rateBytes shr 3)
         permute()
     }
 
-    private fun extract() {
-        for (i in 0 until (rateBytes shr 3)) {
-            val value = state[i]
-            for (j in 0 until 8) {
-                queue[i * 8 + j] = (value ushr (8 * j)).toByte()
-            }
-        }
-    }
+    private fun extract() = state.extract(queue, rateBytes shr 3)
 
-    private fun permute() = keccakPermutation(state, ROUNDS)
+    private fun permute() = state.permute(ROUNDS)
 
     private companion object {
         // Keccak-p[1600, 12]: the last 12 of Keccak-f[1600]'s 24 rounds
