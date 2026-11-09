@@ -82,7 +82,7 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest() {
 
         if (state.memSize + length < 16) {
             // fill in tmp buffer
-            copySmall(input, index + offset, state.mem, state.memSize, length)
+            copyBytes(input, index + offset, state.mem, state.memSize, length)
             state.memSize += length
 
             return this
@@ -90,7 +90,7 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest() {
 
         if (state.memSize > 0) {
             // some data left from previous update
-            copySmall(input, index + offset, state.mem, state.memSize, 16 - state.memSize)
+            copyBytes(input, index + offset, state.mem, state.memSize, 16 - state.memSize)
 
             state.v1 = round(state.v1, decodeLEInt(state.mem, 0))
             state.v2 = round(state.v2, decodeLEInt(state.mem, 4))
@@ -120,7 +120,7 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest() {
         }
 
         if (index < length) {
-            copySmall(input, index + offset, state.mem, 0, length - index)
+            copyBytes(input, index + offset, state.mem, 0, length - index)
 
             state.memSize = length - index
         }
@@ -211,13 +211,4 @@ internal class XXHash32(private val seed: Int = 0) : AbstractDigest() {
         var mem: ByteArray = ByteArray(4 * 4)
         var memSize: Int = 0
     }
-}
-
-/**
- * Copies [length] bytes of [src] from [srcOffset] to [dest] at [destOffset] with a plain loop. For the few bytes buffered
- * between blocks this beats copyInto, which on Kotlin/JS creates a typed array view for each copy.
- */
-@Suppress("NOTHING_TO_INLINE")
-private inline fun copySmall(src: ByteArray, srcOffset: Int, dest: ByteArray, destOffset: Int, length: Int) {
-    for (i in 0 until length) dest[destOffset + i] = src[srcOffset + i]
 }

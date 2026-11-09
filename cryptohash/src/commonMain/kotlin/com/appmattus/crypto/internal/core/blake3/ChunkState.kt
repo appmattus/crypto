@@ -43,6 +43,7 @@ import com.appmattus.crypto.internal.core.blake3.Hasher.Companion.CHUNK_END
 import com.appmattus.crypto.internal.core.blake3.Hasher.Companion.CHUNK_START
 import com.appmattus.crypto.internal.core.blake3.Hasher.Companion.compress
 import com.appmattus.crypto.internal.core.blake3.Hasher.Companion.wordsFromLEBytes
+import com.appmattus.crypto.internal.core.copyBytes
 import kotlin.math.min
 
 // Helper object for creating new Nodes and chaining them
@@ -86,7 +87,7 @@ internal class ChunkState(var chainingValue: IntArray, var chunkCounter: Long, v
             // Take bytes out of the input and update
             val want = BLOCK_LEN - blockLen // How many bytes we need to fill up the current block
             val canTake = min(want, input.size - currPos)
-            input.copyInto(block, blockLen, currPos, currPos + canTake)
+            copyBytes(input, currPos, block, blockLen, canTake)
             blockLen += canTake
             currPos += canTake
         }

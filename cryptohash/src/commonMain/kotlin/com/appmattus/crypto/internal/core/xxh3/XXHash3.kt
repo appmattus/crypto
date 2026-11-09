@@ -56,6 +56,7 @@
 
 package com.appmattus.crypto.internal.core.xxh3
 
+import com.appmattus.crypto.internal.core.copyBytes
 import com.appmattus.crypto.internal.core.decodeBEInt
 import com.appmattus.crypto.internal.core.decodeBELong
 import com.appmattus.crypto.internal.core.decodeLEInt
@@ -238,15 +239,8 @@ private typealias XXH3_state_t = XXH3_state_s
  * @brief Modify this function to use a different routine than memcpy().
  */
 private fun XXH_memcpy(dest: ByteArray, destOffset: Int, src: ByteArray, srcOffset: Int, size: size_t) {
-    // A plain loop for the few bytes buffered between updates, as copyInto creates a typed array view on Kotlin/JS
-    if (size <= XXH_SMALL_COPY) {
-        for (i in 0 until size) dest[destOffset + i] = src[srcOffset + i]
-    } else {
-        src.copyInto(dest, destOffset, srcOffset, srcOffset + size)
-    }
+    copyBytes(src, srcOffset, dest, destOffset, size)
 }
-
-private const val XXH_SMALL_COPY = 32
 
 /**
  * Like @ref XXH_readLE32(), but has an option for aligned reads.

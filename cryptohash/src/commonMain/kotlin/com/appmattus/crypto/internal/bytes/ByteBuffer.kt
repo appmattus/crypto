@@ -16,6 +16,7 @@
 
 package com.appmattus.crypto.internal.bytes
 
+import com.appmattus.crypto.internal.core.copyBytes
 import com.appmattus.crypto.internal.core.decodeBEInt
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLELong
@@ -48,7 +49,7 @@ internal class ByteBuffer private constructor(bytes: ByteArray, size: Int) : Ite
             if (size + length > bytes.size) {
                 bytes = bytes.copyOf(maxOf(size + length, bytes.size * 2, MIN_CAPACITY))
             }
-            value.copyInto(bytes, size, offset, offset + length)
+            copyBytes(value, offset, bytes, size, length)
             size += length
         }
     }

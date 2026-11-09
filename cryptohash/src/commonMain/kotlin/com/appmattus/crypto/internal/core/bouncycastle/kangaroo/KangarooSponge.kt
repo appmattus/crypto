@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.bouncycastle.kangaroo
 
 import com.appmattus.crypto.internal.core.bouncycastle.shake.keccakPermutation
+import com.appmattus.crypto.internal.core.copyBytes
 
 /**
  * Keccak sponge using the 12 round Keccak-p[1600, 12] permutation with padding left to the caller, as used by
@@ -86,7 +87,7 @@ internal class KangarooSponge private constructor(
                 } while (count <= length - rateBytes)
             } else {
                 val partialBlock = minOf(rateBytes - bytesInQueue, length - count)
-                data.copyInto(queue, bytesInQueue, offset + count, offset + count + partialBlock)
+                copyBytes(data, offset + count, queue, bytesInQueue, partialBlock)
                 bytesInQueue += partialBlock
                 count += partialBlock
             }
