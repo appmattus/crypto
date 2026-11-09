@@ -662,16 +662,7 @@ private fun XXH3_scrambleAcc_scalar(acc: LongArray, secret: ByteArray, secretOff
     }
 }
 
-private fun XXH3_initCustomSecret_scalar(customSecret: ByteArray, seed64: xxh_u64) {
-    val nbRounds = XXH_SECRET_DEFAULT_SIZE / 16
-
-    for (i in 0 until nbRounds) {
-        val lo = XXH_readLE64(XXH3_kSecret, 16 * i + 0) + seed64
-        val hi = XXH_readLE64(XXH3_kSecret, 16 * i + 8) - seed64
-        XXH_writeLE64(customSecret, 16 * i + 0, lo)
-        XXH_writeLE64(customSecret, 16 * i + 8, hi)
-    }
-}
+private fun XXH3_initCustomSecret_scalar(customSecret: ByteArray, seed64: xxh_u64) = xxh3InitCustomSecret(customSecret, seed64)
 
 private val XXH3_accumulate_512 = ::XXH3_accumulate_512_scalar
 
@@ -688,6 +679,10 @@ private fun XXH3_accumulate(
     nbStripes: size_t,
     f_acc512: XXH3_f_accumulate_512
 ) {
+    if (f_acc512 === XXH3_accumulate_512) {
+        xxh3Accumulate(acc, input, inputOffset, secret, secretOffset, nbStripes)
+        return
+    }
     for (n in 0 until nbStripes) {
         f_acc512(acc, input, inputOffset + n * XXH_STRIPE_LEN, secret, secretOffset + n * XXH_SECRET_CONSUME_RATE)
     }
@@ -869,14 +864,8 @@ private fun XXH3_64bits_internal(
      * Adding a check and a branch here would cost performance at every hash.
      * Also, note that function signature doesn't offer room to return an error.
      */
-    if (len <= 16) {
-        return XXH3_len_0to16_64b(input, inputOffset, len, secret, seed64)
-    }
-    if (len <= 128) {
-        return XXH3_len_17to128_64b(input, inputOffset, len, secret, secretLen, seed64)
-    }
     if (len <= XXH3_MIDSIZE_MAX) {
-        return XXH3_len_129to240_64b(input, inputOffset, len, secret, secretLen, seed64)
+        return xxh3Hash64Short(input, inputOffset, len, seed64, secret, secretLen)
     }
     return f_hashLong(input, inputOffset, len, seed64, secret, secretLen)
 }
@@ -1757,7 +1746,7 @@ private val XXH_PRIME64_5: Long = 0x27D4EB2F165667C5UL.toLong()
 private const val XXH_SECRET_DEFAULT_SIZE: Int = 192 // minimum XXH3_SECRET_SIZE_MIN
 
 /** Pseudorandom secret taken directly from FARSH. */
-private val XXH3_kSecret: ByteArray = byteArrayOf(
+internal val XXH3_kSecret: ByteArray = byteArrayOf(
     0xb8.toByte(), 0xfe.toByte(), 0x6c.toByte(), 0x39.toByte(), 0x23.toByte(), 0xa4.toByte(), 0x4b.toByte(), 0xbe.toByte(),
     0x7c.toByte(), 0x01.toByte(), 0x81.toByte(), 0x2c.toByte(), 0xf7.toByte(), 0x21.toByte(), 0xad.toByte(), 0x1c.toByte(),
     0xde.toByte(), 0xd4.toByte(), 0x6d.toByte(), 0xe9.toByte(), 0x83.toByte(), 0x90.toByte(), 0x97.toByte(), 0xdb.toByte(),
@@ -1828,3 +1817,79 @@ private typealias XXH3_hashLong128_f = (
     secret: ByteArray,
     secretLen: size_t
 ) -> XXH128_hash_t
+
+/*
+ * Kotlin/JS has its own implementations of the functions below, as its Long is an object and allocates on every
+ * operation. The ...Long versions are for platforms whose Long is a 64-bit machine integer.
+ */
+
+/** XXH3_64bits of the [len] bytes of [input] from [inputOffset] for inputs of up to XXH3_MIDSIZE_MAX bytes */
+@Suppress("LongParameterList")
+internal expect fun xxh3Hash64Short(
+    input: ByteArray,
+    inputOffset: Int,
+    len: size_t,
+    seed64: XXH64_hash_t,
+    secret: ByteArray,
+    secretLen: size_t
+): XXH64_hash_t
+
+/** The [Long] implementation of [xxh3Hash64Short] */
+@Suppress("LongParameterList", "ReturnCount")
+internal fun xxh3Hash64ShortLong(
+    input: ByteArray,
+    inputOffset: Int,
+    len: size_t,
+    seed64: XXH64_hash_t,
+    secret: ByteArray,
+    secretLen: size_t
+): XXH64_hash_t {
+    if (len <= 16) {
+        return XXH3_len_0to16_64b(input, inputOffset, len, secret, seed64)
+    }
+    if (len <= 128) {
+        return XXH3_len_17to128_64b(input, inputOffset, len, secret, secretLen, seed64)
+    }
+    return XXH3_len_129to240_64b(input, inputOffset, len, secret, secretLen, seed64)
+}
+
+/** Accumulates [nbStripes] stripes of [input] from [inputOffset] into [acc], with [secret] from [secretOffset] */
+@Suppress("LongParameterList")
+internal expect fun xxh3Accumulate(
+    acc: LongArray,
+    input: ByteArray,
+    inputOffset: Int,
+    secret: ByteArray,
+    secretOffset: Int,
+    nbStripes: size_t
+)
+
+/** The [Long] implementation of [xxh3Accumulate] */
+@Suppress("LongParameterList")
+internal fun xxh3AccumulateLong(
+    acc: LongArray,
+    input: ByteArray,
+    inputOffset: Int,
+    secret: ByteArray,
+    secretOffset: Int,
+    nbStripes: size_t
+) {
+    for (n in 0 until nbStripes) {
+        XXH3_accumulate_512_scalar(acc, input, inputOffset + n * XXH_STRIPE_LEN, secret, secretOffset + n * XXH_SECRET_CONSUME_RATE)
+    }
+}
+
+/** Derives the default-sized secret for [seed64] from XXH3_kSecret into [customSecret] */
+internal expect fun xxh3InitCustomSecret(customSecret: ByteArray, seed64: xxh_u64)
+
+/** The [Long] implementation of [xxh3InitCustomSecret] */
+internal fun xxh3InitCustomSecretLong(customSecret: ByteArray, seed64: xxh_u64) {
+    val nbRounds = XXH_SECRET_DEFAULT_SIZE / 16
+
+    for (i in 0 until nbRounds) {
+        val lo = XXH_readLE64(XXH3_kSecret, 16 * i + 0) + seed64
+        val hi = XXH_readLE64(XXH3_kSecret, 16 * i + 8) - seed64
+        XXH_writeLE64(customSecret, 16 * i + 0, lo)
+        XXH_writeLE64(customSecret, 16 * i + 8, hi)
+    }
+}
