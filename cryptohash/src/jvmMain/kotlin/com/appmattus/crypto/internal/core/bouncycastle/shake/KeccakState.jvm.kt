@@ -15,4 +15,5 @@
  */
 package com.appmattus.crypto.internal.core.bouncycastle.shake
 
-internal actual fun keccakPermutation(state: LongArray, rounds: Int) = keccakPermutationLong(state, rounds)
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+internal actual typealias KeccakState = KeccakStateLong

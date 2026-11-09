@@ -40,8 +40,6 @@
 package com.appmattus.crypto.internal.core.bouncycastle.shake
 
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
 import kotlin.math.min
 
 /**
@@ -52,7 +50,7 @@ import kotlin.math.min
  */
 @Suppress("TooManyFunctions")
 internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
-    protected var state = LongArray(25)
+    private val state = KeccakState()
     private var dataQueue = ByteArray(192)
     protected var rate = 0
     private var bitsInQueue = 0
@@ -64,7 +62,7 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
     }
 
     constructor(source: KeccakDigest<D>) {
-        source.state.copyInto(state, 0, 0, source.state.size)
+        state.copyFrom(source.state)
         source.dataQueue.copyInto(dataQueue, 0, 0, source.dataQueue.size)
         rate = source.rate
         bitsInQueue = source.bitsInQueue
@@ -130,9 +128,7 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
             error("invalid rate value")
         }
         this.rate = rate
-        for (i in state.indices) {
-            state[i] = 0L
-        }
+        state.clear()
         dataQueue.fill(0)
         bitsInQueue = 0
         squeezing = false
@@ -203,17 +199,12 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
         } else {
             val full = bitsInQueue ushr 6
             val partial = bitsInQueue and 63
-            var off = 0
-            for (i in 0 until full) {
-                state[i] = state[i] xor decodeLELong(dataQueue, off)
-                off += 8
-            }
+            state.absorb(dataQueue, 0, full)
             if (partial > 0) {
-                val mask = (1L shl partial) - 1L
-                state[full] = state[full] xor (decodeLELong(dataQueue, off) and mask)
+                state.absorbPartial(full, dataQueue, full shl 3, partial)
             }
         }
-        state[rate - 1 ushr 6] = state[rate - 1 ushr 6] xor (1L shl 63)
+        state.flipTopBit(rate - 1 ushr 6)
         bitsInQueue = 0
         squeezing = true
     }
@@ -239,25 +230,14 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
 
     private fun keccakAbsorb(data: ByteArray, off: Int) {
 //        assert 0 == bitsInQueue || (dataQueue == data && 0 == off);
-        @Suppress("NAME_SHADOWING")
-        var off = off
-        val count = rate ushr 6
-        for (i in 0 until count) {
-            state[i] = state[i] xor decodeLELong(data, off)
-            off += 8
-        }
-        keccakPermutation(state)
+        state.absorb(data, off, rate ushr 6)
+        state.permute(KECCAK_F_ROUNDS)
     }
 
     private fun keccakExtract() {
 //        assert 0 == bitsInQueue;
-        keccakPermutation(state)
-
-        var bsOff = 0
-        for (i in 0 until (rate ushr 6)) {
-            encodeLELong(state[i], dataQueue, bsOff)
-            bsOff += 8
-        }
+        state.permute(KECCAK_F_ROUNDS)
+        state.extract(dataQueue, rate ushr 6)
 
         bitsInQueue = rate
     }
@@ -291,15 +271,10 @@ internal abstract class KeccakDigest<D : KeccakDigest<D>> : Digest {
 
 /**
  * The Keccak-p[1600, [rounds]] permutation of the 25 lane [state]: the last [rounds] rounds of Keccak-f[1600], which
- * is the default of all 24. KangarooTwelve uses 12.
+ * has all 24. KangarooTwelve uses 12.
  *
- * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
- */
-internal expect fun keccakPermutation(state: LongArray, rounds: Int = KECCAK_F_ROUNDS)
-
-/**
- * The [Long] implementation of [keccakPermutation], for platforms whose [Long] is a 64-bit machine integer. The state
- * is held in local variables so the JVM can JIT-compile it.
+ * This is the [Long] implementation, for platforms whose [Long] is a 64-bit machine integer; see [KeccakState]. The
+ * state is held in local variables so the JVM can JIT-compile it.
  */
 @Suppress("LongMethod")
 internal fun keccakPermutationLong(state: LongArray, rounds: Int) {
