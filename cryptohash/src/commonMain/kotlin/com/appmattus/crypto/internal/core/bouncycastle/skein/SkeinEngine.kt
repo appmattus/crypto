@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,7 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.skein
 
+import com.appmattus.crypto.internal.core.copyBytes
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLELong
 import kotlin.math.min
@@ -546,7 +547,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
                     currentOffset = 0
                 }
                 val toCopy: Int = min(len - copied, currentBlock.size - currentOffset)
-                value.copyInto(currentBlock, currentOffset, offset + copied, offset + copied + toCopy)
+                copyBytes(value, offset + copied, currentBlock, currentOffset, toCopy)
                 copied += toCopy
                 currentOffset += toCopy
                 tweak.advancePosition(toCopy)

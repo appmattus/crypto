@@ -41,6 +41,7 @@ package com.appmattus.crypto.internal.core.bouncycastle.ascon
 
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.AbstractDigest
+import com.appmattus.crypto.internal.core.copyBytes
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLELong
 
@@ -64,7 +65,7 @@ internal class Ascon private constructor(
 
         if (bufferOffset != 0) {
             val count = minOf(len, RATE - bufferOffset)
-            input.copyInto(buffer, bufferOffset, off, off + count)
+            copyBytes(input, off, buffer, bufferOffset, count)
             bufferOffset += count
             off += count
             len -= count
@@ -81,7 +82,7 @@ internal class Ascon private constructor(
         }
 
         if (len > 0) {
-            input.copyInto(buffer, 0, off, off + len)
+            copyBytes(input, off, buffer, 0, len)
             bufferOffset = len
         }
         return this

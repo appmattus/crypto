@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,7 @@
 package com.appmattus.crypto.internal.core.sphlib
 
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.internal.core.copyBytes
 
 /**
  * This class is a template which can be used to implement hash
@@ -183,7 +184,7 @@ internal abstract class DigestEngine<D : DigestEngine<D>> : Digest {
         while (len > 0) {
             var copyLen = blockLen - inputLen
             if (copyLen > len) copyLen = len
-            input.copyInto(blockBuffer, inputLen, offset, offset + copyLen)
+            copyBytes(input, offset, blockBuffer, inputLen, copyLen)
 
             offset += copyLen
             inputLen += copyLen

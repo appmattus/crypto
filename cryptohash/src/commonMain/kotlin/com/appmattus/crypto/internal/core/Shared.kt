@@ -191,3 +191,21 @@ internal fun Long.toHexString(): String = ByteArray(8).also {
 }.toHexString()
 
 internal fun ULong.toHexString(): String = toLong().toHexString()
+
+/**
+ * Copies [length] bytes of [src] from [srcOffset] into [dest] at [destOffset]. The arrays must not overlap.
+ *
+ * Short copies, such as the bytes digests buffer between blocks, use a plain loop, as on Kotlin/JS each copyInto creates
+ * a typed array view. Longer ones use copyInto, which is faster for bulk copies, notably on the JVM.
+ */
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun copyBytes(src: ByteArray, srcOffset: Int, dest: ByteArray, destOffset: Int, length: Int) {
+    if (length <= SMALL_COPY_LIMIT) {
+        for (i in 0 until length) dest[destOffset + i] = src[srcOffset + i]
+    } else {
+        src.copyInto(dest, destOffset, srcOffset, srcOffset + length)
+    }
+}
+
+/** The longest copy [copyBytes] does with a plain loop */
+internal const val SMALL_COPY_LIMIT = 32
