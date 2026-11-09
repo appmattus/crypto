@@ -21,6 +21,7 @@ import com.appmattus.crypto.Digest
 /**
  * @property seed A seed for generate digest. Default is 0.
  */
+@Suppress("TooManyFunctions")
 internal class XXHash64(private val seed: Long = 0) : AbstractDigest() {
 
     private var state = State64()
@@ -91,11 +92,11 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest() {
     override fun update(input: ByteArray, offset: Int, length: Int): Digest {
         var index = 0
 
-        state.totalLen += length
+        countBytes(length)
 
         if (state.memSize + length < 32) {
             // fill in tmp buffer
-            input.copyInto(state.mem, state.memSize, index + offset, index + offset + length)
+            copySmall(input, index + offset, state.mem, state.memSize, length)
             state.memSize += length
 
             return this
@@ -103,7 +104,7 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest() {
 
         if (state.memSize > 0) {
             // some data left from previous update
-            input.copyInto(state.mem, state.memSize, index + offset, index + offset + (32 - state.memSize))
+            copySmall(input, index + offset, state.mem, state.memSize, 32 - state.memSize)
 
             xxh64Stripes(state, state.mem, 0, 1)
 
@@ -118,14 +119,40 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest() {
         }
 
         if (index < length) {
-            input.copyInto(state.mem, 0, index + offset, index + offset + (length - index))
+            copySmall(input, index + offset, state.mem, 0, length - index)
 
             state.memSize = length - index
         }
         return this
     }
 
+    override fun update(input: Byte): Digest {
+        // Buffer a single byte directly unless it completes a stripe
+        if (state.memSize < 31) {
+            state.mem[state.memSize++] = input
+            countBytes(1)
+            return this
+        }
+        return super.update(input)
+    }
+
+    /**
+     * Adds [length] to the total length. Lengths gather in the Int pendingLen rather than the Long totalLen, as each Long
+     * addition allocates on Kotlin/JS, and fold into totalLen before it could overflow.
+     */
+    private fun countBytes(length: Int) {
+        val pending = state.pendingLen + length
+        if (pending in 0 until PENDING_LIMIT) {
+            state.pendingLen = pending
+        } else {
+            state.totalLen += state.pendingLen.toLong() + length
+            state.pendingLen = 0
+        }
+    }
+
     override fun digest(): ByteArray {
+        state.totalLen += state.pendingLen
+        state.pendingLen = 0
         var h: Long
 
         if (state.totalLen >= 32) {
@@ -170,6 +197,7 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest() {
         return XXHash64(seed).also {
             it.state = State64().apply {
                 totalLen = state.totalLen
+                pendingLen = state.pendingLen
                 largeLen = state.largeLen
                 v1 = state.v1
                 v2 = state.v2
@@ -192,10 +220,16 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest() {
         const val prime3: Long = 1609587929392839161
         const val prime4: Long = -8796714831421723037
         const val prime5: Long = 2870177450012600261
+
+        // Fold pendingLen into totalLen before it reaches this, well short of overflowing
+        private const val PENDING_LIMIT = 1 shl 30
     }
 
     internal class State64 {
         var totalLen: Long = 0
+
+        // Bytes counted but not yet added to totalLen
+        var pendingLen: Int = 0
         var largeLen: Boolean = false
         var v1: Long = 0
         var v2: Long = 0
@@ -204,4 +238,13 @@ internal class XXHash64(private val seed: Long = 0) : AbstractDigest() {
         var mem: ByteArray = ByteArray(8 * 4)
         var memSize: Int = 0
     }
+}
+
+/**
+ * Copies [length] bytes of [src] from [srcOffset] to [dest] at [destOffset] with a plain loop. For the few bytes buffered
+ * between blocks this beats copyInto, which on Kotlin/JS creates a typed array view for each copy.
+ */
+@Suppress("NOTHING_TO_INLINE")
+private inline fun copySmall(src: ByteArray, srcOffset: Int, dest: ByteArray, destOffset: Int, length: Int) {
+    for (i in 0 until length) dest[destOffset + i] = src[srcOffset + i]
 }
