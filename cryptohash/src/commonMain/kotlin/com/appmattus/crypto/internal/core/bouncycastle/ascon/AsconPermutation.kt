@@ -39,15 +39,87 @@
 
 package com.appmattus.crypto.internal.core.bouncycastle.ascon
 
-/**
- * The 12-round Ascon-p permutation of the five-word [state].
- *
- * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
- */
-internal expect fun asconPermutation(state: LongArray)
+import com.appmattus.crypto.internal.core.decodeLELong
+import com.appmattus.crypto.internal.core.encodeLELong
 
 /**
- * The [Long] implementation of [asconPermutation], for platforms whose [Long] is a 64-bit machine integer
+ * The five-word Ascon state, with the operations Ascon-Hash256, Ascon-XOF128 and Ascon-CXOF128 make on it.
+ *
+ * Kotlin/JS has its own implementation holding each word as a pair of Ints, as its [Long] is an object and allocates
+ * on every operation. The other platforms use [AsconStateLong].
+ */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+internal expect class AsconState() {
+    /** Sets the state to a copy of [other] */
+    fun copyFrom(other: AsconState)
+
+    /** Sets the state to the initialisation vector [iv] followed by four zero words, then applies the permutation */
+    fun initialise(iv: Long)
+
+    /** XORs [value] into the first word */
+    fun xorWord0(value: Long)
+
+    /** XORs the 8-byte little-endian block of [input] at [offset] into the first word, then applies the permutation */
+    fun absorb(input: ByteArray, offset: Int)
+
+    /**
+     * XORs the final partial block, the first [length] bytes of [input] padded with a single 1 bit, into the first
+     * word, then applies the permutation
+     */
+    fun absorbFinal(input: ByteArray, length: Int)
+
+    /** Applies the 12-round Ascon-p permutation */
+    fun permute()
+
+    /** Writes the first word to [output] at [offset] as 8 little-endian bytes */
+    fun squeeze(output: ByteArray, offset: Int)
+}
+
+/**
+ * The [Long] implementation of [AsconState], for platforms whose [Long] is a 64-bit machine integer
+ */
+internal class AsconStateLong {
+    private val state = LongArray(5)
+
+    fun copyFrom(other: AsconStateLong) {
+        other.state.copyInto(state)
+    }
+
+    fun initialise(iv: Long) {
+        state.fill(0)
+        state[0] = iv
+        asconPermutationLong(state)
+    }
+
+    fun xorWord0(value: Long) {
+        state[0] = state[0] xor value
+    }
+
+    fun absorb(input: ByteArray, offset: Int) {
+        state[0] = state[0] xor decodeLELong(input, offset)
+        asconPermutationLong(state)
+    }
+
+    fun absorbFinal(input: ByteArray, length: Int) {
+        var value = 0L
+        for (i in 0 until length) {
+            value = value or ((input[i].toLong() and 0xff) shl (8 * i))
+        }
+        state[0] = state[0] xor value xor (1L shl (8 * length))
+        asconPermutationLong(state)
+    }
+
+    fun permute() {
+        asconPermutationLong(state)
+    }
+
+    fun squeeze(output: ByteArray, offset: Int) {
+        encodeLELong(state[0], output, offset)
+    }
+}
+
+/**
+ * The 12-round Ascon-p permutation of the five-word [state]
  */
 internal fun asconPermutationLong(state: LongArray) {
     var x0 = state[0]

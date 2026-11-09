@@ -42,8 +42,6 @@ package com.appmattus.crypto.internal.core.bouncycastle.ascon
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.AbstractDigest
 import com.appmattus.crypto.internal.core.copyBytes
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
 
 /**
  * Ascon-Hash256, Ascon-XOF128 and Ascon-CXOF128 from
@@ -52,10 +50,10 @@ import com.appmattus.crypto.internal.core.encodeLELong
 internal class Ascon private constructor(
     private val name: String,
     private val outputLength: Int,
-    private val initialState: LongArray
+    private val initialState: AsconState
 ) : AbstractDigest() {
 
-    private val state = initialState.copyOf()
+    private val state = AsconState().apply { copyFrom(initialState) }
     private val buffer = ByteArray(RATE)
     private var bufferOffset = 0
 
@@ -70,13 +68,13 @@ internal class Ascon private constructor(
             off += count
             len -= count
             if (bufferOffset == RATE) {
-                absorbBlock(state, buffer, 0)
+                state.absorb(buffer, 0)
                 bufferOffset = 0
             }
         }
 
         while (len >= RATE) {
-            absorbBlock(state, input, off)
+            state.absorb(input, off)
             off += RATE
             len -= RATE
         }
@@ -89,16 +87,16 @@ internal class Ascon private constructor(
     }
 
     override fun digest(): ByteArray {
-        absorbFinalBlock(state, buffer, bufferOffset)
+        state.absorbFinal(buffer, bufferOffset)
 
         val output = ByteArray(outputLength)
         var offset = 0
         while (outputLength - offset > RATE) {
-            encodeLELong(state[0], output, offset)
-            asconPermutation(state)
+            state.squeeze(output, offset)
+            state.permute()
             offset += RATE
         }
-        val last = ByteArray(RATE).also { encodeLELong(state[0], it, 0) }
+        val last = ByteArray(RATE).also { state.squeeze(it, 0) }
         last.copyInto(output, offset, 0, outputLength - offset)
 
         reset()
@@ -109,13 +107,13 @@ internal class Ascon private constructor(
         get() = outputLength
 
     override fun reset() {
-        initialState.copyInto(state)
+        state.copyFrom(initialState)
         buffer.fill(0)
         bufferOffset = 0
     }
 
     override fun copy(): Ascon = Ascon(name, outputLength, initialState).also {
-        state.copyInto(it.state)
+        it.state.copyFrom(state)
         buffer.copyInto(it.buffer)
         it.bufferOffset = bufferOffset
     }
@@ -145,35 +143,20 @@ internal class Ascon private constructor(
          * string before the message.
          */
         fun cxof128(customisation: ByteArray, outputLength: Int): Ascon {
-            val state = cxof128State.copyOf()
-            state[0] = state[0] xor (customisation.size.toLong() * 8)
-            asconPermutation(state)
+            val state = AsconState().apply { copyFrom(cxof128State) }
+            state.xorWord0(customisation.size.toLong() * 8)
+            state.permute()
 
             var offset = 0
             while (customisation.size - offset >= RATE) {
-                absorbBlock(state, customisation, offset)
+                state.absorb(customisation, offset)
                 offset += RATE
             }
-            absorbFinalBlock(state, customisation.copyOfRange(offset, customisation.size), customisation.size - offset)
+            state.absorbFinal(customisation.copyOfRange(offset, customisation.size), customisation.size - offset)
 
             return Ascon("Ascon-CXOF128", outputLength, state)
         }
 
-        private fun initialise(iv: Long) = longArrayOf(iv, 0, 0, 0, 0).also { asconPermutation(it) }
-
-        private fun absorbBlock(state: LongArray, input: ByteArray, offset: Int) {
-            state[0] = state[0] xor decodeLELong(input, offset)
-            asconPermutation(state)
-        }
-
-        // Absorb the final partial block of length bytes, padded with a single 1 bit
-        private fun absorbFinalBlock(state: LongArray, input: ByteArray, length: Int) {
-            var value = 0L
-            for (i in 0 until length) {
-                value = value or ((input[i].toLong() and 0xff) shl (8 * i))
-            }
-            state[0] = state[0] xor value xor (1L shl (8 * length))
-            asconPermutation(state)
-        }
+        private fun initialise(iv: Long) = AsconState().apply { initialise(iv) }
     }
 }

@@ -15,4 +15,5 @@
  */
 package com.appmattus.crypto.internal.core.bouncycastle.ascon
 
-internal actual fun asconPermutation(state: LongArray) = asconPermutationLong(state)
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+internal actual typealias AsconState = AsconStateLong
