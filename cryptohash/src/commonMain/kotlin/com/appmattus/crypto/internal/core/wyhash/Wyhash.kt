@@ -31,11 +31,7 @@ internal class Wyhash(
     private val extraProtection: Boolean = false
 ) : DigestEngine<Wyhash>() {
 
-    private var seed1 = seed xor secret[0]
-    private var see1 = seed1
-    private var see2 = seed1
-
-    private val wyMix = if (extraProtection) ::wymixExtraProtection else ::wymixNormalProtection
+    private val state = WyhashState(seed, secret, extraProtection)
 
     override val digestLength: Int
         get() = 8
@@ -43,101 +39,22 @@ internal class Wyhash(
     override val blockLength: Int
         get() = 48
 
-    override fun engineReset() {
-        seed1 = seed xor secret[0]
-        see1 = seed1
-        see2 = seed1
-    }
+    override fun engineReset() = state.reset()
 
-    override fun processBlock(data: ByteArray) {
-        // blocks of 48
-        seed1 = wyMix(wyr8(data, 0) xor secret[1], wyr8(data, 8) xor seed1)
-        see1 = wyMix(wyr8(data, 16) xor secret[2], wyr8(data, 24) xor see1)
-        see2 = wyMix(wyr8(data, 32) xor secret[3], wyr8(data, 40) xor see2)
-    }
+    override fun processBlock(data: ByteArray) = state.processBlock(data)
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
         val rem = flush()
         val len = (blockCount.toInt() * blockLength) + rem
 
-        val a: ULong
-        val b: ULong
-
-        when {
-            len > 16 -> {
-                var i = rem
-                if (len == 48) {
-                    // length is exactly 48 so we need to rollback the call to processBlock - blockBuffer contains the last block
-                    // this does mean the data gets processed twice however
-                    seed1 = seed xor secret[0]
-                    see1 = seed1
-                    see2 = seed1
-                    i = 48
-                } else if (len > 48) {
-                    // blocks already handled
-                    seed1 = seed1 xor (see1 xor see2)
-                }
-
-                var p = 0
-                while (i > 16) {
-                    seed1 = wyMix(wyr8(blockBuffer, p) xor secret[1], wyr8(blockBuffer, p + 8) xor seed1)
-                    i -= 16
-                    p += 16
-                }
-
-                // We rely on the fact blockBuffer is the last complete block overridden with the remaining bytes
-                a = wyr8Wrapped(blockBuffer, p + i - 16)
-                b = wyr8Wrapped(blockBuffer, p + i - 8)
-            }
-
-            len >= 4 -> {
-                a = (wyr4(blockBuffer, 0) shl 32) or wyr4(blockBuffer, ((len ushr 3) shl 2))
-                b = (wyr4(blockBuffer, len - 4) shl 32) or wyr4(blockBuffer, len - 4 - ((len ushr 3) shl 2))
-            }
-
-            len > 0 -> {
-                a = wyr3(blockBuffer, 0, len)
-                b = 0u
-            }
-
-            else -> {
-                // len = 0
-                a = 0u
-                b = 0u
-            }
-        }
-
-        val result = wyMix(secret[1] xor len.toULong(), wyMix(a xor secret[1], b xor seed1))
-
-        encodeBELong(result.toLong(), output, outputOffset)
+        encodeBELong(state.finish(blockBuffer, rem, len).toLong(), output, outputOffset)
     }
-
-    private fun wyr8(data: ByteArray, offset: Int): ULong = data.decodeLEULong(offset)
-
-    private fun wyr4(data: ByteArray, offset: Int): ULong = decodeLEInt(data, offset).toULong() and 0xffffffffu
-
-    private fun wyr3(data: ByteArray, offset: Int, k: Int): ULong {
-        return ((data[offset].toULong()) shl 16) or ((data[offset + (k ushr 1)].toULong()) shl 8) or data[offset + k - 1].toULong()
-    }
-
-    // special version when reading last 16 bytes
-    private fun wyr8Wrapped(data: ByteArray, offset: Int): ULong =
-        data[(offset + 48 + 0) % 48].toULong() and 0xFFu or
-                ((data[(offset + 48 + 1) % 48].toULong() and 0xFFu) shl 8) or
-                ((data[(offset + 48 + 2) % 48].toULong() and 0xFFu) shl 16) or
-                ((data[(offset + 48 + 3) % 48].toULong() and 0xFFu) shl 24) or
-                ((data[(offset + 48 + 4) % 48].toULong() and 0xFFu) shl 32) or
-                ((data[(offset + 48 + 5) % 48].toULong() and 0xFFu) shl 40) or
-                ((data[(offset + 48 + 6) % 48].toULong() and 0xFFu) shl 48) or
-                ((data[(offset + 48 + 7) % 48].toULong() and 0xFFu) shl 56)
 
     override fun doInit() = Unit
 
     override fun copy(): Wyhash {
         val dest = Wyhash(seed, secret, extraProtection).apply {
-            seed1 = this@Wyhash.seed1
-            see1 = this@Wyhash.see1
-            see2 = this@Wyhash.see2
+            state.copyFrom(this@Wyhash.state)
         }
         return copyState(dest)
     }
@@ -196,15 +113,146 @@ internal class Wyhash(
             val newSeed = seed + 0xa0761d6478bd642fuL
             return Pair(newSeed, wymixNormalProtection(newSeed, newSeed xor 0xe7037ed1a0b428dbuL))
         }
-
-        @Suppress("NOTHING_TO_INLINE")
-        private inline fun wymixExtraProtection(a: ULong, b: ULong): ULong {
-            return (a xor (a * b)) xor (b xor multiplyHigh(a, b))
-        }
-
-        @Suppress("NOTHING_TO_INLINE")
-        private inline fun wymixNormalProtection(a: ULong, b: ULong): ULong {
-            return (a * b) xor multiplyHigh(a, b)
-        }
     }
+}
+
+/**
+ * The wyhash state, with the operations [Wyhash] makes on it: the 48-byte block loop and the final mix.
+ *
+ * Kotlin/JS has its own implementation holding each 64-bit value as a pair of Ints, as its [Long] is an object and
+ * allocates on every operation. The other platforms use [WyhashStateLong].
+ */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+internal expect class WyhashState(seed: ULong, secret: List<ULong>, extraProtection: Boolean) {
+    /** Sets the state back to its initial value for the seed */
+    fun reset()
+
+    /** Sets the state to a copy of [other], which must have the same seed, secret and protection */
+    fun copyFrom(other: WyhashState)
+
+    /** Mixes in one 48-byte block of [data] */
+    fun processBlock(data: ByteArray)
+
+    /**
+     * The hash of a [len]-byte input, given [blockBuffer]: the last full block overwritten from its start with the
+     * [rem] bytes that follow it
+     */
+    fun finish(blockBuffer: ByteArray, rem: Int, len: Int): ULong
+}
+
+/**
+ * The [ULong] implementation of [WyhashState], for platforms whose [Long] is a 64-bit machine integer
+ */
+internal class WyhashStateLong(
+    private val seed: ULong,
+    private val secret: List<ULong>,
+    extraProtection: Boolean
+) {
+    private var seed1 = seed xor secret[0]
+    private var see1 = seed1
+    private var see2 = seed1
+
+    private val wyMix: (ULong, ULong) -> ULong = if (extraProtection) ::wymixExtraProtection else ::wymixNormalProtection
+
+    fun reset() {
+        seed1 = seed xor secret[0]
+        see1 = seed1
+        see2 = seed1
+    }
+
+    fun copyFrom(other: WyhashStateLong) {
+        seed1 = other.seed1
+        see1 = other.see1
+        see2 = other.see2
+    }
+
+    fun processBlock(data: ByteArray) {
+// blocks of 48
+        seed1 = wyMix(wyr8(data, 0) xor secret[1], wyr8(data, 8) xor seed1)
+        see1 = wyMix(wyr8(data, 16) xor secret[2], wyr8(data, 24) xor see1)
+        see2 = wyMix(wyr8(data, 32) xor secret[3], wyr8(data, 40) xor see2)
+    }
+
+    @Suppress("CyclomaticComplexMethod")
+    fun finish(blockBuffer: ByteArray, rem: Int, len: Int): ULong {
+        val a: ULong
+        val b: ULong
+
+        when {
+            len > 16 -> {
+                var i = rem
+                if (len == 48) {
+                    // length is exactly 48 so we need to rollback the call to processBlock - blockBuffer contains the last block
+                    // this does mean the data gets processed twice however
+                    seed1 = seed xor secret[0]
+                    see1 = seed1
+                    see2 = seed1
+                    i = 48
+                } else if (len > 48) {
+                    // blocks already handled
+                    seed1 = seed1 xor (see1 xor see2)
+                }
+
+                var p = 0
+                while (i > 16) {
+                    seed1 = wyMix(wyr8(blockBuffer, p) xor secret[1], wyr8(blockBuffer, p + 8) xor seed1)
+                    i -= 16
+                    p += 16
+                }
+
+                // We rely on the fact blockBuffer is the last complete block overridden with the remaining bytes
+                a = wyr8Wrapped(blockBuffer, p + i - 16)
+                b = wyr8Wrapped(blockBuffer, p + i - 8)
+            }
+
+            len >= 4 -> {
+                a = (wyr4(blockBuffer, 0) shl 32) or wyr4(blockBuffer, ((len ushr 3) shl 2))
+                b = (wyr4(blockBuffer, len - 4) shl 32) or wyr4(blockBuffer, len - 4 - ((len ushr 3) shl 2))
+            }
+
+            len > 0 -> {
+                a = wyr3(blockBuffer, 0, len)
+                b = 0u
+            }
+
+            else -> {
+                // len = 0
+                a = 0u
+                b = 0u
+            }
+        }
+
+        val result = wyMix(secret[1] xor len.toULong(), wyMix(a xor secret[1], b xor seed1))
+
+        return result
+    }
+
+    private fun wyr8(data: ByteArray, offset: Int): ULong = data.decodeLEULong(offset)
+
+    private fun wyr4(data: ByteArray, offset: Int): ULong = decodeLEInt(data, offset).toULong() and 0xffffffffu
+
+    private fun wyr3(data: ByteArray, offset: Int, k: Int): ULong {
+        return ((data[offset].toULong()) shl 16) or ((data[offset + (k ushr 1)].toULong()) shl 8) or data[offset + k - 1].toULong()
+    }
+
+    // special version when reading last 16 bytes
+    private fun wyr8Wrapped(data: ByteArray, offset: Int): ULong =
+        data[(offset + 48 + 0) % 48].toULong() and 0xFFu or
+                ((data[(offset + 48 + 1) % 48].toULong() and 0xFFu) shl 8) or
+                ((data[(offset + 48 + 2) % 48].toULong() and 0xFFu) shl 16) or
+                ((data[(offset + 48 + 3) % 48].toULong() and 0xFFu) shl 24) or
+                ((data[(offset + 48 + 4) % 48].toULong() and 0xFFu) shl 32) or
+                ((data[(offset + 48 + 5) % 48].toULong() and 0xFFu) shl 40) or
+                ((data[(offset + 48 + 6) % 48].toULong() and 0xFFu) shl 48) or
+                ((data[(offset + 48 + 7) % 48].toULong() and 0xFFu) shl 56)
+}
+
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun wymixExtraProtection(a: ULong, b: ULong): ULong {
+    return (a xor (a * b)) xor (b xor multiplyHigh(a, b))
+}
+
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun wymixNormalProtection(a: ULong, b: ULong): ULong {
+    return (a * b) xor multiplyHigh(a, b)
 }
