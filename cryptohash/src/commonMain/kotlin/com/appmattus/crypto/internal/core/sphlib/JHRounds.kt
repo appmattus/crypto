@@ -39,15 +39,50 @@
 
 package com.appmattus.crypto.internal.core.sphlib
 
+import com.appmattus.crypto.internal.core.decodeBELong
+
 /**
- * The 42 rounds of the JH compression function E8 on the 16-word [h].
+ * Processes one 64-byte block of [data] into the 16-word JH state [h]: xors the message into the first half of the
+ * state, applies the 42 rounds of the compression function E8, then xors the message into the second half.
  *
  * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
  */
-internal expect fun jhRounds(h: LongArray)
+internal expect fun jhProcessBlock(h: LongArray, data: ByteArray)
 
 /**
- * The [Long] implementation of [jhRounds], for platforms whose [Long] is a 64-bit machine integer
+ * The [Long] implementation of [jhProcessBlock], for platforms whose [Long] is a 64-bit machine integer
+ */
+internal fun jhProcessBlockLong(h: LongArray, data: ByteArray) {
+    val m0h = decodeBELong(data, 0)
+    val m0l = decodeBELong(data, 8)
+    val m1h = decodeBELong(data, 16)
+    val m1l = decodeBELong(data, 24)
+    val m2h = decodeBELong(data, 32)
+    val m2l = decodeBELong(data, 40)
+    val m3h = decodeBELong(data, 48)
+    val m3l = decodeBELong(data, 56)
+    h[0] = h[0] xor m0h
+    h[1] = h[1] xor m0l
+    h[2] = h[2] xor m1h
+    h[3] = h[3] xor m1l
+    h[4] = h[4] xor m2h
+    h[5] = h[5] xor m2l
+    h[6] = h[6] xor m3h
+    h[7] = h[7] xor m3l
+    jhRoundsLong(h)
+    h[8] = h[8] xor m0h
+    h[9] = h[9] xor m0l
+    h[10] = h[10] xor m1h
+    h[11] = h[11] xor m1l
+    h[12] = h[12] xor m2h
+    h[13] = h[13] xor m2l
+    h[14] = h[14] xor m3h
+    h[15] = h[15] xor m3l
+}
+
+/**
+ * The 42 rounds of the JH compression function E8 on the 16-word [h], for platforms whose [Long] is a 64-bit machine
+ * integer
  */
 internal fun jhRoundsLong(h: LongArray) {
     var r = 0

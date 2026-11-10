@@ -15,4 +15,4 @@
  */
 package com.appmattus.crypto.internal.core.sphlib
 
-internal actual fun jhRounds(h: LongArray) = jhRoundsLong(h)
+internal actual fun jhProcessBlock(h: LongArray, data: ByteArray) = jhProcessBlockLong(h, data)
