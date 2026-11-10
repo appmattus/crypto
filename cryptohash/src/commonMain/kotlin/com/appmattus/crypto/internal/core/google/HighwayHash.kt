@@ -15,7 +15,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,12 +41,8 @@ import com.appmattus.crypto.internal.core.encodeBELong
  *
  * @param key array of size 4 with the key to initialize the hash with
  */
-@Suppress("TooManyFunctions")
 internal class HighwayHash(private val key: LongArray, private val outputLengthBits: Int) : Digest {
-    private var v0 = LongArray(4)
-    private var v1 = LongArray(4)
-    private var mul0 = LongArray(4)
-    private var mul1 = LongArray(4)
+    private val state = HighwayHashState()
 
     /**
      * Buffer for single byte update method
@@ -57,7 +53,157 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
         require(outputLengthBits in listOf(64, 128, 256)) { "outputLengthBits ($outputLengthBits) must be 64, 128 or 256" }
         require(key.size == 4) { "Key length (${key.size}) must be 4" }
 
+        reset()
+    }
+
+    override fun update(input: Byte): Digest {
+        singleByte[0] = input
+        update(singleByte, 0, 1)
+        return this
+    }
+
+    override fun update(input: ByteArray): Digest {
+        update(input, 0, input.size)
+        return this
+    }
+
+    private var buffer = ByteArray(32)
+    private var bufferSize = 0
+
+    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
+        var processed = 0
+
+        if (bufferSize != 0) {
+            // fill buffer up to size of 32
+            val size = minOf(32 - bufferSize, length)
+
+            input.copyInto(buffer, bufferSize, offset, offset + size)
+
+            bufferSize += size
+            processed += size
+
+            if (bufferSize == 32) {
+                state.updatePacket(buffer, 0)
+                bufferSize = 0
+            }
+        }
+
+        while (processed + 32 <= length) {
+            state.updatePacket(input, offset + processed)
+            processed += 32
+        }
+
+        if (length - processed != 0) {
+            input.copyInto(buffer, bufferSize, processed + offset, offset + length)
+            bufferSize += length - processed
+        }
+        return this
+    }
+
+    override fun digest(): ByteArray {
+        // call updateRemainder with the remaining buffer if non-zero in length
+        if (bufferSize > 0) {
+            state.updateRemainder(buffer, 0, bufferSize)
+        }
+
+        val longDigest = state.finish(outputLengthBits)
+        reset()
+
+        val digest = ByteArray(longDigest.size * 8)
+
+        longDigest.forEachIndexed { index, l ->
+            encodeBELong(l, digest, index * 8)
+        }
+
+        return digest
+    }
+
+    override fun digest(input: ByteArray): ByteArray {
+        update(input)
+        return digest()
+    }
+
+    override fun digest(output: ByteArray, offset: Int, length: Int): Int {
+        val digest = digest()
+
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
+
+        digest.copyInto(output, offset, 0, digest.size)
+
+        return digest.size
+    }
+
+    override val digestLength: Int
+        get() = 8
+
+    override fun reset() {
+        state.reset(key)
+        bufferSize = 0
+    }
+
+    override fun copy() = HighwayHash(key, outputLengthBits).also {
+        it.state.copyFrom(state)
+        it.buffer = buffer.copyOf()
+        it.bufferSize = bufferSize
+    }
+
+    override val blockLength: Int
+        get() = 32
+
+    override fun toString() = "HighwayHash-64"
+}
+
+/**
+ * The HighwayHash state, with the operations [HighwayHash] makes on it.
+ *
+ * Kotlin/JS has its own implementation holding each 64-bit lane as a pair of Ints, as its [Long] is an object and
+ * allocates on every operation. The other platforms use [HighwayHashStateLong].
+ */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+internal expect class HighwayHashState() {
+    /** Initialises the state from the four-word [key] */
+    fun reset(key: LongArray)
+
+    /** Sets the state to a copy of [other] */
+    fun copyFrom(other: HighwayHashState)
+
+    /** Updates the hash with the 32 bytes of [packet] from [pos] */
+    fun updatePacket(packet: ByteArray, pos: Int)
+
+    /** Updates the hash with the last 1 to 31 bytes of the data, [sizeMod32] bytes of [bytes] from [pos] */
+    fun updateRemainder(bytes: ByteArray, pos: Int, sizeMod32: Int)
+
+    /** Finalises the hash and returns its [outputLengthBits] / 64 words, leaving the state to be reset */
+    fun finish(outputLengthBits: Int): LongArray
+}
+
+/**
+ * The [Long] implementation of [HighwayHashState], for platforms whose [Long] is a 64-bit machine integer
+ */
+@Suppress("TooManyFunctions")
+internal class HighwayHashStateLong {
+    private val v0 = LongArray(4)
+    private val v1 = LongArray(4)
+    private val mul0 = LongArray(4)
+    private val mul1 = LongArray(4)
+
+    fun reset(key: LongArray) {
         reset(key[0], key[1], key[2], key[3])
+    }
+
+    fun copyFrom(other: HighwayHashStateLong) {
+        other.v0.copyInto(v0)
+        other.v1.copyInto(v1)
+        other.mul0.copyInto(mul0)
+        other.mul1.copyInto(mul1)
+    }
+
+    fun finish(outputLengthBits: Int): LongArray = when (outputLengthBits) {
+        64 -> longArrayOf(finalize64())
+        128 -> finalize128()
+        256 -> finalize256()
+        else -> error("Unsupported outputLengthBits ($outputLengthBits)")
     }
 
     /**
@@ -66,7 +212,7 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
      * @param packet data array which has a length of at least pos + 32
      * @param pos position in the array to read the first of 32 bytes from
      */
-    private fun updatePacket(packet: ByteArray, pos: Int) {
+    fun updatePacket(packet: ByteArray, pos: Int) {
         require(pos >= 0) { "Pos ($pos) must be positive" }
         require(pos + 32 <= packet.size) { "packet must have at least 32 bytes after pos" }
         val a0 = read64(packet, pos + 0)
@@ -113,7 +259,7 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
      * @param pos position in the array to start reading size_mod32 bytes from
      * @param sizeMod32 the amount of bytes to read
      */
-    private fun updateRemainder(bytes: ByteArray, pos: Int, sizeMod32: Int) {
+    fun updateRemainder(bytes: ByteArray, pos: Int, sizeMod32: Int) {
         require(pos >= 0) { "Pos ($pos) must be positive" }
         require(sizeMod32 in 0 until 32) { "size_mod32 ($sizeMod32) must be between 0 and 31" }
 
@@ -144,8 +290,8 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
     }
 
     /**
-     * Computes the hash value after all bytes were processed. Invalidates the
-     * state.
+     * Computes the hash value after all bytes were processed. Leaves the
+     * state to be reset.
      *
      * NOTE: The 64-bit HighwayHash algorithm is declared stable and no longer subject to change.
      *
@@ -159,14 +305,12 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
 
         val hash = v0[0] + v1[0] + mul0[0] + mul1[0]
 
-        reset()
-
         return hash
     }
 
     /**
-     * Computes the hash value after all bytes were processed. Invalidates the
-     * state.
+     * Computes the hash value after all bytes were processed. Leaves the
+     * state to be reset.
      *
      * NOTE: The 128-bit HighwayHash algorithm is not yet frozen and subject to change.
      *
@@ -184,14 +328,12 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
         hash[0] = v0[0] + mul0[0] + v1[2] + mul1[2]
         hash[1] = v0[1] + mul0[1] + v1[3] + mul1[3]
 
-        reset()
-
         return hash
     }
 
     /**
-     * Computes the hash value after all bytes were processed. Invalidates the
-     * state.
+     * Computes the hash value after all bytes were processed. Leaves the
+     * state to be reset.
      *
      * NOTE: The 256-bit HighwayHash algorithm is not yet frozen and subject to change.
      *
@@ -227,8 +369,6 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
             pos = 2
         )
 
-        reset()
-
         return hash
     }
 
@@ -249,8 +389,6 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
         v1[1] = mul1[1] xor key1.rotateRight(32)
         v1[2] = mul1[2] xor key2.rotateRight(32)
         v1[3] = mul1[3] xor key3.rotateRight(32)
-
-        bufferSize = 0
     }
 
     private fun zipperMerge0(v1: Long, v0: Long): Long {
@@ -306,107 +444,4 @@ internal class HighwayHash(private val key: LongArray, private val outputLengthB
         hash[pos + 1] = a1 xor (a3 shl 1 or (a2 ushr 63)) xor (a3 shl 2 or (a2 ushr 62))
         hash[pos + 0] = a0 xor (a2 shl 1) xor (a2 shl 2)
     }
-
-    override fun update(input: Byte): Digest {
-        singleByte[0] = input
-        update(singleByte, 0, 1)
-        return this
-    }
-
-    override fun update(input: ByteArray): Digest {
-        update(input, 0, input.size)
-        return this
-    }
-
-    private var buffer = ByteArray(32)
-    private var bufferSize = 0
-
-    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
-        var processed = 0
-
-        if (bufferSize != 0) {
-            // fill buffer up to size of 32
-            val size = minOf(32 - bufferSize, length)
-
-            input.copyInto(buffer, bufferSize, offset, offset + size)
-
-            bufferSize += size
-            processed += size
-
-            if (bufferSize == 32) {
-                updatePacket(buffer, 0)
-                bufferSize = 0
-            }
-        }
-
-        while (processed + 32 <= length) {
-            updatePacket(input, offset + processed)
-            processed += 32
-        }
-
-        if (length - processed != 0) {
-            input.copyInto(buffer, bufferSize, processed + offset, offset + length)
-            bufferSize += length - processed
-        }
-        return this
-    }
-
-    override fun digest(): ByteArray {
-        // call updateRemainder with the remaining buffer if non-zero in length
-        if (bufferSize > 0) {
-            updateRemainder(buffer, 0, bufferSize)
-        }
-
-        val longDigest = when (outputLengthBits) {
-            64 -> longArrayOf(finalize64())
-            128 -> finalize128()
-            256 -> finalize256()
-            else -> error("Unsupported outputLengthBits ($outputLengthBits)")
-        }
-
-        val digest = ByteArray(longDigest.size * 8)
-
-        longDigest.forEachIndexed { index, l ->
-            encodeBELong(l, digest, index * 8)
-        }
-
-        return digest
-    }
-
-    override fun digest(input: ByteArray): ByteArray {
-        update(input)
-        return digest()
-    }
-
-    override fun digest(output: ByteArray, offset: Int, length: Int): Int {
-        val digest = digest()
-
-        require(length >= digest.size) { "partial digests not returned" }
-        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
-
-        digest.copyInto(output, offset, 0, digest.size)
-
-        return digest.size
-    }
-
-    override val digestLength: Int
-        get() = 8
-
-    override fun reset() {
-        reset(key[0], key[1], key[2], key[3])
-    }
-
-    override fun copy() = HighwayHash(key, outputLengthBits).also {
-        it.v0 = v0.copyOf()
-        it.v1 = v1.copyOf()
-        it.mul0 = mul0.copyOf()
-        it.mul1 = mul1.copyOf()
-        it.buffer = buffer.copyOf()
-        it.bufferSize = bufferSize
-    }
-
-    override val blockLength: Int
-        get() = 32
-
-    override fun toString() = "HighwayHash-64"
 }
