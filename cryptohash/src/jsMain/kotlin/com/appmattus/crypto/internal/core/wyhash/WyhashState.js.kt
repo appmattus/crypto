@@ -41,6 +41,14 @@ internal actual class WyhashState actual constructor(seed: ULong, secret: List<U
     private var e2h = 0
     private var e2l = 0
 
+    // seed1, see1 and see2 as they were before the latest block, see finish
+    private var lastS1h = 0
+    private var lastS1l = 0
+    private var lastE1h = 0
+    private var lastE1l = 0
+    private var lastE2h = 0
+    private var lastE2l = 0
+
     // The high half of the last helper's result
     private var hi = 0
 
@@ -61,6 +69,12 @@ internal actual class WyhashState actual constructor(seed: ULong, secret: List<U
         e1l = s1l
         e2h = s1h
         e2l = s1l
+        lastS1h = s1h
+        lastS1l = s1l
+        lastE1h = s1h
+        lastE1l = s1l
+        lastE2h = s1h
+        lastE2l = s1l
     }
 
     actual fun copyFrom(other: WyhashState) {
@@ -70,9 +84,21 @@ internal actual class WyhashState actual constructor(seed: ULong, secret: List<U
         e1l = other.e1l
         e2h = other.e2h
         e2l = other.e2l
+        lastS1h = other.lastS1h
+        lastS1l = other.lastS1l
+        lastE1h = other.lastE1h
+        lastE1l = other.lastE1l
+        lastE2h = other.lastE2h
+        lastE2l = other.lastE2l
     }
 
     actual fun processBlock(data: ByteArray) {
+        lastS1h = s1h
+        lastS1l = s1l
+        lastE1h = e1h
+        lastE1l = e1l
+        lastE2h = e2h
+        lastE2l = e2l
         // seed1 = wyMix(data[0] ^ secret[1], data[8] ^ seed1)
         s1l = mix(
             readIntLE(data, 4) xor secretH[1],
@@ -109,10 +135,20 @@ internal actual class WyhashState actual constructor(seed: ULong, secret: List<U
         when {
             len > 16 -> {
                 var i = rem
-                if (len == 48) {
-                    // The input is exactly one block, which processBlock has already mixed in, so start again from the
-                    // seed and take it 16 bytes at a time instead
-                    reset()
+                if (rem == 0) {
+                    // The input is a whole number of blocks, and processBlock has taken the last one through the three
+                    // lanes, where the reference implementation takes it 16 bytes at a time. Go back to the state
+                    // before it, as WyhashStateLong does.
+                    s1h = lastS1h
+                    s1l = lastS1l
+                    e1h = lastE1h
+                    e1l = lastE1l
+                    e2h = lastE2h
+                    e2l = lastE2l
+                    if (len > 48) {
+                        s1h = s1h xor e1h xor e2h
+                        s1l = s1l xor e1l xor e2l
+                    }
                     i = 48
                 } else if (len > 48) {
                     // seed1 ^= see1 ^ see2
@@ -151,12 +187,11 @@ internal actual class WyhashState actual constructor(seed: ULong, secret: List<U
             }
 
             len > 0 -> {
-                // a = (data[0] << 16) | (data[len >>> 1] << 8) | data[len - 1], each byte sign-extended as in
-                // WyhashStateLong, b = 0
-                val d0 = blockBuffer[0].toInt()
-                val dm = blockBuffer[len ushr 1].toInt()
-                val dl = blockBuffer[len - 1].toInt()
-                ah = (d0 shr 31) or (dm shr 31) or (dl shr 31)
+                // a = (data[0] << 16) | (data[len >>> 1] << 8) | data[len - 1], each byte unsigned, b = 0
+                val d0 = blockBuffer[0].toInt() and 0xff
+                val dm = blockBuffer[len ushr 1].toInt() and 0xff
+                val dl = blockBuffer[len - 1].toInt() and 0xff
+                ah = 0
                 al = (d0 shl 16) or (dm shl 8) or dl
                 bh = 0
                 bl = 0
