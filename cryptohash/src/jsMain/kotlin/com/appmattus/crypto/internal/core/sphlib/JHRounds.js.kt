@@ -31,7 +31,7 @@ package com.appmattus.crypto.internal.core.sphlib
 // JS is single-threaded, so one shared instance is safe
 private val jh = JHJs()
 
-internal actual fun jhRounds(h: LongArray) = jh.rounds(h)
+internal actual fun jhProcessBlock(h: LongArray, data: ByteArray) = jh.processBlock(h, data)
 
 private class JHJs {
     private val constantsHigh = IntArray(JH_ROUND_CONSTANTS.size) { (JH_ROUND_CONSTANTS[it] ushr 32).toInt() }
@@ -41,17 +41,42 @@ private class JHJs {
     private val stateHigh = IntArray(16)
     private val stateLow = IntArray(16)
 
+    // The message block's eight words, as halves
+    private val messageHigh = IntArray(8)
+    private val messageLow = IntArray(8)
+
     // The words the swap steps act on
     private val swapped = intArrayOf(2, 3, 6, 7, 10, 11, 14, 15)
 
+    /** Processes one 64-byte block of [data] into [h], reading the message straight into halves */
     @Suppress("MagicNumber")
-    fun rounds(h: LongArray) {
+    fun processBlock(h: LongArray, data: ByteArray) {
         val hi = stateHigh
         val lo = stateLow
-        for (i in 0..15) {
+        val mh = messageHigh
+        val ml = messageLow
+        for (i in 0..7) {
+            mh[i] = readIntBE(data, i shl 3)
+            ml[i] = readIntBE(data, (i shl 3) + 4)
+            hi[i] = (h[i] ushr 32).toInt() xor mh[i]
+            lo[i] = h[i].toInt() xor ml[i]
+        }
+        for (i in 8..15) {
             hi[i] = (h[i] ushr 32).toInt()
             lo[i] = h[i].toInt()
         }
+        rounds()
+        for (i in 0..7) {
+            h[i] = toLong(hi[i], lo[i])
+            h[i + 8] = toLong(hi[i + 8] xor mh[i], lo[i + 8] xor ml[i])
+        }
+    }
+
+    /** The 42 rounds of E8 on stateHigh and stateLow */
+    @Suppress("MagicNumber")
+    private fun rounds() {
+        val hi = stateHigh
+        val lo = stateLow
         var r = 0
         while (r < 42) {
             round(hi, lo, r + 0)
@@ -71,10 +96,17 @@ private class JHJs {
             swapWords(lo)
             r += 7
         }
-        for (i in 0..15) {
-            h[i] = (hi[i].toLong() shl 32) or (lo[i].toLong() and 0xffffffffL)
-        }
     }
+
+    @Suppress("NOTHING_TO_INLINE", "MagicNumber")
+    private inline fun toLong(h: Int, l: Int): Long = (h.toLong() shl 32) or (l.toLong() and 0xffffffffL)
+
+    @Suppress("NOTHING_TO_INLINE", "MagicNumber")
+    private inline fun readIntBE(data: ByteArray, offset: Int): Int =
+        (data[offset].toInt() shl 24) or
+            ((data[offset + 1].toInt() and 0xff) shl 16) or
+            ((data[offset + 2].toInt() and 0xff) shl 8) or
+            (data[offset + 3].toInt() and 0xff)
 
     /** The S-boxes then the linear transform, on both halves */
     private fun round(hi: IntArray, lo: IntArray, r: Int) {

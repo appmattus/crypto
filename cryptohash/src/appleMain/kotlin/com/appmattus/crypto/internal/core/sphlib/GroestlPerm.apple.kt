@@ -22,3 +22,9 @@ internal actual fun groestlSmallPermQ(x: LongArray) = groestlSmallPermQLong(x)
 internal actual fun groestlBigPermP(x: LongArray) = groestlBigPermPLong(x)
 
 internal actual fun groestlBigPermQ(x: LongArray) = groestlBigPermQLong(x)
+
+internal actual fun groestlSmallProcessBlock(h: LongArray, m: LongArray, g: LongArray, data: ByteArray) =
+    groestlSmallProcessBlockLong(h, m, g, data)
+
+internal actual fun groestlBigProcessBlock(h: LongArray, m: LongArray, g: LongArray, data: ByteArray) =
+    groestlBigProcessBlockLong(h, m, g, data)

@@ -42,6 +42,14 @@ internal actual fun groestlBigPermP(x: LongArray) = groestl.permute(x, 16, 14, f
 @Suppress("MagicNumber")
 internal actual fun groestlBigPermQ(x: LongArray) = groestl.permute(x, 16, 14, true)
 
+@Suppress("MagicNumber")
+internal actual fun groestlSmallProcessBlock(h: LongArray, m: LongArray, g: LongArray, data: ByteArray) =
+    groestl.processBlock(h, data, 8, 10)
+
+@Suppress("MagicNumber")
+internal actual fun groestlBigProcessBlock(h: LongArray, m: LongArray, g: LongArray, data: ByteArray) =
+    groestl.processBlock(h, data, 16, 14)
+
 private class GroestlJs {
     // The table for byte k of a word, counting from the most significant, is T0 rotated right by 8k bits. Flattened as
     // k * 256 + index and split into halves.
@@ -63,15 +71,58 @@ private class GroestlJs {
     @Suppress("MagicNumber")
     private fun table(i: Int): Long = GROESTL_T0[i and 0xff].rotateRight(8 * (i shr 8))
 
+    // The chaining value, the message and P's output, as halves, while processing a block
+    private val hH = IntArray(16)
+    private val hL = IntArray(16)
+    private val mH = IntArray(16)
+    private val mL = IntArray(16)
+    private val gH = IntArray(16)
+    private val gL = IntArray(16)
+
+    /**
+     * Processes one block of [data] into the [n]-word chaining value [h], h ^= P(h ^ m) ^ Q(m) with [rounds] rounds,
+     * reading the message straight into halves and keeping P's and Q's inputs as halves throughout
+     */
+    @Suppress("MagicNumber")
+    fun processBlock(h: LongArray, data: ByteArray, n: Int, rounds: Int) {
+        for (i in 0 until n) {
+            hH[i] = (h[i] ushr 32).toInt()
+            hL[i] = h[i].toInt()
+            mH[i] = readIntBE(data, i shl 3)
+            mL[i] = readIntBE(data, (i shl 3) + 4)
+            xH[i] = hH[i] xor mH[i]
+            xL[i] = hL[i] xor mL[i]
+        }
+        permuteHalves(n, rounds, false)
+        for (i in 0 until n) {
+            gH[i] = xH[i]
+            gL[i] = xL[i]
+            xH[i] = mH[i]
+            xL[i] = mL[i]
+        }
+        permuteHalves(n, rounds, true)
+        for (i in 0 until n) {
+            h[i] = (((hH[i] xor gH[i] xor xH[i]).toLong()) shl 32) or ((hL[i] xor gL[i] xor xL[i]).toLong() and 0xffffffffL)
+        }
+    }
+
     /** Applies P, or Q if [q], with [rounds] rounds to the [n] words of [x] in place */
-    @Suppress("LongMethod", "MagicNumber")
     fun permute(x: LongArray, n: Int, rounds: Int, q: Boolean) {
-        val shift = if (n == 8) (if (q) smallQ else smallP) else (if (q) bigQ else bigP)
-        val mask = n - 1
         for (i in 0 until n) {
             xH[i] = (x[i] ushr 32).toInt()
             xL[i] = x[i].toInt()
         }
+        permuteHalves(n, rounds, q)
+        for (i in 0 until n) {
+            x[i] = (xH[i].toLong() shl 32) or (xL[i].toLong() and 0xffffffffL)
+        }
+    }
+
+    /** Applies P, or Q if [q], with [rounds] rounds to the [n] words in xH and xL, leaving the result there */
+    @Suppress("LongMethod", "MagicNumber")
+    private fun permuteHalves(n: Int, rounds: Int, q: Boolean) {
+        val shift = if (n == 8) (if (q) smallQ else smallP) else (if (q) bigQ else bigP)
+        val mask = n - 1
         for (r in 0 until rounds) {
             // AddRoundConstant: P puts 16i + r in the top byte of word i, Q xors word i with (16i xor r) inverted
             if (q) {
@@ -123,8 +174,12 @@ private class GroestlJs {
             yH = th
             yL = tl
         }
-        for (i in 0 until n) {
-            x[i] = (xH[i].toLong() shl 32) or (xL[i].toLong() and 0xffffffffL)
-        }
     }
+
+    @Suppress("NOTHING_TO_INLINE", "MagicNumber")
+    private inline fun readIntBE(data: ByteArray, offset: Int): Int =
+        (data[offset].toInt() shl 24) or
+            ((data[offset + 1].toInt() and 0xff) shl 16) or
+            ((data[offset + 2].toInt() and 0xff) shl 8) or
+            (data[offset + 3].toInt() and 0xff)
 }
