@@ -155,8 +155,10 @@ internal data class XXH3_state_s(
     var bufferedSize: XXH32_hash_t = 0,
     /** Number or stripes processed. */
     var nbStripesSoFar: size_t = 0,
-    /** Total length hashed. 64-bit even on 32-bit targets. */
+    /** Total length hashed. 64-bit even on 32-bit targets. Excludes [pendingLen] until [XXH3_foldLen] adds it. */
     var totalLen: XXH64_hash_t = 0,
+    /** Length hashed since the last fold into [totalLen], see [XXH3_addLen] */
+    var pendingLen: Int = 0,
     /** Number of stripes per block. */
     var nbStripesPerBlock: size_t = 0,
     /** Size of [customSecret] or [extSecret] */
@@ -185,7 +187,7 @@ internal data class XXH3_state_s(
                   buffer: ${buffer.copyOf(bufferedSize).toHexString().chunked(100).joinToString("\n                           ")}
                   bufferedSize: ${bufferedSize.toUInt()}
                   nbStripesSoFar: ${nbStripesSoFar.toUInt()}
-                  totalLength: ${totalLen.toULong()}
+                  totalLength: ${(totalLen + pendingLen).toULong()}
                   nbStripesPerBlock: ${nbStripesPerBlock.toUInt()}
                   secretLimit: ${secretLimit.toUInt()}
                   seed: ${seed.toULong()}
@@ -918,6 +920,7 @@ internal fun XXH3_copyState(src_state: XXH3_state_t): XXH3_state_t {
         bufferedSize = src_state.bufferedSize,
         nbStripesSoFar = src_state.nbStripesSoFar,
         totalLen = src_state.totalLen,
+        pendingLen = src_state.pendingLen,
         nbStripesPerBlock = src_state.nbStripesPerBlock,
         secretLimit = src_state.secretLimit,
         seed = src_state.seed,
@@ -930,6 +933,7 @@ private fun XXH3_reset_internal(statePtr: XXH3_state_t, seed: XXH64_hash_t, secr
     statePtr.bufferedSize = 0
     statePtr.nbStripesSoFar = 0
     statePtr.totalLen = 0
+    statePtr.pendingLen = 0
     XXH3_INIT_ACC(statePtr.acc)
     statePtr.seed = seed
     statePtr.extSecret = secret
@@ -1013,6 +1017,31 @@ private fun XXH3_consumeStripes(
 }
 
 /**
+ * Adds [len] to the total length. Lengths gather in the Int pendingLen rather than the Long totalLen, as each Long
+ * addition allocates on Kotlin/JS, and fold into totalLen before it could overflow.
+ */
+private fun XXH3_addLen(state: XXH3_state_t, len: Int) {
+    val pending = state.pendingLen + len
+    if (pending in 0 until XXH3_PENDING_LIMIT) {
+        state.pendingLen = pending
+    } else {
+        state.totalLen += state.pendingLen.toLong() + len
+        state.pendingLen = 0
+    }
+}
+
+/** Folds the pending length into the total length, so totalLen is the whole length hashed */
+private fun XXH3_foldLen(state: XXH3_state_t) {
+    if (state.pendingLen != 0) {
+        state.totalLen += state.pendingLen
+        state.pendingLen = 0
+    }
+}
+
+/** Fold pendingLen into totalLen before it reaches this, well short of overflowing */
+private const val XXH3_PENDING_LIMIT = 1 shl 30
+
+/**
  * Both XXH3_64bits_update and XXH3_128bits_update use this routine.
  */
 private fun XXH3_update(
@@ -1027,7 +1056,7 @@ private fun XXH3_update(
     val bEnd = inputOffset + len
     val secret = state.extSecret ?: state.customSecret
 
-    state.totalLen += len
+    XXH3_addLen(state, len)
     XXH_ASSERT(state.bufferedSize <= XXH3_INTERNALBUFFER_SIZE)
 
     if (state.bufferedSize + len <= XXH3_INTERNALBUFFER_SIZE) { // fill in tmp buffer
@@ -1133,6 +1162,7 @@ private fun XXH3_digest_long(acc: LongArray, state: XXH3_state_t, secret: ByteAr
 
 @Suppress("ReturnCount")
 internal fun XXH3_64bits_digest(state: XXH3_state_t): XXH64_hash_t {
+    XXH3_foldLen(state)
     val secret = state.extSecret ?: state.customSecret
     if (state.totalLen > XXH3_MIDSIZE_MAX) {
         val acc = LongArray(XXH_ACC_NB)
@@ -1612,6 +1642,7 @@ internal fun XXH3_128bits_update(state: XXH3_state_t, input: ByteArray, inputOff
 
 @Suppress("ReturnCount")
 internal fun XXH3_128bits_digest(state: XXH3_state_t): XXH128_hash_t {
+    XXH3_foldLen(state)
     val secret = state.extSecret ?: state.customSecret
     if (state.totalLen > XXH3_MIDSIZE_MAX) {
         val acc = LongArray(XXH_ACC_NB)

@@ -118,15 +118,7 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : DigestEngine
         engineReset()
     }
 
-    override fun processBlock(data: ByteArray) {
-        for (i in 0..7) {
-            m[i] = decodeBELong(data, i * 8)
-            g[i] = m[i] xor h[i]
-        }
-        groestlSmallPermP(g)
-        groestlSmallPermQ(m)
-        for (i in 0..7) h[i] = h[i] xor (g[i] xor m[i])
-    }
+    override fun processBlock(data: ByteArray) = groestlSmallProcessBlock(h, m, g, data)
 
     override fun toString(): String {
         return "Groestl-" + (digestLength shl 3)
@@ -142,6 +134,27 @@ internal expect fun groestlSmallPermP(x: LongArray)
 
 /** The permutation Q, as [groestlSmallPermP] is P */
 internal expect fun groestlSmallPermQ(x: LongArray)
+
+/**
+ * Processes one block of [data] into the chaining value [h]: h ^= P(h ^ m) ^ Q(m), with [m] and [g] as scratch space
+ * for the message and P's input.
+ *
+ * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
+ */
+internal expect fun groestlSmallProcessBlock(h: LongArray, m: LongArray, g: LongArray, data: ByteArray)
+
+/**
+ * The [Long] implementation of [groestlSmallProcessBlock], for platforms whose [Long] is a 64-bit machine integer
+ */
+internal fun groestlSmallProcessBlockLong(h: LongArray, m: LongArray, g: LongArray, data: ByteArray) {
+    for (i in 0..7) {
+        m[i] = decodeBELong(data, i * 8)
+        g[i] = m[i] xor h[i]
+    }
+    groestlSmallPermPLong(g)
+    groestlSmallPermQLong(m)
+    for (i in 0..7) h[i] = h[i] xor (g[i] xor m[i])
+}
 
 /**
  * The [Long] implementation of [groestlSmallPermP], for platforms whose [Long] is a 64-bit machine integer
