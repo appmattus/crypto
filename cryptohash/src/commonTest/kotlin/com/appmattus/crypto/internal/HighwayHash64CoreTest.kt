@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,6 +104,48 @@ abstract class HighwayHash64Test {
                 { digest() },
                 data.copyOfRange(0, i),
                 expected[i]
+            )
+        }
+    }
+
+    // From a port of the reference implementation (google/highwayhash, c/highwayhash.c), for messages of bytes
+    // (i * 167 + 13), roughly half of which have the top bit set, at every length from 0 to 64 and the packet
+    // boundaries above it, with a key whose words have the top bit set
+    @Test
+    fun testHighBytes() {
+        key = longArrayOf(
+            -0x70f1f2f3f4f5f6f8, -0x08090a0b0c0d0e10, 0x0123456789abcdef, -0x0123456789abcdf0
+        )
+
+        val lengths = (0..64).toList() + listOf(95, 96, 97, 143, 144, 145, 255, 256, 1023)
+
+        val expected = listOf(
+            "B6044C07974532A8", "39667A0CEAEDE729", "F374C946995AC210", "2CD11A42A5D81434",
+            "EAC3CFA88E039EDC", "7312F97F444EE88D", "D126E418872EAB54", "3E9041B7264B259B",
+            "3CE13A87DDC9ACDF", "1A635A0B7B69849E", "FEE66DA5864FF7C5", "7376E6D7EE68D4D4",
+            "A347EEBF6F0CD40E", "5A6746593E3D6A2E", "5562B99DAF7151CC", "064B2612F1058562",
+            "327ABC82C491CA1D", "24E8EC04A87CCC43", "F9057B35379621BC", "64AF25EF8EA709D8",
+            "7010B5142F11B104", "1A91E211D85A0B9C", "5F465B0375C4F99F", "F26F3275DE170C11",
+            "3B7AF2CDC9F482F9", "9C929A652E742F14", "A9D0242F1ABEB024", "964644FBE1DB2564",
+            "67E510597196AEF2", "4F4DE3F5D5A1E6CF", "522DAEAD8CE1B4B3", "9756A73A1CC93857",
+            "041FCF03A469939F", "DE029E48B88B34BF", "5C38CEA2BF54683C", "777E8A1D35CD1705",
+            "990DA5F3E44EF0B4", "3FB52C2EEF4A08D7", "68B117080B8322D2", "BC0B18714CC78DE0",
+            "6EC4ACC616CD27C7", "BA2E2BFF7E84A600", "2622762AC092057D", "DB9F1C4767E17203",
+            "6BE8778B476539D8", "8A995EF68A4EA139", "6B3A6A5CC959CD16", "6378A9A6092C52BD",
+            "C07BC50AC2CC511D", "176ABBFE426A8FE1", "42BAF8EC609E008E", "B176602FB1E243DB",
+            "7C341D891B7EB5E0", "5B3AB3D42176DBE8", "C47888CCDF6911C2", "700AC92DF0354827",
+            "5DDC874C1F681DC5", "8EDD631FE227DED0", "9177F3877D201303", "413858FAF60011D8",
+            "AB70438DF06D3781", "FD521645BBC12A88", "FA4402D422C877AF", "DCC16951AB5F876C",
+            "794DAA44B2D77FCE", "22A3BBF0F669F5E2", "8B71FB6C2D3C7A82", "FB762D8C0F0F43B2",
+            "BEAF0DD9A7BEBE7F", "C2F0572FE850EED8", "5A4C7B2D9851CE9A", "74B0EDDFEEF1AD46",
+            "E017693D4F413AC3", "120E22F7C89EA5F1"
+        )
+
+        lengths.forEachIndexed { index, length ->
+            testKat(
+                { digest() },
+                ByteArray(length) { (it * 167 + 13).toByte() },
+                expected[index]
             )
         }
     }

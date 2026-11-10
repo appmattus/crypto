@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -246,5 +246,123 @@ class WyhashTest {
         testKatHex({ Algorithm.Wyhash(18446744073709551488u, extraProtection = true).createDigest() }, "05060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9", "ba5cdcaacc7ba149")
         testKatHex({ Algorithm.Wyhash(18446744073709551488u, extraProtection = true).createDigest() }, "060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaeb", "43cc244e20b5eb50")
         testKatHex({ Algorithm.Wyhash(18446744073709551488u, extraProtection = true).createDigest() }, "0708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfd", "297ad611b4d8e9a3")
+    }
+
+    // The vectors below are from a port of the reference implementation (wangyi-fudan/wyhash at 98b44f4, the wyhash
+    // final 3 version these tests' other vectors come from), for messages of bytes (i * 167 + 13), roughly half of
+    // which have the top bit set, at every length from 0 to 64 and the block boundaries above it.
+
+    @Test
+    fun highBytes() = assertHighBytes(0u, false, HIGH_BYTES)
+
+    @Test
+    fun highBytesSeeded() = assertHighBytes(0x8000000000000001u, false, HIGH_BYTES_SEEDED)
+
+    @Test
+    fun highBytesExtraProtection() = assertHighBytes(0u, true, HIGH_BYTES_EXTRA_PROTECTION)
+
+    @Test
+    fun highBytesSeededExtraProtection() = assertHighBytes(0x8000000000000001u, true, HIGH_BYTES_SEEDED_EXTRA_PROTECTION)
+
+    private fun assertHighBytes(seed: ULong, extraProtection: Boolean, expected: List<String>) {
+        HIGH_BYTE_LENGTHS.forEachIndexed { index, length ->
+            testKat(
+                { Algorithm.Wyhash(seed, extraProtection = extraProtection).createDigest() },
+                ByteArray(length) { (it * 167 + 13).toByte() },
+                expected[index]
+            )
+        }
+    }
+
+    private companion object {
+        val HIGH_BYTE_LENGTHS = (0..64).toList() + listOf(95, 96, 97, 143, 144, 145, 255, 256, 1023)
+
+        val HIGH_BYTES = listOf(
+            "42bc986dc5eec4d3", "1263dfc3c0b25894", "31433d1bd6906891", "a185a7d6c4b18b49",
+            "be85dce78174b9c3", "edd55614090bde00", "e22b7267720ad96c", "39a64616ae3a3814",
+            "3f4227f25b8d05a7", "a8668bf8a041a04e", "4c85d3121d9b54d1", "16749b1162afbf91",
+            "92ed6647114e9151", "6e6ba7891cd8064b", "b0b7f96a2730b1ee", "1d1eecc26930538c",
+            "31d8dcff410d5253", "dec6ff018d4f1651", "1b898f3058c1372e", "85b911d12ad3b29a",
+            "ceb4347bcdfdcdc0", "931a08bb904974c7", "2d2ffa67d7936d2d", "67ef69907613e043",
+            "f30eb222cb24c138", "0845b9d3df5bff34", "9b4462def662dd39", "47642cb065a41ad6",
+            "c8d595c4e4041e7d", "25c1fd0a15aee3b4", "2268c5dfdba36ad0", "a2cede2666c1a8ff",
+            "1c20836fac41ff0d", "93445f039308eace", "25fda3273e8707bd", "a74e4d4eddeafae9",
+            "0356b4de5482e2d7", "ace51c7ba58ff472", "536009d9257b7d3f", "49b53c9f03125b7a",
+            "493326cb529a71de", "94123c119a67e961", "8cb588f53343aa0a", "2b665709ef3b4a6b",
+            "596637edc301f361", "34c24f14ac6cce33", "6b282741f9de54f6", "69084d997abc31bc",
+            "1338ef6b552ffcb0", "e4220938cbd6c2d7", "a5024888f5aac166", "5c552bac3e402653",
+            "303fa7f26010c88b", "b4e9856e8e9acabb", "10e9756739d5411a", "921f6529f079d53a",
+            "1ba3f8d6edd774ba", "eefd1f82e3936405", "348c022d842d3192", "76937df97f31dba5",
+            "723ad3271b9b0cd9", "7593b36f375a7650", "552417757ac7dbb9", "10a232ebf69493c3",
+            "9efd83a0305c5576", "2add263c0ddc67af", "614aea91b5747cb0", "8de2d1464a99004a",
+            "ef8eb16ce9a4d8ea", "913b0f7b95cbbb4e", "f5c4a2750862f319", "dbf47124247f0372",
+            "8606ab76ca3de212", "564bfe112984a059"
+        )
+
+        val HIGH_BYTES_SEEDED = listOf(
+            "4e5ff8c57558cb28", "8ce8eb2b00bce9dc", "6e7703b8488fcd0d", "fec0488f7118f7c0",
+            "bd47979baed0d064", "1d75d0cdb83f9d87", "61f303eaeeade52a", "7a022504f877c2cc",
+            "9a6742231e790f4c", "2cbb27963e3091ed", "d1b27c5a16807bf3", "b8f9c88793ab966a",
+            "511432392ebbfbbb", "d348450bd5076de3", "33c0687a9399d079", "1ab0810fb49b5d48",
+            "4e3a565812fadde7", "a00e79b831f2fc11", "7185ccb5dcbfbd46", "a19ae241559a22a4",
+            "ecf241ecaf119e92", "2db1720d1b44514b", "16126efefac28222", "fce53311fc3f0ee6",
+            "94dd916c1961c3bf", "a85ee1d8c204074a", "989e284777f128a9", "0ba81e18ff4b9fbf",
+            "75ba28106e4a2a0a", "c6b0edaf729f453a", "3fa08096dc5ff52a", "8d298db3cace712d",
+            "e6ff0126ba130713", "329028c9281ea9c8", "98309b4c26fdbef5", "bbe09909f5a8a75a",
+            "d5bd7050ba0ddfa8", "46399c187c625931", "222bb6cf1e445c0a", "e38fa8cb699eed47",
+            "557bf170fe8c8e0c", "98d203862895a66d", "cf4915568aa69a9c", "fd7a67b12e033534",
+            "a13519ec000b3828", "9069dc2484c9dcdf", "738d302b4e4a0c1d", "dd9d0464b5949eb6",
+            "2c1473a15381f568", "b366f653b23f603e", "ef9cf3710e9b3bad", "5da2478925449d96",
+            "f2f9597cf6317f31", "aec5056c292abcdb", "93d143d1715dcaba", "dc7cab2c47e23e3f",
+            "e473103c77af8b0d", "bdfc0aca2bfb9e0a", "a43ad6ea4d601827", "09e5c181fddc0e35",
+            "3ab78dac0ef46a98", "64d446edfd031ace", "e7a2942d39520c0f", "34a61cd1ad1d31fc",
+            "8e6a6aa584826bf5", "50896b4d960d423a", "59ae6ea2031d5aa5", "127010171d150cb2",
+            "58b1ab379ee553dd", "6cdcf4e904e186e5", "687b0acf9fe986f2", "3e1ca647d3e81192",
+            "9aa3b1cdb453bb76", "68255c9777c49024"
+        )
+
+        val HIGH_BYTES_EXTRA_PROTECTION = listOf(
+            "e6c763c9230f5746", "4da65657ab0bb090", "a02049344f8ff901", "cdcbbb688f705304",
+            "69c948c2f5460d94", "7ad62b3d51bb86df", "7c3f7321e55b40aa", "499e529c1ec42094",
+            "fbf46bed449a9fc3", "8c0ff5a109c8f1ca", "55bd32e24298c2ca", "7dc1beddbb4a65b2",
+            "15bd4da436924dcd", "771372732a98d466", "0b7b552574cf0125", "b78fc4854e55d563",
+            "19f6649a2a3d2f23", "ccea423a0a54baf3", "d6f97a9b426b0917", "5e320c837fee813e",
+            "52504120441deeb7", "cc163e602a075bbc", "8301102ec06a4c0d", "ae08fc658accc1e1",
+            "25d8398912bc49ac", "98bcb10498b14844", "3d4fe4dd25a6e536", "be9b31de61143fae",
+            "5930baa15d934bb0", "cdd22b15f765cac6", "4301881ed3edec7d", "5b8352572eacb95f",
+            "798f1124c9dee2a3", "0512682effbf0dcf", "e45966994bbffc47", "cc305e6c67d7ca4d",
+            "f34de962b4189893", "cf7df55670c1c7bb", "f8d4ea8b63b57a63", "18d82aa5a49abf04",
+            "c3184d68e0452fa3", "57a5402ce7f9a56b", "9268f97f3397b506", "3edb1f1b3933a534",
+            "93166c7a64ea12bd", "24e9473e33cd2269", "7e3eed16e60446f1", "8910e605b1b310e7",
+            "7d769037d403441d", "3beaa9cceb923fca", "cf46803a6e08554f", "2162c78b79204a16",
+            "280cd81fe5a8f4ba", "12e3766599c7f4d9", "e7cff4e3b736d67e", "1ce27d572ee1f3b0",
+            "bea6fa572453a766", "cda71f1906266d50", "d504e82265bcc216", "7c44b7861720008e",
+            "94bd6b261f571ffe", "a13061b4e1724280", "dd1e5ae7f73d70d7", "80f1ad5c7d6fbf4b",
+            "358b20d96f7df3cb", "f746a37e2b78cdb4", "63acb8491b9e69e8", "71a9deaf7080318e",
+            "b52d355549424516", "c4284d22c1cab2f3", "e4546bae76cffb84", "2bb0173e95a2c952",
+            "9dccbc25dbe40697", "af4bf785d2e1a987"
+        )
+
+        val HIGH_BYTES_SEEDED_EXTRA_PROTECTION = listOf(
+            "08365870209c0384", "6373ace8d4560f1d", "76777c0fe770caef", "b44e9e5471afe380",
+            "6ad2ac2a5a5c70a9", "a02509c1aeeb7882", "f171a1c147a96c19", "506e7940c1780ac6",
+            "47dd8ec66195879a", "8a028e6fe7c066c8", "ce3a06399bc483fd", "c63b026f00b9c131",
+            "b74b53f951486372", "497b32defc002af3", "e6f8192266e918a9", "ca69edbd8364c5d4",
+            "d0ac61e753601ae4", "7a76089463d20531", "2b227239f3c71d2a", "d04fdf0f6b968393",
+            "6df83589fdb72b53", "de8fe42a0ea02e16", "ca1d7a415e2a45f8", "8364900156c7960f",
+            "ef29d00096da5905", "bb0b52a13051e05c", "86d6291b2bafc63e", "2f6b21d7faa3adcc",
+            "e7246ef7320defb0", "fc838683e71c8860", "deb78126b90d0e23", "5c64c780dffa4d15",
+            "c1104dccffc948c5", "19df7ec203ee999d", "5a19b7d9f6b3314d", "02967d48092c0c25",
+            "7b8cd89b8ee091d3", "8243aa296869c190", "0b62de0ddcd203e1", "4405eaf68758c3a6",
+            "0bdb3e23b9700b8e", "67651d9f0b895b2e", "95a37c3e51ae0b1b", "8c8c2328db998514",
+            "7ee13e9e1a66f11b", "f8c75c6d023b570c", "7476abd8bc419b18", "3fe34f6ea2085c61",
+            "0296904f607c4292", "7f2825f52a3e05f1", "9d3734c9b2558d2a", "4d36e4b6723a2e17",
+            "096d447d097c73df", "079e9c710d7f5264", "daacb014ad433106", "68759c6fc229f42e",
+            "97926dec668d53c4", "ef39cbc751fae84c", "0e97e0ce19583712", "eaa87f5183a4687e",
+            "b45f2f4e71f9d4db", "041fc56747e29b55", "3c6c93fa3f42522c", "07427995b6f469ea",
+            "356dfb8f2d65bda0", "602d5fe98838ba79", "f53e92b6419e7f3c", "3cca32d6365955bd",
+            "bf10c246bf3e2f68", "27ab19b37363332e", "cbcae363f10c036e", "f4f6826a9b172602",
+            "fba2d111760ebcb8", "997c09efbefb2ebf"
+        )
     }
 }

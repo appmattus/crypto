@@ -35,6 +35,11 @@ internal class Wyhash(
     private var see1 = seed1
     private var see2 = seed1
 
+    // seed1, see1 and see2 as they were before the latest block, see doPadding
+    private var lastSeed1 = seed1
+    private var lastSee1 = seed1
+    private var lastSee2 = seed1
+
     private val wyMix = if (extraProtection) ::wymixExtraProtection else ::wymixNormalProtection
 
     override val digestLength: Int
@@ -47,9 +52,15 @@ internal class Wyhash(
         seed1 = seed xor secret[0]
         see1 = seed1
         see2 = seed1
+        lastSeed1 = seed1
+        lastSee1 = seed1
+        lastSee2 = seed1
     }
 
     override fun processBlock(data: ByteArray) {
+        lastSeed1 = seed1
+        lastSee1 = see1
+        lastSee2 = see2
         // blocks of 48
         seed1 = wyMix(wyr8(data, 0) xor secret[1], wyr8(data, 8) xor seed1)
         see1 = wyMix(wyr8(data, 16) xor secret[2], wyr8(data, 24) xor see1)
@@ -66,12 +77,15 @@ internal class Wyhash(
         when {
             len > 16 -> {
                 var i = rem
-                if (len == 48) {
-                    // length is exactly 48 so we need to rollback the call to processBlock - blockBuffer contains the last block
-                    // this does mean the data gets processed twice however
-                    seed1 = seed xor secret[0]
-                    see1 = seed1
-                    see2 = seed1
+                if (rem == 0) {
+                    // The reference implementation takes every 48-byte block but the last through the three lanes, and
+                    // the last 48 bytes 16 at a time. processBlock has taken every full block through the lanes as it
+                    // arrived, so when the input is a whole number of blocks, go back to the state before the last one,
+                    // which blockBuffer still holds. That block's bytes are then mixed in the second way instead.
+                    seed1 = lastSeed1
+                    see1 = lastSee1
+                    see2 = lastSee2
+                    if (len > 48) seed1 = seed1 xor (see1 xor see2)
                     i = 48
                 } else if (len > 48) {
                     // blocks already handled
@@ -116,8 +130,11 @@ internal class Wyhash(
 
     private fun wyr4(data: ByteArray, offset: Int): ULong = decodeLEInt(data, offset).toULong() and 0xffffffffu
 
+    // Each byte is read unsigned, as the reference implementation's uint8_t, so masked after Byte.toULong sign-extends it
     private fun wyr3(data: ByteArray, offset: Int, k: Int): ULong {
-        return ((data[offset].toULong()) shl 16) or ((data[offset + (k ushr 1)].toULong()) shl 8) or data[offset + k - 1].toULong()
+        return ((data[offset].toULong() and 0xffu) shl 16) or
+            ((data[offset + (k ushr 1)].toULong() and 0xffu) shl 8) or
+            (data[offset + k - 1].toULong() and 0xffu)
     }
 
     // special version when reading last 16 bytes
@@ -138,6 +155,9 @@ internal class Wyhash(
             seed1 = this@Wyhash.seed1
             see1 = this@Wyhash.see1
             see2 = this@Wyhash.see2
+            lastSeed1 = this@Wyhash.lastSeed1
+            lastSee1 = this@Wyhash.lastSee1
+            lastSee2 = this@Wyhash.lastSee2
         }
         return copyState(dest)
     }
