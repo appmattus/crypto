@@ -40,14 +40,13 @@ internal class SipHash private constructor(
         outputBits
     )
 
-    private var v0 = 0L
-    private var v1 = 0L
-    private var v2 = 0L
-    private var v3 = 0L
+    private val state = SipHashState()
 
     private val buffer = ByteArray(WORD_BYTES)
     private var bufferPos = 0
-    private var totalLength = 0L
+
+    // Only the low byte of the total length is used, so it's counted in an Int, which wraps harmlessly
+    private var totalLength = 0
 
     init {
         reset()
@@ -61,13 +60,14 @@ internal class SipHash private constructor(
         if (bufferPos > 0) {
             while (bufferPos < WORD_BYTES && pos < end) buffer[bufferPos++] = input[pos++]
             if (bufferPos < WORD_BYTES) return this
-            processWord(decodeLELong(buffer, 0))
+            state.compress(buffer, 0, 1, compressionRounds)
             bufferPos = 0
         }
 
-        while (end - pos >= WORD_BYTES) {
-            processWord(decodeLELong(input, pos))
-            pos += WORD_BYTES
+        val words = (end - pos) / WORD_BYTES
+        if (words > 0) {
+            state.compress(input, pos, words, compressionRounds)
+            pos += words * WORD_BYTES
         }
 
         while (pos < end) buffer[bufferPos++] = input[pos++]
@@ -75,24 +75,8 @@ internal class SipHash private constructor(
     }
 
     override fun digest(): ByteArray {
-        var last = (totalLength and 0xff) shl 56
-        for (i in 0 until bufferPos) last = last or ((buffer[i].toLong() and 0xff) shl (i * 8))
-        processWord(last)
-
         val output = ByteArray(digestLength)
-        if (outputBits == 64) {
-            v2 = v2 xor 0xff
-            sipRounds(finalizationRounds)
-            encodeLELong(v0 xor v1 xor v2 xor v3, output, 0)
-        } else {
-            v2 = v2 xor 0xee
-            sipRounds(finalizationRounds)
-            encodeLELong(v0 xor v1 xor v2 xor v3, output, 0)
-            v1 = v1 xor 0xdd
-            sipRounds(finalizationRounds)
-            encodeLELong(v0 xor v1 xor v2 xor v3, output, WORD_BYTES)
-        }
-
+        state.finish(buffer, bufferPos, totalLength, compressionRounds, finalizationRounds, output)
         reset()
         return output
     }
@@ -101,21 +85,14 @@ internal class SipHash private constructor(
         get() = outputBits / 8
 
     override fun reset() {
-        v0 = k0 xor 0x736f6d6570736575L
-        v1 = k1 xor 0x646f72616e646f6dL
-        v2 = k0 xor 0x6c7967656e657261L
-        v3 = k1 xor 0x7465646279746573L
-        if (outputBits == 128) v1 = v1 xor 0xee
+        state.reset(k0, k1, outputBits == 128)
         buffer.fill(0)
         bufferPos = 0
         totalLength = 0
     }
 
     override fun copy(): SipHash = SipHash(k0, k1, compressionRounds, finalizationRounds, outputBits).also {
-        it.v0 = v0
-        it.v1 = v1
-        it.v2 = v2
-        it.v3 = v3
+        it.state.copyFrom(state)
         buffer.copyInto(it.buffer)
         it.bufferPos = bufferPos
         it.totalLength = totalLength
@@ -129,9 +106,105 @@ internal class SipHash private constructor(
         return "$prefix-$compressionRounds-$finalizationRounds"
     }
 
-    private fun processWord(m: Long) {
+    private companion object {
+        const val WORD_BYTES = 8
+    }
+}
+
+/**
+ * The four-word SipHash state, with the operations [SipHash] makes on it.
+ *
+ * Kotlin/JS has its own implementation holding each word as a pair of Ints, as its [Long] is an object and allocates
+ * on every operation. The other platforms use [SipHashStateLong].
+ */
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+internal expect class SipHashState() {
+    /** Initialises the state from the key words [k0] and [k1], for the 128-bit output variant when [wide] */
+    fun reset(k0: Long, k1: Long, wide: Boolean)
+
+    /** Sets the state to a copy of [other] */
+    fun copyFrom(other: SipHashState)
+
+    /** Compresses [words] 8-byte little-endian words of [input] from [offset], each with [rounds] SipRounds */
+    fun compress(input: ByteArray, offset: Int, words: Int, rounds: Int)
+
+    /**
+     * Compresses the final word, the first [length] bytes of [buffer] with the low byte of [totalLength] on top, then
+     * finalises with [finalizationRounds] SipRounds and writes the 8 or 16-byte tag to [output] in little-endian order
+     */
+    @Suppress("LongParameterList")
+    fun finish(
+        buffer: ByteArray,
+        length: Int,
+        totalLength: Int,
+        compressionRounds: Int,
+        finalizationRounds: Int,
+        output: ByteArray
+    )
+}
+
+/**
+ * The [Long] implementation of [SipHashState], for platforms whose [Long] is a 64-bit machine integer
+ */
+internal class SipHashStateLong {
+    private var v0 = 0L
+    private var v1 = 0L
+    private var v2 = 0L
+    private var v3 = 0L
+
+    fun reset(k0: Long, k1: Long, wide: Boolean) {
+        v0 = k0 xor 0x736f6d6570736575L
+        v1 = k1 xor 0x646f72616e646f6dL
+        v2 = k0 xor 0x6c7967656e657261L
+        v3 = k1 xor 0x7465646279746573L
+        if (wide) v1 = v1 xor 0xee
+    }
+
+    fun copyFrom(other: SipHashStateLong) {
+        v0 = other.v0
+        v1 = other.v1
+        v2 = other.v2
+        v3 = other.v3
+    }
+
+    fun compress(input: ByteArray, offset: Int, words: Int, rounds: Int) {
+        var pos = offset
+        repeat(words) {
+            processWord(decodeLELong(input, pos), rounds)
+            pos += 8
+        }
+    }
+
+    @Suppress("LongParameterList")
+    fun finish(
+        buffer: ByteArray,
+        length: Int,
+        totalLength: Int,
+        compressionRounds: Int,
+        finalizationRounds: Int,
+        output: ByteArray
+    ) {
+        var last = (totalLength.toLong() and 0xff) shl 56
+        for (i in 0 until length) last = last or ((buffer[i].toLong() and 0xff) shl (i * 8))
+        processWord(last, compressionRounds)
+
+        if (output.size == 8) {
+            v2 = v2 xor 0xff
+            sipRounds(finalizationRounds)
+            encodeLELong(v0 xor v1 xor v2 xor v3, output, 0)
+        } else {
+            v2 = v2 xor 0xee
+            sipRounds(finalizationRounds)
+            encodeLELong(v0 xor v1 xor v2 xor v3, output, 0)
+            v1 = v1 xor 0xdd
+            sipRounds(finalizationRounds)
+            encodeLELong(v0 xor v1 xor v2 xor v3, output, 8)
+        }
+    }
+
+    private fun processWord(m: Long, rounds: Int) {
         v3 = v3 xor m
-        sipRounds(compressionRounds)
+        sipRounds(rounds)
         v0 = v0 xor m
     }
 
@@ -152,9 +225,5 @@ internal class SipHash private constructor(
             v3 = v3 xor v0
             v2 = v2.rotateLeft(32)
         }
-    }
-
-    private companion object {
-        const val WORD_BYTES = 8
     }
 }
