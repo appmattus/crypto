@@ -1,20 +1,17 @@
 name: Build
 
 on:
-    # Disabled on the split branch while the library is split into algorithm family modules: it only runs when started
-    # by hand. To re-enable it, restore these triggers:
-    #
-    # push:
-    #     branches:
-    #         - main
-    #         - split
-    #     tags:
-    #         - '**'
-    # pull_request:
-    #     branches:
-    #         - main
-    #         - split
-    workflow_dispatch:
+    push:
+        branches:
+            - main
+            # The long-running branch for splitting the library into algorithm family modules
+            - split
+        tags:
+            - '**'
+    pull_request:
+        branches:
+            - main
+            - split
 
 jobs:
     # Runs the JS unit tests on Hermes, React Native's JavaScript engine, in parallel with the main build. The hermes
@@ -88,6 +85,9 @@ jobs:
                     path: 'hs_err_**.log'
 
     build:
+        # Disabled on the split branch while the library is split into algorithm family modules. Remove this line to
+        # re-enable it. publish needs this job, so it's skipped too.
+        if: false
         runs-on: macos-26
         steps:
             -   uses: actions/checkout@v7
