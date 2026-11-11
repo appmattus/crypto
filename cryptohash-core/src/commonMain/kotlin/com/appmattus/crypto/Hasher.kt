@@ -40,8 +40,6 @@ package com.appmattus.crypto
  * hasher.update(toChapter2)
  * ... etc.
  * ```
- *
- * [Hasher] has the same members as [Digest] in cryptohash, without its platform-specific view.
  */
 public interface Hasher {
 
