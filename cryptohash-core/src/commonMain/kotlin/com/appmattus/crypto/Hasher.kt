@@ -131,26 +131,6 @@ public interface Hasher {
     public fun copy(): Hasher
 
     /**
-     * Return the "block length" for the hash function. This
-     * value is naturally defined for iterated hash functions
-     * (Merkle-Damgard). It is used in HMAC (that's what the
-     * [HMAC specification](http://tools.ietf.org/html/rfc2104)
-     * names the "`B`" parameter).
-     *
-     * If the function is "block-less" then this function may
-     * return `-n` where `n` is an integer such that the
-     * block length for HMAC ("`B`") will be inferred from the
-     * key length, by selecting the smallest multiple of `n`
-     * which is no smaller than the key length. For instance, for
-     * the Fugue-xxx hash functions, this function returns -4: the
-     * virtual block length B is the HMAC key length, rounded up to
-     * the next multiple of 4.
-     *
-     * @return the internal block length (in bytes), or `-n`
-     */
-    public val blockLength: Int
-
-    /**
      *
      * Get the display name for this function (e.g. `"SHA-1"`
      * for SHA-1).

@@ -52,16 +52,10 @@ class HashAlgorithmTest {
 
         override fun copy(): Hasher = IdentityHasher().also { it.buffer = buffer.copyOf() }
 
-        override val blockLength: Int
-            get() = 1
-
         override fun toString(): String = "identity"
     }
 
     private val algorithm = object : HashAlgorithm {
-        override val blockLength: Int
-            get() = 1
-
         override fun newHasher(): Hasher = IdentityHasher()
     }
 

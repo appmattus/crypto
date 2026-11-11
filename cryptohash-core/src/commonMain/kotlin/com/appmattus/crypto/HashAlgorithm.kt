@@ -20,16 +20,9 @@ package com.appmattus.crypto
  * A hash algorithm, configured with any parameters it takes, such as a seed or key. It creates [Hasher]s for
  * incremental hashing and hashes complete inputs in one call.
  *
- * An implementation only needs [blockLength] and [newHasher]: the [hash] functions default to hashing with a new
- * [Hasher].
+ * An implementation only needs [newHasher]: the [hash] functions default to hashing with a new [Hasher].
  */
 public interface HashAlgorithm {
-
-    /**
-     * The "block length" of the algorithm in bytes, as the [Hasher]s it creates report in [Hasher.blockLength]. HMAC
-     * uses it as its "`B`" parameter.
-     */
-    public val blockLength: Int
 
     /**
      * Create a hash of [input] using the algorithm
