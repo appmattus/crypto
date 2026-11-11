@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// The core of cryptohash: the types every algorithm family module will share, such as Hasher.
+// The core of cryptohash: the types every algorithm family module will share, such as Hasher and HashAlgorithm.
 
 plugins {
     id("cryptohash.kmp-library")
