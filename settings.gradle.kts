@@ -15,6 +15,9 @@
  */
 
 pluginManagement {
+    // Convention plugins for the library modules
+    includeBuild("build-logic")
+
     repositories {
         google()
         mavenCentral()
@@ -27,6 +30,7 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
+include(":core")
 include(":cryptohash")
 include(":benchmarks")
 include(":samples:composeApp")

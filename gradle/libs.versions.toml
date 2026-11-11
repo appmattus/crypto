@@ -87,6 +87,9 @@ detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", v
 bouncyCastle = { module = "org.bouncycastle:bcprov-jdk15to18", version.ref = "bouncyCastle" }
 
 # Plugins
+dokka-gradlePlugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokkaPlugin" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+mavenPublish-gradlePlugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 buildscript_detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
 
 [plugins]

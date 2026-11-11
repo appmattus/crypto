@@ -14,144 +14,27 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-
 plugins {
-    kotlin("multiplatform")
-    id("com.vanniktech.maven.publish")
-    id("org.jetbrains.dokka")
+    id("cryptohash.kmp-library")
+    id("cryptohash.publish")
 }
 
-// val hostOs = System.getProperty("os.name")
-// val isLinux = hostOs == "Linux"
-// val isWindows = hostOs.startsWith("Windows")
-// val isMacOs = hostOs == "Mac OS X"
-
-val hostOs: String = System.getProperty("os.name")
-
+// Targets, the source set hierarchy and the common test dependencies come from the cryptohash.kmp-library convention
+// plugin in build-logic
 kotlin {
-    jvmToolchain(11)
-
-    explicitApi()
-
-    jvm()
-
-    js {
-        browser()
-        nodejs {
-            testTask {
-                // Mocha's default 2s per-test timeout is too short for the larger known-answer tests on CI.
-                // Browser tests get the same setting from karma.config.d.
-                useMocha { timeout = "60s" }
-            }
-        }
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        nodejs()
-    }
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmWasi {
-        nodejs()
-    }
-
-    // Tier 1
-    // Apple macOS hosts only:
-    macosArm64() // Running tests
-    iosSimulatorArm64() // Running tests
-    iosX64() // Running tests
-
-    // Tier 2
-    linuxX64() // Running tests
-    linuxArm64()
-    // Apple macOS hosts only:
-    watchosSimulatorArm64() // Running tests
-    watchosArm32()
-    watchosArm64()
-    tvosSimulatorArm64() // Running tests
-    tvosArm64()
-    iosArm64()
-
-    // Tier 3
-    androidNativeArm32()
-    androidNativeArm64()
-    androidNativeX86()
-    androidNativeX64()
-    mingwX64() // Running tests
-    // Apple macOS hosts only:
-    watchosDeviceArm64()
-
-    // Apply the default hierarchy again. It'll create, for example, the iosMain source set:
-    applyDefaultHierarchyTemplate()
-
-    @Suppress("UnusedPrivateMember")
     sourceSets {
-        // Platforms that use ByteArray as PlatformData, i.e. everything other than Darwin
-        val byteArrayMain by creating {
-            dependsOn(commonMain.get())
-        }
-        // Platforms without their own hash implementations to delegate to
-        val portableMain by creating {
-            dependsOn(byteArrayMain)
-        }
-        // Portable platforms whose Long is a 64-bit machine integer, i.e. everything other than Kotlin/JS
-        val nativeLongMain by creating {
-            dependsOn(portableMain)
-        }
-        val androidAndLinuxAndMingwTest by creating {
-            dependsOn(commonTest.get())
-        }
-        val apple64Main by creating {
-            dependsOn(appleMain.get())
-        }
-        val apple32Main by creating {
-            dependsOn(appleMain.get())
-        }
-
-        jvmMain.get().dependsOn(byteArrayMain)
-        jsMain.get().dependsOn(portableMain)
-        listOf(wasmJsMain, wasmWasiMain, linuxMain, mingwMain, androidNativeMain).forEach {
-            it.get().dependsOn(nativeLongMain)
-        }
-        linuxTest.get().dependsOn(androidAndLinuxAndMingwTest)
-        mingwTest.get().dependsOn(androidAndLinuxAndMingwTest)
-        androidNativeTest.get().dependsOn(androidAndLinuxAndMingwTest)
-
-        val macosArm64Main by getting { dependsOn(apple64Main) }
-        val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-        val iosX64Main by getting { dependsOn(apple64Main) }
-        val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-        val watchosArm32Main by getting { dependsOn(apple32Main) }
-        val watchosArm64Main by getting { dependsOn(apple32Main) }
-        val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-        val tvosArm64Main by getting { dependsOn(apple64Main) }
-        val iosArm64Main by getting { dependsOn(apple64Main) }
-        val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }
-
         commonMain.dependencies {
+            api(project(":core"))
             implementation(libs.uint128)
         }
 
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-            implementation(kotlin("test-common"))
-            implementation(kotlin("test-annotations-common"))
-        }
-
         jvmTest.dependencies {
-            implementation(kotlin("test-junit"))
             implementation(libs.bouncyCastle)
             implementation(libs.kotlinX.coroutinesCore)
         }
 
         appleTest.dependencies {
             implementation(libs.kotlinX.coroutinesCore)
-        }
-
-        jsTest.dependencies {
-            implementation(kotlin("test-js"))
         }
     }
 }
