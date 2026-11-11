@@ -4,11 +4,14 @@ on:
     push:
         branches:
             - main
+            # The long-running branch for splitting the library into algorithm family modules
+            - split
         tags:
             - '**'
     pull_request:
         branches:
             - main
+            - split
 
 jobs:
     # Runs the JS unit tests on Hermes, React Native's JavaScript engine, in parallel with the main build. The hermes
