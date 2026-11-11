@@ -19,6 +19,9 @@ package com.appmattus.crypto
 /**
  * A hash algorithm, configured with any parameters it takes, such as a seed or key. It creates [Hasher]s for
  * incremental hashing and hashes complete inputs in one call.
+ *
+ * An implementation only needs [blockLength] and [newHasher]: the [hash] functions default to hashing with a new
+ * [Hasher].
  */
 public interface HashAlgorithm {
 
@@ -31,22 +34,32 @@ public interface HashAlgorithm {
     /**
      * Create a hash of [input] using the algorithm
      */
-    public fun hash(input: ByteArray): ByteArray
+    public fun hash(input: ByteArray): ByteArray = newHasher().digest(input)
 
     /**
      * Create a hash of the [length] bytes of [input] starting at [offset] using the algorithm
      *
      * @throws IndexOutOfBoundsException if [offset] and [length] don't fit within [input]
      */
-    public fun hash(input: ByteArray, offset: Int, length: Int): ByteArray
+    public fun hash(input: ByteArray, offset: Int, length: Int): ByteArray {
+        // Checked up front, so every algorithm rejects a bad range the same way
+        checkRange(input, offset, length)
+        return newHasher().update(input, offset, length).digest()
+    }
 
     /**
      * Create a hash of the UTF-8 encoding of [input] using the algorithm
      */
-    public fun hash(input: String): ByteArray
+    public fun hash(input: String): ByteArray = hash(input.encodeToByteArray())
 
     /**
      * Create a new [Hasher] for incrementally hashing input with the algorithm
      */
     public fun newHasher(): Hasher
+}
+
+private fun checkRange(input: ByteArray, offset: Int, length: Int) {
+    if (offset < 0 || length < 0 || offset > input.size - length) {
+        throw IndexOutOfBoundsException("offset $offset and length $length out of bounds for size ${input.size}")
+    }
 }
