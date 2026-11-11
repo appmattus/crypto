@@ -85,6 +85,9 @@ jobs:
                     path: 'hs_err_**.log'
 
     build:
+        # Disabled on the split branch while the library is split into algorithm family modules. Remove this line to
+        # re-enable it. publish needs this job, so it's skipped too.
+        if: false
         runs-on: macos-26
         steps:
             -   uses: actions/checkout@v7
