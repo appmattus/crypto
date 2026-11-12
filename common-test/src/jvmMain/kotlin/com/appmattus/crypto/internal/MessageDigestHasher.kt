@@ -29,7 +29,9 @@ public class MessageDigestHasher(private val messageDigest: MessageDigest) : Has
 
     override fun update(input: ByteArray): Hasher = apply { messageDigest.update(input) }
 
-    override fun update(input: ByteArray, offset: Int, length: Int): Hasher = apply { messageDigest.update(input, offset, length) }
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher = apply {
+        messageDigest.update(input, offset, length)
+    }
 
     override fun digest(): ByteArray = messageDigest.digest()
 
