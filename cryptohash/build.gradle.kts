@@ -25,7 +25,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":cryptohash-core"))
-            implementation(project(":cryptohash-adler"))
+            api(project(":cryptohash-adler"))
             implementation(libs.uint128)
         }
 
