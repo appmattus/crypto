@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
-import com.appmattus.crypto.internal.core.sphlib.strtobin
-import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.MurmurHash
+import com.appmattus.crypto.internal.strtobin
+import com.appmattus.crypto.internal.testKat
 import kotlin.test.Test
 
 class MurmurHash64ATest {
@@ -25,23 +26,23 @@ class MurmurHash64ATest {
     @Test
     fun test() {
         // From https://github.com/flier/rust-fasthash/blob/master/fasthash/src/murmur2.rs
-        testKat({ MurmurHash64A() }, "hello", "1e68d17c457bf117")
-        testKat({ MurmurHash64A(123u) }, "hello", "240cb1d62529fb86")
-        testKat({ MurmurHash64A() }, "helloworld", "1db22e549a1d8f97")
+        testKat({ MurmurHash.murmurHash64A().newHasher() }, "hello", "1e68d17c457bf117")
+        testKat({ MurmurHash.murmurHash64A(123u).newHasher() }, "hello", "240cb1d62529fb86")
+        testKat({ MurmurHash.murmurHash64A().newHasher() }, "helloworld", "1db22e549a1d8f97")
 
         // From https://d3s.mff.cuni.cz/legacy/~holub/sw/javamurmurhash/MurmurHashTest.java
-        testKat({ MurmurHash64A(0xe17a1465u) }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit", "0920e0c1b7eeb261")
-        testKat({ MurmurHash64A(0xe17a1465u) }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit".substring(2, 54), "a8b33145194985a2")
+        testKat({ MurmurHash.murmurHash64A(0xe17a1465u).newHasher() }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit", "0920e0c1b7eeb261")
+        testKat({ MurmurHash.murmurHash64A(0xe17a1465u).newHasher() }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit".substring(2, 54), "a8b33145194985a2")
 
         // From https://www.rapidtables.com/convert/number/decimal-to-hex.html
-        testKat({ MurmurHash64A(0x12345678u) }, "foo", "CA48DAFD9277782A")
+        testKat({ MurmurHash.murmurHash64A(0x12345678u).newHasher() }, "foo", "CA48DAFD9277782A")
 
         // From https://github.com/kougazhang/go-murmurhash/blob/master/test/001_test.go
-        testKat({ MurmurHash64A(0x12345678u) }, "foo", "CA48DAFD9277782A")
-        testKat({ MurmurHash64A(0x12345678u) }, "foofoo", "2BEADAFA35050FBD")
-        testKat({ MurmurHash64A(0x12345678u) }, "foofoofoofoofoofoofoofoo", "97BE0DDCF71FE719")
-        testKat({ MurmurHash64A(0x12345678u) }, "123456781", "A6B5E4E6B833EE5B")
-        testKat({ MurmurHash64A(0x12345678u) }, "123456782", "08D46882D8108CC7")
+        testKat({ MurmurHash.murmurHash64A(0x12345678u).newHasher() }, "foo", "CA48DAFD9277782A")
+        testKat({ MurmurHash.murmurHash64A(0x12345678u).newHasher() }, "foofoo", "2BEADAFA35050FBD")
+        testKat({ MurmurHash.murmurHash64A(0x12345678u).newHasher() }, "foofoofoofoofoofoofoofoo", "97BE0DDCF71FE719")
+        testKat({ MurmurHash.murmurHash64A(0x12345678u).newHasher() }, "123456781", "A6B5E4E6B833EE5B")
+        testKat({ MurmurHash.murmurHash64A(0x12345678u).newHasher() }, "123456782", "08D46882D8108CC7")
     }
 
     // From https://d3s.mff.cuni.cz/legacy/~holub/sw/javamurmurhash/MurmurHashTest.java
@@ -56,7 +57,7 @@ class MurmurHash64ATest {
             "38ed30ee5161200f", "9bfae0a4e613fc3c",
         ).forEachIndexed { index, result ->
             testKat(
-                { MurmurHash64A(0xe17a1465u) },
+                { MurmurHash.murmurHash64A(0xe17a1465u).newHasher() },
                 input[index],
                 result
             )
@@ -75,7 +76,7 @@ class MurmurHash64ATest {
             "694dd315c9354ca9", "a97052a8f088ae6c"
         ).forEachIndexed { index, result ->
             testKat(
-                { MurmurHash64A(0x344d1f5cu) },
+                { MurmurHash.murmurHash64A(0x344d1f5cu).newHasher() },
                 input[index],
                 result
             )
@@ -86,17 +87,17 @@ class MurmurHash64ATest {
     @Test
     fun pizza() {
         testKat(
-            { MurmurHash64A(0u) },
+            { MurmurHash.murmurHash64A(0u).newHasher() },
             "",
             "0000000000000000"
         )
         testKat(
-            { MurmurHash64A(10u) },
+            { MurmurHash.murmurHash64A(10u).newHasher() },
             "",
             "c26e8bc196329b0f"
         )
         testKat(
-            { MurmurHash64A(2915580697u) },
+            { MurmurHash.murmurHash64A(2915580697u).newHasher() },
             "Pizza & Mandolino",
             "472ff7d324321dfe"
         )

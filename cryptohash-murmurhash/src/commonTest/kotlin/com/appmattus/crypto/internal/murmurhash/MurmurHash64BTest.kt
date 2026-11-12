@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
-import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.MurmurHash
+import com.appmattus.crypto.internal.testKat
 import kotlin.test.Test
 
 class MurmurHash64BTest {
@@ -24,13 +25,13 @@ class MurmurHash64BTest {
     @Test
     fun test() {
         // From https://github.com/flier/rust-fasthash/blob/master/fasthash/src/murmur2.rs
-        testKat({ MurmurHash64B() }, "hello", "F510DB152543FD7F")
-        testKat({ MurmurHash64B(123u) }, "hello", "1A231E3BFFA35245")
-        testKat({ MurmurHash64B() }, "helloworld", "C2874AC105A1FB32")
+        testKat({ MurmurHash.murmurHash64B().newHasher() }, "hello", "F510DB152543FD7F")
+        testKat({ MurmurHash.murmurHash64B(123u).newHasher() }, "hello", "1A231E3BFFA35245")
+        testKat({ MurmurHash.murmurHash64B().newHasher() }, "helloworld", "C2874AC105A1FB32")
 
         // From https://github.com/kougazhang/go-murmurhash/blob/master/test/001_test.go
-        testKat({ MurmurHash64B(0x12345678u) }, "foo", "675CA96D81E32EDE")
-        testKat({ MurmurHash64B(0x12345678u) }, "foofoo", "E46124BCCCC688BF")
-        testKat({ MurmurHash64B(0x12345678u) }, "foofoofoofoofoofoofoofoo", "A2AAB6F3D6D635A1")
+        testKat({ MurmurHash.murmurHash64B(0x12345678u).newHasher() }, "foo", "675CA96D81E32EDE")
+        testKat({ MurmurHash.murmurHash64B(0x12345678u).newHasher() }, "foofoo", "E46124BCCCC688BF")
+        testKat({ MurmurHash.murmurHash64B(0x12345678u).newHasher() }, "foofoofoofoofoofoofoofoo", "A2AAB6F3D6D635A1")
     }
 }

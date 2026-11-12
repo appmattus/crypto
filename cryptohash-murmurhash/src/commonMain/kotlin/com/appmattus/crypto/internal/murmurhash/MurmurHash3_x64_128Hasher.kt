@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.sphlib.DigestEngine
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 // Based on the public domain https://github.com/yonik/java_util/blob/master/src/util/hash/MurmurHash3.java
 @Suppress("ClassName")
-internal class MurmurHash3_x64_128(private val seed: UInt = 0u) : DigestEngine<MurmurHash3_x64_128>() {
+internal class MurmurHash3_x64_128Hasher(private val seed: UInt = 0u) : HasherEngine<MurmurHash3_x64_128Hasher>() {
 
     private var h1 = seed.toLong() and 0x00000000FFFFFFFFL
     private var h2 = seed.toLong() and 0x00000000FFFFFFFFL
@@ -30,10 +30,10 @@ internal class MurmurHash3_x64_128(private val seed: UInt = 0u) : DigestEngine<M
     override val digestLength: Int
         get() = 16
 
-    override fun copy(): MurmurHash3_x64_128 {
-        val dest = MurmurHash3_x64_128(seed).apply {
-            h1 = this@MurmurHash3_x64_128.h1
-            h2 = this@MurmurHash3_x64_128.h2
+    override fun copy(): MurmurHash3_x64_128Hasher {
+        val dest = MurmurHash3_x64_128Hasher(seed).apply {
+            h1 = this@MurmurHash3_x64_128Hasher.h1
+            h2 = this@MurmurHash3_x64_128Hasher.h2
         }
         return copyState(dest)
     }
@@ -41,7 +41,7 @@ internal class MurmurHash3_x64_128(private val seed: UInt = 0u) : DigestEngine<M
     override val blockLength: Int
         get() = 16
 
-    override fun toString() = "MurmurHash3_x86_128"
+    override fun toString() = "MurmurHash3-x64-128"
 
     override fun engineReset() {
         h1 = seed.toLong() and 0x00000000FFFFFFFFL

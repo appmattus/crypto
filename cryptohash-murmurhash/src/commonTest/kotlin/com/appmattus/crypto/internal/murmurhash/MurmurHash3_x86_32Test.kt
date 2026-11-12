@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.CoreDigest
-import com.appmattus.crypto.internal.core.sphlib.strtobin
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.testKatHex
+import com.appmattus.crypto.MurmurHash
+import com.appmattus.crypto.internal.strtobin
+import com.appmattus.crypto.internal.testKat
+import com.appmattus.crypto.internal.testKatHex
 import kotlin.test.Test
 
 @Suppress("ClassName")
 class MurmurHash3_x86_32Test {
 
-    private fun digest(seed: UInt = 0u) = CoreDigest.create(Algorithm.MurmurHash3_X86_32(seed))
+    private fun digest(seed: UInt = 0u) = MurmurHash.murmurHash3_x86_32(seed).newHasher()
 
     // From https://github.com/hajimes/mmh3/blob/master/test_mmh3.py
     @Test

@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeBEInt
-import com.appmattus.crypto.internal.core.sphlib.DigestEngine
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 // Based on the public domain https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp
-internal class MurmurHash2A(private val seed: UInt = 0u) : DigestEngine<MurmurHash2A>() {
+internal class MurmurHash2AHasher(private val seed: UInt = 0u) : HasherEngine<MurmurHash2AHasher>() {
 
     private var h = seed
 
     override val digestLength: Int
         get() = 4
 
-    override fun copy(): MurmurHash2A {
-        val dest = MurmurHash2A(seed).apply {
-            h = this@MurmurHash2A.h
+    override fun copy(): MurmurHash2AHasher {
+        val dest = MurmurHash2AHasher(seed).apply {
+            h = this@MurmurHash2AHasher.h
         }
         return copyState(dest)
     }
