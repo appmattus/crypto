@@ -30,3 +30,7 @@ kotlin {
         }
     }
 }
+
+// Runs the JS tests on Hermes too: cryptohash-core holds the JS Int-pair helpers and the shared encoding and HMAC code
+// every module runs on it
+apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))
