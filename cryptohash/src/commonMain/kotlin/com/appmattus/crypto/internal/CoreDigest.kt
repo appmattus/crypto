@@ -20,6 +20,7 @@ import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Komihash
+import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Wyhash
@@ -65,8 +66,6 @@ import com.appmattus.crypto.internal.core.farm.FarmHash128
 import com.appmattus.crypto.internal.core.farm.FarmHash32
 import com.appmattus.crypto.internal.core.farm.FarmHash64
 import com.appmattus.crypto.internal.core.google.HighwayHash
-import com.appmattus.crypto.internal.core.metro.MetroHash128
-import com.appmattus.crypto.internal.core.metro.MetroHash64
 import com.appmattus.crypto.internal.core.sphlib.BLAKE224
 import com.appmattus.crypto.internal.core.sphlib.BLAKE256
 import com.appmattus.crypto.internal.core.sphlib.BLAKE384
@@ -288,8 +287,8 @@ internal object CoreDigest {
             is Algorithm.Luffa384 -> Luffa384()
             is Algorithm.Luffa512 -> Luffa512()
 
-            is Algorithm.MetroHash64 -> MetroHash64(algorithm.seed)
-            is Algorithm.MetroHash128 -> MetroHash128(algorithm.seed)
+            is Algorithm.MetroHash64 -> MetroHash.metroHash64(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MetroHash128 -> MetroHash.metroHash128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.MD2 -> MD2()
             is Algorithm.MD4 -> MD4()

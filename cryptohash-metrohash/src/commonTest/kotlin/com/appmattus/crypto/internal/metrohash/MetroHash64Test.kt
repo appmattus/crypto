@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.metro
+package com.appmattus.crypto.internal.metrohash
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.MetroHash
+import com.appmattus.crypto.internal.testKat
 import kotlin.test.Test
 
 class MetroHash64Test {
 
-    private fun digest(seed: ULong = 0u) = Algorithm.MetroHash64(seed).createDigest()
+    private fun digest(seed: ULong = 0u) = MetroHash.metroHash64(seed).newHasher()
 
     @Test
     fun test() {

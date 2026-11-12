@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.metro
+package com.appmattus.crypto.internal.metrohash
 
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.decodeLEShort
 import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.sphlib.DigestEngine
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
-internal class MetroHash128(private val seed: ULong) : DigestEngine<MetroHash128>() {
+internal class MetroHash128Hasher(private val seed: ULong) : HasherEngine<MetroHash128Hasher>() {
 
     private var v: Array<ULong> = arrayOf(
         (seed - k0) * k3,
@@ -36,10 +36,10 @@ internal class MetroHash128(private val seed: ULong) : DigestEngine<MetroHash128
     override val digestLength: Int
         get() = 16
 
-    override fun copy(): MetroHash128 {
-        val dest = MetroHash128(seed).apply {
-            v = this@MetroHash128.v.copyOf()
-            hasBlock = this@MetroHash128.hasBlock
+    override fun copy(): MetroHash128Hasher {
+        val dest = MetroHash128Hasher(seed).apply {
+            v = this@MetroHash128Hasher.v.copyOf()
+            hasBlock = this@MetroHash128Hasher.hasBlock
         }
         return copyState(dest)
     }
@@ -57,16 +57,6 @@ internal class MetroHash128(private val seed: ULong) : DigestEngine<MetroHash128
             (seed - k1) * k3
         )
     }
-
-    fun ByteArray.toHexString(): String {
-        return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
-    }
-
-    fun Long.toHexString(): String = ByteArray(8).also {
-        encodeBELong(this, it, 0)
-    }.toHexString()
-
-    fun ULong.toHexString(): String = toLong().toHexString()
 
     override fun processBlock(data: ByteArray) {
         hasBlock = true

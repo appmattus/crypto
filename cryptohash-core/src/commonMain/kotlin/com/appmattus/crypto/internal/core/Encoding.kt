@@ -70,6 +70,18 @@ public inline fun decodeLELong(buf: ByteArray, off: Int): Long {
 public inline fun ByteArray.decodeLEULong(off: Int): ULong = decodeLELong(this, off).toULong()
 
 /**
+ * Decode a 16-bit little-endian word from this array at offset [off].
+ *
+ * @param off   the source offset
+ * @return the decoded short
+ */
+@Suppress("NOTHING_TO_INLINE")
+@InternalCryptohash
+public inline fun ByteArray.decodeLEShort(off: Int): Short {
+    return ((this[off + 1].toInt() and 0xFF shl 8) or (this[off].toInt() and 0xFF)).toShort()
+}
+
+/**
  * Decode a 32-bit big-endian word from the array [buf]
  * at offset [off].
  *
