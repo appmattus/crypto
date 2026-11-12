@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.streebog
 
-
 /**
  * implementation of GOST R 34.11-2012 512-bit
  */

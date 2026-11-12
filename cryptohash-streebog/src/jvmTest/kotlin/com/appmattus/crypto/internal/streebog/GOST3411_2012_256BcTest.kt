@@ -20,6 +20,5 @@ import org.bouncycastle.jcajce.provider.digest.GOST3411
 
 @Suppress("ClassName")
 internal class GOST3411_2012_256BcTest : GOST3411_2012_256Test() {
-    override fun digest() = MessageDigestHasher(GOST3411.Digest2012_256()
-    )
+    override fun digest() = MessageDigestHasher(GOST3411.Digest2012_256())
 }
