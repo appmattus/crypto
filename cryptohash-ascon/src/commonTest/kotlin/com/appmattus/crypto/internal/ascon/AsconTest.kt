@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.ascon
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.toHexString
+import com.appmattus.crypto.Ascon
+import com.appmattus.crypto.internal.testKat
+import com.appmattus.crypto.internal.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -34,7 +34,7 @@ class AsconTest {
     @Test
     fun asconXof128MatchesReferenceVectors() {
         xof128Vectors.forEach { (length, expected) ->
-            testKat({ Algorithm.AsconXof128(512).createDigest() }, message(length), expected)
+            testKat({ Ascon.xof128(512).newHasher() }, message(length), expected)
         }
     }
 
@@ -42,26 +42,26 @@ class AsconTest {
     fun asconCXof128MatchesReferenceVectors() {
         cxof128Vectors.forEach { (length, customisationLength, expected) ->
             val customisation = ByteArray(customisationLength) { (0x10 + it).toByte() }
-            testKat({ Algorithm.AsconCXof128(customisation, 512).createDigest() }, message(length), expected)
+            testKat({ Ascon.cxof128(customisation, 512).newHasher() }, message(length), expected)
         }
     }
 
     @Test
     fun xofOutputIsAPrefixOfLongerOutput() {
         val expected = xof128Vectors.first { it.first == 10 }.second
-        assertEquals(expected.take(64), Algorithm.AsconXof128().hash(message(10)).toHexString())
-        assertEquals(expected.take(14), Algorithm.AsconXof128(56).hash(message(10)).toHexString())
+        assertEquals(expected.take(64), Ascon.xof128().hash(message(10)).toHexString())
+        assertEquals(expected.take(14), Ascon.xof128(56).hash(message(10)).toHexString())
     }
 
     @Test
     fun nullCustomisationMatchesEmptyCustomisation() {
-        assertContentEquals(Algorithm.AsconCXof128(ByteArray(0)).hash(message(20)), Algorithm.AsconCXof128().hash(message(20)))
+        assertContentEquals(Ascon.cxof128(ByteArray(0)).hash(message(20)), Ascon.cxof128().hash(message(20)))
     }
 
     @Test
     fun customisationIsCopied() {
         val customisation = ByteArray(10) { 1 }
-        val algorithm = Algorithm.AsconCXof128(customisation)
+        val algorithm = Ascon.cxof128(customisation)
         val expected = algorithm.hash(message(10))
         customisation.fill(0)
         assertContentEquals(expected, algorithm.hash(message(10)))
@@ -69,10 +69,10 @@ class AsconTest {
 
     @Test
     fun invalidParametersAreRejected() {
-        assertFailsWith<IllegalArgumentException> { Algorithm.AsconXof128(0) }
-        assertFailsWith<IllegalArgumentException> { Algorithm.AsconCXof128(outputSizeBits = 9) }
-        assertFailsWith<IllegalArgumentException> { Algorithm.AsconCXof128(ByteArray(257)) }
-        Algorithm.AsconCXof128(ByteArray(256))
+        assertFailsWith<IllegalArgumentException> { Ascon.xof128(0) }
+        assertFailsWith<IllegalArgumentException> { Ascon.cxof128(outputSizeBits = 9) }
+        assertFailsWith<IllegalArgumentException> { Ascon.cxof128(ByteArray(257)) }
+        Ascon.cxof128(ByteArray(256))
     }
 
     private fun message(length: Int) = ByteArray(length) { it.toByte() }

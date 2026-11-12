@@ -37,10 +37,11 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.bouncycastle.ascon
+package com.appmattus.crypto.internal.ascon
 
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.rotateRight
 
 /**
  * The five-word Ascon state, with the operations Ascon-Hash256, Ascon-XOF128 and Ascon-CXOF128 make on it.
