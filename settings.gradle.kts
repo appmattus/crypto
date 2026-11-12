@@ -31,6 +31,8 @@ plugins {
 }
 
 include(":cryptohash-core")
+include(":cryptohash-adler")
+include(":common-test")
 include(":cryptohash")
 include(":benchmarks")
 include(":samples:composeApp")

@@ -16,9 +16,9 @@
 
 package com.appmattus.crypto.internal
 
+import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.Adler32
 import com.appmattus.crypto.internal.core.CRC32
 import com.appmattus.crypto.internal.core.CRC32B
 import com.appmattus.crypto.internal.core.CRC32C
@@ -163,7 +163,7 @@ internal object CoreDigest {
         // object's accessor. On engines without a JIT, such as Hermes, those calls made dispatching to an algorithm
         // late in this list cost more than creating its digest.
         return when (algorithm) {
-            is Algorithm.Adler32 -> Adler32()
+            is Algorithm.Adler32 -> Adler.adler32.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.AsconHash256 -> Ascon.hash256()
             is Algorithm.AsconXof128 -> Ascon.xof128(algorithm.outputSizeBits / 8)

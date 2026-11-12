@@ -25,16 +25,16 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":cryptohash-core"))
+            api(project(":cryptohash-adler"))
             implementation(libs.uint128)
+        }
+
+        commonTest.dependencies {
+            implementation(project(":common-test"))
         }
 
         jvmTest.dependencies {
             implementation(libs.bouncyCastle)
-            implementation(libs.kotlinX.coroutinesCore)
-        }
-
-        appleTest.dependencies {
-            implementation(libs.kotlinX.coroutinesCore)
         }
     }
 }
