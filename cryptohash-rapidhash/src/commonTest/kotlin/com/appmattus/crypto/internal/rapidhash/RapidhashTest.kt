@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.rapidhash
+package com.appmattus.crypto.internal.rapidhash
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.internal.smhasherVerification
+import com.appmattus.crypto.internal.testKat
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -28,23 +28,23 @@ class RapidhashTest {
     @Test
     fun rapidhashSmhasherVerificationValue() {
         // Verification value from https://github.com/rurban/smhasher
-        assertEquals(0x1FDC65EEu, smhasherVerification { input, seed -> Algorithm.Rapidhash(seed).hash(input) })
+        assertEquals(0x1FDC65EEu, smhasherVerification { input, seed -> Rapidhash.rapidhash(seed).hash(input) })
     }
 
     @Test
     fun rapidhashMicroSmhasherVerificationValue() {
-        assertEquals(0x6F183D61u, smhasherVerification { input, seed -> Algorithm.RapidhashMicro(seed).hash(input) })
+        assertEquals(0x6F183D61u, smhasherVerification { input, seed -> Rapidhash.rapidhashMicro(seed).hash(input) })
     }
 
     @Test
     fun rapidhashNanoSmhasherVerificationValue() {
-        assertEquals(0x2C200DC7u, smhasherVerification { input, seed -> Algorithm.RapidhashNano(seed).hash(input) })
+        assertEquals(0x2C200DC7u, smhasherVerification { input, seed -> Rapidhash.rapidhashNano(seed).hash(input) })
     }
 
     @Test
     fun rapidhashOfHello() {
         // From the tests of the rapidhash Rust crate, https://github.com/hoxxep/rapidhash
-        testKat({ Algorithm.Rapidhash().createDigest() }, "hello", 3327445792987248966uL.toString(16).padStart(16, '0'))
+        testKat({ Rapidhash.rapidhash().newHasher() }, "hello", 3327445792987248966uL.toString(16).padStart(16, '0'))
     }
 
     @Test
@@ -52,10 +52,10 @@ class RapidhashTest {
         // Micro only differs from rapidhash above 80 bytes, and nano above 48 bytes
         for (length in 0..80) {
             val input = ByteArray(length) { (it * 7).toByte() }
-            val expected = Algorithm.Rapidhash(length.toULong()).hash(input)
-            assertContentEquals(expected, Algorithm.RapidhashMicro(length.toULong()).hash(input), "micro length $length")
+            val expected = Rapidhash.rapidhash(length.toULong()).hash(input)
+            assertContentEquals(expected, Rapidhash.rapidhashMicro(length.toULong()).hash(input), "micro length $length")
             if (length <= 48) {
-                assertContentEquals(expected, Algorithm.RapidhashNano(length.toULong()).hash(input), "nano length $length")
+                assertContentEquals(expected, Rapidhash.rapidhashNano(length.toULong()).hash(input), "nano length $length")
             }
         }
     }
@@ -63,8 +63,8 @@ class RapidhashTest {
     @Test
     fun incrementalUpdatesMatchOneShot() {
         val input = ByteArray(1000) { (it * 13).toByte() }
-        listOf(Algorithm.Rapidhash(5u), Algorithm.RapidhashMicro(5u), Algorithm.RapidhashNano(5u)).forEach { algorithm ->
-            testKat({ algorithm.createDigest() }, input, algorithm.hash(input).joinToString("") { (it.toInt() and 0xff).toString(16).padStart(2, '0') })
+        listOf(Rapidhash.rapidhash(5u), Rapidhash.rapidhashMicro(5u), Rapidhash.rapidhashNano(5u)).forEach { algorithm ->
+            testKat({ algorithm.newHasher() }, input, algorithm.hash(input).joinToString("") { (it.toInt() and 0xff).toString(16).padStart(2, '0') })
         }
     }
 }

@@ -19,6 +19,7 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.internal.core.CRC32
 import com.appmattus.crypto.internal.core.CRC32B
@@ -73,7 +74,6 @@ import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_128
 import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_32
 import com.appmattus.crypto.internal.core.murmur.MurmurHash64A
 import com.appmattus.crypto.internal.core.murmur.MurmurHash64B
-import com.appmattus.crypto.internal.core.rapidhash.Rapidhash
 import com.appmattus.crypto.internal.core.sphlib.BLAKE224
 import com.appmattus.crypto.internal.core.sphlib.BLAKE256
 import com.appmattus.crypto.internal.core.sphlib.BLAKE384
@@ -325,9 +325,9 @@ internal object CoreDigest {
             is Algorithm.RadioGatun32 -> RadioGatun32()
             is Algorithm.RadioGatun64 -> RadioGatun64()
 
-            is Algorithm.Rapidhash -> Rapidhash(algorithm.seed, Rapidhash.Variant.Rapidhash)
-            is Algorithm.RapidhashMicro -> Rapidhash(algorithm.seed, Rapidhash.Variant.Micro)
-            is Algorithm.RapidhashNano -> Rapidhash(algorithm.seed, Rapidhash.Variant.Nano)
+            is Algorithm.Rapidhash -> Rapidhash.rapidhash(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RapidhashMicro -> Rapidhash.rapidhashMicro(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RapidhashNano -> Rapidhash.rapidhashNano(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.RipeMD -> RipeMD()
             is Algorithm.RipeMD128 -> RipeMD128()

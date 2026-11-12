@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core.rapidhash
+package com.appmattus.crypto.internal.rapidhash
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 
-internal actual fun rapidhash(input: ByteBuffer, len: Int, seed: ULong, variant: Rapidhash.Variant): ULong =
+internal actual fun rapidhash(input: ByteBuffer, len: Int, seed: ULong, variant: RapidhashVariant): ULong =
     rapidhashLong(input, len, seed, variant)

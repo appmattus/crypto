@@ -33,6 +33,7 @@ plugins {
 include(":cryptohash-core")
 include(":cryptohash-adler")
 include(":cryptohash-wyhash")
+include(":cryptohash-rapidhash")
 include(":common-test")
 include(":cryptohash")
 include(":benchmarks")
