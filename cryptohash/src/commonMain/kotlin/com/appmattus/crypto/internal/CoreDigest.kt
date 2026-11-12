@@ -24,6 +24,7 @@ import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Rapidhash
+import com.appmattus.crypto.Streebog
 import com.appmattus.crypto.Tiger
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.XXHash
@@ -41,8 +42,6 @@ import com.appmattus.crypto.internal.core.SipHash
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
 import com.appmattus.crypto.internal.core.blake3.Blake3
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411
-import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_256
-import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_512
 import com.appmattus.crypto.internal.core.bouncycastle.Kupyna
 import com.appmattus.crypto.internal.core.bouncycastle.ascon.Ascon
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2b
@@ -217,8 +216,8 @@ internal object CoreDigest {
             is Algorithm.Fugue512 -> Fugue512()
 
             is Algorithm.GOST3411_94 -> GOST3411()
-            is Algorithm.GOST3411_2012_256 -> GOST3411_2012_256()
-            is Algorithm.GOST3411_2012_512 -> GOST3411_2012_512()
+            is Algorithm.GOST3411_2012_256 -> Streebog.streebog256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.GOST3411_2012_512 -> Streebog.streebog512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Groestl224 -> Groestl224()
             is Algorithm.Groestl256 -> Groestl256()

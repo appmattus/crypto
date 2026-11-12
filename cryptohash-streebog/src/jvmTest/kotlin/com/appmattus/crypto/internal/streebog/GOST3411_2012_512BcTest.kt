@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.streebog
 
-import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.internal.MessageDigestHasher
 import org.bouncycastle.jcajce.provider.digest.GOST3411
 
 @Suppress("ClassName")
 internal class GOST3411_2012_512BcTest : GOST3411_2012_512Test() {
-    override fun digest() = MessageDigestPlatform(
-        algorithm = Algorithm.GOST3411_2012_512.algorithmName,
-        blockLength = Algorithm.GOST3411_2012_512.blockLength,
-        messageDigest = GOST3411.Digest2012_512()
+    override fun digest() = MessageDigestHasher(GOST3411.Digest2012_512()
     )
 }

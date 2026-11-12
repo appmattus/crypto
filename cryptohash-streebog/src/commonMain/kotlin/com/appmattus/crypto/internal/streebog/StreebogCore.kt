@@ -37,9 +37,9 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.bouncycastle
+package com.appmattus.crypto.internal.streebog
 
-import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hasher
 import kotlin.experimental.xor
 
 /**
@@ -70,7 +70,7 @@ import kotlin.experimental.xor
  * Base class for GOST3411-2012 256-bit and GOST3411-2012 512-bit digests.
  */
 @Suppress("ClassName", "TooManyFunctions", "LargeClass")
-internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArray) : Digest {
+internal abstract class StreebogCore<D : StreebogCore<D>>(iv: ByteArray) : Hasher {
     private val iv = ByteArray(64)
     private val n = ByteArray(64)
     private val sigma = ByteArray(64)
@@ -88,7 +88,7 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
     val byteLength: Int
         get() = 64
 
-    override fun update(input: ByteArray): Digest {
+    override fun update(input: ByteArray): Hasher {
         update(input, 0, input.size)
         return this
     }
@@ -116,7 +116,7 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
         return digest.size
     }
 
-    override fun update(input: Byte): Digest {
+    override fun update(input: Byte): Hasher {
         block[--bOff] = input
         if (bOff == 0) {
             gN(h, n, block)
@@ -127,7 +127,7 @@ internal abstract class GOST3411_2012Core<D : GOST3411_2012Core<D>>(iv: ByteArra
         return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher {
         var inOff = offset
         var len = length
         while (bOff != 64 && len > 0) {
