@@ -30,6 +30,11 @@ kotlin {
         commonTest.dependencies {
             implementation(project(":common-test"))
         }
+
+        // AsconBcTest compares against BouncyCastle's implementation
+        jvmTest.dependencies {
+            implementation(libs.bouncyCastle)
+        }
     }
 }
 

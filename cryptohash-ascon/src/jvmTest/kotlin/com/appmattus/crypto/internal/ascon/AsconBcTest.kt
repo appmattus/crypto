@@ -17,12 +17,12 @@
 package com.appmattus.crypto.internal.ascon
 
 import com.appmattus.crypto.Ascon
-import kotlin.random.Random
-import kotlin.test.Test
-import kotlin.test.assertContentEquals
 import org.bouncycastle.crypto.digests.AsconCXof128
 import org.bouncycastle.crypto.digests.AsconHash256
 import org.bouncycastle.crypto.digests.AsconXof128
+import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertContentEquals
 
 /**
  * Compare Ascon-Hash256, Ascon-XOF128 and Ascon-CXOF128 against Bouncy Castle for random messages, customisation
