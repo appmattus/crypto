@@ -20,6 +20,7 @@ import com.appmattus.crypto.Hasher
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -37,8 +38,9 @@ class HasherHmacTest {
 
         override fun digest(): ByteArray = bytes.also { reset() }
 
+        // Fixed, as HMAC compares it with the output length, though digest() returns however many bytes it was given
         override val digestLength: Int
-            get() = bytes.size
+            get() = DIGEST_LENGTH
 
         override fun reset() {
             bytes = byteArrayOf()
@@ -53,7 +55,7 @@ class HasherHmacTest {
 
     private fun expected(key: ByteArray, message: ByteArray) = pad(key, 0x5c) + pad(key, 0x36) + message
 
-    private fun hmac(key: ByteArray) = HasherHmac({ ConcatenatingHasher() }, BLOCK, key)
+    private fun hmac(key: ByteArray, outputLength: Int? = null) = HasherHmac({ ConcatenatingHasher() }, BLOCK, key, outputLength)
 
     @Test
     fun hashesThePaddedKeysAroundTheMessage() {
@@ -103,11 +105,35 @@ class HasherHmacTest {
     }
 
     @Test
+    fun truncatesToTheOutputLength() {
+        val key = byteArrayOf(1, 2)
+        val mac = hmac(key, outputLength = 5)
+        assertEquals(5, mac.digestLength)
+        assertContentEquals(expected(key, byteArrayOf(5)).copyOf(5), mac.digest(byteArrayOf(5)))
+        assertContentEquals(expected(key, byteArrayOf(6)).copyOf(5), mac.copy().digest(byteArrayOf(6)))
+        assertTrue(hmac(key, outputLength = 5).update(byteArrayOf(5)).verify(expected(key, byteArrayOf(5)).copyOf(5)))
+    }
+
+    @Test
+    fun ignoresAnOutputLengthNoShorterThanTheHash() {
+        val key = byteArrayOf(1, 2)
+        assertEquals(DIGEST_LENGTH, hmac(key, outputLength = DIGEST_LENGTH).digestLength)
+        assertContentEquals(expected(key, byteArrayOf(5)), hmac(key, outputLength = DIGEST_LENGTH + 1).digest(byteArrayOf(5)))
+    }
+
+    @Test
+    fun rejectsAnOutputLengthThatIsNotPositive() {
+        assertFailsWith<IllegalArgumentException> { hmac(byteArrayOf(1), outputLength = 0) }
+        assertFailsWith<IllegalArgumentException> { hmac(byteArrayOf(1), outputLength = -1) }
+    }
+
+    @Test
     fun describesItselfByTheHash() {
         assertEquals("HMAC/Concatenating", hmac(byteArrayOf(1)).toString())
     }
 
     private companion object {
         const val BLOCK = 8
+        const val DIGEST_LENGTH = 64
     }
 }

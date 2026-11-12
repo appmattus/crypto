@@ -27,7 +27,7 @@ internal object TigerAlgorithm : HmacAlgorithm {
 
     override fun newHasher(): Hasher = TigerHasher()
 
-    override fun newHmac(key: ByteArray): Mac = HasherHmac(::TigerHasher, BLOCK_LENGTH, key)
+    override fun newHmac(key: ByteArray, outputLength: Int?): Mac = HasherHmac(::TigerHasher, BLOCK_LENGTH, key, outputLength)
 
     override fun toString(): String = "Tiger"
 }

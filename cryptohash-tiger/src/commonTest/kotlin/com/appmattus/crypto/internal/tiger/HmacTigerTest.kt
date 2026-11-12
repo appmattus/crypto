@@ -45,6 +45,18 @@ class HmacTigerTest {
     }
 
     @Test
+    fun truncatedOutput() {
+        // The first 10 bytes of the RFC 2104 style "Hi There" vector above
+        testHmac(
+            Tiger.tiger,
+            "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+            "Hi There",
+            "1d7a658c75f8f004916e",
+            outputLength = 10
+        )
+    }
+
+    @Test
     fun testTigerSeq() {
         val expectedOutput = listOf(
             "2EF793765716EE48A671BDB5F002103C43734304C8717C85",

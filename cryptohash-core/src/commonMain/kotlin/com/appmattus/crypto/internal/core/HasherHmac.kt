@@ -23,11 +23,9 @@ import com.appmattus.crypto.Mac
 /**
  * HMAC, as defined in RFC 2104 and FIPS 198-1, over any [Hasher].
  *
- * The [key] is hashed first if it is longer than [blockLength], then zero-padded to [blockLength] bytes. The MAC is
- * H((key xor opad) || H((key xor ipad) || message)). The key is copied, so the caller may change [key] afterwards.
- *
- * @param newHasher creates a fresh hasher for the underlying hash function
- * @param blockLength the block length of the hash function, in bytes
+ * The key is hashed first if it is longer than the block length, then zero-padded to the block length. The MAC is
+ * H((key xor opad) || H((key xor ipad) || message)), truncated to the output length if one is given. The key is
+ * copied, so the caller may change it afterwards.
  */
 @InternalCryptohash
 public class HasherHmac : Mac {
@@ -36,8 +34,17 @@ public class HasherHmac : Mac {
     private val outer: Hasher
     private val kipad: ByteArray
     private val kopad: ByteArray
+    private val outputLength: Int?
 
-    public constructor(newHasher: () -> Hasher, blockLength: Int, key: ByteArray) {
+    /**
+     * @param newHasher creates a fresh hasher for the underlying hash function
+     * @param blockLength the block length of the hash function, in bytes
+     * @param key the HMAC key
+     * @param outputLength truncates the MAC to this many bytes, if given and shorter than the hash's output
+     */
+    public constructor(newHasher: () -> Hasher, blockLength: Int, key: ByteArray, outputLength: Int? = null) {
+        require(outputLength == null || outputLength > 0) { "outputLength must be positive, was $outputLength" }
+
         val shortKey = if (key.size > blockLength) newHasher().digest(key) else key
         val paddedKey = ByteArray(blockLength)
         shortKey.copyInto(paddedKey, 0, 0, minOf(shortKey.size, blockLength))
@@ -48,17 +55,19 @@ public class HasherHmac : Mac {
 
         inner = newHasher()
         outer = newHasher()
+        this.outputLength = outputLength?.takeIf { it < outer.digestLength }
         reset()
     }
 
     /**
      * For [copy], sharing the padded keys, which never change
      */
-    private constructor(inner: Hasher, outer: Hasher, kipad: ByteArray, kopad: ByteArray) {
+    private constructor(inner: Hasher, outer: Hasher, kipad: ByteArray, kopad: ByteArray, outputLength: Int?) {
         this.inner = inner
         this.outer = outer
         this.kipad = kipad
         this.kopad = kopad
+        this.outputLength = outputLength
     }
 
     override fun update(input: Byte): Mac = apply { inner.update(input) }
@@ -71,7 +80,7 @@ public class HasherHmac : Mac {
         // The outer hasher is always fresh here, as digest() resets it
         val result = outer.update(kopad).update(inner.digest()).digest()
         reset()
-        return result
+        return if (outputLength == null) result else result.copyOf(outputLength)
     }
 
     override fun digest(input: ByteArray): ByteArray {
@@ -91,14 +100,14 @@ public class HasherHmac : Mac {
     }
 
     override val digestLength: Int
-        get() = outer.digestLength
+        get() = outputLength ?: outer.digestLength
 
     override fun reset() {
         inner.reset()
         inner.update(kipad)
     }
 
-    override fun copy(): Mac = HasherHmac(inner.copy(), outer.copy(), kipad, kopad)
+    override fun copy(): Mac = HasherHmac(inner.copy(), outer.copy(), kipad, kopad, outputLength)
 
     override fun toString(): String = "HMAC/$outer"
 

@@ -23,7 +23,12 @@ package com.appmattus.crypto
 public interface HmacAlgorithm : HashAlgorithm {
 
     /**
-     * Create a new [Mac] computing the HMAC of input with this algorithm and [key]
+     * Create a new [Mac] computing the HMAC of input with this algorithm and [key].
+     *
+     * With an [outputLength], the MAC is truncated to its first [outputLength] bytes, as RFC 2104 allows. An
+     * [outputLength] longer than the hash's output gives the whole MAC.
+     *
+     * @throws IllegalArgumentException if [outputLength] isn't positive
      */
-    public fun newHmac(key: ByteArray): Mac
+    public fun newHmac(key: ByteArray, outputLength: Int? = null): Mac
 }

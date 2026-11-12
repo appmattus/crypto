@@ -54,16 +54,17 @@ public fun testMacKat(mac: () -> Mac, data: ByteArray, ref: String, inBackground
 }
 
 /**
- * Port of cryptohash's sphlib `testHmac`: checks the HMAC of [input] under the hex [key] is [output]
+ * Port of cryptohash's sphlib `testHmac`: checks the HMAC of [input] under the hex [key], truncated to [outputLength]
+ * bytes if given, is [output]
  */
-public fun testHmac(algorithm: HmacAlgorithm, key: String, input: String, output: String) {
-    testHmac(algorithm, strtobin(key), input.encodeToByteArray(), output)
+public fun testHmac(algorithm: HmacAlgorithm, key: String, input: String, output: String, outputLength: Int? = null) {
+    testHmac(algorithm, strtobin(key), input.encodeToByteArray(), output, outputLength)
 }
 
-public fun testHmac(algorithm: HmacAlgorithm, key: String, input: ByteArray, output: String) {
-    testHmac(algorithm, strtobin(key), input, output)
+public fun testHmac(algorithm: HmacAlgorithm, key: String, input: ByteArray, output: String, outputLength: Int? = null) {
+    testHmac(algorithm, strtobin(key), input, output, outputLength)
 }
 
-public fun testHmac(algorithm: HmacAlgorithm, key: ByteArray, input: ByteArray, output: String) {
-    testMacKat({ algorithm.newHmac(key) }, input, output)
+public fun testHmac(algorithm: HmacAlgorithm, key: ByteArray, input: ByteArray, output: String, outputLength: Int? = null) {
+    testMacKat({ algorithm.newHmac(key, outputLength) }, input, output)
 }

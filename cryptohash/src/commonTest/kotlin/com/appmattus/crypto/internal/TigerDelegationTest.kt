@@ -50,8 +50,11 @@ class TigerDelegationTest {
         val longKey = ByteArray(100) { it.toByte() }
         assertContentEquals(Tiger.tiger.newHmac(longKey).digest(input), Algorithm.Tiger.hmac(longKey, input))
 
-        // cryptohash's HMAC can still truncate its output
-        assertContentEquals(Tiger.tiger.newHmac(longKey).digest(input).copyOf(10), Algorithm.Tiger.hmac(longKey, input, outputLength = 10))
+        // Both truncate the same way
+        assertContentEquals(
+            Tiger.tiger.newHmac(longKey, outputLength = 10).digest(input),
+            Algorithm.Tiger.hmac(longKey, input, outputLength = 10)
+        )
         assertContentEquals(strtobin("1d7a658c75f8f004916e"), Algorithm.Tiger.hmac(ByteArray(20) { 0x0b }, "Hi There", outputLength = 10))
     }
 
