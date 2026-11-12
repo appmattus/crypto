@@ -19,6 +19,7 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.internal.core.CRC32
@@ -63,7 +64,6 @@ import com.appmattus.crypto.internal.core.farm.FarmHash128
 import com.appmattus.crypto.internal.core.farm.FarmHash32
 import com.appmattus.crypto.internal.core.farm.FarmHash64
 import com.appmattus.crypto.internal.core.google.HighwayHash
-import com.appmattus.crypto.internal.core.komihash.Komihash
 import com.appmattus.crypto.internal.core.metro.MetroHash128
 import com.appmattus.crypto.internal.core.metro.MetroHash64
 import com.appmattus.crypto.internal.core.murmur.MurmurHash1
@@ -281,7 +281,7 @@ internal object CoreDigest {
             is Algorithm.KMAC128 -> KMAC(128, algorithm.key, algorithm.customisation, algorithm.outputSizeBits / 8)
             is Algorithm.KMAC256 -> KMAC(256, algorithm.key, algorithm.customisation, algorithm.outputSizeBits / 8)
 
-            is Algorithm.Komihash -> Komihash(algorithm.seed)
+            is Algorithm.Komihash -> Komihash.komihash(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Kupyna_256 -> Kupyna(256)
             is Algorithm.Kupyna_384 -> Kupyna(384)
