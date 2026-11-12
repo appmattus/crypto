@@ -137,3 +137,62 @@ public inline fun copyBytes(src: ByteArray, srcOffset: Int, dest: ByteArray, des
 /** The longest copy [copyBytes] does with a plain loop */
 @InternalCryptohash
 public const val SMALL_COPY_LIMIT: Int = 32
+
+/**
+ * Encode a 64-bit integer with little-endian convention.
+ *
+ * @param [value]   the integer to encode
+ * @param dst   the destination buffer
+ * @param off   the destination offset
+ */
+@InternalCryptohash
+public fun encodeLELong(value: Long, dst: ByteArray, off: Int) {
+    dst[off + 0] = value.toByte()
+    dst[off + 1] = (value.toInt() ushr 8).toByte()
+    dst[off + 2] = (value.toInt() ushr 16).toByte()
+    dst[off + 3] = (value.toInt() ushr 24).toByte()
+    dst[off + 4] = (value ushr 32).toByte()
+    dst[off + 5] = (value ushr 40).toByte()
+    dst[off + 6] = (value ushr 48).toByte()
+    dst[off + 7] = (value ushr 56).toByte()
+}
+
+/**
+ * Decode a 64-bit big-endian word from the array [buf]
+ * at offset [off].
+ *
+ * @param buf   the source buffer
+ * @param off   the source offset
+ * @return the decoded value
+ */
+@InternalCryptohash
+public fun decodeBELong(buf: ByteArray, off: Int): Long {
+    return (buf[off].toLong() and 0xFF) shl 56 or
+            ((buf[off + 1].toLong() and 0xFF) shl 48) or
+            ((buf[off + 2].toLong() and 0xFF) shl 40) or
+            ((buf[off + 3].toLong() and 0xFF) shl 32) or
+            ((buf[off + 4].toLong() and 0xFF) shl 24) or
+            ((buf[off + 5].toLong() and 0xFF) shl 16) or
+            ((buf[off + 6].toLong() and 0xFF) shl 8) or
+            (buf[off + 7].toLong() and 0xFF)
+}
+
+@InternalCryptohash
+public fun UInt.reverseByteOrder(): UInt {
+    return this shl 24 and 0xff000000u or
+            (this shl 8 and 0x00ff0000u) or
+            (this shr 8 and 0x0000ff00u) or
+            (this shr 24 and 0x000000ffu)
+}
+
+@InternalCryptohash
+public fun ULong.reverseByteOrder(): ULong {
+    return ((this shl 56) and 0xff00000000000000UL) or
+            ((this shl 40) and 0x00ff000000000000UL) or
+            ((this shl 24) and 0x0000ff0000000000UL) or
+            ((this shl 8) and 0x000000ff00000000UL) or
+            ((this shr 8) and 0x00000000ff000000UL) or
+            ((this shr 24) and 0x0000000000ff0000UL) or
+            ((this shr 40) and 0x000000000000ff00UL) or
+            ((this shr 56) and 0x00000000000000ffUL)
+}

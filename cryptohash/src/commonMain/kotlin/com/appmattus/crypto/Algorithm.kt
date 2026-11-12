@@ -18,8 +18,8 @@ package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.blake3.Hasher
-import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
 import com.appmattus.crypto.internal.platformDigest
+import com.appmattus.crypto.internal.xxhash.xxh3.XXH3_SECRET_SIZE_MIN
 
 @Suppress("ClassName")
 public sealed class Algorithm(public val algorithmName: String, internal val blockLength: Int) {
