@@ -17,7 +17,6 @@
 package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.gost.Gost3411Hasher
-import com.appmattus.crypto.internal.gost.GostAlgorithm
 import com.appmattus.crypto.internal.gost.GostHmacAlgorithm
 
 /**

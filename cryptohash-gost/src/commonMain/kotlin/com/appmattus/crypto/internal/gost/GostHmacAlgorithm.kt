@@ -16,17 +16,10 @@
 
 package com.appmattus.crypto.internal.gost
 
-import com.appmattus.crypto.HashAlgorithm
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.HmacAlgorithm
 import com.appmattus.crypto.Mac
 import com.appmattus.crypto.internal.core.HasherHmac
-
-internal class GostAlgorithm(private val name: String, private val factory: () -> Hasher) : HashAlgorithm {
-    override fun newHasher(): Hasher = factory()
-
-    override fun toString(): String = name
-}
 
 internal class GostHmacAlgorithm(
     private val name: String,
