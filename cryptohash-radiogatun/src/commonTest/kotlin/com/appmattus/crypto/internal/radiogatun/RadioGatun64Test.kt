@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.radiogatun
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.Hasher
+import com.appmattus.crypto.RadioGatun
+import com.appmattus.crypto.internal.testKat
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class RadioGatun64CoreTest : RadioGatun64Test() {
-    override fun digest(): Digest = CoreDigest.create(Algorithm.RadioGatun64)
+    override fun digest(): Hasher = RadioGatun.radioGatun64.newHasher()
 
     @Test
     fun hasImplementation() {
@@ -36,7 +36,7 @@ class RadioGatun64CoreTest : RadioGatun64Test() {
  */
 abstract class RadioGatun64Test {
 
-    abstract fun digest(): Digest
+    abstract fun digest(): Hasher
 
     @Test
     fun quickBrownFox() {
