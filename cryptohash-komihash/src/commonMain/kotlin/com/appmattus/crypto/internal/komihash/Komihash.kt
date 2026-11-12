@@ -205,4 +205,3 @@ private const val IVAL7: ULong = 0xC0AC29B7C97C50DDu
 private const val IVAL8: ULong = 0x3F84D5B5B5470917u
 private const val VAL01: ULong = 0x5555555555555555u
 private const val VAL10: ULong = 0xAAAAAAAAAAAAAAAAu
-
