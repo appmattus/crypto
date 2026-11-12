@@ -66,10 +66,10 @@ public object CRC {
     public val crc64Xz: HashAlgorithm = Crc64XzAlgorithm
 
     /**
-     * CRC-64/WE, Linux's crc64_be as bcache uses it: the non-reflected CRC-64 with the ECMA-182 polynomial, initial
-     * value and final XOR of all ones
+     * CRC-64/WE, the non-reflected CRC-64 with the ECMA-182 polynomial, initial value and final XOR of all ones. This is
+     * Linux's crc64_be as bcache uses it; crc64_be with an initial value of 0 and no final XOR is [crc64Ecma182]
      */
-    public val crc64Be: HashAlgorithm = Crc64WeAlgorithm
+    public val crc64We: HashAlgorithm = Crc64WeAlgorithm
 
     /**
      * CRC-64/GO-ISO, the reflected CRC-64 with the ISO polynomial 0x1B used by Go's ISO table, with initial value and
@@ -84,10 +84,10 @@ public object CRC {
     public val crc64SwissProt: HashAlgorithm = Crc64SwissProtAlgorithm
 
     /**
-     * CRC-64/REDIS, Jones's reflected CRC-64 with polynomial 0xAD93D23594C935A9 used by Redis, with initial value 0
-     * and no final XOR
+     * CRC-64/REDIS, the reflected CRC-64 with Jones's polynomial 0xAD93D23594C935A9 used by Redis, also known as
+     * CRC-64-Jones, with initial value 0 and no final XOR
      */
-    public val crc64Jones: HashAlgorithm = Crc64RedisAlgorithm
+    public val crc64Redis: HashAlgorithm = Crc64RedisAlgorithm
 
     /**
      * CRC-64/NVME, the reflected CRC-64 with polynomial 0xAD93D23594C93659 of NVMe and Linux's crc64_nvme, also known
