@@ -37,11 +37,12 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.haval
 
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 import com.appmattus.crypto.internal.core.rotateLeft
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 /**
  * This class implements the HAVAL digest algorithm, which accepts 15
@@ -54,7 +55,7 @@ import com.appmattus.crypto.internal.core.rotateLeft
  * @param passes         number of passes (3, 4 or 5)
  */
 @Suppress("TooManyFunctions", "LargeClass")
-internal class HAVALCore(private val outputLength: Int, private val passes: Int) : DigestEngine<HAVALCore>() {
+internal class HavalHasher(private val outputLength: Int, private val passes: Int) : HasherEngine<HavalHasher>() {
 
     init {
         require(outputLength in listOf(128, 160, 192, 224, 256))
@@ -88,7 +89,7 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
      */
     private lateinit var inw: IntArray
 
-    override fun copyState(dest: HAVALCore): HAVALCore {
+    override fun copyState(dest: HavalHasher): HavalHasher {
         dest.s0 = s0
         dest.s1 = s1
         dest.s2 = s2
@@ -750,5 +751,5 @@ internal class HAVALCore(private val outputLength: Int, private val passes: Int)
     override val digestLength: Int
         get() = outputLength shr 3
 
-    override fun copy() = copyState(HAVALCore(outputLength, passes))
+    override fun copy() = copyState(HavalHasher(outputLength, passes))
 }

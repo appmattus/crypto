@@ -18,6 +18,7 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Hasher
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 /**
  * Port of cryptohash's sphlib `testKat` for [Hasher]: hashes [data] through every way of feeding a hasher and checks
@@ -74,6 +75,19 @@ public fun testKatMillionA(dig: () -> Hasher, ref: String) {
         val buf = ByteArray(1000) { 'a'.code.toByte() }
         repeat(1000) { digest.update(buf) }
         assertContentEquals(strtobin(ref), digest.digest())
+    }
+}
+
+/**
+ * Port of cryptohash's sphlib `testCollision`: checks the different hex messages [s1] and [s2] hash the same
+ */
+public fun testCollision(dig: () -> Hasher, s1: String, s2: String) {
+    executeInBackground {
+        val digest = dig()
+        val msg1 = strtobin(s1)
+        val msg2 = strtobin(s2)
+        assertFalse(msg1.contentEquals(msg2), "the messages must differ")
+        assertContentEquals(digest.digest(msg1), digest.digest(msg2))
     }
 }
 

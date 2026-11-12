@@ -20,6 +20,7 @@ import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.CRC
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Haval
 import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
@@ -88,7 +89,6 @@ import com.appmattus.crypto.internal.core.sphlib.Groestl224
 import com.appmattus.crypto.internal.core.sphlib.Groestl256
 import com.appmattus.crypto.internal.core.sphlib.Groestl384
 import com.appmattus.crypto.internal.core.sphlib.Groestl512
-import com.appmattus.crypto.internal.core.sphlib.HAVALCore
 import com.appmattus.crypto.internal.core.sphlib.Hamsi224
 import com.appmattus.crypto.internal.core.sphlib.Hamsi256
 import com.appmattus.crypto.internal.core.sphlib.Hamsi384
@@ -233,21 +233,21 @@ internal object CoreDigest {
             is Algorithm.Haraka256_256 -> Haraka256_256()
             is Algorithm.Haraka512_256 -> Haraka512_256()
 
-            is Algorithm.HAVAL_3_128 -> HAVALCore(128, 3)
-            is Algorithm.HAVAL_3_160 -> HAVALCore(160, 3)
-            is Algorithm.HAVAL_3_192 -> HAVALCore(192, 3)
-            is Algorithm.HAVAL_3_224 -> HAVALCore(224, 3)
-            is Algorithm.HAVAL_3_256 -> HAVALCore(256, 3)
-            is Algorithm.HAVAL_4_128 -> HAVALCore(128, 4)
-            is Algorithm.HAVAL_4_160 -> HAVALCore(160, 4)
-            is Algorithm.HAVAL_4_192 -> HAVALCore(192, 4)
-            is Algorithm.HAVAL_4_224 -> HAVALCore(224, 4)
-            is Algorithm.HAVAL_4_256 -> HAVALCore(256, 4)
-            is Algorithm.HAVAL_5_128 -> HAVALCore(128, 5)
-            is Algorithm.HAVAL_5_160 -> HAVALCore(160, 5)
-            is Algorithm.HAVAL_5_192 -> HAVALCore(192, 5)
-            is Algorithm.HAVAL_5_224 -> HAVALCore(224, 5)
-            is Algorithm.HAVAL_5_256 -> HAVALCore(256, 5)
+            is Algorithm.HAVAL_3_128 -> Haval.haval3_128.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_3_160 -> Haval.haval3_160.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_3_192 -> Haval.haval3_192.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_3_224 -> Haval.haval3_224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_3_256 -> Haval.haval3_256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_4_128 -> Haval.haval4_128.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_4_160 -> Haval.haval4_160.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_4_192 -> Haval.haval4_192.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_4_224 -> Haval.haval4_224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_4_256 -> Haval.haval4_256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_5_128 -> Haval.haval5_128.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_5_160 -> Haval.haval5_160.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_5_192 -> Haval.haval5_192.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_5_224 -> Haval.haval5_224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HAVAL_5_256 -> Haval.haval5_256.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.HighwayHash64 -> HighwayHash(algorithm.key, 64)
             is Algorithm.HighwayHash128 -> HighwayHash(algorithm.key, 128)
