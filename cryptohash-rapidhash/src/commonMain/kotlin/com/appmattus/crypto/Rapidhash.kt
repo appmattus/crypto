@@ -28,6 +28,8 @@ public object Rapidhash {
     /**
      * rapidhash V3
      */
+    // Named after the algorithm, as every family's members are, though here that is also the family's name
+    @Suppress("MemberNameEqualsClassName")
     public fun rapidhash(seed: ULong = 0u): HashAlgorithm = RapidhashAlgorithm(seed, RapidhashVariant.Rapidhash)
 
     /**

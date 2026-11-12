@@ -24,19 +24,6 @@ import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.multiplyHigh
 
 /**
- * The [rapidhash](https://github.com/Nicoshev/rapidhash) V3 variants, which differ only in how many bytes they process
- * per round of their bulk loop
- *
- * @param lanes the number of independent 16-byte lanes in the bulk loop
- * @param tailSecrets the secret used for each 16-byte block that remains after the bulk loop
- */
-internal enum class RapidhashVariant(val algorithmName: String, val lanes: Int, val tailSecrets: IntArray) {
-    Rapidhash("rapidhash", 7, intArrayOf(2, 2, 1, 1, 2, 1)),
-    Micro("rapidhashMicro", 5, intArrayOf(2, 2, 1, 1)),
-    Nano("rapidhashNano", 3, intArrayOf(2, 2))
-}
-
-/**
  * A [Hasher] for rapidhash V3 or one of its variants, which can only hash its whole input at once
  */
 internal fun rapidhashHasher(seed: ULong, variant: RapidhashVariant): Hasher =
