@@ -19,6 +19,7 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.internal.core.CRC32
 import com.appmattus.crypto.internal.core.CRC32B
 import com.appmattus.crypto.internal.core.CRC32C
@@ -149,8 +150,6 @@ import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce128
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream128
-import com.appmattus.crypto.internal.core.wyhash.Wyhash
-import com.appmattus.crypto.internal.core.wyhash.Wyhash32
 import com.appmattus.crypto.internal.core.xxh3.XXH3_128
 import com.appmattus.crypto.internal.core.xxh3.XXH3_64
 
@@ -407,8 +406,9 @@ internal object CoreDigest {
             is Algorithm.Whirlpool0 -> Whirlpool0()
             is Algorithm.WhirlpoolT -> WhirlpoolT()
 
-            is Algorithm.Wyhash -> Wyhash(algorithm.seed, algorithm.secret, algorithm.extraProtection)
-            is Algorithm.Wyhash32 -> Wyhash32(algorithm.seed)
+            is Algorithm.Wyhash -> Wyhash.wyhash64(algorithm.seed, algorithm.secret, algorithm.extraProtection).newHasher()
+                .toDigest(algorithm.blockLength)
+            is Algorithm.Wyhash32 -> Wyhash.wyhash32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.XXHash32 -> XXHash32(algorithm.seed)
             is Algorithm.XXHash64 -> XXHash64(algorithm.seed)

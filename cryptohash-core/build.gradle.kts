@@ -21,3 +21,12 @@ plugins {
     id("cryptohash.kmp-library")
     id("cryptohash.publish")
 }
+
+kotlin {
+    sourceSets {
+        commonTest.dependencies {
+            // MultiplyHighTest checks multiplyHigh against UInt128 multiplication
+            implementation(libs.uint128)
+        }
+    }
+}

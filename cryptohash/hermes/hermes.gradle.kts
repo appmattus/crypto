@@ -74,8 +74,8 @@ val hermesBundle = layout.buildDirectory.file("hermes/test-bundle.js")
 val jsHermesBundle = tasks.register("jsHermesBundle") {
     description = "Joins the JS test executable's modules into one script for the Hermes CLI"
     dependsOn("jsTestTestDevelopmentExecutableCompileSync")
-    val shim = layout.projectDirectory.file("hermes/test-shim.js")
-    val runner = layout.projectDirectory.file("hermes/test-run.js")
+    val shim = rootProject.layout.projectDirectory.file("cryptohash/hermes/test-shim.js")
+    val runner = rootProject.layout.projectDirectory.file("cryptohash/hermes/test-run.js")
     inputs.dir(jsTestExecutableDir)
     inputs.files(shim, runner)
     outputs.file(hermesBundle)

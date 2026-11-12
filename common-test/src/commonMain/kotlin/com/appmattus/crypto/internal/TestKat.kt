@@ -60,6 +60,25 @@ public fun testKat(dig: () -> Hasher, data: String, ref: String, inBackground: B
     testKat(dig, data.encodeToByteArray(), ref, inBackground)
 }
 
+public fun testKatHex(dig: () -> Hasher, data: String, ref: String, inBackground: Boolean = true) {
+    testKat(dig, strtobin(data), ref, inBackground)
+}
+
+/**
+ * The bytes of the hex string [str]
+ */
+public fun strtobin(str: String): ByteArray {
+    val blen = str.length / 2
+    val buf = ByteArray(blen)
+    for (i in 0 until blen) {
+        val bs = str.substring(i * 2, i * 2 + 2)
+        buf[i] = bs.toInt(16).toByte()
+    }
+    return buf
+}
+
+public fun ULong.toHexString(): String = toString(16).padStart(16, '0')
+
 public fun ByteArray.toHexString(): String {
     return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
 }
