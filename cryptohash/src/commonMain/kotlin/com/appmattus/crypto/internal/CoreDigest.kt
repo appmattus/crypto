@@ -24,6 +24,7 @@ import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Wyhash
+import com.appmattus.crypto.XXHash
 import com.appmattus.crypto.internal.core.CRC32
 import com.appmattus.crypto.internal.core.CRC32B
 import com.appmattus.crypto.internal.core.CRC32C
@@ -39,8 +40,6 @@ import com.appmattus.crypto.internal.core.SHA512_256
 import com.appmattus.crypto.internal.core.SM3
 import com.appmattus.crypto.internal.core.SipHash
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
-import com.appmattus.crypto.internal.core.XXHash32
-import com.appmattus.crypto.internal.core.XXHash64
 import com.appmattus.crypto.internal.core.blake3.Blake3
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_256
@@ -142,8 +141,6 @@ import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce128
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream128
-import com.appmattus.crypto.internal.core.xxh3.XXH3_128
-import com.appmattus.crypto.internal.core.xxh3.XXH3_64
 
 internal object CoreDigest {
 
@@ -402,10 +399,18 @@ internal object CoreDigest {
                 .toDigest(algorithm.blockLength)
             is Algorithm.Wyhash32 -> Wyhash.wyhash32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.XXHash32 -> XXHash32(algorithm.seed)
-            is Algorithm.XXHash64 -> XXHash64(algorithm.seed)
-            is Algorithm.XXH3_64 -> XXH3_64(algorithm)
-            is Algorithm.XXH3_128 -> XXH3_128(algorithm)
+            is Algorithm.XXHash32 -> XXHash.xxh32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.XXHash64 -> XXHash.xxh64(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.XXH3_64 -> when (algorithm) {
+                is Algorithm.XXH3_64.Seeded -> XXHash.xxh3_64(algorithm.seed)
+                is Algorithm.XXH3_64.Secret -> XXHash.xxh3_64(algorithm.secret)
+                else -> XXHash.xxh3_64()
+            }.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.XXH3_128 -> when (algorithm) {
+                is Algorithm.XXH3_128.Seeded -> XXHash.xxh3_128(algorithm.seed)
+                is Algorithm.XXH3_128.Secret -> XXHash.xxh3_128(algorithm.secret)
+                else -> XXHash.xxh3_128()
+            }.newHasher().toDigest(algorithm.blockLength)
         }
     }
 }

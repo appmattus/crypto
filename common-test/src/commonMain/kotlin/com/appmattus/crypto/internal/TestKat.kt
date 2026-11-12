@@ -79,6 +79,8 @@ public fun strtobin(str: String): ByteArray {
 
 public fun ULong.toHexString(): String = toString(16).padStart(16, '0')
 
+public fun Long.toHexString(): String = toULong().toHexString()
+
 public fun ByteArray.toHexString(): String {
     return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
 }
