@@ -26,6 +26,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":cryptohash-core"))
             api(project(":cryptohash-adler"))
+            api(project(":cryptohash-wyhash"))
             implementation(libs.uint128)
         }
 

@@ -18,7 +18,6 @@ package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.core.blake3.Hasher
-import com.appmattus.crypto.internal.core.wyhash.Wyhash.Companion.wyp
 import com.appmattus.crypto.internal.core.xxh3.XXH3_SECRET_SIZE_MIN
 import com.appmattus.crypto.internal.platformDigest
 
@@ -1425,7 +1424,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      */
     public class Wyhash(
         internal val seed: ULong = 0u,
-        secret: List<ULong> = wyp,
+        secret: List<ULong> = com.appmattus.crypto.Wyhash.defaultSecret,
         internal val extraProtection: Boolean = false
     ) : Algorithm("wyhash-64", 48) {
         internal val secret: List<ULong> = secret.toList()
@@ -1440,8 +1439,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
             get() = listOf("seed" to seed, "secret" to secret, "extraProtection" to extraProtection)
 
         public companion object {
-            public fun makeSecret(seed: ULong): List<ULong> =
-                com.appmattus.crypto.internal.core.wyhash.Wyhash.makeSecret(seed)
+            public fun makeSecret(seed: ULong): List<ULong> = com.appmattus.crypto.Wyhash.makeSecret(seed)
         }
     }
 

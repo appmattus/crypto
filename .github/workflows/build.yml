@@ -48,11 +48,11 @@ jobs:
                     cp cryptohash/build/hermes/*/build/bin/hermes ~/hermes-cli/
 
             -   name: Hermes tests
-                run: ./gradlew :cryptohash:jsHermesTest -Phermes.path=$HOME/hermes-cli/hermes
+                run: ./gradlew :cryptohash:jsHermesTest :cryptohash-adler:jsHermesTest :cryptohash-wyhash:jsHermesTest -Phermes.path=$HOME/hermes-cli/hermes
 
             # React Native release builds ship optimised bytecode rather than source, so run the tests that way too
             -   name: Hermes bytecode tests
-                run: ./gradlew :cryptohash:jsHermesBytecodeTest -Phermes.path=$HOME/hermes-cli/hermes
+                run: ./gradlew :cryptohash:jsHermesBytecodeTest :cryptohash-adler:jsHermesBytecodeTest :cryptohash-wyhash:jsHermesBytecodeTest -Phermes.path=$HOME/hermes-cli/hermes
 
     # check and build each take the best part of an hour on macOS and share no outputs, so they run as parallel jobs
     check:

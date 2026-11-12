@@ -39,3 +39,5 @@ tasks.withType<Test>().configureEach {
         "--add-opens=java.base/java.util.zip=ALL-UNNAMED",
     )
 }
+
+apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))
