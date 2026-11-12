@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.panama
 
-import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 import com.appmattus.crypto.internal.core.rotateLeft
