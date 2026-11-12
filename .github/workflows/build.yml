@@ -48,15 +48,54 @@ jobs:
                     cp cryptohash/build/hermes/*/build/bin/hermes ~/hermes-cli/
 
             -   name: Hermes tests
-                run: ./gradlew :cryptohash:jsHermesTest :cryptohash-adler:jsHermesTest :cryptohash-wyhash:jsHermesTest :cryptohash-rapidhash:jsHermesTest :cryptohash-komihash:jsHermesTest :cryptohash-murmurhash:jsHermesTest -Phermes.path=$HOME/hermes-cli/hermes
+                run: ./gradlew :cryptohash:jsHermesTest :cryptohash-adler:jsHermesTest :cryptohash-wyhash:jsHermesTest :cryptohash-rapidhash:jsHermesTest :cryptohash-komihash:jsHermesTest :cryptohash-murmurhash:jsHermesTest :cryptohash-metrohash:jsHermesTest -Phermes.path=$HOME/hermes-cli/hermes
 
             # React Native release builds ship optimised bytecode rather than source, so run the tests that way too
             -   name: Hermes bytecode tests
-                run: ./gradlew :cryptohash:jsHermesBytecodeTest :cryptohash-adler:jsHermesBytecodeTest :cryptohash-wyhash:jsHermesBytecodeTest :cryptohash-rapidhash:jsHermesBytecodeTest :cryptohash-komihash:jsHermesBytecodeTest :cryptohash-murmurhash:jsHermesBytecodeTest -Phermes.path=$HOME/hermes-cli/hermes
+                run: ./gradlew :cryptohash:jsHermesBytecodeTest :cryptohash-adler:jsHermesBytecodeTest :cryptohash-wyhash:jsHermesBytecodeTest :cryptohash-rapidhash:jsHermesBytecodeTest :cryptohash-komihash:jsHermesBytecodeTest :cryptohash-murmurhash:jsHermesBytecodeTest :cryptohash-metrohash:jsHermesBytecodeTest -Phermes.path=$HOME/hermes-cli/hermes
 
-    # check and build each take the best part of an hour on macOS and share no outputs, so they run as parallel jobs
+    # The checks run as parallel jobs, one per group of targets, each on the cheapest runner that can run them. Only the
+    # Apple simulator tests need macOS. Gradle runs a task name in every module that has it, the samples included.
     check:
-        runs-on: macos-26
+        name: check (${{ matrix.name }})
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    -   name: detekt
+                        os: ubuntu-latest
+                        tasks: detekt
+
+                    -   name: jvm
+                        os: ubuntu-latest
+                        tasks: jvmTest
+
+                    # Node and browser tests, and the check that kotlin-js-store/yarn.lock is up to date
+                    -   name: js
+                        os: ubuntu-latest
+                        tasks: jsTest kotlinStoreYarnLock
+
+                    # wasmJs on Node and in the browser, wasmWasi on Node, and the check that the wasm yarn.lock is up to date
+                    -   name: wasm
+                        os: ubuntu-latest
+                        tasks: wasmJsTest wasmWasiTest kotlinWasmStoreYarnLock
+
+                    -   name: apple
+                        os: macos-26
+                        tasks: macosArm64Test iosSimulatorArm64Test iosX64Test watchosSimulatorArm64Test tvosSimulatorArm64Test
+
+                    # A macOS host skips the Linux tests, so check never ran them
+                    -   name: linux
+                        os: ubuntu-latest
+                        tasks: linuxX64Test
+
+                    # Android lint and unit tests of the samples
+                    -   name: android
+                        os: ubuntu-latest
+                        tasks: :samples:androidApp:check :samples:composeApp:check
+
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 75
         steps:
             -   uses: actions/checkout@v7
             -   uses: actions/setup-java@v6
@@ -75,13 +114,13 @@ jobs:
                     key: ${{ runner.os }}-konan
 
             -   name: Check
-                run: ./gradlew check
+                run: ./gradlew ${{ matrix.tasks }}
 
             -   name: Upload artifacts
                 if: failure()
                 uses: actions/upload-artifact@v7
                 with:
-                    name: hs_err_pid.log
+                    name: hs_err_pid-${{ matrix.name }}.log
                     path: 'hs_err_**.log'
 
     build:

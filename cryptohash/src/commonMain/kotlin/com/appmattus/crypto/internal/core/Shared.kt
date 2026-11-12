@@ -34,11 +34,6 @@ internal fun encodeLEInt(value: Int, buf: ByteArray, off: Int) {
     buf[off + 3] = (value ushr 24).toByte()
 }
 
-@Suppress("NOTHING_TO_INLINE")
-internal inline fun ByteArray.decodeLEShort(off: Int): Short {
-    return ((this[off + 1].toInt() and 0xFF shl 8) or (this[off].toInt() and 0xFF)).toShort()
-}
-
 /**
  * Encode a 64-bit integer with little-endian convention.
  *
