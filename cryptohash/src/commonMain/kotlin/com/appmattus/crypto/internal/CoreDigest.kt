@@ -18,6 +18,7 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.CRC
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.MetroHash
@@ -26,9 +27,6 @@ import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Tiger
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.XXHash
-import com.appmattus.crypto.internal.core.CRC32
-import com.appmattus.crypto.internal.core.CRC32B
-import com.appmattus.crypto.internal.core.CRC32C
 import com.appmattus.crypto.internal.core.Keccak288
 import com.appmattus.crypto.internal.core.RipeMD256
 import com.appmattus.crypto.internal.core.RipeMD320
@@ -188,9 +186,9 @@ internal object CoreDigest {
             is Algorithm.CityHashCrc128 -> CityHashCrc128(algorithm)
             is Algorithm.CityHashCrc256 -> CityHashCrc256()
 
-            is Algorithm.CRC32 -> CRC32()
-            is Algorithm.CRC32B -> CRC32B()
-            is Algorithm.CRC32C -> CRC32C()
+            is Algorithm.CRC32 -> CRC.crc32.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CRC32B -> CRC.crc32b.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CRC32C -> CRC.crc32c.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.cSHAKE128 -> {
                 CSHAKEDigest(128, algorithm.functionName, algorithm.customisation)

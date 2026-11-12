@@ -38,7 +38,7 @@ internal fun writeTruncatedDigest(digest: ByteArray, output: ByteArray, offset: 
 }
 
 /**
- * Writes [digest] into [output] as the other core digests, such as CRC32B and SHA-512/224, do: refusing to write a
+ * Writes [digest] into [output] as the other core digests, such as SHA-512/224, do: refusing to write a
  * partial digest.
  *
  * @return the number of bytes written

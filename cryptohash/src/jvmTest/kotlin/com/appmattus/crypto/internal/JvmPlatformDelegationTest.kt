@@ -17,9 +17,7 @@
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
-import kotlin.random.Random
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class JvmPlatformDelegationTest {
@@ -41,28 +39,7 @@ class JvmPlatformDelegationTest {
     }
 
     @Test
-    fun delegatesCrcToJavaUtilZip() {
-        assertIs<JvmCrc32>(Algorithm.CRC32B.createDigest())
-        assertIs<JvmCrc32>(Algorithm.CRC32C.createDigest())
-    }
-
-    @Test
     fun keepsCoreForOtherAlgorithms() {
-        assertIs<com.appmattus.crypto.internal.core.CRC32>(Algorithm.CRC32.createDigest())
         assertIs<com.appmattus.crypto.internal.core.sphlib.MD5>(Algorithm.MD5.createDigest())
-    }
-
-    @Test
-    fun combinerMatchesSingleChecksum() {
-        val random = Random(1)
-        val combiner = Crc32Combiner(0xedb88320.toInt())
-        repeat(200) {
-            val a = random.nextBytes(random.nextInt(0, 2000))
-            val b = random.nextBytes(random.nextInt(0, 2000))
-            val crcA = java.util.zip.CRC32().apply { update(a) }.value.toInt()
-            val crcB = java.util.zip.CRC32().apply { update(b) }.value.toInt()
-            val whole = java.util.zip.CRC32().apply { update(a + b) }.value.toInt()
-            assertEquals(whole, combiner.combine(crcA, crcB, b.size), "lengths ${a.size} and ${b.size}")
-        }
     }
 }

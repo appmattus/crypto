@@ -30,13 +30,7 @@ class ApplePlatformDelegationTest {
     }
 
     @Test
-    fun delegatesCrc32bToZlib() {
-        assertIs<ZlibCrc32B>(Algorithm.CRC32B.createDigest())
-    }
-
-    @Test
     fun keepsCoreForOtherAlgorithms() {
         assertIs<com.appmattus.crypto.internal.core.SHA512_224>(Algorithm.SHA_512_224.createDigest())
-        assertIs<com.appmattus.crypto.internal.core.CRC32C>(Algorithm.CRC32C.createDigest())
     }
 }
