@@ -27,6 +27,7 @@ internal sealed class XXH3Parameters {
     data class Seeded(val seed: Long) : XXH3Parameters()
 
     class Secret(secret: ByteArray) : XXH3Parameters() {
+        @Suppress("MemberNameEqualsClassName")
         val secret: ByteArray = secret.copyOf()
 
         init {

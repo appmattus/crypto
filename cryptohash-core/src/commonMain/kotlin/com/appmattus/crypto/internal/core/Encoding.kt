@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("TooManyFunctions")
+
 package com.appmattus.crypto.internal.core
 
 import com.appmattus.crypto.InternalCryptohash
