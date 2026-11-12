@@ -23,7 +23,7 @@ package com.appmattus.crypto.internal
  *
  * [hash] returns the 64-bit hash as 8 big-endian bytes.
  */
-internal fun smhasherVerification(hash: (input: ByteArray, seed: ULong) -> ByteArray): UInt {
+public fun smhasherVerification(hash: (input: ByteArray, seed: ULong) -> ByteArray): UInt {
     val key = ByteArray(256) { it.toByte() }
     val hashes = ByteArray(256 * 8)
     for (length in 0 until 256) {

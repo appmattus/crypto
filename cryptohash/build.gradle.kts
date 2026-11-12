@@ -27,6 +27,7 @@ kotlin {
             api(project(":cryptohash-core"))
             api(project(":cryptohash-adler"))
             api(project(":cryptohash-wyhash"))
+            api(project(":cryptohash-rapidhash"))
             implementation(libs.uint128)
         }
 

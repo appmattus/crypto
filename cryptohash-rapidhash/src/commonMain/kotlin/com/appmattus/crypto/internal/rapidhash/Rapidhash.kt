@@ -14,71 +14,33 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.rapidhash
+package com.appmattus.crypto.internal.rapidhash
 
+import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
-import com.appmattus.crypto.internal.core.NonIncrementalDigest
+import com.appmattus.crypto.internal.core.NonIncrementalHasher
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.multiplyHigh
 
 /**
- * [rapidhash](https://github.com/Nicoshev/rapidhash) V3 and its rapidhashMicro and rapidhashNano variants, which
- * differ only in how many bytes they process per round of their bulk loop
+ * A [Hasher] for rapidhash V3 or one of its variants, which can only hash its whole input at once
  */
-internal class Rapidhash(
-    private val seed: ULong,
-    private val variant: Variant
-) : NonIncrementalDigest<Rapidhash>() {
-
-    /**
-     * @param lanes the number of independent 16-byte lanes in the bulk loop
-     * @param tailSecrets the secret used for each 16-byte block that remains after the bulk loop
-     */
-    internal enum class Variant(val algorithmName: String, val lanes: Int, val tailSecrets: IntArray) {
-        Rapidhash("rapidhash", 7, intArrayOf(2, 2, 1, 1, 2, 1)),
-        Micro("rapidhashMicro", 5, intArrayOf(2, 2, 1, 1)),
-        Nano("rapidhashNano", 3, intArrayOf(2, 2))
+internal fun rapidhashHasher(seed: ULong, variant: RapidhashVariant): Hasher =
+    NonIncrementalHasher(variant.algorithmName, 8) { input ->
+        ByteArray(8).apply {
+            encodeBELong(rapidhash(input, input.size, seed, variant).toLong(), this, 0)
+        }
     }
-
-    private var hash: ULong = 0u
-
-    override val digestLength: Int
-        get() = 8
-
-    override val blockLength: Int
-        get() = variant.lanes * 16
-
-    override fun process(input: ByteBuffer) {
-        hash = rapidhash(input, input.size, seed, variant)
-    }
-
-    override fun result(): ByteArray {
-        val digest = ByteArray(digestLength)
-        encodeBELong(hash.toLong(), digest, 0)
-
-        return digest
-    }
-
-    override fun copy(): Rapidhash {
-        return copyState(
-            Rapidhash(seed, variant).apply {
-                hash = this@Rapidhash.hash
-            }
-        )
-    }
-
-    override fun toString(): String = variant.algorithmName
-}
 
 /**
  * The rapidhash of the first [len] bytes of [input]. Kotlin/JS has its own version working on Int pairs, as a Long
  * there allocates on every operation; the other platforms call [rapidhashLong].
  */
-internal expect fun rapidhash(input: ByteBuffer, len: Int, seed: ULong, variant: Rapidhash.Variant): ULong
+internal expect fun rapidhash(input: ByteBuffer, len: Int, seed: ULong, variant: RapidhashVariant): ULong
 
 @Suppress("CyclomaticComplexMethod")
-internal fun rapidhashLong(input: ByteBuffer, len: Int, hashSeed: ULong, variant: Rapidhash.Variant): ULong {
+internal fun rapidhashLong(input: ByteBuffer, len: Int, hashSeed: ULong, variant: RapidhashVariant): ULong {
     val secret = secrets
     var seed = hashSeed xor mix(hashSeed xor secret[2].toULong(), secret[1].toULong())
     var p = 0
@@ -135,7 +97,7 @@ internal fun rapidhashLong(input: ByteBuffer, len: Int, hashSeed: ULong, variant
 }
 
 // The bulk loop, processing bulkSize bytes per round while more than bulkSize bytes remain
-private fun bulk(input: ByteBuffer, len: Int, seed: ULong, secret: LongArray, variant: Rapidhash.Variant): ULong {
+private fun bulk(input: ByteBuffer, len: Int, seed: ULong, secret: LongArray, variant: RapidhashVariant): ULong {
     val laneCount = variant.lanes
     val bulkSize = laneCount * 16
     // A LongArray, as a List<ULong> would box every lane on every round

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core.rapidhash
+package com.appmattus.crypto.internal.rapidhash
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.carry
@@ -32,7 +32,7 @@ import com.appmattus.crypto.internal.core.readIntLE
 
 private val rapidhashJs = RapidhashJs()
 
-internal actual fun rapidhash(input: ByteBuffer, len: Int, seed: ULong, variant: Rapidhash.Variant): ULong =
+internal actual fun rapidhash(input: ByteBuffer, len: Int, seed: ULong, variant: RapidhashVariant): ULong =
     rapidhashJs.hash(input.bytes, len, seed.toLong(), variant)
 
 private class RapidhashJs {
@@ -71,7 +71,7 @@ private class RapidhashJs {
     private val laneL = IntArray(MAX_LANES)
 
     @Suppress("CyclomaticComplexMethod", "LongMethod", "MagicNumber")
-    fun hash(input: ByteArray, len: Int, seed: Long, variant: Rapidhash.Variant): ULong {
+    fun hash(input: ByteArray, len: Int, seed: Long, variant: RapidhashVariant): ULong {
         // seed ^= mix(seed ^ secret[2], secret[1])
         var seedH = (seed ushr 32).toInt()
         var seedL = seed.toInt()
