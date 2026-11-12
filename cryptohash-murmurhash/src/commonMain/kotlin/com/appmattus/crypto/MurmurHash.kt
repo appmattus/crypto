@@ -63,19 +63,19 @@ public object MurmurHash {
      * output size of 32 bits
      */
     public fun murmurHash3_x86_32(seed: UInt = 0u): HashAlgorithm =
-        MurmurHashAlgorithm(seed.toULong(), MurmurHashVariant.MurmurHash3X86_32)
+        MurmurHashAlgorithm(seed.toULong(), MurmurHashVariant.MurmurHash3X86x32)
 
     /**
      * [MurmurHash3](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp) for x86 platform with
      * output size of 128 bits
      */
     public fun murmurHash3_x86_128(seed: UInt = 0u): HashAlgorithm =
-        MurmurHashAlgorithm(seed.toULong(), MurmurHashVariant.MurmurHash3X86_128)
+        MurmurHashAlgorithm(seed.toULong(), MurmurHashVariant.MurmurHash3X86x128)
 
     /**
      * [MurmurHash3](https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp) for x64 platform with
      * output size of 128 bits
      */
     public fun murmurHash3_x64_128(seed: UInt = 0u): HashAlgorithm =
-        MurmurHashAlgorithm(seed.toULong(), MurmurHashVariant.MurmurHash3X64_128)
+        MurmurHashAlgorithm(seed.toULong(), MurmurHashVariant.MurmurHash3X64x128)
 }

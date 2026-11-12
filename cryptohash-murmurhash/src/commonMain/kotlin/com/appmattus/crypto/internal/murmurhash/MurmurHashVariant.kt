@@ -28,9 +28,9 @@ internal enum class MurmurHashVariant(val algorithmName: String, private val fac
     MurmurHash2A("MurmurHash2A", { MurmurHash2AHasher(it.toUInt()) }),
     MurmurHash64A("MurmurHash64A", { murmurHash64AHasher(it) }),
     MurmurHash64B("MurmurHash64B", { murmurHash64BHasher(it) }),
-    MurmurHash3X86_32("MurmurHash3-x86-32", { MurmurHash3_x86_32Hasher(it.toUInt()) }),
-    MurmurHash3X86_128("MurmurHash3-x86-128", { MurmurHash3_x86_128Hasher(it.toUInt()) }),
-    MurmurHash3X64_128("MurmurHash3-x64-128", { MurmurHash3_x64_128Hasher(it.toUInt()) });
+    MurmurHash3X86x32("MurmurHash3-x86-32", { MurmurHash3_x86_32Hasher(it.toUInt()) }),
+    MurmurHash3X86x128("MurmurHash3-x86-128", { MurmurHash3_x86_128Hasher(it.toUInt()) }),
+    MurmurHash3X64x128("MurmurHash3-x64-128", { MurmurHash3_x64_128Hasher(it.toUInt()) });
 
     fun newHasher(seed: ULong): Hasher = factory(seed)
 }
