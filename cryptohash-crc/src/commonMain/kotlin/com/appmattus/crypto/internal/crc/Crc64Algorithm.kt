@@ -29,11 +29,16 @@ private const val ECMA_182: Long = 0x42F0E1EBA9EA3693
 private const val ISO: Long = 0x1B
 private const val ONES: Long = -1L
 
-internal val Crc64Ecma182Algorithm = Crc64Algorithm(Crc64Parameters("CRC-64/ECMA-182", ECMA_182, init = 0, reflected = false, xorOut = 0))
-internal val Crc64XzAlgorithm = Crc64Algorithm(Crc64Parameters("CRC-64/XZ", ECMA_182, init = ONES, reflected = true, xorOut = ONES))
-internal val Crc64WeAlgorithm = Crc64Algorithm(Crc64Parameters("CRC-64/WE", ECMA_182, init = ONES, reflected = false, xorOut = ONES))
-internal val Crc64GoIsoAlgorithm = Crc64Algorithm(Crc64Parameters("CRC-64/GO-ISO", ISO, init = ONES, reflected = true, xorOut = ONES))
-internal val Crc64SwissProtAlgorithm = Crc64Algorithm(Crc64Parameters("CRC-64/SWISS-PROT", ISO, init = 0, reflected = true, xorOut = 0))
+internal val Crc64Ecma182Algorithm =
+    Crc64Algorithm(Crc64Parameters("CRC-64/ECMA-182", ECMA_182, init = 0, reflected = false, xorOut = 0))
+internal val Crc64XzAlgorithm =
+    Crc64Algorithm(Crc64Parameters("CRC-64/XZ", ECMA_182, init = ONES, reflected = true, xorOut = ONES))
+internal val Crc64WeAlgorithm =
+    Crc64Algorithm(Crc64Parameters("CRC-64/WE", ECMA_182, init = ONES, reflected = false, xorOut = ONES))
+internal val Crc64GoIsoAlgorithm =
+    Crc64Algorithm(Crc64Parameters("CRC-64/GO-ISO", ISO, init = ONES, reflected = true, xorOut = ONES))
+internal val Crc64SwissProtAlgorithm =
+    Crc64Algorithm(Crc64Parameters("CRC-64/SWISS-PROT", ISO, init = 0, reflected = true, xorOut = 0))
 internal val Crc64RedisAlgorithm =
     Crc64Algorithm(Crc64Parameters("CRC-64/REDIS", 0xAD93D23594C935A9uL.toLong(), init = 0, reflected = true, xorOut = 0))
 internal val Crc64NvmeAlgorithm =

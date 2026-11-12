@@ -145,16 +145,18 @@ class Crc64Test {
         val data = Random(0).nextBytes(MAX_LENGTH + MAX_OFFSET)
         for (algorithm in all) {
             for (offset in 0..MAX_OFFSET) {
-                for (length in 0..MAX_LENGTH) {
-                    val expected = algorithm.newHasher().apply { for (i in offset until offset + length) update(data[i]) }.digest()
-                    assertContentEquals(expected, algorithm.hash(data, offset, length), "$algorithm offset=$offset length=$length")
-
-                    val split = length / 3
-                    val chunked = algorithm.newHasher().update(data, offset, split).update(data, offset + split, length - split).digest()
-                    assertContentEquals(expected, chunked, "$algorithm offset=$offset length=$length split=$split")
-                }
+                for (length in 0..MAX_LENGTH) checkSlicing(algorithm, data, offset, length)
             }
         }
+    }
+
+    private fun checkSlicing(algorithm: HashAlgorithm, data: ByteArray, offset: Int, length: Int) {
+        val expected = algorithm.newHasher().apply { for (i in offset until offset + length) update(data[i]) }.digest()
+        assertContentEquals(expected, algorithm.hash(data, offset, length), "$algorithm offset=$offset length=$length")
+
+        val split = length / 3
+        val chunked = algorithm.newHasher().update(data, offset, split).update(data, offset + split, length - split).digest()
+        assertContentEquals(expected, chunked, "$algorithm offset=$offset length=$length split=$split")
     }
 
     private val all: List<HashAlgorithm> =
@@ -165,4 +167,3 @@ class Crc64Test {
         const val MAX_OFFSET = 7
     }
 }
-
