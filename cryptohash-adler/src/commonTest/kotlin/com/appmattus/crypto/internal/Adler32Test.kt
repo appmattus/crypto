@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,13 @@
 
 package com.appmattus.crypto.internal
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.Adler
+import com.appmattus.crypto.Hasher
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class Adler32CoreTest : Adler32Test() {
-    override fun digest(): Digest = CoreDigest.create(Algorithm.Adler32)
+    override fun digest(): Hasher = Adler.adler32.newHasher()
 
     @Test
     fun hasImplementation() {
@@ -36,7 +35,7 @@ class Adler32CoreTest : Adler32Test() {
  */
 abstract class Adler32Test {
 
-    abstract fun digest(): Digest
+    abstract fun digest(): Hasher
 
     /**
      * From https://github.com/froydnj/ironclad/blob/master/testing/test-vectors/adler32.testvec

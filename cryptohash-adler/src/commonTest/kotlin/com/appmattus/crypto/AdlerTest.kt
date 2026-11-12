@@ -50,34 +50,6 @@ class AdlerTest {
     }
 
     @Test
-    fun hasherMatchesTheReferenceVectorsHoweverTheInputArrives() {
-        vectors.forEach { (string, expected) ->
-            val input = string.encodeToByteArray()
-            val hasher = adler32.newHasher()
-
-            // update() then digest() on a fresh hasher
-            assertEquals(expected, hasher.update(input).digest().toHex(), "update then digest of \"$string\"")
-
-            // digest(input) twice, which checks digest() resets
-            assertEquals(expected, hasher.digest(input).toHex(), "first digest(input) of \"$string\"")
-            assertEquals(expected, hasher.digest(input).toHex(), "second digest(input) of \"$string\"")
-
-            // A byte at a time
-            input.forEach { hasher.update(it) }
-            assertEquals(expected, hasher.digest().toHex(), "byte at a time of \"$string\"")
-
-            // Copied half way through, with both the original and the copy finished
-            val half = input.size / 2
-            hasher.update(input, 0, half)
-            val copy = hasher.copy()
-            hasher.update(input, half, input.size - half)
-            copy.update(input, half, input.size - half)
-            assertEquals(expected, hasher.digest().toHex(), "original after copy of \"$string\"")
-            assertEquals(expected, copy.digest().toHex(), "copy of \"$string\"")
-        }
-    }
-
-    @Test
     fun digestsIntoAnOutputBuffer() {
         val output = ByteArray(6)
         val hasher = adler32.newHasher().update("abc".encodeToByteArray())

@@ -26,5 +26,20 @@ kotlin {
         commonMain.dependencies {
             api(project(":cryptohash-core"))
         }
+
+        jvmTest.dependencies {
+            implementation(libs.kotlinX.coroutinesCore)
+        }
+
+        appleTest.dependencies {
+            implementation(libs.kotlinX.coroutinesCore)
+        }
     }
+}
+
+// Adler32PlatformTest's java.util.zip.Adler32 wrapper reads the checksum's private field to copy it
+tasks.withType<Test>().configureEach {
+    jvmArgs(
+        "--add-opens=java.base/java.util.zip=ALL-UNNAMED",
+    )
 }

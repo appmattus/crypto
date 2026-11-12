@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,23 @@
 
 package com.appmattus.crypto.internal.core.jvm
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.Hasher
 
-internal class Adler32 : Digest {
+internal class Adler32 : Hasher {
 
     private var adler = java.util.zip.Adler32()
 
-    override fun update(input: Byte): Digest {
+    override fun update(input: Byte): Hasher {
         adler.update(input.toInt())
         return this
     }
 
-    override fun update(input: ByteArray): Digest {
+    override fun update(input: ByteArray): Hasher {
         adler.update(input)
         return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher {
         adler.update(input, offset, length)
         return this
     }
@@ -42,7 +40,11 @@ internal class Adler32 : Digest {
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        encodeBEInt(adler.value.toInt(), digest, 0)
+        val value = adler.value.toInt()
+        digest[0] = (value ushr 24).toByte()
+        digest[1] = (value ushr 16).toByte()
+        digest[2] = (value ushr 8).toByte()
+        digest[3] = value.toByte()
 
         reset()
 
@@ -100,10 +102,7 @@ internal class Adler32 : Digest {
         return digest
     }
 
-    override val blockLength: Int
-        get() = Algorithm.Adler32.blockLength
-
-    override fun toString() = Algorithm.Adler32.algorithmName
+    override fun toString() = "Adler32"
 
     companion object {
 
