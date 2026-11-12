@@ -17,6 +17,7 @@
 package com.appmattus.crypto.internal.adler32
 
 import com.appmattus.crypto.Hasher
+import com.appmattus.crypto.internal.core.encodeBEInt
 
 /**
  * Adler-32: two 16-bit sums modulo 65521, the first of the bytes plus one and the second of the running first sums,
@@ -66,10 +67,13 @@ internal class Adler32Hasher : Hasher {
 
     @Suppress("MagicNumber")
     override fun digest(): ByteArray {
-        val value = checksum
+        val digest = ByteArray(digestLength)
+
+        encodeBEInt(checksum, digest, 0)
+
         reset()
-        // Big-endian
-        return byteArrayOf((value ushr 24).toByte(), (value ushr 16).toByte(), (value ushr 8).toByte(), value.toByte())
+
+        return digest
     }
 
     override fun digest(input: ByteArray): ByteArray = update(input).digest()

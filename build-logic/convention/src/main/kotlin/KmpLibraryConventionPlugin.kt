@@ -99,6 +99,11 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
     }
 
     private fun KotlinMultiplatformExtension.configureSourceSets() {
+        // Every cryptohash module may use the declarations cryptohash-core shares with them
+        sourceSets.configureEach {
+            languageSettings.optIn("com.appmattus.crypto.InternalCryptohash")
+        }
+
         sourceSets.apply {
             val commonMain = getByName("commonMain")
             val commonTest = getByName("commonTest")

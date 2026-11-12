@@ -17,6 +17,7 @@
 package com.appmattus.crypto.internal.core.jvm
 
 import com.appmattus.crypto.Hasher
+import com.appmattus.crypto.internal.core.encodeBEInt
 
 internal class Adler32 : Hasher {
 
@@ -40,11 +41,7 @@ internal class Adler32 : Hasher {
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        val value = adler.value.toInt()
-        digest[0] = (value ushr 24).toByte()
-        digest[1] = (value ushr 16).toByte()
-        digest[2] = (value ushr 8).toByte()
-        digest[3] = value.toByte()
+        encodeBEInt(adler.value.toInt(), digest, 0)
 
         reset()
 
