@@ -23,6 +23,7 @@ import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
+import com.appmattus.crypto.Panama
 import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Tiger
 import com.appmattus.crypto.Wyhash
@@ -108,7 +109,6 @@ import com.appmattus.crypto.internal.core.sphlib.Luffa512
 import com.appmattus.crypto.internal.core.sphlib.MD2
 import com.appmattus.crypto.internal.core.sphlib.MD4
 import com.appmattus.crypto.internal.core.sphlib.MD5
-import com.appmattus.crypto.internal.core.sphlib.PANAMA
 import com.appmattus.crypto.internal.core.sphlib.RadioGatun32
 import com.appmattus.crypto.internal.core.sphlib.RadioGatun64
 import com.appmattus.crypto.internal.core.sphlib.RipeMD
@@ -299,7 +299,7 @@ internal object CoreDigest {
             is Algorithm.MurmurHash3_X86_128 -> MurmurHash.murmurHash3_x86_128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.MurmurHash3_X64_128 -> MurmurHash.murmurHash3_x64_128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.PANAMA -> PANAMA()
+            is Algorithm.PANAMA -> Panama.panama.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.ParallelHash128 -> {
                 ParallelHash(128, algorithm.blockSize, algorithm.customisation, algorithm.outputSizeBits / 8)
