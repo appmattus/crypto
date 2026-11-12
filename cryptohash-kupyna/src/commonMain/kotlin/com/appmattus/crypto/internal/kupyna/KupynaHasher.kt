@@ -1583,6 +1583,6 @@ internal class KupynaHasher : Hasher {
     }
 
     override fun toString(): String {
-        return "Kupyna-${digestLength ushr 3}"
+        return "Kupyna-${digestLength shl 3}"
     }
 }
