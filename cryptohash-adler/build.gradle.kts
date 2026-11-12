@@ -27,12 +27,8 @@ kotlin {
             api(project(":cryptohash-core"))
         }
 
-        jvmTest.dependencies {
-            implementation(libs.kotlinX.coroutinesCore)
-        }
-
-        appleTest.dependencies {
-            implementation(libs.kotlinX.coroutinesCore)
+        commonTest.dependencies {
+            implementation(project(":common-test"))
         }
     }
 }

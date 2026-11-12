@@ -29,13 +29,12 @@ kotlin {
             implementation(libs.uint128)
         }
 
-        jvmTest.dependencies {
-            implementation(libs.bouncyCastle)
-            implementation(libs.kotlinX.coroutinesCore)
+        commonTest.dependencies {
+            implementation(project(":common-test"))
         }
 
-        appleTest.dependencies {
-            implementation(libs.kotlinX.coroutinesCore)
+        jvmTest.dependencies {
+            implementation(libs.bouncyCastle)
         }
     }
 }
