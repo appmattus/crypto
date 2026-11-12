@@ -16,6 +16,7 @@
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Hasher
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 /**
@@ -62,6 +63,18 @@ public fun testKat(dig: () -> Hasher, data: String, ref: String, inBackground: B
 
 public fun testKatHex(dig: () -> Hasher, data: String, ref: String, inBackground: Boolean = true) {
     testKat(dig, strtobin(data), ref, inBackground)
+}
+
+/**
+ * Port of cryptohash's sphlib `testKatMillionA`: hashes a million 'a' characters, fed 1000 at a time
+ */
+public fun testKatMillionA(dig: () -> Hasher, ref: String) {
+    executeInBackground {
+        val digest = dig()
+        val buf = ByteArray(1000) { 'a'.code.toByte() }
+        repeat(1000) { digest.update(buf) }
+        assertContentEquals(strtobin(ref), digest.digest())
+    }
 }
 
 /**

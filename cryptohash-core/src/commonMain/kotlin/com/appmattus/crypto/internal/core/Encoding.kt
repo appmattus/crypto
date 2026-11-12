@@ -198,3 +198,20 @@ public fun ULong.reverseByteOrder(): ULong {
             ((this shr 40) and 0x000000000000ff00UL) or
             ((this shr 56) and 0x00000000000000ffUL)
 }
+
+/**
+ * Encode the 32-bit word [value] into the array
+ * [buf] at offset [off], in little-endian
+ * convention (least significant byte first).
+ *
+ * @param value   the value to encode
+ * @param buf   the destination buffer
+ * @param off   the destination offset
+ */
+@InternalCryptohash
+public fun encodeLEInt(value: Int, buf: ByteArray, off: Int) {
+    buf[off + 0] = value.toByte()
+    buf[off + 1] = (value ushr 8).toByte()
+    buf[off + 2] = (value ushr 16).toByte()
+    buf[off + 3] = (value ushr 24).toByte()
+}

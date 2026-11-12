@@ -18,22 +18,6 @@
 
 package com.appmattus.crypto.internal.core
 
-/**
- * Encode the 32-bit word [value] into the array
- * [buf] at offset [off], in little-endian
- * convention (least significant byte first).
- *
- * @param value   the value to encode
- * @param buf   the destination buffer
- * @param off   the destination offset
- */
-internal fun encodeLEInt(value: Int, buf: ByteArray, off: Int) {
-    buf[off + 0] = value.toByte()
-    buf[off + 1] = (value ushr 8).toByte()
-    buf[off + 2] = (value ushr 16).toByte()
-    buf[off + 3] = (value ushr 24).toByte()
-}
-
 internal fun ByteArray.toHexString(): String {
     return joinToString("") { (0xFF and it.toInt()).toString(16).padStart(2, '0') }
 }

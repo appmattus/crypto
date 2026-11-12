@@ -37,10 +37,11 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.tiger
 
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.sphlib.HasherMDHelper
 
 /**
  * This class implements Tiger and Tiger2, which differ only by the
@@ -51,9 +52,9 @@ import com.appmattus.crypto.internal.core.encodeLELong
  *
  * @param fbyte   the first padding byte
  */
-internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : MDHelper<D>(true, 8, fbyte) {
+internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : HasherMDHelper<D>(true, 8, fbyte) {
 
-    // The chaining values a, b and c, created in doInit, which the DigestEngine constructor calls before this class's
+    // The chaining values a, b and c, created in doInit, which the HasherEngine constructor calls before this class's
     // own initialisers run
     private lateinit var state: LongArray
 

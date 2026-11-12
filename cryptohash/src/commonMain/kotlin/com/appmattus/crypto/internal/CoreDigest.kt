@@ -23,6 +23,7 @@ import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Rapidhash
+import com.appmattus.crypto.Tiger
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.XXHash
 import com.appmattus.crypto.internal.core.CRC32
@@ -130,8 +131,6 @@ import com.appmattus.crypto.internal.core.sphlib.SIMD256
 import com.appmattus.crypto.internal.core.sphlib.SIMD384
 import com.appmattus.crypto.internal.core.sphlib.SIMD512
 import com.appmattus.crypto.internal.core.sphlib.ShabalGeneric
-import com.appmattus.crypto.internal.core.sphlib.Tiger
-import com.appmattus.crypto.internal.core.sphlib.Tiger2
 import com.appmattus.crypto.internal.core.sphlib.Whirlpool
 import com.appmattus.crypto.internal.core.sphlib.Whirlpool0
 import com.appmattus.crypto.internal.core.sphlib.WhirlpoolT
@@ -385,8 +384,8 @@ internal object CoreDigest {
             is Algorithm.T1ha2_Stream -> T1ha2_stream(algorithm.seedX, algorithm.seedY)
             is Algorithm.T1ha2_Stream128 -> T1ha2_stream128(algorithm.seedX, algorithm.seedY)
 
-            is Algorithm.Tiger -> Tiger()
-            is Algorithm.Tiger2 -> Tiger2()
+            is Algorithm.Tiger -> Tiger.tiger.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Tiger2 -> Tiger.tiger2.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.TupleHash128 -> TupleHash(128, algorithm.customisation, algorithm.outputSizeBits / 8)
             is Algorithm.TupleHash256 -> TupleHash(256, algorithm.customisation, algorithm.outputSizeBits / 8)

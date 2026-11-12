@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.tiger
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.testKatMillionA
+import com.appmattus.crypto.Hasher
+import com.appmattus.crypto.Tiger
+import com.appmattus.crypto.internal.testKat
+import com.appmattus.crypto.internal.testKatMillionA
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
-class TigerCoreTest : TigerTest() {
-    override fun digest(): Digest = CoreDigest.create(Algorithm.Tiger)
+class Tiger2CoreTest : Tiger2Test() {
+    override fun digest(): Hasher = Tiger.tiger2.newHasher()
 
     @Test
     fun hasImplementation() {
@@ -33,57 +33,57 @@ class TigerCoreTest : TigerTest() {
 }
 
 /**
- * Test Tiger implementation.
+ * Test Tiger2 implementation.
  */
-abstract class TigerTest {
+abstract class Tiger2Test {
 
-    abstract fun digest(): Digest
+    abstract fun digest(): Hasher
 
     @Test
-    fun testTiger() {
+    fun testTiger2() {
         testKat(
             { digest() },
             "",
-            "3293AC630C13F0245F92BBB1766E16167A4E58492DDE73F3"
+            "4441BE75F6018773C206C22745374B924AA8313FEF919F41"
         )
         testKat(
             { digest() },
             "a",
-            "77BEFBEF2E7EF8AB2EC8F93BF587A7FC613E247F5F247809"
+            "67E6AE8E9E968999F70A23E72AEAA9251CBC7C78A7916636"
         )
         testKat(
             { digest() },
             "abc",
-            "2AAB1484E8C158F2BFB8C5FF41B57A525129131C957B5F93"
+            "F68D7BC5AF4B43A06E048D7829560D4A9415658BB0B1F3BF"
         )
         testKat(
             { digest() },
             "message digest",
-            "D981F8CB78201A950DCF3048751E441C517FCA1AA55A29F6"
+            "E29419A1B5FA259DE8005E7DE75078EA81A542EF2552462D"
         )
         testKat(
             { digest() },
             "abcdefghijklmnopqrstuvwxyz",
-            "1714A472EEE57D30040412BFCC55032A0B11602FF37BEEE9"
+            "F5B6B6A78C405C8547E91CD8624CB8BE83FC804A474488FD"
         )
         testKat(
             { digest() },
             "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
-            "0F7BF9A19B9C58F2B7610DF7E84F0AC3A71C631E7B53F78E"
+            "A6737F3997E8FBB63D20D2DF88F86376B5FE2D5CE36646A9"
         )
         testKat(
             { digest() },
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-            "8DCEA680A17583EE502BA38A3C368651890FFBCCDC49A8CC"
+            "EA9AB6228CEE7B51B77544FCA6066C8CBB5BBAE6319505CD"
         )
         testKat(
             { digest() },
             "12345678901234567890123456789012345678901234567890123456789012345678901234567890",
-            "1C14795529FD9F207A958F84C52F11E887FA0CABDFD91BFD"
+            "D85278115329EBAA0EEC85ECDC5396FDA8AA3A5820942FFF"
         )
         testKatMillionA(
             { digest() },
-            "6DB0E2729CBEAD93D715C6A7D36302E9B3CEE0D2BC314B41"
+            "E068281F060F551628CC5715B9D0226796914D45F7717CF4"
         )
     }
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.tiger
 
 import com.appmattus.crypto.internal.core.carry
 import com.appmattus.crypto.internal.core.readIntLE
