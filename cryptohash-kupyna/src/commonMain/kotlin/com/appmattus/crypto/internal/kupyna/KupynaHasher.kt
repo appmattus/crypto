@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,12 +37,13 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.bouncycastle
+package com.appmattus.crypto.internal.kupyna
 
-import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeLEInt
 import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.rotateRight
 
 /**
  * Reference implementation of national ukrainian standard of hashing transformation DSTU7564.
@@ -50,7 +51,7 @@ import com.appmattus.crypto.internal.core.encodeLELong
  * https://github.com/Roman-Oliynykov/Kupyna-reference
  */
 @Suppress("TooManyFunctions", "LargeClass")
-internal class Kupyna : Digest {
+internal class KupynaHasher : Hasher {
     override var digestLength = 0
         private set
     private var byteLength = 0
@@ -65,11 +66,11 @@ internal class Kupyna : Digest {
     private var bufOff = 0
     private lateinit var buf: ByteArray
 
-    constructor(digest: Kupyna) {
+    constructor(digest: KupynaHasher) {
         copyIn(digest)
     }
 
-    private fun copyIn(digest: Kupyna) {
+    private fun copyIn(digest: KupynaHasher) {
         digestLength = digest.digestLength
         byteLength = digest.byteLength
         rounds = digest.rounds
@@ -108,7 +109,7 @@ internal class Kupyna : Digest {
         buf = ByteArray(byteLength)
     }
 
-    override fun update(input: Byte): Digest {
+    override fun update(input: Byte): Hasher {
         buf[bufOff++] = input
         if (bufOff == byteLength) {
             processBlock(buf, 0)
@@ -118,7 +119,7 @@ internal class Kupyna : Digest {
         return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher {
         var inOff = offset
         var len = length
         while (bufOff != 0 && len > 0) {
@@ -456,11 +457,11 @@ internal class Kupyna : Digest {
         }
     }
 
-    override fun copy(): Kupyna {
-        return Kupyna(this)
+    override fun copy(): KupynaHasher {
+        return KupynaHasher(this)
     }
 
-    fun reset(other: Kupyna) {
+    fun reset(other: KupynaHasher) {
         copyIn(other)
     }
 
@@ -1554,7 +1555,7 @@ internal class Kupyna : Digest {
         )
     }
 
-    override fun update(input: ByteArray): Digest {
+    override fun update(input: ByteArray): Hasher {
         update(input, 0, input.size)
         return this
     }
@@ -1580,9 +1581,6 @@ internal class Kupyna : Digest {
 
         return digest.size
     }
-
-    override val blockLength: Int
-        get() = byteLength
 
     override fun toString(): String {
         return "Kupyna-${digestLength ushr 3}"
