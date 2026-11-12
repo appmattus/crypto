@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core.bouncycastle
+package com.appmattus.crypto.internal.gost
 
-internal actual fun gost3411ProcessBlock(digest: GOST3411, input: ByteArray, inOff: Int) =
+internal actual fun gost3411ProcessBlock(digest: Gost3411Hasher, input: ByteArray, inOff: Int) =
     digest.processBlockBytes(input, inOff)

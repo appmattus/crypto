@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core.bouncycastle
+package com.appmattus.crypto.internal.gost
 
 import com.appmattus.crypto.internal.core.readIntLE
 
@@ -29,7 +29,7 @@ import com.appmattus.crypto.internal.core.readIntLE
 
 private val gost = GOST3411Js()
 
-internal actual fun gost3411ProcessBlock(digest: GOST3411, input: ByteArray, inOff: Int) =
+internal actual fun gost3411ProcessBlock(digest: Gost3411Hasher, input: ByteArray, inOff: Int) =
     gost.processBlock(digest, input, inOff)
 
 @Suppress("TooManyFunctions")
@@ -55,7 +55,7 @@ private class GOST3411Js {
 
     @Suppress("MagicNumber")
     private fun sBoxTable(k: Int): IntArray {
-        val s = GOST3411.sBox
+        val s = Gost3411Hasher.sBox
         return IntArray(256) {
             val v = (s[32 * k + (it and 0xf)].toInt() or (s[32 * k + 16 + (it ushr 4)].toInt() shl 4)) shl (8 * k)
             (v shl 11) or (v ushr 21)
@@ -63,7 +63,7 @@ private class GOST3411Js {
     }
 
     @Suppress("MagicNumber")
-    fun processBlock(digest: GOST3411, input: ByteArray, inOff: Int) {
+    fun processBlock(digest: Gost3411Hasher, input: ByteArray, inOff: Int) {
         val h = digest.h
         for (i in 0..7) {
             hw[i] = readIntLE(h, i shl 2)
