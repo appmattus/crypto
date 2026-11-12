@@ -48,11 +48,11 @@ jobs:
                     cp cryptohash/build/hermes/*/build/bin/hermes ~/hermes-cli/
 
             -   name: Hermes tests
-                run: ./gradlew :cryptohash:jsHermesTest :cryptohash-core:jsHermesTest :cryptohash-adler:jsHermesTest :cryptohash-wyhash:jsHermesTest :cryptohash-rapidhash:jsHermesTest :cryptohash-komihash:jsHermesTest :cryptohash-murmurhash:jsHermesTest :cryptohash-metrohash:jsHermesTest :cryptohash-xxhash:jsHermesTest :cryptohash-tiger:jsHermesTest :cryptohash-crc:jsHermesTest -Phermes.path=$HOME/hermes-cli/hermes
+                run: ./gradlew :cryptohash:jsHermesTest :cryptohash-core:jsHermesTest :cryptohash-adler:jsHermesTest :cryptohash-wyhash:jsHermesTest :cryptohash-rapidhash:jsHermesTest :cryptohash-komihash:jsHermesTest :cryptohash-murmurhash:jsHermesTest :cryptohash-metrohash:jsHermesTest :cryptohash-xxhash:jsHermesTest :cryptohash-tiger:jsHermesTest :cryptohash-crc:jsHermesTest :cryptohash-haraka:jsHermesTest -Phermes.path=$HOME/hermes-cli/hermes
 
             # React Native release builds ship optimised bytecode rather than source, so run the tests that way too
             -   name: Hermes bytecode tests
-                run: ./gradlew :cryptohash:jsHermesBytecodeTest :cryptohash-core:jsHermesBytecodeTest :cryptohash-adler:jsHermesBytecodeTest :cryptohash-wyhash:jsHermesBytecodeTest :cryptohash-rapidhash:jsHermesBytecodeTest :cryptohash-komihash:jsHermesBytecodeTest :cryptohash-murmurhash:jsHermesBytecodeTest :cryptohash-metrohash:jsHermesBytecodeTest :cryptohash-xxhash:jsHermesBytecodeTest :cryptohash-tiger:jsHermesBytecodeTest :cryptohash-crc:jsHermesBytecodeTest -Phermes.path=$HOME/hermes-cli/hermes
+                run: ./gradlew :cryptohash:jsHermesBytecodeTest :cryptohash-core:jsHermesBytecodeTest :cryptohash-adler:jsHermesBytecodeTest :cryptohash-wyhash:jsHermesBytecodeTest :cryptohash-rapidhash:jsHermesBytecodeTest :cryptohash-komihash:jsHermesBytecodeTest :cryptohash-murmurhash:jsHermesBytecodeTest :cryptohash-metrohash:jsHermesBytecodeTest :cryptohash-xxhash:jsHermesBytecodeTest :cryptohash-tiger:jsHermesBytecodeTest :cryptohash-crc:jsHermesBytecodeTest :cryptohash-haraka:jsHermesBytecodeTest -Phermes.path=$HOME/hermes-cli/hermes
 
     # The checks run as parallel jobs, one per group of targets, each on the cheapest runner that can run them. Only the
     # Apple simulator tests need macOS. Gradle runs a task name in every module that has it, the samples included.
