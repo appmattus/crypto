@@ -20,7 +20,7 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
 /**
- * Delegates SHA-1 and SHA-2 to CommonCrypto, and CRC32B to zlib, which are both part of every Apple OS.
+ * Delegates SHA-1 and SHA-2 to CommonCrypto, which is part of every Apple OS. cryptohash-crc uses zlib for CRC32B itself.
  */
 internal actual fun platformDigest(algorithm: Algorithm): Digest? = when (algorithm) {
     Algorithm.SHA_1,
@@ -28,8 +28,6 @@ internal actual fun platformDigest(algorithm: Algorithm): Digest? = when (algori
     Algorithm.SHA_256,
     Algorithm.SHA_384,
     Algorithm.SHA_512 -> CommonCryptoDigest.create(algorithm)
-
-    Algorithm.CRC32B -> ZlibCrc32B()
 
     else -> null
 }

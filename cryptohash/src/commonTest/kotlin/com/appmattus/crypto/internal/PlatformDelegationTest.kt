@@ -142,7 +142,7 @@ class PlatformDelegationTest {
         const val SHORT = 300
         const val LARGE = 100_000
 
-        // Every length up to a few blocks, either side of the JVM CRC threshold, and some longer ones
+        // Every length up to a few blocks, and some longer ones
         val lengths = (0..SHORT) + listOf(1000, 4095, 4096, 4097, 65_536)
 
         val delegated = listOf<Algorithm>(
@@ -152,9 +152,7 @@ class PlatformDelegationTest {
             Algorithm.SHA_384,
             Algorithm.SHA_512,
             Algorithm.SHA_512_224,
-            Algorithm.SHA_512_256,
-            Algorithm.CRC32B,
-            Algorithm.CRC32C
+            Algorithm.SHA_512_256
         )
     }
 }
@@ -187,12 +185,4 @@ class SHA512_224CreateDigestTest : SHA512_224Test() {
 
 class SHA512_256CreateDigestTest : SHA512_256Test() {
     override fun digest(): Digest = Algorithm.SHA_512_256.createDigest()
-}
-
-class CRC32BCreateDigestTest : CRC32BTest() {
-    override fun digest(): Digest = Algorithm.CRC32B.createDigest()
-}
-
-class CRC32CCreateDigestTest : CRC32CTest() {
-    override fun digest(): Digest = Algorithm.CRC32C.createDigest()
 }

@@ -20,8 +20,8 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 
 /**
- * Delegates to JVM `MessageDigest`, which uses CPU SHA instructions where available, and to `java.util.zip`, which
- * uses carry-less multiply instructions for CRCs. Algorithms the running JVM doesn't provide fall back to [CoreDigest].
+ * Delegates to JVM `MessageDigest`, which uses CPU SHA instructions where available. Algorithms the running JVM doesn't
+ * provide fall back to [CoreDigest]. cryptohash-crc uses `java.util.zip` for CRC32B and CRC32C itself.
  */
 internal actual fun platformDigest(algorithm: Algorithm): Digest? = when (algorithm) {
     Algorithm.SHA_1,
@@ -31,9 +31,6 @@ internal actual fun platformDigest(algorithm: Algorithm): Digest? = when (algori
     Algorithm.SHA_512,
     Algorithm.SHA_512_224,
     Algorithm.SHA_512_256 -> JvmMessageDigest.create(algorithm)
-
-    Algorithm.CRC32B -> JvmCrc32.crc32b()
-    Algorithm.CRC32C -> JvmCrc32.crc32c()
 
     else -> null
 }

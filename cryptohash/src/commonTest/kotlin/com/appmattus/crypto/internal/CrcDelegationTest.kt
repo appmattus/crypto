@@ -1,0 +1,58 @@
+/*
+ * Copyright 2026 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.appmattus.crypto.internal
+
+import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.CRC
+import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.internal.core.sphlib.toHexString
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+/**
+ * Algorithm.CRC32, CRC32B and CRC32C are implemented by cryptohash-crc, whose own tests cover the CRCs themselves,
+ * including its use of the platform's own implementations. This checks that cryptohash's
+ * [com.appmattus.crypto.Digest] view of them behaves the same, through both [Algorithm.createDigest] and
+ * [CoreDigest].
+ */
+class CrcDelegationTest {
+
+    private val input = ByteArray(10_000) { (it * 167 + 13).toByte() }
+
+    private val algorithms = listOf(
+        Triple(Algorithm.CRC32, CRC.crc32, "73bb8c64"),
+        Triple(Algorithm.CRC32B, CRC.crc32b, "352441c2"),
+        Triple(Algorithm.CRC32C, CRC.crc32c, "364b3fb7")
+    )
+
+    @Test
+    fun createsDigestsBackedByCryptohashCrc() = algorithms.forEach { (algorithm, crc, abc) ->
+        testKat({ algorithm.createDigest() }, "abc", abc)
+        testKat({ CoreDigest.create(algorithm) }, "abc", abc)
+        testKat({ algorithm.createDigest() }, input, crc.hash(input).toHexString())
+        testKat({ CoreDigest.create(algorithm) }, input, crc.hash(input).toHexString())
+    }
+
+    @Test
+    fun describesItselfAsTheAlgorithm() = algorithms.forEach { (algorithm, _, _) ->
+        val digest = algorithm.createDigest()
+        assertEquals(algorithm.blockLength, digest.blockLength)
+        assertEquals(4, digest.digestLength)
+        assertEquals(algorithm.algorithmName, digest.toString())
+        assertEquals(algorithm.algorithmName, digest.copy().toString())
+    }
+}

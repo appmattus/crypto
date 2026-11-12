@@ -1,0 +1,126 @@
+/*
+ * Copyright 2026 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.appmattus.crypto.internal.crc
+
+import com.appmattus.crypto.Hasher
+import com.appmattus.crypto.internal.core.AbstractHasher
+import com.appmattus.crypto.internal.core.encodeBEInt
+import java.util.zip.Checksum
+
+/**
+ * A reflected CRC-32 [Hasher] that hands long inputs to a `java.util.zip` [Checksum].
+ *
+ * A [Checksum] can't be seeded or copied, so each long update is checksummed on its own and joined to the running
+ * value with [Crc32Combiner]. That keeps [copy] cheap and avoids reflection. Short updates, where the call and the
+ * combine cost more than they save, use cryptohash's own slicing-by-8 tables.
+ */
+internal class JvmCrc32 private constructor(
+    private val name: String,
+    private val tables: Array<IntArray>,
+    private val combiner: Crc32Combiner,
+    private val newChecksum: () -> Checksum
+) : AbstractHasher() {
+
+    private var checksum = 0
+
+    private val platform: Checksum by lazy(LazyThreadSafetyMode.NONE) { newChecksum() }
+
+    override fun update(input: Byte): Hasher {
+        val c = checksum.inv()
+        checksum = (tables[0][(c xor input.toInt()) and 0xff] xor (c ushr 8)).inv()
+        return this
+    }
+
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher {
+        checksum = if (length < PLATFORM_THRESHOLD) {
+            updateReflectedCrc32(checksum.inv(), tables, input, offset, length).inv()
+        } else {
+            val platform = platform
+            platform.reset()
+            platform.update(input, offset, length)
+            combiner.combine(checksum, platform.value.toInt(), length)
+        }
+        return this
+    }
+
+    override fun digest(): ByteArray {
+        val digest = ByteArray(digestLength)
+
+        encodeBEInt(checksum, digest, 0)
+
+        reset()
+
+        return digest
+    }
+
+    override val digestLength: Int
+        get() = 4
+
+    override fun reset() {
+        checksum = 0
+    }
+
+    override fun copy(): JvmCrc32 = JvmCrc32(name, tables, combiner, newChecksum).also {
+        it.checksum = checksum
+    }
+
+    override fun toString() = name
+
+    companion object {
+        /**
+         * Updates at least this long go to `java.util.zip`
+         */
+        private const val PLATFORM_THRESHOLD = 64
+
+        private val crc32bCombiner by lazy { Crc32Combiner(CRC32B_POLYNOMIAL) }
+        private val crc32cCombiner by lazy { Crc32Combiner(CRC32C_POLYNOMIAL) }
+
+        /**
+         * `java.util.zip.CRC32C` arrived in Java 9 and Android API 26, so check it can be loaded
+         */
+        @Suppress("SwallowedException")
+        private val hasCrc32c: Boolean by lazy {
+            try {
+                Crc32cFactory.create()
+                true
+            } catch (e: LinkageError) {
+                false
+            }
+        }
+
+        fun crc32b(): JvmCrc32 = JvmCrc32("CRC32B", Crc32bHasher.crcTables, crc32bCombiner) { java.util.zip.CRC32() }
+
+        fun crc32c(): JvmCrc32? = if (hasCrc32c) {
+            JvmCrc32("CRC32C", Crc32cHasher.crcTables, crc32cCombiner, Crc32cFactory::create)
+        } else {
+            null
+        }
+    }
+}
+
+/**
+ * Kept apart so a JVM without `java.util.zip.CRC32C` only fails when this is loaded
+ */
+private object Crc32cFactory {
+    fun create(): Checksum = java.util.zip.CRC32C()
+}
+
+@Suppress("MagicNumber")
+private const val CRC32B_POLYNOMIAL = 0xedb88320.toInt()
+
+@Suppress("MagicNumber")
+private const val CRC32C_POLYNOMIAL = 0x82f63b78.toInt()
