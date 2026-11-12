@@ -63,7 +63,7 @@ class MurmurHash2Test {
             "fa97db50", "2f1985c8", "5d69782a", "0d6e4b85",
             "e7d9cf6b", "337e6b49", "e1606944", "ccc18ae8"
         ).forEachIndexed { index, expectedHash ->
-            testKat({ MurmurHash2(index.toUInt()) }, key, expectedHash)
+            testKat({ MurmurHash.murmurHash2(index.toUInt()).newHasher() }, key, expectedHash)
         }
     }
 
