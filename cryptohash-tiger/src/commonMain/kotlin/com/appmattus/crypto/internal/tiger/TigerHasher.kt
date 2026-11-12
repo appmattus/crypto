@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,26 +37,23 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.sphlib
-
-import com.appmattus.crypto.Digest
+package com.appmattus.crypto.internal.tiger
 
 /**
  *
- * This class implements the Tiger2 hash algorithm under the
- * [Digest] API. Tiger2 differs from Tiger by the padding,
- * which is identical to that of MD4/MD5 in Tiger2, but not in Tiger.
+ * This class implements the Tiger hash algorithm under the
+ * [com.appmattus.crypto.Hasher] API.
  *
  * @version $Revision: 214 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-internal class Tiger2 : TigerCore<Tiger2>(0x80.toByte()) {
+internal class TigerHasher : TigerCore<TigerHasher>(0x01.toByte()) {
 
-    override fun copy(): Tiger2 {
-        return copyState(Tiger2())
+    override fun copy(): TigerHasher {
+        return copyState(TigerHasher())
     }
 
     override fun toString(): String {
-        return "Tiger2"
+        return "Tiger"
     }
 }

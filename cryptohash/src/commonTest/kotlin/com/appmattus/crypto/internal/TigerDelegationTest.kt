@@ -1,0 +1,68 @@
+/*
+ * Copyright 2026 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.appmattus.crypto.internal
+
+import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Tiger
+import com.appmattus.crypto.internal.core.sphlib.strtobin
+import com.appmattus.crypto.internal.core.sphlib.testHmac
+import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.internal.core.sphlib.toHexString
+import kotlin.test.Test
+import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
+
+/**
+ * Algorithm.Tiger and Algorithm.Tiger2 are implemented by cryptohash-tiger, whose own tests cover Tiger itself. This
+ * checks that cryptohash's [com.appmattus.crypto.Digest] view of them behaves the same, including HMAC.
+ */
+class TigerDelegationTest {
+
+    private val input = ByteArray(200) { (it * 167 + 13).toByte() }
+
+    @Test
+    fun createsDigestsBackedByCryptohashTiger() {
+        testKat({ CoreDigest.create(Algorithm.Tiger) }, "abc", "2AAB1484E8C158F2BFB8C5FF41B57A525129131C957B5F93")
+        testKat({ CoreDigest.create(Algorithm.Tiger) }, input, Tiger.tiger.hash(input).toHexString())
+        testKat({ CoreDigest.create(Algorithm.Tiger2) }, input, Tiger.tiger2.hash(input).toHexString())
+    }
+
+    @Test
+    fun createsHmacsMatchingCryptohashTiger() {
+        // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/HMacTest.java
+        testHmac(Algorithm.Tiger, "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b", "Hi There", "1d7a658c75f8f004916e7b07e2a2e10aec7de2ae124d3647")
+
+        // Keys longer than the block are hashed first
+        val longKey = ByteArray(100) { it.toByte() }
+        assertContentEquals(Tiger.tiger.newHmac(longKey).digest(input), Algorithm.Tiger.hmac(longKey, input))
+
+        // cryptohash's HMAC can still truncate its output
+        assertContentEquals(Tiger.tiger.newHmac(longKey).digest(input).copyOf(10), Algorithm.Tiger.hmac(longKey, input, outputLength = 10))
+        assertContentEquals(strtobin("1d7a658c75f8f004916e"), Algorithm.Tiger.hmac(ByteArray(20) { 0x0b }, "Hi There", outputLength = 10))
+    }
+
+    @Test
+    fun describesItselfAsTheAlgorithm() {
+        listOf(Algorithm.Tiger, Algorithm.Tiger2).forEach { algorithm ->
+            val digest = algorithm.createDigest()
+            assertEquals(algorithm.blockLength, digest.blockLength)
+            assertEquals(24, digest.digestLength)
+            assertEquals(algorithm.algorithmName, digest.toString())
+            assertEquals(algorithm.algorithmName, digest.copy().toString())
+        }
+    }
+}

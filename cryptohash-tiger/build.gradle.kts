@@ -13,6 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core.sphlib
 
-internal actual fun tigerProcessBlock(state: LongArray, data: ByteArray) = tigerProcessBlockLong(state, data)
+// The Tiger family of hashes
+
+plugins {
+    id("cryptohash.kmp-library")
+    id("cryptohash.publish")
+}
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            api(project(":cryptohash-core"))
+        }
+
+        commonTest.dependencies {
+            implementation(project(":common-test"))
+        }
+
+        // TigerBcTest runs the Tiger tests against BouncyCastle's implementation too
+        jvmTest.dependencies {
+            implementation(libs.bouncyCastle)
+        }
+    }
+}
+
+apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))

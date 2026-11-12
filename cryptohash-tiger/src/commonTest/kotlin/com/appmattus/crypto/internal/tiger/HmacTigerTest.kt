@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.tiger
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.strtobin
-import com.appmattus.crypto.internal.core.sphlib.testHmac
+import com.appmattus.crypto.Tiger
+import com.appmattus.crypto.internal.strtobin
+import com.appmattus.crypto.internal.testHmac
 import kotlin.test.Test
 
 class HmacTigerTest {
@@ -28,7 +28,7 @@ class HmacTigerTest {
         // From https://github.com/xsc/pandect/blob/master/test/pandect/hmac_test.clj
 
         testHmac(
-            Algorithm.Tiger,
+            Tiger.tiger,
             "6b6579",
             "The quick brown fox jumps over the lazy dog",
             "fba544227e1471d8d47dd9d68c5008d554c6de6072ca2e2a"
@@ -37,7 +37,7 @@ class HmacTigerTest {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/HMacTest.java
 
         testHmac(
-            Algorithm.Tiger,
+            Tiger.tiger,
             "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
             "Hi There",
             "1d7a658c75f8f004916e7b07e2a2e10aec7de2ae124d3647"
@@ -184,7 +184,7 @@ class HmacTigerTest {
 
         expectedOutput.forEachIndexed { index, output ->
             testHmac(
-                Algorithm.Tiger,
+                Tiger.tiger,
                 key,
                 ByteArray(index) { it.toByte() },
                 output
