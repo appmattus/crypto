@@ -24,7 +24,7 @@ import com.appmattus.crypto.InternalCryptohash
 
 /** The high half of the last [mul64] result. JS is single-threaded, so one shared copy is safe. */
 @InternalCryptohash
-public var mul64High = 0
+public var mul64High: Int = 0
     private set
 
 /**

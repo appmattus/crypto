@@ -40,6 +40,7 @@ internal fun wyhash32(seed: UInt, input: ByteBuffer): UInt {
     var i = len
 
     var see1: UInt = len.toUInt()
+
     @Suppress("NAME_SHADOWING")
     var seed = seed
 

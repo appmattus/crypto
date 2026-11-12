@@ -37,11 +37,11 @@ public class ByteBuffer private constructor(bytes: ByteArray, size: Int) : Itera
     public constructor() : this(ByteArray(0), 0)
 
     /**
-     * The backing array. Internal only so the inline accessors can read it, as inline functions can't reach private
-     * members. Read it only through those accessors.
+     * The backing array, of which the first [size] bytes are the contents. Public only so the inline accessors, and
+     * hashes' JS fast paths in other modules, can read it, as inline functions can't reach private members. Never
+     * write to it.
      */
-    @PublishedApi
-    internal var bytes: ByteArray = bytes
+    public var bytes: ByteArray = bytes
         private set
 
     public var size: Int = size

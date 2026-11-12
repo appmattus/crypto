@@ -124,4 +124,4 @@ public inline fun copyBytes(src: ByteArray, srcOffset: Int, dest: ByteArray, des
 
 /** The longest copy [copyBytes] does with a plain loop */
 @InternalCryptohash
-public const val SMALL_COPY_LIMIT = 32
+public const val SMALL_COPY_LIMIT: Int = 32
