@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
-import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.MurmurHash
+import com.appmattus.crypto.internal.testKat
 import kotlin.test.Test
 
 class MurmurHash1Test {
 
-    private fun digest(seed: UInt = 0u) = MurmurHash1(seed)
+    private fun digest(seed: UInt = 0u) = MurmurHash.murmurHash1(seed).newHasher()
 
     @Test
     fun basic() {

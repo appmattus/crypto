@@ -20,6 +20,7 @@ import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Komihash
+import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.internal.core.CRC32
@@ -66,14 +67,6 @@ import com.appmattus.crypto.internal.core.farm.FarmHash64
 import com.appmattus.crypto.internal.core.google.HighwayHash
 import com.appmattus.crypto.internal.core.metro.MetroHash128
 import com.appmattus.crypto.internal.core.metro.MetroHash64
-import com.appmattus.crypto.internal.core.murmur.MurmurHash1
-import com.appmattus.crypto.internal.core.murmur.MurmurHash2
-import com.appmattus.crypto.internal.core.murmur.MurmurHash2A
-import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x64_128
-import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_128
-import com.appmattus.crypto.internal.core.murmur.MurmurHash3_x86_32
-import com.appmattus.crypto.internal.core.murmur.MurmurHash64A
-import com.appmattus.crypto.internal.core.murmur.MurmurHash64B
 import com.appmattus.crypto.internal.core.sphlib.BLAKE224
 import com.appmattus.crypto.internal.core.sphlib.BLAKE256
 import com.appmattus.crypto.internal.core.sphlib.BLAKE384
@@ -302,16 +295,16 @@ internal object CoreDigest {
             is Algorithm.MD4 -> MD4()
             is Algorithm.MD5 -> MD5()
 
-            is Algorithm.MurmurHash1 -> MurmurHash1(algorithm.seed)
-            is Algorithm.MurmurHash2 -> MurmurHash2(algorithm.seed)
-            is Algorithm.MurmurHash64A -> MurmurHash64A(algorithm.seed)
-            is Algorithm.MurmurHash64B -> MurmurHash64B(algorithm.seed)
+            is Algorithm.MurmurHash1 -> MurmurHash.murmurHash1(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MurmurHash2 -> MurmurHash.murmurHash2(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MurmurHash64A -> MurmurHash.murmurHash64A(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MurmurHash64B -> MurmurHash.murmurHash64B(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.MurmurHash2A -> MurmurHash2A(algorithm.seed)
+            is Algorithm.MurmurHash2A -> MurmurHash.murmurHash2A(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.MurmurHash3_X86_32 -> MurmurHash3_x86_32(algorithm.seed)
-            is Algorithm.MurmurHash3_X86_128 -> MurmurHash3_x86_128(algorithm.seed)
-            is Algorithm.MurmurHash3_X64_128 -> MurmurHash3_x64_128(algorithm.seed)
+            is Algorithm.MurmurHash3_X86_32 -> MurmurHash.murmurHash3_x86_32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MurmurHash3_X86_128 -> MurmurHash.murmurHash3_x86_128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MurmurHash3_X64_128 -> MurmurHash.murmurHash3_x64_128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.PANAMA -> PANAMA()
 

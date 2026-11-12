@@ -29,6 +29,7 @@ kotlin {
             api(project(":cryptohash-wyhash"))
             api(project(":cryptohash-rapidhash"))
             api(project(":cryptohash-komihash"))
+            api(project(":cryptohash-murmurhash"))
             implementation(libs.uint128)
         }
 

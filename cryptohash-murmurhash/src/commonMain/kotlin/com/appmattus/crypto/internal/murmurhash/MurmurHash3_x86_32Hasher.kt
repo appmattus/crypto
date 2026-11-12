@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeBEInt
 import com.appmattus.crypto.internal.core.rotateLeft
-import com.appmattus.crypto.internal.core.sphlib.DigestEngine
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 // Based on the public domain https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp
 @Suppress("ClassName")
-internal class MurmurHash3_x86_32(private val seed: UInt = 0u) : DigestEngine<MurmurHash3_x86_32>() {
+internal class MurmurHash3_x86_32Hasher(private val seed: UInt = 0u) : HasherEngine<MurmurHash3_x86_32Hasher>() {
 
     private var h1 = seed
 
     override val digestLength: Int
         get() = 4
 
-    override fun copy(): MurmurHash3_x86_32 {
-        val dest = MurmurHash3_x86_32(seed).apply {
-            h1 = this@MurmurHash3_x86_32.h1
+    override fun copy(): MurmurHash3_x86_32Hasher {
+        val dest = MurmurHash3_x86_32Hasher(seed).apply {
+            h1 = this@MurmurHash3_x86_32Hasher.h1
         }
         return copyState(dest)
     }
@@ -40,7 +40,7 @@ internal class MurmurHash3_x86_32(private val seed: UInt = 0u) : DigestEngine<Mu
     override val blockLength: Int
         get() = 4
 
-    override fun toString() = "MurmurHash3_x86_32"
+    override fun toString() = "MurmurHash3-x86-32"
 
     override fun engineReset() {
         h1 = seed

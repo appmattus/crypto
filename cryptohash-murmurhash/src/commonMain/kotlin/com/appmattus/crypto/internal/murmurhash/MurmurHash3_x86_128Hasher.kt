@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeBEInt
 import com.appmattus.crypto.internal.core.rotateLeft
-import com.appmattus.crypto.internal.core.sphlib.DigestEngine
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 // Based on the public domain https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp
 @Suppress("ClassName")
-internal class MurmurHash3_x86_128(private val seed: UInt = 0u) : DigestEngine<MurmurHash3_x86_128>() {
+internal class MurmurHash3_x86_128Hasher(private val seed: UInt = 0u) : HasherEngine<MurmurHash3_x86_128Hasher>() {
 
     private var h1 = seed
     private var h2 = seed
@@ -33,12 +33,12 @@ internal class MurmurHash3_x86_128(private val seed: UInt = 0u) : DigestEngine<M
     override val digestLength: Int
         get() = 16
 
-    override fun copy(): MurmurHash3_x86_128 {
-        val dest = MurmurHash3_x86_128(seed).apply {
-            h1 = this@MurmurHash3_x86_128.h1
-            h2 = this@MurmurHash3_x86_128.h2
-            h3 = this@MurmurHash3_x86_128.h3
-            h4 = this@MurmurHash3_x86_128.h4
+    override fun copy(): MurmurHash3_x86_128Hasher {
+        val dest = MurmurHash3_x86_128Hasher(seed).apply {
+            h1 = this@MurmurHash3_x86_128Hasher.h1
+            h2 = this@MurmurHash3_x86_128Hasher.h2
+            h3 = this@MurmurHash3_x86_128Hasher.h3
+            h4 = this@MurmurHash3_x86_128Hasher.h4
         }
         return copyState(dest)
     }
@@ -46,7 +46,7 @@ internal class MurmurHash3_x86_128(private val seed: UInt = 0u) : DigestEngine<M
     override val blockLength: Int
         get() = 16
 
-    override fun toString() = "MurmurHash3_x86_128"
+    override fun toString() = "MurmurHash3-x86-128"
 
     override fun engineReset() {
         h1 = seed

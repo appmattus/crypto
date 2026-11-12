@@ -15,6 +15,8 @@
  */
 package com.appmattus.crypto.internal.core
 
+import com.appmattus.crypto.InternalCryptohash
+
 /*
  * Inline replacements for the standard library's Int and UInt rotates.
  *
@@ -34,17 +36,21 @@ package com.appmattus.crypto.internal.core
  */
 
 /** Rotates left by [bitCount] bits, as [kotlin.rotateLeft] does, but expanded inline */
+@InternalCryptohash
 @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-internal inline fun Int.rotateLeft(bitCount: Int): Int = (this shl bitCount) or (this ushr (32 - bitCount))
+public inline fun Int.rotateLeft(bitCount: Int): Int = (this shl bitCount) or (this ushr (32 - bitCount))
 
 /** Rotates right by [bitCount] bits, as [kotlin.rotateRight] does, but expanded inline */
+@InternalCryptohash
 @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-internal inline fun Int.rotateRight(bitCount: Int): Int = (this ushr bitCount) or (this shl (32 - bitCount))
+public inline fun Int.rotateRight(bitCount: Int): Int = (this ushr bitCount) or (this shl (32 - bitCount))
 
 /** Rotates left by [bitCount] bits, as [kotlin.rotateLeft] does, but expanded inline */
+@InternalCryptohash
 @Suppress("NOTHING_TO_INLINE")
-internal inline fun UInt.rotateLeft(bitCount: Int): UInt = toInt().rotateLeft(bitCount).toUInt()
+public inline fun UInt.rotateLeft(bitCount: Int): UInt = toInt().rotateLeft(bitCount).toUInt()
 
 /** Rotates right by [bitCount] bits, as [kotlin.rotateRight] does, but expanded inline */
+@InternalCryptohash
 @Suppress("NOTHING_TO_INLINE")
-internal inline fun UInt.rotateRight(bitCount: Int): UInt = toInt().rotateRight(bitCount).toUInt()
+public inline fun UInt.rotateRight(bitCount: Int): UInt = toInt().rotateRight(bitCount).toUInt()

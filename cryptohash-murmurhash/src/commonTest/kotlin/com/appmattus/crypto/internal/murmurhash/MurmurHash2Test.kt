@@ -14,38 +14,39 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.murmur
+package com.appmattus.crypto.internal.murmurhash
 
-import com.appmattus.crypto.internal.core.sphlib.strtobin
-import com.appmattus.crypto.internal.core.sphlib.testKat
+import com.appmattus.crypto.MurmurHash
+import com.appmattus.crypto.internal.strtobin
+import com.appmattus.crypto.internal.testKat
 import kotlin.test.Test
 
 class MurmurHash2Test {
 
     @Test
     fun test() {
-        testKat({ MurmurHash2() }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit", "2019f73d")
+        testKat({ MurmurHash.murmurHash2().newHasher() }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit", "2019f73d")
 
         // From https://d3s.mff.cuni.cz/legacy/~holub/sw/javamurmurhash/MurmurHashTest.java
-        testKat({ MurmurHash2(0x9747b28cu) }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit", "b3bf597e")
-        testKat({ MurmurHash2(0x9747b28cu) }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit".substring(2, 54), "4d666d90")
+        testKat({ MurmurHash.murmurHash2(0x9747b28cu).newHasher() }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit", "b3bf597e")
+        testKat({ MurmurHash.murmurHash2(0x9747b28cu).newHasher() }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit".substring(2, 54), "4d666d90")
 
         // From https://github.com/flier/rust-fasthash/blob/master/fasthash/src/murmur2.rs
-        testKat({ MurmurHash2() }, "hello", "e56129cb")
-        testKat({ MurmurHash2(123u) }, "hello", "8e3731ee")
-        testKat({ MurmurHash2() }, "helloworld", "808118d2")
+        testKat({ MurmurHash.murmurHash2().newHasher() }, "hello", "e56129cb")
+        testKat({ MurmurHash.murmurHash2(123u).newHasher() }, "hello", "8e3731ee")
+        testKat({ MurmurHash.murmurHash2().newHasher() }, "helloworld", "808118d2")
 
         // From https://github.com/messense/murmurhash2-py/blob/master/tests/test_murmurhash2.py
-        testKat({ MurmurHash2(3242157231u) }, "", "D883A4E0")
-        testKat({ MurmurHash2(3242157231u) }, "a", "1B292F1D")
-        testKat({ MurmurHash2(3242157231u) }, "ab", "91EAEC4A")
-        testKat({ MurmurHash2(3242157231u) }, "abc", "7B292B52")
-        testKat({ MurmurHash2(3242157231u) }, "abcd", "9A4A761A")
-        testKat({ MurmurHash2(3242157231u) }, "abcde", "B223E56E")
-        testKat({ MurmurHash2(3242157231u) }, "abcdefghijklmnop", "8C1F6986")
+        testKat({ MurmurHash.murmurHash2(3242157231u).newHasher() }, "", "D883A4E0")
+        testKat({ MurmurHash.murmurHash2(3242157231u).newHasher() }, "a", "1B292F1D")
+        testKat({ MurmurHash.murmurHash2(3242157231u).newHasher() }, "ab", "91EAEC4A")
+        testKat({ MurmurHash.murmurHash2(3242157231u).newHasher() }, "abc", "7B292B52")
+        testKat({ MurmurHash.murmurHash2(3242157231u).newHasher() }, "abcd", "9A4A761A")
+        testKat({ MurmurHash.murmurHash2(3242157231u).newHasher() }, "abcde", "B223E56E")
+        testKat({ MurmurHash.murmurHash2(3242157231u).newHasher() }, "abcdefghijklmnop", "8C1F6986")
 
         // From https://www.rapidtables.com/convert/number/decimal-to-hex.html
-        testKat({ MurmurHash2(0x12345678u) }, "foo", "5B5A3201")
+        testKat({ MurmurHash.murmurHash2(0x12345678u).newHasher() }, "foo", "5B5A3201")
     }
 
     // From https://github.com/rlpark/rlpark/blob/master/rlpark.plugin.rltoys/jvsrctests/rlpark/plugin/rltoys/junit/algorithms/representations/tilescoding/hashing/MurmurHash2Test.java
@@ -62,7 +63,7 @@ class MurmurHash2Test {
             "fa97db50", "2f1985c8", "5d69782a", "0d6e4b85",
             "e7d9cf6b", "337e6b49", "e1606944", "ccc18ae8"
         ).forEachIndexed { index, expectedHash ->
-            testKat({ MurmurHash2(index.toUInt()) }, key, expectedHash)
+            testKat({ MurmurHash.murmurHash2(index.toUInt()).newHasher() }, key, expectedHash)
         }
     }
 
@@ -78,7 +79,7 @@ class MurmurHash2Test {
             // keep seed constant, generate a known key pattern
             val key = ByteArray(133)
             setKey(key, index)
-            testKat({ MurmurHash2(0x1234ABCDu) }, key, expectedHash)
+            testKat({ MurmurHash.murmurHash2(0x1234ABCDu).newHasher() }, key, expectedHash)
         }
     }
 
@@ -94,7 +95,7 @@ class MurmurHash2Test {
             // vary the key and the length
             val key = ByteArray(index)
             setKey(key, index)
-            testKat({ MurmurHash2(0x7870AAFFu) }, key, expectedHash)
+            testKat({ MurmurHash.murmurHash2(0x7870AAFFu).newHasher() }, key, expectedHash)
         }
     }
 
@@ -114,7 +115,7 @@ class MurmurHash2Test {
             "106e08d9"
         ).forEachIndexed { index, result ->
             testKat(
-                { MurmurHash2(0x9747b28cu) },
+                { MurmurHash.murmurHash2(0x9747b28cu).newHasher() },
                 input[index],
                 result
             )
@@ -132,7 +133,7 @@ class MurmurHash2Test {
             "fe776c70"
         ).forEachIndexed { index, result ->
             testKat(
-                { MurmurHash2(0x71b4954du) },
+                { MurmurHash.murmurHash2(0x71b4954du).newHasher() },
                 input[index],
                 result
             )
