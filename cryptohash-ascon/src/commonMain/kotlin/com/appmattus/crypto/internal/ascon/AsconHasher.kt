@@ -37,27 +37,27 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.bouncycastle.ascon
+package com.appmattus.crypto.internal.ascon
 
-import com.appmattus.crypto.Digest
-import com.appmattus.crypto.internal.core.AbstractDigest
+import com.appmattus.crypto.Hasher
+import com.appmattus.crypto.internal.core.AbstractHasher
 import com.appmattus.crypto.internal.core.copyBytes
 
 /**
  * Ascon-Hash256, Ascon-XOF128 and Ascon-CXOF128 from
  * [NIST SP 800-232](https://doi.org/10.6028/NIST.SP.800-232).
  */
-internal class Ascon private constructor(
+internal class AsconHasher private constructor(
     private val name: String,
     private val outputLength: Int,
     private val initialState: AsconState
-) : AbstractDigest() {
+) : AbstractHasher() {
 
     private val state = AsconState().apply { copyFrom(initialState) }
     private val buffer = ByteArray(RATE)
     private var bufferOffset = 0
 
-    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher {
         var off = offset
         var len = length
 
@@ -112,14 +112,11 @@ internal class Ascon private constructor(
         bufferOffset = 0
     }
 
-    override fun copy(): Ascon = Ascon(name, outputLength, initialState).also {
+    override fun copy(): AsconHasher = AsconHasher(name, outputLength, initialState).also {
         it.state.copyFrom(state)
         buffer.copyInto(it.buffer)
         it.bufferOffset = bufferOffset
     }
-
-    override val blockLength: Int
-        get() = RATE
 
     override fun toString(): String = name
 
@@ -134,15 +131,15 @@ internal class Ascon private constructor(
         private val xof128State = initialise(XOF128_IV)
         private val cxof128State = initialise(CXOF128_IV)
 
-        fun hash256() = Ascon("Ascon-Hash256", 32, hash256State)
+        fun hash256() = AsconHasher("Ascon-Hash256", 32, hash256State)
 
-        fun xof128(outputLength: Int) = Ascon("Ascon-XOF128", outputLength, xof128State)
+        fun xof128(outputLength: Int) = AsconHasher("Ascon-XOF128", outputLength, xof128State)
 
         /**
          * Ascon-CXOF128 absorbs the bit length of the customisation string followed by the padded customisation
          * string before the message.
          */
-        fun cxof128(customisation: ByteArray, outputLength: Int): Ascon {
+        fun cxof128(customisation: ByteArray, outputLength: Int): AsconHasher {
             val state = AsconState().apply { copyFrom(cxof128State) }
             state.xorWord0(customisation.size.toLong() * 8)
             state.permute()
@@ -154,7 +151,7 @@ internal class Ascon private constructor(
             }
             state.absorbFinal(customisation.copyOfRange(offset, customisation.size), customisation.size - offset)
 
-            return Ascon("Ascon-CXOF128", outputLength, state)
+            return AsconHasher("Ascon-CXOF128", outputLength, state)
         }
 
         private fun initialise(iv: Long) = AsconState().apply { initialise(iv) }

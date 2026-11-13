@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.ascon
 
-import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.Ascon
 import org.bouncycastle.crypto.digests.AsconCXof128
 import org.bouncycastle.crypto.digests.AsconHash256
 import org.bouncycastle.crypto.digests.AsconXof128
@@ -40,7 +40,7 @@ class AsconBcTest {
             digest.update(message, 0, message.size)
             val expected = ByteArray(32).also { digest.doFinal(it, 0) }
 
-            assertContentEquals(expected, Algorithm.AsconHash256.hash(message), "length ${message.size}")
+            assertContentEquals(expected, Ascon.hash256.hash(message), "length ${message.size}")
         }
     }
 
@@ -53,7 +53,7 @@ class AsconBcTest {
             digest.update(message, 0, message.size)
             val expected = ByteArray(outputSize).also { digest.doFinal(it, 0, outputSize) }
 
-            assertContentEquals(expected, Algorithm.AsconXof128(outputSize * 8).hash(message), "length ${message.size}")
+            assertContentEquals(expected, Ascon.xof128(outputSize * 8).hash(message), "length ${message.size}")
         }
     }
 
@@ -69,7 +69,7 @@ class AsconBcTest {
 
             assertContentEquals(
                 expected,
-                Algorithm.AsconCXof128(customisation, outputSize * 8).hash(message),
+                Ascon.cxof128(customisation, outputSize * 8).hash(message),
                 "length ${message.size} customisation ${customisation.size}"
             )
         }
