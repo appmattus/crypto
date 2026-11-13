@@ -35,6 +35,11 @@ kotlin {
             api(project(":cryptohash-tiger"))
             api(project(":cryptohash-crc"))
             api(project(":cryptohash-whirlpool"))
+            api(project(":cryptohash-gost"))
+            api(project(":cryptohash-kupyna"))
+            api(project(":cryptohash-streebog"))
+            api(project(":cryptohash-haval"))
+            api(project(":cryptohash-panama"))
             api(project(":cryptohash-radiogatun"))
             implementation(libs.uint128)
         }
