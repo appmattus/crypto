@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,28 +37,27 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.whirlpool
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hasher
 
 /**
  *
  * This class implements the Whirlpool digest algorithm under the
- * [Digest] API. This is the current (2003) variant of
+ * [Hasher] API. This is the current (2003) variant of
  * Whirlpool.
  *
  * @version $Revision: 214 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
 @Suppress("LargeClass")
-internal class Whirlpool : WhirlpoolCore<Whirlpool>(T0, T1, T2, T3, T4, T5, T6, T7, RC) {
+internal class WhirlpoolHasher : WhirlpoolCore<WhirlpoolHasher>(T0, T1, T2, T3, T4, T5, T6, T7, RC) {
 
-    override fun copy(): Whirlpool {
-        return copyState(Whirlpool())
+    override fun copy(): WhirlpoolHasher {
+        return copyState(WhirlpoolHasher())
     }
 
-    override fun toString() = Algorithm.Whirlpool.algorithmName
+    override fun toString() = "Whirlpool"
 
     companion object {
         private val T0 = longArrayOf(

@@ -26,6 +26,7 @@ import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Tiger
+import com.appmattus.crypto.Whirlpool
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.XXHash
 import com.appmattus.crypto.internal.core.Keccak288
@@ -128,9 +129,6 @@ import com.appmattus.crypto.internal.core.sphlib.SIMD256
 import com.appmattus.crypto.internal.core.sphlib.SIMD384
 import com.appmattus.crypto.internal.core.sphlib.SIMD512
 import com.appmattus.crypto.internal.core.sphlib.ShabalGeneric
-import com.appmattus.crypto.internal.core.sphlib.Whirlpool
-import com.appmattus.crypto.internal.core.sphlib.Whirlpool0
-import com.appmattus.crypto.internal.core.sphlib.WhirlpoolT
 import com.appmattus.crypto.internal.core.t1ha.T1ha0_32le
 import com.appmattus.crypto.internal.core.t1ha.T1ha1_le
 import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce
@@ -387,9 +385,9 @@ internal object CoreDigest {
             is Algorithm.TupleHash128 -> TupleHash(128, algorithm.customisation, algorithm.outputSizeBits / 8)
             is Algorithm.TupleHash256 -> TupleHash(256, algorithm.customisation, algorithm.outputSizeBits / 8)
 
-            is Algorithm.Whirlpool -> Whirlpool()
-            is Algorithm.Whirlpool0 -> Whirlpool0()
-            is Algorithm.WhirlpoolT -> WhirlpoolT()
+            is Algorithm.Whirlpool -> Whirlpool.whirlpool.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Whirlpool0 -> Whirlpool.whirlpool0.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.WhirlpoolT -> Whirlpool.whirlpoolT.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Wyhash -> Wyhash.wyhash64(algorithm.seed, algorithm.secret, algorithm.extraProtection).newHasher()
                 .toDigest(algorithm.blockLength)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.whirlpool
 
-import com.appmattus.crypto.Algorithm
+import com.appmattus.crypto.internal.MessageDigestHasher
 import org.bouncycastle.jcajce.provider.digest.Whirlpool
 
 internal class WhirlpoolBcTest : WhirlpoolTest() {
-    override fun digest() = MessageDigestPlatform(Algorithm.Whirlpool.algorithmName, Algorithm.Whirlpool.blockLength, Whirlpool.Digest())
+    override fun digest() = MessageDigestHasher(Whirlpool.Digest())
 }
