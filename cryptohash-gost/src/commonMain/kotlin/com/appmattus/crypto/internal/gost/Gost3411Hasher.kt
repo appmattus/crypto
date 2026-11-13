@@ -37,17 +37,16 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.bouncycastle
+package com.appmattus.crypto.internal.gost
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.core.encodeLELong
 
 /**
  * implementation of GOST R 34.11-94
  */
 @Suppress("TooManyFunctions")
-internal class GOST3411() : Digest {
+internal class Gost3411Hasher() : Hasher {
     // The chaining value, read and written by the block function
     internal val h = ByteArray(32)
 
@@ -68,7 +67,7 @@ internal class GOST3411() : Digest {
         reset()
     }
 
-    override fun update(input: Byte): Digest {
+    override fun update(input: Byte): Hasher {
         xBuf[xBufOff++] = input
         if (xBufOff == xBuf.size) {
             sumByteArray(xBuf) // calc sum M
@@ -79,7 +78,7 @@ internal class GOST3411() : Digest {
         return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher {
         var inOff = offset
         var len = length
         while (xBufOff != 0 && len > 0) {
@@ -302,7 +301,7 @@ internal class GOST3411() : Digest {
         )
     }
 
-    override fun update(input: ByteArray): Digest {
+    override fun update(input: ByteArray): Hasher {
         update(input, 0, input.size)
         return this
     }
@@ -333,24 +332,21 @@ internal class GOST3411() : Digest {
     override val digestLength: Int
         get() = 32
 
-    override val blockLength: Int
-        get() = Algorithm.GOST3411_94.blockLength
+    override fun toString() = "GOST3411"
 
-    override fun toString() = Algorithm.GOST3411_94.algorithmName
-
-    override fun copy(): GOST3411 {
-        return GOST3411(this)
+    override fun copy(): Gost3411Hasher {
+        return Gost3411Hasher(this)
     }
 
     /**
      * Copy constructor.  This will copy the state of the provided
      * message digest.
      */
-    private constructor(t: GOST3411) : this() {
+    private constructor(t: Gost3411Hasher) : this() {
         reset(t)
     }
 
-    fun reset(t: GOST3411) {
+    fun reset(t: Gost3411Hasher) {
         cipher.initWithSbox(sBox)
         reset()
         t.h.copyInto(h, 0, 0, t.h.size)
@@ -371,4 +367,4 @@ internal class GOST3411() : Digest {
  *
  * Kotlin/JS has its own implementation, working on 32-bit words, as copying and converting bytes is slow there.
  */
-internal expect fun gost3411ProcessBlock(digest: GOST3411, input: ByteArray, inOff: Int)
+internal expect fun gost3411ProcessBlock(digest: Gost3411Hasher, input: ByteArray, inOff: Int)
