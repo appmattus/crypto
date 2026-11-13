@@ -52,6 +52,7 @@ kotlin {
             api(project(":cryptohash-blake"))
             api(project(":cryptohash-blake2"))
             api(project(":cryptohash-blake3"))
+            api(project(":cryptohash-keccak"))
             api(project(":cryptohash-bmw"))
             api(project(":cryptohash-cubehash"))
             api(project(":cryptohash-echo"))
