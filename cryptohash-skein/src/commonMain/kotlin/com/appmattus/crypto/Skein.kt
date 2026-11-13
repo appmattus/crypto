@@ -113,7 +113,9 @@ public object Skein {
      */
     public fun skeinKeyed(blockSizeBits: Int, outputSizeBits: Int, key: ByteArray): HashAlgorithm {
         requireValidSizes(blockSizeBits, outputSizeBits)
-        require(key.isEmpty() || key.size >= MIN_KEY_SIZE) { "key must be empty or at least $MIN_KEY_SIZE bytes, was ${key.size}" }
+        require(key.isEmpty() || key.size >= MIN_KEY_SIZE) {
+            "key must be empty or at least $MIN_KEY_SIZE bytes, was ${key.size}"
+        }
         return SkeinAlgorithm(blockSizeBits, outputSizeBits, key.copyOf())
     }
 
