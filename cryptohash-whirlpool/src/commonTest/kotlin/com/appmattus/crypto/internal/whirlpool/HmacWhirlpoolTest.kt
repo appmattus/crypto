@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.whirlpool
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.strtobin
-import com.appmattus.crypto.internal.core.sphlib.testHmac
-import com.appmattus.crypto.internal.core.sphlib.testHmacHex
+import com.appmattus.crypto.Whirlpool
+import com.appmattus.crypto.internal.strtobin
+import com.appmattus.crypto.internal.testHmac
+import com.appmattus.crypto.internal.testHmacHex
 import kotlin.test.Test
 
 class HmacWhirlpoolTest {
@@ -29,35 +29,35 @@ class HmacWhirlpoolTest {
         // From https://github.com/crypto-browserify/hash-test-vectors/blob/master/hmac.json
 
         testHmac(
-            Algorithm.Whirlpool,
+            Whirlpool.whirlpool,
             "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
             "Hi There",
             "8a2c9b1ccf4b28660de78af9db15b7c94d129ec960ca9a950a665ea5e88362e24f4474354e18512d956d9bb7e6bbbb50b9ba0d3093b0a17c6ec2aa91e57169ce"
         )
 
         testHmacHex(
-            Algorithm.Whirlpool,
+            Whirlpool.whirlpool,
             "4a656665",
             "7768617420646f2079612077616e74207768617420646f2079612077616e7420",
             "2711355e35e73b3dc260c045aa3b1865231640f9373ed99eb4df267953498263ad06fd7ad57243cca7a5400c730b240c828bc4710b8f225516416e0723f9c1ae"
         )
 
         testHmacHex(
-            Algorithm.Whirlpool,
+            Whirlpool.whirlpool,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
             "ea252f252e230e3d1950cf44679e31d9de70d1dec6f41dbe38a12d76e2b54cffa2637f0408a48a0a387315ef1118055d373dc295bba3563276f846a0957fb823"
         )
 
         testHmacHex(
-            Algorithm.Whirlpool,
+            Whirlpool.whirlpool,
             "0102030405060708090a0b0c0d0e0f10111213141516171819",
             "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
             "35bc33e2ed71e1cb01c140ddd3291ae3f84e9f0dce18005a1123df199983a211fe744b244449a1c093b17584069359bc6a95352271d78e2ef7a6f21dc28ab3c1"
         )
 
         testHmac(
-            Algorithm.Whirlpool,
+            Whirlpool.whirlpool,
             "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
             "Test With Truncation",
             "0b65a88ca3f6709def0758b525729ee9",
@@ -66,7 +66,7 @@ class HmacWhirlpoolTest {
         )
 
         testHmac(
-            Algorithm.Whirlpool,
+            Whirlpool.whirlpool,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "This is a test using a larger than block-size key and a larger than block-size data. The key needs to be hashed before being used by the HMAC algorithm.",
             "1dec7ddb9e826b04c5c033a7e156415e830eb8fca4958c83ba1a1c1cac0c4f1c8a6bacf41b18a380f59b6832e4ccb571b7fd27e6e2688bcaf180e4adca24c228"
@@ -78,7 +78,7 @@ class HmacWhirlpoolTest {
         // From https://github.com/xsc/pandect/blob/master/test/pandect/hmac_test.clj
 
         testHmac(
-            Algorithm.Whirlpool,
+            Whirlpool.whirlpool,
             "6b6579",
             "The quick brown fox jumps over the lazy dog",
             "7f7192e3a155cb6a8171584ba146882f26821658112dfd2601272db013517a31e573637d146584596f86a884eb0decc9514dde000ecf2476dc5d436a92197527"
@@ -226,7 +226,7 @@ class HmacWhirlpoolTest {
 
         expectedOutput.forEachIndexed { index, output ->
             testHmac(
-                Algorithm.Whirlpool,
+                Whirlpool.whirlpool,
                 key,
                 ByteArray(index) { it.toByte() },
                 output
