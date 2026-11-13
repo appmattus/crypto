@@ -347,8 +347,16 @@ internal object CoreDigest {
             is Algorithm.SIMD384 -> SIMD384()
             is Algorithm.SIMD512 -> SIMD512()
 
-            is Algorithm.SipHash -> SipHash.sipHash(algorithm.key, algorithm.compressionRounds, algorithm.finalizationRounds).newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SipHash128 -> SipHash.sipHash128(algorithm.key, algorithm.compressionRounds, algorithm.finalizationRounds).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SipHash -> SipHash.sipHash(
+                algorithm.key,
+                algorithm.compressionRounds,
+                algorithm.finalizationRounds
+            ).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SipHash128 -> SipHash.sipHash128(
+                algorithm.key,
+                algorithm.compressionRounds,
+                algorithm.finalizationRounds
+            ).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Skein256_128 -> SkeinBouncycastleCore(256, 128)
             is Algorithm.Skein256_160 -> SkeinBouncycastleCore(256, 160)

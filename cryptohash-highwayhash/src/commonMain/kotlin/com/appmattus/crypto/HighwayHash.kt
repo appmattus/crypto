@@ -29,23 +29,23 @@ public object HighwayHash {
      *
      * @throws IllegalArgumentException if [key] isn't 4 longs
      */
-    public fun highwayHash64(key: LongArray): HashAlgorithm = highwayHash(key, outputBits = 64)
+    public fun highwayHash64(key: LongArray): HashAlgorithm = create(key, outputBits = 64)
 
     /**
      * HighwayHash, with output size of 128 bits, using a [key] of 4 longs. The key is copied.
      *
      * @throws IllegalArgumentException if [key] isn't 4 longs
      */
-    public fun highwayHash128(key: LongArray): HashAlgorithm = highwayHash(key, outputBits = 128)
+    public fun highwayHash128(key: LongArray): HashAlgorithm = create(key, outputBits = 128)
 
     /**
      * HighwayHash, with output size of 256 bits, using a [key] of 4 longs. The key is copied.
      *
      * @throws IllegalArgumentException if [key] isn't 4 longs
      */
-    public fun highwayHash256(key: LongArray): HashAlgorithm = highwayHash(key, outputBits = 256)
+    public fun highwayHash256(key: LongArray): HashAlgorithm = create(key, outputBits = 256)
 
-    private fun highwayHash(key: LongArray, outputBits: Int): HashAlgorithm {
+    private fun create(key: LongArray, outputBits: Int): HashAlgorithm {
         require(key.size == HIGHWAY_HASH_KEY_SIZE) { "key must be exactly $HIGHWAY_HASH_KEY_SIZE longs, was ${key.size}" }
         return HighwayHashAlgorithm(key, outputBits)
     }

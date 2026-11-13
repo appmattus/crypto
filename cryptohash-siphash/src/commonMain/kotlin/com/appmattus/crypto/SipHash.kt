@@ -33,7 +33,7 @@ public object SipHash {
     // Named after the algorithm, as every family's members are, though here that is also the family's name
     @Suppress("MemberNameEqualsClassName")
     public fun sipHash(key: ByteArray, compressionRounds: Int = 2, finalizationRounds: Int = 4): HashAlgorithm =
-        sipHash(key, compressionRounds, finalizationRounds, outputBits = 64)
+        create(key, compressionRounds, finalizationRounds, outputBits = 64)
 
     /**
      * SipHash128, with output size of 128 bits, using a 16 byte [key], [compressionRounds] compression rounds and
@@ -42,9 +42,9 @@ public object SipHash {
      * @throws IllegalArgumentException if [key] isn't 16 bytes, or either round count isn't positive
      */
     public fun sipHash128(key: ByteArray, compressionRounds: Int = 2, finalizationRounds: Int = 4): HashAlgorithm =
-        sipHash(key, compressionRounds, finalizationRounds, outputBits = 128)
+        create(key, compressionRounds, finalizationRounds, outputBits = 128)
 
-    private fun sipHash(key: ByteArray, compressionRounds: Int, finalizationRounds: Int, outputBits: Int): HashAlgorithm {
+    private fun create(key: ByteArray, compressionRounds: Int, finalizationRounds: Int, outputBits: Int): HashAlgorithm {
         require(key.size == SIPHASH_KEY_SIZE) { "key must be exactly $SIPHASH_KEY_SIZE bytes, was ${key.size}" }
         require(compressionRounds > 0) { "compressionRounds must be greater than 0, was $compressionRounds" }
         require(finalizationRounds > 0) { "finalizationRounds must be greater than 0, was $finalizationRounds" }
