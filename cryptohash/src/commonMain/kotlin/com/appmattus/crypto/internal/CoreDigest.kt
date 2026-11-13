@@ -20,7 +20,9 @@ import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.CRC
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Gost
 import com.appmattus.crypto.Komihash
+import com.appmattus.crypto.Kupyna
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Rapidhash
@@ -42,8 +44,6 @@ import com.appmattus.crypto.internal.core.SM3
 import com.appmattus.crypto.internal.core.SipHash
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
 import com.appmattus.crypto.internal.core.blake3.Blake3
-import com.appmattus.crypto.internal.core.bouncycastle.GOST3411
-import com.appmattus.crypto.internal.core.bouncycastle.Kupyna
 import com.appmattus.crypto.internal.core.bouncycastle.ascon.Ascon
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2b
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2s
@@ -213,7 +213,7 @@ internal object CoreDigest {
             is Algorithm.Fugue384 -> Fugue384()
             is Algorithm.Fugue512 -> Fugue512()
 
-            is Algorithm.GOST3411_94 -> GOST3411()
+            is Algorithm.GOST3411_94 -> Gost.gost3411_94.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.GOST3411_2012_256 -> Streebog.streebog256.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.GOST3411_2012_512 -> Streebog.streebog512.newHasher().toDigest(algorithm.blockLength)
 
@@ -266,9 +266,9 @@ internal object CoreDigest {
 
             is Algorithm.Komihash -> Komihash.komihash(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.Kupyna_256 -> Kupyna(256)
-            is Algorithm.Kupyna_384 -> Kupyna(384)
-            is Algorithm.Kupyna_512 -> Kupyna(512)
+            is Algorithm.Kupyna_256 -> Kupyna.kupyna256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Kupyna_384 -> Kupyna.kupyna384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Kupyna_512 -> Kupyna.kupyna512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.KT128 -> KangarooTwelve(128, algorithm.customisation, algorithm.outputSizeBits / 8)
             is Algorithm.KT256 -> KangarooTwelve(256, algorithm.customisation, algorithm.outputSizeBits / 8)
