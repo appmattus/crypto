@@ -41,7 +41,6 @@ package com.appmattus.crypto.internal.md
 
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
-
 /**
  *
  * This class implements the MD2 digest algorithm under the [ ] API, using the [HasherEngine] class. MD4 is described

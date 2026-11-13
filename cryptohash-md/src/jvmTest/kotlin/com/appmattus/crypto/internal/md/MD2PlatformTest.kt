@@ -15,9 +15,9 @@
  */
 package com.appmattus.crypto.internal.md
 
-import com.appmattus.crypto.MD
-
+import com.appmattus.crypto.internal.MessageDigestHasher
+import java.security.MessageDigest
 
 internal class MD2PlatformTest : MD2Test() {
-    override fun digest() = MessageDigestPlatform(MD.md2.algorithmName, MD.md2.blockLength)
+    override fun digest() = MessageDigestHasher(MessageDigest.getInstance("MD2"))
 }

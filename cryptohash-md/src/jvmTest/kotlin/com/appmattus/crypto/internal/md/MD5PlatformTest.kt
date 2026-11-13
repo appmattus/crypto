@@ -15,9 +15,9 @@
  */
 package com.appmattus.crypto.internal.md
 
-import com.appmattus.crypto.MD
-
+import com.appmattus.crypto.internal.MessageDigestHasher
+import java.security.MessageDigest
 
 internal class MD5PlatformTest : MD5Test() {
-    override fun digest() = MessageDigestPlatform(MD.md5.algorithmName, MD.md5.blockLength)
+    override fun digest() = MessageDigestHasher(MessageDigest.getInstance("MD5"))
 }
