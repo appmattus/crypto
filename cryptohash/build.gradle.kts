@@ -40,6 +40,7 @@ kotlin {
             api(project(":cryptohash-streebog"))
             api(project(":cryptohash-haval"))
             api(project(":cryptohash-panama"))
+            api(project(":cryptohash-radiogatun"))
             implementation(libs.uint128)
         }
 

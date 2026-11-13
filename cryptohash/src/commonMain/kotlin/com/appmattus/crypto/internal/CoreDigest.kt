@@ -27,6 +27,7 @@ import com.appmattus.crypto.Kupyna
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Panama
+import com.appmattus.crypto.RadioGatun
 import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.Streebog
 import com.appmattus.crypto.Tiger
@@ -109,8 +110,6 @@ import com.appmattus.crypto.internal.core.sphlib.Luffa512
 import com.appmattus.crypto.internal.core.sphlib.MD2
 import com.appmattus.crypto.internal.core.sphlib.MD4
 import com.appmattus.crypto.internal.core.sphlib.MD5
-import com.appmattus.crypto.internal.core.sphlib.RadioGatun32
-import com.appmattus.crypto.internal.core.sphlib.RadioGatun64
 import com.appmattus.crypto.internal.core.sphlib.RipeMD
 import com.appmattus.crypto.internal.core.sphlib.RipeMD128
 import com.appmattus.crypto.internal.core.sphlib.RipeMD160
@@ -305,8 +304,8 @@ internal object CoreDigest {
                 ParallelHash(256, algorithm.blockSize, algorithm.customisation, algorithm.outputSizeBits / 8)
             }
 
-            is Algorithm.RadioGatun32 -> RadioGatun32()
-            is Algorithm.RadioGatun64 -> RadioGatun64()
+            is Algorithm.RadioGatun32 -> RadioGatun.radioGatun32.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RadioGatun64 -> RadioGatun.radioGatun64.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Rapidhash -> Rapidhash.rapidhash(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.RapidhashMicro -> Rapidhash.rapidhashMicro(algorithm.seed).newHasher().toDigest(algorithm.blockLength)

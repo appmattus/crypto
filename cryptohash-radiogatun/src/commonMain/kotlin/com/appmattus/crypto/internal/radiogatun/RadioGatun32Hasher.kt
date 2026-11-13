@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,12 +37,11 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.radiogatun
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 /**
  *
@@ -52,12 +51,12 @@ import com.appmattus.crypto.internal.core.encodeLEInt
  * @version $Revision: 232 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
+internal class RadioGatun32Hasher : HasherEngine<RadioGatun32Hasher>() {
     private lateinit var a: IntArray
     private lateinit var b: IntArray
 
-    override fun copy(): RadioGatun32 {
-        val d = RadioGatun32()
+    override fun copy(): RadioGatun32Hasher {
+        val d = RadioGatun32Hasher()
         a.copyInto(d.a, 0, 0, a.size)
         b.copyInto(d.b, 0, 0, b.size)
         return copyState(d)
@@ -67,7 +66,7 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
         get() = 32
 
     override val blockLength: Int
-        get() = Algorithm.RadioGatun32.blockLength
+        get() = 156
 
     override fun engineReset() {
         for (i in a.indices) a[i] = 0
@@ -436,5 +435,5 @@ internal class RadioGatun32 : DigestEngine<RadioGatun32>() {
          */
     }
 
-    override fun toString() = Algorithm.RadioGatun32.algorithmName
+    override fun toString() = "RadioGatún[32]"
 }
