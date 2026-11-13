@@ -19,6 +19,9 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Ascon
+import com.appmattus.crypto.Blake
+import com.appmattus.crypto.Blake2
+import com.appmattus.crypto.Blake3
 import com.appmattus.crypto.CRC
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Gost
@@ -50,9 +53,6 @@ import com.appmattus.crypto.internal.core.SHA3_512
 import com.appmattus.crypto.internal.core.SHA512_224
 import com.appmattus.crypto.internal.core.SHA512_256
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
-import com.appmattus.crypto.internal.core.blake3.Blake3
-import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2b
-import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2s
 import com.appmattus.crypto.internal.core.bouncycastle.kangaroo.KangarooTwelve
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.SHAKEDigest
@@ -67,10 +67,6 @@ import com.appmattus.crypto.internal.core.city.CityHashCrc256
 import com.appmattus.crypto.internal.core.farm.FarmHash128
 import com.appmattus.crypto.internal.core.farm.FarmHash32
 import com.appmattus.crypto.internal.core.farm.FarmHash64
-import com.appmattus.crypto.internal.core.sphlib.BLAKE224
-import com.appmattus.crypto.internal.core.sphlib.BLAKE256
-import com.appmattus.crypto.internal.core.sphlib.BLAKE384
-import com.appmattus.crypto.internal.core.sphlib.BLAKE512
 import com.appmattus.crypto.internal.core.sphlib.BMW224
 import com.appmattus.crypto.internal.core.sphlib.BMW256
 import com.appmattus.crypto.internal.core.sphlib.BMW384
@@ -140,26 +136,46 @@ internal object CoreDigest {
                 Ascon.cxof128(algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
             }
 
-            is Algorithm.BLAKE224 -> BLAKE224()
-            is Algorithm.BLAKE256 -> BLAKE256()
-            is Algorithm.BLAKE384 -> BLAKE384()
-            is Algorithm.BLAKE512 -> BLAKE512()
+            is Algorithm.BLAKE224 -> Blake.blake224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.BLAKE256 -> Blake.blake256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.BLAKE384 -> Blake.blake384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.BLAKE512 -> Blake.blake512.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.Blake2b_160 -> Blake2b(160)
-            is Algorithm.Blake2b_256 -> Blake2b(256)
-            is Algorithm.Blake2b_384 -> Blake2b(384)
-            is Algorithm.Blake2b_512 -> Blake2b(512)
+            is Algorithm.Blake2b_160 -> Blake2.blake2b(160).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Blake2b_256 -> Blake2.blake2b(256).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Blake2b_384 -> Blake2.blake2b(384).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Blake2b_512 -> Blake2.blake2b(512).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.Blake2b -> Blake2b.create(algorithm)
+            is Algorithm.Blake2b -> when (algorithm) {
+                is Algorithm.Blake2b.Keyed -> Blake2.blake2bKeyed(
+                    algorithm.key,
+                    algorithm.salt,
+                    algorithm.personalisation,
+                    algorithm.outputSizeBits
+                )
+                else -> Blake2.blake2b(algorithm.outputSizeBits)
+            }.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.Blake2s_128 -> Blake2s(128)
-            is Algorithm.Blake2s_160 -> Blake2s(160)
-            is Algorithm.Blake2s_224 -> Blake2s(224)
-            is Algorithm.Blake2s_256 -> Blake2s(256)
+            is Algorithm.Blake2s_128 -> Blake2.blake2s(128).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Blake2s_160 -> Blake2.blake2s(160).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Blake2s_224 -> Blake2.blake2s(224).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Blake2s_256 -> Blake2.blake2s(256).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.Blake2s -> Blake2s.create(algorithm)
+            is Algorithm.Blake2s -> when (algorithm) {
+                is Algorithm.Blake2s.Keyed -> Blake2.blake2sKeyed(
+                    algorithm.key,
+                    algorithm.salt,
+                    algorithm.personalisation,
+                    algorithm.outputSizeBits
+                )
+                else -> Blake2.blake2s(algorithm.outputSizeBits)
+            }.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.Blake3 -> Blake3(algorithm)
+            is Algorithm.Blake3 -> when (algorithm) {
+                is Algorithm.Blake3.Keyed -> Blake3.blake3Keyed(algorithm.key, algorithm.digestLength)
+                is Algorithm.Blake3.DeriveKey -> Blake3.blake3DeriveKey(algorithm.context, algorithm.digestLength)
+                else -> Blake3.blake3(algorithm.digestLength)
+            }.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.BMW224 -> BMW224()
             is Algorithm.BMW256 -> BMW256()
