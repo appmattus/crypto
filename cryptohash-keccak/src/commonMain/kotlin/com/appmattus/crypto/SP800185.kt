@@ -27,6 +27,8 @@ import com.appmattus.crypto.internal.keccak.requireValidXofOutputSize
  * The cSHAKE, KMAC, TupleHash and ParallelHash functions from [NIST SP 800-185](https://doi.org/10.6028/NIST.SP.800-185),
  * all built on Keccak. The arrays they take are copied.
  */
+// Four functions at two strengths each, with the helpers they share
+@Suppress("TooManyFunctions")
 public object SP800185 {
 
     /**

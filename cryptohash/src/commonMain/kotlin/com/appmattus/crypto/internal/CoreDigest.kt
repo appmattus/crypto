@@ -301,10 +301,18 @@ internal object CoreDigest {
             is Algorithm.PANAMA -> Panama.panama.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.ParallelHash128 -> {
-                SP800185.parallelHash128(algorithm.blockSize, algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
+                SP800185.parallelHash128(
+                    algorithm.blockSize,
+                    algorithm.customisation,
+                    algorithm.outputSizeBits
+                ).newHasher().toDigest(algorithm.blockLength)
             }
             is Algorithm.ParallelHash256 -> {
-                SP800185.parallelHash256(algorithm.blockSize, algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
+                SP800185.parallelHash256(
+                    algorithm.blockSize,
+                    algorithm.customisation,
+                    algorithm.outputSizeBits
+                ).newHasher().toDigest(algorithm.blockLength)
             }
 
             is Algorithm.RadioGatun32 -> RadioGatun.radioGatun32.newHasher().toDigest(algorithm.blockLength)

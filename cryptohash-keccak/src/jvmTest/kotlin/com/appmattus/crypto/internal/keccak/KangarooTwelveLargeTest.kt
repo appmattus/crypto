@@ -30,7 +30,10 @@ class KangarooTwelveLargeTest {
     @Test
     fun kt128MatchesLargeRfc9861Vectors() {
         assertEquals("844d610933b1b9963cbdeb5ae3b6b05cc7cbd67ceedf883eb678a0a8e0371682", KangarooTwelve.kt128().hash(ptn(1419857)).toHexString())
-        assertEquals("3c390782a8a4e89fa6367f72feaaf13255c8d95878481d3cd8ce85f58e880af8", KangarooTwelve.kt128().hash(ptn(24137569)).toHexString())
+        assertEquals(
+            "3c390782a8a4e89fa6367f72feaaf13255c8d95878481d3cd8ce85f58e880af8",
+            KangarooTwelve.kt128().hash(ptn(24137569)).toHexString()
+        )
     }
 
     @Test

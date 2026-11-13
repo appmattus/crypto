@@ -66,7 +66,12 @@ class KeccakDelegationTest {
     @Test
     fun createsDigestsBackedByCryptohashKeccak() {
         pairs.forEach { (algorithm, module) ->
-            testKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
+            if (module.toString().startsWith("TupleHash")) {
+                // TupleHash hashes each update as its own element, so the input can only go in one update
+                assertContentEquals(module.hash(input), CoreDigest.create(algorithm).digest(input), algorithm.algorithmName)
+            } else {
+                testKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
+            }
         }
     }
 

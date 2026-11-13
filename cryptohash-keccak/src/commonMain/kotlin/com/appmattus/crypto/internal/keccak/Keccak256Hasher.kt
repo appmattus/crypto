@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.keccak
 
-
 /**
  *
  * This class implements the Keccak-256 digest algorithm under the

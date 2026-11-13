@@ -16,7 +16,6 @@
 
 package com.appmattus.crypto.internal.keccak
 
-
 /**
  *
  * This class implements the SHA3-384 digest algorithm under the

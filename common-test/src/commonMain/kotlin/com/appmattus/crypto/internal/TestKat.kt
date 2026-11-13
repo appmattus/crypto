@@ -79,6 +79,20 @@ public fun testKatMillionA(dig: () -> Hasher, ref: String) {
 }
 
 /**
+ * Port of cryptohash's sphlib `testKatExtremelyLong`: hashes the 64-byte NIST message 16,777,216 times, a gigabyte
+ */
+public fun testKatExtremelyLong(dig: () -> Hasher, ref: String) {
+    executeInBackground {
+        val digest = dig()
+        val buf = "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmno".encodeToByteArray()
+        repeat(16777216) {
+            digest.update(buf)
+        }
+        assertContentEquals(digest.digest(), strtobin(ref))
+    }
+}
+
+/**
  * Port of cryptohash's sphlib `testCollision`: checks the different hex messages [s1] and [s2] hash the same
  */
 public fun testCollision(dig: () -> Hasher, s1: String, s2: String) {

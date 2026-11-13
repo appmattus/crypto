@@ -20,6 +20,7 @@ package com.appmattus.crypto.internal.keccak
 
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.SHA3
+import com.appmattus.crypto.internal.executeInBackground
 import com.appmattus.crypto.internal.testKat
 import com.appmattus.crypto.internal.toHexString
 import kotlin.test.Test
