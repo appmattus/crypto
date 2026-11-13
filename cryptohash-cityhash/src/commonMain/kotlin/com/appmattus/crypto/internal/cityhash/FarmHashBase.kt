@@ -24,7 +24,6 @@ import com.appmattus.crypto.internal.cityhash.CityHashBase.Companion.k2
 import com.appmattus.crypto.internal.cityhash.CityHashBase.Companion.shiftMix
 import com.appmattus.crypto.internal.cityhash.FarmHashBase.Companion.weakHashLen32WithSeeds
 import com.appmattus.crypto.internal.core.decodeLEULong
-import com.appmattus.crypto.internal.core.mulLow
 import com.appmattus.crypto.internal.core.rotateRight
 import com.appmattus.uint.UInt128
 

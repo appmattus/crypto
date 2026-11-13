@@ -13,11 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core
+package com.appmattus.crypto.internal.cityhash
 
-internal actual fun mulLow(a: ULong, b: ULong): ULong {
-    val x = a.toLong()
-    val y = b.toLong()
-    val low = mul64(highOf(x), x.toInt(), highOf(y), y.toInt())
-    return longOf(mul64High, low).toULong()
-}
+@Suppress("NOTHING_TO_INLINE")
+internal actual inline fun mulLow(a: ULong, b: ULong): ULong = a * b

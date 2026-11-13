@@ -42,7 +42,9 @@ public object CityHash {
     /**
      * CityHash64, with output size of 64 bits, using [seed]
      */
-    public fun cityHash64(seed: ULong): HashAlgorithm = CityHashAlgorithm("CityHash64", listOf(seed)) { cityHash64Hasher(listOf(seed)) }
+    public fun cityHash64(seed: ULong): HashAlgorithm = CityHashAlgorithm("CityHash64", listOf(seed)) {
+        cityHash64Hasher(listOf(seed))
+    }
 
     /**
      * CityHash64, with output size of 64 bits, using the seeds [seed1] and [seed2]
@@ -64,7 +66,9 @@ public object CityHash {
     /**
      * CityHashCrc128, with output size of 128 bits
      */
-    public fun cityHashCrc128(): HashAlgorithm = CityHashAlgorithm("CityHashCrc128", emptyList()) { cityHashCrc128Hasher(null) }
+    public fun cityHashCrc128(): HashAlgorithm = CityHashAlgorithm("CityHashCrc128", emptyList()) {
+        cityHashCrc128Hasher(null)
+    }
 
     /**
      * CityHashCrc128, with output size of 128 bits, using the 128-bit seed made of [seedLow] and [seedHigh]

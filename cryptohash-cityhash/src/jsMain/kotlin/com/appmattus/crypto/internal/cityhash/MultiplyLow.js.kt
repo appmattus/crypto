@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core
+package com.appmattus.crypto.internal.cityhash
 
-/**
- * The low 64 bits of [a] × [b], the same as `a * b`.
- *
- * Kotlin/JS has its own implementation: its [Long] multiply is several times slower than a multiply in Int halves,
- * particularly for operands with their top bit set, which takes a slower path through negation.
- */
-internal expect fun mulLow(a: ULong, b: ULong): ULong
+import com.appmattus.crypto.internal.core.highOf
+import com.appmattus.crypto.internal.core.longOf
+import com.appmattus.crypto.internal.core.mul64
+import com.appmattus.crypto.internal.core.mul64High
+
+internal actual fun mulLow(a: ULong, b: ULong): ULong {
+    val x = a.toLong()
+    val y = b.toLong()
+    val low = mul64(highOf(x), x.toInt(), highOf(y), y.toInt())
+    return longOf(mul64High, low).toULong()
+}

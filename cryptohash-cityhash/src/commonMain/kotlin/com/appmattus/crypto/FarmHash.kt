@@ -36,7 +36,9 @@ public object FarmHash {
     /**
      * FarmHash32, with output size of 32 bits, using [seed]
      */
-    public fun farmHash32(seed: UInt): HashAlgorithm = CityHashAlgorithm("FarmHash32", listOf(seed)) { farmHash32Hasher(seed) }
+    public fun farmHash32(seed: UInt): HashAlgorithm = CityHashAlgorithm("FarmHash32", listOf(seed)) {
+        farmHash32Hasher(seed)
+    }
 
     /**
      * FarmHash64, with output size of 64 bits
@@ -46,7 +48,9 @@ public object FarmHash {
     /**
      * FarmHash64, with output size of 64 bits, using [seed]
      */
-    public fun farmHash64(seed: ULong): HashAlgorithm = CityHashAlgorithm("FarmHash64", listOf(seed)) { farmHash64Hasher(listOf(seed)) }
+    public fun farmHash64(seed: ULong): HashAlgorithm = CityHashAlgorithm("FarmHash64", listOf(seed)) {
+        farmHash64Hasher(listOf(seed))
+    }
 
     /**
      * FarmHash64, with output size of 64 bits, using the seeds [seed1] and [seed2]

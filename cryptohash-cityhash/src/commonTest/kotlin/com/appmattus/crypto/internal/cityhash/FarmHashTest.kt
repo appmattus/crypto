@@ -16,8 +16,6 @@
 
 package com.appmattus.crypto.internal.cityhash
 
-import com.appmattus.crypto.internal.cityhash.CityHashTest
-
 object FarmHashTest {
     const val k0: ULong = 0xc3a5c85c97cb3127UL
     const val kSeed0: ULong = 1234567u

@@ -23,7 +23,6 @@ import com.appmattus.crypto.internal.cityhash.CityHashBase.Companion.k1
 import com.appmattus.crypto.internal.cityhash.CityHashBase.Companion.shiftMix
 import com.appmattus.crypto.internal.cityhash.CityHashBase.Companion.weakHashLen32WithSeeds
 import com.appmattus.crypto.internal.core.decodeLEULong
-import com.appmattus.crypto.internal.core.mulLow
 import com.appmattus.crypto.internal.core.reverseByteOrder
 import com.appmattus.crypto.internal.core.rotateRight
 import com.appmattus.uint.UInt128
