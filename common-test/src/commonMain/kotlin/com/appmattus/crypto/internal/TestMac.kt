@@ -68,3 +68,10 @@ public fun testHmac(algorithm: HmacAlgorithm, key: String, input: ByteArray, out
 public fun testHmac(algorithm: HmacAlgorithm, key: ByteArray, input: ByteArray, output: String, outputLength: Int? = null) {
     testMacKat({ algorithm.newHmac(key, outputLength) }, input, output)
 }
+
+/**
+ * [testHmac] with the input as the hex string [input]
+ */
+public fun testHmacHex(algorithm: HmacAlgorithm, key: String, input: String, output: String, outputLength: Int? = null) {
+    testHmac(algorithm, strtobin(key), strtobin(input), output, outputLength)
+}

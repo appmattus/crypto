@@ -37,9 +37,10 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.whirlpool
 
 import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.sphlib.HasherMDHelper
 
 /**
  *
@@ -61,9 +62,9 @@ internal abstract class WhirlpoolCore<D : WhirlpoolCore<D>>(
     private val t6: LongArray,
     private val t7: LongArray,
     private val rc: LongArray
-) : MDHelper<D>(false, 32) {
+) : HasherMDHelper<D>(false, 32) {
 
-    // The eight-word chaining value. DigestEngine's constructor calls doInit before this class's properties are
+    // The eight-word chaining value. HasherEngine's constructor calls doInit before this class's properties are
     // initialised, so it is created there rather than with an initialiser.
     private lateinit var state: LongArray
 

@@ -37,7 +37,7 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.whirlpool
 
 import com.appmattus.crypto.internal.core.decodeLELong
 

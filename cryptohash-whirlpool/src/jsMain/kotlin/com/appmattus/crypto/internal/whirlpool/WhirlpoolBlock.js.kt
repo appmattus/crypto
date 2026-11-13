@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.whirlpool
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -27,7 +27,7 @@ package com.appmattus.crypto.internal.core.sphlib
  * initialised, but reads a class's own field directly.
  */
 
-/** One Whirlpool variant's eight tables, flattened as table * 256 + index, and round constants, split into halves */
+/** One WhirlpoolHasher variant's eight tables, flattened as table * 256 + index, and round constants, split into halves */
 private class SplitTables(tables: Array<LongArray>, rc: LongArray) {
     val high = IntArray(8 * 256) { (tables[it shr 8][it and 0xff] ushr 32).toInt() }
     val low = IntArray(8 * 256) { tables[it shr 8][it and 0xff].toInt() }
