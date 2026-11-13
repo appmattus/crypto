@@ -517,7 +517,6 @@ internal class Blake2sHasher : Hasher {
          */
         val byteLength
             get() = 64
-
     }
 
     override fun update(input: ByteArray): Hasher {
@@ -553,9 +552,6 @@ internal class Blake2sHasher : Hasher {
     override fun copy(): Blake2sHasher {
         return Blake2sHasher(this)
     }
-
-    private val blockLength: Int
-        get() = byteLength
 
     override fun toString() = "Blake2s-${digestSize * 8}"
 }

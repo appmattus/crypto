@@ -39,7 +39,6 @@
 
 package com.appmattus.crypto.internal.blake
 
-
 /**
  *
  * This class implements the BLAKE-384 digest algorithm under the

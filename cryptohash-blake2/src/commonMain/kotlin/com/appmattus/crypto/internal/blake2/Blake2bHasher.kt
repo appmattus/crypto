@@ -435,7 +435,6 @@ internal class Blake2bHasher : Hasher {
             0x1f83d9abfb41bd6bL,
             0x5be0cd19137e2179L
         )
-
     }
 
     override fun update(input: ByteArray): Hasher {
