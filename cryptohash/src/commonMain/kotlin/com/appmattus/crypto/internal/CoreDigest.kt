@@ -24,6 +24,7 @@ import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Gost
 import com.appmattus.crypto.Haraka
 import com.appmattus.crypto.Haval
+import com.appmattus.crypto.HighwayHash
 import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.Kupyna
 import com.appmattus.crypto.MetroHash
@@ -31,22 +32,21 @@ import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Panama
 import com.appmattus.crypto.RadioGatun
 import com.appmattus.crypto.Rapidhash
+import com.appmattus.crypto.RipeMD
+import com.appmattus.crypto.SM3
+import com.appmattus.crypto.SipHash
 import com.appmattus.crypto.Streebog
 import com.appmattus.crypto.Tiger
 import com.appmattus.crypto.Whirlpool
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.XXHash
 import com.appmattus.crypto.internal.core.Keccak288
-import com.appmattus.crypto.internal.core.RipeMD256
-import com.appmattus.crypto.internal.core.RipeMD320
 import com.appmattus.crypto.internal.core.SHA3_224
 import com.appmattus.crypto.internal.core.SHA3_256
 import com.appmattus.crypto.internal.core.SHA3_384
 import com.appmattus.crypto.internal.core.SHA3_512
 import com.appmattus.crypto.internal.core.SHA512_224
 import com.appmattus.crypto.internal.core.SHA512_256
-import com.appmattus.crypto.internal.core.SM3
-import com.appmattus.crypto.internal.core.SipHash
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
 import com.appmattus.crypto.internal.core.blake3.Blake3
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2b
@@ -65,7 +65,6 @@ import com.appmattus.crypto.internal.core.city.CityHashCrc256
 import com.appmattus.crypto.internal.core.farm.FarmHash128
 import com.appmattus.crypto.internal.core.farm.FarmHash32
 import com.appmattus.crypto.internal.core.farm.FarmHash64
-import com.appmattus.crypto.internal.core.google.HighwayHash
 import com.appmattus.crypto.internal.core.sphlib.BLAKE224
 import com.appmattus.crypto.internal.core.sphlib.BLAKE256
 import com.appmattus.crypto.internal.core.sphlib.BLAKE384
@@ -109,9 +108,6 @@ import com.appmattus.crypto.internal.core.sphlib.Luffa512
 import com.appmattus.crypto.internal.core.sphlib.MD2
 import com.appmattus.crypto.internal.core.sphlib.MD4
 import com.appmattus.crypto.internal.core.sphlib.MD5
-import com.appmattus.crypto.internal.core.sphlib.RipeMD
-import com.appmattus.crypto.internal.core.sphlib.RipeMD128
-import com.appmattus.crypto.internal.core.sphlib.RipeMD160
 import com.appmattus.crypto.internal.core.sphlib.SHA0
 import com.appmattus.crypto.internal.core.sphlib.SHA1
 import com.appmattus.crypto.internal.core.sphlib.SHA224
@@ -246,9 +242,9 @@ internal object CoreDigest {
             is Algorithm.HAVAL_5_224 -> Haval.haval5_224.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.HAVAL_5_256 -> Haval.haval5_256.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.HighwayHash64 -> HighwayHash(algorithm.key, 64)
-            is Algorithm.HighwayHash128 -> HighwayHash(algorithm.key, 128)
-            is Algorithm.HighwayHash256 -> HighwayHash(algorithm.key, 256)
+            is Algorithm.HighwayHash64 -> HighwayHash.highwayHash64(algorithm.key).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HighwayHash128 -> HighwayHash.highwayHash128(algorithm.key).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.HighwayHash256 -> HighwayHash.highwayHash256(algorithm.key).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.JH224 -> JH224()
             is Algorithm.JH256 -> JH256()
@@ -312,11 +308,11 @@ internal object CoreDigest {
             is Algorithm.RapidhashMicro -> Rapidhash.rapidhashMicro(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.RapidhashNano -> Rapidhash.rapidhashNano(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.RipeMD -> RipeMD()
-            is Algorithm.RipeMD128 -> RipeMD128()
-            is Algorithm.RipeMD160 -> RipeMD160()
-            is Algorithm.RipeMD256 -> RipeMD256()
-            is Algorithm.RipeMD320 -> RipeMD320()
+            is Algorithm.RipeMD -> RipeMD.ripeMD.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD128 -> RipeMD.ripeMD128.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD160 -> RipeMD.ripeMD160.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD256 -> RipeMD.ripeMD256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD320 -> RipeMD.ripeMD320.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.SHA_0 -> SHA0()
             is Algorithm.SHA_1 -> SHA1()
@@ -351,8 +347,16 @@ internal object CoreDigest {
             is Algorithm.SIMD384 -> SIMD384()
             is Algorithm.SIMD512 -> SIMD512()
 
-            is Algorithm.SipHash -> SipHash(algorithm.key, algorithm.compressionRounds, algorithm.finalizationRounds, 64)
-            is Algorithm.SipHash128 -> SipHash(algorithm.key, algorithm.compressionRounds, algorithm.finalizationRounds, 128)
+            is Algorithm.SipHash -> SipHash.sipHash(
+                algorithm.key,
+                algorithm.compressionRounds,
+                algorithm.finalizationRounds
+            ).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SipHash128 -> SipHash.sipHash128(
+                algorithm.key,
+                algorithm.compressionRounds,
+                algorithm.finalizationRounds
+            ).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Skein256_128 -> SkeinBouncycastleCore(256, 128)
             is Algorithm.Skein256_160 -> SkeinBouncycastleCore(256, 160)
@@ -370,7 +374,7 @@ internal object CoreDigest {
 
             is Algorithm.Skein -> SkeinBouncycastleCore.create(algorithm)
 
-            is Algorithm.SM3 -> SM3()
+            is Algorithm.SM3 -> SM3.sm3.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.T1ha0_32le -> T1ha0_32le(algorithm.seed)
             is Algorithm.T1ha1_le -> T1ha1_le(algorithm.seed)

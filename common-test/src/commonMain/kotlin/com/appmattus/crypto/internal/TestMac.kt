@@ -18,6 +18,7 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.HmacAlgorithm
 import com.appmattus.crypto.Mac
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -50,6 +51,18 @@ public fun testMacKat(mac: () -> Mac, data: ByteArray, ref: String, inBackground
 
         // And verify
         assertTrue(mac().update(data).verify(strtobin(ref)))
+    }
+}
+
+/**
+ * [testKatMillionA] for a [Mac]: computes the MAC of a million 'a' characters, fed 1000 at a time
+ */
+public fun testMacKatMillionA(mac: () -> Mac, ref: String) {
+    executeInBackground {
+        val digest = mac()
+        val buf = ByteArray(1000) { 'a'.code.toByte() }
+        repeat(1000) { digest.update(buf) }
+        assertContentEquals(strtobin(ref), digest.digest())
     }
 }
 
