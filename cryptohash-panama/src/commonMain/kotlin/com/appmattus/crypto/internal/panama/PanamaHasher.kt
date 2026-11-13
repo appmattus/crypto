@@ -37,13 +37,12 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.panama
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt
 import com.appmattus.crypto.internal.core.rotateLeft
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 /**
  * This class implements the PANAMA digest algorithm under the
@@ -52,7 +51,7 @@ import com.appmattus.crypto.internal.core.rotateLeft
  * @version $Revision: 214 $
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
-internal class PANAMA : DigestEngine<PANAMA>() {
+internal class PanamaHasher : HasherEngine<PanamaHasher>() {
     private lateinit var buffer: IntArray
     private var bufferPtr = 0
     private var state0 = 0
@@ -81,8 +80,8 @@ internal class PANAMA : DigestEngine<PANAMA>() {
     private var inData6 = 0
     private var inData7 = 0
 
-    override fun copy(): PANAMA {
-        val d = PANAMA()
+    override fun copy(): PanamaHasher {
+        val d = PanamaHasher()
         buffer.copyInto(d.buffer, 0, 0, buffer.size)
         d.bufferPtr = bufferPtr
         d.state0 = state0
@@ -109,7 +108,7 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         get() = 32
 
     override val blockLength: Int
-        get() = Algorithm.PANAMA.blockLength
+        get() = 32
 
     override fun engineReset() {
         for (i in buffer.indices) buffer[i] = 0
@@ -355,5 +354,5 @@ internal class PANAMA : DigestEngine<PANAMA>() {
         state16 = t16 xor buffer[ptr16 + 7]
     }
 
-    override fun toString() = Algorithm.PANAMA.algorithmName
+    override fun toString() = "PANAMA"
 }
