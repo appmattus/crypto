@@ -49,7 +49,7 @@ import com.appmattus.crypto.Hasher
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
 @Suppress("TooManyFunctions")
-internal abstract class FugueCore<D : FugueCore<D>> : Digest {
+internal abstract class FugueCore<D : FugueCore<D>> : Hasher {
     private var bitCount: Long = 0
     private var partial = 0
     private var partialLen = 0
@@ -290,8 +290,6 @@ internal abstract class FugueCore<D : FugueCore<D>> : Digest {
      * << we always set the parameter B (which is the number of
      *    bytes in ipad, opad) as B = 4*ceil(#-bits-in-key /32). >>
      */
-    override val blockLength: Int
-        get() = digestLength
 
     override fun toString(): String {
         return "Fugue-" + (digestLength shl 3)

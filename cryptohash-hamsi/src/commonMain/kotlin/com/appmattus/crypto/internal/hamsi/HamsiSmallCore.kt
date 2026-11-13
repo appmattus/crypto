@@ -49,7 +49,7 @@ import com.appmattus.crypto.internal.core.rotateLeft
  * @author Thomas Pornin &lt;thomas.pornin@cryptolog.com&gt;
  */
 @Suppress("TooManyFunctions", "LargeClass")
-internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest {
+internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Hasher {
     private val h: IntArray = IntArray(8)
     private var bitCount: Long = 0
     private var partial = 0
@@ -179,8 +179,6 @@ internal abstract class HamsiSmallCore<D : HamsiSmallCore<D>> : Digest {
      * << For HMAC you can calculate B = 256*ceil(k / 256)
      *    (same as CubeHash). >>
      */
-    override val blockLength: Int
-        get() = 32
 
     /**
      * Get the IV.
