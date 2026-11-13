@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.t1ha
+package com.appmattus.crypto.internal.t1ha
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
