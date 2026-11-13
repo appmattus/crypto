@@ -17,7 +17,6 @@
 package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.CoreDigest
-import com.appmattus.crypto.internal.core.blake3.Hasher
 import com.appmattus.crypto.internal.platformDigest
 import com.appmattus.crypto.internal.xxhash.xxh3.XXH3_SECRET_SIZE_MIN
 
@@ -235,7 +234,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     /**
      * [BLAKE3](https://github.com/BLAKE3-team/BLAKE3) with output size of [digestLength] bytes (default: 32 bytes)
      */
-    public open class Blake3(internal val digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Algorithm("Blake3-${digestLength shl 3}", 64) {
+    public open class Blake3(internal val digestLength: Int = BLAKE3_DEFAULT_DIGEST_LENGTH) : Algorithm("Blake3-${digestLength shl 3}", 64) {
         init {
             require(digestLength > 0) { "digestLength must be greater than 0, was $digestLength" }
         }
@@ -243,11 +242,11 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [Blake3] using [key]ed hashing with output size of [digestLength] bytes (default: 32 bytes)
          */
-        public class Keyed(key: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+        public class Keyed(key: ByteArray, digestLength: Int = BLAKE3_DEFAULT_DIGEST_LENGTH) : Blake3(digestLength) {
             internal val key: ByteArray = key.copyOf()
 
             init {
-                require(key.size == Hasher.KEY_LEN) { "key must be exactly ${Hasher.KEY_LEN} bytes, was ${key.size}" }
+                require(key.size == BLAKE3_KEY_SIZE) { "key must be exactly ${BLAKE3_KEY_SIZE} bytes, was ${key.size}" }
             }
 
             override val parameters: List<Pair<String, Any?>>
@@ -257,7 +256,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
         /**
          * [Blake3] using [context] to derive a key with output size of [digestLength] bytes (default: 32 bytes)
          */
-        public class DeriveKey(context: ByteArray, digestLength: Int = Hasher.DEFAULT_HASH_LEN) : Blake3(digestLength) {
+        public class DeriveKey(context: ByteArray, digestLength: Int = BLAKE3_DEFAULT_DIGEST_LENGTH) : Blake3(digestLength) {
             internal val context: ByteArray = context.copyOf()
             override val parameters: List<Pair<String, Any?>>
                 get() = listOf("context" to context)
@@ -1587,6 +1586,10 @@ private const val HIGHWAY_HASH_KEY_SIZE = 4
 private const val WYHASH_SECRET_SIZE = 4
 
 private const val SIPHASH_KEY_SIZE = 16
+
+private const val BLAKE3_DEFAULT_DIGEST_LENGTH = 32
+
+private const val BLAKE3_KEY_SIZE = 32
 
 private fun requireValidXofOutputSize(outputSizeBits: Int) {
     require(outputSizeBits > 0 && outputSizeBits % 8 == 0) {
