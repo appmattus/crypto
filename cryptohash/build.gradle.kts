@@ -53,6 +53,17 @@ kotlin {
             api(project(":cryptohash-blake2"))
             api(project(":cryptohash-blake3"))
             api(project(":cryptohash-keccak"))
+            api(project(":cryptohash-bmw"))
+            api(project(":cryptohash-cubehash"))
+            api(project(":cryptohash-echo"))
+            api(project(":cryptohash-fugue"))
+            api(project(":cryptohash-groestl"))
+            api(project(":cryptohash-hamsi"))
+            api(project(":cryptohash-jh"))
+            api(project(":cryptohash-luffa"))
+            api(project(":cryptohash-shabal"))
+            api(project(":cryptohash-shavite"))
+            api(project(":cryptohash-simd"))
             implementation(libs.uint128)
         }
 
