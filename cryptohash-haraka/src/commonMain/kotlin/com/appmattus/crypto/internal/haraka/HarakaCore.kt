@@ -37,18 +37,18 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.bouncycastle.haraka
+package com.appmattus.crypto.internal.haraka
 
-import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hasher
 
 /**
  * Base class for Haraka v2, https://eprint.iacr.org/2016/098.pdf
  */
-internal abstract class HarakaCore<D : HarakaCore<D>> : Digest {
+internal abstract class HarakaCore<D : HarakaCore<D>> : Hasher {
 
     abstract fun doFinal(out: ByteArray, outOff: Int): Int
 
-    override fun update(input: ByteArray): Digest {
+    override fun update(input: ByteArray): Hasher {
         update(input, 0, input.size)
         return this
     }

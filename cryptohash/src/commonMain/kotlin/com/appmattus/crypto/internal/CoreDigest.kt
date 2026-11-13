@@ -21,6 +21,7 @@ import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.CRC
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Gost
+import com.appmattus.crypto.Haraka
 import com.appmattus.crypto.Haval
 import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.Kupyna
@@ -50,8 +51,6 @@ import com.appmattus.crypto.internal.core.blake3.Blake3
 import com.appmattus.crypto.internal.core.bouncycastle.ascon.Ascon
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2b
 import com.appmattus.crypto.internal.core.bouncycastle.blake2.Blake2s
-import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka256_256
-import com.appmattus.crypto.internal.core.bouncycastle.haraka.Haraka512_256
 import com.appmattus.crypto.internal.core.bouncycastle.kangaroo.KangarooTwelve
 import com.appmattus.crypto.internal.core.bouncycastle.shake.CSHAKEDigest
 import com.appmattus.crypto.internal.core.bouncycastle.shake.SHAKEDigest
@@ -226,8 +225,8 @@ internal object CoreDigest {
             is Algorithm.Hamsi384 -> Hamsi384()
             is Algorithm.Hamsi512 -> Hamsi512()
 
-            is Algorithm.Haraka256_256 -> Haraka256_256()
-            is Algorithm.Haraka512_256 -> Haraka512_256()
+            is Algorithm.Haraka256_256 -> Haraka.haraka256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Haraka512_256 -> Haraka.haraka512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.HAVAL_3_128 -> Haval.haval3_128.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.HAVAL_3_160 -> Haval.haval3_160.newHasher().toDigest(algorithm.blockLength)

@@ -22,7 +22,7 @@
  *
  * Translation to Kotlin:
  *
- * Copyright 2021-2024 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,10 +37,9 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.bouncycastle.haraka
+package com.appmattus.crypto.internal.haraka
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hasher
 
 /**
  * Haraka-512 v2, https://eprint.iacr.org/2016/098.pdf
@@ -48,7 +47,7 @@ import com.appmattus.crypto.Digest
  * Haraka512-256 with reference to Python Reference Impl from: https://github.com/kste/haraka
  */
 @Suppress("ClassName", "LargeClass")
-internal class Haraka512_256 : HarakaCore<Haraka512_256> {
+internal class Haraka512Hasher : HarakaCore<Haraka512Hasher> {
     private val buffer: ByteArray
     private var off = 0
 
@@ -56,7 +55,7 @@ internal class Haraka512_256 : HarakaCore<Haraka512_256> {
         buffer = ByteArray(64)
     }
 
-    constructor(digest: Haraka512_256) {
+    constructor(digest: Haraka512Hasher) {
         buffer = digest.buffer.copyOf()
         off = digest.off
     }
@@ -147,13 +146,13 @@ internal class Haraka512_256 : HarakaCore<Haraka512_256> {
         return digestLength
     }
 
-    override fun update(input: Byte): Digest {
+    override fun update(input: Byte): Hasher {
         require(off + 1 <= 64) { "total input cannot be more than 64 bytes" }
         buffer[off++] = input
         return this
     }
 
-    override fun update(input: ByteArray, offset: Int, length: Int): Digest {
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher {
         require(off + length <= 64) { "total input cannot be more than 64 bytes" }
         input.copyInto(buffer, off, offset, offset + length)
         off += length
@@ -898,10 +897,7 @@ internal class Haraka512_256 : HarakaCore<Haraka512_256> {
         )
     }
 
-    override fun copy() = Haraka512_256(this)
+    override fun copy() = Haraka512Hasher(this)
 
-    override val blockLength: Int
-        get() = 64
-
-    override fun toString() = Algorithm.Haraka512_256.algorithmName
+    override fun toString() = "Haraka-512"
 }
