@@ -16,11 +16,12 @@
 
 @file:Suppress("TooManyFunctions")
 
-package com.appmattus.crypto.internal.core.t1ha
+package com.appmattus.crypto.internal.t1ha
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.multiplyHigh
+import com.appmattus.crypto.internal.core.rotateRight
 import com.appmattus.uint.UInt128
 
 internal fun initAB(s: T1haState256, x: ULong, y: ULong) {

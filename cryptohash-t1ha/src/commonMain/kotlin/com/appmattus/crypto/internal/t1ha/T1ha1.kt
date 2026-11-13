@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,46 +14,30 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.t1ha
+package com.appmattus.crypto.internal.t1ha
 
+import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
-import com.appmattus.crypto.internal.core.NonIncrementalDigest
+import com.appmattus.crypto.internal.core.NonIncrementalHasher
 import com.appmattus.crypto.internal.core.decodeLEULong
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.multiplyHigh
+import com.appmattus.crypto.internal.core.rotateRight
 
-@Suppress("ClassName", "FunctionName")
-internal class T1ha1_64le(private val seed: ULong = 0u) : NonIncrementalDigest<T1ha1_64le>() {
-
-    private var hash: ULong = 0u
-
-    override val digestLength = 8
-
-    override val blockLength = 32
-
-    override fun process(input: ByteBuffer) {
-        hash = t1ha1_le(input, seed)
+/**
+ * A [Hasher] for [t1ha1](https://github.com/erthink/t1ha) little-endian, which can only hash its whole input at once
+ */
+internal fun t1ha1Hasher(seed: ULong): Hasher =
+    NonIncrementalHasher("t1ha1-le", 8) { input ->
+        ByteArray(8).apply {
+            encodeBELong(T1ha1.t1ha1_le(input, seed).toLong(), this, 0)
+        }
     }
 
-    override fun result(): ByteArray {
-        val digest = ByteArray(digestLength)
-        encodeBELong(hash.toLong(), digest, 0)
+@Suppress("FunctionName")
+private object T1ha1 {
 
-        return digest
-    }
-
-    override fun copy(): T1ha1_64le {
-        return copyState(
-            T1ha1_64le(seed).apply {
-                hash = this@T1ha1_64le.hash
-            }
-        )
-    }
-
-    override fun toString() = "t1ha1_64le"
-
-    @Suppress("MemberNameEqualsClassName")
-    private fun t1ha1_le(data: ByteBuffer, seed: ULong): ULong {
+    fun t1ha1_le(data: ByteBuffer, seed: ULong): ULong {
         var len = data.size
         var a: ULong = seed
         var b: ULong = len.toULong()
@@ -157,15 +141,12 @@ internal class T1ha1_64le(private val seed: ULong = 0u) : NonIncrementalDigest<T
 
     private fun mux64(v: ULong, prime: ULong): ULong = (v * prime) xor multiplyHigh(v, prime)
 
-    companion object {
-
-        /* 'magic' primes */
-        const val prime_0: ULong = 0xEC99BF0D8372CAABu
-        const val prime_1: ULong = 0x82434FE90EDCEF39u
-        const val prime_2: ULong = 0xD4F06DB99D67BE4Bu
-        const val prime_3: ULong = 0xBD9CACC22C6E9571u
-        const val prime_4: ULong = 0x9C06FAF4D023E3ABu
-        const val prime_5: ULong = 0xC060724A8424F345u
-        const val prime_6: ULong = 0xCB5AF53AE3AAAC31u
-    }
+    /* 'magic' primes */
+    const val prime_0: ULong = 0xEC99BF0D8372CAABu
+    const val prime_1: ULong = 0x82434FE90EDCEF39u
+    const val prime_2: ULong = 0xD4F06DB99D67BE4Bu
+    const val prime_3: ULong = 0xBD9CACC22C6E9571u
+    const val prime_4: ULong = 0x9C06FAF4D023E3ABu
+    const val prime_5: ULong = 0xC060724A8424F345u
+    const val prime_6: ULong = 0xCB5AF53AE3AAAC31u
 }

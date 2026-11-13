@@ -14,46 +14,29 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.t1ha
+package com.appmattus.crypto.internal.t1ha
 
+import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
-import com.appmattus.crypto.internal.core.NonIncrementalDigest
+import com.appmattus.crypto.internal.core.NonIncrementalHasher
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.rotateRight
 
-@Suppress("ClassName", "FunctionName")
-internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T1ha0_32le>() {
-
-    private var hash: ULong = 0u
-
-    override val digestLength = 8
-
-    override val blockLength = 16
-
-    override fun process(input: ByteBuffer) {
-        hash = t1ha0_32le(input, seed)
+/**
+ * A [Hasher] for [t1ha0](https://github.com/erthink/t1ha) 32-bit little-endian, which can only hash its whole input at once
+ */
+internal fun t1ha0Hasher(seed: ULong): Hasher =
+    NonIncrementalHasher("t1ha0-32le", 8) { input ->
+        ByteArray(8).apply {
+            encodeBELong(T1ha0.t1ha0_32le(input, seed).toLong(), this, 0)
+        }
     }
 
-    override fun result(): ByteArray {
-        val digest = ByteArray(digestLength)
-        encodeBELong(hash.toLong(), digest, 0)
+@Suppress("FunctionName")
+private object T1ha0 {
 
-        return digest
-    }
-
-    override fun copy(): T1ha0_32le {
-        return copyState(
-            T1ha0_32le(seed).apply {
-                hash = this@T1ha0_32le.hash
-            }
-        )
-    }
-
-    override fun toString() = "t1ha0-32le"
-
-    @Suppress("MemberNameEqualsClassName")
-    private fun t1ha0_32le(data: ByteBuffer, seed: ULong): ULong {
+    fun t1ha0_32le(data: ByteBuffer, seed: ULong): ULong {
         var len = data.size
         var a: UInt = len.toUInt().rotateRight(17) + seed.toUInt()
         var b: UInt = len.toUInt() xor (seed shr 32).toUInt()
@@ -159,20 +142,17 @@ internal class T1ha0_32le(private val seed: ULong = 0u) : NonIncrementalDigest<T
         return l
     }
 
-    companion object {
+    /* 32-bit 'magic' primes */
+    const val prime32_0: UInt = 0x92D78269u
+    const val prime32_1: UInt = 0xCA9B4735u
+    const val prime32_2: UInt = 0xA4ABA1C3u
+    const val prime32_3: UInt = 0xF6499843u
+    const val prime32_4: UInt = 0x86F0FD61u
+    const val prime32_5: UInt = 0xCA2DA6FBu
+    const val prime32_6: UInt = 0xC4BB3575u
 
-        /* 32-bit 'magic' primes */
-        const val prime32_0: UInt = 0x92D78269u
-        const val prime32_1: UInt = 0xCA9B4735u
-        const val prime32_2: UInt = 0xA4ABA1C3u
-        const val prime32_3: UInt = 0xF6499843u
-        const val prime32_4: UInt = 0x86F0FD61u
-        const val prime32_5: UInt = 0xCA2DA6FBu
-        const val prime32_6: UInt = 0xC4BB3575u
-
-        /* 'magic' primes */
-        const val prime_0: ULong = 0xEC99BF0D8372CAABu
-        const val prime_4: ULong = 0x9C06FAF4D023E3ABu
-        const val prime_6: ULong = 0xCB5AF53AE3AAAC31u
-    }
+    /* 'magic' primes */
+    const val prime_0: ULong = 0xEC99BF0D8372CAABu
+    const val prime_4: ULong = 0x9C06FAF4D023E3ABu
+    const val prime_6: ULong = 0xCB5AF53AE3AAAC31u
 }

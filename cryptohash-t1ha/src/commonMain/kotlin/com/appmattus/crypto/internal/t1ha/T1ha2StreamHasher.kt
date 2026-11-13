@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2024 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.t1ha
+package com.appmattus.crypto.internal.t1ha
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.encodeBELong
 import com.appmattus.crypto.internal.core.encodeLELong
-import com.appmattus.crypto.internal.core.sphlib.DigestEngine
+import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
-@Suppress("ClassName")
-internal class T1ha2_stream128(private val seedX: ULong = 0u, private val seedY: ULong = 0u) : DigestEngine<T1ha2_stream128>() {
+internal class T1ha2StreamHasher(private val seedX: ULong = 0u, private val seedY: ULong = 0u) : HasherEngine<T1ha2StreamHasher>() {
 
     private var state = T1haState256()
 
@@ -32,20 +31,20 @@ internal class T1ha2_stream128(private val seedX: ULong = 0u, private val seedY:
     }
 
     override val digestLength: Int
-        get() = 16
+        get() = 8
 
     override val blockLength: Int
         get() = 32
 
-    override fun copy(): T1ha2_stream128 {
+    override fun copy(): T1ha2StreamHasher {
         return copyState(
-            T1ha2_stream128(seedX, seedY).apply {
-                state = this@T1ha2_stream128.state.copy()
+            T1ha2StreamHasher(seedX, seedY).apply {
+                state = this@T1ha2StreamHasher.state.copy()
             }
         )
     }
 
-    override fun toString() = "t1ha2-stream128"
+    override fun toString() = "t1ha2-stream"
 
     override fun engineReset() {
         state = T1haState256()
@@ -67,10 +66,11 @@ internal class T1ha2_stream128(private val seedX: ULong = 0u, private val seedY:
 
         val rem = flush()
 
-        val hash = t1ha2TailABCD(state, ByteBuffer().apply { add(blockBuffer) }, 0, rem)
+        squash(state)
 
-        encodeBELong(hash.upper.toLong(), output, 0)
-        encodeBELong(hash.lower.toLong(), output, 8)
+        val hash = t1ha2TailAB(state, ByteBuffer().apply { add(blockBuffer) }, 0, rem)
+
+        encodeBELong(hash.toLong(), output, 0)
     }
 
     override fun doInit() = Unit

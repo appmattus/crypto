@@ -48,6 +48,7 @@ kotlin {
             api(project(":cryptohash-siphash"))
             api(project(":cryptohash-highwayhash"))
             api(project(":cryptohash-md"))
+            api(project(":cryptohash-t1ha"))
             implementation(libs.uint128)
         }
 
