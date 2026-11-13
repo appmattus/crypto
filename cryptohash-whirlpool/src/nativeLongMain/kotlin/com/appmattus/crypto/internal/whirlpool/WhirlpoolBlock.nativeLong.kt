@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.appmattus.crypto.internal.core.sphlib
+package com.appmattus.crypto.internal.whirlpool
 
 internal actual fun whirlpoolProcessBlock(state: LongArray, data: ByteArray, tables: Array<LongArray>, rc: LongArray) =
     whirlpoolProcessBlockLong(state, data, tables, rc)
