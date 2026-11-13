@@ -24,8 +24,7 @@ import com.appmattus.crypto.internal.core.encodeBELong
  * A [Hasher] for [t1ha2](https://github.com/erthink/t1ha) at-once with output size of 64 bits, which can only
  * hash its whole input at once
  */
-@Suppress("FunctionName")
-internal fun t1ha2_atonceHasher(seed: ULong): Hasher =
+internal fun t1ha2AtOnceHasher(seed: ULong): Hasher =
     NonIncrementalHasher("t1ha2-atonce", 8) { input ->
         val state = T1haState256()
         var length = input.size

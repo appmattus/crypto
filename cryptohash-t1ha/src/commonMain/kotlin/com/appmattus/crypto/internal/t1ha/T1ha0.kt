@@ -26,17 +26,16 @@ import com.appmattus.crypto.internal.core.rotateRight
 /**
  * A [Hasher] for [t1ha0](https://github.com/erthink/t1ha) 32-bit little-endian, which can only hash its whole input at once
  */
-internal fun t1ha0_32leHasher(seed: ULong): Hasher =
+internal fun t1ha0Hasher(seed: ULong): Hasher =
     NonIncrementalHasher("t1ha0-32le", 8) { input ->
         ByteArray(8).apply {
-            encodeBELong(T1ha0_32le.t1ha0_32le(input, seed).toLong(), this, 0)
+            encodeBELong(T1ha0.t1ha0_32le(input, seed).toLong(), this, 0)
         }
     }
 
-@Suppress("ClassName", "FunctionName")
-private object T1ha0_32le {
+@Suppress("FunctionName")
+private object T1ha0 {
 
-    @Suppress("MemberNameEqualsClassName")
     fun t1ha0_32le(data: ByteBuffer, seed: ULong): ULong {
         var len = data.size
         var a: UInt = len.toUInt().rotateRight(17) + seed.toUInt()

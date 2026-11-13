@@ -19,10 +19,10 @@ package com.appmattus.crypto
 import com.appmattus.crypto.internal.t1ha.T1ha2Stream128Hasher
 import com.appmattus.crypto.internal.t1ha.T1ha2StreamHasher
 import com.appmattus.crypto.internal.t1ha.T1haAlgorithm
-import com.appmattus.crypto.internal.t1ha.t1ha0_32leHasher
-import com.appmattus.crypto.internal.t1ha.t1ha1_leHasher
-import com.appmattus.crypto.internal.t1ha.t1ha2_atonce128Hasher
-import com.appmattus.crypto.internal.t1ha.t1ha2_atonceHasher
+import com.appmattus.crypto.internal.t1ha.t1ha0Hasher
+import com.appmattus.crypto.internal.t1ha.t1ha1Hasher
+import com.appmattus.crypto.internal.t1ha.t1ha2AtOnce128Hasher
+import com.appmattus.crypto.internal.t1ha.t1ha2AtOnceHasher
 
 /**
  * The [t1ha](https://github.com/erthink/t1ha) family of fast, non-cryptographic hashes
@@ -34,23 +34,26 @@ public object T1ha {
     /**
      * t1ha0, the 32-bit little-endian variant, with output size of 64 bits using [seed]
      */
-    public fun t1ha0_32le(seed: ULong = 0u): HashAlgorithm = T1haAlgorithm("t1ha0-32le", listOf(seed)) { t1ha0_32leHasher(seed) }
+    public fun t1ha0_32le(seed: ULong = 0u): HashAlgorithm =
+        T1haAlgorithm("t1ha0-32le", listOf(seed)) { t1ha0Hasher(seed) }
 
     /**
      * t1ha1, the little-endian variant, with output size of 64 bits using [seed]
      */
-    public fun t1ha1_le(seed: ULong = 0u): HashAlgorithm = T1haAlgorithm("t1ha1-le", listOf(seed)) { t1ha1_leHasher(seed) }
+    public fun t1ha1_le(seed: ULong = 0u): HashAlgorithm =
+        T1haAlgorithm("t1ha1-le", listOf(seed)) { t1ha1Hasher(seed) }
 
     /**
      * t1ha2, hashing its whole input at once, with output size of 64 bits using [seed]
      */
-    public fun t1ha2AtOnce(seed: ULong = 0u): HashAlgorithm = T1haAlgorithm("t1ha2-atonce", listOf(seed)) { t1ha2_atonceHasher(seed) }
+    public fun t1ha2AtOnce(seed: ULong = 0u): HashAlgorithm =
+        T1haAlgorithm("t1ha2-atonce", listOf(seed)) { t1ha2AtOnceHasher(seed) }
 
     /**
      * t1ha2, hashing its whole input at once, with output size of 128 bits using [seed]
      */
     public fun t1ha2AtOnce128(seed: ULong = 0u): HashAlgorithm =
-        T1haAlgorithm("t1ha2-atonce128", listOf(seed)) { t1ha2_atonce128Hasher(seed) }
+        T1haAlgorithm("t1ha2-atonce128", listOf(seed)) { t1ha2AtOnce128Hasher(seed) }
 
     /**
      * t1ha2, hashing its input incrementally, with output size of 64 bits using the seeds [seedX] and [seedY]
