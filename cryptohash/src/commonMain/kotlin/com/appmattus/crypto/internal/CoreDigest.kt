@@ -40,6 +40,7 @@ import com.appmattus.crypto.RipeMD
 import com.appmattus.crypto.SM3
 import com.appmattus.crypto.SipHash
 import com.appmattus.crypto.Streebog
+import com.appmattus.crypto.T1ha
 import com.appmattus.crypto.Tiger
 import com.appmattus.crypto.Whirlpool
 import com.appmattus.crypto.Wyhash
@@ -117,12 +118,6 @@ import com.appmattus.crypto.internal.core.sphlib.SIMD256
 import com.appmattus.crypto.internal.core.sphlib.SIMD384
 import com.appmattus.crypto.internal.core.sphlib.SIMD512
 import com.appmattus.crypto.internal.core.sphlib.ShabalGeneric
-import com.appmattus.crypto.internal.core.t1ha.T1ha0_32le
-import com.appmattus.crypto.internal.core.t1ha.T1ha1_le
-import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce
-import com.appmattus.crypto.internal.core.t1ha.T1ha2_atonce128
-import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream
-import com.appmattus.crypto.internal.core.t1ha.T1ha2_stream128
 
 internal object CoreDigest {
 
@@ -390,12 +385,12 @@ internal object CoreDigest {
 
             is Algorithm.SM3 -> SM3.sm3.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.T1ha0_32le -> T1ha0_32le(algorithm.seed)
-            is Algorithm.T1ha1_le -> T1ha1_le(algorithm.seed)
-            is Algorithm.T1ha2_AtOnce -> T1ha2_atonce(algorithm.seed)
-            is Algorithm.T1ha2_AtOnce128 -> T1ha2_atonce128(algorithm.seed)
-            is Algorithm.T1ha2_Stream -> T1ha2_stream(algorithm.seedX, algorithm.seedY)
-            is Algorithm.T1ha2_Stream128 -> T1ha2_stream128(algorithm.seedX, algorithm.seedY)
+            is Algorithm.T1ha0_32le -> T1ha.t1ha0_32le(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.T1ha1_le -> T1ha.t1ha1_le(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.T1ha2_AtOnce -> T1ha.t1ha2AtOnce(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.T1ha2_AtOnce128 -> T1ha.t1ha2AtOnce128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.T1ha2_Stream -> T1ha.t1ha2Stream(algorithm.seedX, algorithm.seedY).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.T1ha2_Stream128 -> T1ha.t1ha2Stream128(algorithm.seedX, algorithm.seedY).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Tiger -> Tiger.tiger.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.Tiger2 -> Tiger.tiger2.newHasher().toDigest(algorithm.blockLength)

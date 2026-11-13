@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,24 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.t1ha
+// The t1ha family of fast hashes
 
-internal data class T1haState256(
-    var a: ULong = 0u,
-    var b: ULong = 0u,
-    var c: ULong = 0u,
-    var d: ULong = 0u
-)
+plugins {
+    id("cryptohash.kmp-library")
+    id("cryptohash.publish")
+}
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.uint128)
+            api(project(":cryptohash-core"))
+        }
+
+        commonTest.dependencies {
+            implementation(project(":common-test"))
+        }
+    }
+}
+
+apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))
