@@ -27,6 +27,7 @@ import com.appmattus.crypto.Haval
 import com.appmattus.crypto.HighwayHash
 import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.Kupyna
+import com.appmattus.crypto.MD
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Panama
@@ -105,9 +106,6 @@ import com.appmattus.crypto.internal.core.sphlib.Luffa224
 import com.appmattus.crypto.internal.core.sphlib.Luffa256
 import com.appmattus.crypto.internal.core.sphlib.Luffa384
 import com.appmattus.crypto.internal.core.sphlib.Luffa512
-import com.appmattus.crypto.internal.core.sphlib.MD2
-import com.appmattus.crypto.internal.core.sphlib.MD4
-import com.appmattus.crypto.internal.core.sphlib.MD5
 import com.appmattus.crypto.internal.core.sphlib.SHA0
 import com.appmattus.crypto.internal.core.sphlib.SHA1
 import com.appmattus.crypto.internal.core.sphlib.SHA224
@@ -277,9 +275,9 @@ internal object CoreDigest {
             is Algorithm.MetroHash64 -> MetroHash.metroHash64(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.MetroHash128 -> MetroHash.metroHash128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.MD2 -> MD2()
-            is Algorithm.MD4 -> MD4()
-            is Algorithm.MD5 -> MD5()
+            is Algorithm.MD2 -> MD.md2.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MD4 -> MD.md4.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MD5 -> MD.md5.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.MurmurHash1 -> MurmurHash.murmurHash1(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.MurmurHash2 -> MurmurHash.murmurHash2(algorithm.seed).newHasher().toDigest(algorithm.blockLength)

@@ -18,6 +18,7 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import kotlin.test.Test
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 
 class JvmPlatformDelegationTest {
@@ -40,6 +41,6 @@ class JvmPlatformDelegationTest {
 
     @Test
     fun keepsCoreForOtherAlgorithms() {
-        assertIs<com.appmattus.crypto.internal.core.sphlib.MD5>(Algorithm.MD5.createDigest())
+        assertFalse(Algorithm.MD5.createDigest() is JvmMessageDigest)
     }
 }
