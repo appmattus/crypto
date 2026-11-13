@@ -20,6 +20,7 @@ import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.CRC
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Gost
 import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
@@ -41,7 +42,6 @@ import com.appmattus.crypto.internal.core.SM3
 import com.appmattus.crypto.internal.core.SipHash
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
 import com.appmattus.crypto.internal.core.blake3.Blake3
-import com.appmattus.crypto.internal.core.bouncycastle.GOST3411
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_256
 import com.appmattus.crypto.internal.core.bouncycastle.GOST3411_2012_512
 import com.appmattus.crypto.internal.core.bouncycastle.Kupyna
@@ -214,7 +214,7 @@ internal object CoreDigest {
             is Algorithm.Fugue384 -> Fugue384()
             is Algorithm.Fugue512 -> Fugue512()
 
-            is Algorithm.GOST3411_94 -> GOST3411()
+            is Algorithm.GOST3411_94 -> Gost.gost3411_94.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.GOST3411_2012_256 -> GOST3411_2012_256()
             is Algorithm.GOST3411_2012_512 -> GOST3411_2012_512()
 

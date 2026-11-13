@@ -37,7 +37,7 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal.core.bouncycastle
+package com.appmattus.crypto.internal.gost
 
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.encodeLEInt

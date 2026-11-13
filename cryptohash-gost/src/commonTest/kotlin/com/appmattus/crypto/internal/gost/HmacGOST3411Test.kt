@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.appmattus.crypto.internal
+package com.appmattus.crypto.internal.gost
 
-import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.testHmac
+import com.appmattus.crypto.Gost
+import com.appmattus.crypto.internal.testHmac
 import kotlin.test.Test
 
 class HmacGOST3411Test {
@@ -27,7 +27,7 @@ class HmacGOST3411Test {
         // From https://github.com/xsc/pandect/blob/master/test/pandect/hmac_test.clj
 
         testHmac(
-            Algorithm.GOST3411_94,
+            Gost.gost3411_94,
             "6b6579",
             "The quick brown fox jumps over the lazy dog",
             "e06ac9388fa2107fa7bb49d6b29c28a09a2c0cde316cd349a12bb4b0d3497370"
@@ -36,7 +36,7 @@ class HmacGOST3411Test {
         // From https://github.com/bcgit/bc-java/blob/master/core/src/test/java/org/bouncycastle/crypto/test/GOST3411DigestTest.java
 
         testHmac(
-            Algorithm.GOST3411_94,
+            Gost.gost3411_94,
             "31",
             "fred",
             "e9f98610cfc80084462b175a15d2b4ec10b2ab892eae5a6179d572d9b1db6b72"
