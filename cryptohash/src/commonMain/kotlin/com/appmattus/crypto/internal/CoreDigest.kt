@@ -23,7 +23,9 @@ import com.appmattus.crypto.Blake
 import com.appmattus.crypto.Blake2
 import com.appmattus.crypto.Blake3
 import com.appmattus.crypto.CRC
+import com.appmattus.crypto.CityHash
 import com.appmattus.crypto.Digest
+import com.appmattus.crypto.FarmHash
 import com.appmattus.crypto.Gost
 import com.appmattus.crypto.Haraka
 import com.appmattus.crypto.Haval
@@ -52,14 +54,6 @@ import com.appmattus.crypto.XXHash
 import com.appmattus.crypto.internal.core.SHA512_224
 import com.appmattus.crypto.internal.core.SHA512_256
 import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
-import com.appmattus.crypto.internal.core.city.CityHash128
-import com.appmattus.crypto.internal.core.city.CityHash32
-import com.appmattus.crypto.internal.core.city.CityHash64
-import com.appmattus.crypto.internal.core.city.CityHashCrc128
-import com.appmattus.crypto.internal.core.city.CityHashCrc256
-import com.appmattus.crypto.internal.core.farm.FarmHash128
-import com.appmattus.crypto.internal.core.farm.FarmHash32
-import com.appmattus.crypto.internal.core.farm.FarmHash64
 import com.appmattus.crypto.internal.core.sphlib.BMW224
 import com.appmattus.crypto.internal.core.sphlib.BMW256
 import com.appmattus.crypto.internal.core.sphlib.BMW384
@@ -171,11 +165,21 @@ internal object CoreDigest {
             is Algorithm.BMW384 -> BMW384()
             is Algorithm.BMW512 -> BMW512()
 
-            is Algorithm.CityHash32 -> CityHash32()
-            is Algorithm.CityHash64 -> CityHash64(algorithm)
-            is Algorithm.CityHash128 -> CityHash128(algorithm)
-            is Algorithm.CityHashCrc128 -> CityHashCrc128(algorithm)
-            is Algorithm.CityHashCrc256 -> CityHashCrc256()
+            is Algorithm.CityHash32 -> CityHash.cityHash32.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CityHash64 -> when (algorithm) {
+                is Algorithm.CityHash64.Seed -> CityHash.cityHash64(algorithm.seed)
+                is Algorithm.CityHash64.Seeds -> CityHash.cityHash64(algorithm.seed1, algorithm.seed2)
+                else -> CityHash.cityHash64()
+            }.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CityHash128 -> when (algorithm) {
+                is Algorithm.CityHash128.Seed -> CityHash.cityHash128(algorithm.seedLow, algorithm.seedHigh)
+                else -> CityHash.cityHash128()
+            }.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CityHashCrc128 -> when (algorithm) {
+                is Algorithm.CityHashCrc128.Seed -> CityHash.cityHashCrc128(algorithm.seedLow, algorithm.seedHigh)
+                else -> CityHash.cityHashCrc128()
+            }.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CityHashCrc256 -> CityHash.cityHashCrc256.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.CRC32 -> CRC.crc32.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.CRC32B -> CRC.crc32b.newHasher().toDigest(algorithm.blockLength)
@@ -198,9 +202,19 @@ internal object CoreDigest {
             is Algorithm.ECHO384 -> ECHO384()
             is Algorithm.ECHO512 -> ECHO512()
 
-            is Algorithm.FarmHash32 -> FarmHash32(algorithm)
-            is Algorithm.FarmHash64 -> FarmHash64(algorithm)
-            is Algorithm.FarmHash128 -> FarmHash128(algorithm)
+            is Algorithm.FarmHash32 -> when (algorithm) {
+                is Algorithm.FarmHash32.Seed -> FarmHash.farmHash32(algorithm.seed)
+                else -> FarmHash.farmHash32()
+            }.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.FarmHash64 -> when (algorithm) {
+                is Algorithm.FarmHash64.Seed -> FarmHash.farmHash64(algorithm.seed)
+                is Algorithm.FarmHash64.Seeds -> FarmHash.farmHash64(algorithm.seed1, algorithm.seed2)
+                else -> FarmHash.farmHash64()
+            }.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.FarmHash128 -> when (algorithm) {
+                is Algorithm.FarmHash128.Seed -> FarmHash.farmHash128(algorithm.seedLow, algorithm.seedHigh)
+                else -> FarmHash.farmHash128()
+            }.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Fugue224 -> Fugue224()
             is Algorithm.Fugue256 -> Fugue256()
