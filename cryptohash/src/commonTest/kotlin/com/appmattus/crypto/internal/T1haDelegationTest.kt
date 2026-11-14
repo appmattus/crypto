@@ -29,6 +29,7 @@ class T1haDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashT1ha() {
         testDigestKat({ CoreDigest.create(Algorithm.T1ha0_32le(5u)) }, input, T1ha.t1ha0_32le(5u).hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.T1ha1_le(5u)) }, input, T1ha.t1ha1Le(5u).hash(input).toHexString())
@@ -39,12 +40,14 @@ class T1haDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun streamSeedYDefaultsToSeedX() {
         testDigestKat({ CoreDigest.create(Algorithm.T1ha2_Stream(5u)) }, input, T1ha.t1ha2Stream(5u, 5u).hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.T1ha2_Stream128(5u)) }, input, T1ha.t1ha2Stream128(5u, 5u).hash(input).toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.T1ha0_32le() to 8,

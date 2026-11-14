@@ -33,6 +33,7 @@ class AsconDelegationTest {
     private val customisation = ByteArray(20) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashAscon() {
         testDigestKat({ CoreDigest.create(Algorithm.AsconHash256) }, input, Ascon.hash256.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.AsconXof128()) }, input, Ascon.xof128().hash(input).toHexString())
@@ -46,6 +47,7 @@ class AsconDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.AsconHash256 to 32,

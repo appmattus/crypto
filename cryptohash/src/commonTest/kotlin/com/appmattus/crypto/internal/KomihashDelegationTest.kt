@@ -30,6 +30,7 @@ class KomihashDelegationTest {
     private val input = ByteArray(200) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashKomihash() {
         testDigestKat({ CoreDigest.create(Algorithm.Komihash()) }, "This is a 32-byte testing string", "05ad960802903a9d")
         testDigestKat({ CoreDigest.create(Algorithm.Komihash(0x0123456789abcdefu)) }, "The cat is out of the bag", "5b1da0b43545d196")
@@ -38,6 +39,7 @@ class KomihashDelegationTest {
 
     @Test
     fun describesItselfAsTheAlgorithm() {
+        @Suppress("DEPRECATION")
         val algorithm = Algorithm.Komihash()
         val digest = algorithm.createDigest()
         assertEquals(algorithm.blockLength, digest.blockLength)

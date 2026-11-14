@@ -28,6 +28,7 @@ class ConveniencesTest {
     private val bytes = text.encodeToByteArray()
     private val key = "key".encodeToByteArray()
 
+    @Suppress("DEPRECATION")
     private val algorithms =
         listOf<Algorithm>(Algorithm.SHA_256, Algorithm.Blake2b_512, Algorithm.CRC32C, Algorithm.XXH3_64())
 
@@ -51,12 +52,14 @@ class ConveniencesTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun hmacStringUsesUtf8() {
         assertContentEquals(Algorithm.SHA_256.hmac(key, bytes), Algorithm.SHA_256.hmac(key, text))
         assertContentEquals(Algorithm.SHA_256.hmac(key, bytes, 16), Algorithm.SHA_256.hmac(key, text, 16))
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun hmacRangeMatchesCopy() {
         assertContentEquals(Algorithm.SHA_256.hmac(key, bytes.copyOfRange(4, 20)), Algorithm.SHA_256.hmac(key, bytes, 4, 16))
         assertContentEquals(Algorithm.SHA_256.hmac(key, bytes.copyOfRange(4, 20), 12), Algorithm.SHA_256.hmac(key, bytes, 4, 16, 12))
@@ -64,6 +67,7 @@ class ConveniencesTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun digestStringExtensionsUseUtf8() = algorithms.forEach {
         val digest = it.createDigest()
         digest.update("The quick ")
@@ -85,6 +89,7 @@ class ConveniencesTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun updateStringChains() = algorithms.forEach {
         val digest = it.createDigest()
         assertSame(digest, digest.update("The quick "), it.algorithmName)

@@ -19,12 +19,14 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Mac
 
+@Suppress("DEPRECATION")
 internal fun Mac.toDigest(): Digest = MacDigest(this)
 
 /**
  * A [Mac] presented as the [Digest] that Algorithm's HMAC conveniences return, keeping the behaviour of the HMAC digest
  * it replaces: a partial digest writes as much of the MAC as [digest]'s length allows, and the block length is 64
  */
+@Suppress("DEPRECATION")
 private class MacDigest(private val mac: Mac) : Digest {
     override fun update(input: Byte): Digest = apply { mac.update(input) }
 

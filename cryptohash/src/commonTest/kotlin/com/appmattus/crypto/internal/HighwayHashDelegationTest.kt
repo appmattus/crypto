@@ -31,6 +31,7 @@ class HighwayHashDelegationTest {
     private val key = longArrayOf(0x0706050403020100L, 0x0F0E0D0C0B0A0908L, 0x1716151413121110L, 0x1F1E1D1C1B1A1918L)
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashHighwayHash() {
         testDigestKat({ CoreDigest.create(Algorithm.HighwayHash64(key)) }, input, HighwayHash.highwayHash64(key).hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.HighwayHash128(key)) }, input, HighwayHash.highwayHash128(key).hash(input).toHexString())
@@ -38,6 +39,7 @@ class HighwayHashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.HighwayHash64(key) to 8,

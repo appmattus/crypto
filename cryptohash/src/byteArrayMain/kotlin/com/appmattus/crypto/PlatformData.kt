@@ -32,6 +32,7 @@ public actual typealias MutablePlatformData = ByteArray
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
+@Suppress("DEPRECATION")
 internal actual fun Digest.toPlatform(): PlatformDigest = object : PlatformDigest {
     override fun update(input: Byte): PlatformDigest = apply { this@toPlatform.update(input) }
     override fun update(input: PlatformData): PlatformDigest = apply { this@toPlatform.update(input) }

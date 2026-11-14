@@ -30,11 +30,13 @@ class PanamaDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashPanama() {
         testDigestKat({ CoreDigest.create(Algorithm.PANAMA) }, input, Panama.panama.hash(input).toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.PANAMA to 32

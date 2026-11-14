@@ -32,12 +32,14 @@ class Sha1DelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashSha1() {
         testDigestKat({ CoreDigest.create(Algorithm.SHA_0) }, input, Sha1.sha0.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.SHA_1) }, input, Sha1.sha1.hash(input).toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         assertContentEquals(Sha1.sha0.newHmac(key).digest(input), Algorithm.SHA_0.hmac(key, input))
         assertContentEquals(Sha1.sha0.newHmac(key, outputLength = 10).digest(input), Algorithm.SHA_0.hmac(key, input, outputLength = 10))
@@ -46,6 +48,7 @@ class Sha1DelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.SHA_0 to 20,

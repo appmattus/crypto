@@ -29,6 +29,7 @@ class ShabalDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashShabal() {
         testDigestKat({ CoreDigest.create(Algorithm.Shabal192) }, input, Shabal.shabal192.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.Shabal224) }, input, Shabal.shabal224.hash(input).toHexString())
@@ -38,6 +39,7 @@ class ShabalDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Shabal192 to 24,

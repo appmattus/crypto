@@ -29,6 +29,7 @@ class JhDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashJh() {
         testDigestKat({ CoreDigest.create(Algorithm.JH224) }, input, Jh.jh224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.JH256) }, input, Jh.jh256.hash(input).toHexString())
@@ -37,6 +38,7 @@ class JhDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.JH224 to 28,

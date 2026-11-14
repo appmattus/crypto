@@ -41,6 +41,11 @@ package com.appmattus.crypto
  * ... etc.
  * ```
  */
+@Deprecated(
+    "Use Hasher, created by HashAlgorithm.newHasher()",
+    ReplaceWith("Hasher", "com.appmattus.crypto.Hasher")
+)
+@Suppress("DEPRECATION")
 public interface Digest {
 
     /**

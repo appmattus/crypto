@@ -22,6 +22,7 @@ import kotlin.test.assertEquals
 class Blake2AlgorithmNameTest {
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake2bObjectsShareAlgorithmNameWithParameterisedForm() {
         assertEquals("Blake2b-512", Algorithm.Blake2b_512.algorithmName)
         assertEquals(Algorithm.Blake2b(160).algorithmName, Algorithm.Blake2b_160.algorithmName)
@@ -31,6 +32,7 @@ class Blake2AlgorithmNameTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake2sObjectsShareAlgorithmNameWithParameterisedForm() {
         assertEquals("Blake2s-256", Algorithm.Blake2s_256.algorithmName)
         assertEquals(Algorithm.Blake2s(128).algorithmName, Algorithm.Blake2s_128.algorithmName)

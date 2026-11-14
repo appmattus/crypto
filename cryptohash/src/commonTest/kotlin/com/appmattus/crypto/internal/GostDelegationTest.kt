@@ -33,17 +33,20 @@ class GostDelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashGost() {
         testDigestKat({ CoreDigest.create(Algorithm.GOST3411_94) }, input, Gost.gost3411_94.hash(input).toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         assertContentEquals(Gost.gost3411_94.newHmac(key).digest(input), Algorithm.GOST3411_94.hmac(key, input))
         assertContentEquals(Gost.gost3411_94.newHmac(key, outputLength = 10).digest(input), Algorithm.GOST3411_94.hmac(key, input, outputLength = 10))
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.GOST3411_94 to 32

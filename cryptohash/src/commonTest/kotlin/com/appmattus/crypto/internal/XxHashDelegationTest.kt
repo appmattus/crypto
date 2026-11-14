@@ -33,6 +33,7 @@ class XxHashDelegationTest {
     private val secret = ByteArray(192) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashXxHash() {
         testDigestKat({ CoreDigest.create(Algorithm.XXHash32(0)) }, "1", "b6ecc8b2")
         testDigestKat({ CoreDigest.create(Algorithm.XXHash64(0)) }, "1", "b7b41276360564d4")
@@ -47,6 +48,7 @@ class XxHashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.XXHash32() to 4,

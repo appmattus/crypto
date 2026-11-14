@@ -30,6 +30,7 @@ class KupynaDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashKupyna() {
         testDigestKat({ CoreDigest.create(Algorithm.Kupyna_256) }, input, Kupyna.kupyna256.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.Kupyna_384) }, input, Kupyna.kupyna384.hash(input).toHexString())
@@ -37,6 +38,7 @@ class KupynaDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Kupyna_256 to 32,
