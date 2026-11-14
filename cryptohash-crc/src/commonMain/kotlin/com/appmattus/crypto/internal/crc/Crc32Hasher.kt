@@ -17,7 +17,7 @@
 package com.appmattus.crypto.internal.crc
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.encodeLeInt
 
 internal class Crc32Hasher : Hasher {
 
@@ -43,7 +43,7 @@ internal class Crc32Hasher : Hasher {
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        encodeLEInt(checksum, digest, 0)
+        encodeLeInt(checksum, digest, 0)
 
         reset()
 

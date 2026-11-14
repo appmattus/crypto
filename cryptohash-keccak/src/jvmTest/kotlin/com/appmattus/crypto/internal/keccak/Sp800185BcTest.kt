@@ -17,7 +17,7 @@
 package com.appmattus.crypto.internal.keccak
 
 import com.appmattus.crypto.KangarooTwelve
-import com.appmattus.crypto.SP800185
+import com.appmattus.crypto.Sp800185
 import org.bouncycastle.crypto.digests.Kangaroo
 import org.bouncycastle.crypto.digests.ParallelHash
 import org.bouncycastle.crypto.digests.TupleHash
@@ -50,9 +50,9 @@ class Sp800185BcTest {
                 val expected = ByteArray(outputSize).also { kmac.doFinal(it, 0, outputSize) }
 
                 val algorithm = if (bitLength == 128) {
-                    SP800185.kmac128(key, customisation, outputSize * 8)
+                    Sp800185.kmac128(key, customisation, outputSize * 8)
                 } else {
-                    SP800185.kmac256(key, customisation, outputSize * 8)
+                    Sp800185.kmac256(key, customisation, outputSize * 8)
                 }
                 assertContentEquals(expected, algorithm.hash(message), "KMAC$bitLength key ${key.size} message ${message.size}")
             }
@@ -72,9 +72,9 @@ class Sp800185BcTest {
                 val expected = ByteArray(outputSize).also { tupleHash.doFinal(it, 0, outputSize) }
 
                 val algorithm = if (bitLength == 128) {
-                    SP800185.tupleHash128(customisation, outputSize * 8)
+                    Sp800185.tupleHash128(customisation, outputSize * 8)
                 } else {
-                    SP800185.tupleHash256(customisation, outputSize * 8)
+                    Sp800185.tupleHash256(customisation, outputSize * 8)
                 }
                 val digest = algorithm.newHasher()
                 tuple.forEach { digest.update(it) }
@@ -97,9 +97,9 @@ class Sp800185BcTest {
                 val expected = ByteArray(outputSize).also { parallelHash.doFinal(it, 0, outputSize) }
 
                 val algorithm = if (bitLength == 128) {
-                    SP800185.parallelHash128(blockSize, customisation, outputSize * 8)
+                    Sp800185.parallelHash128(blockSize, customisation, outputSize * 8)
                 } else {
-                    SP800185.parallelHash256(blockSize, customisation, outputSize * 8)
+                    Sp800185.parallelHash256(blockSize, customisation, outputSize * 8)
                 }
 
                 // Feed the message in random chunks to exercise the block buffering

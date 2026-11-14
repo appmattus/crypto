@@ -16,9 +16,9 @@
 
 package com.appmattus.crypto.internal.wyhash
 
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.decodeLEULong
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.decodeLeULong
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.core.multiplyHigh
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
@@ -47,7 +47,7 @@ internal class WyhashHasher(
         val rem = flush()
         val len = (blockCount.toInt() * blockLength) + rem
 
-        encodeBELong(state.finish(blockBuffer, rem, len).toLong(), output, outputOffset)
+        encodeBeLong(state.finish(blockBuffer, rem, len).toLong(), output, outputOffset)
     }
 
     override fun doInit() = Unit
@@ -244,9 +244,9 @@ internal class WyhashStateLong(
         return result
     }
 
-    private fun wyr8(data: ByteArray, offset: Int): ULong = data.decodeLEULong(offset)
+    private fun wyr8(data: ByteArray, offset: Int): ULong = data.decodeLeULong(offset)
 
-    private fun wyr4(data: ByteArray, offset: Int): ULong = decodeLEInt(data, offset).toULong() and 0xffffffffu
+    private fun wyr4(data: ByteArray, offset: Int): ULong = decodeLeInt(data, offset).toULong() and 0xffffffffu
 
     // Each byte is read unsigned, as the reference implementation's uint8_t, so masked after Byte.toULong sign-extends it
     private fun wyr3(data: ByteArray, offset: Int, k: Int): ULong {

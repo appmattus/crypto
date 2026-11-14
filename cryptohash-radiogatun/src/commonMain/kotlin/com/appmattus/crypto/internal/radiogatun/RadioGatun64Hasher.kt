@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.radiogatun
 
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 /**
@@ -119,9 +119,9 @@ internal class RadioGatun64Hasher : HasherEngine<RadioGatun64Hasher>() {
         var a18 = a[18]
         var dp = 0
         for (mk in 12 downTo 0) {
-            val p0 = decodeLELong(data, dp + 0)
-            val p1 = decodeLELong(data, dp + 8)
-            val p2 = decodeLELong(data, dp + 16)
+            val p0 = decodeLeLong(data, dp + 0)
+            val p1 = decodeLeLong(data, dp + 8)
+            val p2 = decodeLeLong(data, dp + 16)
             dp += 24
             var bj = if (mk == 12) 0 else 3 * (mk + 1)
             b[bj + 0] = b[bj + 0] xor p0
@@ -405,8 +405,8 @@ internal class RadioGatun64Hasher : HasherEngine<RadioGatun64Hasher>() {
             b[1] = bt1
             b[2] = bt2
             if (num < 2) {
-                encodeLELong(a01, out, off + 0)
-                encodeLELong(a02, out, off + 8)
+                encodeLeLong(a01, out, off + 0)
+                encodeLeLong(a02, out, off + 8)
                 off += 16
             }
         }

@@ -16,13 +16,13 @@
 
 package com.appmattus.crypto.internal.xxhash
 
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.xxhash.XXHash64Hasher.Companion.prime1
-import com.appmattus.crypto.internal.xxhash.XXHash64Hasher.Companion.prime2
-import com.appmattus.crypto.internal.xxhash.XXHash64Hasher.Companion.prime3
-import com.appmattus.crypto.internal.xxhash.XXHash64Hasher.Companion.prime4
-import com.appmattus.crypto.internal.xxhash.XXHash64Hasher.Companion.prime5
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.xxhash.XxHash64Hasher.Companion.prime1
+import com.appmattus.crypto.internal.xxhash.XxHash64Hasher.Companion.prime2
+import com.appmattus.crypto.internal.xxhash.XxHash64Hasher.Companion.prime3
+import com.appmattus.crypto.internal.xxhash.XxHash64Hasher.Companion.prime4
+import com.appmattus.crypto.internal.xxhash.XxHash64Hasher.Companion.prime5
 
 /**
  * The XXH64 hash of everything fed into [state]: merges the four accumulators, or starts from the seed for inputs under
@@ -30,12 +30,12 @@ import com.appmattus.crypto.internal.xxhash.XXHash64Hasher.Companion.prime5
  *
  * Kotlin/JS has its own implementation, as its [Long] is an object and allocates on every operation.
  */
-internal expect fun xxh64Finish(state: XXHash64Hasher.State64): Long
+internal expect fun xxh64Finish(state: XxHash64Hasher.State64): Long
 
 /**
  * The [Long] implementation of [xxh64Finish], for platforms whose [Long] is a 64-bit machine integer
  */
-internal fun xxh64FinishLong(state: XXHash64Hasher.State64): Long {
+internal fun xxh64FinishLong(state: XxHash64Hasher.State64): Long {
     var h: Long
 
     if (state.totalLen >= 32) {
@@ -98,13 +98,13 @@ private fun finalize(h: Long, array: ByteArray, len: Int): Long {
     }
 
     fun process4() {
-        h2 = h2 xor ((decodeLEInt(array, index).toLong() and 0xFFFFFFFFL) * prime1)
+        h2 = h2 xor ((decodeLeInt(array, index).toLong() and 0xFFFFFFFFL) * prime1)
         index += 4
         h2 = h2.rotateLeft(23) * prime2 + prime3
     }
 
     fun process8() {
-        val k1 = round(0, decodeLELong(array, index))
+        val k1 = round(0, decodeLeLong(array, index))
         index += 8
         h2 = h2 xor k1
         h2 = h2.rotateLeft(27) * prime1 + prime4

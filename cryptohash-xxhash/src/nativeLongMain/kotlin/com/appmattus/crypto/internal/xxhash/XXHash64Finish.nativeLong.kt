@@ -15,4 +15,4 @@
  */
 package com.appmattus.crypto.internal.xxhash
 
-internal actual fun xxh64Finish(state: XXHash64Hasher.State64): Long = xxh64FinishLong(state)
+internal actual fun xxh64Finish(state: XxHash64Hasher.State64): Long = xxh64FinishLong(state)

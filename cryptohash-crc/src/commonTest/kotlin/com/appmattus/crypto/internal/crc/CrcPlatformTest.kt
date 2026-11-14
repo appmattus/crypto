@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.crc
 
-import com.appmattus.crypto.CRC
+import com.appmattus.crypto.Crc
 import com.appmattus.crypto.HashAlgorithm
 import com.appmattus.crypto.Hasher
 import kotlin.random.Random
@@ -25,7 +25,7 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 /**
- * Checks [CRC.crc32b] and [CRC.crc32c], which use the platform's own implementation where there is one, against the
+ * Checks [Crc.crc32b] and [Crc.crc32c], which use the platform's own implementation where there is one, against the
  * pure Kotlin hashers. Where the platform has none, both sides are the pure Kotlin hasher.
  */
 class CrcPlatformTest {
@@ -33,8 +33,8 @@ class CrcPlatformTest {
     private val data = Random(0).nextBytes(LARGE)
 
     private val algorithms: List<Pair<HashAlgorithm, () -> Hasher>> = listOf(
-        CRC.crc32b to ::Crc32bHasher,
-        CRC.crc32c to ::Crc32cHasher
+        Crc.crc32b to ::Crc32bHasher,
+        Crc.crc32c to ::Crc32cHasher
     )
 
     @Test

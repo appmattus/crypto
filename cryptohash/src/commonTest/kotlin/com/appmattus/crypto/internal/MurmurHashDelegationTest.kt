@@ -42,12 +42,12 @@ class MurmurHashDelegationTest {
         testKat(
             { CoreDigest.create(Algorithm.MurmurHash3_X86_128(5u)) },
             input,
-            MurmurHash.murmurHash3_x86_128(5u).hash(input).toHexString()
+            MurmurHash.murmurHash3X86_128(5u).hash(input).toHexString()
         )
         testKat(
             { CoreDigest.create(Algorithm.MurmurHash3_X64_128(5u)) },
             input,
-            MurmurHash.murmurHash3_x64_128(5u).hash(input).toHexString()
+            MurmurHash.murmurHash3X64_128(5u).hash(input).toHexString()
         )
     }
 

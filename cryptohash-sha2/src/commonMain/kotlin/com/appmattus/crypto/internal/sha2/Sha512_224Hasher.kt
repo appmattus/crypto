@@ -1,0 +1,97 @@
+/*
+ * Copyright 2021-2026 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.appmattus.crypto.internal.sha2
+
+import com.appmattus.crypto.Hasher
+
+@Suppress("ClassName")
+internal class Sha512_224Hasher : Hasher {
+    private var delegate = Hash()
+
+    override fun update(input: Byte): Hasher = apply { delegate.update(input) }
+
+    override fun update(input: ByteArray): Hasher = apply { delegate.update(input) }
+
+    override fun update(input: ByteArray, offset: Int, length: Int): Hasher = apply {
+        delegate.update(input, offset, length)
+    }
+
+    override fun digest(): ByteArray {
+        val result = delegate.digest()
+        return result.sliceArray(0 until digestLength)
+    }
+
+    override fun digest(input: ByteArray): ByteArray {
+        update(input)
+        return digest()
+    }
+
+    override fun digest(output: ByteArray, offset: Int, length: Int): Int {
+        val digest = digest()
+
+        require(length >= digest.size) { "partial digests not returned" }
+        require(output.size - offset >= digest.size) { "insufficient space in the output buffer to store the digest" }
+
+        digest.copyInto(output, offset, 0, digest.size)
+
+        return digest.size
+    }
+
+    override val digestLength: Int
+        get() = 28
+
+    override fun reset() = delegate.reset()
+
+    override fun copy(): Sha512_224Hasher {
+        return Sha512_224Hasher().also {
+            it.delegate = delegate.copy()
+        }
+    }
+
+    override fun toString() = "SHA-512/224"
+
+    private class Hash : Sha2BigCore<Hash>() {
+        override val initVal: LongArray
+            get() = Sha512_224Hasher.initVal
+
+        override val digestLength: Int
+            get() = 64
+
+        override val blockLength: Int
+            get() = 128
+
+        override fun copy(): Hash {
+            return copyState(Hash())
+        }
+
+        override fun toString() = "SHA-512/224"
+    }
+
+    companion object {
+        /** The initial value for SHA-512/224.  */
+        private val initVal = longArrayOf(
+            -8341449602262348382,
+            0x73E1996689DCD4D6L,
+            0x1DFAB7AE32FF9C82L,
+            0x679DD514582F9FCFL,
+            0x0F6D2B697BD44DA8L,
+            0x77E36F7304C48942L,
+            0x3F9D85A86A1D36C8L,
+            0x1112E6AD91D692A1L
+        )
+    }
+}

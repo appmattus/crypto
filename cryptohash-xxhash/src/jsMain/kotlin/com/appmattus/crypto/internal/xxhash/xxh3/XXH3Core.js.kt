@@ -16,7 +16,7 @@
 package com.appmattus.crypto.internal.xxhash.xxh3
 
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -43,7 +43,7 @@ private const val AVALANCHE_LOW = -0x61c88607
 private const val RRMXMX_HIGH = -0x604de39b
 private const val RRMXMX_LOW = 0x1e98df25
 
-private val xxh3 = XXH3Js()
+private val xxh3 = Xxh3Js()
 
 @Suppress("LongParameterList")
 internal actual fun xxh3Hash64Short(
@@ -68,7 +68,7 @@ internal actual fun xxh3Accumulate(
 internal actual fun xxh3InitCustomSecret(customSecret: ByteArray, seed64: xxh_u64) = xxh3.initCustomSecret(customSecret, seed64)
 
 @Suppress("TooManyFunctions")
-private class XXH3Js {
+private class Xxh3Js {
     // The high half of the last helper's result
     private var hi = 0
 
@@ -160,7 +160,7 @@ private class XXH3Js {
         val c3 = input[off + len - 1].toInt() and 0xff
         val combined = (c1 shl 16) or (c2 shl 24) or c3 or (len shl 8)
         // bitflip = (secret32[0] xor secret32[4]) + seed, keyed = combined xor bitflip
-        val bl = add(0, readIntLE(secret, 0) xor readIntLE(secret, 4), seedH, seedL)
+        val bl = add(0, readIntLe(secret, 0) xor readIntLe(secret, 4), seedH, seedL)
         return avalanche64(hi, bl xor combined)
     }
 
@@ -170,8 +170,8 @@ private class XXH3Js {
         // seed ^= swap32(seed low) shl 32
         val sh = seedH xor swap32(seedL)
         val sl = seedL
-        val input1 = readIntLE(input, off)
-        val input2 = readIntLE(input, off + len - 4)
+        val input1 = readIntLe(input, off)
+        val input2 = readIntLe(input, off + len - 4)
         // bitflip = (secret[8] xor secret[16]) - seed, keyed = (input1 shl 32 + input2) xor bitflip
         val bl = sub(fetchH(secret, 8) xor fetchH(secret, 16), fetchL(secret, 8) xor fetchL(secret, 16), sh, sl)
         val bh = hi
@@ -288,10 +288,10 @@ private class XXH3Js {
             val inBase = inputOffset + (n shl 6)
             val secBase = secretOffset + (n shl 3)
             for (i in 0..7) {
-                val dl = readIntLE(input, inBase + (i shl 3))
-                val dh = readIntLE(input, inBase + (i shl 3) + 4)
-                val kl = dl xor readIntLE(secret, secBase + (i shl 3))
-                val kh = dh xor readIntLE(secret, secBase + (i shl 3) + 4)
+                val dl = readIntLe(input, inBase + (i shl 3))
+                val dh = readIntLe(input, inBase + (i shl 3) + 4)
+                val kl = dl xor readIntLe(secret, secBase + (i shl 3))
+                val kh = dh xor readIntLe(secret, secBase + (i shl 3) + 4)
                 // acc[i xor 1] += data, swapping adjacent lanes
                 val j = i xor 1
                 var sum = accL[j] + dl
@@ -316,9 +316,9 @@ private class XXH3Js {
         for (i in 0 until 12) {
             val o = i shl 4
             var l = add(fetchH(k, o), fetchL(k, o), sh, sl)
-            writeLE(customSecret, o, hi, l)
+            writeLe(customSecret, o, hi, l)
             l = sub(fetchH(k, o + 8), fetchL(k, o + 8), sh, sl)
-            writeLE(customSecret, o + 8, hi, l)
+            writeLe(customSecret, o + 8, hi, l)
         }
     }
 
@@ -362,13 +362,13 @@ private class XXH3Js {
         (x shl 24) or ((x and 0xff00) shl 8) or ((x ushr 8) and 0xff00) or (x ushr 24)
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun fetchL(b: ByteArray, o: Int): Int = readIntLE(b, o)
+    private inline fun fetchL(b: ByteArray, o: Int): Int = readIntLe(b, o)
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-    private inline fun fetchH(b: ByteArray, o: Int): Int = readIntLE(b, o + 4)
+    private inline fun fetchH(b: ByteArray, o: Int): Int = readIntLe(b, o + 4)
 
     @Suppress("MagicNumber")
-    private fun writeLE(b: ByteArray, o: Int, h: Int, l: Int) {
+    private fun writeLe(b: ByteArray, o: Int, h: Int, l: Int) {
         for (i in 0..3) {
             b[o + i] = (l ushr (i shl 3)).toByte()
             b[o + 4 + i] = (h ushr (i shl 3)).toByte()

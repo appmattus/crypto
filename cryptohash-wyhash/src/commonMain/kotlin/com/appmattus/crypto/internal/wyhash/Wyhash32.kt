@@ -19,14 +19,14 @@ package com.appmattus.crypto.internal.wyhash
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 
 /**
  * A [Hasher] for 32-bit [wyhash](https://github.com/wangyi-fudan/wyhash), which can only hash its whole input at once
  */
 internal fun wyhash32Hasher(seed: UInt): Hasher = NonIncrementalHasher("wyhash32", 4) { input ->
     ByteArray(4).apply {
-        encodeBEInt(wyhash32(seed, input).toInt(), this, 0)
+        encodeBeInt(wyhash32(seed, input).toInt(), this, 0)
     }
 }
 
@@ -50,8 +50,8 @@ internal fun wyhash32(seed: UInt, input: ByteBuffer): UInt {
     see1 = (c shr 32).toUInt()
 
     while (i > 8) {
-        seed = seed xor input.decodeLEUInt(p)
-        see1 = see1 xor input.decodeLEUInt(p + 4)
+        seed = seed xor input.decodeLeUInt(p)
+        see1 = see1 xor input.decodeLeUInt(p + 4)
 
         c = seed.toULong() xor 0x53c5ca59u
         c *= see1.toULong() xor 0x74743c1bu
@@ -63,8 +63,8 @@ internal fun wyhash32(seed: UInt, input: ByteBuffer): UInt {
     }
 
     if (i >= 4) {
-        seed = seed xor input.decodeLEUInt(p)
-        see1 = see1 xor input.decodeLEUInt(p + i - 4)
+        seed = seed xor input.decodeLeUInt(p)
+        see1 = see1 xor input.decodeLeUInt(p + i - 4)
     } else if (i != 0) {
         seed = seed xor wyr24(input, p, i)
     }

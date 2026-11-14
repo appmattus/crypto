@@ -40,7 +40,7 @@
 package com.appmattus.crypto.internal.shabal
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.decodeLEInt
+import com.appmattus.crypto.internal.core.decodeLeInt
 
 /**
  * This class implements Shabal for all output sizes from 32 to 512 bits
@@ -150,7 +150,7 @@ internal class ShabalHasher(private val outSize: Int) : Hasher {
     }
 
     override fun reset() {
-        getIV(outSizeW32).copyInto(state, 0, 0, 44)
+        getIv(outSizeW32).copyInto(state, 0, 0, 44)
         w = 1
         ptr = 0
     }
@@ -169,7 +169,7 @@ internal class ShabalHasher(private val outSize: Int) : Hasher {
         return "Shabal-" + (digestLength shl 3)
     }
 
-    private fun getIV(outSizeW32: Int): IntArray {
+    private fun getIv(outSizeW32: Int): IntArray {
         // var iv = IVs[outSizeW32 - 1]
         // if (iv == null) {
         val outSize = outSizeW32 shl 5
@@ -249,52 +249,52 @@ internal class ShabalHasher(private val outSize: Int) : Hasher {
             var ce = state[42]
             var cf = state[43]
             while (num-- > 0) {
-                val m0 = decodeLEInt(data, off + 0)
+                val m0 = decodeLeInt(data, off + 0)
                 b0 += m0
                 b0 = b0 shl 17 or (b0 ushr 15)
-                val m1 = decodeLEInt(data, off + 4)
+                val m1 = decodeLeInt(data, off + 4)
                 b1 += m1
                 b1 = b1 shl 17 or (b1 ushr 15)
-                val m2 = decodeLEInt(data, off + 8)
+                val m2 = decodeLeInt(data, off + 8)
                 b2 += m2
                 b2 = b2 shl 17 or (b2 ushr 15)
-                val m3 = decodeLEInt(data, off + 12)
+                val m3 = decodeLeInt(data, off + 12)
                 b3 += m3
                 b3 = b3 shl 17 or (b3 ushr 15)
-                val m4 = decodeLEInt(data, off + 16)
+                val m4 = decodeLeInt(data, off + 16)
                 b4 += m4
                 b4 = b4 shl 17 or (b4 ushr 15)
-                val m5 = decodeLEInt(data, off + 20)
+                val m5 = decodeLeInt(data, off + 20)
                 b5 += m5
                 b5 = b5 shl 17 or (b5 ushr 15)
-                val m6 = decodeLEInt(data, off + 24)
+                val m6 = decodeLeInt(data, off + 24)
                 b6 += m6
                 b6 = b6 shl 17 or (b6 ushr 15)
-                val m7 = decodeLEInt(data, off + 28)
+                val m7 = decodeLeInt(data, off + 28)
                 b7 += m7
                 b7 = b7 shl 17 or (b7 ushr 15)
-                val m8 = decodeLEInt(data, off + 32)
+                val m8 = decodeLeInt(data, off + 32)
                 b8 += m8
                 b8 = b8 shl 17 or (b8 ushr 15)
-                val m9 = decodeLEInt(data, off + 36)
+                val m9 = decodeLeInt(data, off + 36)
                 b9 += m9
                 b9 = b9 shl 17 or (b9 ushr 15)
-                val ma = decodeLEInt(data, off + 40)
+                val ma = decodeLeInt(data, off + 40)
                 ba += ma
                 ba = ba shl 17 or (ba ushr 15)
-                val mb = decodeLEInt(data, off + 44)
+                val mb = decodeLeInt(data, off + 44)
                 bb += mb
                 bb = bb shl 17 or (bb ushr 15)
-                val mc = decodeLEInt(data, off + 48)
+                val mc = decodeLeInt(data, off + 48)
                 bc += mc
                 bc = bc shl 17 or (bc ushr 15)
-                val md = decodeLEInt(data, off + 52)
+                val md = decodeLeInt(data, off + 52)
                 bd += md
                 bd = bd shl 17 or (bd ushr 15)
-                val me = decodeLEInt(data, off + 56)
+                val me = decodeLeInt(data, off + 56)
                 be += me
                 be = be shl 17 or (be ushr 15)
-                val mf = decodeLEInt(data, off + 60)
+                val mf = decodeLeInt(data, off + 60)
                 bf += mf
                 bf = bf shl 17 or (bf ushr 15)
                 off += 64

@@ -59,8 +59,8 @@ package com.appmattus.crypto.internal.blake2
  */
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.encodeLeInt
 import com.appmattus.crypto.internal.core.rotateRight
 
 /**
@@ -253,27 +253,27 @@ internal class Blake2sHasher : Hasher {
         }
         if (chainValue == null) {
             chainValue = IntArray(8)
-            chainValue!![0] = (blake2s_IV[0] xor (digestSize or (keyLength shl 8) or (fanout shl 16 or (depth shl 24))))
-            chainValue!![1] = blake2s_IV[1] xor leafLength
+            chainValue!![0] = (blake2sIv[0] xor (digestSize or (keyLength shl 8) or (fanout shl 16 or (depth shl 24))))
+            chainValue!![1] = blake2sIv[1] xor leafLength
             val nofHi = (nodeOffset shr 32).toInt()
             val nofLo = nodeOffset.toInt()
-            chainValue!![2] = blake2s_IV[2] xor nofLo
-            chainValue!![3] = blake2s_IV[3] xor (nofHi or (nodeDepth shl 16) or (innerHashLength shl 24))
-            chainValue!![4] = blake2s_IV[4]
-            chainValue!![5] = blake2s_IV[5]
+            chainValue!![2] = blake2sIv[2] xor nofLo
+            chainValue!![3] = blake2sIv[3] xor (nofHi or (nodeDepth shl 16) or (innerHashLength shl 24))
+            chainValue!![4] = blake2sIv[4]
+            chainValue!![5] = blake2sIv[5]
             if (salt != null) {
                 require(salt.size == 8) { "Salt length must be exactly 8 bytes" }
                 this.salt = salt.copyInto(ByteArray(8), 0, 0, salt.size)
-                chainValue!![4] = chainValue!![4] xor decodeLEInt(salt, 0)
-                chainValue!![5] = chainValue!![5] xor decodeLEInt(salt, 4)
+                chainValue!![4] = chainValue!![4] xor decodeLeInt(salt, 0)
+                chainValue!![5] = chainValue!![5] xor decodeLeInt(salt, 4)
             }
-            chainValue!![6] = blake2s_IV[6]
-            chainValue!![7] = blake2s_IV[7]
+            chainValue!![6] = blake2sIv[6]
+            chainValue!![7] = blake2sIv[7]
             if (personalization != null) {
                 require(personalization.size == 8) { "Personalization length must be exactly 8 bytes" }
                 this.personalization = personalization.copyInto(ByteArray(8), 0, 0, personalization.size)
-                chainValue!![6] = chainValue!![6] xor decodeLEInt(personalization, 0)
-                chainValue!![7] = chainValue!![7] xor decodeLEInt(personalization, 4)
+                chainValue!![6] = chainValue!![6] xor decodeLeInt(personalization, 0)
+                chainValue!![7] = chainValue!![7] xor decodeLeInt(personalization, 4)
             }
         }
     }
@@ -281,11 +281,11 @@ internal class Blake2sHasher : Hasher {
     private fun initializeInternalState() {
         // initialize v:
         chainValue!!.copyInto(internalState, 0, 0, chainValue!!.size)
-        blake2s_IV.copyInto(internalState, chainValue!!.size, 0, 4)
-        internalState[12] = t0 xor blake2s_IV[4]
-        internalState[13] = t1 xor blake2s_IV[5]
-        internalState[14] = f0 xor blake2s_IV[6]
-        internalState[15] = blake2s_IV[7] // ^ f1 with f1 = 0
+        blake2sIv.copyInto(internalState, chainValue!!.size, 0, 4)
+        internalState[12] = t0 xor blake2sIv[4]
+        internalState[13] = t1 xor blake2sIv[5]
+        internalState[14] = f0 xor blake2sIv[6]
+        internalState[15] = blake2sIv[7] // ^ f1 with f1 = 0
     }
 
     /**
@@ -387,7 +387,7 @@ internal class Blake2sHasher : Hasher {
         var i = 0
         while (i < chainValue!!.size && i * 4 < digestSize) {
             val bytes = ByteArray(4)
-            encodeLEInt(chainValue!![i], bytes, 0)
+            encodeLeInt(chainValue!![i], bytes, 0)
             if (i * 4 < digestSize - 4) {
                 bytes.copyInto(out, outOffset + i * 4, 0, 4)
             } else {
@@ -422,20 +422,20 @@ internal class Blake2sHasher : Hasher {
         initializeInternalState()
         val m = messageWords
         for (j in 0..15) {
-            m[j] = decodeLEInt(message!!, messagePos + j * 4)
+            m[j] = decodeLeInt(message!!, messagePos + j * 4)
         }
         for (round in 0 until ROUNDS) {
             // G apply to columns of internalState:m[blake2s_sigma[round][2 *
             // blockPos]] /+1
-            g(m[blake2s_sigma[round][0].toInt()], m[blake2s_sigma[round][1].toInt()], 0, 4, 8, 12)
-            g(m[blake2s_sigma[round][2].toInt()], m[blake2s_sigma[round][3].toInt()], 1, 5, 9, 13)
-            g(m[blake2s_sigma[round][4].toInt()], m[blake2s_sigma[round][5].toInt()], 2, 6, 10, 14)
-            g(m[blake2s_sigma[round][6].toInt()], m[blake2s_sigma[round][7].toInt()], 3, 7, 11, 15)
+            g(m[blake2sSigma[round][0].toInt()], m[blake2sSigma[round][1].toInt()], 0, 4, 8, 12)
+            g(m[blake2sSigma[round][2].toInt()], m[blake2sSigma[round][3].toInt()], 1, 5, 9, 13)
+            g(m[blake2sSigma[round][4].toInt()], m[blake2sSigma[round][5].toInt()], 2, 6, 10, 14)
+            g(m[blake2sSigma[round][6].toInt()], m[blake2sSigma[round][7].toInt()], 3, 7, 11, 15)
             // G apply to diagonals of internalState:
-            g(m[blake2s_sigma[round][8].toInt()], m[blake2s_sigma[round][9].toInt()], 0, 5, 10, 15)
-            g(m[blake2s_sigma[round][10].toInt()], m[blake2s_sigma[round][11].toInt()], 1, 6, 11, 12)
-            g(m[blake2s_sigma[round][12].toInt()], m[blake2s_sigma[round][13].toInt()], 2, 7, 8, 13)
-            g(m[blake2s_sigma[round][14].toInt()], m[blake2s_sigma[round][15].toInt()], 3, 4, 9, 14)
+            g(m[blake2sSigma[round][8].toInt()], m[blake2sSigma[round][9].toInt()], 0, 5, 10, 15)
+            g(m[blake2sSigma[round][10].toInt()], m[blake2sSigma[round][11].toInt()], 1, 6, 11, 12)
+            g(m[blake2sSigma[round][12].toInt()], m[blake2sSigma[round][13].toInt()], 2, 7, 8, 13)
+            g(m[blake2sSigma[round][14].toInt()], m[blake2sSigma[round][15].toInt()], 3, 4, 9, 14)
         }
 
         // update chain values:
@@ -481,7 +481,7 @@ internal class Blake2sHasher : Hasher {
         /**
          * BLAKE2s Initialization Vector
          */
-        private val blake2s_IV = intArrayOf(
+        private val blake2sIv = intArrayOf(
             0x6a09e667,
             -0x4498517b,
             0x3c6ef372,
@@ -495,7 +495,7 @@ internal class Blake2sHasher : Hasher {
         /**
          * Message word permutations
          */
-        private val blake2s_sigma = arrayOf(
+        private val blake2sSigma = arrayOf(
             byteArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
             byteArrayOf(14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3),
             byteArrayOf(11, 8, 12, 0, 5, 2, 15, 13, 10, 14, 3, 6, 7, 1, 9, 4),

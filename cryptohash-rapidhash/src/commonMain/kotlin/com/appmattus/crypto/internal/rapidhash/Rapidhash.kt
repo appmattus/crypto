@@ -19,8 +19,8 @@ package com.appmattus.crypto.internal.rapidhash
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.decodeLEULong
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.decodeLeULong
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.core.multiplyHigh
 
 /**
@@ -29,7 +29,7 @@ import com.appmattus.crypto.internal.core.multiplyHigh
 internal fun rapidhashHasher(seed: ULong, variant: RapidhashVariant): Hasher =
     NonIncrementalHasher(variant.algorithmName, 8) { input ->
         ByteArray(8).apply {
-            encodeBELong(rapidhash(input, input.size, seed, variant).toLong(), this, 0)
+            encodeBeLong(rapidhash(input, input.size, seed, variant).toLong(), this, 0)
         }
     }
 
@@ -52,13 +52,13 @@ internal fun rapidhashLong(input: ByteBuffer, len: Int, hashSeed: ULong, variant
         when {
             len >= 8 -> {
                 seed = seed xor len.toULong()
-                a = input.decodeLEULong(0)
-                b = input.decodeLEULong(len - 8)
+                a = input.decodeLeULong(0)
+                b = input.decodeLeULong(len - 8)
             }
             len >= 4 -> {
                 seed = seed xor len.toULong()
-                a = input.decodeLEUInt(0).toULong()
-                b = input.decodeLEUInt(len - 4).toULong()
+                a = input.decodeLeUInt(0).toULong()
+                b = input.decodeLeUInt(len - 4).toULong()
             }
             len > 0 -> {
                 a = (input.byteAt(0) shl 45) or input.byteAt(len - 1)
@@ -81,12 +81,12 @@ internal fun rapidhashLong(input: ByteBuffer, len: Int, hashSeed: ULong, variant
         val tailSecrets = variant.tailSecrets
         var k = 0
         while (k < tailSecrets.size && i > (16 * (k + 1)).toULong()) {
-            seed = mix(input.decodeLEULong(p + 16 * k) xor secret[tailSecrets[k]].toULong(), input.decodeLEULong(p + 16 * k + 8) xor seed)
+            seed = mix(input.decodeLeULong(p + 16 * k) xor secret[tailSecrets[k]].toULong(), input.decodeLeULong(p + 16 * k + 8) xor seed)
             k++
         }
 
-        a = input.decodeLEULong(p + i.toInt() - 16) xor i
-        b = input.decodeLEULong(p + i.toInt() - 8)
+        a = input.decodeLeULong(p + i.toInt() - 16) xor i
+        b = input.decodeLeULong(p + i.toInt() - 8)
     }
 
     var lo = a xor secret[1].toULong()
@@ -106,7 +106,7 @@ private fun bulk(input: ByteBuffer, len: Int, seed: ULong, secret: LongArray, va
     do {
         for (k in 0 until laneCount) {
             val offset = p + 16 * k
-            lanes[k] = mix(input.decodeLEULong(offset) xor secret[k].toULong(), input.decodeLEULong(offset + 8) xor lanes[k].toULong()).toLong()
+            lanes[k] = mix(input.decodeLeULong(offset) xor secret[k].toULong(), input.decodeLeULong(offset + 8) xor lanes[k].toULong()).toLong()
         }
         p += bulkSize
     } while (len - p > bulkSize)

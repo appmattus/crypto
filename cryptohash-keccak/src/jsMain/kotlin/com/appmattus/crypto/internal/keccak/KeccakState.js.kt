@@ -15,7 +15,7 @@
  */
 package com.appmattus.crypto.internal.keccak
 
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -52,8 +52,8 @@ internal actual class KeccakState actual constructor() {
     actual fun absorb(data: ByteArray, offset: Int, lanes: Int) {
         var off = offset
         for (i in 0 until lanes) {
-            l[i] = l[i] xor readIntLE(data, off)
-            h[i] = h[i] xor readIntLE(data, off + 4)
+            l[i] = l[i] xor readIntLe(data, off)
+            h[i] = h[i] xor readIntLe(data, off + 4)
             off += 8
         }
     }
@@ -63,8 +63,8 @@ internal actual class KeccakState actual constructor() {
         // The mask (1 << bits) - 1, as halves
         val maskLow = if (bits >= 32) -1 else (1 shl bits) - 1
         val maskHigh = if (bits > 32) (1 shl (bits - 32)) - 1 else 0
-        l[lane] = l[lane] xor (readIntLE(data, offset) and maskLow)
-        h[lane] = h[lane] xor (readIntLE(data, offset + 4) and maskHigh)
+        l[lane] = l[lane] xor (readIntLe(data, offset) and maskLow)
+        h[lane] = h[lane] xor (readIntLe(data, offset + 4) and maskHigh)
     }
 
     actual fun flipTopBit(lane: Int) {

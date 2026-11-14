@@ -15,7 +15,7 @@
  */
 package com.appmattus.crypto.internal.gost
 
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * GOST R 34.11-94 works on 256-bit values a byte at a time, copying and converting bytes throughout. On Kotlin/JS each
@@ -27,13 +27,13 @@ import com.appmattus.crypto.internal.core.readIntLE
  * through a getter, but reads a class's own field directly. JS is single-threaded, so one shared instance is safe.
  */
 
-private val gost = GOST3411Js()
+private val gost = Gost3411Js()
 
 internal actual fun gost3411ProcessBlock(digest: Gost3411Hasher, input: ByteArray, inOff: Int) =
     gost.processBlock(digest, input, inOff)
 
 @Suppress("TooManyFunctions")
-private class GOST3411Js {
+private class Gost3411Js {
     // For each byte position k of the cipher's 32-bit word, the two S-boxes for its nibbles, shifted into place and
     // rotated left by 11
     private val t0 = sBoxTable(0)
@@ -66,8 +66,8 @@ private class GOST3411Js {
     fun processBlock(digest: Gost3411Hasher, input: ByteArray, inOff: Int) {
         val h = digest.h
         for (i in 0..7) {
-            hw[i] = readIntLE(h, i shl 2)
-            mw[i] = readIntLE(input, inOff + (i shl 2))
+            hw[i] = readIntLe(h, i shl 2)
+            mw[i] = readIntLe(input, inOff + (i shl 2))
         }
 
         // Key step 1: U = H, V = M, W = U xor V, s0 = E_K0(h0)
@@ -83,7 +83,7 @@ private class GOST3411Js {
             a(uw)
             val c = digest.c[i]
             for (j in 0..7) {
-                cw[j] = readIntLE(c, j shl 2)
+                cw[j] = readIntLe(c, j shl 2)
                 uw[j] = uw[j] xor cw[j]
             }
             a(vw)

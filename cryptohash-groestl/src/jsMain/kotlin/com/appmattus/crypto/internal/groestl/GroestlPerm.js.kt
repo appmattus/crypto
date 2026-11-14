@@ -90,8 +90,8 @@ private class GroestlJs {
         for (i in 0 until n) {
             hH[i] = (h[i] ushr 32).toInt()
             hL[i] = h[i].toInt()
-            mH[i] = readIntBE(data, i shl 3)
-            mL[i] = readIntBE(data, (i shl 3) + 4)
+            mH[i] = readIntBe(data, i shl 3)
+            mL[i] = readIntBe(data, (i shl 3) + 4)
             xH[i] = hH[i] xor mH[i]
             xL[i] = hL[i] xor mL[i]
         }
@@ -179,7 +179,7 @@ private class GroestlJs {
     }
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-    private inline fun readIntBE(data: ByteArray, offset: Int): Int =
+    private inline fun readIntBe(data: ByteArray, offset: Int): Int =
         (data[offset].toInt() shl 24) or
             ((data[offset + 1].toInt() and 0xff) shl 16) or
             ((data[offset + 2].toInt() and 0xff) shl 8) or

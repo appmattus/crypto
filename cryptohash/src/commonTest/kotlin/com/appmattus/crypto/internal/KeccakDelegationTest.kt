@@ -19,8 +19,8 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.KangarooTwelve
 import com.appmattus.crypto.Keccak
-import com.appmattus.crypto.SHA3
-import com.appmattus.crypto.SP800185
+import com.appmattus.crypto.Sha3
+import com.appmattus.crypto.Sp800185
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
@@ -45,20 +45,20 @@ class KeccakDelegationTest {
         Algorithm.Keccak288 to Keccak.keccak288,
         Algorithm.Keccak384 to Keccak.keccak384,
         Algorithm.Keccak512 to Keccak.keccak512,
-        Algorithm.SHA3_224 to SHA3.sha3_224,
-        Algorithm.SHA3_256 to SHA3.sha3_256,
-        Algorithm.SHA3_384 to SHA3.sha3_384,
-        Algorithm.SHA3_512 to SHA3.sha3_512,
-        Algorithm.SHAKE128 to SHA3.shake128,
-        Algorithm.SHAKE256 to SHA3.shake256,
-        Algorithm.cSHAKE128(customisation, "fn".encodeToByteArray()) to SP800185.cshake128(customisation, "fn".encodeToByteArray()),
-        Algorithm.cSHAKE256(customisation) to SP800185.cshake256(customisation),
-        Algorithm.KMAC128(key, customisation, 200) to SP800185.kmac128(key, customisation, 200),
-        Algorithm.KMAC256(key) to SP800185.kmac256(key),
-        Algorithm.TupleHash128(customisation, 120) to SP800185.tupleHash128(customisation, 120),
-        Algorithm.TupleHash256() to SP800185.tupleHash256(),
-        Algorithm.ParallelHash128(64, customisation, 320) to SP800185.parallelHash128(64, customisation, 320),
-        Algorithm.ParallelHash256(100) to SP800185.parallelHash256(100),
+        Algorithm.SHA3_224 to Sha3.sha3_224,
+        Algorithm.SHA3_256 to Sha3.sha3_256,
+        Algorithm.SHA3_384 to Sha3.sha3_384,
+        Algorithm.SHA3_512 to Sha3.sha3_512,
+        Algorithm.SHAKE128 to Sha3.shake128,
+        Algorithm.SHAKE256 to Sha3.shake256,
+        Algorithm.cSHAKE128(customisation, "fn".encodeToByteArray()) to Sp800185.cshake128(customisation, "fn".encodeToByteArray()),
+        Algorithm.cSHAKE256(customisation) to Sp800185.cshake256(customisation),
+        Algorithm.KMAC128(key, customisation, 200) to Sp800185.kmac128(key, customisation, 200),
+        Algorithm.KMAC256(key) to Sp800185.kmac256(key),
+        Algorithm.TupleHash128(customisation, 120) to Sp800185.tupleHash128(customisation, 120),
+        Algorithm.TupleHash256() to Sp800185.tupleHash256(),
+        Algorithm.ParallelHash128(64, customisation, 320) to Sp800185.parallelHash128(64, customisation, 320),
+        Algorithm.ParallelHash256(100) to Sp800185.parallelHash256(100),
         Algorithm.KT128(customisation, 400) to KangarooTwelve.kt128(customisation, 400),
         Algorithm.KT256() to KangarooTwelve.kt256()
     )
@@ -80,8 +80,8 @@ class KeccakDelegationTest {
         listOf(
             Algorithm.Keccak256 to Keccak.keccak256,
             Algorithm.Keccak288 to Keccak.keccak288,
-            Algorithm.SHA3_256 to SHA3.sha3_256,
-            Algorithm.SHA3_512 to SHA3.sha3_512
+            Algorithm.SHA3_256 to Sha3.sha3_256,
+            Algorithm.SHA3_512 to Sha3.sha3_512
         ).forEach { (algorithm, module) ->
             assertContentEquals(module.newHmac(key).digest(input), algorithm.hmac(key, input))
             assertContentEquals(module.newHmac(key, outputLength = 10).digest(input), algorithm.hmac(key, input, outputLength = 10))

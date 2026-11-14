@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package com.appmattus.crypto.internal.murmurhash
 
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 // Based on the public domain https://github.com/aappleby/smhasher/blob/master/src/MurmurHash2.cpp
@@ -46,7 +46,7 @@ internal class MurmurHash2AHasher(private val seed: UInt = 0u) : HasherEngine<Mu
 
     override fun processBlock(data: ByteArray) {
         // body
-        var k = decodeLEInt(data, 0).toUInt()
+        var k = decodeLeInt(data, 0).toUInt()
 
         k *= m
         k = k xor (k shr r)
@@ -89,7 +89,7 @@ internal class MurmurHash2AHasher(private val seed: UInt = 0u) : HasherEngine<Mu
         h *= m
         h = h xor (h shr 15)
 
-        encodeBEInt(h.toInt(), output, outputOffset)
+        encodeBeInt(h.toInt(), output, outputOffset)
     }
 
     override fun doInit() = Unit

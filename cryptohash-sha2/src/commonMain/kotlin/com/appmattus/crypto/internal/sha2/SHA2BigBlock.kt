@@ -39,7 +39,7 @@
 
 package com.appmattus.crypto.internal.sha2
 
-import com.appmattus.crypto.internal.core.decodeBELong
+import com.appmattus.crypto.internal.core.decodeBeLong
 import com.appmattus.crypto.internal.core.rotateLeft
 
 /**
@@ -62,7 +62,7 @@ internal fun sha512ProcessBlockLong(currentVal: LongArray, w: LongArray, data: B
     var f = currentVal[5]
     var g = currentVal[6]
     var h = currentVal[7]
-    for (i in 0..15) w[i] = decodeBELong(data, 8 * i)
+    for (i in 0..15) w[i] = decodeBeLong(data, 8 * i)
     for (i in 16..79) {
         w[i] = (w[i - 2].rotateLeft(45) xor w[i - 2].rotateLeft(3) xor (w[i - 2] ushr 6)) +
                 w[i - 7] +

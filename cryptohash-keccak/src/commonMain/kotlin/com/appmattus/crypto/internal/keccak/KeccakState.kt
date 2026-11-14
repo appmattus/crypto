@@ -15,8 +15,8 @@
  */
 package com.appmattus.crypto.internal.keccak
 
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 
 /**
  * The 25-lane Keccak state, with the operations the Keccak sponges make on it.
@@ -65,14 +65,14 @@ internal class KeccakStateLong {
     fun absorb(data: ByteArray, offset: Int, lanes: Int) {
         var off = offset
         for (i in 0 until lanes) {
-            state[i] = state[i] xor decodeLELong(data, off)
+            state[i] = state[i] xor decodeLeLong(data, off)
             off += 8
         }
     }
 
     fun absorbPartial(lane: Int, data: ByteArray, offset: Int, bits: Int) {
         val mask = (1L shl bits) - 1L
-        state[lane] = state[lane] xor (decodeLELong(data, offset) and mask)
+        state[lane] = state[lane] xor (decodeLeLong(data, offset) and mask)
     }
 
     fun flipTopBit(lane: Int) {
@@ -84,7 +84,7 @@ internal class KeccakStateLong {
     fun extract(output: ByteArray, lanes: Int) {
         var off = 0
         for (i in 0 until lanes) {
-            encodeLELong(state[i], output, off)
+            encodeLeLong(state[i], output, off)
             off += 8
         }
     }

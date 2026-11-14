@@ -18,9 +18,9 @@ package com.appmattus.crypto.internal.crc
 
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.core.AbstractHasher
-import com.appmattus.crypto.internal.core.decodeBELong
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.decodeBeLong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeBeLong
 
 /**
  * A table-driven CRC-64 of the variant [parameters], eight bytes at a time. The CRC is output big-endian, so its hex
@@ -67,7 +67,7 @@ internal class Crc64Hasher(private val parameters: Crc64Parameters) : AbstractHa
         val end = offset + length
 
         while (end - pos >= 8) {
-            val x = c xor decodeLELong(input, pos)
+            val x = c xor decodeLeLong(input, pos)
             c = t7[(x and 0xff).toInt()] xor
                 t6[((x ushr 8) and 0xff).toInt()] xor
                 t5[((x ushr 16) and 0xff).toInt()] xor
@@ -99,7 +99,7 @@ internal class Crc64Hasher(private val parameters: Crc64Parameters) : AbstractHa
         val end = offset + length
 
         while (end - pos >= 8) {
-            val x = c xor decodeBELong(input, pos)
+            val x = c xor decodeBeLong(input, pos)
             c = t7[(x ushr 56).toInt()] xor
                 t6[((x ushr 48) and 0xff).toInt()] xor
                 t5[((x ushr 40) and 0xff).toInt()] xor
@@ -118,7 +118,7 @@ internal class Crc64Hasher(private val parameters: Crc64Parameters) : AbstractHa
 
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
-        encodeBELong(register xor parameters.xorOut, digest, 0)
+        encodeBeLong(register xor parameters.xorOut, digest, 0)
         reset()
         return digest
     }

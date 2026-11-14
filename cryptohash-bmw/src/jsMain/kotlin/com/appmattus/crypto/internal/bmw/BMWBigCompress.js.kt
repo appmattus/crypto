@@ -29,14 +29,14 @@ import com.appmattus.crypto.internal.core.carry
  * JS is single-threaded, so one shared instance is safe.
  */
 
-private val bmwBig = BMWBigJs()
+private val bmwBig = BmwBigJs()
 
 // q and w are unused: the working words are held as Int pairs in BMWBigJs instead
 @Suppress("UnusedParameter")
 internal actual fun bmwBigCompress(m: LongArray, h: LongArray, q: LongArray, w: LongArray) = bmwBig.compress(m, h)
 
 @Suppress("TooManyFunctions")
-private class BMWBigJs {
+private class BmwBigJs {
     private var rH = 0
     private var rL = 0
     private var accH = 0

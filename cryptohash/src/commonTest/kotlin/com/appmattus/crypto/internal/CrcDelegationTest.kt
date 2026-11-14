@@ -17,7 +17,7 @@
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.CRC
+import com.appmattus.crypto.Crc
 import com.appmattus.crypto.internal.core.sphlib.testKat
 import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
@@ -34,9 +34,9 @@ class CrcDelegationTest {
     private val input = ByteArray(10_000) { (it * 167 + 13).toByte() }
 
     private val algorithms = listOf(
-        Triple(Algorithm.CRC32, CRC.crc32, "73bb8c64"),
-        Triple(Algorithm.CRC32B, CRC.crc32b, "352441c2"),
-        Triple(Algorithm.CRC32C, CRC.crc32c, "364b3fb7")
+        Triple(Algorithm.CRC32, Crc.crc32, "73bb8c64"),
+        Triple(Algorithm.CRC32B, Crc.crc32b, "352441c2"),
+        Triple(Algorithm.CRC32C, Crc.crc32c, "364b3fb7")
     )
 
     @Test

@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.murmurhash
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.encodeBeLong
 
 /**
  * A [Hasher] for MurmurHash64A, which can only hash its whole input at once
@@ -27,7 +27,7 @@ import com.appmattus.crypto.internal.core.encodeBELong
 internal fun murmurHash64AHasher(seed: ULong): Hasher =
     NonIncrementalHasher("MurmurHash64A", 8) { input ->
         ByteArray(8).apply {
-            encodeBELong(murmurHash64A(input, seed).toLong(), this, 0)
+            encodeBeLong(murmurHash64A(input, seed).toLong(), this, 0)
         }
     }
 
@@ -39,7 +39,7 @@ private fun murmurHash64A(input: ByteBuffer, seed: ULong): ULong {
     var pos = 0
 
     while (len >= 8) {
-        var k = input.decodeLELong(pos).toULong()
+        var k = input.decodeLeLong(pos).toULong()
 
         k *= M64A
         k = k xor (k shr R64A)

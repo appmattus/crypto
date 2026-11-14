@@ -40,7 +40,7 @@ public object T1ha {
     /**
      * t1ha1, the little-endian variant, with output size of 64 bits using [seed]
      */
-    public fun t1ha1_le(seed: ULong = 0u): HashAlgorithm =
+    public fun t1ha1Le(seed: ULong = 0u): HashAlgorithm =
         T1haAlgorithm("t1ha1-le", listOf(seed)) { t1ha1Hasher(seed) }
 
     /**

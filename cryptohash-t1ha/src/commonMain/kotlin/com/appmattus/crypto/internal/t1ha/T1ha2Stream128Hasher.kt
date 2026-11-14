@@ -17,8 +17,8 @@
 package com.appmattus.crypto.internal.t1ha
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
-import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.encodeBeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 internal class T1ha2Stream128Hasher(private val seedX: ULong = 0u, private val seedY: ULong = 0u) : HasherEngine<T1ha2Stream128Hasher>() {
@@ -26,8 +26,8 @@ internal class T1ha2Stream128Hasher(private val seedX: ULong = 0u, private val s
     private var state = T1haState256()
 
     init {
-        initAB(state, seedX, seedY)
-        initCD(state, seedX, seedY)
+        initAb(state, seedX, seedY)
+        initCd(state, seedX, seedY)
     }
 
     override val digestLength: Int
@@ -49,8 +49,8 @@ internal class T1ha2Stream128Hasher(private val seedX: ULong = 0u, private val s
     override fun engineReset() {
         state = T1haState256()
 
-        initAB(state, seedX, seedY)
-        initCD(state, seedX, seedY)
+        initAb(state, seedX, seedY)
+        initCd(state, seedX, seedY)
     }
 
     override fun processBlock(data: ByteArray) = t1ha2Update(state, data, 0)
@@ -60,16 +60,16 @@ internal class T1ha2Stream128Hasher(private val seedX: ULong = 0u, private val s
 
         val bits: ULong = (total shl 3) xor (1uL shl 63)
         val bytes = ByteArray(8)
-        encodeLELong(bits.toLong(), bytes, 0)
+        encodeLeLong(bits.toLong(), bytes, 0)
 
         update(bytes)
 
         val rem = flush()
 
-        val hash = t1ha2TailABCD(state, ByteBuffer().apply { add(blockBuffer) }, 0, rem)
+        val hash = t1ha2TailAbcd(state, ByteBuffer().apply { add(blockBuffer) }, 0, rem)
 
-        encodeBELong(hash.upper.toLong(), output, 0)
-        encodeBELong(hash.lower.toLong(), output, 8)
+        encodeBeLong(hash.upper.toLong(), output, 0)
+        encodeBeLong(hash.lower.toLong(), output, 8)
     }
 
     override fun doInit() = Unit

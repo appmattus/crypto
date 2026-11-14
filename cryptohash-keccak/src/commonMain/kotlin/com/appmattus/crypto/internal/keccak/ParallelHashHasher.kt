@@ -54,16 +54,16 @@ internal class ParallelHashHasher private constructor(
     private val bitLength: Int,
     private val blockSize: Int,
     private val outputLength: Int,
-    private val cshake: CSHAKEHasher,
-    private val compressor: SHAKEHasher
+    private val cshake: CshakeHasher,
+    private val compressor: ShakeHasher
 ) : AbstractHasher() {
 
     constructor(bitLength: Int, blockSize: Int, customisation: ByteArray?, outputLength: Int) : this(
         bitLength = bitLength,
         blockSize = blockSize,
         outputLength = outputLength,
-        cshake = CSHAKEHasher(bitLength, "ParallelHash".encodeToByteArray(), customisation),
-        compressor = SHAKEHasher(bitLength)
+        cshake = CshakeHasher(bitLength, "ParallelHash".encodeToByteArray(), customisation),
+        compressor = ShakeHasher(bitLength)
     ) {
         cshake.update(XofUtils.leftEncode(blockSize.toLong()))
     }
@@ -137,8 +137,8 @@ internal class ParallelHashHasher private constructor(
         bitLength = bitLength,
         blockSize = blockSize,
         outputLength = outputLength,
-        cshake = CSHAKEHasher(cshake),
-        compressor = SHAKEHasher(compressor)
+        cshake = CshakeHasher(cshake),
+        compressor = ShakeHasher(compressor)
     ).also {
         buffer.copyInto(it.buffer)
         it.bufferOffset = bufferOffset

@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.groestl
 
-import com.appmattus.crypto.internal.core.decodeBELong
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.decodeBeLong
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.core.rotateLeft
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
@@ -104,11 +104,11 @@ internal abstract class GroestlSmallCore<D : GroestlSmallCore<D>> : HasherEngine
             for (i in 0..55) buf[i] = 0
             count += 2
         }
-        encodeBELong(count, buf, 56)
+        encodeBeLong(count, buf, 56)
         processBlock(buf)
         h.copyInto(g, 0, 0, h.size)
         groestlSmallPermP(g)
-        for (i in 0..3) encodeBELong(h[i + 4] xor g[i + 4], buf, 8 * i)
+        for (i in 0..3) encodeBeLong(h[i + 4] xor g[i + 4], buf, 8 * i)
         val outLen = digestLength
         buf.copyInto(output, outputOffset, 32 - outLen, 32)
     }
@@ -150,7 +150,7 @@ internal expect fun groestlSmallProcessBlock(h: LongArray, m: LongArray, g: Long
  */
 internal fun groestlSmallProcessBlockLong(h: LongArray, m: LongArray, g: LongArray, data: ByteArray) {
     for (i in 0..7) {
-        m[i] = decodeBELong(data, i * 8)
+        m[i] = decodeBeLong(data, i * 8)
         g[i] = m[i] xor h[i]
     }
     groestlSmallPermPLong(g)

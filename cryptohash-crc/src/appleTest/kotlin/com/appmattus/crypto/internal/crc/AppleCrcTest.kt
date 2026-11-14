@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.crc
 
-import com.appmattus.crypto.CRC
+import com.appmattus.crypto.Crc
 import kotlin.test.Test
 import kotlin.test.assertIs
 
@@ -24,13 +24,13 @@ class AppleCrcTest {
 
     @Test
     fun usesZlibForCrc32b() {
-        assertIs<ZlibCrc32B>(CRC.crc32b.newHasher())
-        assertIs<ZlibCrc32B>(CRC.crc32b.newHasher().copy())
+        assertIs<ZlibCrc32B>(Crc.crc32b.newHasher())
+        assertIs<ZlibCrc32B>(Crc.crc32b.newHasher().copy())
     }
 
     @Test
     fun keepsPureKotlinWithoutAPlatformImplementation() {
-        assertIs<Crc32Hasher>(CRC.crc32.newHasher())
-        assertIs<Crc32cHasher>(CRC.crc32c.newHasher())
+        assertIs<Crc32Hasher>(Crc.crc32.newHasher())
+        assertIs<Crc32cHasher>(Crc.crc32c.newHasher())
     }
 }

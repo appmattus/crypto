@@ -19,8 +19,8 @@ package com.appmattus.crypto.internal.t1ha
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.core.rotateRight
 
 /**
@@ -29,7 +29,7 @@ import com.appmattus.crypto.internal.core.rotateRight
 internal fun t1ha0Hasher(seed: ULong): Hasher =
     NonIncrementalHasher("t1ha0-32le", 8) { input ->
         ByteArray(8).apply {
-            encodeBELong(T1ha0.t1ha0_32le(input, seed).toLong(), this, 0)
+            encodeBeLong(T1ha0.t1ha0_32le(input, seed).toLong(), this, 0)
         }
     }
 
@@ -50,10 +50,10 @@ private object T1ha0 {
             val detent = len - 15
 
             do {
-                val w0: UInt = data.decodeLEInt(v + 0).toUInt()
-                val w1: UInt = data.decodeLEInt(v + 4).toUInt()
-                val w2: UInt = data.decodeLEInt(v + 8).toUInt()
-                val w3: UInt = data.decodeLEInt(v + 12).toUInt()
+                val w0: UInt = data.decodeLeInt(v + 0).toUInt()
+                val w1: UInt = data.decodeLeInt(v + 4).toUInt()
+                val w2: UInt = data.decodeLeInt(v + 8).toUInt()
+                val w3: UInt = data.decodeLeInt(v + 12).toUInt()
                 v += 16
 
                 val d13: UInt = w1 + (w3 + d).rotateRight(17)
@@ -74,21 +74,21 @@ private object T1ha0 {
 
         if (len >= 13) {
             // mixup32(&a, &b, fetch32_##ENDIANNES##_##ALIGNESS(v++), prime32_4)
-            val l: ULong = mul_32x32_64(b + data.decodeLEInt(v).toUInt(), prime32_4)
+            val l: ULong = mul_32x32_64(b + data.decodeLeInt(v).toUInt(), prime32_4)
             a = a xor l.toUInt()
             b += (l shr 32).toUInt()
             v += 4
         }
         if (len >= 9) {
             // mixup32(&b, &a, fetch32_##ENDIANNES##_##ALIGNESS(v++), prime32_3)
-            val l: ULong = mul_32x32_64(a + data.decodeLEInt(v).toUInt(), prime32_3)
+            val l: ULong = mul_32x32_64(a + data.decodeLeInt(v).toUInt(), prime32_3)
             b = b xor l.toUInt()
             a += (l shr 32).toUInt()
             v += 4
         }
         if (len >= 5) {
             // mixup32(&a, &b, fetch32_##ENDIANNES##_##ALIGNESS(v++), prime32_2)
-            val l: ULong = mul_32x32_64(b + data.decodeLEInt(v).toUInt(), prime32_2)
+            val l: ULong = mul_32x32_64(b + data.decodeLeInt(v).toUInt(), prime32_2)
             a = a xor l.toUInt()
             b += (l shr 32).toUInt()
             v += 4
@@ -107,7 +107,7 @@ private object T1ha0 {
         var r = 0u
 
         if (tail == 0) {
-            return data.decodeLEInt(v).toUInt()
+            return data.decodeLeInt(v).toUInt()
         }
         if (tail >= 3) {
             r += data[v + 2].toUInt() and 0xFFu shl 16

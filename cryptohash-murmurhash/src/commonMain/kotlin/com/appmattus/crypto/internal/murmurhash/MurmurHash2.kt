@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.murmurhash
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 
 /**
  * A [Hasher] for MurmurHash2, which can only hash its whole input at once
@@ -27,7 +27,7 @@ import com.appmattus.crypto.internal.core.encodeBEInt
 internal fun murmurHash2Hasher(seed: UInt): Hasher =
     NonIncrementalHasher("MurmurHash2", 4) { input ->
         ByteArray(4).apply {
-            encodeBEInt(murmurHash2(input, seed).toInt(), this, 0)
+            encodeBeInt(murmurHash2(input, seed).toInt(), this, 0)
         }
     }
 
@@ -39,7 +39,7 @@ private fun murmurHash2(input: ByteBuffer, seed: UInt): UInt {
     var pos = 0
 
     while (len >= 4) {
-        var k = input.decodeLEInt(pos).toUInt()
+        var k = input.decodeLeInt(pos).toUInt()
 
         k *= M2
         k = k xor (k shr R2)

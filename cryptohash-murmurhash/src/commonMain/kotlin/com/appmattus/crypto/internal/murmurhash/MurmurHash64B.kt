@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.murmurhash
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 
 /**
  * A [Hasher] for MurmurHash64B, the 64-bit hash for 32-bit platforms, which can only hash its whole input at once
@@ -38,7 +38,7 @@ private fun murmurHash64B(input: ByteBuffer, seed: ULong): ByteArray {
     var pos = 0
 
     while (len >= 8) {
-        var k1 = input.decodeLEInt(pos).toUInt()
+        var k1 = input.decodeLeInt(pos).toUInt()
         k1 *= M64B
         k1 = k1 xor (k1 shr R64B)
         k1 *= M64B
@@ -48,7 +48,7 @@ private fun murmurHash64B(input: ByteBuffer, seed: ULong): ByteArray {
         pos += 4
         len -= 4
 
-        var k2 = input.decodeLEInt(pos).toUInt()
+        var k2 = input.decodeLeInt(pos).toUInt()
         k2 *= M64B
         k2 = k2 xor (k2 shr R64B)
         k2 *= M64B
@@ -61,7 +61,7 @@ private fun murmurHash64B(input: ByteBuffer, seed: ULong): ByteArray {
 
     // Handle the last few bytes of the input array
     if (len >= 4) {
-        var k1 = input.decodeLEInt(pos).toUInt()
+        var k1 = input.decodeLeInt(pos).toUInt()
         k1 *= M64B
         k1 = k1 xor (k1 shr R64B)
         k1 *= M64B
@@ -91,8 +91,8 @@ private fun murmurHash64B(input: ByteBuffer, seed: ULong): ByteArray {
     h2 *= M64B
 
     return ByteArray(8).apply {
-        encodeBEInt(h1.toInt(), this, 0)
-        encodeBEInt(h2.toInt(), this, 4)
+        encodeBeInt(h1.toInt(), this, 0)
+        encodeBeInt(h2.toInt(), this, 4)
     }
 }
 

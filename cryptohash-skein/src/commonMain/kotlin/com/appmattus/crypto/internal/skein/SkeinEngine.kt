@@ -40,8 +40,8 @@
 package com.appmattus.crypto.internal.skein
 
 import com.appmattus.crypto.internal.core.copyBytes
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 import kotlin.math.min
 
 /**
@@ -108,7 +108,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
             bytes[5] = 0
 
             // 8..15 = output length
-            encodeLELong(outputSizeBits, bytes, 8)
+            encodeLeLong(outputSizeBits, bytes, 8)
         }
     }
 
@@ -504,7 +504,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
     /**
      * The Unique Block Iteration chaining mode.
      */
-    private inner class UBI(blockSize: Int) {
+    private inner class Ubi(blockSize: Int) {
         private val tweak = UbiTweak()
 
         /**
@@ -521,7 +521,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
          * Buffer for message words for feedback into encrypted block
          */
         private var message: LongArray
-        fun reset(ubi: UBI) {
+        fun reset(ubi: Ubi) {
             currentBlock = arraysClone(ubi.currentBlock, currentBlock)!!
             currentOffset = ubi.currentOffset
             message = arraysClone(ubi.message, message)!!
@@ -557,7 +557,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
         private fun processBlock(output: LongArray) {
             threefish.init(true, chain, tweak.words)
             for (i in message.indices) {
-                message[i] = decodeLELong(currentBlock, i * 8)
+                message[i] = decodeLeLong(currentBlock, i * 8)
             }
             threefish.processBlock(message, output)
             for (i in output.indices) {
@@ -618,7 +618,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
     /**
      * The current UBI operation
      */
-    private val ubi: UBI
+    private val ubi: Ubi
 
     /**
      * Buffer for single byte update method
@@ -790,7 +790,7 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
 
     private fun output(outputSequence: Long, out: ByteArray, outOff: Int, outputBytes: Int) {
         val currentBytes = ByteArray(8)
-        encodeLELong(outputSequence, currentBytes, 0)
+        encodeLeLong(outputSequence, currentBytes, 0)
 
         // Output is a sequence of UBI invocations all of which use and preserve the pre-output
         // state
@@ -802,9 +802,9 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
         for (i in 0 until wordsRequired) {
             val toWrite: Int = min(8, outputBytes - i * 8)
             if (toWrite == 8) {
-                encodeLELong(outputWords[i], out, outOff + i * 8)
+                encodeLeLong(outputWords[i], out, outOff + i * 8)
             } else {
-                encodeLELong(outputWords[i], currentBytes, 0)
+                encodeLeLong(outputWords[i], currentBytes, 0)
                 currentBytes.copyInto(out, outOff + i * 8, 0, toWrite)
             }
         }
@@ -815,6 +815,6 @@ internal class SkeinEngine(blockSizeBits: Int, outputSizeBits: Int) {
         // Prevent digest sizes > block size?
         outputSize = outputSizeBits / 8
         threefish = ThreefishEngine(blockSizeBits)
-        ubi = UBI(threefish.blockSize)
+        ubi = Ubi(threefish.blockSize)
     }
 }

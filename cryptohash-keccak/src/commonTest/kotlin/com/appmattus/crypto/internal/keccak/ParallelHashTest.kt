@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.keccak
 
-import com.appmattus.crypto.SP800185
+import com.appmattus.crypto.Sp800185
 import com.appmattus.crypto.internal.strtobin
 import com.appmattus.crypto.internal.testKat
 import kotlin.test.Test
@@ -37,23 +37,23 @@ class ParallelHashTest {
 
     @Test
     fun parallelHash128Sample1() {
-        testKat({ SP800185.parallelHash128(8).newHasher() }, shortData, "ba8dc1d1d979331d3f813603c67f72609ab5e44b94a0b8f9af46514454a2b4f5")
+        testKat({ Sp800185.parallelHash128(8).newHasher() }, shortData, "ba8dc1d1d979331d3f813603c67f72609ab5e44b94a0b8f9af46514454a2b4f5")
     }
 
     @Test
     fun parallelHash128Sample2() {
-        testKat({ SP800185.parallelHash128(8, tag).newHasher() }, shortData, "fc484dcb3f84dceedc353438151bee58157d6efed0445a81f165e495795b7206")
+        testKat({ Sp800185.parallelHash128(8, tag).newHasher() }, shortData, "fc484dcb3f84dceedc353438151bee58157d6efed0445a81f165e495795b7206")
     }
 
     @Test
     fun parallelHash128Sample3() {
-        testKat({ SP800185.parallelHash128(12, tag).newHasher() }, longData, "f7fd5312896c6685c828af7e2adb97e393e7f8d54e3c2ea4b95e5aca3796e8fc")
+        testKat({ Sp800185.parallelHash128(12, tag).newHasher() }, longData, "f7fd5312896c6685c828af7e2adb97e393e7f8d54e3c2ea4b95e5aca3796e8fc")
     }
 
     @Test
     fun parallelHash256Sample4() {
         testKat(
-            { SP800185.parallelHash256(8).newHasher() },
+            { Sp800185.parallelHash256(8).newHasher() },
             shortData,
             "bc1ef124da34495e948ead207dd9842235da432d2bbc54b4c110e64c451105531b7f2a3e0ce055c02805e7c2de1fb746af97a1dd01f43b824e31b87612410429"
         )
@@ -62,7 +62,7 @@ class ParallelHashTest {
     @Test
     fun parallelHash256Sample5() {
         testKat(
-            { SP800185.parallelHash256(8, tag).newHasher() },
+            { Sp800185.parallelHash256(8, tag).newHasher() },
             shortData,
             "cdf15289b54f6212b4bc270528b49526006dd9b54e2b6add1ef6900dda3963bb33a72491f236969ca8afaea29c682d47a393c065b38e29fae651a2091c833110"
         )
@@ -71,7 +71,7 @@ class ParallelHashTest {
     @Test
     fun parallelHash256Sample6() {
         testKat(
-            { SP800185.parallelHash256(12, tag).newHasher() },
+            { Sp800185.parallelHash256(12, tag).newHasher() },
             longData,
             "69d0fcb764ea055dd09334bc6021cb7e4b61348dff375da262671cdec3effa8d1b4568a6cce16b1cad946ddde27f6ce2b8dee4cd1b24851ebf00eb90d43813e9"
         )
@@ -79,7 +79,7 @@ class ParallelHashTest {
 
     @Test
     fun invalidParametersAreRejected() {
-        assertFailsWith<IllegalArgumentException> { SP800185.parallelHash128(0) }
-        assertFailsWith<IllegalArgumentException> { SP800185.parallelHash256(8, outputSizeBits = 0) }
+        assertFailsWith<IllegalArgumentException> { Sp800185.parallelHash128(0) }
+        assertFailsWith<IllegalArgumentException> { Sp800185.parallelHash256(8, outputSizeBits = 0) }
     }
 }

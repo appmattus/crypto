@@ -33,7 +33,7 @@
 package com.appmattus.crypto.internal.highwayhash
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.core.rotateRight
 
 /**
@@ -113,7 +113,7 @@ internal class HighwayHashHasher(private val key: LongArray, private val outputL
         val digest = ByteArray(longDigest.size * 8)
 
         longDigest.forEachIndexed { index, l ->
-            encodeBELong(l, digest, index * 8)
+            encodeBeLong(l, digest, index * 8)
         }
 
         return digest

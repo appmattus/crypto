@@ -22,13 +22,13 @@ import com.appmattus.crypto.HmacAlgorithm
 import com.appmattus.crypto.Mac
 import com.appmattus.crypto.internal.core.HasherHmac
 
-internal class RipeMDAlgorithm(private val name: String, private val factory: () -> Hasher) : HashAlgorithm {
+internal class RipeMdAlgorithm(private val name: String, private val factory: () -> Hasher) : HashAlgorithm {
     override fun newHasher(): Hasher = factory()
 
     override fun toString(): String = name
 }
 
-internal class RipeMDHmacAlgorithm(
+internal class RipeMdHmacAlgorithm(
     private val name: String,
     private val blockLength: Int,
     private val factory: () -> Hasher

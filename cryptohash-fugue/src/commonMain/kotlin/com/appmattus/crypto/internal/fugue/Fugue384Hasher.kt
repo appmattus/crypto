@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.fugue
 
-import com.appmattus.crypto.internal.core.decodeBEInt
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.decodeBeInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 
 /**
  * This class implements the Fugue-384 hash function under the
@@ -95,7 +95,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                     rshift = 2
                     return
                 }
-                w = decodeBEInt(buf!!, off)
+                w = decodeBeInt(buf!!, off)
                 off += 4
                 s[34] = s[34] xor s[18]
                 s[18] = w
@@ -127,7 +127,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                     rshift = 3
                     return
                 }
-                w = decodeBEInt(buf, off)
+                w = decodeBeInt(buf, off)
                 off += 4
                 s[25] = s[25] xor s[9]
                 s[9] = w
@@ -159,7 +159,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                     rshift = 0
                     return
                 }
-                w = decodeBEInt(buf, off)
+                w = decodeBeInt(buf, off)
                 off += 4
             }
 
@@ -194,7 +194,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                     rshift = 3
                     return
                 }
-                w = decodeBEInt(buf!!, off)
+                w = decodeBeInt(buf!!, off)
                 off += 4
                 s[25] = s[25] xor s[9]
                 s[9] = w
@@ -226,7 +226,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                     rshift = 0
                     return
                 }
-                w = decodeBEInt(buf, off)
+                w = decodeBeInt(buf, off)
                 off += 4
             }
 
@@ -261,7 +261,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                     rshift = 0
                     return
                 }
-                w = decodeBEInt(buf!!, off)
+                w = decodeBeInt(buf!!, off)
                 off += 4
             }
         }
@@ -297,7 +297,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                 rshift = 1
                 return
             }
-            w = decodeBEInt(buf!!, off)
+            w = decodeBeInt(buf!!, off)
             off += 4
             /* ================ */
             s[7] = s[7] xor s[27]
@@ -330,7 +330,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                 rshift = 2
                 return
             }
-            w = decodeBEInt(buf, off)
+            w = decodeBeInt(buf, off)
             off += 4
             /* ================ */
             s[34] = s[34] xor s[18]
@@ -363,7 +363,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                 rshift = 3
                 return
             }
-            w = decodeBEInt(buf, off)
+            w = decodeBeInt(buf, off)
             off += 4
             /* ================ */
             s[25] = s[25] xor s[9]
@@ -396,7 +396,7 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
                 rshift = 0
                 return
             }
-            w = decodeBEInt(buf, off)
+            w = decodeBeInt(buf, off)
             off += 4
         }
     }
@@ -428,18 +428,18 @@ internal class Fugue384Hasher : FugueCore<Fugue384Hasher>() {
         s[4] = s[4] xor s[0]
         s[12] = s[12] xor s[0]
         s[24] = s[24] xor s[0]
-        encodeBEInt(s[1], out!!, 0)
-        encodeBEInt(s[2], out, 4)
-        encodeBEInt(s[3], out, 8)
-        encodeBEInt(s[4], out, 12)
-        encodeBEInt(s[12], out, 16)
-        encodeBEInt(s[13], out, 20)
-        encodeBEInt(s[14], out, 24)
-        encodeBEInt(s[15], out, 28)
-        encodeBEInt(s[24], out, 32)
-        encodeBEInt(s[25], out, 36)
-        encodeBEInt(s[26], out, 40)
-        encodeBEInt(s[27], out, 44)
+        encodeBeInt(s[1], out!!, 0)
+        encodeBeInt(s[2], out, 4)
+        encodeBeInt(s[3], out, 8)
+        encodeBeInt(s[4], out, 12)
+        encodeBeInt(s[12], out, 16)
+        encodeBeInt(s[13], out, 20)
+        encodeBeInt(s[14], out, 24)
+        encodeBeInt(s[15], out, 28)
+        encodeBeInt(s[24], out, 32)
+        encodeBeInt(s[25], out, 36)
+        encodeBeInt(s[26], out, 40)
+        encodeBeInt(s[27], out, 44)
     }
 
     override val iV: IntArray

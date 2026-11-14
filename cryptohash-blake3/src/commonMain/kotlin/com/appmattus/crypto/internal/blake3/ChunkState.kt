@@ -42,7 +42,7 @@ import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.BLOCK_LEN
 import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.CHUNK_END
 import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.CHUNK_START
 import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.compress
-import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.wordsFromLEBytes
+import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.wordsFromLeBytes
 import com.appmattus.crypto.internal.core.copyBytes
 import kotlin.math.min
 
@@ -76,7 +76,7 @@ internal class ChunkState(var chainingValue: IntArray, var chunkCounter: Long, v
         while (currPos < input.size) {
             // Chain the next 64 byte block into this chunk/node
             if (blockLen == BLOCK_LEN) {
-                wordsFromLEBytes(block, blockWords)
+                wordsFromLeBytes(block, blockWords)
                 chainingValue = compress(chainingValue, blockWords, chunkCounter, BLOCK_LEN, flags or startFlag()).copyOfRange(0, 8)
                 blocksCompressed += 1
                 // The final block is zero-padded, so clear it rather than allocating a new one
@@ -94,6 +94,6 @@ internal class ChunkState(var chainingValue: IntArray, var chunkCounter: Long, v
     }
 
     fun createNode(): Node {
-        return Node(chainingValue, wordsFromLEBytes(block), chunkCounter, blockLen, flags or startFlag() or CHUNK_END)
+        return Node(chainingValue, wordsFromLeBytes(block), chunkCounter, blockLen, flags or startFlag() or CHUNK_END)
     }
 }

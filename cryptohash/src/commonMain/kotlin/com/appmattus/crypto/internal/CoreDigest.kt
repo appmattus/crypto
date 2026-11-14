@@ -19,15 +19,15 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Adler
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Ascon
-import com.appmattus.crypto.BMW
 import com.appmattus.crypto.Blake
 import com.appmattus.crypto.Blake2
 import com.appmattus.crypto.Blake3
-import com.appmattus.crypto.CRC
+import com.appmattus.crypto.Bmw
 import com.appmattus.crypto.CityHash
+import com.appmattus.crypto.Crc
 import com.appmattus.crypto.CubeHash
 import com.appmattus.crypto.Digest
-import com.appmattus.crypto.ECHO
+import com.appmattus.crypto.Echo
 import com.appmattus.crypto.FarmHash
 import com.appmattus.crypto.Fugue
 import com.appmattus.crypto.Gost
@@ -38,35 +38,35 @@ import com.appmattus.crypto.Haval
 import com.appmattus.crypto.HighwayHash
 import com.appmattus.crypto.Hmac
 import com.appmattus.crypto.HmacAlgorithm
-import com.appmattus.crypto.JH
+import com.appmattus.crypto.Jh
 import com.appmattus.crypto.KangarooTwelve
 import com.appmattus.crypto.Keccak
 import com.appmattus.crypto.Komihash
 import com.appmattus.crypto.Kupyna
 import com.appmattus.crypto.Luffa
-import com.appmattus.crypto.MD
+import com.appmattus.crypto.Md
 import com.appmattus.crypto.MetroHash
 import com.appmattus.crypto.MurmurHash
 import com.appmattus.crypto.Panama
 import com.appmattus.crypto.RadioGatun
 import com.appmattus.crypto.Rapidhash
-import com.appmattus.crypto.RipeMD
-import com.appmattus.crypto.SHA1
-import com.appmattus.crypto.SHA2
-import com.appmattus.crypto.SHA3
-import com.appmattus.crypto.SHAvite
-import com.appmattus.crypto.SIMD
-import com.appmattus.crypto.SM3
-import com.appmattus.crypto.SP800185
+import com.appmattus.crypto.RipeMd
+import com.appmattus.crypto.Sha1
+import com.appmattus.crypto.Sha2
+import com.appmattus.crypto.Sha3
 import com.appmattus.crypto.Shabal
+import com.appmattus.crypto.Shavite
+import com.appmattus.crypto.Simd
 import com.appmattus.crypto.SipHash
 import com.appmattus.crypto.Skein
+import com.appmattus.crypto.Sm3
+import com.appmattus.crypto.Sp800185
 import com.appmattus.crypto.Streebog
 import com.appmattus.crypto.T1ha
 import com.appmattus.crypto.Tiger
 import com.appmattus.crypto.Whirlpool
 import com.appmattus.crypto.Wyhash
-import com.appmattus.crypto.XXHash
+import com.appmattus.crypto.XxHash
 
 internal object CoreDigest {
 
@@ -126,10 +126,10 @@ internal object CoreDigest {
                 else -> Blake3.blake3(algorithm.digestLength)
             }.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.BMW224 -> BMW.bmw224.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.BMW256 -> BMW.bmw256.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.BMW384 -> BMW.bmw384.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.BMW512 -> BMW.bmw512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.BMW224 -> Bmw.bmw224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.BMW256 -> Bmw.bmw256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.BMW384 -> Bmw.bmw384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.BMW512 -> Bmw.bmw512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.CityHash32 -> CityHash.cityHash32.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.CityHash64 -> when (algorithm) {
@@ -147,15 +147,15 @@ internal object CoreDigest {
             }.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.CityHashCrc256 -> CityHash.cityHashCrc256.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.CRC32 -> CRC.crc32.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.CRC32B -> CRC.crc32b.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.CRC32C -> CRC.crc32c.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CRC32 -> Crc.crc32.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CRC32B -> Crc.crc32b.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.CRC32C -> Crc.crc32c.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.cSHAKE128 -> {
-                SP800185.cshake128(algorithm.customisation, algorithm.functionName).newHasher().toDigest(algorithm.blockLength)
+                Sp800185.cshake128(algorithm.customisation, algorithm.functionName).newHasher().toDigest(algorithm.blockLength)
             }
             is Algorithm.cSHAKE256 -> {
-                SP800185.cshake256(algorithm.customisation, algorithm.functionName).newHasher().toDigest(algorithm.blockLength)
+                Sp800185.cshake256(algorithm.customisation, algorithm.functionName).newHasher().toDigest(algorithm.blockLength)
             }
 
             is Algorithm.CubeHash224 -> CubeHash.cubeHash224.newHasher().toDigest(algorithm.blockLength)
@@ -163,10 +163,10 @@ internal object CoreDigest {
             is Algorithm.CubeHash384 -> CubeHash.cubeHash384.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.CubeHash512 -> CubeHash.cubeHash512.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.ECHO224 -> ECHO.echo224.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.ECHO256 -> ECHO.echo256.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.ECHO384 -> ECHO.echo384.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.ECHO512 -> ECHO.echo512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.ECHO224 -> Echo.echo224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.ECHO256 -> Echo.echo256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.ECHO384 -> Echo.echo384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.ECHO512 -> Echo.echo512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.FarmHash32 -> when (algorithm) {
                 is Algorithm.FarmHash32.Seed -> FarmHash.farmHash32(algorithm.seed)
@@ -224,10 +224,10 @@ internal object CoreDigest {
             is Algorithm.HighwayHash128 -> HighwayHash.highwayHash128(algorithm.key).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.HighwayHash256 -> HighwayHash.highwayHash256(algorithm.key).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.JH224 -> JH.jh224.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.JH256 -> JH.jh256.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.JH384 -> JH.jh384.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.JH512 -> JH.jh512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.JH224 -> Jh.jh224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.JH256 -> Jh.jh256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.JH384 -> Jh.jh384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.JH512 -> Jh.jh512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Keccak224 -> Keccak.keccak224.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.Keccak256 -> Keccak.keccak256.newHasher().toDigest(algorithm.blockLength)
@@ -236,10 +236,10 @@ internal object CoreDigest {
             is Algorithm.Keccak512 -> Keccak.keccak512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.KMAC128 -> {
-                SP800185.kmac128(algorithm.key, algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
+                Sp800185.kmac128(algorithm.key, algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
             }
             is Algorithm.KMAC256 -> {
-                SP800185.kmac256(algorithm.key, algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
+                Sp800185.kmac256(algorithm.key, algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
             }
 
             is Algorithm.Komihash -> Komihash.komihash(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
@@ -263,9 +263,9 @@ internal object CoreDigest {
             is Algorithm.MetroHash64 -> MetroHash.metroHash64(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.MetroHash128 -> MetroHash.metroHash128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.MD2 -> MD.md2.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.MD4 -> MD.md4.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.MD5 -> MD.md5.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MD2 -> Md.md2.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MD4 -> Md.md4.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MD5 -> Md.md5.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.MurmurHash1 -> MurmurHash.murmurHash1(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.MurmurHash2 -> MurmurHash.murmurHash2(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
@@ -274,21 +274,21 @@ internal object CoreDigest {
 
             is Algorithm.MurmurHash2A -> MurmurHash.murmurHash2A(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.MurmurHash3_X86_32 -> MurmurHash.murmurHash3_x86_32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.MurmurHash3_X86_128 -> MurmurHash.murmurHash3_x86_128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.MurmurHash3_X64_128 -> MurmurHash.murmurHash3_x64_128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MurmurHash3_X86_32 -> MurmurHash.murmurHash3X86_32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MurmurHash3_X86_128 -> MurmurHash.murmurHash3X86_128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.MurmurHash3_X64_128 -> MurmurHash.murmurHash3X64_128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.PANAMA -> Panama.panama.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.ParallelHash128 -> {
-                SP800185.parallelHash128(
+                Sp800185.parallelHash128(
                     algorithm.blockSize,
                     algorithm.customisation,
                     algorithm.outputSizeBits
                 ).newHasher().toDigest(algorithm.blockLength)
             }
             is Algorithm.ParallelHash256 -> {
-                SP800185.parallelHash256(
+                Sp800185.parallelHash256(
                     algorithm.blockSize,
                     algorithm.customisation,
                     algorithm.outputSizeBits
@@ -302,25 +302,25 @@ internal object CoreDigest {
             is Algorithm.RapidhashMicro -> Rapidhash.rapidhashMicro(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.RapidhashNano -> Rapidhash.rapidhashNano(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.RipeMD -> RipeMD.ripeMD.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.RipeMD128 -> RipeMD.ripeMD128.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.RipeMD160 -> RipeMD.ripeMD160.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.RipeMD256 -> RipeMD.ripeMD256.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.RipeMD320 -> RipeMD.ripeMD320.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD -> RipeMd.ripeMd.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD128 -> RipeMd.ripeMd128.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD160 -> RipeMd.ripeMd160.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD256 -> RipeMd.ripeMd256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.RipeMD320 -> RipeMd.ripeMd320.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.SHA_0 -> SHA1.sha0.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA_1 -> SHA1.sha1.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA_224 -> SHA2.sha224.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA_256 -> SHA2.sha256.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA_384 -> SHA2.sha384.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA_512 -> SHA2.sha512.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA_512_224 -> SHA2.sha512_224.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA_512_256 -> SHA2.sha512_256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_0 -> Sha1.sha0.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_1 -> Sha1.sha1.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_224 -> Sha2.sha224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_256 -> Sha2.sha256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_384 -> Sha2.sha384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_512 -> Sha2.sha512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_512_224 -> Sha2.sha512_224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_512_256 -> Sha2.sha512_256.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.SHA3_224 -> SHA3.sha3_224.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA3_256 -> SHA3.sha3_256.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA3_384 -> SHA3.sha3_384.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHA3_512 -> SHA3.sha3_512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA3_224 -> Sha3.sha3_224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA3_256 -> Sha3.sha3_256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA3_384 -> Sha3.sha3_384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA3_512 -> Sha3.sha3_512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.Shabal192 -> Shabal.shabal192.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.Shabal224 -> Shabal.shabal224.newHasher().toDigest(algorithm.blockLength)
@@ -328,18 +328,18 @@ internal object CoreDigest {
             is Algorithm.Shabal384 -> Shabal.shabal384.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.Shabal512 -> Shabal.shabal512.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.SHAKE128 -> SHA3.shake128.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHAKE256 -> SHA3.shake256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHAKE128 -> Sha3.shake128.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHAKE256 -> Sha3.shake256.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.SHAvite224 -> SHAvite.shavite224.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHAvite256 -> SHAvite.shavite256.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHAvite384 -> SHAvite.shavite384.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SHAvite512 -> SHAvite.shavite512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHAvite224 -> Shavite.shavite224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHAvite256 -> Shavite.shavite256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHAvite384 -> Shavite.shavite384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHAvite512 -> Shavite.shavite512.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.SIMD224 -> SIMD.simd224.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SIMD256 -> SIMD.simd256.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SIMD384 -> SIMD.simd384.newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.SIMD512 -> SIMD.simd512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SIMD224 -> Simd.simd224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SIMD256 -> Simd.simd256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SIMD384 -> Simd.simd384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SIMD512 -> Simd.simd512.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.SipHash -> SipHash.sipHash(
                 algorithm.key,
@@ -371,10 +371,10 @@ internal object CoreDigest {
                 else -> Skein.skein(algorithm.blockSizeBits, algorithm.outputSizeBits)
             }.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.SM3 -> SM3.sm3.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SM3 -> Sm3.sm3.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.T1ha0_32le -> T1ha.t1ha0_32le(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.T1ha1_le -> T1ha.t1ha1_le(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.T1ha1_le -> T1ha.t1ha1Le(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.T1ha2_AtOnce -> T1ha.t1ha2AtOnce(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.T1ha2_AtOnce128 -> T1ha.t1ha2AtOnce128(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.T1ha2_Stream -> T1ha.t1ha2Stream(algorithm.seedX, algorithm.seedY).newHasher().toDigest(algorithm.blockLength)
@@ -384,10 +384,10 @@ internal object CoreDigest {
             is Algorithm.Tiger2 -> Tiger.tiger2.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.TupleHash128 -> {
-                SP800185.tupleHash128(algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
+                Sp800185.tupleHash128(algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
             }
             is Algorithm.TupleHash256 -> {
-                SP800185.tupleHash256(algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
+                Sp800185.tupleHash256(algorithm.customisation, algorithm.outputSizeBits).newHasher().toDigest(algorithm.blockLength)
             }
 
             is Algorithm.Whirlpool -> Whirlpool.whirlpool.newHasher().toDigest(algorithm.blockLength)
@@ -398,17 +398,17 @@ internal object CoreDigest {
                 .toDigest(algorithm.blockLength)
             is Algorithm.Wyhash32 -> Wyhash.wyhash32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.XXHash32 -> XXHash.xxh32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
-            is Algorithm.XXHash64 -> XXHash.xxh64(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.XXHash32 -> XxHash.xxh32(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.XXHash64 -> XxHash.xxh64(algorithm.seed).newHasher().toDigest(algorithm.blockLength)
             is Algorithm.XXH3_64 -> when (algorithm) {
-                is Algorithm.XXH3_64.Seeded -> XXHash.xxh3_64(algorithm.seed)
-                is Algorithm.XXH3_64.Secret -> XXHash.xxh3_64(algorithm.secret)
-                else -> XXHash.xxh3_64()
+                is Algorithm.XXH3_64.Seeded -> XxHash.xxh3_64(algorithm.seed)
+                is Algorithm.XXH3_64.Secret -> XxHash.xxh3_64(algorithm.secret)
+                else -> XxHash.xxh3_64()
             }.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.XXH3_128 -> when (algorithm) {
-                is Algorithm.XXH3_128.Seeded -> XXHash.xxh3_128(algorithm.seed)
-                is Algorithm.XXH3_128.Secret -> XXHash.xxh3_128(algorithm.secret)
-                else -> XXHash.xxh3_128()
+                is Algorithm.XXH3_128.Seeded -> XxHash.xxh3_128(algorithm.seed)
+                is Algorithm.XXH3_128.Secret -> XxHash.xxh3_128(algorithm.secret)
+                else -> XxHash.xxh3_128()
             }.newHasher().toDigest(algorithm.blockLength)
         }
     }
@@ -421,10 +421,10 @@ internal object CoreDigest {
 
     @Suppress("CyclomaticComplexMethod")
     private fun hmacAlgorithm(algorithm: Hmac): HmacAlgorithm = when (algorithm) {
-        is Algorithm.BMW224 -> BMW.bmw224
-        is Algorithm.BMW256 -> BMW.bmw256
-        is Algorithm.BMW384 -> BMW.bmw384
-        is Algorithm.BMW512 -> BMW.bmw512
+        is Algorithm.BMW224 -> Bmw.bmw224
+        is Algorithm.BMW256 -> Bmw.bmw256
+        is Algorithm.BMW384 -> Bmw.bmw384
+        is Algorithm.BMW512 -> Bmw.bmw512
         is Algorithm.GOST3411_94 -> Gost.gost3411_94
         is Algorithm.GOST3411_2012_256 -> Streebog.streebog256
         is Algorithm.GOST3411_2012_512 -> Streebog.streebog512
@@ -433,25 +433,25 @@ internal object CoreDigest {
         is Algorithm.Keccak288 -> Keccak.keccak288
         is Algorithm.Keccak384 -> Keccak.keccak384
         is Algorithm.Keccak512 -> Keccak.keccak512
-        is Algorithm.MD2 -> MD.md2
-        is Algorithm.MD4 -> MD.md4
-        is Algorithm.MD5 -> MD.md5
-        is Algorithm.RipeMD128 -> RipeMD.ripeMD128
-        is Algorithm.RipeMD160 -> RipeMD.ripeMD160
-        is Algorithm.RipeMD256 -> RipeMD.ripeMD256
-        is Algorithm.RipeMD320 -> RipeMD.ripeMD320
-        is Algorithm.SHA_0 -> SHA1.sha0
-        is Algorithm.SHA_1 -> SHA1.sha1
-        is Algorithm.SHA_224 -> SHA2.sha224
-        is Algorithm.SHA_256 -> SHA2.sha256
-        is Algorithm.SHA_384 -> SHA2.sha384
-        is Algorithm.SHA_512 -> SHA2.sha512
-        is Algorithm.SHA_512_224 -> SHA2.sha512_224
-        is Algorithm.SHA_512_256 -> SHA2.sha512_256
-        is Algorithm.SHA3_224 -> SHA3.sha3_224
-        is Algorithm.SHA3_256 -> SHA3.sha3_256
-        is Algorithm.SHA3_384 -> SHA3.sha3_384
-        is Algorithm.SHA3_512 -> SHA3.sha3_512
+        is Algorithm.MD2 -> Md.md2
+        is Algorithm.MD4 -> Md.md4
+        is Algorithm.MD5 -> Md.md5
+        is Algorithm.RipeMD128 -> RipeMd.ripeMd128
+        is Algorithm.RipeMD160 -> RipeMd.ripeMd160
+        is Algorithm.RipeMD256 -> RipeMd.ripeMd256
+        is Algorithm.RipeMD320 -> RipeMd.ripeMd320
+        is Algorithm.SHA_0 -> Sha1.sha0
+        is Algorithm.SHA_1 -> Sha1.sha1
+        is Algorithm.SHA_224 -> Sha2.sha224
+        is Algorithm.SHA_256 -> Sha2.sha256
+        is Algorithm.SHA_384 -> Sha2.sha384
+        is Algorithm.SHA_512 -> Sha2.sha512
+        is Algorithm.SHA_512_224 -> Sha2.sha512_224
+        is Algorithm.SHA_512_256 -> Sha2.sha512_256
+        is Algorithm.SHA3_224 -> Sha3.sha3_224
+        is Algorithm.SHA3_256 -> Sha3.sha3_256
+        is Algorithm.SHA3_384 -> Sha3.sha3_384
+        is Algorithm.SHA3_512 -> Sha3.sha3_512
         is Algorithm.Skein256_128 -> Skein.skein256_128
         is Algorithm.Skein256_160 -> Skein.skein256_160
         is Algorithm.Skein256_224 -> Skein.skein256_224
@@ -465,7 +465,7 @@ internal object CoreDigest {
         is Algorithm.Skein1024_384 -> Skein.skein1024_384
         is Algorithm.Skein1024_512 -> Skein.skein1024_512
         is Algorithm.Skein1024_1024 -> Skein.skein1024_1024
-        is Algorithm.SM3 -> SM3.sm3
+        is Algorithm.SM3 -> Sm3.sm3
         is Algorithm.Tiger -> Tiger.tiger
         is Algorithm.Whirlpool -> Whirlpool.whirlpool
     }

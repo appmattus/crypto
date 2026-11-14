@@ -16,10 +16,10 @@
 
 package com.appmattus.crypto
 
-import com.appmattus.crypto.internal.blake.BLAKE224Hasher
-import com.appmattus.crypto.internal.blake.BLAKE256Hasher
-import com.appmattus.crypto.internal.blake.BLAKE384Hasher
-import com.appmattus.crypto.internal.blake.BLAKE512Hasher
+import com.appmattus.crypto.internal.blake.Blake224Hasher
+import com.appmattus.crypto.internal.blake.Blake256Hasher
+import com.appmattus.crypto.internal.blake.Blake384Hasher
+import com.appmattus.crypto.internal.blake.Blake512Hasher
 import com.appmattus.crypto.internal.blake.BlakeAlgorithm
 
 /**
@@ -30,20 +30,20 @@ public object Blake {
     /**
      * BLAKE with output size of 224 bits
      */
-    public val blake224: HashAlgorithm = BlakeAlgorithm("BLAKE-224", ::BLAKE224Hasher)
+    public val blake224: HashAlgorithm = BlakeAlgorithm("BLAKE-224", ::Blake224Hasher)
 
     /**
      * BLAKE with output size of 256 bits
      */
-    public val blake256: HashAlgorithm = BlakeAlgorithm("BLAKE-256", ::BLAKE256Hasher)
+    public val blake256: HashAlgorithm = BlakeAlgorithm("BLAKE-256", ::Blake256Hasher)
 
     /**
      * BLAKE with output size of 384 bits
      */
-    public val blake384: HashAlgorithm = BlakeAlgorithm("BLAKE-384", ::BLAKE384Hasher)
+    public val blake384: HashAlgorithm = BlakeAlgorithm("BLAKE-384", ::Blake384Hasher)
 
     /**
      * BLAKE with output size of 512 bits
      */
-    public val blake512: HashAlgorithm = BlakeAlgorithm("BLAKE-512", ::BLAKE512Hasher)
+    public val blake512: HashAlgorithm = BlakeAlgorithm("BLAKE-512", ::Blake512Hasher)
 }

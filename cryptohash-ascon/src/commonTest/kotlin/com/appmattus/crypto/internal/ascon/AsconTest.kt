@@ -39,7 +39,7 @@ class AsconTest {
     }
 
     @Test
-    fun asconCXof128MatchesReferenceVectors() {
+    fun asconCxof128MatchesReferenceVectors() {
         cxof128Vectors.forEach { (length, customisationLength, expected) ->
             val customisation = ByteArray(customisationLength) { (0x10 + it).toByte() }
             testKat({ Ascon.cxof128(customisation, 512).newHasher() }, message(length), expected)

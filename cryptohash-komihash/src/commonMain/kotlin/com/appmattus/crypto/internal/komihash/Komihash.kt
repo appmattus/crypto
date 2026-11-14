@@ -19,7 +19,7 @@ package com.appmattus.crypto.internal.komihash
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.core.multiplyHigh
 
 /**
@@ -28,7 +28,7 @@ import com.appmattus.crypto.internal.core.multiplyHigh
 internal fun komihashHasher(seed: ULong): Hasher =
     NonIncrementalHasher("komihash", 8) { input ->
         ByteArray(8).apply {
-            encodeBELong(komihash(input, seed).toLong(), this, 0)
+            encodeBeLong(komihash(input, seed).toLong(), this, 0)
         }
     }
 
@@ -64,7 +64,7 @@ private class State(useSeed: ULong) {
     }
 
     fun hash16(input: ByteBuffer, offset: Int) {
-        multiply(input.decodeLEULong(offset) xor seed1, input.decodeLEULong(offset + 8) xor seed5)
+        multiply(input.decodeLeULong(offset) xor seed1, input.decodeLeULong(offset + 8) xor seed5)
         seed1 = seed1 xor seed5
     }
 
@@ -87,15 +87,15 @@ private class State(useSeed: ULong) {
         }
 
         if (len > 7) {
-            r1h = r1h xor input.decodeLEULong(0)
+            r1h = r1h xor input.decodeLeULong(0)
             if (len < 12) {
                 val ml8 = (len * 8) xor 88
                 val m = input.byteAt(len - 3) or (input.byteAt(len - 1) shl 16) or (1uL shl 24) or (input.byteAt(len - 2) shl 8)
                 r2h = r2h xor (m shr ml8)
             } else {
                 val mhs = 128 - len * 8
-                val mh = (input.decodeLEUInt(len - 4).toULong() or (1uL shl 32)) shr mhs
-                val ml = input.decodeLEUInt(8).toULong()
+                val mh = (input.decodeLeUInt(len - 4).toULong() or (1uL shl 32)) shr mhs
+                val ml = input.decodeLeUInt(8).toULong()
                 r2h = r2h xor ((mh shl 32) or ml)
             }
         } else if (len != 0) {
@@ -109,8 +109,8 @@ private class State(useSeed: ULong) {
                 }
             } else {
                 val mhs = 64 - len * 8
-                val mh = (input.decodeLEUInt(len - 4).toULong() or (1uL shl 32)) shr mhs
-                val ml = input.decodeLEUInt(0).toULong()
+                val mh = (input.decodeLeUInt(len - 4).toULong() or (1uL shl 32)) shr mhs
+                val ml = input.decodeLeUInt(0).toULong()
                 r1h = r1h xor ((mh shl 32) or ml)
             }
         }
@@ -135,14 +135,14 @@ private class State(useSeed: ULong) {
             var seed8 = IVAL8 xor seed5
 
             do {
-                val u1 = input.decodeLEULong(offset) xor seed1
-                val v1 = input.decodeLEULong(offset + 32) xor seed5
-                val u2 = input.decodeLEULong(offset + 8) xor seed2
-                val v2 = input.decodeLEULong(offset + 40) xor seed6
-                val u3 = input.decodeLEULong(offset + 16) xor seed3
-                val v3 = input.decodeLEULong(offset + 48) xor seed7
-                val u4 = input.decodeLEULong(offset + 24) xor seed4
-                val v4 = input.decodeLEULong(offset + 56) xor seed8
+                val u1 = input.decodeLeULong(offset) xor seed1
+                val v1 = input.decodeLeULong(offset + 32) xor seed5
+                val u2 = input.decodeLeULong(offset + 8) xor seed2
+                val v2 = input.decodeLeULong(offset + 40) xor seed6
+                val u3 = input.decodeLeULong(offset + 16) xor seed3
+                val v3 = input.decodeLeULong(offset + 48) xor seed7
+                val u4 = input.decodeLeULong(offset + 24) xor seed4
+                val v4 = input.decodeLeULong(offset + 56) xor seed8
 
                 seed1 = u1 * v1
                 seed5 += multiplyHigh(u1, v1)
@@ -184,11 +184,11 @@ private class State(useSeed: ULong) {
 
     // The final 0 to 15 bytes, which may be read together with earlier bytes of the message
     private fun tail(input: ByteBuffer, offset: Int, remaining: Int): ULong {
-        val last = (input.decodeLEULong(offset + remaining - 8) shr 8) or (1uL shl 56)
+        val last = (input.decodeLeULong(offset + remaining - 8) shr 8) or (1uL shl 56)
         return if (remaining < 8) {
             finish((last shr ((remaining * 8) xor 56)) xor seed1, seed5)
         } else {
-            finish(input.decodeLEULong(offset) xor seed1, (last shr ((remaining * 8) xor 120)) xor seed5)
+            finish(input.decodeLeULong(offset) xor seed1, (last shr ((remaining * 8) xor 120)) xor seed5)
         }
     }
 

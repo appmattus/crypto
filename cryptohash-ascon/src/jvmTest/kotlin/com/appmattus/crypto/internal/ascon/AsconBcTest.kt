@@ -58,7 +58,7 @@ class AsconBcTest {
     }
 
     @Test
-    fun asconCXof128MatchesBouncyCastle() {
+    fun asconCxof128MatchesBouncyCastle() {
         repeat(ITERATIONS) {
             val customisation = random.nextBytes(random.nextInt(0, 257))
             val message = random.nextBytes(random.nextInt(0, 1000))

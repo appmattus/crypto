@@ -16,7 +16,7 @@
 package com.appmattus.crypto.internal.highwayhash
 
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -87,8 +87,8 @@ internal actual class HighwayHashState actual constructor() {
         require(pos >= 0) { "Pos ($pos) must be positive" }
         require(pos + 32 <= packet.size) { "packet must have at least 32 bytes after pos" }
         for (i in 0..3) {
-            al[i] = readIntLE(packet, pos + (i shl 3))
-            ah[i] = readIntLE(packet, pos + (i shl 3) + 4)
+            al[i] = readIntLe(packet, pos + (i shl 3))
+            ah[i] = readIntLe(packet, pos + (i shl 3) + 4)
         }
         update()
     }

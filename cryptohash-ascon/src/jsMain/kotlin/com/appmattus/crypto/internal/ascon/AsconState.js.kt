@@ -15,7 +15,7 @@
  */
 package com.appmattus.crypto.internal.ascon
 
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -76,8 +76,8 @@ internal actual class AsconState actual constructor() {
     }
 
     actual fun absorb(input: ByteArray, offset: Int) {
-        x0l = x0l xor readIntLE(input, offset)
-        x0h = x0h xor readIntLE(input, offset + 4)
+        x0l = x0l xor readIntLe(input, offset)
+        x0h = x0h xor readIntLe(input, offset + 4)
         permute()
     }
 

@@ -179,9 +179,9 @@ class ByteBufferTest {
         baa.add(byteArrayOf(1, 2, 3))
         baa.add(byteArrayOf(4, 5, 6, 7, 8, 9))
 
-        assertEquals(0x04030201, baa.decodeLEInt(0))
-        assertEquals(0x02030405, baa.decodeBEInt(1))
-        assertEquals(0x0908070605040302L, baa.decodeLELong(1))
+        assertEquals(0x04030201, baa.decodeLeInt(0))
+        assertEquals(0x02030405, baa.decodeBeInt(1))
+        assertEquals(0x0908070605040302L, baa.decodeLeLong(1))
     }
 
     @Test
@@ -190,14 +190,14 @@ class ByteBufferTest {
         val baa = ByteBuffer()
         baa.add(ByteArray(9))
 
-        assertEquals(0L, baa.decodeLELong(1))
-        assertEquals(0, baa.decodeLEInt(5))
+        assertEquals(0L, baa.decodeLeLong(1))
+        assertEquals(0, baa.decodeLeInt(5))
 
-        val long = assertFailsWith<IndexOutOfBoundsException> { baa.decodeLELong(2) }
+        val long = assertFailsWith<IndexOutOfBoundsException> { baa.decodeLeLong(2) }
         assertEquals("Range 2..10 out of bounds for length 9", long.message)
-        assertFailsWith<IndexOutOfBoundsException> { baa.decodeLEInt(6) }
-        assertFailsWith<IndexOutOfBoundsException> { baa.decodeBEInt(6) }
-        assertFailsWith<IndexOutOfBoundsException> { baa.decodeLEInt(-1) }
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeLeInt(6) }
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeBeInt(6) }
+        assertFailsWith<IndexOutOfBoundsException> { baa.decodeLeInt(-1) }
     }
 
     @Test

@@ -18,7 +18,7 @@ package com.appmattus.crypto.internal.sha1
 
 import com.appmattus.crypto.HashAlgorithm
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.SHA1
+import com.appmattus.crypto.Sha1
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -146,7 +146,7 @@ class PlatformDelegationTest {
         val lengths = (0..SHORT) + listOf(1000, 4095, 4096, 4097, 65_536)
 
         val delegated = listOf(
-            Delegated(SHA1.sha1, ::SHA1Hasher)
+            Delegated(Sha1.sha1, ::Sha1Hasher)
         )
     }
 }

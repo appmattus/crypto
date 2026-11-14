@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.whirlpool
 
-import com.appmattus.crypto.internal.core.encodeLELong
-import com.appmattus.crypto.internal.core.sphlib.HasherMDHelper
+import com.appmattus.crypto.internal.core.encodeLeLong
+import com.appmattus.crypto.internal.core.sphlib.HasherMdHelper
 
 /**
  *
@@ -62,7 +62,7 @@ internal abstract class WhirlpoolCore<D : WhirlpoolCore<D>>(
     private val t6: LongArray,
     private val t7: LongArray,
     private val rc: LongArray
-) : HasherMDHelper<D>(false, 32) {
+) : HasherMdHelper<D>(false, 32) {
 
     // The eight-word chaining value. HasherEngine's constructor calls doInit before this class's properties are
     // initialised, so it is created there rather than with an initialiser.
@@ -87,15 +87,15 @@ internal abstract class WhirlpoolCore<D : WhirlpoolCore<D>>(
     }
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
-        makeMDPadding()
-        encodeLELong(state[0], output, outputOffset)
-        encodeLELong(state[1], output, outputOffset + 8)
-        encodeLELong(state[2], output, outputOffset + 16)
-        encodeLELong(state[3], output, outputOffset + 24)
-        encodeLELong(state[4], output, outputOffset + 32)
-        encodeLELong(state[5], output, outputOffset + 40)
-        encodeLELong(state[6], output, outputOffset + 48)
-        encodeLELong(state[7], output, outputOffset + 56)
+        makeMdPadding()
+        encodeLeLong(state[0], output, outputOffset)
+        encodeLeLong(state[1], output, outputOffset + 8)
+        encodeLeLong(state[2], output, outputOffset + 16)
+        encodeLeLong(state[3], output, outputOffset + 24)
+        encodeLeLong(state[4], output, outputOffset + 32)
+        encodeLeLong(state[5], output, outputOffset + 40)
+        encodeLeLong(state[6], output, outputOffset + 48)
+        encodeLeLong(state[7], output, outputOffset + 56)
     }
 
     override fun doInit() {

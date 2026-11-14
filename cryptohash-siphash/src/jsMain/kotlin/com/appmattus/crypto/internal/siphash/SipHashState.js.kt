@@ -16,7 +16,7 @@
 package com.appmattus.crypto.internal.siphash
 
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -66,7 +66,7 @@ internal actual class SipHashState actual constructor() {
     actual fun compress(input: ByteArray, offset: Int, words: Int, rounds: Int) {
         var pos = offset
         repeat(words) {
-            processWord(readIntLE(input, pos + 4), readIntLE(input, pos), rounds)
+            processWord(readIntLe(input, pos + 4), readIntLe(input, pos), rounds)
             pos += 8
         }
     }

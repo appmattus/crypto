@@ -18,32 +18,32 @@ package com.appmattus.crypto.internal.xxhash
 
 import com.appmattus.crypto.HashAlgorithm
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.xxhash.xxh3.XXH3Parameters
-import com.appmattus.crypto.internal.xxhash.xxh3.XXH3_128Hasher
-import com.appmattus.crypto.internal.xxhash.xxh3.XXH3_64Hasher
+import com.appmattus.crypto.internal.xxhash.xxh3.Xxh3Parameters
+import com.appmattus.crypto.internal.xxhash.xxh3.Xxh3_128Hasher
+import com.appmattus.crypto.internal.xxhash.xxh3.Xxh3_64Hasher
 
-internal data class XXHash32Algorithm(private val seed: Int) : HashAlgorithm {
-    override fun newHasher(): Hasher = XXHash32Hasher(seed)
+internal data class XxHash32Algorithm(private val seed: Int) : HashAlgorithm {
+    override fun newHasher(): Hasher = XxHash32Hasher(seed)
 
     override fun toString(): String = "XXH32"
 }
 
-internal data class XXHash64Algorithm(private val seed: Long) : HashAlgorithm {
-    override fun newHasher(): Hasher = XXHash64Hasher(seed)
+internal data class XxHash64Algorithm(private val seed: Long) : HashAlgorithm {
+    override fun newHasher(): Hasher = XxHash64Hasher(seed)
 
     override fun toString(): String = "XXH64"
 }
 
 @Suppress("ClassName")
-internal data class XXH3_64Algorithm(private val parameters: XXH3Parameters) : HashAlgorithm {
-    override fun newHasher(): Hasher = XXH3_64Hasher(parameters)
+internal data class Xxh3_64Algorithm(private val parameters: Xxh3Parameters) : HashAlgorithm {
+    override fun newHasher(): Hasher = Xxh3_64Hasher(parameters)
 
     override fun toString(): String = "XXH3-64"
 }
 
 @Suppress("ClassName")
-internal data class XXH3_128Algorithm(private val parameters: XXH3Parameters) : HashAlgorithm {
-    override fun newHasher(): Hasher = XXH3_128Hasher(parameters)
+internal data class Xxh3_128Algorithm(private val parameters: Xxh3Parameters) : HashAlgorithm {
+    override fun newHasher(): Hasher = Xxh3_128Hasher(parameters)
 
     override fun toString(): String = "XXH3-128"
 }

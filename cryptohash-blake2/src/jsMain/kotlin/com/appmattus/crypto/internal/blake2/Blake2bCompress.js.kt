@@ -35,7 +35,7 @@ private inline fun carry(sum: Int, operand: Int): Int =
     if ((sum xor Int.MIN_VALUE) < (operand xor Int.MIN_VALUE)) 1 else 0
 
 @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-private inline fun readIntLE(data: ByteArray, offset: Int): Int =
+private inline fun readIntLe(data: ByteArray, offset: Int): Int =
     (data[offset].toInt() and 0xff) or
         ((data[offset + 1].toInt() and 0xff) shl 8) or
         ((data[offset + 2].toInt() and 0xff) shl 16) or
@@ -55,8 +55,8 @@ internal actual fun blake2bCompress(
     val vh = vHigh
     val vl = vLow
     for (j in 0..15) {
-        ml[j] = readIntLE(message, messagePos + j * 8)
-        mh[j] = readIntLE(message, messagePos + j * 8 + 4)
+        ml[j] = readIntLe(message, messagePos + j * 8)
+        mh[j] = readIntLe(message, messagePos + j * 8 + 4)
         vh[j] = (internalState[j] ushr 32).toInt()
         vl[j] = internalState[j].toInt()
     }

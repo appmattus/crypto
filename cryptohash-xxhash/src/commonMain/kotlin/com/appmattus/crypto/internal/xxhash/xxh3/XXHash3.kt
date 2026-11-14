@@ -58,10 +58,10 @@ package com.appmattus.crypto.internal.xxhash.xxh3
 
 import com.appmattus.crypto.InternalCryptohash
 import com.appmattus.crypto.internal.core.copyBytes
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeBeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 import com.appmattus.crypto.internal.core.multiplyHigh
 import com.appmattus.crypto.internal.core.reverseByteOrder
 import com.appmattus.crypto.internal.core.rotateLeft
@@ -259,7 +259,7 @@ private fun XXH_swap64(x: xxh_u64): xxh_u64 {
             ((x ushr 56) and 0x00000000000000ffUL.toLong())
 }
 
-private fun XXH_readLE32(ptr: ByteArray, offset: Int): xxh_u32 = decodeLEInt(ptr, offset)
+private fun XXH_readLE32(ptr: ByteArray, offset: Int): xxh_u32 = decodeLeInt(ptr, offset)
 
 /*-*************************************
  *  Misc
@@ -275,7 +275,7 @@ private fun XXH_readLE32(ptr: ByteArray, offset: Int): xxh_u32 = decodeLEInt(ptr
 
 /*-******   Memory access   *******/
 
-private fun XXH_readLE64(ptr: ByteArray, offset: Int): xxh_u64 = decodeLELong(ptr, offset)
+private fun XXH_readLE64(ptr: ByteArray, offset: Int): xxh_u64 = decodeLeLong(ptr, offset)
 
 /*******   xxh64   *******/
 
@@ -441,9 +441,9 @@ private fun XXH3_len_9to16_64b(input: ByteArray, inputOffset: Int, len: size_t, 
 
     val bitflip1: xxh_u64 = (XXH_readLE64(secret, 24) xor XXH_readLE64(secret, 32)) + seed
     val bitflip2: xxh_u64 = (XXH_readLE64(secret, 40) xor XXH_readLE64(secret, 48)) - seed
-    val input_lo: xxh_u64 = XXH_readLE64(input, inputOffset + 0) xor bitflip1
-    val input_hi: xxh_u64 = XXH_readLE64(input, inputOffset + len - 8) xor bitflip2
-    val acc = len.toLong() + XXH_swap64(input_lo) + input_hi + XXH3_mul128_fold64(input_lo, input_hi)
+    val inputLo: xxh_u64 = XXH_readLE64(input, inputOffset + 0) xor bitflip1
+    val inputHi: xxh_u64 = XXH_readLE64(input, inputOffset + len - 8) xor bitflip2
+    val acc = len.toLong() + XXH_swap64(inputLo) + inputHi + XXH3_mul128_fold64(inputLo, inputHi)
     return XXH3_avalanche(acc)
 }
 
@@ -484,11 +484,11 @@ private fun XXH3_len_0to16_64b(input: ByteArray, inputOffset: Int, len: size_t, 
  * about strength.
  */
 private fun XXH3_mix16B(input: ByteArray, inputOffset: Int, secret: ByteArray, secretOffset: Int, seed64: xxh_u64): xxh_u64 {
-    val input_lo = XXH_readLE64(input, inputOffset + 0)
-    val input_hi = XXH_readLE64(input, inputOffset + 8)
+    val inputLo = XXH_readLE64(input, inputOffset + 0)
+    val inputHi = XXH_readLE64(input, inputOffset + 8)
     return XXH3_mul128_fold64(
-        input_lo xor (XXH_readLE64(secret, secretOffset + 0) + seed64),
-        input_hi xor (XXH_readLE64(secret, secretOffset + 8) - seed64)
+        inputLo xor (XXH_readLE64(secret, secretOffset + 0) + seed64),
+        inputHi xor (XXH_readLE64(secret, secretOffset + 8) - seed64)
     )
 }
 
@@ -551,7 +551,7 @@ private fun XXH3_len_129to240_64b(
     return XXH3_avalanche(acc)
 }
 
-private fun XXH_writeLE64(dst: ByteArray, dstOffset: Int, v64: xxh_u64) = encodeLELong(v64, dst, dstOffset)
+private fun XXH_writeLE64(dst: ByteArray, dstOffset: Int, v64: xxh_u64) = encodeLeLong(v64, dst, dstOffset)
 
 /*
  * XXH3_accumulate_512 is the tightest loop for long inputs, and it is the most optimized.
@@ -580,10 +580,10 @@ private fun XXH_writeLE64(dst: ByteArray, dstOffset: Int, v64: xxh_u64) = encode
 
 private fun XXH3_accumulate_512_scalar(acc: LongArray, input: ByteArray, inputOffset: Int, secret: ByteArray, secretOffset: Int) {
     for (i in 0 until XXH_ACC_NB) {
-        val data_val: xxh_u64 = XXH_readLE64(input, inputOffset + 8 * i)
-        val data_key: xxh_u64 = data_val xor XXH_readLE64(secret, secretOffset + i * 8)
-        acc[i xor 1] += data_val // swap adjacent lanes
-        acc[i] += XXH_mult32to64((data_key and 0xffffffff).toInt(), (data_key ushr 32).toInt())
+        val dataVal: xxh_u64 = XXH_readLE64(input, inputOffset + 8 * i)
+        val dataKey: xxh_u64 = dataVal xor XXH_readLE64(secret, secretOffset + i * 8)
+        acc[i xor 1] += dataVal // swap adjacent lanes
+        acc[i] += XXH_mult32to64((dataKey and 0xffffffff).toInt(), (dataKey ushr 32).toInt())
     }
 }
 
@@ -635,21 +635,21 @@ private fun XXH3_hashLong_internal_loop(
     f_scramble: XXH3_f_scrambleAcc
 ) {
     val nbStripesPerBlock: size_t = (secretSize - XXH_STRIPE_LEN) / XXH_SECRET_CONSUME_RATE
-    val block_len: size_t = XXH_STRIPE_LEN * nbStripesPerBlock
-    val nb_blocks: size_t = (len - 1) / block_len
+    val blockLen: size_t = XXH_STRIPE_LEN * nbStripesPerBlock
+    val nbBlocks: size_t = (len - 1) / blockLen
 
     XXH_ASSERT(secretSize >= XXH3_SECRET_SIZE_MIN)
 
-    for (n in 0 until nb_blocks) {
-        XXH3_accumulate(acc, input, inputOffset + n * block_len, secret, 0, nbStripesPerBlock, f_acc512)
+    for (n in 0 until nbBlocks) {
+        XXH3_accumulate(acc, input, inputOffset + n * blockLen, secret, 0, nbStripesPerBlock, f_acc512)
         f_scramble(acc, secret, secretSize - XXH_STRIPE_LEN)
     }
 
     /* last partial block */
     XXH_ASSERT(len > XXH_STRIPE_LEN)
-    val nbStripes: Int = ((len - 1) - (block_len * nb_blocks)) / XXH_STRIPE_LEN
+    val nbStripes: Int = ((len - 1) - (blockLen * nbBlocks)) / XXH_STRIPE_LEN
     XXH_ASSERT(nbStripes <= (secretSize / XXH_SECRET_CONSUME_RATE))
-    XXH3_accumulate(acc, input, nb_blocks * block_len, secret, 0, nbStripes, f_acc512)
+    XXH3_accumulate(acc, input, nbBlocks * blockLen, secret, 0, nbStripes, f_acc512)
 
     /* last stripe */
     f_acc512(acc, input, inputOffset + len - XXH_STRIPE_LEN, secret, secretSize - XXH_STRIPE_LEN - XXH_SECRET_LASTACC_START)
@@ -1138,12 +1138,12 @@ private fun XXH3_len_1to3_128b(input: ByteArray, inputOffset: Int, len: size_t, 
     val combinedh: xxh_u32 = XXH_swap32(combinedl).rotateLeft(13)
     val bitflipl: xxh_u64 = ((XXH_readLE32(secret, 0).toLong() and 0xffffffff) xor (XXH_readLE32(secret, 4).toLong() and 0xffffffff)) + seed
     val bitfliph: xxh_u64 = ((XXH_readLE32(secret, 8).toLong() and 0xffffffff) xor (XXH_readLE32(secret, 12).toLong() and 0xffffffff)) - seed
-    val keyed_lo: xxh_u64 = (combinedl.toLong() and 0xffffffff) xor bitflipl
-    val keyed_hi: xxh_u64 = (combinedh.toLong() and 0xffffffff) xor bitfliph
+    val keyedLo: xxh_u64 = (combinedl.toLong() and 0xffffffff) xor bitflipl
+    val keyedHi: xxh_u64 = (combinedh.toLong() and 0xffffffff) xor bitfliph
 
     return XXH128_hash_t(
-        low64 = XXH64_avalanche(keyed_lo),
-        high64 = XXH64_avalanche(keyed_hi)
+        low64 = XXH64_avalanche(keyedLo),
+        high64 = XXH64_avalanche(keyedHi)
     )
 }
 
@@ -1151,9 +1151,9 @@ private fun XXH3_len_4to8_128b(input: ByteArray, inputOffset: Int, len: size_t, 
     XXH_ASSERT(len in 4..8)
     @Suppress("NAME_SHADOWING")
     val seed = seed xor ((XXH_swap32(seed.toInt()).toLong() and 0xffffffff) shl 32)
-    val input_lo: xxh_u32 = XXH_readLE32(input, inputOffset)
-    val input_hi: xxh_u32 = XXH_readLE32(input, inputOffset + len - 4)
-    val input_64: xxh_u64 = (input_lo.toLong() and 0xffffffff) + ((input_hi.toLong() and 0xffffffff) shl 32)
+    val inputLo: xxh_u32 = XXH_readLE32(input, inputOffset)
+    val inputHi: xxh_u32 = XXH_readLE32(input, inputOffset + len - 4)
+    val input_64: xxh_u64 = (inputLo.toLong() and 0xffffffff) + ((inputHi.toLong() and 0xffffffff) shl 32)
     val bitflip: xxh_u64 = (XXH_readLE64(secret, 16) xor XXH_readLE64(secret, 24)) + seed
     val keyed: xxh_u64 = input_64 xor bitflip
 
@@ -1176,9 +1176,9 @@ private fun XXH3_len_9to16_128b(input: ByteArray, inputOffset: Int, len: size_t,
     XXH_ASSERT(len in 9..16)
     val bitflipl: xxh_u64 = (XXH_readLE64(secret, 32) xor XXH_readLE64(secret, 40)) - seed
     val bitfliph: xxh_u64 = (XXH_readLE64(secret, 48) xor XXH_readLE64(secret, 56)) + seed
-    val input_lo: xxh_u64 = XXH_readLE64(input, inputOffset)
-    var input_hi: xxh_u64 = XXH_readLE64(input, inputOffset + len - 8)
-    val m128: XXH128_hash_t = XXH_mult64to128(input_lo xor input_hi xor bitflipl, XXH_PRIME64_1)
+    val inputLo: xxh_u64 = XXH_readLE64(input, inputOffset)
+    var inputHi: xxh_u64 = XXH_readLE64(input, inputOffset + len - 8)
+    val m128: XXH128_hash_t = XXH_mult64to128(inputLo xor inputHi xor bitflipl, XXH_PRIME64_1)
     var low64 = m128.low64
     var high64 = m128.high64
 
@@ -1187,7 +1187,7 @@ private fun XXH3_len_9to16_128b(input: ByteArray, inputOffset: Int, len: size_t,
      * both the low and high bits in the 128x64 multiply below.
      */
     low64 += (len.toLong() - 1L) shl 54
-    input_hi = input_hi xor bitfliph
+    inputHi = inputHi xor bitfliph
     /*
      * Add the high 32 bits of input_hi to the high 32 bits of m128, then
      * add the long product of the low 32 bits of input_hi and XXH_PRIME32_2 to
@@ -1219,7 +1219,7 @@ private fun XXH3_len_9to16_128b(input: ByteArray, inputOffset: Int, len: size_t,
      * Since input_hi.hi + input_hi.lo == input_hi, we get this:
      *    input_hi + ((xxh_u64)input_hi.lo * (XXH_PRIME32_2 - 1))
      */
-    high64 += input_hi + XXH_mult32to64(input_hi.toInt(), XXH_PRIME32_2 - 1)
+    high64 += inputHi + XXH_mult32to64(inputHi.toInt(), XXH_PRIME32_2 - 1)
     /* m128 ^= XXH_swap64(m128 >> 64); */
     low64 = low64 xor XXH_swap64(high64)
 
@@ -1560,8 +1560,8 @@ internal fun XXH3_128bits_digest(state: XXH3_state_t): XXH128_hash_t {
 internal fun XXH128_canonicalFromHash(hash: XXH128_hash_t): XXH128_canonical_t {
     val dst = XXH128_canonical_t()
 
-    encodeBELong(hash.high64, dst.digest, 0)
-    encodeBELong(hash.low64, dst.digest, 8)
+    encodeBeLong(hash.high64, dst.digest, 0)
+    encodeBeLong(hash.low64, dst.digest, 8)
 
     return dst
 }

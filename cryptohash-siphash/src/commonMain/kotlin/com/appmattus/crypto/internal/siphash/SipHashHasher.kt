@@ -18,8 +18,8 @@ package com.appmattus.crypto.internal.siphash
 
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.core.AbstractHasher
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 import com.appmattus.crypto.internal.core.rotateLeft
 
 /**
@@ -37,8 +37,8 @@ internal class SipHashHasher private constructor(
 ) : AbstractHasher() {
 
     constructor(key: ByteArray, compressionRounds: Int, finalizationRounds: Int, outputBits: Int) : this(
-        decodeLELong(key, 0),
-        decodeLELong(key, 8),
+        decodeLeLong(key, 0),
+        decodeLeLong(key, 8),
         compressionRounds,
         finalizationRounds,
         outputBits
@@ -171,7 +171,7 @@ internal class SipHashStateLong {
     fun compress(input: ByteArray, offset: Int, words: Int, rounds: Int) {
         var pos = offset
         repeat(words) {
-            processWord(decodeLELong(input, pos), rounds)
+            processWord(decodeLeLong(input, pos), rounds)
             pos += 8
         }
     }
@@ -192,14 +192,14 @@ internal class SipHashStateLong {
         if (output.size == 8) {
             v2 = v2 xor 0xff
             sipRounds(finalizationRounds)
-            encodeLELong(v0 xor v1 xor v2 xor v3, output, 0)
+            encodeLeLong(v0 xor v1 xor v2 xor v3, output, 0)
         } else {
             v2 = v2 xor 0xee
             sipRounds(finalizationRounds)
-            encodeLELong(v0 xor v1 xor v2 xor v3, output, 0)
+            encodeLeLong(v0 xor v1 xor v2 xor v3, output, 0)
             v1 = v1 xor 0xdd
             sipRounds(finalizationRounds)
-            encodeLELong(v0 xor v1 xor v2 xor v3, output, 8)
+            encodeLeLong(v0 xor v1 xor v2 xor v3, output, 8)
         }
     }
 

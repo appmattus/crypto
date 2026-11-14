@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.luffa
 
-import com.appmattus.crypto.internal.core.decodeBEInt
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.decodeBeInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 /**
@@ -205,23 +205,23 @@ internal class Luffa512Hasher : HasherEngine<Luffa512Hasher>() {
         update(tmpBuf, ptr, 32 - ptr)
         for (i in 0 until ptr + 1) tmpBuf[i] = 0x00
         update(tmpBuf, 0, 32)
-        encodeBEInt(v00 xor v10 xor v20 xor v30 xor v40, output, outputOffset + 0)
-        encodeBEInt(v01 xor v11 xor v21 xor v31 xor v41, output, outputOffset + 4)
-        encodeBEInt(v02 xor v12 xor v22 xor v32 xor v42, output, outputOffset + 8)
-        encodeBEInt(v03 xor v13 xor v23 xor v33 xor v43, output, outputOffset + 12)
-        encodeBEInt(v04 xor v14 xor v24 xor v34 xor v44, output, outputOffset + 16)
-        encodeBEInt(v05 xor v15 xor v25 xor v35 xor v45, output, outputOffset + 20)
-        encodeBEInt(v06 xor v16 xor v26 xor v36 xor v46, output, outputOffset + 24)
-        encodeBEInt(v07 xor v17 xor v27 xor v37 xor v47, output, outputOffset + 28)
+        encodeBeInt(v00 xor v10 xor v20 xor v30 xor v40, output, outputOffset + 0)
+        encodeBeInt(v01 xor v11 xor v21 xor v31 xor v41, output, outputOffset + 4)
+        encodeBeInt(v02 xor v12 xor v22 xor v32 xor v42, output, outputOffset + 8)
+        encodeBeInt(v03 xor v13 xor v23 xor v33 xor v43, output, outputOffset + 12)
+        encodeBeInt(v04 xor v14 xor v24 xor v34 xor v44, output, outputOffset + 16)
+        encodeBeInt(v05 xor v15 xor v25 xor v35 xor v45, output, outputOffset + 20)
+        encodeBeInt(v06 xor v16 xor v26 xor v36 xor v46, output, outputOffset + 24)
+        encodeBeInt(v07 xor v17 xor v27 xor v37 xor v47, output, outputOffset + 28)
         update(tmpBuf, 0, 32)
-        encodeBEInt(v00 xor v10 xor v20 xor v30 xor v40, output, outputOffset + 32)
-        encodeBEInt(v01 xor v11 xor v21 xor v31 xor v41, output, outputOffset + 36)
-        encodeBEInt(v02 xor v12 xor v22 xor v32 xor v42, output, outputOffset + 40)
-        encodeBEInt(v03 xor v13 xor v23 xor v33 xor v43, output, outputOffset + 44)
-        encodeBEInt(v04 xor v14 xor v24 xor v34 xor v44, output, outputOffset + 48)
-        encodeBEInt(v05 xor v15 xor v25 xor v35 xor v45, output, outputOffset + 52)
-        encodeBEInt(v06 xor v16 xor v26 xor v36 xor v46, output, outputOffset + 56)
-        encodeBEInt(v07 xor v17 xor v27 xor v37 xor v47, output, outputOffset + 60)
+        encodeBeInt(v00 xor v10 xor v20 xor v30 xor v40, output, outputOffset + 32)
+        encodeBeInt(v01 xor v11 xor v21 xor v31 xor v41, output, outputOffset + 36)
+        encodeBeInt(v02 xor v12 xor v22 xor v32 xor v42, output, outputOffset + 40)
+        encodeBeInt(v03 xor v13 xor v23 xor v33 xor v43, output, outputOffset + 44)
+        encodeBeInt(v04 xor v14 xor v24 xor v34 xor v44, output, outputOffset + 48)
+        encodeBeInt(v05 xor v15 xor v25 xor v35 xor v45, output, outputOffset + 52)
+        encodeBeInt(v06 xor v16 xor v26 xor v36 xor v46, output, outputOffset + 56)
+        encodeBeInt(v07 xor v17 xor v27 xor v37 xor v47, output, outputOffset + 60)
     }
 
     override fun doInit() {
@@ -248,14 +248,14 @@ internal class Luffa512Hasher : HasherEngine<Luffa512Hasher>() {
         var b5: Int
         var b6: Int
         var b7: Int
-        var m0 = decodeBEInt(data, 0)
-        var m1 = decodeBEInt(data, 4)
-        var m2 = decodeBEInt(data, 8)
-        var m3 = decodeBEInt(data, 12)
-        var m4 = decodeBEInt(data, 16)
-        var m5 = decodeBEInt(data, 20)
-        var m6 = decodeBEInt(data, 24)
-        var m7 = decodeBEInt(data, 28)
+        var m0 = decodeBeInt(data, 0)
+        var m1 = decodeBeInt(data, 4)
+        var m2 = decodeBeInt(data, 8)
+        var m3 = decodeBeInt(data, 12)
+        var m4 = decodeBeInt(data, 16)
+        var m5 = decodeBeInt(data, 20)
+        var m6 = decodeBeInt(data, 24)
+        var m7 = decodeBeInt(data, 28)
         a0 = v00 xor v10
         a1 = v01 xor v11
         a2 = v02 xor v12

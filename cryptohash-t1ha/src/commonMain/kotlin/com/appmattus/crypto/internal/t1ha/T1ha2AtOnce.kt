@@ -18,7 +18,7 @@ package com.appmattus.crypto.internal.t1ha
 
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.encodeBeLong
 
 /**
  * A [Hasher] for [t1ha2](https://github.com/erthink/t1ha) at-once with output size of 64 bits, which can only
@@ -29,8 +29,8 @@ internal fun t1ha2AtOnceHasher(seed: ULong): Hasher =
         val state = T1haState256()
         var length = input.size
 
-        initAB(state, seed, length.toULong())
-        initCD(state, seed, length.toULong())
+        initAb(state, seed, length.toULong())
+        initCd(state, seed, length.toULong())
 
         var offset = 0
         if (length > 32) {
@@ -38,9 +38,9 @@ internal fun t1ha2AtOnceHasher(seed: ULong): Hasher =
             squash(state)
             length = length and 31
         }
-        val hashResult = t1ha2TailAB(state, input, offset, length)
+        val hashResult = t1ha2TailAb(state, input, offset, length)
 
         ByteArray(8).apply {
-            encodeBELong(hashResult.toLong(), this, 0)
+            encodeBeLong(hashResult.toLong(), this, 0)
         }
     }

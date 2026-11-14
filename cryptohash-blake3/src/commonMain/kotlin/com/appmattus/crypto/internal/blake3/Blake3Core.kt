@@ -38,7 +38,7 @@
 
 package com.appmattus.crypto.internal.blake3
 
-import com.appmattus.crypto.internal.core.decodeLEInt
+import com.appmattus.crypto.internal.core.decodeLeInt
 import com.appmattus.crypto.internal.core.rotateRight
 import kotlin.math.min
 
@@ -93,9 +93,9 @@ internal class Blake3Core(
         while (currPos < end) {
             // If this chunk has chained in 16 64 bytes of input, add its CV to the stack
             if (chunkState.len() == CHUNK_LEN) {
-                val chunkCV = chunkState.createNode().chainingValue()
+                val chunkCv = chunkState.createNode().chainingValue()
                 val totalChunks = chunkState.chunkCounter + 1
-                addChunkChainingValue(chunkCV, totalChunks)
+                addChunkChainingValue(chunkCv, totalChunks)
                 chunkState = ChunkState(key, totalChunks, flags)
             }
             val want = CHUNK_LEN - chunkState.len()
@@ -134,14 +134,14 @@ internal class Blake3Core(
     }
 
     @Suppress("NAME_SHADOWING")
-    private fun addChunkChainingValue(newCV: IntArray, totalChunks: Long) {
-        var newCV = newCV
+    private fun addChunkChainingValue(newCv: IntArray, totalChunks: Long) {
+        var newCv = newCv
         var totalChunks = totalChunks
         while (totalChunks and 1 == 0L) {
-            newCV = parentCV(popStack(), newCV, key, flags)
+            newCv = parentCv(popStack(), newCv, key, flags)
             totalChunks = totalChunks shr 1
         }
-        pushStack(newCV)
+        pushStack(newCv)
     }
 
     companion object {
@@ -236,16 +236,16 @@ internal class Blake3Core(
             return state
         }
 
-        fun wordsFromLEBytes(bytes: ByteArray): IntArray {
+        fun wordsFromLeBytes(bytes: ByteArray): IntArray {
             return IntArray(bytes.size / 4) { i ->
-                decodeLEInt(bytes, i * 4)
+                decodeLeInt(bytes, i * 4)
             }
         }
 
         /** Decodes [bytes] into [out] as little-endian words, without allocating */
-        fun wordsFromLEBytes(bytes: ByteArray, out: IntArray) {
+        fun wordsFromLeBytes(bytes: ByteArray, out: IntArray) {
             for (i in out.indices) {
-                out[i] = decodeLEInt(bytes, i * 4)
+                out[i] = decodeLeInt(bytes, i * 4)
             }
         }
 
@@ -264,7 +264,7 @@ internal class Blake3Core(
             return Node(key, blockWords, 0, BLOCK_LEN, PARENT or flags)
         }
 
-        private fun parentCV(leftChildCV: IntArray?, rightChildCV: IntArray, key: IntArray, flags: Int): IntArray {
+        private fun parentCv(leftChildCV: IntArray?, rightChildCV: IntArray, key: IntArray, flags: Int): IntArray {
             return parentNode(leftChildCV, rightChildCV, key, flags).chainingValue()
         }
 
@@ -283,7 +283,7 @@ internal class Blake3Core(
          */
         fun newKeyedHasher(key: ByteArray): Blake3Core {
             require(key.size == KEY_LEN) { "Invalid key length" }
-            return Blake3Core(wordsFromLEBytes(key), KEYED_HASH)
+            return Blake3Core(wordsFromLeBytes(key), KEYED_HASH)
         }
 
         /**
@@ -300,7 +300,7 @@ internal class Blake3Core(
                 update(context, 0, context.size)
             }.digest(contextKey, 0, KEY_LEN)
 
-            return Blake3Core(wordsFromLEBytes(contextKey), DERIVE_KEY_MATERIAL)
+            return Blake3Core(wordsFromLeBytes(contextKey), DERIVE_KEY_MATERIAL)
         }
     }
 }

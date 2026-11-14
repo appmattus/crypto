@@ -39,7 +39,7 @@
 
 package com.appmattus.crypto.internal.blake2
 
-import com.appmattus.crypto.internal.core.decodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
 import com.appmattus.crypto.internal.core.rotateRight
 
 /**
@@ -69,7 +69,7 @@ internal fun blake2bCompressLong(
 ) {
     val m = messageWords
     for (j in 0..15) {
-        m[j] = decodeLELong(message, messagePos + j * 8)
+        m[j] = decodeLeLong(message, messagePos + j * 8)
     }
     for (round in 0 until BLAKE2B_ROUNDS) {
         val s = BLAKE2B_SIGMA[round]

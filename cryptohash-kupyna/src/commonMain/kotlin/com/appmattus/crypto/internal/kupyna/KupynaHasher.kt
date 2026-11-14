@@ -40,9 +40,9 @@
 package com.appmattus.crypto.internal.kupyna
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLEInt
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeInt
+import com.appmattus.crypto.internal.core.encodeLeLong
 import com.appmattus.crypto.internal.core.rotateRight
 
 /**
@@ -160,11 +160,11 @@ internal class KupynaHasher : Hasher {
                 buf[bufOff++] = 0
             }
             var c = (inputBlocks and 0xFFFFFFFFL) * this.byteLength + inputBytes shl 3
-            encodeLEInt(c.toInt(), buf, bufOff)
+            encodeLeInt(c.toInt(), buf, bufOff)
             bufOff += 4
             c = c ushr 32
             c += (inputBlocks ushr 32) * this.byteLength shl 3
-            encodeLELong(c, buf, bufOff)
+            encodeLeLong(c, buf, bufOff)
             //            bufOff += 8;
             processBlock(buf, 0)
         }
@@ -177,7 +177,7 @@ internal class KupynaHasher : Hasher {
         }
         val neededColumns = digestLength ushr 3
         for (col in columns - neededColumns until columns) {
-            encodeLELong(state[col], out!!, outOff)
+            encodeLeLong(state[col], out!!, outOff)
             outOff += 8
         }
         reset()
@@ -194,7 +194,7 @@ internal class KupynaHasher : Hasher {
     private fun processBlock(input: ByteArray, inOff: Int) {
         var pos = inOff
         for (col in 0 until columns) {
-            val word: Long = decodeLELong(input, pos)
+            val word: Long = decodeLeLong(input, pos)
             pos += 8
             tempState1[col] = state[col] xor word
             tempState2[col] = word

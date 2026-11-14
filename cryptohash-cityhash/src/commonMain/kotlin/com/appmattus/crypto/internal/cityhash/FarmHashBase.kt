@@ -23,7 +23,7 @@ import com.appmattus.crypto.internal.cityhash.CityHashBase.Companion.k1
 import com.appmattus.crypto.internal.cityhash.CityHashBase.Companion.k2
 import com.appmattus.crypto.internal.cityhash.CityHashBase.Companion.shiftMix
 import com.appmattus.crypto.internal.cityhash.FarmHashBase.Companion.weakHashLen32WithSeeds
-import com.appmattus.crypto.internal.core.decodeLEULong
+import com.appmattus.crypto.internal.core.decodeLeULong
 import com.appmattus.crypto.internal.core.rotateRight
 import com.appmattus.uint.UInt128
 
@@ -89,20 +89,20 @@ internal open class FarmHashBase : CityHashBase() {
         var c = 9u
         val d: UInt = b + seed
 
-        a += s.decodeLEUInt(offset + 0)
-        b += s.decodeLEUInt(offset + len - 4)
-        c += s.decodeLEUInt(offset + ((len ushr 1) and 4))
+        a += s.decodeLeUInt(offset + 0)
+        b += s.decodeLeUInt(offset + len - 4)
+        c += s.decodeLeUInt(offset + ((len ushr 1) and 4))
 
         return (seed xor mur(c, mur(b, mur(a, d)))).fmix()
     }
 
     private fun mkHash32Len13to24(s: ByteBuffer, offset: Int = 0, len: Int = s.size, seed: UInt = 0u): UInt {
-        var a: UInt = s.decodeLEUInt(offset + (len ushr 1) - 4)
-        val b: UInt = s.decodeLEUInt(offset + 4)
-        val c: UInt = s.decodeLEUInt(offset + len - 8)
-        val d: UInt = s.decodeLEUInt(offset + (len ushr 1))
-        val e: UInt = s.decodeLEUInt(offset + 0)
-        val f: UInt = s.decodeLEUInt(offset + len - 4)
+        var a: UInt = s.decodeLeUInt(offset + (len ushr 1) - 4)
+        val b: UInt = s.decodeLeUInt(offset + 4)
+        val c: UInt = s.decodeLeUInt(offset + len - 8)
+        val d: UInt = s.decodeLeUInt(offset + (len ushr 1))
+        val e: UInt = s.decodeLeUInt(offset + 0)
+        val f: UInt = s.decodeLeUInt(offset + len - 4)
         var h: UInt = d * c1 + len.toUInt() + seed
         a = a.rotateRight(12) + f
         h = mur(c, h) + a
@@ -124,11 +124,11 @@ internal open class FarmHashBase : CityHashBase() {
         var h: UInt = len.toUInt()
         var g: UInt = c1 * len.toUInt()
         var f: UInt = g
-        val a0: UInt = (s.decodeLEUInt(offset + len - 4) * c1).rotateRight(17) * c2
-        val a1: UInt = (s.decodeLEUInt(offset + len - 8) * c1).rotateRight(17) * c2
-        val a2: UInt = (s.decodeLEUInt(offset + len - 16) * c1).rotateRight(17) * c2
-        val a3: UInt = (s.decodeLEUInt(offset + len - 12) * c1).rotateRight(17) * c2
-        val a4: UInt = (s.decodeLEUInt(offset + len - 20) * c1).rotateRight(17) * c2
+        val a0: UInt = (s.decodeLeUInt(offset + len - 4) * c1).rotateRight(17) * c2
+        val a1: UInt = (s.decodeLeUInt(offset + len - 8) * c1).rotateRight(17) * c2
+        val a2: UInt = (s.decodeLeUInt(offset + len - 16) * c1).rotateRight(17) * c2
+        val a3: UInt = (s.decodeLeUInt(offset + len - 12) * c1).rotateRight(17) * c2
+        val a4: UInt = (s.decodeLeUInt(offset + len - 20) * c1).rotateRight(17) * c2
         h = h xor a0
         h = h.rotateRight(19)
         h = h * 5u + 0xe6546b64u
@@ -147,11 +147,11 @@ internal open class FarmHashBase : CityHashBase() {
         var iters = (len - 1) / 20
         var pos = 0
         do {
-            val a: UInt = s.decodeLEUInt(offset + pos)
-            val b: UInt = s.decodeLEUInt(offset + pos + 4)
-            val c: UInt = s.decodeLEUInt(offset + pos + 8)
-            val d: UInt = s.decodeLEUInt(offset + pos + 12)
-            val e: UInt = s.decodeLEUInt(offset + pos + 16)
+            val a: UInt = s.decodeLeUInt(offset + pos)
+            val b: UInt = s.decodeLeUInt(offset + pos + 4)
+            val c: UInt = s.decodeLeUInt(offset + pos + 8)
+            val d: UInt = s.decodeLeUInt(offset + pos + 12)
+            val e: UInt = s.decodeLeUInt(offset + pos + 16)
             h += a
             g += b
             f += c
@@ -212,10 +212,10 @@ internal open class FarmHashBase : CityHashBase() {
 
     @Suppress("LongParameterList")
     private fun h32(s: ByteBuffer, offset: Int, len: Int, mul: ULong, seed0: ULong = 0u, seed1: ULong = 0u): ULong {
-        var a: ULong = mulLow(s.decodeLEULong(offset), k1)
-        var b: ULong = s.decodeLEULong(offset + 8)
-        val c: ULong = mulLow(s.decodeLEULong(offset + len - 8), mul)
-        val d: ULong = mulLow(s.decodeLEULong(offset + len - 16), k2)
+        var a: ULong = mulLow(s.decodeLeULong(offset), k1)
+        var b: ULong = s.decodeLeULong(offset + 8)
+        val c: ULong = mulLow(s.decodeLeULong(offset + len - 8), mul)
+        val d: ULong = mulLow(s.decodeLeULong(offset + len - 16), k2)
         val u: ULong = (a + b).rotateRight(43) + c.rotateRight(30) + d + seed0
         val v: ULong = a + (b + k2).rotateRight(18) + c + seed1
         a = shiftMix(mulLow(u xor v, mul))
@@ -254,10 +254,10 @@ internal open class FarmHashBase : CityHashBase() {
         private fun naHashLen17to32(s: ByteBuffer): ULong {
             val len = s.size
             val mul: ULong = k2 + (len * 2).toULong()
-            val a: ULong = mulLow(s.decodeLEULong(0), k1)
-            val b: ULong = s.decodeLEULong(8)
-            val c: ULong = mulLow(s.decodeLEULong(len - 8), mul)
-            val d: ULong = mulLow(s.decodeLEULong(len - 16), k2)
+            val a: ULong = mulLow(s.decodeLeULong(0), k1)
+            val b: ULong = s.decodeLeULong(8)
+            val c: ULong = mulLow(s.decodeLeULong(len - 8), mul)
+            val d: ULong = mulLow(s.decodeLeULong(len - 16), k2)
             return hashLen16(
                 (a + b).rotateRight(43) + c.rotateRight(30) + d,
                 a + (b + k2).rotateRight(18) + c,
@@ -286,10 +286,10 @@ internal open class FarmHashBase : CityHashBase() {
         // Return a 16-byte hash for s[0] ... s[31], a, and b.  Quick and dirty.
         internal fun weakHashLen32WithSeeds(s: ByteBuffer, offset: Int, a: ULong, b: ULong): UInt128 {
             return weakHashLen32WithSeeds(
-                w = s.decodeLEULong(offset),
-                x = s.decodeLEULong(offset + 8),
-                y = s.decodeLEULong(offset + 16),
-                z = s.decodeLEULong(offset + 24),
+                w = s.decodeLeULong(offset),
+                x = s.decodeLeULong(offset + 8),
+                y = s.decodeLeULong(offset + 16),
+                z = s.decodeLeULong(offset + 24),
                 a = a,
                 b = b
             )
@@ -299,16 +299,16 @@ internal open class FarmHashBase : CityHashBase() {
         private fun hashLen33to64(s: ByteBuffer): ULong {
             val len = s.size
             val mul: ULong = k2 + (len * 2).toULong()
-            val a: ULong = mulLow(s.decodeLEULong(0), k2)
-            val b: ULong = s.decodeLEULong(8)
-            val c: ULong = mulLow(s.decodeLEULong(len - 8), mul)
-            val d: ULong = mulLow(s.decodeLEULong(len - 16), k2)
+            val a: ULong = mulLow(s.decodeLeULong(0), k2)
+            val b: ULong = s.decodeLeULong(8)
+            val c: ULong = mulLow(s.decodeLeULong(len - 8), mul)
+            val d: ULong = mulLow(s.decodeLeULong(len - 16), k2)
             val y: ULong = (a + b).rotateRight(43) + c.rotateRight(30) + d
             val z: ULong = hashLen16(y, a + (b + k2).rotateRight(18) + c, mul)
-            val e: ULong = mulLow(s.decodeLEULong(16), mul)
-            val f: ULong = s.decodeLEULong(24)
-            val g: ULong = mulLow(y + s.decodeLEULong(len - 32), mul)
-            val h: ULong = mulLow(z + s.decodeLEULong(len - 24), mul)
+            val e: ULong = mulLow(s.decodeLeULong(16), mul)
+            val f: ULong = s.decodeLeULong(24)
+            val g: ULong = mulLow(y + s.decodeLeULong(len - 32), mul)
+            val h: ULong = mulLow(z + s.decodeLeULong(len - 24), mul)
             return hashLen16(
                 (e + f).rotateRight(43) + g.rotateRight(30) + h,
                 e + (f + a).rotateRight(18) + g,
@@ -340,20 +340,20 @@ internal fun naHash64Over64Long(s: ByteBuffer): ULong {
     var z: ULong = mulLow(shiftMix(mulLow(y, k2) + 113u), k2)
     var v = UInt128(0u, 0u)
     var w = UInt128(0u, 0u)
-    x = mulLow(x, k2) + s.decodeLEULong(0)
+    x = mulLow(x, k2) + s.decodeLeULong(0)
 
     // Set end so that after the loop we have 1 to 64 bytes left to process.
     val end = ((len - 1) / 64) * 64
     val last64 = len - 64 // end + ((len - 1) and 63) - 63
     var pos = 0
     do {
-        x = mulLow((x + y + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37), k1)
-        y = mulLow((y + v.upper + s.decodeLEULong(pos + 48)).rotateRight(42), k1)
+        x = mulLow((x + y + v.lower + s.decodeLeULong(pos + 8)).rotateRight(37), k1)
+        y = mulLow((y + v.upper + s.decodeLeULong(pos + 48)).rotateRight(42), k1)
         x = x xor w.upper
-        y += v.lower + s.decodeLEULong(pos + 40)
+        y += v.lower + s.decodeLeULong(pos + 40)
         z = mulLow((z + w.lower).rotateRight(33), k1)
         v = weakHashLen32WithSeeds(s, pos, mulLow(v.upper, k1), x + w.lower)
-        w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
+        w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLeULong(pos + 16))
         val swapValue = x
         x = z
         z = swapValue
@@ -367,13 +367,13 @@ internal fun naHash64Over64Long(s: ByteBuffer): ULong {
     v = UInt128(v.upper, v.lower + w.lower)
     w = UInt128(w.upper, w.lower + v.lower)
 
-    x = mulLow((x + y + v.lower + s.decodeLEULong(pos + 8)).rotateRight(37), mul)
-    y = mulLow((y + v.upper + s.decodeLEULong(pos + 48)).rotateRight(42), mul)
+    x = mulLow((x + y + v.lower + s.decodeLeULong(pos + 8)).rotateRight(37), mul)
+    y = mulLow((y + v.upper + s.decodeLeULong(pos + 48)).rotateRight(42), mul)
     x = x xor mulLow(w.upper, 9u)
-    y += mulLow(v.lower, 9u) + s.decodeLEULong(pos + 40)
+    y += mulLow(v.lower, 9u) + s.decodeLeULong(pos + 40)
     z = mulLow((z + w.lower).rotateRight(33), mul)
     v = weakHashLen32WithSeeds(s, pos, mulLow(v.upper, mul), x + w.lower)
-    w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLEULong(pos + 16))
+    w = weakHashLen32WithSeeds(s, pos + 32, z + w.upper, y + s.decodeLeULong(pos + 16))
     val swapValue = x
     x = z
     z = swapValue
@@ -418,14 +418,14 @@ internal fun uoHash64Over64Long(s: ByteBuffer, seed0: ULong, seed1: ULong): ULon
     var pos = 0
 
     do {
-        val a0: ULong = s.decodeLEULong(pos)
-        val a1: ULong = s.decodeLEULong(pos + 8)
-        val a2: ULong = s.decodeLEULong(pos + 16)
-        val a3: ULong = s.decodeLEULong(pos + 24)
-        val a4: ULong = s.decodeLEULong(pos + 32)
-        val a5: ULong = s.decodeLEULong(pos + 40)
-        val a6: ULong = s.decodeLEULong(pos + 48)
-        val a7: ULong = s.decodeLEULong(pos + 56)
+        val a0: ULong = s.decodeLeULong(pos)
+        val a1: ULong = s.decodeLeULong(pos + 8)
+        val a2: ULong = s.decodeLeULong(pos + 16)
+        val a3: ULong = s.decodeLeULong(pos + 24)
+        val a4: ULong = s.decodeLeULong(pos + 32)
+        val a5: ULong = s.decodeLeULong(pos + 40)
+        val a6: ULong = s.decodeLeULong(pos + 48)
+        val a7: ULong = s.decodeLeULong(pos + 56)
 
         x += a0 + a1
         y += a2
@@ -482,13 +482,13 @@ internal fun uoHash64Over64Long(s: ByteBuffer, seed0: ULong, seed1: ULong): ULon
     wLower += (len.toULong() - 1u) and 63u
     u += y
     y += u
-    x = mulLow((y - x + vLower + s.decodeLEULong(pos + 8)).rotateRight(37), mul)
-    y = mulLow((y xor vUpper xor s.decodeLEULong(pos + 48)).rotateRight(42), mul)
+    x = mulLow((y - x + vLower + s.decodeLeULong(pos + 8)).rotateRight(37), mul)
+    y = mulLow((y xor vUpper xor s.decodeLeULong(pos + 48)).rotateRight(42), mul)
     x = x xor mulLow(wUpper, 9u)
-    y += vLower + s.decodeLEULong(pos + 40)
+    y += vLower + s.decodeLeULong(pos + 40)
     z = mulLow((z + wLower).rotateRight(33), mul)
     val v = weakHashLen32WithSeeds(s, pos, mulLow(vUpper, mul), x + wLower)
-    val w = weakHashLen32WithSeeds(s, pos + 32, z + wUpper, y + s.decodeLEULong(pos + 16))
+    val w = weakHashLen32WithSeeds(s, pos + 32, z + wUpper, y + s.decodeLeULong(pos + 16))
     return uoH(
         x = hashLen16(v.lower + x, w.lower xor y, mul) + z - u,
         y = uoH(v.upper + y, w.upper + z, k2, 30) xor x,
