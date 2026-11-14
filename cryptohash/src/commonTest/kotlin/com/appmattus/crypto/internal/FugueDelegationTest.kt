@@ -29,6 +29,7 @@ class FugueDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashFugue() {
         testDigestKat({ CoreDigest.create(Algorithm.Fugue224) }, input, Fugue.fugue224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.Fugue256) }, input, Fugue.fugue256.hash(input).toHexString())
@@ -37,6 +38,7 @@ class FugueDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Fugue224 to 28,

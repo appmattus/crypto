@@ -29,6 +29,7 @@ class BlakeDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashBlake() {
         testDigestKat({ CoreDigest.create(Algorithm.BLAKE224) }, input, Blake.blake224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.BLAKE256) }, input, Blake.blake256.hash(input).toHexString())
@@ -37,6 +38,7 @@ class BlakeDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.BLAKE224 to 28,

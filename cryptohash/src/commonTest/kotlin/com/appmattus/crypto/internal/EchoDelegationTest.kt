@@ -29,6 +29,7 @@ class EchoDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashEcho() {
         testDigestKat({ CoreDigest.create(Algorithm.ECHO224) }, input, Echo.echo224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.ECHO256) }, input, Echo.echo256.hash(input).toHexString())
@@ -37,6 +38,7 @@ class EchoDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.ECHO224 to 28,

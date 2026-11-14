@@ -32,6 +32,7 @@ class MdDelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashMd() {
         testDigestKat({ CoreDigest.create(Algorithm.MD2) }, input, Md.md2.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.MD4) }, input, Md.md4.hash(input).toHexString())
@@ -39,6 +40,7 @@ class MdDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         assertContentEquals(Md.md2.newHmac(key).digest(input), Algorithm.MD2.hmac(key, input))
         assertContentEquals(Md.md2.newHmac(key, outputLength = 10).digest(input), Algorithm.MD2.hmac(key, input, outputLength = 10))
@@ -49,6 +51,7 @@ class MdDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.MD2 to 16,

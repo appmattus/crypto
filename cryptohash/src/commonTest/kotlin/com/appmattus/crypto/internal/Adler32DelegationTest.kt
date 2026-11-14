@@ -27,16 +27,19 @@ import kotlin.test.assertEquals
 class Adler32DelegationTest {
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsADigestBackedByCryptohashAdler() {
         testDigestKat({ CoreDigest.create(Algorithm.Adler32) }, "abc", "024d0127")
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun hashesThroughTheAlgorithm() {
         assertEquals("024d0127", Algorithm.Adler32.hash("abc").toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         val digest = Algorithm.Adler32.createDigest()
 

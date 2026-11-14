@@ -31,4 +31,5 @@ public expect class MutablePlatformData
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
+@Suppress("DEPRECATION")
 internal expect fun Digest.toPlatform(): PlatformDigest

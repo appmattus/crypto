@@ -29,6 +29,7 @@ class ShaviteDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashShavite() {
         testDigestKat({ CoreDigest.create(Algorithm.SHAvite224) }, input, Shavite.shavite224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.SHAvite256) }, input, Shavite.shavite256.hash(input).toHexString())
@@ -37,6 +38,7 @@ class ShaviteDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.SHAvite224 to 28,

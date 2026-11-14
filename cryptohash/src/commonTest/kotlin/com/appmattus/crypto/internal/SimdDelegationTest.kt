@@ -29,6 +29,7 @@ class SimdDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashSimd() {
         testDigestKat({ CoreDigest.create(Algorithm.SIMD224) }, input, Simd.simd224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.SIMD256) }, input, Simd.simd256.hash(input).toHexString())
@@ -37,6 +38,7 @@ class SimdDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.SIMD224 to 28,

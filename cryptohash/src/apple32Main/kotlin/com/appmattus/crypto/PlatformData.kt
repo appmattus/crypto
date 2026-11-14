@@ -41,6 +41,7 @@ public actual typealias MutablePlatformData = NSMutableData
 /**
  * Convert this [Digest] into a platform specific [PlatformDigest]
  */
+@Suppress("DEPRECATION")
 internal actual fun Digest.toPlatform(): PlatformDigest = object : PlatformDigest {
     override fun update(input: Byte): PlatformDigest = apply { this@toPlatform.update(input) }
     override fun update(input: PlatformData): PlatformDigest = apply { this@toPlatform.update(input.toByteArray()) }
@@ -61,6 +62,7 @@ internal actual fun Digest.toPlatform(): PlatformDigest = object : PlatformDiges
  * Completes the digest into [output] at [offset], writing at most [length] bytes
  */
 @OptIn(ExperimentalForeignApi::class)
+@Suppress("DEPRECATION")
 private fun Digest.digestInto(output: NSMutableData, offset: Int, length: Int): Int {
     val size = minOf(length, digestLength)
     require(offset >= 0 && size >= 0 && offset + size <= output.length.toInt()) {

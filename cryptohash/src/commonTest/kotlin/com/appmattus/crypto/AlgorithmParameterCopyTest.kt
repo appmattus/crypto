@@ -28,6 +28,7 @@ class AlgorithmParameterCopyTest {
     private val input = "hello world".encodeToByteArray()
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake2sKeyedCopiesParameters() {
         val key = ByteArray(32) { 1 }
         val salt = ByteArray(8) { 2 }
@@ -40,6 +41,7 @@ class AlgorithmParameterCopyTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake2bKeyedCopiesParameters() {
         val key = ByteArray(64) { 1 }
         val salt = ByteArray(16) { 2 }
@@ -52,18 +54,21 @@ class AlgorithmParameterCopyTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake3KeyedCopiesKey() {
         val key = ByteArray(32) { 1 }
         assertUnaffectedByMutation(Algorithm.Blake3.Keyed(key)) { key.fill(0) }
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake3DeriveKeyCopiesContext() {
         val context = "context".encodeToByteArray()
         assertUnaffectedByMutation(Algorithm.Blake3.DeriveKey(context)) { context.fill(0) }
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun keccakBasedAlgorithmsCopyParameters() {
         val customisation = "custom".encodeToByteArray()
         val functionName = "function".encodeToByteArray()
@@ -93,6 +98,7 @@ class AlgorithmParameterCopyTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun highwayHashCopiesKey() {
         val key = longArrayOf(1, 2, 3, 4)
         assertUnaffectedByMutation(Algorithm.HighwayHash64(key)) { key.fill(0) }
@@ -101,24 +107,28 @@ class AlgorithmParameterCopyTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun skeinKeyedCopiesKey() {
         val key = ByteArray(32) { 1 }
         assertUnaffectedByMutation(Algorithm.Skein.Keyed(512, 512, key)) { key.fill(0) }
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun wyhashCopiesSecret() {
         val secret = Algorithm.Wyhash.makeSecret(1u).toMutableList()
         assertUnaffectedByMutation(Algorithm.Wyhash(secret = secret)) { secret[0] = 0u }
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun xxh3SecretCopiesSecret() {
         val secret = ByteArray(136) { it.toByte() }
         assertUnaffectedByMutation(Algorithm.XXH3_64.Secret(secret)) { secret.fill(0) }
         assertUnaffectedByMutation(Algorithm.XXH3_128.Secret(secret)) { secret.fill(1) }
     }
 
+    @Suppress("DEPRECATION")
     private fun assertUnaffectedByMutation(algorithm: Algorithm, mutate: () -> Unit) {
         val expected = algorithm.hash(input)
         mutate()

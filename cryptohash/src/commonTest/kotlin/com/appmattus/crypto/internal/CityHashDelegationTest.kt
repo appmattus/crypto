@@ -29,6 +29,7 @@ class CityHashDelegationTest {
 
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
+    @Suppress("DEPRECATION")
     private val pairs = listOf(
         Algorithm.CityHash32 to CityHash.cityHash32,
         Algorithm.CityHash64() to CityHash.cityHash64(),

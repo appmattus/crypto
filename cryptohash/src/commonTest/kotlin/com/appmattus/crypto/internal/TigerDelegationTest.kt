@@ -31,6 +31,7 @@ class TigerDelegationTest {
     private val input = ByteArray(200) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashTiger() {
         testDigestKat({ CoreDigest.create(Algorithm.Tiger) }, "abc", "2AAB1484E8C158F2BFB8C5FF41B57A525129131C957B5F93")
         testDigestKat({ CoreDigest.create(Algorithm.Tiger) }, input, Tiger.tiger.hash(input).toHexString())
@@ -38,6 +39,7 @@ class TigerDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingCryptohashTiger() {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/HMacTest.java
         testDigestKat(
@@ -59,6 +61,7 @@ class TigerDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(Algorithm.Tiger, Algorithm.Tiger2).forEach { algorithm ->
             val digest = algorithm.createDigest()

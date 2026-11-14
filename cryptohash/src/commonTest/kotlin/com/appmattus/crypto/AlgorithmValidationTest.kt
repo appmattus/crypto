@@ -29,6 +29,7 @@ class AlgorithmValidationTest {
     private val input = ByteArray(1000) { it.toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake2sRejectsInvalidParameters() {
         assertInvalid { Algorithm.Blake2s(0) }
         assertInvalid { Algorithm.Blake2s(12) }
@@ -40,6 +41,7 @@ class AlgorithmValidationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake2bRejectsInvalidParameters() {
         assertInvalid { Algorithm.Blake2b(0) }
         assertInvalid { Algorithm.Blake2b(7) }
@@ -51,6 +53,7 @@ class AlgorithmValidationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun blake3RejectsInvalidParameters() {
         assertInvalid { Algorithm.Blake3(0) }
         assertInvalid { Algorithm.Blake3(-1) }
@@ -61,6 +64,7 @@ class AlgorithmValidationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun skeinRejectsInvalidParameters() {
         assertInvalid { Algorithm.Skein(300, 256) }
         assertInvalid { Algorithm.Skein(512, 0) }
@@ -69,6 +73,7 @@ class AlgorithmValidationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun highwayHashRejectsInvalidKeys() {
         assertInvalid { Algorithm.HighwayHash64(LongArray(3)) }
         assertInvalid { Algorithm.HighwayHash128(LongArray(5)) }
@@ -76,18 +81,21 @@ class AlgorithmValidationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun wyhashRejectsShortSecret() {
         assertInvalid { Algorithm.Wyhash(secret = emptyList()) }
         assertInvalid { Algorithm.Wyhash(secret = listOf(1uL, 2uL, 3uL)) }
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun xxh3RejectsShortSecret() {
         assertInvalid { Algorithm.XXH3_64.Secret(ByteArray(100)) }
         assertInvalid { Algorithm.XXH3_128.Secret(ByteArray(135)) }
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun boundaryParametersAreAccepted() {
         assertHashes(Algorithm.Blake2s(8), 1)
         assertHashes(Algorithm.Blake2s.Keyed(ByteArray(32), ByteArray(8), ByteArray(8)), 32)
@@ -108,10 +116,12 @@ class AlgorithmValidationTest {
         assertHashes(Algorithm.Skein.Keyed(512, 512, ByteArray(0)), 64)
     }
 
+    @Suppress("DEPRECATION")
     private fun assertInvalid(create: () -> Algorithm) {
         assertFailsWith<IllegalArgumentException> { create() }
     }
 
+    @Suppress("DEPRECATION")
     private fun assertHashes(algorithm: Algorithm, expectedSize: Int) {
         assertEquals(expectedSize, algorithm.hash(input).size, "$algorithm")
     }

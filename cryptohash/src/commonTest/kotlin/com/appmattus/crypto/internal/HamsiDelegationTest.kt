@@ -29,6 +29,7 @@ class HamsiDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashHamsi() {
         testDigestKat({ CoreDigest.create(Algorithm.Hamsi224) }, input, Hamsi.hamsi224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.Hamsi256) }, input, Hamsi.hamsi256.hash(input).toHexString())
@@ -37,6 +38,7 @@ class HamsiDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Hamsi224 to 28,

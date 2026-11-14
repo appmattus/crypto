@@ -31,6 +31,7 @@ class CrcDelegationTest {
 
     private val input = ByteArray(10_000) { (it * 167 + 13).toByte() }
 
+    @Suppress("DEPRECATION")
     private val algorithms = listOf(
         Triple(Algorithm.CRC32, Crc.crc32, "73bb8c64"),
         Triple(Algorithm.CRC32B, Crc.crc32b, "352441c2"),
