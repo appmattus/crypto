@@ -145,7 +145,6 @@ internal class Blake3Core(
     }
 
     companion object {
-        internal const val DEFAULT_HASH_LEN = 32
         internal const val OUT_LEN = 32
         internal const val KEY_LEN = 32
         internal const val BLOCK_LEN = 64

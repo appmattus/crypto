@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Appmattus Limited
+ * Copyright 2021-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -162,6 +162,3 @@ public interface Digest {
      */
     public fun platform(): PlatformDigest = toPlatform()
 }
-
-// fun ByteArray.hmac(digest: Digest, key: ByteArray): ByteArray = HMAC(digest, key).digest(this)
-// fun ByteArray.hmac(digest: Digest, key: ByteArray, outputLength: Int): ByteArray = HMAC(digest, key, outputLength).digest(this)
