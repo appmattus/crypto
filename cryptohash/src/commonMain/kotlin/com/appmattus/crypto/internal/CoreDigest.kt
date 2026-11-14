@@ -36,6 +36,8 @@ import com.appmattus.crypto.Hamsi
 import com.appmattus.crypto.Haraka
 import com.appmattus.crypto.Haval
 import com.appmattus.crypto.HighwayHash
+import com.appmattus.crypto.Hmac
+import com.appmattus.crypto.HmacAlgorithm
 import com.appmattus.crypto.JH
 import com.appmattus.crypto.KangarooTwelve
 import com.appmattus.crypto.Keccak
@@ -409,5 +411,62 @@ internal object CoreDigest {
                 else -> XXHash.xxh3_128()
             }.newHasher().toDigest(algorithm.blockLength)
         }
+    }
+
+    /**
+     * An HMAC of [algorithm] using [key], truncated to [outputLength] bytes if given, backed by its family module
+     */
+    fun createHmac(algorithm: Hmac, key: ByteArray, outputLength: Int?): Digest =
+        hmacAlgorithm(algorithm).newHmac(key, outputLength).toDigest()
+
+    @Suppress("CyclomaticComplexMethod")
+    private fun hmacAlgorithm(algorithm: Hmac): HmacAlgorithm = when (algorithm) {
+        is Algorithm.BMW224 -> BMW.bmw224
+        is Algorithm.BMW256 -> BMW.bmw256
+        is Algorithm.BMW384 -> BMW.bmw384
+        is Algorithm.BMW512 -> BMW.bmw512
+        is Algorithm.GOST3411_94 -> Gost.gost3411_94
+        is Algorithm.GOST3411_2012_256 -> Streebog.streebog256
+        is Algorithm.GOST3411_2012_512 -> Streebog.streebog512
+        is Algorithm.Keccak224 -> Keccak.keccak224
+        is Algorithm.Keccak256 -> Keccak.keccak256
+        is Algorithm.Keccak288 -> Keccak.keccak288
+        is Algorithm.Keccak384 -> Keccak.keccak384
+        is Algorithm.Keccak512 -> Keccak.keccak512
+        is Algorithm.MD2 -> MD.md2
+        is Algorithm.MD4 -> MD.md4
+        is Algorithm.MD5 -> MD.md5
+        is Algorithm.RipeMD128 -> RipeMD.ripeMD128
+        is Algorithm.RipeMD160 -> RipeMD.ripeMD160
+        is Algorithm.RipeMD256 -> RipeMD.ripeMD256
+        is Algorithm.RipeMD320 -> RipeMD.ripeMD320
+        is Algorithm.SHA_0 -> SHA1.sha0
+        is Algorithm.SHA_1 -> SHA1.sha1
+        is Algorithm.SHA_224 -> SHA2.sha224
+        is Algorithm.SHA_256 -> SHA2.sha256
+        is Algorithm.SHA_384 -> SHA2.sha384
+        is Algorithm.SHA_512 -> SHA2.sha512
+        is Algorithm.SHA_512_224 -> SHA2.sha512_224
+        is Algorithm.SHA_512_256 -> SHA2.sha512_256
+        is Algorithm.SHA3_224 -> SHA3.sha3_224
+        is Algorithm.SHA3_256 -> SHA3.sha3_256
+        is Algorithm.SHA3_384 -> SHA3.sha3_384
+        is Algorithm.SHA3_512 -> SHA3.sha3_512
+        is Algorithm.Skein256_128 -> Skein.skein256_128
+        is Algorithm.Skein256_160 -> Skein.skein256_160
+        is Algorithm.Skein256_224 -> Skein.skein256_224
+        is Algorithm.Skein256_256 -> Skein.skein256_256
+        is Algorithm.Skein512_128 -> Skein.skein512_128
+        is Algorithm.Skein512_160 -> Skein.skein512_160
+        is Algorithm.Skein512_224 -> Skein.skein512_224
+        is Algorithm.Skein512_256 -> Skein.skein512_256
+        is Algorithm.Skein512_384 -> Skein.skein512_384
+        is Algorithm.Skein512_512 -> Skein.skein512_512
+        is Algorithm.Skein1024_384 -> Skein.skein1024_384
+        is Algorithm.Skein1024_512 -> Skein.skein1024_512
+        is Algorithm.Skein1024_1024 -> Skein.skein1024_1024
+        is Algorithm.SM3 -> SM3.sm3
+        is Algorithm.Tiger -> Tiger.tiger
+        is Algorithm.Whirlpool -> Whirlpool.whirlpool
     }
 }

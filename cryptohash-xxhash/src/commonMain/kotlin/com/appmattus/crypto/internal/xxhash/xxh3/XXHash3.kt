@@ -58,8 +58,6 @@ package com.appmattus.crypto.internal.xxhash.xxh3
 
 import com.appmattus.crypto.InternalCryptohash
 import com.appmattus.crypto.internal.core.copyBytes
-import com.appmattus.crypto.internal.core.decodeBEInt
-import com.appmattus.crypto.internal.core.decodeBELong
 import com.appmattus.crypto.internal.core.decodeLEInt
 import com.appmattus.crypto.internal.core.decodeLELong
 import com.appmattus.crypto.internal.core.encodeBELong
@@ -115,21 +113,6 @@ internal data class XXH128_hash_t(
 
 /*******   Canonical representation   *******/
 internal class XXH128_canonical_t(val digest: ByteArray = ByteArray(16))
-
-/**
- * Initializes a stack-allocated `XXH3_state_s`.
- *
- * When the [XXH3_state_t] structure is merely emplaced on stack,
- * it should be initialized with [XXH3_INITSTATE]
- * in case its first reset uses `XXH3_NNbits_reset_withSeed`.
- * This init can be omitted if the first reset uses default or _withSecret mode.
- * This operation isn't necessary when the state is created with [XXH3_createState].
- * Note that this doesn't prepare the state for a streaming operation,
- * it's still necessary to use XXH3_NNbits_reset*() afterwards.
- */
-internal fun XXH3_INITSTATE(XXH3_state_ptr: XXH3_state_t) {
-    XXH3_state_ptr.seed = 0L
-}
 
 // Change this function to execute require if you want assertions enabled
 @Suppress("UNUSED_PARAMETER", "NOTHING_TO_INLINE")
@@ -246,34 +229,6 @@ private fun XXH_memcpy(dest: ByteArray, destOffset: Int, src: ByteArray, srcOffs
 }
 
 /**
- * Like @ref XXH_readLE32(), but has an option for aligned reads.
- *
- * @param ptr The pointer to read from.
- * @return The 32-bit little endian integer from the bytes at @p ptr.
- */
-private fun XXH_read32(ptr: ByteArray, offset: Int): xxh_u32 {
-    return decodeLEInt(ptr, offset)
-}
-
-/**
- * Whether the target is little endian.
- *
- * Defined to 1 if the target is little endian, or 0 if it is big endian.
- * It can be defined externally, for example on the compiler command line.
- *
- * If it is not defined, a runtime check (which is usually constant folded)
- * is used instead.
- *
- * @note
- *   This is not necessarily defined to an integer constant.
- */
-@Suppress("FunctionOnlyReturningConstant")
-private fun XXH_isLittleEndian(): Boolean {
-    // Ignoring that this could run on a big endian system
-    return false
-}
-
-/**
  * @fn xxh_u32 XXH_swap32(xxh_u32 x)
  * @brief A 32-bit byteswap.
  *
@@ -306,23 +261,9 @@ private fun XXH_swap64(x: xxh_u64): xxh_u64 {
 
 private fun XXH_readLE32(ptr: ByteArray, offset: Int): xxh_u32 = decodeLEInt(ptr, offset)
 
-private fun XXH_readBE32(ptr: ByteArray, offset: Int): xxh_u32 = decodeBEInt(ptr, offset)
-
 /*-*************************************
  *  Misc
  ***************************************/
-
-/**
- * @brief Obtains the xxHash version.
- *
- * This is only useful when xxHash is compiled as a shared library, as it is
- * independent of the version defined in the header.
- *
- * @return [XXH_VERSION_NUMBER] as of when the function was compiled.
- */
-internal fun XXH_versionNumber(): Long {
-    return XXH_VERSION_NUMBER
-}
 
 /*-*******************************************************************
  *  32-bit hash functions
@@ -335,8 +276,6 @@ internal fun XXH_versionNumber(): Long {
 /*-******   Memory access   *******/
 
 private fun XXH_readLE64(ptr: ByteArray, offset: Int): xxh_u64 = decodeLELong(ptr, offset)
-
-private fun XXH_readBE64(ptr: ByteArray, offset: Int): xxh_u64 = decodeBELong(ptr, offset)
 
 /*******   xxh64   *******/
 
@@ -784,20 +723,6 @@ private fun XXH3_hashLong_64b_withSecret(
  * This variant enforces that the compiler can detect that,
  * and uses this opportunity to streamline the generated code for better performance.
  */
-private fun XXH3_hashLong_64b_default(
-    input: ByteArray,
-    inputOffset: Int,
-    len: size_t,
-    @Suppress("UNUSED_PARAMETER")
-    seed64: XXH64_hash_t,
-    @Suppress("UNUSED_PARAMETER")
-    secret: ByteArray,
-    @Suppress("UNUSED_PARAMETER")
-    secretLen: size_t
-): XXH64_hash_t {
-    return XXH3_hashLong_64b_internal(input, inputOffset, len, XXH3_kSecret, XXH3_kSecret.size, XXH3_accumulate_512, XXH3_scrambleAcc)
-}
-
 /*
  * XXH3_hashLong_64b_withSeed():
  * Generate a custom key based on alteration of default XXH3_kSecret with the seed,
@@ -868,14 +793,6 @@ private fun XXH3_64bits_internal(
 }
 
 /* ===   Public entry point   === */
-
-/**
- * XXH3_64bits():
- * default 64-bit variant, using default secret and default seed of 0.
- * It's the fastest variant. */
-internal fun XXH3_64bits(input: ByteArray, inputOffset: Int, len: size_t): XXH64_hash_t {
-    return XXH3_64bits_internal(input, inputOffset, len, 0, XXH3_kSecret, XXH3_kSecret.size, ::XXH3_hashLong_64b_default)
-}
 
 /**
  * XXH3_64bits_withSecret():
@@ -1188,8 +1105,6 @@ internal fun XXH3_64bits_digest(state: XXH3_state_t): XXH64_hash_t {
     )
 }
 
-private fun XXH_MIN(x: size_t, y: size_t): size_t = if (x.toUInt() > y.toUInt()) y else x
-
 /* ==========================================
  * XXH3 128 bits (a.k.a XXH128)
  * ==========================================
@@ -1492,23 +1407,6 @@ private fun XXH3_hashLong_128b_internal(
 /**
  * It's important for performance that XXH3_hashLong is not inlined.
  */
-private fun XXH3_hashLong_128b_default(
-    input: ByteArray,
-    inputOffset: Int,
-    len: size_t,
-    @Suppress("UNUSED_PARAMETER")
-    seed64: XXH64_hash_t,
-    @Suppress("UNUSED_PARAMETER")
-    secret: ByteArray,
-    @Suppress("UNUSED_PARAMETER")
-    secretLen: size_t
-): XXH128_hash_t {
-    return XXH3_hashLong_128b_internal(input, inputOffset, len, XXH3_kSecret, XXH3_kSecret.size, XXH3_accumulate_512, XXH3_scrambleAcc)
-}
-
-/**
- * It's important for performance that XXH3_hashLong is not inlined.
- */
 private fun XXH3_hashLong_128b_withSecret(
     input: ByteArray,
     inputOffset: Int,
@@ -1595,21 +1493,12 @@ private fun XXH3_128bits_internal(
 
 /* ===   Public XXH128 API   === */
 
-internal fun XXH3_128bits(input: ByteArray, inputOffset: Int, len: size_t): XXH128_hash_t {
-    return XXH3_128bits_internal(input, inputOffset, len, 0, XXH3_kSecret, XXH3_kSecret.size, ::XXH3_hashLong_128b_default)
-}
-
 internal fun XXH3_128bits_withSecret(input: ByteArray, inputOffset: Int, len: size_t, secret: ByteArray, secretSize: size_t): XXH128_hash_t {
     return XXH3_128bits_internal(input, inputOffset, len, 0, secret, secretSize, ::XXH3_hashLong_128b_withSecret)
 }
 
 internal fun XXH3_128bits_withSeed(input: ByteArray, inputOffset: Int, len: size_t, seed: XXH64_hash_t): XXH128_hash_t {
     return XXH3_128bits_internal(input, inputOffset, len, seed, XXH3_kSecret, XXH3_kSecret.size, ::XXH3_hashLong_128b_withSeed)
-}
-
-/** simple short-cut to pre-selected XXH3_128bits variant */
-internal fun XXH128(input: ByteArray, inputOffset: Int, len: size_t, seed: XXH64_hash_t): XXH128_hash_t {
-    return XXH3_128bits_withSeed(input, inputOffset, len, seed)
 }
 
 /* ===   XXH3 128-bit streaming   === */
@@ -1666,24 +1555,6 @@ internal fun XXH3_128bits_digest(state: XXH3_state_t): XXH128_hash_t {
     return XXH3_128bits_withSecret(state.buffer, 0, state.totalLen.toInt(), secret, state.secretLimit + XXH_STRIPE_LEN)
 }
 
-internal fun XXH128_isEqual(h1: XXH128_hash_t, h2: XXH128_hash_t): Boolean {
-    /* note : XXH128_hash_t is compact, it has no padding byte */
-    return h1 == h2
-}
-
-/**
- * This prototype is compatible with stdlib's qsort().
- * return : >0 if *h128_1  > *h128_2
- *          <0 if *h128_1  < *h128_2
- *          =0 if *h128_1 == *h128_2
- */
-internal fun XXH128_cmp(h128_1: XXH128_hash_t, h128_2: XXH128_hash_t): Int {
-    val hcmp = h128_1.high64.compareTo(h128_2.high64)
-    /* note : bets that, in most cases, hash values are different */
-    if (hcmp != 0) return hcmp
-    return h128_1.low64.compareTo(h128_2.low64)
-}
-
 /*======   Canonical representation   ======*/
 
 internal fun XXH128_canonicalFromHash(hash: XXH128_hash_t): XXH128_canonical_t {
@@ -1693,13 +1564,6 @@ internal fun XXH128_canonicalFromHash(hash: XXH128_hash_t): XXH128_canonical_t {
     encodeBELong(hash.low64, dst.digest, 8)
 
     return dst
-}
-
-internal fun XXH128_hashFromCanonical(src: XXH128_canonical_t): XXH128_hash_t {
-    return XXH128_hash_t(
-        high64 = XXH_readBE64(src.digest, 0),
-        low64 = XXH_readBE64(src.digest, 8)
-    )
 }
 
 /**
