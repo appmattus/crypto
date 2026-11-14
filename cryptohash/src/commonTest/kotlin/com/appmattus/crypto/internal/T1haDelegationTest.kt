@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.T1ha
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,18 +30,18 @@ class T1haDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashT1ha() {
-        testKat({ CoreDigest.create(Algorithm.T1ha0_32le(5u)) }, input, T1ha.t1ha0_32le(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.T1ha1_le(5u)) }, input, T1ha.t1ha1Le(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.T1ha2_AtOnce(5u)) }, input, T1ha.t1ha2AtOnce(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.T1ha2_AtOnce128(5u)) }, input, T1ha.t1ha2AtOnce128(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.T1ha2_Stream(5u, 7u)) }, input, T1ha.t1ha2Stream(5u, 7u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.T1ha2_Stream128(5u, 7u)) }, input, T1ha.t1ha2Stream128(5u, 7u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.T1ha0_32le(5u)) }, input, T1ha.t1ha0_32le(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.T1ha1_le(5u)) }, input, T1ha.t1ha1Le(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.T1ha2_AtOnce(5u)) }, input, T1ha.t1ha2AtOnce(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.T1ha2_AtOnce128(5u)) }, input, T1ha.t1ha2AtOnce128(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.T1ha2_Stream(5u, 7u)) }, input, T1ha.t1ha2Stream(5u, 7u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.T1ha2_Stream128(5u, 7u)) }, input, T1ha.t1ha2Stream128(5u, 7u).hash(input).toHexString())
     }
 
     @Test
     fun streamSeedYDefaultsToSeedX() {
-        testKat({ CoreDigest.create(Algorithm.T1ha2_Stream(5u)) }, input, T1ha.t1ha2Stream(5u, 5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.T1ha2_Stream128(5u)) }, input, T1ha.t1ha2Stream128(5u, 5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.T1ha2_Stream(5u)) }, input, T1ha.t1ha2Stream(5u, 5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.T1ha2_Stream128(5u)) }, input, T1ha.t1ha2Stream128(5u, 5u).hash(input).toHexString())
     }
 
     @Test

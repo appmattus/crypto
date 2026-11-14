@@ -1,0 +1,5 @@
+public final class com/appmattus/crypto/Gost {
+	public static final field INSTANCE Lcom/appmattus/crypto/Gost;
+	public final fun getGost3411_94 ()Lcom/appmattus/crypto/HmacAlgorithm;
+}
+

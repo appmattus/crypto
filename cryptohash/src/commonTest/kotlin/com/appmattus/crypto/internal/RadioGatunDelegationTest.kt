@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.RadioGatun
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,8 +31,8 @@ class RadioGatunDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashRadioGatun() {
-        testKat({ CoreDigest.create(Algorithm.RadioGatun32) }, input, RadioGatun.radioGatun32.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.RadioGatun64) }, input, RadioGatun.radioGatun64.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RadioGatun32) }, input, RadioGatun.radioGatun32.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RadioGatun64) }, input, RadioGatun.radioGatun64.hash(input).toHexString())
     }
 
     @Test

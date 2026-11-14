@@ -17,8 +17,6 @@
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -30,7 +28,7 @@ class Adler32DelegationTest {
 
     @Test
     fun createsADigestBackedByCryptohashAdler() {
-        testKat({ CoreDigest.create(Algorithm.Adler32) }, "abc", "024d0127")
+        testDigestKat({ CoreDigest.create(Algorithm.Adler32) }, "abc", "024d0127")
     }
 
     @Test

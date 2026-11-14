@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Gost
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -36,7 +34,7 @@ class GostDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashGost() {
-        testKat({ CoreDigest.create(Algorithm.GOST3411_94) }, input, Gost.gost3411_94.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.GOST3411_94) }, input, Gost.gost3411_94.hash(input).toHexString())
     }
 
     @Test

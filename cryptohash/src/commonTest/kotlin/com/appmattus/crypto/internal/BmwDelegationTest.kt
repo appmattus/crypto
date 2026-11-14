@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Bmw
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -35,10 +33,10 @@ class BmwDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashBmw() {
-        testKat({ CoreDigest.create(Algorithm.BMW224) }, input, Bmw.bmw224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.BMW256) }, input, Bmw.bmw256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.BMW384) }, input, Bmw.bmw384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.BMW512) }, input, Bmw.bmw512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.BMW224) }, input, Bmw.bmw224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.BMW256) }, input, Bmw.bmw256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.BMW384) }, input, Bmw.bmw384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.BMW512) }, input, Bmw.bmw512.hash(input).toHexString())
     }
 
     @Test

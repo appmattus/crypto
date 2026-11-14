@@ -1,0 +1,6 @@
+public final class com/appmattus/crypto/RadioGatun {
+	public static final field INSTANCE Lcom/appmattus/crypto/RadioGatun;
+	public final fun getRadioGatun32 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getRadioGatun64 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

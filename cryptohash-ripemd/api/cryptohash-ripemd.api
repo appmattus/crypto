@@ -1,0 +1,9 @@
+public final class com/appmattus/crypto/RipeMd {
+	public static final field INSTANCE Lcom/appmattus/crypto/RipeMd;
+	public final fun getRipeMd ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getRipeMd128 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getRipeMd160 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getRipeMd256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getRipeMd320 ()Lcom/appmattus/crypto/HmacAlgorithm;
+}
+

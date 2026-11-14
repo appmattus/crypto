@@ -1,0 +1,7 @@
+public final class com/appmattus/crypto/Kupyna {
+	public static final field INSTANCE Lcom/appmattus/crypto/Kupyna;
+	public final fun getKupyna256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getKupyna384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getKupyna512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

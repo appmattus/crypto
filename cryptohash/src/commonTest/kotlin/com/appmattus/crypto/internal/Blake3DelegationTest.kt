@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Blake3
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -44,7 +42,7 @@ class Blake3DelegationTest {
             Algorithm.Blake3.DeriveKey(context) to Blake3.blake3DeriveKey(context),
             Algorithm.Blake3.DeriveKey(context, 70) to Blake3.blake3DeriveKey(context, 70)
         ).forEach { (algorithm, module) ->
-            testKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
+            testDigestKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
         }
     }
 

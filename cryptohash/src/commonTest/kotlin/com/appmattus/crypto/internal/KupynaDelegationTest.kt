@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Kupyna
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,9 +31,9 @@ class KupynaDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashKupyna() {
-        testKat({ CoreDigest.create(Algorithm.Kupyna_256) }, input, Kupyna.kupyna256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Kupyna_384) }, input, Kupyna.kupyna384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Kupyna_512) }, input, Kupyna.kupyna512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Kupyna_256) }, input, Kupyna.kupyna256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Kupyna_384) }, input, Kupyna.kupyna384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Kupyna_512) }, input, Kupyna.kupyna512.hash(input).toHexString())
     }
 
     @Test

@@ -1,0 +1,39 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-skein>
+final object com.appmattus.crypto/Skein { // com.appmattus.crypto/Skein|null[0]
+    final val skein1024_1024 // com.appmattus.crypto/Skein.skein1024_1024|{}skein1024_1024[0]
+        final fun <get-skein1024_1024>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein1024_1024.<get-skein1024_1024>|<get-skein1024_1024>(){}[0]
+    final val skein1024_384 // com.appmattus.crypto/Skein.skein1024_384|{}skein1024_384[0]
+        final fun <get-skein1024_384>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein1024_384.<get-skein1024_384>|<get-skein1024_384>(){}[0]
+    final val skein1024_512 // com.appmattus.crypto/Skein.skein1024_512|{}skein1024_512[0]
+        final fun <get-skein1024_512>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein1024_512.<get-skein1024_512>|<get-skein1024_512>(){}[0]
+    final val skein256_128 // com.appmattus.crypto/Skein.skein256_128|{}skein256_128[0]
+        final fun <get-skein256_128>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein256_128.<get-skein256_128>|<get-skein256_128>(){}[0]
+    final val skein256_160 // com.appmattus.crypto/Skein.skein256_160|{}skein256_160[0]
+        final fun <get-skein256_160>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein256_160.<get-skein256_160>|<get-skein256_160>(){}[0]
+    final val skein256_224 // com.appmattus.crypto/Skein.skein256_224|{}skein256_224[0]
+        final fun <get-skein256_224>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein256_224.<get-skein256_224>|<get-skein256_224>(){}[0]
+    final val skein256_256 // com.appmattus.crypto/Skein.skein256_256|{}skein256_256[0]
+        final fun <get-skein256_256>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein256_256.<get-skein256_256>|<get-skein256_256>(){}[0]
+    final val skein512_128 // com.appmattus.crypto/Skein.skein512_128|{}skein512_128[0]
+        final fun <get-skein512_128>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein512_128.<get-skein512_128>|<get-skein512_128>(){}[0]
+    final val skein512_160 // com.appmattus.crypto/Skein.skein512_160|{}skein512_160[0]
+        final fun <get-skein512_160>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein512_160.<get-skein512_160>|<get-skein512_160>(){}[0]
+    final val skein512_224 // com.appmattus.crypto/Skein.skein512_224|{}skein512_224[0]
+        final fun <get-skein512_224>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein512_224.<get-skein512_224>|<get-skein512_224>(){}[0]
+    final val skein512_256 // com.appmattus.crypto/Skein.skein512_256|{}skein512_256[0]
+        final fun <get-skein512_256>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein512_256.<get-skein512_256>|<get-skein512_256>(){}[0]
+    final val skein512_384 // com.appmattus.crypto/Skein.skein512_384|{}skein512_384[0]
+        final fun <get-skein512_384>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein512_384.<get-skein512_384>|<get-skein512_384>(){}[0]
+    final val skein512_512 // com.appmattus.crypto/Skein.skein512_512|{}skein512_512[0]
+        final fun <get-skein512_512>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Skein.skein512_512.<get-skein512_512>|<get-skein512_512>(){}[0]
+
+    final fun skein(kotlin/Int, kotlin/Int): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Skein.skein|skein(kotlin.Int;kotlin.Int){}[0]
+    final fun skeinKeyed(kotlin/Int, kotlin/Int, kotlin/ByteArray): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Skein.skeinKeyed|skeinKeyed(kotlin.Int;kotlin.Int;kotlin.ByteArray){}[0]
+}

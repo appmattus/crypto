@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Sm3
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -35,7 +33,7 @@ class Sm3DelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashSm3() {
-        testKat({ CoreDigest.create(Algorithm.SM3) }, input, Sm3.sm3.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SM3) }, input, Sm3.sm3.hash(input).toHexString())
     }
 
     @Test

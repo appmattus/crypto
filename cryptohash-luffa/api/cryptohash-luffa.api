@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/Luffa {
+	public static final field INSTANCE Lcom/appmattus/crypto/Luffa;
+	public final fun getLuffa224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getLuffa256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getLuffa384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getLuffa512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

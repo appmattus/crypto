@@ -1,0 +1,13 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-rapidhash>
+final object com.appmattus.crypto/Rapidhash { // com.appmattus.crypto/Rapidhash|null[0]
+    final fun rapidhash(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Rapidhash.rapidhash|rapidhash(kotlin.ULong){}[0]
+    final fun rapidhashMicro(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Rapidhash.rapidhashMicro|rapidhashMicro(kotlin.ULong){}[0]
+    final fun rapidhashNano(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Rapidhash.rapidhashNano|rapidhashNano(kotlin.ULong){}[0]
+}

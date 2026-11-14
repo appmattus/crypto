@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/CubeHash {
+	public static final field INSTANCE Lcom/appmattus/crypto/CubeHash;
+	public final fun getCubeHash224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCubeHash256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCubeHash384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCubeHash512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

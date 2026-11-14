@@ -1,0 +1,30 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-crc>
+final object com.appmattus.crypto/Crc { // com.appmattus.crypto/Crc|null[0]
+    final val crc32 // com.appmattus.crypto/Crc.crc32|{}crc32[0]
+        final fun <get-crc32>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc32.<get-crc32>|<get-crc32>(){}[0]
+    final val crc32b // com.appmattus.crypto/Crc.crc32b|{}crc32b[0]
+        final fun <get-crc32b>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc32b.<get-crc32b>|<get-crc32b>(){}[0]
+    final val crc32c // com.appmattus.crypto/Crc.crc32c|{}crc32c[0]
+        final fun <get-crc32c>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc32c.<get-crc32c>|<get-crc32c>(){}[0]
+    final val crc64Ecma182 // com.appmattus.crypto/Crc.crc64Ecma182|{}crc64Ecma182[0]
+        final fun <get-crc64Ecma182>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc64Ecma182.<get-crc64Ecma182>|<get-crc64Ecma182>(){}[0]
+    final val crc64GoIso // com.appmattus.crypto/Crc.crc64GoIso|{}crc64GoIso[0]
+        final fun <get-crc64GoIso>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc64GoIso.<get-crc64GoIso>|<get-crc64GoIso>(){}[0]
+    final val crc64Nvme // com.appmattus.crypto/Crc.crc64Nvme|{}crc64Nvme[0]
+        final fun <get-crc64Nvme>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc64Nvme.<get-crc64Nvme>|<get-crc64Nvme>(){}[0]
+    final val crc64Redis // com.appmattus.crypto/Crc.crc64Redis|{}crc64Redis[0]
+        final fun <get-crc64Redis>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc64Redis.<get-crc64Redis>|<get-crc64Redis>(){}[0]
+    final val crc64SwissProt // com.appmattus.crypto/Crc.crc64SwissProt|{}crc64SwissProt[0]
+        final fun <get-crc64SwissProt>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc64SwissProt.<get-crc64SwissProt>|<get-crc64SwissProt>(){}[0]
+    final val crc64We // com.appmattus.crypto/Crc.crc64We|{}crc64We[0]
+        final fun <get-crc64We>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc64We.<get-crc64We>|<get-crc64We>(){}[0]
+    final val crc64Xz // com.appmattus.crypto/Crc.crc64Xz|{}crc64Xz[0]
+        final fun <get-crc64Xz>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Crc.crc64Xz.<get-crc64Xz>|<get-crc64Xz>(){}[0]
+}

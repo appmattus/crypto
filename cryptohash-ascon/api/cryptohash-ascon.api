@@ -1,0 +1,9 @@
+public final class com/appmattus/crypto/Ascon {
+	public static final field INSTANCE Lcom/appmattus/crypto/Ascon;
+	public final fun cxof128 ([BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun cxof128$default (Lcom/appmattus/crypto/Ascon;[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHash256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun xof128 (I)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun xof128$default (Lcom/appmattus/crypto/Ascon;IILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.CubeHash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class CubeHashDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashCubeHash() {
-        testKat({ CoreDigest.create(Algorithm.CubeHash224) }, input, CubeHash.cubeHash224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.CubeHash256) }, input, CubeHash.cubeHash256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.CubeHash384) }, input, CubeHash.cubeHash384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.CubeHash512) }, input, CubeHash.cubeHash512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.CubeHash224) }, input, CubeHash.cubeHash224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.CubeHash256) }, input, CubeHash.cubeHash256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.CubeHash384) }, input, CubeHash.cubeHash384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.CubeHash512) }, input, CubeHash.cubeHash512.hash(input).toHexString())
     }
 
     @Test

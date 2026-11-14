@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Komihash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,9 +31,9 @@ class KomihashDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashKomihash() {
-        testKat({ CoreDigest.create(Algorithm.Komihash()) }, "This is a 32-byte testing string", "05ad960802903a9d")
-        testKat({ CoreDigest.create(Algorithm.Komihash(0x0123456789abcdefu)) }, "The cat is out of the bag", "5b1da0b43545d196")
-        testKat({ CoreDigest.create(Algorithm.Komihash(5u)) }, input, Komihash.komihash(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Komihash()) }, "This is a 32-byte testing string", "05ad960802903a9d")
+        testDigestKat({ CoreDigest.create(Algorithm.Komihash(0x0123456789abcdefu)) }, "The cat is out of the bag", "5b1da0b43545d196")
+        testDigestKat({ CoreDigest.create(Algorithm.Komihash(5u)) }, input, Komihash.komihash(5u).hash(input).toHexString())
     }
 
     @Test

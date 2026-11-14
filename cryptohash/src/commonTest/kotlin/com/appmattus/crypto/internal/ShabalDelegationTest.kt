@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Shabal
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,11 +30,11 @@ class ShabalDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashShabal() {
-        testKat({ CoreDigest.create(Algorithm.Shabal192) }, input, Shabal.shabal192.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Shabal224) }, input, Shabal.shabal224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Shabal256) }, input, Shabal.shabal256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Shabal384) }, input, Shabal.shabal384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Shabal512) }, input, Shabal.shabal512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Shabal192) }, input, Shabal.shabal192.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Shabal224) }, input, Shabal.shabal224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Shabal256) }, input, Shabal.shabal256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Shabal384) }, input, Shabal.shabal384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Shabal512) }, input, Shabal.shabal512.hash(input).toHexString())
     }
 
     @Test

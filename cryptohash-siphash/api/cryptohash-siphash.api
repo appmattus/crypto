@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/SipHash {
+	public static final field INSTANCE Lcom/appmattus/crypto/SipHash;
+	public final fun sipHash ([BII)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun sipHash$default (Lcom/appmattus/crypto/SipHash;[BIIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun sipHash128 ([BII)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun sipHash128$default (Lcom/appmattus/crypto/SipHash;[BIIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

@@ -1,0 +1,14 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-haraka>
+final object com.appmattus.crypto/Haraka { // com.appmattus.crypto/Haraka|null[0]
+    final val haraka256 // com.appmattus.crypto/Haraka.haraka256|{}haraka256[0]
+        final fun <get-haraka256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haraka.haraka256.<get-haraka256>|<get-haraka256>(){}[0]
+    final val haraka512 // com.appmattus.crypto/Haraka.haraka512|{}haraka512[0]
+        final fun <get-haraka512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haraka.haraka512.<get-haraka512>|<get-haraka512>(){}[0]
+}

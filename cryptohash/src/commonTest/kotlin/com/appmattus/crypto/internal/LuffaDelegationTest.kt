@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Luffa
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class LuffaDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashLuffa() {
-        testKat({ CoreDigest.create(Algorithm.Luffa224) }, input, Luffa.luffa224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Luffa256) }, input, Luffa.luffa256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Luffa384) }, input, Luffa.luffa384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Luffa512) }, input, Luffa.luffa512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Luffa224) }, input, Luffa.luffa224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Luffa256) }, input, Luffa.luffa256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Luffa384) }, input, Luffa.luffa384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Luffa512) }, input, Luffa.luffa512.hash(input).toHexString())
     }
 
     @Test

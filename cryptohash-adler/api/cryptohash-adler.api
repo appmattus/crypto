@@ -1,0 +1,5 @@
+public final class com/appmattus/crypto/Adler {
+	public static final field INSTANCE Lcom/appmattus/crypto/Adler;
+	public final fun getAdler32 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/Simd {
+	public static final field INSTANCE Lcom/appmattus/crypto/Simd;
+	public final fun getSimd224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getSimd256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getSimd384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getSimd512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

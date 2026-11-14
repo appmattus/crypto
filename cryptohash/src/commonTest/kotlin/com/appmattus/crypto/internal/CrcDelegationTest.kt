@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Crc
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -41,10 +39,10 @@ class CrcDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashCrc() = algorithms.forEach { (algorithm, crc, abc) ->
-        testKat({ algorithm.createDigest() }, "abc", abc)
-        testKat({ CoreDigest.create(algorithm) }, "abc", abc)
-        testKat({ algorithm.createDigest() }, input, crc.hash(input).toHexString())
-        testKat({ CoreDigest.create(algorithm) }, input, crc.hash(input).toHexString())
+        testDigestKat({ algorithm.createDigest() }, "abc", abc)
+        testDigestKat({ CoreDigest.create(algorithm) }, "abc", abc)
+        testDigestKat({ algorithm.createDigest() }, input, crc.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(algorithm) }, input, crc.hash(input).toHexString())
     }
 
     @Test

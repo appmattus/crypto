@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Hamsi
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class HamsiDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashHamsi() {
-        testKat({ CoreDigest.create(Algorithm.Hamsi224) }, input, Hamsi.hamsi224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Hamsi256) }, input, Hamsi.hamsi256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Hamsi384) }, input, Hamsi.hamsi384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Hamsi512) }, input, Hamsi.hamsi512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Hamsi224) }, input, Hamsi.hamsi224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Hamsi256) }, input, Hamsi.hamsi256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Hamsi384) }, input, Hamsi.hamsi384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Hamsi512) }, input, Hamsi.hamsi512.hash(input).toHexString())
     }
 
     @Test

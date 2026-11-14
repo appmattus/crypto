@@ -16,14 +16,34 @@
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 /**
  * Publishing for a library module: Maven Central through gradle-maven-publish-plugin, configured from the root and
  * module gradle.properties (POM_ARTIFACT_ID, POM_NAME and so on), with Dokka for the javadoc artifacts.
+ *
+ * Also validates the published binary API against the dumps in each module's api directory: checkKotlinAbi fails when
+ * the public API changes, and updateKotlinAbi records an intended change.
  */
 class PublishConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.pluginManager.apply("com.vanniktech.maven.publish")
         target.pluginManager.apply("org.jetbrains.dokka")
+
+        target.pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+            target.extensions.configure<KotlinMultiplatformExtension> {
+                @OptIn(ExperimentalAbiValidation::class)
+                abiValidation {
+                    // Shared between the cryptohash modules only, so free to change
+                    filters {
+                        exclude {
+                            annotatedWith.add("com.appmattus.crypto.InternalCryptohash")
+                        }
+                    }
+                }
+            }
+        }
     }
 }

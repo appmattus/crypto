@@ -1,0 +1,6 @@
+public final class com/appmattus/crypto/Komihash {
+	public static final field INSTANCE Lcom/appmattus/crypto/Komihash;
+	public final fun komihash-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun komihash-VKZWuLQ$default (Lcom/appmattus/crypto/Komihash;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

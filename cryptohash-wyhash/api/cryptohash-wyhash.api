@@ -1,0 +1,10 @@
+public final class com/appmattus/crypto/Wyhash {
+	public static final field INSTANCE Lcom/appmattus/crypto/Wyhash;
+	public final fun getDefaultSecret ()Ljava/util/List;
+	public final fun makeSecret-VKZWuLQ (J)Ljava/util/List;
+	public final fun wyhash32-WZ4Q5Ns (I)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun wyhash32-WZ4Q5Ns$default (Lcom/appmattus/crypto/Wyhash;IILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun wyhash64-E0BElUM (JLjava/util/List;Z)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun wyhash64-E0BElUM$default (Lcom/appmattus/crypto/Wyhash;JLjava/util/List;ZILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

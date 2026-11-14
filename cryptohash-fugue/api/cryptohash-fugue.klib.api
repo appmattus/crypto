@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-fugue>
+final object com.appmattus.crypto/Fugue { // com.appmattus.crypto/Fugue|null[0]
+    final val fugue224 // com.appmattus.crypto/Fugue.fugue224|{}fugue224[0]
+        final fun <get-fugue224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Fugue.fugue224.<get-fugue224>|<get-fugue224>(){}[0]
+    final val fugue256 // com.appmattus.crypto/Fugue.fugue256|{}fugue256[0]
+        final fun <get-fugue256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Fugue.fugue256.<get-fugue256>|<get-fugue256>(){}[0]
+    final val fugue384 // com.appmattus.crypto/Fugue.fugue384|{}fugue384[0]
+        final fun <get-fugue384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Fugue.fugue384.<get-fugue384>|<get-fugue384>(){}[0]
+    final val fugue512 // com.appmattus.crypto/Fugue.fugue512|{}fugue512[0]
+        final fun <get-fugue512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Fugue.fugue512.<get-fugue512>|<get-fugue512>(){}[0]
+}

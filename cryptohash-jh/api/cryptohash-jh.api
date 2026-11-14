@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/Jh {
+	public static final field INSTANCE Lcom/appmattus/crypto/Jh;
+	public final fun getJh224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getJh256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getJh384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getJh512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

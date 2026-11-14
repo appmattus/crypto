@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.benchmarks
 
-import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hasher
 import kotlinx.benchmark.Benchmark
 import kotlinx.benchmark.Param
 import kotlinx.benchmark.Scope
@@ -24,7 +24,7 @@ import kotlinx.benchmark.Setup
 import kotlinx.benchmark.State
 
 /**
- * cryptohash, through [com.appmattus.crypto.Algorithm.createDigest], for the algorithms that the platforms also provide.
+ * cryptohash, through [com.appmattus.crypto.HashAlgorithm.newHasher], for the algorithms that the platforms also provide.
  * Where cryptohash delegates to the platform, this measures that delegation.
  */
 @State(Scope.Benchmark)
@@ -39,15 +39,15 @@ open class CryptohashBenchmark {
     @Param(SIZE_SMALL, SIZE_MEDIUM, SIZE_LARGE)
     var size: Int = 0
 
-    private lateinit var digest: Digest
+    private lateinit var hasher: Hasher
     private lateinit var input: ByteArray
 
     @Setup
     fun setup() {
-        digest = platformCoveredAlgorithms.getValue(algorithm).createDigest()
+        hasher = platformCoveredAlgorithms.getValue(algorithm).newHasher()
         input = benchmarkInput(size)
     }
 
     @Benchmark
-    fun hash(): ByteArray = digest.digest(input)
+    fun hash(): ByteArray = hasher.digest(input)
 }

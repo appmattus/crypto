@@ -1,0 +1,7 @@
+public final class com/appmattus/crypto/HighwayHash {
+	public static final field INSTANCE Lcom/appmattus/crypto/HighwayHash;
+	public final fun highwayHash128 ([J)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun highwayHash256 ([J)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun highwayHash64 ([J)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

@@ -1,0 +1,32 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-cityhash>
+final object com.appmattus.crypto/CityHash { // com.appmattus.crypto/CityHash|null[0]
+    final val cityHash32 // com.appmattus.crypto/CityHash.cityHash32|{}cityHash32[0]
+        final fun <get-cityHash32>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHash32.<get-cityHash32>|<get-cityHash32>(){}[0]
+    final val cityHashCrc256 // com.appmattus.crypto/CityHash.cityHashCrc256|{}cityHashCrc256[0]
+        final fun <get-cityHashCrc256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHashCrc256.<get-cityHashCrc256>|<get-cityHashCrc256>(){}[0]
+
+    final fun cityHash128(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHash128|cityHash128(){}[0]
+    final fun cityHash128(kotlin/ULong, kotlin/ULong): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHash128|cityHash128(kotlin.ULong;kotlin.ULong){}[0]
+    final fun cityHash64(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHash64|cityHash64(){}[0]
+    final fun cityHash64(kotlin/ULong): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHash64|cityHash64(kotlin.ULong){}[0]
+    final fun cityHash64(kotlin/ULong, kotlin/ULong): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHash64|cityHash64(kotlin.ULong;kotlin.ULong){}[0]
+    final fun cityHashCrc128(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHashCrc128|cityHashCrc128(){}[0]
+    final fun cityHashCrc128(kotlin/ULong, kotlin/ULong): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CityHash.cityHashCrc128|cityHashCrc128(kotlin.ULong;kotlin.ULong){}[0]
+}
+
+final object com.appmattus.crypto/FarmHash { // com.appmattus.crypto/FarmHash|null[0]
+    final fun farmHash128(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/FarmHash.farmHash128|farmHash128(){}[0]
+    final fun farmHash128(kotlin/ULong, kotlin/ULong): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/FarmHash.farmHash128|farmHash128(kotlin.ULong;kotlin.ULong){}[0]
+    final fun farmHash32(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/FarmHash.farmHash32|farmHash32(){}[0]
+    final fun farmHash32(kotlin/UInt): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/FarmHash.farmHash32|farmHash32(kotlin.UInt){}[0]
+    final fun farmHash64(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/FarmHash.farmHash64|farmHash64(){}[0]
+    final fun farmHash64(kotlin/ULong): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/FarmHash.farmHash64|farmHash64(kotlin.ULong){}[0]
+    final fun farmHash64(kotlin/ULong, kotlin/ULong): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/FarmHash.farmHash64|farmHash64(kotlin.ULong;kotlin.ULong){}[0]
+}

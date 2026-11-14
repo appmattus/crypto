@@ -1,0 +1,12 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-panama>
+final object com.appmattus.crypto/Panama { // com.appmattus.crypto/Panama|null[0]
+    final val panama // com.appmattus.crypto/Panama.panama|{}panama[0]
+        final fun <get-panama>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Panama.panama.<get-panama>|<get-panama>(){}[0]
+}

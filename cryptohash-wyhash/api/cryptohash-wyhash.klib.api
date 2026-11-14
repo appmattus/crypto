@@ -1,0 +1,16 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-wyhash>
+final object com.appmattus.crypto/Wyhash { // com.appmattus.crypto/Wyhash|null[0]
+    final val defaultSecret // com.appmattus.crypto/Wyhash.defaultSecret|{}defaultSecret[0]
+        final fun <get-defaultSecret>(): kotlin.collections/List<kotlin/ULong> // com.appmattus.crypto/Wyhash.defaultSecret.<get-defaultSecret>|<get-defaultSecret>(){}[0]
+
+    final fun makeSecret(kotlin/ULong): kotlin.collections/List<kotlin/ULong> // com.appmattus.crypto/Wyhash.makeSecret|makeSecret(kotlin.ULong){}[0]
+    final fun wyhash32(kotlin/UInt = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Wyhash.wyhash32|wyhash32(kotlin.UInt){}[0]
+    final fun wyhash64(kotlin/ULong = ..., kotlin.collections/List<kotlin/ULong> = ..., kotlin/Boolean = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Wyhash.wyhash64|wyhash64(kotlin.ULong;kotlin.collections.List<kotlin.ULong>;kotlin.Boolean){}[0]
+}

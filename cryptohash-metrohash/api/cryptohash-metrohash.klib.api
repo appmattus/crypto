@@ -1,0 +1,12 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-metrohash>
+final object com.appmattus.crypto/MetroHash { // com.appmattus.crypto/MetroHash|null[0]
+    final fun metroHash128(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/MetroHash.metroHash128|metroHash128(kotlin.ULong){}[0]
+    final fun metroHash64(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/MetroHash.metroHash64|metroHash64(kotlin.ULong){}[0]
+}

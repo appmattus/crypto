@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Haval
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,21 +31,21 @@ class HavalDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashHaval() {
-        testKat({ CoreDigest.create(Algorithm.HAVAL_3_128) }, input, Haval.haval3_128.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_3_160) }, input, Haval.haval3_160.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_3_192) }, input, Haval.haval3_192.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_3_224) }, input, Haval.haval3_224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_3_256) }, input, Haval.haval3_256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_4_128) }, input, Haval.haval4_128.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_4_160) }, input, Haval.haval4_160.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_4_192) }, input, Haval.haval4_192.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_4_224) }, input, Haval.haval4_224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_4_256) }, input, Haval.haval4_256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_5_128) }, input, Haval.haval5_128.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_5_160) }, input, Haval.haval5_160.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_5_192) }, input, Haval.haval5_192.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_5_224) }, input, Haval.haval5_224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HAVAL_5_256) }, input, Haval.haval5_256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_3_128) }, input, Haval.haval3_128.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_3_160) }, input, Haval.haval3_160.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_3_192) }, input, Haval.haval3_192.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_3_224) }, input, Haval.haval3_224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_3_256) }, input, Haval.haval3_256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_4_128) }, input, Haval.haval4_128.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_4_160) }, input, Haval.haval4_160.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_4_192) }, input, Haval.haval4_192.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_4_224) }, input, Haval.haval4_224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_4_256) }, input, Haval.haval4_256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_5_128) }, input, Haval.haval5_128.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_5_160) }, input, Haval.haval5_160.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_5_192) }, input, Haval.haval5_192.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_5_224) }, input, Haval.haval5_224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HAVAL_5_256) }, input, Haval.haval5_256.hash(input).toHexString())
     }
 
     @Test

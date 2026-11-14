@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Groestl
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class GroestlDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashGroestl() {
-        testKat({ CoreDigest.create(Algorithm.Groestl224) }, input, Groestl.groestl224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Groestl256) }, input, Groestl.groestl256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Groestl384) }, input, Groestl.groestl384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Groestl512) }, input, Groestl.groestl512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Groestl224) }, input, Groestl.groestl224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Groestl256) }, input, Groestl.groestl256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Groestl384) }, input, Groestl.groestl384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Groestl512) }, input, Groestl.groestl512.hash(input).toHexString())
     }
 
     @Test

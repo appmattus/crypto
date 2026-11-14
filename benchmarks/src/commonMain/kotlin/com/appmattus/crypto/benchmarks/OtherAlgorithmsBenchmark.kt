@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.benchmarks
 
-import com.appmattus.crypto.Digest
+import com.appmattus.crypto.Hasher
 import kotlinx.benchmark.Benchmark
 import kotlinx.benchmark.Param
 import kotlinx.benchmark.Scope
@@ -38,15 +38,15 @@ open class OtherAlgorithmsBenchmark {
     @Param(SIZE_SMALL, SIZE_MEDIUM, SIZE_LARGE)
     var size: Int = 0
 
-    private lateinit var digest: Digest
+    private lateinit var hasher: Hasher
     private lateinit var input: ByteArray
 
     @Setup
     fun setup() {
-        digest = otherAlgorithms.getValue(algorithm).createDigest()
+        hasher = otherAlgorithms.getValue(algorithm).newHasher()
         input = benchmarkInput(size)
     }
 
     @Benchmark
-    fun hash(): ByteArray = digest.digest(input)
+    fun hash(): ByteArray = hasher.digest(input)
 }

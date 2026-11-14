@@ -1,0 +1,14 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-blake2>
+final object com.appmattus.crypto/Blake2 { // com.appmattus.crypto/Blake2|null[0]
+    final fun blake2b(kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Blake2.blake2b|blake2b(kotlin.Int){}[0]
+    final fun blake2bKeyed(kotlin/ByteArray, kotlin/ByteArray? = ..., kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Blake2.blake2bKeyed|blake2bKeyed(kotlin.ByteArray;kotlin.ByteArray?;kotlin.ByteArray?;kotlin.Int){}[0]
+    final fun blake2s(kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Blake2.blake2s|blake2s(kotlin.Int){}[0]
+    final fun blake2sKeyed(kotlin/ByteArray, kotlin/ByteArray? = ..., kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Blake2.blake2sKeyed|blake2sKeyed(kotlin.ByteArray;kotlin.ByteArray?;kotlin.ByteArray?;kotlin.Int){}[0]
+}

@@ -1,0 +1,6 @@
+public final class com/appmattus/crypto/Streebog {
+	public static final field INSTANCE Lcom/appmattus/crypto/Streebog;
+	public final fun getStreebog256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getStreebog512 ()Lcom/appmattus/crypto/HmacAlgorithm;
+}
+

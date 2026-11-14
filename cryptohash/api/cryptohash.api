@@ -1,0 +1,1661 @@
+public abstract class com/appmattus/crypto/Algorithm {
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun createDigest ()Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAlgorithmName ()Ljava/lang/String;
+	public final fun hash (Ljava/lang/String;)[B
+	public final fun hash ([B)[B
+	public final fun hash ([BII)[B
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Adler32 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Adler32;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$AsconCXof128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> ([BI)V
+	public synthetic fun <init> ([BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$AsconHash256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$AsconHash256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$AsconXof128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$BLAKE224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$BLAKE224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$BLAKE256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$BLAKE256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$BLAKE384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$BLAKE384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$BLAKE512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$BLAKE512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$BMW224 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$BMW224;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$BMW256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$BMW256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$BMW384 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$BMW384;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$BMW512 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$BMW512;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/appmattus/crypto/Algorithm$Blake2b : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2b$Keyed : com/appmattus/crypto/Algorithm$Blake2b {
+	public fun <init> ([B[B[BI)V
+	public synthetic fun <init> ([B[B[BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2b_160 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Blake2b_160;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2b_256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Blake2b_256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2b_384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Blake2b_384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2b_512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Blake2b_512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/appmattus/crypto/Algorithm$Blake2s : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2s$Keyed : com/appmattus/crypto/Algorithm$Blake2s {
+	public fun <init> ([B[B[BI)V
+	public synthetic fun <init> ([B[B[BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2s_128 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Blake2s_128;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2s_160 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Blake2s_160;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2s_224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Blake2s_224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake2s_256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Blake2s_256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/appmattus/crypto/Algorithm$Blake3 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake3$DeriveKey : com/appmattus/crypto/Algorithm$Blake3 {
+	public fun <init> ([BI)V
+	public synthetic fun <init> ([BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Blake3$Keyed : com/appmattus/crypto/Algorithm$Blake3 {
+	public fun <init> ([BI)V
+	public synthetic fun <init> ([BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$CRC32 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CRC32;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$CRC32B : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CRC32B;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$CRC32C : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CRC32C;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/appmattus/crypto/Algorithm$CityHash128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+}
+
+public final class com/appmattus/crypto/Algorithm$CityHash128$Seed : com/appmattus/crypto/Algorithm$CityHash128 {
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$CityHash32 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CityHash32;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/appmattus/crypto/Algorithm$CityHash64 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+}
+
+public final class com/appmattus/crypto/Algorithm$CityHash64$Seed : com/appmattus/crypto/Algorithm$CityHash64 {
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$CityHash64$Seeds : com/appmattus/crypto/Algorithm$CityHash64 {
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public class com/appmattus/crypto/Algorithm$CityHashCrc128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+}
+
+public final class com/appmattus/crypto/Algorithm$CityHashCrc128$Seed : com/appmattus/crypto/Algorithm$CityHashCrc128 {
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$CityHashCrc256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CityHashCrc256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$CubeHash224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CubeHash224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$CubeHash256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CubeHash256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$CubeHash384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CubeHash384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$CubeHash512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$CubeHash512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$ECHO224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$ECHO224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$ECHO256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$ECHO256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$ECHO384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$ECHO384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$ECHO512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$ECHO512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public class com/appmattus/crypto/Algorithm$FarmHash128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+}
+
+public final class com/appmattus/crypto/Algorithm$FarmHash128$Seed : com/appmattus/crypto/Algorithm$FarmHash128 {
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public class com/appmattus/crypto/Algorithm$FarmHash32 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+}
+
+public final class com/appmattus/crypto/Algorithm$FarmHash32$Seed : com/appmattus/crypto/Algorithm$FarmHash32 {
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public class com/appmattus/crypto/Algorithm$FarmHash64 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+}
+
+public final class com/appmattus/crypto/Algorithm$FarmHash64$Seed : com/appmattus/crypto/Algorithm$FarmHash64 {
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$FarmHash64$Seeds : com/appmattus/crypto/Algorithm$FarmHash64 {
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Fugue224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Fugue224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Fugue256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Fugue256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Fugue384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Fugue384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Fugue512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Fugue512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$GOST3411_2012_256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$GOST3411_2012_256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$GOST3411_2012_512 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$GOST3411_2012_512;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$GOST3411_94 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$GOST3411_94;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Groestl224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Groestl224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Groestl256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Groestl256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Groestl384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Groestl384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Groestl512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Groestl512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_3_128 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_3_128;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_3_160 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_3_160;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_3_192 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_3_192;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_3_224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_3_224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_3_256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_3_256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_4_128 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_4_128;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_4_160 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_4_160;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_4_192 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_4_192;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_4_224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_4_224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_4_256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_4_256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_5_128 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_5_128;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_5_160 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_5_160;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_5_192 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_5_192;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_5_224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_5_224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HAVAL_5_256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$HAVAL_5_256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Hamsi224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Hamsi224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Hamsi256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Hamsi256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Hamsi384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Hamsi384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Hamsi512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Hamsi512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Haraka256_256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Haraka256_256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Haraka512_256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Haraka512_256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$HighwayHash128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ([J)V
+}
+
+public final class com/appmattus/crypto/Algorithm$HighwayHash256 : com/appmattus/crypto/Algorithm {
+	public fun <init> ([J)V
+}
+
+public final class com/appmattus/crypto/Algorithm$HighwayHash64 : com/appmattus/crypto/Algorithm {
+	public fun <init> ([J)V
+}
+
+public final class com/appmattus/crypto/Algorithm$JH224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$JH224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$JH256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$JH256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$JH384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$JH384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$JH512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$JH512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$KMAC128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ([B[BI)V
+	public synthetic fun <init> ([B[BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$KMAC256 : com/appmattus/crypto/Algorithm {
+	public fun <init> ([B[BI)V
+	public synthetic fun <init> ([B[BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$KT128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> ([BI)V
+	public synthetic fun <init> ([BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$KT256 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> ([BI)V
+	public synthetic fun <init> ([BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Keccak224 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Keccak224;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Keccak256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Keccak256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Keccak288 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Keccak288;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Keccak384 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Keccak384;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Keccak512 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Keccak512;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Komihash : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Kupyna_256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Kupyna_256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Kupyna_384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Kupyna_384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Kupyna_512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Kupyna_512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Luffa224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Luffa224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Luffa256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Luffa256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Luffa384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Luffa384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Luffa512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Luffa512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MD2 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$MD2;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MD4 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$MD4;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MD5 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$MD5;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MetroHash128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-s-VKNKU ()J
+	public final fun copy-VKZWuLQ (J)Lcom/appmattus/crypto/Algorithm$MetroHash128;
+	public static synthetic fun copy-VKZWuLQ$default (Lcom/appmattus/crypto/Algorithm$MetroHash128;JILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MetroHash128;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-s-VKNKU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MetroHash64 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-s-VKNKU ()J
+	public final fun copy-VKZWuLQ (J)Lcom/appmattus/crypto/Algorithm$MetroHash64;
+	public static synthetic fun copy-VKZWuLQ$default (Lcom/appmattus/crypto/Algorithm$MetroHash64;JILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MetroHash64;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-s-VKNKU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MurmurHash1 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-pVg5ArA ()I
+	public final fun copy-WZ4Q5Ns (I)Lcom/appmattus/crypto/Algorithm$MurmurHash1;
+	public static synthetic fun copy-WZ4Q5Ns$default (Lcom/appmattus/crypto/Algorithm$MurmurHash1;IILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MurmurHash1;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MurmurHash2 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-pVg5ArA ()I
+	public final fun copy-WZ4Q5Ns (I)Lcom/appmattus/crypto/Algorithm$MurmurHash2;
+	public static synthetic fun copy-WZ4Q5Ns$default (Lcom/appmattus/crypto/Algorithm$MurmurHash2;IILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MurmurHash2;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MurmurHash2A : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-pVg5ArA ()I
+	public final fun copy-WZ4Q5Ns (I)Lcom/appmattus/crypto/Algorithm$MurmurHash2A;
+	public static synthetic fun copy-WZ4Q5Ns$default (Lcom/appmattus/crypto/Algorithm$MurmurHash2A;IILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MurmurHash2A;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MurmurHash3_X64_128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-pVg5ArA ()I
+	public final fun copy-WZ4Q5Ns (I)Lcom/appmattus/crypto/Algorithm$MurmurHash3_X64_128;
+	public static synthetic fun copy-WZ4Q5Ns$default (Lcom/appmattus/crypto/Algorithm$MurmurHash3_X64_128;IILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MurmurHash3_X64_128;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MurmurHash3_X86_128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-pVg5ArA ()I
+	public final fun copy-WZ4Q5Ns (I)Lcom/appmattus/crypto/Algorithm$MurmurHash3_X86_128;
+	public static synthetic fun copy-WZ4Q5Ns$default (Lcom/appmattus/crypto/Algorithm$MurmurHash3_X86_128;IILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MurmurHash3_X86_128;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MurmurHash3_X86_32 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-pVg5ArA ()I
+	public final fun copy-WZ4Q5Ns (I)Lcom/appmattus/crypto/Algorithm$MurmurHash3_X86_32;
+	public static synthetic fun copy-WZ4Q5Ns$default (Lcom/appmattus/crypto/Algorithm$MurmurHash3_X86_32;IILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MurmurHash3_X86_32;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MurmurHash64A : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-s-VKNKU ()J
+	public final fun copy-VKZWuLQ (J)Lcom/appmattus/crypto/Algorithm$MurmurHash64A;
+	public static synthetic fun copy-VKZWuLQ$default (Lcom/appmattus/crypto/Algorithm$MurmurHash64A;JILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MurmurHash64A;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-s-VKNKU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$MurmurHash64B : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-s-VKNKU ()J
+	public final fun copy-VKZWuLQ (J)Lcom/appmattus/crypto/Algorithm$MurmurHash64B;
+	public static synthetic fun copy-VKZWuLQ$default (Lcom/appmattus/crypto/Algorithm$MurmurHash64B;JILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$MurmurHash64B;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed-s-VKNKU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$PANAMA : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$PANAMA;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$ParallelHash128 : com/appmattus/crypto/Algorithm {
+	public fun <init> (I[BI)V
+	public synthetic fun <init> (I[BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$ParallelHash256 : com/appmattus/crypto/Algorithm {
+	public fun <init> (I[BI)V
+	public synthetic fun <init> (I[BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$RadioGatun32 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$RadioGatun32;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$RadioGatun64 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$RadioGatun64;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Rapidhash : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$RapidhashMicro : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$RapidhashNano : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$RipeMD : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$RipeMD;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$RipeMD128 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$RipeMD128;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$RipeMD160 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$RipeMD160;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$RipeMD256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$RipeMD256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$RipeMD320 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$RipeMD320;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA3_224 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA3_224;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA3_256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA3_256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA3_384 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA3_384;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA3_512 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA3_512;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHAKE128 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHAKE128;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHAKE256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHAKE256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA_0 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA_0;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA_1 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA_1;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA_224 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA_224;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA_256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA_256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA_384 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA_384;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA_512 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA_512;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA_512_224 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA_512_224;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHA_512_256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHA_512_256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHAvite224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHAvite224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHAvite256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHAvite256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHAvite384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHAvite384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SHAvite512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SHAvite512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SIMD224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SIMD224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SIMD256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SIMD256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SIMD384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SIMD384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SIMD512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SIMD512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SM3 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$SM3;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Shabal192 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Shabal192;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Shabal224 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Shabal224;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Shabal256 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Shabal256;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Shabal384 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Shabal384;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Shabal512 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Shabal512;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$SipHash : com/appmattus/crypto/Algorithm {
+	public fun <init> ([BII)V
+	public synthetic fun <init> ([BIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$SipHash128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ([BII)V
+	public synthetic fun <init> ([BIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public class com/appmattus/crypto/Algorithm$Skein : com/appmattus/crypto/Algorithm {
+	public fun <init> (II)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein$Keyed : com/appmattus/crypto/Algorithm$Skein {
+	public fun <init> (II[B)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein1024_1024 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein1024_1024;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein1024_384 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein1024_384;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein1024_512 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein1024_512;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein256_128 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein256_128;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein256_160 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein256_160;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein256_224 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein256_224;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein256_256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein256_256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein512_128 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein512_128;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein512_160 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein512_160;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein512_224 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein512_224;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein512_256 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein512_256;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein512_384 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein512_384;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Skein512_512 : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Skein512_512;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$T1ha0_32le : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$T1ha1_le : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$T1ha2_AtOnce : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$T1ha2_AtOnce128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$T1ha2_Stream : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$T1ha2_Stream128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Tiger : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Tiger;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Tiger2 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Tiger2;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$TupleHash128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> ([BI)V
+	public synthetic fun <init> ([BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$TupleHash256 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> ([BI)V
+	public synthetic fun <init> ([BIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Whirlpool : com/appmattus/crypto/Algorithm, com/appmattus/crypto/Hmac {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Whirlpool;
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Whirlpool0 : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$Whirlpool0;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$WhirlpoolT : com/appmattus/crypto/Algorithm {
+	public static final field INSTANCE Lcom/appmattus/crypto/Algorithm$WhirlpoolT;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$Wyhash : com/appmattus/crypto/Algorithm {
+	public static final field Companion Lcom/appmattus/crypto/Algorithm$Wyhash$Companion;
+	public fun <init> ()V
+	public synthetic fun <init> (JLjava/util/List;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLjava/util/List;ZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$Wyhash$Companion {
+	public final fun makeSecret-VKZWuLQ (J)Ljava/util/List;
+}
+
+public final class com/appmattus/crypto/Algorithm$Wyhash32 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public class com/appmattus/crypto/Algorithm$XXH3_128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+}
+
+public final class com/appmattus/crypto/Algorithm$XXH3_128$Secret : com/appmattus/crypto/Algorithm$XXH3_128 {
+	public fun <init> ([B)V
+}
+
+public final class com/appmattus/crypto/Algorithm$XXH3_128$Seeded : com/appmattus/crypto/Algorithm$XXH3_128 {
+	public fun <init> (J)V
+}
+
+public class com/appmattus/crypto/Algorithm$XXH3_64 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+}
+
+public final class com/appmattus/crypto/Algorithm$XXH3_64$Secret : com/appmattus/crypto/Algorithm$XXH3_64 {
+	public fun <init> ([B)V
+}
+
+public final class com/appmattus/crypto/Algorithm$XXH3_64$Seeded : com/appmattus/crypto/Algorithm$XXH3_64 {
+	public fun <init> (J)V
+}
+
+public final class com/appmattus/crypto/Algorithm$XXHash32 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun copy (I)Lcom/appmattus/crypto/Algorithm$XXHash32;
+	public static synthetic fun copy$default (Lcom/appmattus/crypto/Algorithm$XXHash32;IILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$XXHash32;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$XXHash64 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> (J)V
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun copy (J)Lcom/appmattus/crypto/Algorithm$XXHash64;
+	public static synthetic fun copy$default (Lcom/appmattus/crypto/Algorithm$XXHash64;JILjava/lang/Object;)Lcom/appmattus/crypto/Algorithm$XXHash64;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeed ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/appmattus/crypto/Algorithm$cSHAKE128 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> ([B[B)V
+	public synthetic fun <init> ([B[BILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class com/appmattus/crypto/Algorithm$cSHAKE256 : com/appmattus/crypto/Algorithm {
+	public fun <init> ()V
+	public fun <init> ([B[B)V
+	public synthetic fun <init> ([B[BILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public abstract interface class com/appmattus/crypto/Digest {
+	public abstract fun copy ()Lcom/appmattus/crypto/Digest;
+	public abstract fun digest ()[B
+	public abstract fun digest ([B)[B
+	public abstract fun digest ([BII)I
+	public abstract fun getBlockLength ()I
+	public abstract fun getDigestLength ()I
+	public fun platform ()Lcom/appmattus/crypto/PlatformDigest;
+	public abstract fun reset ()V
+	public abstract fun toString ()Ljava/lang/String;
+	public abstract fun update (B)Lcom/appmattus/crypto/Digest;
+	public abstract fun update ([B)Lcom/appmattus/crypto/Digest;
+	public abstract fun update ([BII)Lcom/appmattus/crypto/Digest;
+}
+
+public final class com/appmattus/crypto/Digest$DefaultImpls {
+	public static fun platform (Lcom/appmattus/crypto/Digest;)Lcom/appmattus/crypto/PlatformDigest;
+}
+
+public final class com/appmattus/crypto/DigestExtensionsKt {
+	public static final fun digest (Lcom/appmattus/crypto/Digest;Ljava/lang/String;)[B
+	public static final fun update (Lcom/appmattus/crypto/Digest;Ljava/lang/String;)Lcom/appmattus/crypto/Digest;
+}
+
+public abstract interface class com/appmattus/crypto/Hmac {
+	public fun createHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public static synthetic fun createHmac$default (Lcom/appmattus/crypto/Hmac;[BLjava/lang/Integer;ILjava/lang/Object;)Lcom/appmattus/crypto/Digest;
+	public fun hmac ([BLjava/lang/String;Ljava/lang/Integer;)[B
+	public fun hmac ([B[BIILjava/lang/Integer;)[B
+	public fun hmac ([B[BLjava/lang/Integer;)[B
+	public static synthetic fun hmac$default (Lcom/appmattus/crypto/Hmac;[BLjava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)[B
+	public static synthetic fun hmac$default (Lcom/appmattus/crypto/Hmac;[B[BIILjava/lang/Integer;ILjava/lang/Object;)[B
+	public static synthetic fun hmac$default (Lcom/appmattus/crypto/Hmac;[B[BLjava/lang/Integer;ILjava/lang/Object;)[B
+}
+
+public final class com/appmattus/crypto/Hmac$DefaultImpls {
+	public static fun createHmac (Lcom/appmattus/crypto/Hmac;[BLjava/lang/Integer;)Lcom/appmattus/crypto/Digest;
+	public static synthetic fun createHmac$default (Lcom/appmattus/crypto/Hmac;[BLjava/lang/Integer;ILjava/lang/Object;)Lcom/appmattus/crypto/Digest;
+	public static fun hmac (Lcom/appmattus/crypto/Hmac;[BLjava/lang/String;Ljava/lang/Integer;)[B
+	public static fun hmac (Lcom/appmattus/crypto/Hmac;[B[BIILjava/lang/Integer;)[B
+	public static fun hmac (Lcom/appmattus/crypto/Hmac;[B[BLjava/lang/Integer;)[B
+	public static synthetic fun hmac$default (Lcom/appmattus/crypto/Hmac;[BLjava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)[B
+	public static synthetic fun hmac$default (Lcom/appmattus/crypto/Hmac;[B[BIILjava/lang/Integer;ILjava/lang/Object;)[B
+	public static synthetic fun hmac$default (Lcom/appmattus/crypto/Hmac;[B[BLjava/lang/Integer;ILjava/lang/Object;)[B
+}
+
+public abstract interface class com/appmattus/crypto/PlatformDigest {
+	public abstract fun copy ()Lcom/appmattus/crypto/PlatformDigest;
+	public abstract fun digest ()[B
+	public abstract fun digest ([B)[B
+	public abstract fun digest ([BII)I
+	public abstract fun getBlockLength ()I
+	public abstract fun getDigestLength ()I
+	public abstract fun reset ()V
+	public abstract fun toString ()Ljava/lang/String;
+	public abstract fun update (B)Lcom/appmattus/crypto/PlatformDigest;
+	public abstract fun update ([B)Lcom/appmattus/crypto/PlatformDigest;
+	public abstract fun update ([BII)Lcom/appmattus/crypto/PlatformDigest;
+}
+

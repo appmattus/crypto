@@ -1,0 +1,14 @@
+public final class com/appmattus/crypto/XxHash {
+	public static final field INSTANCE Lcom/appmattus/crypto/XxHash;
+	public final fun xxh32 (I)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun xxh32$default (Lcom/appmattus/crypto/XxHash;IILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun xxh3_128 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun xxh3_128 (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun xxh3_128 ([B)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun xxh3_64 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun xxh3_64 (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun xxh3_64 ([B)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun xxh64 (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun xxh64$default (Lcom/appmattus/crypto/XxHash;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

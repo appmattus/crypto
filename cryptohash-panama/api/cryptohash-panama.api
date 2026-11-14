@@ -1,0 +1,5 @@
+public final class com/appmattus/crypto/Panama {
+	public static final field INSTANCE Lcom/appmattus/crypto/Panama;
+	public final fun getPanama ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

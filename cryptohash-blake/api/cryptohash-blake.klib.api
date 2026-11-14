@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-blake>
+final object com.appmattus.crypto/Blake { // com.appmattus.crypto/Blake|null[0]
+    final val blake224 // com.appmattus.crypto/Blake.blake224|{}blake224[0]
+        final fun <get-blake224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Blake.blake224.<get-blake224>|<get-blake224>(){}[0]
+    final val blake256 // com.appmattus.crypto/Blake.blake256|{}blake256[0]
+        final fun <get-blake256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Blake.blake256.<get-blake256>|<get-blake256>(){}[0]
+    final val blake384 // com.appmattus.crypto/Blake.blake384|{}blake384[0]
+        final fun <get-blake384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Blake.blake384.<get-blake384>|<get-blake384>(){}[0]
+    final val blake512 // com.appmattus.crypto/Blake.blake512|{}blake512[0]
+        final fun <get-blake512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Blake.blake512.<get-blake512>|<get-blake512>(){}[0]
+}

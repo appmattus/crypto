@@ -1,0 +1,1301 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Alias: androidNative => [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86]
+// Alias: apple => [iosArm64, iosSimulatorArm64, iosX64, macosArm64, tvosArm64, tvosSimulatorArm64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Alias: linux => [linuxArm64, linuxX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash>
+abstract interface com.appmattus.crypto/Digest { // com.appmattus.crypto/Digest|null[0]
+    abstract val blockLength // com.appmattus.crypto/Digest.blockLength|{}blockLength[0]
+        abstract fun <get-blockLength>(): kotlin/Int // com.appmattus.crypto/Digest.blockLength.<get-blockLength>|<get-blockLength>(){}[0]
+    abstract val digestLength // com.appmattus.crypto/Digest.digestLength|{}digestLength[0]
+        abstract fun <get-digestLength>(): kotlin/Int // com.appmattus.crypto/Digest.digestLength.<get-digestLength>|<get-digestLength>(){}[0]
+
+    abstract fun copy(): com.appmattus.crypto/Digest // com.appmattus.crypto/Digest.copy|copy(){}[0]
+    abstract fun digest(): kotlin/ByteArray // com.appmattus.crypto/Digest.digest|digest(){}[0]
+    abstract fun digest(kotlin/ByteArray): kotlin/ByteArray // com.appmattus.crypto/Digest.digest|digest(kotlin.ByteArray){}[0]
+    abstract fun digest(kotlin/ByteArray, kotlin/Int, kotlin/Int): kotlin/Int // com.appmattus.crypto/Digest.digest|digest(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    abstract fun reset() // com.appmattus.crypto/Digest.reset|reset(){}[0]
+    abstract fun toString(): kotlin/String // com.appmattus.crypto/Digest.toString|toString(){}[0]
+    abstract fun update(kotlin/Byte): com.appmattus.crypto/Digest // com.appmattus.crypto/Digest.update|update(kotlin.Byte){}[0]
+    abstract fun update(kotlin/ByteArray): com.appmattus.crypto/Digest // com.appmattus.crypto/Digest.update|update(kotlin.ByteArray){}[0]
+    abstract fun update(kotlin/ByteArray, kotlin/Int, kotlin/Int): com.appmattus.crypto/Digest // com.appmattus.crypto/Digest.update|update(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    open fun platform(): com.appmattus.crypto/PlatformDigest // com.appmattus.crypto/Digest.platform|platform(){}[0]
+}
+
+abstract interface com.appmattus.crypto/PlatformDigest { // com.appmattus.crypto/PlatformDigest|null[0]
+    abstract val blockLength // com.appmattus.crypto/PlatformDigest.blockLength|{}blockLength[0]
+        abstract fun <get-blockLength>(): kotlin/Int // com.appmattus.crypto/PlatformDigest.blockLength.<get-blockLength>|<get-blockLength>(){}[0]
+    abstract val digestLength // com.appmattus.crypto/PlatformDigest.digestLength|{}digestLength[0]
+        abstract fun <get-digestLength>(): kotlin/Int // com.appmattus.crypto/PlatformDigest.digestLength.<get-digestLength>|<get-digestLength>(){}[0]
+
+    abstract fun copy(): com.appmattus.crypto/PlatformDigest // com.appmattus.crypto/PlatformDigest.copy|copy(){}[0]
+    abstract fun reset() // com.appmattus.crypto/PlatformDigest.reset|reset(){}[0]
+    abstract fun toString(): kotlin/String // com.appmattus.crypto/PlatformDigest.toString|toString(){}[0]
+    abstract fun update(kotlin/Byte): com.appmattus.crypto/PlatformDigest // com.appmattus.crypto/PlatformDigest.update|update(kotlin.Byte){}[0]
+
+    // Targets: [androidNative, js, linux, mingwX64, wasmJs, wasmWasi]
+    abstract fun digest(): kotlin/ByteArray // com.appmattus.crypto/PlatformDigest.digest|digest(){}[0]
+
+    // Targets: [androidNative, js, linux, mingwX64, wasmJs, wasmWasi]
+    abstract fun digest(kotlin/ByteArray): kotlin/ByteArray // com.appmattus.crypto/PlatformDigest.digest|digest(kotlin.ByteArray){}[0]
+
+    // Targets: [androidNative, js, linux, mingwX64, wasmJs, wasmWasi]
+    abstract fun digest(kotlin/ByteArray, kotlin/Int, kotlin/Int): kotlin/Int // com.appmattus.crypto/PlatformDigest.digest|digest(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+
+    // Targets: [androidNative, js, linux, mingwX64, wasmJs, wasmWasi]
+    abstract fun update(kotlin/ByteArray): com.appmattus.crypto/PlatformDigest // com.appmattus.crypto/PlatformDigest.update|update(kotlin.ByteArray){}[0]
+
+    // Targets: [androidNative, js, linux, mingwX64, wasmJs, wasmWasi]
+    abstract fun update(kotlin/ByteArray, kotlin/Int, kotlin/Int): com.appmattus.crypto/PlatformDigest // com.appmattus.crypto/PlatformDigest.update|update(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+
+    // Targets: [apple]
+    abstract fun digest(): platform.Foundation/NSData // com.appmattus.crypto/PlatformDigest.digest|digest(){}[0]
+
+    // Targets: [apple]
+    abstract fun digest(platform.Foundation/NSData): platform.Foundation/NSData // com.appmattus.crypto/PlatformDigest.digest|digest(platform.Foundation.NSData){}[0]
+
+    // Targets: [apple]
+    abstract fun digest(platform.Foundation/NSMutableData, kotlin/Int, kotlin/Int): kotlin/Int // com.appmattus.crypto/PlatformDigest.digest|digest(platform.Foundation.NSMutableData;kotlin.Int;kotlin.Int){}[0]
+
+    // Targets: [apple]
+    abstract fun update(platform.Foundation/NSData): com.appmattus.crypto/PlatformDigest // com.appmattus.crypto/PlatformDigest.update|update(platform.Foundation.NSData){}[0]
+
+    // Targets: [apple]
+    abstract fun update(platform.Foundation/NSData, kotlin/Int, kotlin/Int): com.appmattus.crypto/PlatformDigest // com.appmattus.crypto/PlatformDigest.update|update(platform.Foundation.NSData;kotlin.Int;kotlin.Int){}[0]
+}
+
+sealed interface com.appmattus.crypto/Hmac { // com.appmattus.crypto/Hmac|null[0]
+    open fun createHmac(kotlin/ByteArray, kotlin/Int? = ...): com.appmattus.crypto/Digest // com.appmattus.crypto/Hmac.createHmac|createHmac(kotlin.ByteArray;kotlin.Int?){}[0]
+    open fun hmac(kotlin/ByteArray, kotlin/ByteArray, kotlin/Int, kotlin/Int, kotlin/Int? = ...): kotlin/ByteArray // com.appmattus.crypto/Hmac.hmac|hmac(kotlin.ByteArray;kotlin.ByteArray;kotlin.Int;kotlin.Int;kotlin.Int?){}[0]
+    open fun hmac(kotlin/ByteArray, kotlin/ByteArray, kotlin/Int? = ...): kotlin/ByteArray // com.appmattus.crypto/Hmac.hmac|hmac(kotlin.ByteArray;kotlin.ByteArray;kotlin.Int?){}[0]
+    open fun hmac(kotlin/ByteArray, kotlin/String, kotlin/Int? = ...): kotlin/ByteArray // com.appmattus.crypto/Hmac.hmac|hmac(kotlin.ByteArray;kotlin.String;kotlin.Int?){}[0]
+}
+
+sealed class com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm|null[0]
+    final val algorithmName // com.appmattus.crypto/Algorithm.algorithmName|{}algorithmName[0]
+        final fun <get-algorithmName>(): kotlin/String // com.appmattus.crypto/Algorithm.algorithmName.<get-algorithmName>|<get-algorithmName>(){}[0]
+
+    final fun createDigest(): com.appmattus.crypto/Digest // com.appmattus.crypto/Algorithm.createDigest|createDigest(){}[0]
+    final fun hash(kotlin/ByteArray): kotlin/ByteArray // com.appmattus.crypto/Algorithm.hash|hash(kotlin.ByteArray){}[0]
+    final fun hash(kotlin/ByteArray, kotlin/Int, kotlin/Int): kotlin/ByteArray // com.appmattus.crypto/Algorithm.hash|hash(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    final fun hash(kotlin/String): kotlin/ByteArray // com.appmattus.crypto/Algorithm.hash|hash(kotlin.String){}[0]
+    open fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.equals|equals(kotlin.Any?){}[0]
+    open fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.hashCode|hashCode(){}[0]
+    open fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.toString|toString(){}[0]
+
+    final class AsconCXof128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.AsconCXof128|null[0]
+        constructor <init>(kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.AsconCXof128.<init>|<init>(kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class AsconXof128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.AsconXof128|null[0]
+        constructor <init>(kotlin/Int = ...) // com.appmattus.crypto/Algorithm.AsconXof128.<init>|<init>(kotlin.Int){}[0]
+    }
+
+    final class HighwayHash128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HighwayHash128|null[0]
+        constructor <init>(kotlin/LongArray) // com.appmattus.crypto/Algorithm.HighwayHash128.<init>|<init>(kotlin.LongArray){}[0]
+    }
+
+    final class HighwayHash256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HighwayHash256|null[0]
+        constructor <init>(kotlin/LongArray) // com.appmattus.crypto/Algorithm.HighwayHash256.<init>|<init>(kotlin.LongArray){}[0]
+    }
+
+    final class HighwayHash64 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HighwayHash64|null[0]
+        constructor <init>(kotlin/LongArray) // com.appmattus.crypto/Algorithm.HighwayHash64.<init>|<init>(kotlin.LongArray){}[0]
+    }
+
+    final class KMAC128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.KMAC128|null[0]
+        constructor <init>(kotlin/ByteArray, kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.KMAC128.<init>|<init>(kotlin.ByteArray;kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class KMAC256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.KMAC256|null[0]
+        constructor <init>(kotlin/ByteArray, kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.KMAC256.<init>|<init>(kotlin.ByteArray;kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class KT128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.KT128|null[0]
+        constructor <init>(kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.KT128.<init>|<init>(kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class KT256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.KT256|null[0]
+        constructor <init>(kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.KT256.<init>|<init>(kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class Komihash : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Komihash|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.Komihash.<init>|<init>(kotlin.ULong){}[0]
+    }
+
+    final class MetroHash128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MetroHash128|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.MetroHash128.<init>|<init>(kotlin.ULong){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MetroHash128.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/ULong // com.appmattus.crypto/Algorithm.MetroHash128.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/ULong // com.appmattus.crypto/Algorithm.MetroHash128.component1|component1(){}[0]
+        final fun copy(kotlin/ULong = ...): com.appmattus.crypto/Algorithm.MetroHash128 // com.appmattus.crypto/Algorithm.MetroHash128.copy|copy(kotlin.ULong){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MetroHash128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MetroHash128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MetroHash128.toString|toString(){}[0]
+    }
+
+    final class MetroHash64 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MetroHash64|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.MetroHash64.<init>|<init>(kotlin.ULong){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MetroHash64.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/ULong // com.appmattus.crypto/Algorithm.MetroHash64.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/ULong // com.appmattus.crypto/Algorithm.MetroHash64.component1|component1(){}[0]
+        final fun copy(kotlin/ULong = ...): com.appmattus.crypto/Algorithm.MetroHash64 // com.appmattus.crypto/Algorithm.MetroHash64.copy|copy(kotlin.ULong){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MetroHash64.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MetroHash64.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MetroHash64.toString|toString(){}[0]
+    }
+
+    final class MurmurHash1 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MurmurHash1|null[0]
+        constructor <init>(kotlin/UInt = ...) // com.appmattus.crypto/Algorithm.MurmurHash1.<init>|<init>(kotlin.UInt){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MurmurHash1.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash1.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash1.component1|component1(){}[0]
+        final fun copy(kotlin/UInt = ...): com.appmattus.crypto/Algorithm.MurmurHash1 // com.appmattus.crypto/Algorithm.MurmurHash1.copy|copy(kotlin.UInt){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MurmurHash1.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MurmurHash1.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MurmurHash1.toString|toString(){}[0]
+    }
+
+    final class MurmurHash2 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MurmurHash2|null[0]
+        constructor <init>(kotlin/UInt = ...) // com.appmattus.crypto/Algorithm.MurmurHash2.<init>|<init>(kotlin.UInt){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MurmurHash2.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash2.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash2.component1|component1(){}[0]
+        final fun copy(kotlin/UInt = ...): com.appmattus.crypto/Algorithm.MurmurHash2 // com.appmattus.crypto/Algorithm.MurmurHash2.copy|copy(kotlin.UInt){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MurmurHash2.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MurmurHash2.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MurmurHash2.toString|toString(){}[0]
+    }
+
+    final class MurmurHash2A : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MurmurHash2A|null[0]
+        constructor <init>(kotlin/UInt = ...) // com.appmattus.crypto/Algorithm.MurmurHash2A.<init>|<init>(kotlin.UInt){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MurmurHash2A.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash2A.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash2A.component1|component1(){}[0]
+        final fun copy(kotlin/UInt = ...): com.appmattus.crypto/Algorithm.MurmurHash2A // com.appmattus.crypto/Algorithm.MurmurHash2A.copy|copy(kotlin.UInt){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MurmurHash2A.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MurmurHash2A.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MurmurHash2A.toString|toString(){}[0]
+    }
+
+    final class MurmurHash3_X64_128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128|null[0]
+        constructor <init>(kotlin/UInt = ...) // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128.<init>|<init>(kotlin.UInt){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128.component1|component1(){}[0]
+        final fun copy(kotlin/UInt = ...): com.appmattus.crypto/Algorithm.MurmurHash3_X64_128 // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128.copy|copy(kotlin.UInt){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MurmurHash3_X64_128.toString|toString(){}[0]
+    }
+
+    final class MurmurHash3_X86_128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128|null[0]
+        constructor <init>(kotlin/UInt = ...) // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128.<init>|<init>(kotlin.UInt){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128.component1|component1(){}[0]
+        final fun copy(kotlin/UInt = ...): com.appmattus.crypto/Algorithm.MurmurHash3_X86_128 // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128.copy|copy(kotlin.UInt){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MurmurHash3_X86_128.toString|toString(){}[0]
+    }
+
+    final class MurmurHash3_X86_32 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32|null[0]
+        constructor <init>(kotlin/UInt = ...) // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32.<init>|<init>(kotlin.UInt){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/UInt // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32.component1|component1(){}[0]
+        final fun copy(kotlin/UInt = ...): com.appmattus.crypto/Algorithm.MurmurHash3_X86_32 // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32.copy|copy(kotlin.UInt){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MurmurHash3_X86_32.toString|toString(){}[0]
+    }
+
+    final class MurmurHash64A : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MurmurHash64A|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.MurmurHash64A.<init>|<init>(kotlin.ULong){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MurmurHash64A.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/ULong // com.appmattus.crypto/Algorithm.MurmurHash64A.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/ULong // com.appmattus.crypto/Algorithm.MurmurHash64A.component1|component1(){}[0]
+        final fun copy(kotlin/ULong = ...): com.appmattus.crypto/Algorithm.MurmurHash64A // com.appmattus.crypto/Algorithm.MurmurHash64A.copy|copy(kotlin.ULong){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MurmurHash64A.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MurmurHash64A.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MurmurHash64A.toString|toString(){}[0]
+    }
+
+    final class MurmurHash64B : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.MurmurHash64B|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.MurmurHash64B.<init>|<init>(kotlin.ULong){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.MurmurHash64B.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/ULong // com.appmattus.crypto/Algorithm.MurmurHash64B.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/ULong // com.appmattus.crypto/Algorithm.MurmurHash64B.component1|component1(){}[0]
+        final fun copy(kotlin/ULong = ...): com.appmattus.crypto/Algorithm.MurmurHash64B // com.appmattus.crypto/Algorithm.MurmurHash64B.copy|copy(kotlin.ULong){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MurmurHash64B.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MurmurHash64B.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MurmurHash64B.toString|toString(){}[0]
+    }
+
+    final class ParallelHash128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.ParallelHash128|null[0]
+        constructor <init>(kotlin/Int, kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.ParallelHash128.<init>|<init>(kotlin.Int;kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class ParallelHash256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.ParallelHash256|null[0]
+        constructor <init>(kotlin/Int, kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.ParallelHash256.<init>|<init>(kotlin.Int;kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class Rapidhash : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Rapidhash|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.Rapidhash.<init>|<init>(kotlin.ULong){}[0]
+    }
+
+    final class RapidhashMicro : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.RapidhashMicro|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.RapidhashMicro.<init>|<init>(kotlin.ULong){}[0]
+    }
+
+    final class RapidhashNano : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.RapidhashNano|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.RapidhashNano.<init>|<init>(kotlin.ULong){}[0]
+    }
+
+    final class SipHash : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SipHash|null[0]
+        constructor <init>(kotlin/ByteArray, kotlin/Int = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.SipHash.<init>|<init>(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    }
+
+    final class SipHash128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SipHash128|null[0]
+        constructor <init>(kotlin/ByteArray, kotlin/Int = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.SipHash128.<init>|<init>(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    }
+
+    final class T1ha0_32le : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.T1ha0_32le|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.T1ha0_32le.<init>|<init>(kotlin.ULong){}[0]
+    }
+
+    final class T1ha1_le : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.T1ha1_le|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.T1ha1_le.<init>|<init>(kotlin.ULong){}[0]
+    }
+
+    final class T1ha2_AtOnce : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.T1ha2_AtOnce|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.T1ha2_AtOnce.<init>|<init>(kotlin.ULong){}[0]
+    }
+
+    final class T1ha2_AtOnce128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.T1ha2_AtOnce128|null[0]
+        constructor <init>(kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.T1ha2_AtOnce128.<init>|<init>(kotlin.ULong){}[0]
+    }
+
+    final class T1ha2_Stream : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.T1ha2_Stream|null[0]
+        constructor <init>(kotlin/ULong = ..., kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.T1ha2_Stream.<init>|<init>(kotlin.ULong;kotlin.ULong){}[0]
+    }
+
+    final class T1ha2_Stream128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.T1ha2_Stream128|null[0]
+        constructor <init>(kotlin/ULong = ..., kotlin/ULong = ...) // com.appmattus.crypto/Algorithm.T1ha2_Stream128.<init>|<init>(kotlin.ULong;kotlin.ULong){}[0]
+    }
+
+    final class TupleHash128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.TupleHash128|null[0]
+        constructor <init>(kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.TupleHash128.<init>|<init>(kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class TupleHash256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.TupleHash256|null[0]
+        constructor <init>(kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.TupleHash256.<init>|<init>(kotlin.ByteArray?;kotlin.Int){}[0]
+    }
+
+    final class Wyhash : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Wyhash|null[0]
+        constructor <init>(kotlin/ULong = ..., kotlin.collections/List<kotlin/ULong> = ..., kotlin/Boolean = ...) // com.appmattus.crypto/Algorithm.Wyhash.<init>|<init>(kotlin.ULong;kotlin.collections.List<kotlin.ULong>;kotlin.Boolean){}[0]
+
+        final object Companion { // com.appmattus.crypto/Algorithm.Wyhash.Companion|null[0]
+            final fun makeSecret(kotlin/ULong): kotlin.collections/List<kotlin/ULong> // com.appmattus.crypto/Algorithm.Wyhash.Companion.makeSecret|makeSecret(kotlin.ULong){}[0]
+        }
+    }
+
+    final class Wyhash32 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Wyhash32|null[0]
+        constructor <init>(kotlin/UInt = ...) // com.appmattus.crypto/Algorithm.Wyhash32.<init>|<init>(kotlin.UInt){}[0]
+    }
+
+    final class XXHash32 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.XXHash32|null[0]
+        constructor <init>(kotlin/Int = ...) // com.appmattus.crypto/Algorithm.XXHash32.<init>|<init>(kotlin.Int){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.XXHash32.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/Int // com.appmattus.crypto/Algorithm.XXHash32.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/Int // com.appmattus.crypto/Algorithm.XXHash32.component1|component1(){}[0]
+        final fun copy(kotlin/Int = ...): com.appmattus.crypto/Algorithm.XXHash32 // com.appmattus.crypto/Algorithm.XXHash32.copy|copy(kotlin.Int){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.XXHash32.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.XXHash32.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.XXHash32.toString|toString(){}[0]
+    }
+
+    final class XXHash64 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.XXHash64|null[0]
+        constructor <init>(kotlin/Long = ...) // com.appmattus.crypto/Algorithm.XXHash64.<init>|<init>(kotlin.Long){}[0]
+
+        final val seed // com.appmattus.crypto/Algorithm.XXHash64.seed|{}seed[0]
+            final fun <get-seed>(): kotlin/Long // com.appmattus.crypto/Algorithm.XXHash64.seed.<get-seed>|<get-seed>(){}[0]
+
+        final fun component1(): kotlin/Long // com.appmattus.crypto/Algorithm.XXHash64.component1|component1(){}[0]
+        final fun copy(kotlin/Long = ...): com.appmattus.crypto/Algorithm.XXHash64 // com.appmattus.crypto/Algorithm.XXHash64.copy|copy(kotlin.Long){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.XXHash64.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.XXHash64.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.XXHash64.toString|toString(){}[0]
+    }
+
+    final class cSHAKE128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.cSHAKE128|null[0]
+        constructor <init>(kotlin/ByteArray? = ..., kotlin/ByteArray? = ...) // com.appmattus.crypto/Algorithm.cSHAKE128.<init>|<init>(kotlin.ByteArray?;kotlin.ByteArray?){}[0]
+    }
+
+    final class cSHAKE256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.cSHAKE256|null[0]
+        constructor <init>(kotlin/ByteArray? = ..., kotlin/ByteArray? = ...) // com.appmattus.crypto/Algorithm.cSHAKE256.<init>|<init>(kotlin.ByteArray?;kotlin.ByteArray?){}[0]
+    }
+
+    open class Blake2b : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2b|null[0]
+        constructor <init>(kotlin/Int = ...) // com.appmattus.crypto/Algorithm.Blake2b.<init>|<init>(kotlin.Int){}[0]
+
+        final class Keyed : com.appmattus.crypto/Algorithm.Blake2b { // com.appmattus.crypto/Algorithm.Blake2b.Keyed|null[0]
+            constructor <init>(kotlin/ByteArray, kotlin/ByteArray? = ..., kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.Blake2b.Keyed.<init>|<init>(kotlin.ByteArray;kotlin.ByteArray?;kotlin.ByteArray?;kotlin.Int){}[0]
+        }
+    }
+
+    open class Blake2s : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2s|null[0]
+        constructor <init>(kotlin/Int = ...) // com.appmattus.crypto/Algorithm.Blake2s.<init>|<init>(kotlin.Int){}[0]
+
+        final class Keyed : com.appmattus.crypto/Algorithm.Blake2s { // com.appmattus.crypto/Algorithm.Blake2s.Keyed|null[0]
+            constructor <init>(kotlin/ByteArray, kotlin/ByteArray? = ..., kotlin/ByteArray? = ..., kotlin/Int = ...) // com.appmattus.crypto/Algorithm.Blake2s.Keyed.<init>|<init>(kotlin.ByteArray;kotlin.ByteArray?;kotlin.ByteArray?;kotlin.Int){}[0]
+        }
+    }
+
+    open class Blake3 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake3|null[0]
+        constructor <init>(kotlin/Int = ...) // com.appmattus.crypto/Algorithm.Blake3.<init>|<init>(kotlin.Int){}[0]
+
+        final class DeriveKey : com.appmattus.crypto/Algorithm.Blake3 { // com.appmattus.crypto/Algorithm.Blake3.DeriveKey|null[0]
+            constructor <init>(kotlin/ByteArray, kotlin/Int = ...) // com.appmattus.crypto/Algorithm.Blake3.DeriveKey.<init>|<init>(kotlin.ByteArray;kotlin.Int){}[0]
+        }
+
+        final class Keyed : com.appmattus.crypto/Algorithm.Blake3 { // com.appmattus.crypto/Algorithm.Blake3.Keyed|null[0]
+            constructor <init>(kotlin/ByteArray, kotlin/Int = ...) // com.appmattus.crypto/Algorithm.Blake3.Keyed.<init>|<init>(kotlin.ByteArray;kotlin.Int){}[0]
+        }
+    }
+
+    open class CityHash128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CityHash128|null[0]
+        constructor <init>() // com.appmattus.crypto/Algorithm.CityHash128.<init>|<init>(){}[0]
+
+        final class Seed : com.appmattus.crypto/Algorithm.CityHash128 { // com.appmattus.crypto/Algorithm.CityHash128.Seed|null[0]
+            constructor <init>(kotlin/ULong, kotlin/ULong) // com.appmattus.crypto/Algorithm.CityHash128.Seed.<init>|<init>(kotlin.ULong;kotlin.ULong){}[0]
+        }
+    }
+
+    open class CityHash64 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CityHash64|null[0]
+        constructor <init>() // com.appmattus.crypto/Algorithm.CityHash64.<init>|<init>(){}[0]
+
+        final class Seed : com.appmattus.crypto/Algorithm.CityHash64 { // com.appmattus.crypto/Algorithm.CityHash64.Seed|null[0]
+            constructor <init>(kotlin/ULong) // com.appmattus.crypto/Algorithm.CityHash64.Seed.<init>|<init>(kotlin.ULong){}[0]
+        }
+
+        final class Seeds : com.appmattus.crypto/Algorithm.CityHash64 { // com.appmattus.crypto/Algorithm.CityHash64.Seeds|null[0]
+            constructor <init>(kotlin/ULong, kotlin/ULong) // com.appmattus.crypto/Algorithm.CityHash64.Seeds.<init>|<init>(kotlin.ULong;kotlin.ULong){}[0]
+        }
+    }
+
+    open class CityHashCrc128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CityHashCrc128|null[0]
+        constructor <init>() // com.appmattus.crypto/Algorithm.CityHashCrc128.<init>|<init>(){}[0]
+
+        final class Seed : com.appmattus.crypto/Algorithm.CityHashCrc128 { // com.appmattus.crypto/Algorithm.CityHashCrc128.Seed|null[0]
+            constructor <init>(kotlin/ULong, kotlin/ULong) // com.appmattus.crypto/Algorithm.CityHashCrc128.Seed.<init>|<init>(kotlin.ULong;kotlin.ULong){}[0]
+        }
+    }
+
+    open class FarmHash128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.FarmHash128|null[0]
+        constructor <init>() // com.appmattus.crypto/Algorithm.FarmHash128.<init>|<init>(){}[0]
+
+        final class Seed : com.appmattus.crypto/Algorithm.FarmHash128 { // com.appmattus.crypto/Algorithm.FarmHash128.Seed|null[0]
+            constructor <init>(kotlin/ULong, kotlin/ULong) // com.appmattus.crypto/Algorithm.FarmHash128.Seed.<init>|<init>(kotlin.ULong;kotlin.ULong){}[0]
+        }
+    }
+
+    open class FarmHash32 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.FarmHash32|null[0]
+        constructor <init>() // com.appmattus.crypto/Algorithm.FarmHash32.<init>|<init>(){}[0]
+
+        final class Seed : com.appmattus.crypto/Algorithm.FarmHash32 { // com.appmattus.crypto/Algorithm.FarmHash32.Seed|null[0]
+            constructor <init>(kotlin/UInt) // com.appmattus.crypto/Algorithm.FarmHash32.Seed.<init>|<init>(kotlin.UInt){}[0]
+        }
+    }
+
+    open class FarmHash64 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.FarmHash64|null[0]
+        constructor <init>() // com.appmattus.crypto/Algorithm.FarmHash64.<init>|<init>(){}[0]
+
+        final class Seed : com.appmattus.crypto/Algorithm.FarmHash64 { // com.appmattus.crypto/Algorithm.FarmHash64.Seed|null[0]
+            constructor <init>(kotlin/ULong) // com.appmattus.crypto/Algorithm.FarmHash64.Seed.<init>|<init>(kotlin.ULong){}[0]
+        }
+
+        final class Seeds : com.appmattus.crypto/Algorithm.FarmHash64 { // com.appmattus.crypto/Algorithm.FarmHash64.Seeds|null[0]
+            constructor <init>(kotlin/ULong, kotlin/ULong) // com.appmattus.crypto/Algorithm.FarmHash64.Seeds.<init>|<init>(kotlin.ULong;kotlin.ULong){}[0]
+        }
+    }
+
+    open class Skein : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Skein|null[0]
+        constructor <init>(kotlin/Int, kotlin/Int) // com.appmattus.crypto/Algorithm.Skein.<init>|<init>(kotlin.Int;kotlin.Int){}[0]
+
+        final class Keyed : com.appmattus.crypto/Algorithm.Skein { // com.appmattus.crypto/Algorithm.Skein.Keyed|null[0]
+            constructor <init>(kotlin/Int, kotlin/Int, kotlin/ByteArray) // com.appmattus.crypto/Algorithm.Skein.Keyed.<init>|<init>(kotlin.Int;kotlin.Int;kotlin.ByteArray){}[0]
+        }
+    }
+
+    open class XXH3_128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.XXH3_128|null[0]
+        constructor <init>() // com.appmattus.crypto/Algorithm.XXH3_128.<init>|<init>(){}[0]
+
+        final class Secret : com.appmattus.crypto/Algorithm.XXH3_128 { // com.appmattus.crypto/Algorithm.XXH3_128.Secret|null[0]
+            constructor <init>(kotlin/ByteArray) // com.appmattus.crypto/Algorithm.XXH3_128.Secret.<init>|<init>(kotlin.ByteArray){}[0]
+        }
+
+        final class Seeded : com.appmattus.crypto/Algorithm.XXH3_128 { // com.appmattus.crypto/Algorithm.XXH3_128.Seeded|null[0]
+            constructor <init>(kotlin/Long) // com.appmattus.crypto/Algorithm.XXH3_128.Seeded.<init>|<init>(kotlin.Long){}[0]
+        }
+    }
+
+    open class XXH3_64 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.XXH3_64|null[0]
+        constructor <init>() // com.appmattus.crypto/Algorithm.XXH3_64.<init>|<init>(){}[0]
+
+        final class Secret : com.appmattus.crypto/Algorithm.XXH3_64 { // com.appmattus.crypto/Algorithm.XXH3_64.Secret|null[0]
+            constructor <init>(kotlin/ByteArray) // com.appmattus.crypto/Algorithm.XXH3_64.Secret.<init>|<init>(kotlin.ByteArray){}[0]
+        }
+
+        final class Seeded : com.appmattus.crypto/Algorithm.XXH3_64 { // com.appmattus.crypto/Algorithm.XXH3_64.Seeded|null[0]
+            constructor <init>(kotlin/Long) // com.appmattus.crypto/Algorithm.XXH3_64.Seeded.<init>|<init>(kotlin.Long){}[0]
+        }
+    }
+
+    final object Adler32 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Adler32|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Adler32.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Adler32.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Adler32.toString|toString(){}[0]
+    }
+
+    final object AsconHash256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.AsconHash256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.AsconHash256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.AsconHash256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.AsconHash256.toString|toString(){}[0]
+    }
+
+    final object BLAKE224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.BLAKE224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.BLAKE224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.BLAKE224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.BLAKE224.toString|toString(){}[0]
+    }
+
+    final object BLAKE256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.BLAKE256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.BLAKE256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.BLAKE256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.BLAKE256.toString|toString(){}[0]
+    }
+
+    final object BLAKE384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.BLAKE384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.BLAKE384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.BLAKE384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.BLAKE384.toString|toString(){}[0]
+    }
+
+    final object BLAKE512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.BLAKE512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.BLAKE512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.BLAKE512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.BLAKE512.toString|toString(){}[0]
+    }
+
+    final object BMW224 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.BMW224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.BMW224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.BMW224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.BMW224.toString|toString(){}[0]
+    }
+
+    final object BMW256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.BMW256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.BMW256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.BMW256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.BMW256.toString|toString(){}[0]
+    }
+
+    final object BMW384 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.BMW384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.BMW384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.BMW384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.BMW384.toString|toString(){}[0]
+    }
+
+    final object BMW512 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.BMW512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.BMW512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.BMW512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.BMW512.toString|toString(){}[0]
+    }
+
+    final object Blake2b_160 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2b_160|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Blake2b_160.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Blake2b_160.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Blake2b_160.toString|toString(){}[0]
+    }
+
+    final object Blake2b_256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2b_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Blake2b_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Blake2b_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Blake2b_256.toString|toString(){}[0]
+    }
+
+    final object Blake2b_384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2b_384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Blake2b_384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Blake2b_384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Blake2b_384.toString|toString(){}[0]
+    }
+
+    final object Blake2b_512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2b_512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Blake2b_512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Blake2b_512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Blake2b_512.toString|toString(){}[0]
+    }
+
+    final object Blake2s_128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2s_128|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Blake2s_128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Blake2s_128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Blake2s_128.toString|toString(){}[0]
+    }
+
+    final object Blake2s_160 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2s_160|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Blake2s_160.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Blake2s_160.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Blake2s_160.toString|toString(){}[0]
+    }
+
+    final object Blake2s_224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2s_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Blake2s_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Blake2s_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Blake2s_224.toString|toString(){}[0]
+    }
+
+    final object Blake2s_256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Blake2s_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Blake2s_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Blake2s_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Blake2s_256.toString|toString(){}[0]
+    }
+
+    final object CRC32 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CRC32|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CRC32.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CRC32.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CRC32.toString|toString(){}[0]
+    }
+
+    final object CRC32B : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CRC32B|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CRC32B.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CRC32B.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CRC32B.toString|toString(){}[0]
+    }
+
+    final object CRC32C : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CRC32C|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CRC32C.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CRC32C.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CRC32C.toString|toString(){}[0]
+    }
+
+    final object CityHash32 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CityHash32|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CityHash32.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CityHash32.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CityHash32.toString|toString(){}[0]
+    }
+
+    final object CityHashCrc256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CityHashCrc256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CityHashCrc256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CityHashCrc256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CityHashCrc256.toString|toString(){}[0]
+    }
+
+    final object CubeHash224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CubeHash224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CubeHash224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CubeHash224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CubeHash224.toString|toString(){}[0]
+    }
+
+    final object CubeHash256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CubeHash256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CubeHash256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CubeHash256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CubeHash256.toString|toString(){}[0]
+    }
+
+    final object CubeHash384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CubeHash384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CubeHash384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CubeHash384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CubeHash384.toString|toString(){}[0]
+    }
+
+    final object CubeHash512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.CubeHash512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.CubeHash512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.CubeHash512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.CubeHash512.toString|toString(){}[0]
+    }
+
+    final object ECHO224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.ECHO224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.ECHO224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.ECHO224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.ECHO224.toString|toString(){}[0]
+    }
+
+    final object ECHO256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.ECHO256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.ECHO256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.ECHO256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.ECHO256.toString|toString(){}[0]
+    }
+
+    final object ECHO384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.ECHO384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.ECHO384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.ECHO384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.ECHO384.toString|toString(){}[0]
+    }
+
+    final object ECHO512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.ECHO512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.ECHO512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.ECHO512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.ECHO512.toString|toString(){}[0]
+    }
+
+    final object Fugue224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Fugue224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Fugue224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Fugue224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Fugue224.toString|toString(){}[0]
+    }
+
+    final object Fugue256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Fugue256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Fugue256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Fugue256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Fugue256.toString|toString(){}[0]
+    }
+
+    final object Fugue384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Fugue384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Fugue384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Fugue384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Fugue384.toString|toString(){}[0]
+    }
+
+    final object Fugue512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Fugue512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Fugue512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Fugue512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Fugue512.toString|toString(){}[0]
+    }
+
+    final object GOST3411_2012_256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.GOST3411_2012_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.GOST3411_2012_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.GOST3411_2012_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.GOST3411_2012_256.toString|toString(){}[0]
+    }
+
+    final object GOST3411_2012_512 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.GOST3411_2012_512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.GOST3411_2012_512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.GOST3411_2012_512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.GOST3411_2012_512.toString|toString(){}[0]
+    }
+
+    final object GOST3411_94 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.GOST3411_94|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.GOST3411_94.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.GOST3411_94.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.GOST3411_94.toString|toString(){}[0]
+    }
+
+    final object Groestl224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Groestl224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Groestl224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Groestl224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Groestl224.toString|toString(){}[0]
+    }
+
+    final object Groestl256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Groestl256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Groestl256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Groestl256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Groestl256.toString|toString(){}[0]
+    }
+
+    final object Groestl384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Groestl384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Groestl384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Groestl384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Groestl384.toString|toString(){}[0]
+    }
+
+    final object Groestl512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Groestl512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Groestl512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Groestl512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Groestl512.toString|toString(){}[0]
+    }
+
+    final object HAVAL_3_128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_3_128|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_3_128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_3_128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_3_128.toString|toString(){}[0]
+    }
+
+    final object HAVAL_3_160 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_3_160|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_3_160.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_3_160.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_3_160.toString|toString(){}[0]
+    }
+
+    final object HAVAL_3_192 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_3_192|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_3_192.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_3_192.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_3_192.toString|toString(){}[0]
+    }
+
+    final object HAVAL_3_224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_3_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_3_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_3_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_3_224.toString|toString(){}[0]
+    }
+
+    final object HAVAL_3_256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_3_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_3_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_3_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_3_256.toString|toString(){}[0]
+    }
+
+    final object HAVAL_4_128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_4_128|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_4_128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_4_128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_4_128.toString|toString(){}[0]
+    }
+
+    final object HAVAL_4_160 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_4_160|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_4_160.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_4_160.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_4_160.toString|toString(){}[0]
+    }
+
+    final object HAVAL_4_192 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_4_192|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_4_192.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_4_192.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_4_192.toString|toString(){}[0]
+    }
+
+    final object HAVAL_4_224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_4_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_4_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_4_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_4_224.toString|toString(){}[0]
+    }
+
+    final object HAVAL_4_256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_4_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_4_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_4_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_4_256.toString|toString(){}[0]
+    }
+
+    final object HAVAL_5_128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_5_128|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_5_128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_5_128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_5_128.toString|toString(){}[0]
+    }
+
+    final object HAVAL_5_160 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_5_160|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_5_160.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_5_160.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_5_160.toString|toString(){}[0]
+    }
+
+    final object HAVAL_5_192 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_5_192|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_5_192.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_5_192.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_5_192.toString|toString(){}[0]
+    }
+
+    final object HAVAL_5_224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_5_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_5_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_5_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_5_224.toString|toString(){}[0]
+    }
+
+    final object HAVAL_5_256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.HAVAL_5_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.HAVAL_5_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.HAVAL_5_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.HAVAL_5_256.toString|toString(){}[0]
+    }
+
+    final object Hamsi224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Hamsi224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Hamsi224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Hamsi224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Hamsi224.toString|toString(){}[0]
+    }
+
+    final object Hamsi256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Hamsi256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Hamsi256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Hamsi256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Hamsi256.toString|toString(){}[0]
+    }
+
+    final object Hamsi384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Hamsi384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Hamsi384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Hamsi384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Hamsi384.toString|toString(){}[0]
+    }
+
+    final object Hamsi512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Hamsi512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Hamsi512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Hamsi512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Hamsi512.toString|toString(){}[0]
+    }
+
+    final object Haraka256_256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Haraka256_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Haraka256_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Haraka256_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Haraka256_256.toString|toString(){}[0]
+    }
+
+    final object Haraka512_256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Haraka512_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Haraka512_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Haraka512_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Haraka512_256.toString|toString(){}[0]
+    }
+
+    final object JH224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.JH224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.JH224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.JH224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.JH224.toString|toString(){}[0]
+    }
+
+    final object JH256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.JH256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.JH256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.JH256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.JH256.toString|toString(){}[0]
+    }
+
+    final object JH384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.JH384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.JH384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.JH384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.JH384.toString|toString(){}[0]
+    }
+
+    final object JH512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.JH512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.JH512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.JH512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.JH512.toString|toString(){}[0]
+    }
+
+    final object Keccak224 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Keccak224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Keccak224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Keccak224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Keccak224.toString|toString(){}[0]
+    }
+
+    final object Keccak256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Keccak256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Keccak256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Keccak256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Keccak256.toString|toString(){}[0]
+    }
+
+    final object Keccak288 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Keccak288|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Keccak288.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Keccak288.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Keccak288.toString|toString(){}[0]
+    }
+
+    final object Keccak384 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Keccak384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Keccak384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Keccak384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Keccak384.toString|toString(){}[0]
+    }
+
+    final object Keccak512 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Keccak512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Keccak512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Keccak512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Keccak512.toString|toString(){}[0]
+    }
+
+    final object Kupyna_256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Kupyna_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Kupyna_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Kupyna_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Kupyna_256.toString|toString(){}[0]
+    }
+
+    final object Kupyna_384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Kupyna_384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Kupyna_384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Kupyna_384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Kupyna_384.toString|toString(){}[0]
+    }
+
+    final object Kupyna_512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Kupyna_512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Kupyna_512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Kupyna_512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Kupyna_512.toString|toString(){}[0]
+    }
+
+    final object Luffa224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Luffa224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Luffa224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Luffa224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Luffa224.toString|toString(){}[0]
+    }
+
+    final object Luffa256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Luffa256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Luffa256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Luffa256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Luffa256.toString|toString(){}[0]
+    }
+
+    final object Luffa384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Luffa384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Luffa384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Luffa384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Luffa384.toString|toString(){}[0]
+    }
+
+    final object Luffa512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Luffa512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Luffa512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Luffa512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Luffa512.toString|toString(){}[0]
+    }
+
+    final object MD2 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.MD2|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MD2.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MD2.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MD2.toString|toString(){}[0]
+    }
+
+    final object MD4 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.MD4|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MD4.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MD4.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MD4.toString|toString(){}[0]
+    }
+
+    final object MD5 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.MD5|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.MD5.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.MD5.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.MD5.toString|toString(){}[0]
+    }
+
+    final object PANAMA : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.PANAMA|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.PANAMA.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.PANAMA.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.PANAMA.toString|toString(){}[0]
+    }
+
+    final object RadioGatun32 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.RadioGatun32|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.RadioGatun32.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.RadioGatun32.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.RadioGatun32.toString|toString(){}[0]
+    }
+
+    final object RadioGatun64 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.RadioGatun64|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.RadioGatun64.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.RadioGatun64.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.RadioGatun64.toString|toString(){}[0]
+    }
+
+    final object RipeMD : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.RipeMD|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.RipeMD.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.RipeMD.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.RipeMD.toString|toString(){}[0]
+    }
+
+    final object RipeMD128 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.RipeMD128|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.RipeMD128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.RipeMD128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.RipeMD128.toString|toString(){}[0]
+    }
+
+    final object RipeMD160 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.RipeMD160|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.RipeMD160.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.RipeMD160.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.RipeMD160.toString|toString(){}[0]
+    }
+
+    final object RipeMD256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.RipeMD256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.RipeMD256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.RipeMD256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.RipeMD256.toString|toString(){}[0]
+    }
+
+    final object RipeMD320 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.RipeMD320|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.RipeMD320.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.RipeMD320.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.RipeMD320.toString|toString(){}[0]
+    }
+
+    final object SHA3_224 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA3_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA3_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA3_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA3_224.toString|toString(){}[0]
+    }
+
+    final object SHA3_256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA3_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA3_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA3_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA3_256.toString|toString(){}[0]
+    }
+
+    final object SHA3_384 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA3_384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA3_384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA3_384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA3_384.toString|toString(){}[0]
+    }
+
+    final object SHA3_512 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA3_512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA3_512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA3_512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA3_512.toString|toString(){}[0]
+    }
+
+    final object SHAKE128 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SHAKE128|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHAKE128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHAKE128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHAKE128.toString|toString(){}[0]
+    }
+
+    final object SHAKE256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SHAKE256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHAKE256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHAKE256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHAKE256.toString|toString(){}[0]
+    }
+
+    final object SHA_0 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA_0|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA_0.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA_0.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA_0.toString|toString(){}[0]
+    }
+
+    final object SHA_1 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA_1|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA_1.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA_1.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA_1.toString|toString(){}[0]
+    }
+
+    final object SHA_224 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA_224.toString|toString(){}[0]
+    }
+
+    final object SHA_256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA_256.toString|toString(){}[0]
+    }
+
+    final object SHA_384 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA_384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA_384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA_384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA_384.toString|toString(){}[0]
+    }
+
+    final object SHA_512 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA_512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA_512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA_512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA_512.toString|toString(){}[0]
+    }
+
+    final object SHA_512_224 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA_512_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA_512_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA_512_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA_512_224.toString|toString(){}[0]
+    }
+
+    final object SHA_512_256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SHA_512_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHA_512_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHA_512_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHA_512_256.toString|toString(){}[0]
+    }
+
+    final object SHAvite224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SHAvite224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHAvite224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHAvite224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHAvite224.toString|toString(){}[0]
+    }
+
+    final object SHAvite256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SHAvite256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHAvite256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHAvite256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHAvite256.toString|toString(){}[0]
+    }
+
+    final object SHAvite384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SHAvite384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHAvite384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHAvite384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHAvite384.toString|toString(){}[0]
+    }
+
+    final object SHAvite512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SHAvite512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SHAvite512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SHAvite512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SHAvite512.toString|toString(){}[0]
+    }
+
+    final object SIMD224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SIMD224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SIMD224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SIMD224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SIMD224.toString|toString(){}[0]
+    }
+
+    final object SIMD256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SIMD256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SIMD256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SIMD256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SIMD256.toString|toString(){}[0]
+    }
+
+    final object SIMD384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SIMD384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SIMD384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SIMD384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SIMD384.toString|toString(){}[0]
+    }
+
+    final object SIMD512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.SIMD512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SIMD512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SIMD512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SIMD512.toString|toString(){}[0]
+    }
+
+    final object SM3 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.SM3|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.SM3.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.SM3.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.SM3.toString|toString(){}[0]
+    }
+
+    final object Shabal192 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Shabal192|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Shabal192.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Shabal192.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Shabal192.toString|toString(){}[0]
+    }
+
+    final object Shabal224 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Shabal224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Shabal224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Shabal224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Shabal224.toString|toString(){}[0]
+    }
+
+    final object Shabal256 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Shabal256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Shabal256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Shabal256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Shabal256.toString|toString(){}[0]
+    }
+
+    final object Shabal384 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Shabal384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Shabal384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Shabal384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Shabal384.toString|toString(){}[0]
+    }
+
+    final object Shabal512 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Shabal512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Shabal512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Shabal512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Shabal512.toString|toString(){}[0]
+    }
+
+    final object Skein1024_1024 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein1024_1024|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein1024_1024.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein1024_1024.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein1024_1024.toString|toString(){}[0]
+    }
+
+    final object Skein1024_384 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein1024_384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein1024_384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein1024_384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein1024_384.toString|toString(){}[0]
+    }
+
+    final object Skein1024_512 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein1024_512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein1024_512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein1024_512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein1024_512.toString|toString(){}[0]
+    }
+
+    final object Skein256_128 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein256_128|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein256_128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein256_128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein256_128.toString|toString(){}[0]
+    }
+
+    final object Skein256_160 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein256_160|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein256_160.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein256_160.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein256_160.toString|toString(){}[0]
+    }
+
+    final object Skein256_224 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein256_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein256_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein256_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein256_224.toString|toString(){}[0]
+    }
+
+    final object Skein256_256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein256_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein256_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein256_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein256_256.toString|toString(){}[0]
+    }
+
+    final object Skein512_128 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein512_128|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein512_128.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein512_128.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein512_128.toString|toString(){}[0]
+    }
+
+    final object Skein512_160 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein512_160|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein512_160.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein512_160.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein512_160.toString|toString(){}[0]
+    }
+
+    final object Skein512_224 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein512_224|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein512_224.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein512_224.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein512_224.toString|toString(){}[0]
+    }
+
+    final object Skein512_256 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein512_256|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein512_256.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein512_256.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein512_256.toString|toString(){}[0]
+    }
+
+    final object Skein512_384 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein512_384|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein512_384.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein512_384.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein512_384.toString|toString(){}[0]
+    }
+
+    final object Skein512_512 : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Skein512_512|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Skein512_512.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Skein512_512.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Skein512_512.toString|toString(){}[0]
+    }
+
+    final object Tiger : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Tiger|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Tiger.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Tiger.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Tiger.toString|toString(){}[0]
+    }
+
+    final object Tiger2 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Tiger2|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Tiger2.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Tiger2.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Tiger2.toString|toString(){}[0]
+    }
+
+    final object Whirlpool : com.appmattus.crypto/Algorithm, com.appmattus.crypto/Hmac { // com.appmattus.crypto/Algorithm.Whirlpool|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Whirlpool.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Whirlpool.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Whirlpool.toString|toString(){}[0]
+    }
+
+    final object Whirlpool0 : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.Whirlpool0|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.Whirlpool0.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.Whirlpool0.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.Whirlpool0.toString|toString(){}[0]
+    }
+
+    final object WhirlpoolT : com.appmattus.crypto/Algorithm { // com.appmattus.crypto/Algorithm.WhirlpoolT|null[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.appmattus.crypto/Algorithm.WhirlpoolT.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.appmattus.crypto/Algorithm.WhirlpoolT.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.appmattus.crypto/Algorithm.WhirlpoolT.toString|toString(){}[0]
+    }
+}
+
+final fun (com.appmattus.crypto/Digest).com.appmattus.crypto/digest(kotlin/String): kotlin/ByteArray // com.appmattus.crypto/digest|digest@com.appmattus.crypto.Digest(kotlin.String){}[0]
+final fun <#A: com.appmattus.crypto/Digest> (#A).com.appmattus.crypto/update(kotlin/String): #A // com.appmattus.crypto/update|update@0:0(kotlin.String){0§<com.appmattus.crypto.Digest>}[0]

@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/Groestl {
+	public static final field INSTANCE Lcom/appmattus/crypto/Groestl;
+	public final fun getGroestl224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getGroestl256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getGroestl384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getGroestl512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

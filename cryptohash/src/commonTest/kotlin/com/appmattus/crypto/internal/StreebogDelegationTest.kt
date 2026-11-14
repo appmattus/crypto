@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Streebog
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -36,8 +34,8 @@ class StreebogDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashStreebog() {
-        testKat({ CoreDigest.create(Algorithm.GOST3411_2012_256) }, input, Streebog.streebog256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.GOST3411_2012_512) }, input, Streebog.streebog512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.GOST3411_2012_256) }, input, Streebog.streebog256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.GOST3411_2012_512) }, input, Streebog.streebog512.hash(input).toHexString())
     }
 
     @Test

@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/Shavite {
+	public static final field INSTANCE Lcom/appmattus/crypto/Shavite;
+	public final fun getShavite224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getShavite256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getShavite384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getShavite512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

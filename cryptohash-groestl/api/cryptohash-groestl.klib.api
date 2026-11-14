@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-groestl>
+final object com.appmattus.crypto/Groestl { // com.appmattus.crypto/Groestl|null[0]
+    final val groestl224 // com.appmattus.crypto/Groestl.groestl224|{}groestl224[0]
+        final fun <get-groestl224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Groestl.groestl224.<get-groestl224>|<get-groestl224>(){}[0]
+    final val groestl256 // com.appmattus.crypto/Groestl.groestl256|{}groestl256[0]
+        final fun <get-groestl256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Groestl.groestl256.<get-groestl256>|<get-groestl256>(){}[0]
+    final val groestl384 // com.appmattus.crypto/Groestl.groestl384|{}groestl384[0]
+        final fun <get-groestl384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Groestl.groestl384.<get-groestl384>|<get-groestl384>(){}[0]
+    final val groestl512 // com.appmattus.crypto/Groestl.groestl512|{}groestl512[0]
+        final fun <get-groestl512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Groestl.groestl512.<get-groestl512>|<get-groestl512>(){}[0]
+}

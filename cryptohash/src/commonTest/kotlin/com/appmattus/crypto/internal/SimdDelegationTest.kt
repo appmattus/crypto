@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Simd
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class SimdDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashSimd() {
-        testKat({ CoreDigest.create(Algorithm.SIMD224) }, input, Simd.simd224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SIMD256) }, input, Simd.simd256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SIMD384) }, input, Simd.simd384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SIMD512) }, input, Simd.simd512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SIMD224) }, input, Simd.simd224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SIMD256) }, input, Simd.simd256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SIMD384) }, input, Simd.simd384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SIMD512) }, input, Simd.simd512.hash(input).toHexString())
     }
 
     @Test

@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Haraka
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -35,8 +33,8 @@ class HarakaDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashHaraka() {
-        testKat({ CoreDigest.create(Algorithm.Haraka256_256) }, input32, Haraka.haraka256.hash(input32).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Haraka512_256) }, input64, Haraka.haraka512.hash(input64).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Haraka256_256) }, input32, Haraka.haraka256.hash(input32).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Haraka512_256) }, input64, Haraka.haraka512.hash(input64).toHexString())
     }
 
     @Test

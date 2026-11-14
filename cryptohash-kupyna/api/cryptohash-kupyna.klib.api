@@ -1,0 +1,16 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-kupyna>
+final object com.appmattus.crypto/Kupyna { // com.appmattus.crypto/Kupyna|null[0]
+    final val kupyna256 // com.appmattus.crypto/Kupyna.kupyna256|{}kupyna256[0]
+        final fun <get-kupyna256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Kupyna.kupyna256.<get-kupyna256>|<get-kupyna256>(){}[0]
+    final val kupyna384 // com.appmattus.crypto/Kupyna.kupyna384|{}kupyna384[0]
+        final fun <get-kupyna384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Kupyna.kupyna384.<get-kupyna384>|<get-kupyna384>(){}[0]
+    final val kupyna512 // com.appmattus.crypto/Kupyna.kupyna512|{}kupyna512[0]
+        final fun <get-kupyna512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Kupyna.kupyna512.<get-kupyna512>|<get-kupyna512>(){}[0]
+}

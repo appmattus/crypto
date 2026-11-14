@@ -18,10 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Tiger
-import com.appmattus.crypto.internal.core.sphlib.strtobin
-import com.appmattus.crypto.internal.core.sphlib.testHmac
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -36,15 +32,19 @@ class TigerDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashTiger() {
-        testKat({ CoreDigest.create(Algorithm.Tiger) }, "abc", "2AAB1484E8C158F2BFB8C5FF41B57A525129131C957B5F93")
-        testKat({ CoreDigest.create(Algorithm.Tiger) }, input, Tiger.tiger.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Tiger2) }, input, Tiger.tiger2.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Tiger) }, "abc", "2AAB1484E8C158F2BFB8C5FF41B57A525129131C957B5F93")
+        testDigestKat({ CoreDigest.create(Algorithm.Tiger) }, input, Tiger.tiger.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Tiger2) }, input, Tiger.tiger2.hash(input).toHexString())
     }
 
     @Test
     fun createsHmacsMatchingCryptohashTiger() {
         // From https://github.com/bcgit/bc-java/blob/master/prov/src/test/java/org/bouncycastle/jce/provider/test/HMacTest.java
-        testHmac(Algorithm.Tiger, "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b", "Hi There", "1d7a658c75f8f004916e7b07e2a2e10aec7de2ae124d3647")
+        testDigestKat(
+            { Algorithm.Tiger.createHmac(strtobin("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b")) },
+            "Hi There",
+            "1d7a658c75f8f004916e7b07e2a2e10aec7de2ae124d3647"
+        )
 
         // Keys longer than the block are hashed first
         val longKey = ByteArray(100) { it.toByte() }

@@ -1,0 +1,12 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-siphash>
+final object com.appmattus.crypto/SipHash { // com.appmattus.crypto/SipHash|null[0]
+    final fun sipHash(kotlin/ByteArray, kotlin/Int = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/SipHash.sipHash|sipHash(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    final fun sipHash128(kotlin/ByteArray, kotlin/Int = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/SipHash.sipHash128|sipHash128(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+}

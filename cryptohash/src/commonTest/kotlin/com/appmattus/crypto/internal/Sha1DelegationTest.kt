@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Sha1
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -35,8 +33,8 @@ class Sha1DelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashSha1() {
-        testKat({ CoreDigest.create(Algorithm.SHA_0) }, input, Sha1.sha0.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHA_1) }, input, Sha1.sha1.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHA_0) }, input, Sha1.sha0.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHA_1) }, input, Sha1.sha1.hash(input).toHexString())
     }
 
     @Test

@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-luffa>
+final object com.appmattus.crypto/Luffa { // com.appmattus.crypto/Luffa|null[0]
+    final val luffa224 // com.appmattus.crypto/Luffa.luffa224|{}luffa224[0]
+        final fun <get-luffa224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Luffa.luffa224.<get-luffa224>|<get-luffa224>(){}[0]
+    final val luffa256 // com.appmattus.crypto/Luffa.luffa256|{}luffa256[0]
+        final fun <get-luffa256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Luffa.luffa256.<get-luffa256>|<get-luffa256>(){}[0]
+    final val luffa384 // com.appmattus.crypto/Luffa.luffa384|{}luffa384[0]
+        final fun <get-luffa384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Luffa.luffa384.<get-luffa384>|<get-luffa384>(){}[0]
+    final val luffa512 // com.appmattus.crypto/Luffa.luffa512|{}luffa512[0]
+        final fun <get-luffa512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Luffa.luffa512.<get-luffa512>|<get-luffa512>(){}[0]
+}

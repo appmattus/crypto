@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Ascon
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -36,11 +34,11 @@ class AsconDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashAscon() {
-        testKat({ CoreDigest.create(Algorithm.AsconHash256) }, input, Ascon.hash256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.AsconXof128()) }, input, Ascon.xof128().hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.AsconXof128(520)) }, input, Ascon.xof128(520).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.AsconCXof128()) }, input, Ascon.cxof128().hash(input).toHexString())
-        testKat(
+        testDigestKat({ CoreDigest.create(Algorithm.AsconHash256) }, input, Ascon.hash256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.AsconXof128()) }, input, Ascon.xof128().hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.AsconXof128(520)) }, input, Ascon.xof128(520).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.AsconCXof128()) }, input, Ascon.cxof128().hash(input).toHexString())
+        testDigestKat(
             { CoreDigest.create(Algorithm.AsconCXof128(customisation, 136)) },
             input,
             Ascon.cxof128(customisation, 136).hash(input).toHexString()

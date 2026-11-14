@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/Hamsi {
+	public static final field INSTANCE Lcom/appmattus/crypto/Hamsi;
+	public final fun getHamsi224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHamsi256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHamsi384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHamsi512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

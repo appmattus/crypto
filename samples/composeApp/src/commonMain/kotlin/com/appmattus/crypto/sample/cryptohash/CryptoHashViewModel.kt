@@ -57,10 +57,10 @@ class CryptoHashViewModel : ViewModel(), OrbitContainerHost<CryptoHashState, Cry
         algorithmName: String,
         inputText: String
     ): String {
-        val algorithm = cryptoHashAlgorithms.firstOrNull { it.algorithmName == algorithmName }
+        val algorithm = cryptoHashAlgorithms[algorithmName]
 
         return try {
-            algorithm?.createDigest()?.digest(inputText.encodeToByteArray())?.toHexString() ?: "n/a"
+            algorithm?.hash(inputText)?.toHexString() ?: "n/a"
         } catch (expected: Exception) {
             expected.message ?: expected.toString()
         }

@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-cubehash>
+final object com.appmattus.crypto/CubeHash { // com.appmattus.crypto/CubeHash|null[0]
+    final val cubeHash224 // com.appmattus.crypto/CubeHash.cubeHash224|{}cubeHash224[0]
+        final fun <get-cubeHash224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CubeHash.cubeHash224.<get-cubeHash224>|<get-cubeHash224>(){}[0]
+    final val cubeHash256 // com.appmattus.crypto/CubeHash.cubeHash256|{}cubeHash256[0]
+        final fun <get-cubeHash256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CubeHash.cubeHash256.<get-cubeHash256>|<get-cubeHash256>(){}[0]
+    final val cubeHash384 // com.appmattus.crypto/CubeHash.cubeHash384|{}cubeHash384[0]
+        final fun <get-cubeHash384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CubeHash.cubeHash384.<get-cubeHash384>|<get-cubeHash384>(){}[0]
+    final val cubeHash512 // com.appmattus.crypto/CubeHash.cubeHash512|{}cubeHash512[0]
+        final fun <get-cubeHash512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/CubeHash.cubeHash512.<get-cubeHash512>|<get-cubeHash512>(){}[0]
+}

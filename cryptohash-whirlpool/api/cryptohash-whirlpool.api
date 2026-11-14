@@ -1,0 +1,7 @@
+public final class com/appmattus/crypto/Whirlpool {
+	public static final field INSTANCE Lcom/appmattus/crypto/Whirlpool;
+	public final fun getWhirlpool ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getWhirlpool0 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getWhirlpoolT ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

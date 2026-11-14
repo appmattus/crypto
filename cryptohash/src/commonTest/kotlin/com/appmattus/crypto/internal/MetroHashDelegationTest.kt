@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.MetroHash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,10 +31,10 @@ class MetroHashDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashMetroHash() {
-        testKat({ CoreDigest.create(Algorithm.MetroHash64()) }, "hello world", "22d16db35723c197")
-        testKat({ CoreDigest.create(Algorithm.MetroHash64(5u)) }, input, MetroHash.metroHash64(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.MetroHash128(0u)) }, "hello world", "a65997de23891a0edccc401bbe2ef561")
-        testKat({ CoreDigest.create(Algorithm.MetroHash128(5u)) }, input, MetroHash.metroHash128(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MetroHash64()) }, "hello world", "22d16db35723c197")
+        testDigestKat({ CoreDigest.create(Algorithm.MetroHash64(5u)) }, input, MetroHash.metroHash64(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MetroHash128(0u)) }, "hello world", "a65997de23891a0edccc401bbe2ef561")
+        testDigestKat({ CoreDigest.create(Algorithm.MetroHash128(5u)) }, input, MetroHash.metroHash128(5u).hash(input).toHexString())
     }
 
     @Test

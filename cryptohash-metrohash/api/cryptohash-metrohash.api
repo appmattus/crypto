@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/MetroHash {
+	public static final field INSTANCE Lcom/appmattus/crypto/MetroHash;
+	public final fun metroHash128-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun metroHash128-VKZWuLQ$default (Lcom/appmattus/crypto/MetroHash;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun metroHash64-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun metroHash64-VKZWuLQ$default (Lcom/appmattus/crypto/MetroHash;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

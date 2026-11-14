@@ -1,0 +1,15 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-ascon>
+final object com.appmattus.crypto/Ascon { // com.appmattus.crypto/Ascon|null[0]
+    final val hash256 // com.appmattus.crypto/Ascon.hash256|{}hash256[0]
+        final fun <get-hash256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Ascon.hash256.<get-hash256>|<get-hash256>(){}[0]
+
+    final fun cxof128(kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Ascon.cxof128|cxof128(kotlin.ByteArray?;kotlin.Int){}[0]
+    final fun xof128(kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Ascon.xof128|xof128(kotlin.Int){}[0]
+}

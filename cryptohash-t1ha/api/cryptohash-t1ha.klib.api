@@ -1,0 +1,16 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-t1ha>
+final object com.appmattus.crypto/T1ha { // com.appmattus.crypto/T1ha|null[0]
+    final fun t1ha0_32le(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/T1ha.t1ha0_32le|t1ha0_32le(kotlin.ULong){}[0]
+    final fun t1ha1Le(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/T1ha.t1ha1Le|t1ha1Le(kotlin.ULong){}[0]
+    final fun t1ha2AtOnce(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/T1ha.t1ha2AtOnce|t1ha2AtOnce(kotlin.ULong){}[0]
+    final fun t1ha2AtOnce128(kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/T1ha.t1ha2AtOnce128|t1ha2AtOnce128(kotlin.ULong){}[0]
+    final fun t1ha2Stream(kotlin/ULong = ..., kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/T1ha.t1ha2Stream|t1ha2Stream(kotlin.ULong;kotlin.ULong){}[0]
+    final fun t1ha2Stream128(kotlin/ULong = ..., kotlin/ULong = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/T1ha.t1ha2Stream128|t1ha2Stream128(kotlin.ULong;kotlin.ULong){}[0]
+}

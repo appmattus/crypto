@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.HighwayHash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -34,9 +32,9 @@ class HighwayHashDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashHighwayHash() {
-        testKat({ CoreDigest.create(Algorithm.HighwayHash64(key)) }, input, HighwayHash.highwayHash64(key).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HighwayHash128(key)) }, input, HighwayHash.highwayHash128(key).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.HighwayHash256(key)) }, input, HighwayHash.highwayHash256(key).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HighwayHash64(key)) }, input, HighwayHash.highwayHash64(key).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HighwayHash128(key)) }, input, HighwayHash.highwayHash128(key).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.HighwayHash256(key)) }, input, HighwayHash.highwayHash256(key).hash(input).toHexString())
     }
 
     @Test
