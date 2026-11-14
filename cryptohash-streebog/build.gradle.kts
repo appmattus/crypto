@@ -17,25 +17,5 @@
 // The Streebog (GOST R 34.11-2012) family of hashes
 
 plugins {
-    id("cryptohash.kmp-library")
-    id("cryptohash.publish")
+    id("cryptohash.hash-module")
 }
-
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            api(project(":cryptohash-core"))
-        }
-
-        commonTest.dependencies {
-            implementation(project(":common-test"))
-        }
-
-        // The JVM tests run against BouncyCastle's implementation too
-        jvmTest.dependencies {
-            implementation(libs.bouncyCastle)
-        }
-    }
-}
-
-apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))

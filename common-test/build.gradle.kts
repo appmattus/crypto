@@ -25,10 +25,16 @@ kotlin {
         commonMain.dependencies {
             api(project(":cryptohash-core"))
             implementation(kotlin("test"))
+
+            // Test dependencies the modules' tests share
+            api(libs.uint128)
         }
 
         jvmMain.dependencies {
             implementation(libs.kotlinX.coroutinesCore)
+
+            // The JVM tests compare against BouncyCastle's implementations
+            api(libs.bouncyCastle)
         }
 
         appleMain.dependencies {

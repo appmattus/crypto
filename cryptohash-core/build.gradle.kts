@@ -25,8 +25,8 @@ plugins {
 kotlin {
     sourceSets {
         commonTest.dependencies {
-            // MultiplyHighTest checks multiplyHigh against UInt128 multiplication
-            implementation(libs.uint128)
+            // The shared test code, which brings uint128 for MultiplyHighTest to check multiplyHigh against
+            implementation(project(":common-test"))
         }
     }
 }

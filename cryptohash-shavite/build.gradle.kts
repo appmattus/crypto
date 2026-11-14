@@ -17,20 +17,5 @@
 // The SHAvite-3 family of hashes
 
 plugins {
-    id("cryptohash.kmp-library")
-    id("cryptohash.publish")
+    id("cryptohash.hash-module")
 }
-
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            api(project(":cryptohash-core"))
-        }
-
-        commonTest.dependencies {
-            implementation(project(":common-test"))
-        }
-    }
-}
-
-apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))
