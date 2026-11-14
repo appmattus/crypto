@@ -54,6 +54,7 @@ import com.appmattus.crypto.SM3
 import com.appmattus.crypto.SP800185
 import com.appmattus.crypto.Shabal
 import com.appmattus.crypto.SipHash
+import com.appmattus.crypto.Skein
 import com.appmattus.crypto.Streebog
 import com.appmattus.crypto.T1ha
 import com.appmattus.crypto.Tiger
@@ -62,7 +63,6 @@ import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.XXHash
 import com.appmattus.crypto.internal.core.SHA512_224
 import com.appmattus.crypto.internal.core.SHA512_256
-import com.appmattus.crypto.internal.core.SkeinBouncycastleCore
 import com.appmattus.crypto.internal.core.city.CityHash128
 import com.appmattus.crypto.internal.core.city.CityHash32
 import com.appmattus.crypto.internal.core.city.CityHash64
@@ -342,21 +342,24 @@ internal object CoreDigest {
                 algorithm.finalizationRounds
             ).newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.Skein256_128 -> SkeinBouncycastleCore(256, 128)
-            is Algorithm.Skein256_160 -> SkeinBouncycastleCore(256, 160)
-            is Algorithm.Skein256_224 -> SkeinBouncycastleCore(256, 224)
-            is Algorithm.Skein256_256 -> SkeinBouncycastleCore(256, 256)
-            is Algorithm.Skein512_128 -> SkeinBouncycastleCore(512, 128)
-            is Algorithm.Skein512_160 -> SkeinBouncycastleCore(512, 160)
-            is Algorithm.Skein512_224 -> SkeinBouncycastleCore(512, 224)
-            is Algorithm.Skein512_256 -> SkeinBouncycastleCore(512, 256)
-            is Algorithm.Skein512_384 -> SkeinBouncycastleCore(512, 384)
-            is Algorithm.Skein512_512 -> SkeinBouncycastleCore(512, 512)
-            is Algorithm.Skein1024_384 -> SkeinBouncycastleCore(1024, 384)
-            is Algorithm.Skein1024_512 -> SkeinBouncycastleCore(1024, 512)
-            is Algorithm.Skein1024_1024 -> SkeinBouncycastleCore(1024, 1024)
+            is Algorithm.Skein256_128 -> Skein.skein256_128.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein256_160 -> Skein.skein256_160.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein256_224 -> Skein.skein256_224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein256_256 -> Skein.skein256_256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein512_128 -> Skein.skein512_128.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein512_160 -> Skein.skein512_160.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein512_224 -> Skein.skein512_224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein512_256 -> Skein.skein512_256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein512_384 -> Skein.skein512_384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein512_512 -> Skein.skein512_512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein1024_384 -> Skein.skein1024_384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein1024_512 -> Skein.skein1024_512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.Skein1024_1024 -> Skein.skein1024_1024.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.Skein -> SkeinBouncycastleCore.create(algorithm)
+            is Algorithm.Skein -> when (algorithm) {
+                is Algorithm.Skein.Keyed -> Skein.skeinKeyed(algorithm.blockSizeBits, algorithm.outputSizeBits, algorithm.key)
+                else -> Skein.skein(algorithm.blockSizeBits, algorithm.outputSizeBits)
+            }.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.SM3 -> SM3.sm3.newHasher().toDigest(algorithm.blockLength)
 
