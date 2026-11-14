@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.appmattus.crypto
 
 /**
@@ -23,12 +25,14 @@ package com.appmattus.crypto
  * val hash = Algorithm.SHA_256.createDigest().update("Hello, ").update("world!").digest()
  * ```
  */
+@Deprecated("Use Hasher.update(String), on a Hasher from HashAlgorithm.newHasher()")
 public fun <T : Digest> T.update(input: String): T = apply { update(input.encodeToByteArray()) }
 
 /**
  * Update the digest with the UTF-8 encoding of [input], then complete the hash computation and return the digest
  * value. This resets the digest so it can be used again.
  */
+@Deprecated("Use Hasher.digest(String), on a Hasher from HashAlgorithm.newHasher()")
 public fun Digest.digest(input: String): ByteArray = digest(input.encodeToByteArray())
 
 /**

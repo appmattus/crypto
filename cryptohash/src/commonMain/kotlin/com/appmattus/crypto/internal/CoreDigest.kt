@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Adler

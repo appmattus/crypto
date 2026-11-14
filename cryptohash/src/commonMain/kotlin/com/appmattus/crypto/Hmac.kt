@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.CoreDigest
@@ -24,6 +26,7 @@ import com.appmattus.crypto.internal.CoreDigest
  *
  * Only [Algorithm]s can implement this interface.
  */
+@Deprecated("Use HmacAlgorithm, such as Sha2.sha256, and create a Mac with newHmac(key)")
 public sealed interface Hmac {
 
     /**
