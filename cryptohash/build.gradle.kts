@@ -66,6 +66,8 @@ kotlin {
             api(project(":cryptohash-simd"))
             api(project(":cryptohash-skein"))
             api(project(":cryptohash-cityhash"))
+            api(project(":cryptohash-sha1"))
+            api(project(":cryptohash-sha2"))
             implementation(libs.uint128)
         }
 
