@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Skein
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -53,7 +51,7 @@ class SkeinDelegationTest {
             Algorithm.Skein.Keyed(512, 384, key) to Skein.skeinKeyed(512, 384, key),
             Algorithm.Skein.Keyed(1024, 160, ByteArray(0)) to Skein.skeinKeyed(1024, 160, ByteArray(0))
         ).forEach { (algorithm, module) ->
-            testKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
+            testDigestKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
         }
     }
 

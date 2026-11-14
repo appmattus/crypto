@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-bmw>
+final object com.appmattus.crypto/Bmw { // com.appmattus.crypto/Bmw|null[0]
+    final val bmw224 // com.appmattus.crypto/Bmw.bmw224|{}bmw224[0]
+        final fun <get-bmw224>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Bmw.bmw224.<get-bmw224>|<get-bmw224>(){}[0]
+    final val bmw256 // com.appmattus.crypto/Bmw.bmw256|{}bmw256[0]
+        final fun <get-bmw256>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Bmw.bmw256.<get-bmw256>|<get-bmw256>(){}[0]
+    final val bmw384 // com.appmattus.crypto/Bmw.bmw384|{}bmw384[0]
+        final fun <get-bmw384>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Bmw.bmw384.<get-bmw384>|<get-bmw384>(){}[0]
+    final val bmw512 // com.appmattus.crypto/Bmw.bmw512|{}bmw512[0]
+        final fun <get-bmw512>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Bmw.bmw512.<get-bmw512>|<get-bmw512>(){}[0]
+}

@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Sha2
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -35,12 +33,12 @@ class Sha2DelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashSha2() {
-        testKat({ CoreDigest.create(Algorithm.SHA_224) }, input, Sha2.sha224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHA_256) }, input, Sha2.sha256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHA_384) }, input, Sha2.sha384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHA_512) }, input, Sha2.sha512.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHA_512_224) }, input, Sha2.sha512_224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHA_512_256) }, input, Sha2.sha512_256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHA_224) }, input, Sha2.sha224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHA_256) }, input, Sha2.sha256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHA_384) }, input, Sha2.sha384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHA_512) }, input, Sha2.sha512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHA_512_224) }, input, Sha2.sha512_224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHA_512_256) }, input, Sha2.sha512_256.hash(input).toHexString())
     }
 
     @Test

@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/Fugue {
+	public static final field INSTANCE Lcom/appmattus/crypto/Fugue;
+	public final fun getFugue224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getFugue256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getFugue384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getFugue512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

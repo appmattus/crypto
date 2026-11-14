@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.RipeMd
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -35,11 +33,11 @@ class RipeMdDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashRipeMd() {
-        testKat({ CoreDigest.create(Algorithm.RipeMD) }, input, RipeMd.ripeMd.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.RipeMD128) }, input, RipeMd.ripeMd128.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.RipeMD160) }, input, RipeMd.ripeMd160.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.RipeMD256) }, input, RipeMd.ripeMd256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.RipeMD320) }, input, RipeMd.ripeMd320.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RipeMD) }, input, RipeMd.ripeMd.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RipeMD128) }, input, RipeMd.ripeMd128.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RipeMD160) }, input, RipeMd.ripeMd160.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RipeMD256) }, input, RipeMd.ripeMd256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RipeMD320) }, input, RipeMd.ripeMd320.hash(input).toHexString())
     }
 
     @Test

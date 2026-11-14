@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-jh>
+final object com.appmattus.crypto/Jh { // com.appmattus.crypto/Jh|null[0]
+    final val jh224 // com.appmattus.crypto/Jh.jh224|{}jh224[0]
+        final fun <get-jh224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Jh.jh224.<get-jh224>|<get-jh224>(){}[0]
+    final val jh256 // com.appmattus.crypto/Jh.jh256|{}jh256[0]
+        final fun <get-jh256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Jh.jh256.<get-jh256>|<get-jh256>(){}[0]
+    final val jh384 // com.appmattus.crypto/Jh.jh384|{}jh384[0]
+        final fun <get-jh384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Jh.jh384.<get-jh384>|<get-jh384>(){}[0]
+    final val jh512 // com.appmattus.crypto/Jh.jh512|{}jh512[0]
+        final fun <get-jh512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Jh.jh512.<get-jh512>|<get-jh512>(){}[0]
+}

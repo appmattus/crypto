@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Whirlpool
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -36,9 +34,9 @@ class WhirlpoolDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashWhirlpool() {
-        testKat({ CoreDigest.create(Algorithm.Whirlpool) }, input, Whirlpool.whirlpool.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Whirlpool0) }, input, Whirlpool.whirlpool0.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.WhirlpoolT) }, input, Whirlpool.whirlpoolT.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Whirlpool) }, input, Whirlpool.whirlpool.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Whirlpool0) }, input, Whirlpool.whirlpool0.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.WhirlpoolT) }, input, Whirlpool.whirlpoolT.hash(input).toHexString())
     }
 
     @Test

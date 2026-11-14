@@ -19,8 +19,6 @@ package com.appmattus.crypto.internal
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.CityHash
 import com.appmattus.crypto.FarmHash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -53,7 +51,7 @@ class CityHashDelegationTest {
     @Test
     fun createsDigestsBackedByCryptohashCityHash() {
         pairs.forEach { (algorithm, module) ->
-            testKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
+            testDigestKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
         }
     }
 

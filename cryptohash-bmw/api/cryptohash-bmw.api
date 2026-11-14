@@ -1,0 +1,8 @@
+public final class com/appmattus/crypto/Bmw {
+	public static final field INSTANCE Lcom/appmattus/crypto/Bmw;
+	public final fun getBmw224 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getBmw256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getBmw384 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getBmw512 ()Lcom/appmattus/crypto/HmacAlgorithm;
+}
+

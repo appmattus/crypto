@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Blake
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class BlakeDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashBlake() {
-        testKat({ CoreDigest.create(Algorithm.BLAKE224) }, input, Blake.blake224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.BLAKE256) }, input, Blake.blake256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.BLAKE384) }, input, Blake.blake384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.BLAKE512) }, input, Blake.blake512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.BLAKE224) }, input, Blake.blake224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.BLAKE256) }, input, Blake.blake256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.BLAKE384) }, input, Blake.blake384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.BLAKE512) }, input, Blake.blake512.hash(input).toHexString())
     }
 
     @Test

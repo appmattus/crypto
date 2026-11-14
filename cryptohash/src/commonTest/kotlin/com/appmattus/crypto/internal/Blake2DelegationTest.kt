@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Blake2
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -50,7 +48,7 @@ class Blake2DelegationTest {
             Algorithm.Blake2s.Keyed(key, ByteArray(8) { 1 }, ByteArray(8) { 2 }, 200) to
                 Blake2.blake2sKeyed(key, ByteArray(8) { 1 }, ByteArray(8) { 2 }, 200)
         ).forEach { (algorithm, module) ->
-            testKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
+            testDigestKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
         }
     }
 

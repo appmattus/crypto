@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Fugue
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class FugueDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashFugue() {
-        testKat({ CoreDigest.create(Algorithm.Fugue224) }, input, Fugue.fugue224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Fugue256) }, input, Fugue.fugue256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Fugue384) }, input, Fugue.fugue384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.Fugue512) }, input, Fugue.fugue512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Fugue224) }, input, Fugue.fugue224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Fugue256) }, input, Fugue.fugue256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Fugue384) }, input, Fugue.fugue384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Fugue512) }, input, Fugue.fugue512.hash(input).toHexString())
     }
 
     @Test

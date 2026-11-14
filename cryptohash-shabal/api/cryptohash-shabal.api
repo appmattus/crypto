@@ -1,0 +1,9 @@
+public final class com/appmattus/crypto/Shabal {
+	public static final field INSTANCE Lcom/appmattus/crypto/Shabal;
+	public final fun getShabal192 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getShabal224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getShabal256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getShabal384 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getShabal512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

@@ -1,0 +1,51 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-keccak>
+final object com.appmattus.crypto/KangarooTwelve { // com.appmattus.crypto/KangarooTwelve|null[0]
+    final fun kt128(kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/KangarooTwelve.kt128|kt128(kotlin.ByteArray?;kotlin.Int){}[0]
+    final fun kt256(kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/KangarooTwelve.kt256|kt256(kotlin.ByteArray?;kotlin.Int){}[0]
+}
+
+final object com.appmattus.crypto/Keccak { // com.appmattus.crypto/Keccak|null[0]
+    final val keccak224 // com.appmattus.crypto/Keccak.keccak224|{}keccak224[0]
+        final fun <get-keccak224>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Keccak.keccak224.<get-keccak224>|<get-keccak224>(){}[0]
+    final val keccak256 // com.appmattus.crypto/Keccak.keccak256|{}keccak256[0]
+        final fun <get-keccak256>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Keccak.keccak256.<get-keccak256>|<get-keccak256>(){}[0]
+    final val keccak288 // com.appmattus.crypto/Keccak.keccak288|{}keccak288[0]
+        final fun <get-keccak288>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Keccak.keccak288.<get-keccak288>|<get-keccak288>(){}[0]
+    final val keccak384 // com.appmattus.crypto/Keccak.keccak384|{}keccak384[0]
+        final fun <get-keccak384>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Keccak.keccak384.<get-keccak384>|<get-keccak384>(){}[0]
+    final val keccak512 // com.appmattus.crypto/Keccak.keccak512|{}keccak512[0]
+        final fun <get-keccak512>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Keccak.keccak512.<get-keccak512>|<get-keccak512>(){}[0]
+}
+
+final object com.appmattus.crypto/Sha3 { // com.appmattus.crypto/Sha3|null[0]
+    final val sha3_224 // com.appmattus.crypto/Sha3.sha3_224|{}sha3_224[0]
+        final fun <get-sha3_224>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha3.sha3_224.<get-sha3_224>|<get-sha3_224>(){}[0]
+    final val sha3_256 // com.appmattus.crypto/Sha3.sha3_256|{}sha3_256[0]
+        final fun <get-sha3_256>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha3.sha3_256.<get-sha3_256>|<get-sha3_256>(){}[0]
+    final val sha3_384 // com.appmattus.crypto/Sha3.sha3_384|{}sha3_384[0]
+        final fun <get-sha3_384>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha3.sha3_384.<get-sha3_384>|<get-sha3_384>(){}[0]
+    final val sha3_512 // com.appmattus.crypto/Sha3.sha3_512|{}sha3_512[0]
+        final fun <get-sha3_512>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha3.sha3_512.<get-sha3_512>|<get-sha3_512>(){}[0]
+    final val shake128 // com.appmattus.crypto/Sha3.shake128|{}shake128[0]
+        final fun <get-shake128>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sha3.shake128.<get-shake128>|<get-shake128>(){}[0]
+    final val shake256 // com.appmattus.crypto/Sha3.shake256|{}shake256[0]
+        final fun <get-shake256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sha3.shake256.<get-shake256>|<get-shake256>(){}[0]
+}
+
+final object com.appmattus.crypto/Sp800185 { // com.appmattus.crypto/Sp800185|null[0]
+    final fun cshake128(kotlin/ByteArray? = ..., kotlin/ByteArray? = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sp800185.cshake128|cshake128(kotlin.ByteArray?;kotlin.ByteArray?){}[0]
+    final fun cshake256(kotlin/ByteArray? = ..., kotlin/ByteArray? = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sp800185.cshake256|cshake256(kotlin.ByteArray?;kotlin.ByteArray?){}[0]
+    final fun kmac128(kotlin/ByteArray, kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sp800185.kmac128|kmac128(kotlin.ByteArray;kotlin.ByteArray?;kotlin.Int){}[0]
+    final fun kmac256(kotlin/ByteArray, kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sp800185.kmac256|kmac256(kotlin.ByteArray;kotlin.ByteArray?;kotlin.Int){}[0]
+    final fun parallelHash128(kotlin/Int, kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sp800185.parallelHash128|parallelHash128(kotlin.Int;kotlin.ByteArray?;kotlin.Int){}[0]
+    final fun parallelHash256(kotlin/Int, kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sp800185.parallelHash256|parallelHash256(kotlin.Int;kotlin.ByteArray?;kotlin.Int){}[0]
+    final fun tupleHash128(kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sp800185.tupleHash128|tupleHash128(kotlin.ByteArray?;kotlin.Int){}[0]
+    final fun tupleHash256(kotlin/ByteArray? = ..., kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Sp800185.tupleHash256|tupleHash256(kotlin.ByteArray?;kotlin.Int){}[0]
+}

@@ -1,0 +1,24 @@
+public final class com/appmattus/crypto/CityHash {
+	public static final field INSTANCE Lcom/appmattus/crypto/CityHash;
+	public final fun cityHash128 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun cityHash128-PWzV0Is (JJ)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun cityHash64 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun cityHash64-PWzV0Is (JJ)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun cityHash64-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun cityHashCrc128 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun cityHashCrc128-PWzV0Is (JJ)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCityHash32 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCityHashCrc256 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+
+public final class com/appmattus/crypto/FarmHash {
+	public static final field INSTANCE Lcom/appmattus/crypto/FarmHash;
+	public final fun farmHash128 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun farmHash128-PWzV0Is (JJ)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun farmHash32 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun farmHash32-WZ4Q5Ns (I)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun farmHash64 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun farmHash64-PWzV0Is (JJ)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun farmHash64-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

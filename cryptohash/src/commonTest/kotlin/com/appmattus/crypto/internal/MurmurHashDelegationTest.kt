@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.MurmurHash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,18 +31,18 @@ class MurmurHashDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashMurmurHash() {
-        testKat({ CoreDigest.create(Algorithm.MurmurHash1(0x12345678u)) }, "foo", "7BD65BCC")
-        testKat({ CoreDigest.create(Algorithm.MurmurHash2(5u)) }, input, MurmurHash.murmurHash2(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.MurmurHash2A(5u)) }, input, MurmurHash.murmurHash2A(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.MurmurHash64A(5u)) }, input, MurmurHash.murmurHash64A(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.MurmurHash64B(5u)) }, input, MurmurHash.murmurHash64B(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.MurmurHash3_X86_32()) }, "foo", "f6a5c420")
-        testKat(
+        testDigestKat({ CoreDigest.create(Algorithm.MurmurHash1(0x12345678u)) }, "foo", "7BD65BCC")
+        testDigestKat({ CoreDigest.create(Algorithm.MurmurHash2(5u)) }, input, MurmurHash.murmurHash2(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MurmurHash2A(5u)) }, input, MurmurHash.murmurHash2A(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MurmurHash64A(5u)) }, input, MurmurHash.murmurHash64A(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MurmurHash64B(5u)) }, input, MurmurHash.murmurHash64B(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MurmurHash3_X86_32()) }, "foo", "f6a5c420")
+        testDigestKat(
             { CoreDigest.create(Algorithm.MurmurHash3_X86_128(5u)) },
             input,
             MurmurHash.murmurHash3X86_128(5u).hash(input).toHexString()
         )
-        testKat(
+        testDigestKat(
             { CoreDigest.create(Algorithm.MurmurHash3_X64_128(5u)) },
             input,
             MurmurHash.murmurHash3X64_128(5u).hash(input).toHexString()

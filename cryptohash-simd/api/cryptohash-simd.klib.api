@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-simd>
+final object com.appmattus.crypto/Simd { // com.appmattus.crypto/Simd|null[0]
+    final val simd224 // com.appmattus.crypto/Simd.simd224|{}simd224[0]
+        final fun <get-simd224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Simd.simd224.<get-simd224>|<get-simd224>(){}[0]
+    final val simd256 // com.appmattus.crypto/Simd.simd256|{}simd256[0]
+        final fun <get-simd256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Simd.simd256.<get-simd256>|<get-simd256>(){}[0]
+    final val simd384 // com.appmattus.crypto/Simd.simd384|{}simd384[0]
+        final fun <get-simd384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Simd.simd384.<get-simd384>|<get-simd384>(){}[0]
+    final val simd512 // com.appmattus.crypto/Simd.simd512|{}simd512[0]
+        final fun <get-simd512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Simd.simd512.<get-simd512>|<get-simd512>(){}[0]
+}

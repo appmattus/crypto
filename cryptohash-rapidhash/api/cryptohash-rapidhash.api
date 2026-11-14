@@ -1,0 +1,10 @@
+public final class com/appmattus/crypto/Rapidhash {
+	public static final field INSTANCE Lcom/appmattus/crypto/Rapidhash;
+	public final fun rapidhash-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun rapidhash-VKZWuLQ$default (Lcom/appmattus/crypto/Rapidhash;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun rapidhashMicro-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun rapidhashMicro-VKZWuLQ$default (Lcom/appmattus/crypto/Rapidhash;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun rapidhashNano-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun rapidhashNano-VKZWuLQ$default (Lcom/appmattus/crypto/Rapidhash;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

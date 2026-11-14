@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.SipHash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -34,10 +32,10 @@ class SipHashDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashSipHash() {
-        testKat({ CoreDigest.create(Algorithm.SipHash(key)) }, input, SipHash.sipHash(key).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SipHash(key, 1, 3)) }, input, SipHash.sipHash(key, 1, 3).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SipHash128(key)) }, input, SipHash.sipHash128(key).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SipHash128(key, 4, 8)) }, input, SipHash.sipHash128(key, 4, 8).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SipHash(key)) }, input, SipHash.sipHash(key).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SipHash(key, 1, 3)) }, input, SipHash.sipHash(key, 1, 3).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SipHash128(key)) }, input, SipHash.sipHash128(key).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SipHash128(key, 4, 8)) }, input, SipHash.sipHash128(key, 4, 8).hash(input).toHexString())
     }
 
     @Test

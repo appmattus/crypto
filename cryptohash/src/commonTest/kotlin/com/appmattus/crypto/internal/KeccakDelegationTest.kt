@@ -21,8 +21,6 @@ import com.appmattus.crypto.KangarooTwelve
 import com.appmattus.crypto.Keccak
 import com.appmattus.crypto.Sha3
 import com.appmattus.crypto.Sp800185
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -70,7 +68,7 @@ class KeccakDelegationTest {
                 // TupleHash hashes each update as its own element, so the input can only go in one update
                 assertContentEquals(module.hash(input), CoreDigest.create(algorithm).digest(input), algorithm.algorithmName)
             } else {
-                testKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
+                testDigestKat({ CoreDigest.create(algorithm) }, input, module.hash(input).toHexString())
             }
         }
     }

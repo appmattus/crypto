@@ -1,0 +1,53 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-core>
+open annotation class com.appmattus.crypto/InternalCryptohash : kotlin/Annotation { // com.appmattus.crypto/InternalCryptohash|null[0]
+    constructor <init>() // com.appmattus.crypto/InternalCryptohash.<init>|<init>(){}[0]
+}
+
+abstract interface com.appmattus.crypto/HashAlgorithm { // com.appmattus.crypto/HashAlgorithm|null[0]
+    abstract fun newHasher(): com.appmattus.crypto/Hasher // com.appmattus.crypto/HashAlgorithm.newHasher|newHasher(){}[0]
+    open fun hash(kotlin/ByteArray): kotlin/ByteArray // com.appmattus.crypto/HashAlgorithm.hash|hash(kotlin.ByteArray){}[0]
+    open fun hash(kotlin/ByteArray, kotlin/Int, kotlin/Int): kotlin/ByteArray // com.appmattus.crypto/HashAlgorithm.hash|hash(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    open fun hash(kotlin/String): kotlin/ByteArray // com.appmattus.crypto/HashAlgorithm.hash|hash(kotlin.String){}[0]
+}
+
+abstract interface com.appmattus.crypto/Hasher { // com.appmattus.crypto/Hasher|null[0]
+    abstract val digestLength // com.appmattus.crypto/Hasher.digestLength|{}digestLength[0]
+        abstract fun <get-digestLength>(): kotlin/Int // com.appmattus.crypto/Hasher.digestLength.<get-digestLength>|<get-digestLength>(){}[0]
+
+    abstract fun copy(): com.appmattus.crypto/Hasher // com.appmattus.crypto/Hasher.copy|copy(){}[0]
+    abstract fun digest(): kotlin/ByteArray // com.appmattus.crypto/Hasher.digest|digest(){}[0]
+    abstract fun digest(kotlin/ByteArray): kotlin/ByteArray // com.appmattus.crypto/Hasher.digest|digest(kotlin.ByteArray){}[0]
+    abstract fun digest(kotlin/ByteArray, kotlin/Int, kotlin/Int): kotlin/Int // com.appmattus.crypto/Hasher.digest|digest(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    abstract fun reset() // com.appmattus.crypto/Hasher.reset|reset(){}[0]
+    abstract fun toString(): kotlin/String // com.appmattus.crypto/Hasher.toString|toString(){}[0]
+    abstract fun update(kotlin/Byte): com.appmattus.crypto/Hasher // com.appmattus.crypto/Hasher.update|update(kotlin.Byte){}[0]
+    abstract fun update(kotlin/ByteArray): com.appmattus.crypto/Hasher // com.appmattus.crypto/Hasher.update|update(kotlin.ByteArray){}[0]
+    abstract fun update(kotlin/ByteArray, kotlin/Int, kotlin/Int): com.appmattus.crypto/Hasher // com.appmattus.crypto/Hasher.update|update(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+}
+
+abstract interface com.appmattus.crypto/HmacAlgorithm : com.appmattus.crypto/HashAlgorithm { // com.appmattus.crypto/HmacAlgorithm|null[0]
+    abstract fun newHmac(kotlin/ByteArray, kotlin/Int? = ...): com.appmattus.crypto/Mac // com.appmattus.crypto/HmacAlgorithm.newHmac|newHmac(kotlin.ByteArray;kotlin.Int?){}[0]
+}
+
+abstract interface com.appmattus.crypto/Mac { // com.appmattus.crypto/Mac|null[0]
+    abstract val digestLength // com.appmattus.crypto/Mac.digestLength|{}digestLength[0]
+        abstract fun <get-digestLength>(): kotlin/Int // com.appmattus.crypto/Mac.digestLength.<get-digestLength>|<get-digestLength>(){}[0]
+
+    abstract fun copy(): com.appmattus.crypto/Mac // com.appmattus.crypto/Mac.copy|copy(){}[0]
+    abstract fun digest(): kotlin/ByteArray // com.appmattus.crypto/Mac.digest|digest(){}[0]
+    abstract fun digest(kotlin/ByteArray): kotlin/ByteArray // com.appmattus.crypto/Mac.digest|digest(kotlin.ByteArray){}[0]
+    abstract fun digest(kotlin/ByteArray, kotlin/Int, kotlin/Int): kotlin/Int // com.appmattus.crypto/Mac.digest|digest(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    abstract fun reset() // com.appmattus.crypto/Mac.reset|reset(){}[0]
+    abstract fun toString(): kotlin/String // com.appmattus.crypto/Mac.toString|toString(){}[0]
+    abstract fun update(kotlin/Byte): com.appmattus.crypto/Mac // com.appmattus.crypto/Mac.update|update(kotlin.Byte){}[0]
+    abstract fun update(kotlin/ByteArray): com.appmattus.crypto/Mac // com.appmattus.crypto/Mac.update|update(kotlin.ByteArray){}[0]
+    abstract fun update(kotlin/ByteArray, kotlin/Int, kotlin/Int): com.appmattus.crypto/Mac // com.appmattus.crypto/Mac.update|update(kotlin.ByteArray;kotlin.Int;kotlin.Int){}[0]
+    open fun verify(kotlin/ByteArray): kotlin/Boolean // com.appmattus.crypto/Mac.verify|verify(kotlin.ByteArray){}[0]
+}

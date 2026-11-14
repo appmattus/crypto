@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Jh
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class JhDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashJh() {
-        testKat({ CoreDigest.create(Algorithm.JH224) }, input, Jh.jh224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.JH256) }, input, Jh.jh256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.JH384) }, input, Jh.jh384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.JH512) }, input, Jh.jh512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.JH224) }, input, Jh.jh224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.JH256) }, input, Jh.jh256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.JH384) }, input, Jh.jh384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.JH512) }, input, Jh.jh512.hash(input).toHexString())
     }
 
     @Test

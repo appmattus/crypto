@@ -70,6 +70,12 @@ jobs:
                         os: ubuntu-latest
                         tasks: jvmTest
 
+                    # The published API matches the dumps in each module's api directory; run updateKotlinAbi to record
+                    # an intended change
+                    -   name: abi
+                        os: ubuntu-latest
+                        tasks: checkKotlinAbi
+
                     # Node and browser tests, and the check that kotlin-js-store/yarn.lock is up to date
                     -   name: js
                         os: ubuntu-latest

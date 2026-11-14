@@ -1,0 +1,14 @@
+public final class com/appmattus/crypto/Crc {
+	public static final field INSTANCE Lcom/appmattus/crypto/Crc;
+	public final fun getCrc32 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc32b ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc32c ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc64Ecma182 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc64GoIso ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc64Nvme ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc64Redis ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc64SwissProt ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc64We ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getCrc64Xz ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

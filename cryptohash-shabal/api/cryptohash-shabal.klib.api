@@ -1,0 +1,20 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-shabal>
+final object com.appmattus.crypto/Shabal { // com.appmattus.crypto/Shabal|null[0]
+    final val shabal192 // com.appmattus.crypto/Shabal.shabal192|{}shabal192[0]
+        final fun <get-shabal192>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shabal.shabal192.<get-shabal192>|<get-shabal192>(){}[0]
+    final val shabal224 // com.appmattus.crypto/Shabal.shabal224|{}shabal224[0]
+        final fun <get-shabal224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shabal.shabal224.<get-shabal224>|<get-shabal224>(){}[0]
+    final val shabal256 // com.appmattus.crypto/Shabal.shabal256|{}shabal256[0]
+        final fun <get-shabal256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shabal.shabal256.<get-shabal256>|<get-shabal256>(){}[0]
+    final val shabal384 // com.appmattus.crypto/Shabal.shabal384|{}shabal384[0]
+        final fun <get-shabal384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shabal.shabal384.<get-shabal384>|<get-shabal384>(){}[0]
+    final val shabal512 // com.appmattus.crypto/Shabal.shabal512|{}shabal512[0]
+        final fun <get-shabal512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shabal.shabal512.<get-shabal512>|<get-shabal512>(){}[0]
+}

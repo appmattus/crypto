@@ -1,0 +1,6 @@
+public final class com/appmattus/crypto/Haraka {
+	public static final field INSTANCE Lcom/appmattus/crypto/Haraka;
+	public final fun getHaraka256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaraka512 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

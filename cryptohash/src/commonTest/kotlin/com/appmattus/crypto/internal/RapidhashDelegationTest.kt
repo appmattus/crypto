@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Rapidhash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -34,10 +32,10 @@ class RapidhashDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashRapidhash() {
-        testKat({ CoreDigest.create(Algorithm.Rapidhash()) }, "hello", 3327445792987248966uL.toString(16).padStart(16, '0'))
-        testKat({ CoreDigest.create(Algorithm.Rapidhash(5u)) }, input, Rapidhash.rapidhash(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.RapidhashMicro(5u)) }, input, Rapidhash.rapidhashMicro(5u).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.RapidhashNano(5u)) }, input, Rapidhash.rapidhashNano(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.Rapidhash()) }, "hello", 3327445792987248966uL.toString(16).padStart(16, '0'))
+        testDigestKat({ CoreDigest.create(Algorithm.Rapidhash(5u)) }, input, Rapidhash.rapidhash(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RapidhashMicro(5u)) }, input, Rapidhash.rapidhashMicro(5u).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.RapidhashNano(5u)) }, input, Rapidhash.rapidhashNano(5u).hash(input).toHexString())
     }
 
     @Test

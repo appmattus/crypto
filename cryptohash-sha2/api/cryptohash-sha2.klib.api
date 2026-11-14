@@ -1,0 +1,22 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-sha2>
+final object com.appmattus.crypto/Sha2 { // com.appmattus.crypto/Sha2|null[0]
+    final val sha224 // com.appmattus.crypto/Sha2.sha224|{}sha224[0]
+        final fun <get-sha224>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha2.sha224.<get-sha224>|<get-sha224>(){}[0]
+    final val sha256 // com.appmattus.crypto/Sha2.sha256|{}sha256[0]
+        final fun <get-sha256>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha2.sha256.<get-sha256>|<get-sha256>(){}[0]
+    final val sha384 // com.appmattus.crypto/Sha2.sha384|{}sha384[0]
+        final fun <get-sha384>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha2.sha384.<get-sha384>|<get-sha384>(){}[0]
+    final val sha512 // com.appmattus.crypto/Sha2.sha512|{}sha512[0]
+        final fun <get-sha512>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha2.sha512.<get-sha512>|<get-sha512>(){}[0]
+    final val sha512_224 // com.appmattus.crypto/Sha2.sha512_224|{}sha512_224[0]
+        final fun <get-sha512_224>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha2.sha512_224.<get-sha512_224>|<get-sha512_224>(){}[0]
+    final val sha512_256 // com.appmattus.crypto/Sha2.sha512_256|{}sha512_256[0]
+        final fun <get-sha512_256>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Sha2.sha512_256.<get-sha512_256>|<get-sha512_256>(){}[0]
+}

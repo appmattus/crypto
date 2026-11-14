@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.XxHash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -36,16 +34,16 @@ class XxHashDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashXxHash() {
-        testKat({ CoreDigest.create(Algorithm.XXHash32(0)) }, "1", "b6ecc8b2")
-        testKat({ CoreDigest.create(Algorithm.XXHash64(0)) }, "1", "b7b41276360564d4")
-        testKat({ CoreDigest.create(Algorithm.XXHash32(5)) }, input, XxHash.xxh32(5).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.XXHash64(5)) }, input, XxHash.xxh64(5).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.XXH3_64()) }, "", "2d06800538d394c2")
-        testKat({ CoreDigest.create(Algorithm.XXH3_64.Seeded(5)) }, input, XxHash.xxh3_64(5).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.XXH3_64.Secret(secret)) }, input, XxHash.xxh3_64(secret).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.XXH3_128()) }, input, XxHash.xxh3_128().hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.XXH3_128.Seeded(5)) }, input, XxHash.xxh3_128(5).hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.XXH3_128.Secret(secret)) }, input, XxHash.xxh3_128(secret).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.XXHash32(0)) }, "1", "b6ecc8b2")
+        testDigestKat({ CoreDigest.create(Algorithm.XXHash64(0)) }, "1", "b7b41276360564d4")
+        testDigestKat({ CoreDigest.create(Algorithm.XXHash32(5)) }, input, XxHash.xxh32(5).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.XXHash64(5)) }, input, XxHash.xxh64(5).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.XXH3_64()) }, "", "2d06800538d394c2")
+        testDigestKat({ CoreDigest.create(Algorithm.XXH3_64.Seeded(5)) }, input, XxHash.xxh3_64(5).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.XXH3_64.Secret(secret)) }, input, XxHash.xxh3_64(secret).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.XXH3_128()) }, input, XxHash.xxh3_128().hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.XXH3_128.Seeded(5)) }, input, XxHash.xxh3_128(5).hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.XXH3_128.Secret(secret)) }, input, XxHash.xxh3_128(secret).hash(input).toHexString())
     }
 
     @Test

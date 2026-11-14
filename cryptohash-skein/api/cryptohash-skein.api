@@ -1,0 +1,19 @@
+public final class com/appmattus/crypto/Skein {
+	public static final field INSTANCE Lcom/appmattus/crypto/Skein;
+	public final fun getSkein1024_1024 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein1024_384 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein1024_512 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein256_128 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein256_160 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein256_224 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein256_256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein512_128 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein512_160 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein512_224 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein512_256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein512_384 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSkein512_512 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun skein (II)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun skeinKeyed (II[B)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

@@ -1,0 +1,7 @@
+public final class com/appmattus/crypto/Md {
+	public static final field INSTANCE Lcom/appmattus/crypto/Md;
+	public final fun getMd2 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getMd4 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getMd5 ()Lcom/appmattus/crypto/HmacAlgorithm;
+}
+

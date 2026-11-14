@@ -1,0 +1,14 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-tiger>
+final object com.appmattus.crypto/Tiger { // com.appmattus.crypto/Tiger|null[0]
+    final val tiger // com.appmattus.crypto/Tiger.tiger|{}tiger[0]
+        final fun <get-tiger>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Tiger.tiger.<get-tiger>|<get-tiger>(){}[0]
+    final val tiger2 // com.appmattus.crypto/Tiger.tiger2|{}tiger2[0]
+        final fun <get-tiger2>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Tiger.tiger2.<get-tiger2>|<get-tiger2>(){}[0]
+}

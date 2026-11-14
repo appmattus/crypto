@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-hamsi>
+final object com.appmattus.crypto/Hamsi { // com.appmattus.crypto/Hamsi|null[0]
+    final val hamsi224 // com.appmattus.crypto/Hamsi.hamsi224|{}hamsi224[0]
+        final fun <get-hamsi224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Hamsi.hamsi224.<get-hamsi224>|<get-hamsi224>(){}[0]
+    final val hamsi256 // com.appmattus.crypto/Hamsi.hamsi256|{}hamsi256[0]
+        final fun <get-hamsi256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Hamsi.hamsi256.<get-hamsi256>|<get-hamsi256>(){}[0]
+    final val hamsi384 // com.appmattus.crypto/Hamsi.hamsi384|{}hamsi384[0]
+        final fun <get-hamsi384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Hamsi.hamsi384.<get-hamsi384>|<get-hamsi384>(){}[0]
+    final val hamsi512 // com.appmattus.crypto/Hamsi.hamsi512|{}hamsi512[0]
+        final fun <get-hamsi512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Hamsi.hamsi512.<get-hamsi512>|<get-hamsi512>(){}[0]
+}

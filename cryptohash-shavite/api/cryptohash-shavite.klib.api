@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-shavite>
+final object com.appmattus.crypto/Shavite { // com.appmattus.crypto/Shavite|null[0]
+    final val shavite224 // com.appmattus.crypto/Shavite.shavite224|{}shavite224[0]
+        final fun <get-shavite224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shavite.shavite224.<get-shavite224>|<get-shavite224>(){}[0]
+    final val shavite256 // com.appmattus.crypto/Shavite.shavite256|{}shavite256[0]
+        final fun <get-shavite256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shavite.shavite256.<get-shavite256>|<get-shavite256>(){}[0]
+    final val shavite384 // com.appmattus.crypto/Shavite.shavite384|{}shavite384[0]
+        final fun <get-shavite384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shavite.shavite384.<get-shavite384>|<get-shavite384>(){}[0]
+    final val shavite512 // com.appmattus.crypto/Shavite.shavite512|{}shavite512[0]
+        final fun <get-shavite512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Shavite.shavite512.<get-shavite512>|<get-shavite512>(){}[0]
+}

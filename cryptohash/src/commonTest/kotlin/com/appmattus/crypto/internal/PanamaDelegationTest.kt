@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Panama
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,7 +31,7 @@ class PanamaDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashPanama() {
-        testKat({ CoreDigest.create(Algorithm.PANAMA) }, input, Panama.panama.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.PANAMA) }, input, Panama.panama.hash(input).toHexString())
     }
 
     @Test

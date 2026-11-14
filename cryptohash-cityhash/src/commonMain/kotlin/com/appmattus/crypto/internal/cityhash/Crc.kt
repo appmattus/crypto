@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalUnsignedTypes::class)
+
 package com.appmattus.crypto.internal.cityhash
 
 /**
  * The CRC32-C of [value]'s eight bytes, continuing from [crc], as the SSE4.2 _mm_crc32_u64 instruction computes it.
  * Only the low 32 bits of [crc] are used, and the result fits in 32 bits.
  */
-@Suppress("FunctionName", "MagicNumber")
+@Suppress("MagicNumber")
 internal fun crc32U64(crc: ULong, value: ULong): ULong {
     // The two 32-bit halves of value, each folded in with four table lookups
     var c: UInt = crc.toUInt() xor value.toUInt()

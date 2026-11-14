@@ -1,0 +1,12 @@
+public final class com/appmattus/crypto/Blake2 {
+	public static final field INSTANCE Lcom/appmattus/crypto/Blake2;
+	public final fun blake2b (I)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun blake2b$default (Lcom/appmattus/crypto/Blake2;IILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun blake2bKeyed ([B[B[BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun blake2bKeyed$default (Lcom/appmattus/crypto/Blake2;[B[B[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun blake2s (I)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun blake2s$default (Lcom/appmattus/crypto/Blake2;IILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun blake2sKeyed ([B[B[BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun blake2sKeyed$default (Lcom/appmattus/crypto/Blake2;[B[B[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

@@ -1,0 +1,10 @@
+public final class com/appmattus/crypto/Sha2 {
+	public static final field INSTANCE Lcom/appmattus/crypto/Sha2;
+	public final fun getSha224 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSha256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSha384 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSha512 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSha512_224 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSha512_256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+}
+

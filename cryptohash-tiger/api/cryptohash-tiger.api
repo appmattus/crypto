@@ -1,0 +1,6 @@
+public final class com/appmattus/crypto/Tiger {
+	public static final field INSTANCE Lcom/appmattus/crypto/Tiger;
+	public final fun getTiger ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getTiger2 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

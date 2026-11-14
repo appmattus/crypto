@@ -1,0 +1,40 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-haval>
+final object com.appmattus.crypto/Haval { // com.appmattus.crypto/Haval|null[0]
+    final val haval3_128 // com.appmattus.crypto/Haval.haval3_128|{}haval3_128[0]
+        final fun <get-haval3_128>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval3_128.<get-haval3_128>|<get-haval3_128>(){}[0]
+    final val haval3_160 // com.appmattus.crypto/Haval.haval3_160|{}haval3_160[0]
+        final fun <get-haval3_160>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval3_160.<get-haval3_160>|<get-haval3_160>(){}[0]
+    final val haval3_192 // com.appmattus.crypto/Haval.haval3_192|{}haval3_192[0]
+        final fun <get-haval3_192>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval3_192.<get-haval3_192>|<get-haval3_192>(){}[0]
+    final val haval3_224 // com.appmattus.crypto/Haval.haval3_224|{}haval3_224[0]
+        final fun <get-haval3_224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval3_224.<get-haval3_224>|<get-haval3_224>(){}[0]
+    final val haval3_256 // com.appmattus.crypto/Haval.haval3_256|{}haval3_256[0]
+        final fun <get-haval3_256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval3_256.<get-haval3_256>|<get-haval3_256>(){}[0]
+    final val haval4_128 // com.appmattus.crypto/Haval.haval4_128|{}haval4_128[0]
+        final fun <get-haval4_128>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval4_128.<get-haval4_128>|<get-haval4_128>(){}[0]
+    final val haval4_160 // com.appmattus.crypto/Haval.haval4_160|{}haval4_160[0]
+        final fun <get-haval4_160>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval4_160.<get-haval4_160>|<get-haval4_160>(){}[0]
+    final val haval4_192 // com.appmattus.crypto/Haval.haval4_192|{}haval4_192[0]
+        final fun <get-haval4_192>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval4_192.<get-haval4_192>|<get-haval4_192>(){}[0]
+    final val haval4_224 // com.appmattus.crypto/Haval.haval4_224|{}haval4_224[0]
+        final fun <get-haval4_224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval4_224.<get-haval4_224>|<get-haval4_224>(){}[0]
+    final val haval4_256 // com.appmattus.crypto/Haval.haval4_256|{}haval4_256[0]
+        final fun <get-haval4_256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval4_256.<get-haval4_256>|<get-haval4_256>(){}[0]
+    final val haval5_128 // com.appmattus.crypto/Haval.haval5_128|{}haval5_128[0]
+        final fun <get-haval5_128>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval5_128.<get-haval5_128>|<get-haval5_128>(){}[0]
+    final val haval5_160 // com.appmattus.crypto/Haval.haval5_160|{}haval5_160[0]
+        final fun <get-haval5_160>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval5_160.<get-haval5_160>|<get-haval5_160>(){}[0]
+    final val haval5_192 // com.appmattus.crypto/Haval.haval5_192|{}haval5_192[0]
+        final fun <get-haval5_192>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval5_192.<get-haval5_192>|<get-haval5_192>(){}[0]
+    final val haval5_224 // com.appmattus.crypto/Haval.haval5_224|{}haval5_224[0]
+        final fun <get-haval5_224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval5_224.<get-haval5_224>|<get-haval5_224>(){}[0]
+    final val haval5_256 // com.appmattus.crypto/Haval.haval5_256|{}haval5_256[0]
+        final fun <get-haval5_256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Haval.haval5_256.<get-haval5_256>|<get-haval5_256>(){}[0]
+}

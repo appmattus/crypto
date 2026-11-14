@@ -1,0 +1,20 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-ripemd>
+final object com.appmattus.crypto/RipeMd { // com.appmattus.crypto/RipeMd|null[0]
+    final val ripeMd // com.appmattus.crypto/RipeMd.ripeMd|{}ripeMd[0]
+        final fun <get-ripeMd>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/RipeMd.ripeMd.<get-ripeMd>|<get-ripeMd>(){}[0]
+    final val ripeMd128 // com.appmattus.crypto/RipeMd.ripeMd128|{}ripeMd128[0]
+        final fun <get-ripeMd128>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/RipeMd.ripeMd128.<get-ripeMd128>|<get-ripeMd128>(){}[0]
+    final val ripeMd160 // com.appmattus.crypto/RipeMd.ripeMd160|{}ripeMd160[0]
+        final fun <get-ripeMd160>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/RipeMd.ripeMd160.<get-ripeMd160>|<get-ripeMd160>(){}[0]
+    final val ripeMd256 // com.appmattus.crypto/RipeMd.ripeMd256|{}ripeMd256[0]
+        final fun <get-ripeMd256>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/RipeMd.ripeMd256.<get-ripeMd256>|<get-ripeMd256>(){}[0]
+    final val ripeMd320 // com.appmattus.crypto/RipeMd.ripeMd320|{}ripeMd320[0]
+        final fun <get-ripeMd320>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/RipeMd.ripeMd320.<get-ripeMd320>|<get-ripeMd320>(){}[0]
+}

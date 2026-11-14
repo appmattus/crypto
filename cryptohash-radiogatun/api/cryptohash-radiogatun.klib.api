@@ -1,0 +1,14 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-radiogatun>
+final object com.appmattus.crypto/RadioGatun { // com.appmattus.crypto/RadioGatun|null[0]
+    final val radioGatun32 // com.appmattus.crypto/RadioGatun.radioGatun32|{}radioGatun32[0]
+        final fun <get-radioGatun32>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/RadioGatun.radioGatun32.<get-radioGatun32>|<get-radioGatun32>(){}[0]
+    final val radioGatun64 // com.appmattus.crypto/RadioGatun.radioGatun64|{}radioGatun64[0]
+        final fun <get-radioGatun64>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/RadioGatun.radioGatun64.<get-radioGatun64>|<get-radioGatun64>(){}[0]
+}

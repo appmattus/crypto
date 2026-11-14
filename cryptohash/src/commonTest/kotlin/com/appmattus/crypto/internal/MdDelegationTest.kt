@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Md
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -35,9 +33,9 @@ class MdDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashMd() {
-        testKat({ CoreDigest.create(Algorithm.MD2) }, input, Md.md2.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.MD4) }, input, Md.md4.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.MD5) }, input, Md.md5.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MD2) }, input, Md.md2.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MD4) }, input, Md.md4.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.MD5) }, input, Md.md5.hash(input).toHexString())
     }
 
     @Test

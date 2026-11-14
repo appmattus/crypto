@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Wyhash
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -31,13 +29,13 @@ class WyhashDelegationTest {
 
     @Test
     fun createsWyhash64DigestsBackedByCryptohashWyhash() {
-        testKat({ CoreDigest.create(Algorithm.Wyhash(2u)) }, "abc", "0bc54887cfc9ecb1")
-        testKat({ CoreDigest.create(Algorithm.Wyhash(2u, extraProtection = true)) }, "abc", "e81bb997cc2cc450")
+        testDigestKat({ CoreDigest.create(Algorithm.Wyhash(2u)) }, "abc", "0bc54887cfc9ecb1")
+        testDigestKat({ CoreDigest.create(Algorithm.Wyhash(2u, extraProtection = true)) }, "abc", "e81bb997cc2cc450")
     }
 
     @Test
     fun createsWyhash32DigestsBackedByCryptohashWyhash() {
-        testKat({ CoreDigest.create(Algorithm.Wyhash32(2u)) }, "abc", "fe40215d")
+        testDigestKat({ CoreDigest.create(Algorithm.Wyhash32(2u)) }, "abc", "fe40215d")
     }
 
     @Test

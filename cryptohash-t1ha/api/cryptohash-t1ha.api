@@ -1,0 +1,16 @@
+public final class com/appmattus/crypto/T1ha {
+	public static final field INSTANCE Lcom/appmattus/crypto/T1ha;
+	public final fun t1ha0_32le-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun t1ha0_32le-VKZWuLQ$default (Lcom/appmattus/crypto/T1ha;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun t1ha1Le-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun t1ha1Le-VKZWuLQ$default (Lcom/appmattus/crypto/T1ha;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun t1ha2AtOnce-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun t1ha2AtOnce-VKZWuLQ$default (Lcom/appmattus/crypto/T1ha;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun t1ha2AtOnce128-VKZWuLQ (J)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun t1ha2AtOnce128-VKZWuLQ$default (Lcom/appmattus/crypto/T1ha;JILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun t1ha2Stream-PWzV0Is (JJ)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun t1ha2Stream-PWzV0Is$default (Lcom/appmattus/crypto/T1ha;JJILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun t1ha2Stream128-PWzV0Is (JJ)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun t1ha2Stream128-PWzV0Is$default (Lcom/appmattus/crypto/T1ha;JJILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

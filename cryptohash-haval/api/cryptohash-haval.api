@@ -1,0 +1,19 @@
+public final class com/appmattus/crypto/Haval {
+	public static final field INSTANCE Lcom/appmattus/crypto/Haval;
+	public final fun getHaval3_128 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval3_160 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval3_192 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval3_224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval3_256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval4_128 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval4_160 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval4_192 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval4_224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval4_256 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval5_128 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval5_160 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval5_192 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval5_224 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getHaval5_256 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+

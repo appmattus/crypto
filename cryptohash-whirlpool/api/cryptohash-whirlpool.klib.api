@@ -1,0 +1,16 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-whirlpool>
+final object com.appmattus.crypto/Whirlpool { // com.appmattus.crypto/Whirlpool|null[0]
+    final val whirlpool // com.appmattus.crypto/Whirlpool.whirlpool|{}whirlpool[0]
+        final fun <get-whirlpool>(): com.appmattus.crypto/HmacAlgorithm // com.appmattus.crypto/Whirlpool.whirlpool.<get-whirlpool>|<get-whirlpool>(){}[0]
+    final val whirlpool0 // com.appmattus.crypto/Whirlpool.whirlpool0|{}whirlpool0[0]
+        final fun <get-whirlpool0>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Whirlpool.whirlpool0.<get-whirlpool0>|<get-whirlpool0>(){}[0]
+    final val whirlpoolT // com.appmattus.crypto/Whirlpool.whirlpoolT|{}whirlpoolT[0]
+        final fun <get-whirlpoolT>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Whirlpool.whirlpoolT.<get-whirlpoolT>|<get-whirlpoolT>(){}[0]
+}

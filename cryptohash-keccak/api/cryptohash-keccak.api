@@ -1,0 +1,47 @@
+public final class com/appmattus/crypto/KangarooTwelve {
+	public static final field INSTANCE Lcom/appmattus/crypto/KangarooTwelve;
+	public final fun kt128 ([BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun kt128$default (Lcom/appmattus/crypto/KangarooTwelve;[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun kt256 ([BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun kt256$default (Lcom/appmattus/crypto/KangarooTwelve;[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+
+public final class com/appmattus/crypto/Keccak {
+	public static final field INSTANCE Lcom/appmattus/crypto/Keccak;
+	public final fun getKeccak224 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getKeccak256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getKeccak288 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getKeccak384 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getKeccak512 ()Lcom/appmattus/crypto/HmacAlgorithm;
+}
+
+public final class com/appmattus/crypto/Sha3 {
+	public static final field INSTANCE Lcom/appmattus/crypto/Sha3;
+	public final fun getSha3_224 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSha3_256 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSha3_384 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getSha3_512 ()Lcom/appmattus/crypto/HmacAlgorithm;
+	public final fun getShake128 ()Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun getShake256 ()Lcom/appmattus/crypto/HashAlgorithm;
+}
+
+public final class com/appmattus/crypto/Sp800185 {
+	public static final field INSTANCE Lcom/appmattus/crypto/Sp800185;
+	public final fun cshake128 ([B[B)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun cshake128$default (Lcom/appmattus/crypto/Sp800185;[B[BILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun cshake256 ([B[B)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun cshake256$default (Lcom/appmattus/crypto/Sp800185;[B[BILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun kmac128 ([B[BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun kmac128$default (Lcom/appmattus/crypto/Sp800185;[B[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun kmac256 ([B[BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun kmac256$default (Lcom/appmattus/crypto/Sp800185;[B[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun parallelHash128 (I[BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun parallelHash128$default (Lcom/appmattus/crypto/Sp800185;I[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun parallelHash256 (I[BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun parallelHash256$default (Lcom/appmattus/crypto/Sp800185;I[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun tupleHash128 ([BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun tupleHash128$default (Lcom/appmattus/crypto/Sp800185;[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+	public final fun tupleHash256 ([BI)Lcom/appmattus/crypto/HashAlgorithm;
+	public static synthetic fun tupleHash256$default (Lcom/appmattus/crypto/Sp800185;[BIILjava/lang/Object;)Lcom/appmattus/crypto/HashAlgorithm;
+}
+

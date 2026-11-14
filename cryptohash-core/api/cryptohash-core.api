@@ -1,0 +1,59 @@
+public abstract interface class com/appmattus/crypto/HashAlgorithm {
+	public fun hash (Ljava/lang/String;)[B
+	public fun hash ([B)[B
+	public fun hash ([BII)[B
+	public abstract fun newHasher ()Lcom/appmattus/crypto/Hasher;
+}
+
+public final class com/appmattus/crypto/HashAlgorithm$DefaultImpls {
+	public static fun hash (Lcom/appmattus/crypto/HashAlgorithm;Ljava/lang/String;)[B
+	public static fun hash (Lcom/appmattus/crypto/HashAlgorithm;[B)[B
+	public static fun hash (Lcom/appmattus/crypto/HashAlgorithm;[BII)[B
+}
+
+public abstract interface class com/appmattus/crypto/Hasher {
+	public abstract fun copy ()Lcom/appmattus/crypto/Hasher;
+	public abstract fun digest ()[B
+	public abstract fun digest ([B)[B
+	public abstract fun digest ([BII)I
+	public abstract fun getDigestLength ()I
+	public abstract fun reset ()V
+	public abstract fun toString ()Ljava/lang/String;
+	public abstract fun update (B)Lcom/appmattus/crypto/Hasher;
+	public abstract fun update ([B)Lcom/appmattus/crypto/Hasher;
+	public abstract fun update ([BII)Lcom/appmattus/crypto/Hasher;
+}
+
+public abstract interface class com/appmattus/crypto/HmacAlgorithm : com/appmattus/crypto/HashAlgorithm {
+	public abstract fun newHmac ([BLjava/lang/Integer;)Lcom/appmattus/crypto/Mac;
+	public static synthetic fun newHmac$default (Lcom/appmattus/crypto/HmacAlgorithm;[BLjava/lang/Integer;ILjava/lang/Object;)Lcom/appmattus/crypto/Mac;
+}
+
+public final class com/appmattus/crypto/HmacAlgorithm$DefaultImpls {
+	public static fun hash (Lcom/appmattus/crypto/HmacAlgorithm;Ljava/lang/String;)[B
+	public static fun hash (Lcom/appmattus/crypto/HmacAlgorithm;[B)[B
+	public static fun hash (Lcom/appmattus/crypto/HmacAlgorithm;[BII)[B
+	public static synthetic fun newHmac$default (Lcom/appmattus/crypto/HmacAlgorithm;[BLjava/lang/Integer;ILjava/lang/Object;)Lcom/appmattus/crypto/Mac;
+}
+
+public abstract interface annotation class com/appmattus/crypto/InternalCryptohash : java/lang/annotation/Annotation {
+}
+
+public abstract interface class com/appmattus/crypto/Mac {
+	public abstract fun copy ()Lcom/appmattus/crypto/Mac;
+	public abstract fun digest ()[B
+	public abstract fun digest ([B)[B
+	public abstract fun digest ([BII)I
+	public abstract fun getDigestLength ()I
+	public abstract fun reset ()V
+	public abstract fun toString ()Ljava/lang/String;
+	public abstract fun update (B)Lcom/appmattus/crypto/Mac;
+	public abstract fun update ([B)Lcom/appmattus/crypto/Mac;
+	public abstract fun update ([BII)Lcom/appmattus/crypto/Mac;
+	public fun verify ([B)Z
+}
+
+public final class com/appmattus/crypto/Mac$DefaultImpls {
+	public static fun verify (Lcom/appmattus/crypto/Mac;[B)Z
+}
+

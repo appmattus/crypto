@@ -18,8 +18,6 @@ package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Shavite
-import com.appmattus.crypto.internal.core.sphlib.testKat
-import com.appmattus.crypto.internal.core.sphlib.toHexString
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,10 +30,10 @@ class ShaviteDelegationTest {
 
     @Test
     fun createsDigestsBackedByCryptohashShavite() {
-        testKat({ CoreDigest.create(Algorithm.SHAvite224) }, input, Shavite.shavite224.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHAvite256) }, input, Shavite.shavite256.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHAvite384) }, input, Shavite.shavite384.hash(input).toHexString())
-        testKat({ CoreDigest.create(Algorithm.SHAvite512) }, input, Shavite.shavite512.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHAvite224) }, input, Shavite.shavite224.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHAvite256) }, input, Shavite.shavite256.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHAvite384) }, input, Shavite.shavite384.hash(input).toHexString())
+        testDigestKat({ CoreDigest.create(Algorithm.SHAvite512) }, input, Shavite.shavite512.hash(input).toHexString())
     }
 
     @Test

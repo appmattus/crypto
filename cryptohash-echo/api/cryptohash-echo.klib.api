@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-echo>
+final object com.appmattus.crypto/Echo { // com.appmattus.crypto/Echo|null[0]
+    final val echo224 // com.appmattus.crypto/Echo.echo224|{}echo224[0]
+        final fun <get-echo224>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Echo.echo224.<get-echo224>|<get-echo224>(){}[0]
+    final val echo256 // com.appmattus.crypto/Echo.echo256|{}echo256[0]
+        final fun <get-echo256>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Echo.echo256.<get-echo256>|<get-echo256>(){}[0]
+    final val echo384 // com.appmattus.crypto/Echo.echo384|{}echo384[0]
+        final fun <get-echo384>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Echo.echo384.<get-echo384>|<get-echo384>(){}[0]
+    final val echo512 // com.appmattus.crypto/Echo.echo512|{}echo512[0]
+        final fun <get-echo512>(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/Echo.echo512.<get-echo512>|<get-echo512>(){}[0]
+}

@@ -1,0 +1,18 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, mingwX64, tvosArm64, tvosSimulatorArm64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <crypto:cryptohash-xxhash>
+final object com.appmattus.crypto/XxHash { // com.appmattus.crypto/XxHash|null[0]
+    final fun xxh32(kotlin/Int = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/XxHash.xxh32|xxh32(kotlin.Int){}[0]
+    final fun xxh3_128(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/XxHash.xxh3_128|xxh3_128(){}[0]
+    final fun xxh3_128(kotlin/ByteArray): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/XxHash.xxh3_128|xxh3_128(kotlin.ByteArray){}[0]
+    final fun xxh3_128(kotlin/Long): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/XxHash.xxh3_128|xxh3_128(kotlin.Long){}[0]
+    final fun xxh3_64(): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/XxHash.xxh3_64|xxh3_64(){}[0]
+    final fun xxh3_64(kotlin/ByteArray): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/XxHash.xxh3_64|xxh3_64(kotlin.ByteArray){}[0]
+    final fun xxh3_64(kotlin/Long): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/XxHash.xxh3_64|xxh3_64(kotlin.Long){}[0]
+    final fun xxh64(kotlin/Long = ...): com.appmattus.crypto/HashAlgorithm // com.appmattus.crypto/XxHash.xxh64|xxh64(kotlin.Long){}[0]
+}

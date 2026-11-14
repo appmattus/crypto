@@ -14,6 +14,9 @@ with the project.
 1. Update the [README](README.md) with details of changes to the interface, this
    includes new environment variables, exposed ports, useful file locations and
    container parameters.
+1. If you change a published module's public API, run `./gradlew updateKotlinAbi`
+   and commit the updated dumps in its `api` directory. CI's `checkKotlinAbi`
+   fails while they are out of date.
 1. Increase the version numbers in any examples files and the [README](README.md)
    to the new version that this Pull Request would represent. The versioning
    scheme we use is [SemVer](http://semver.org/).
