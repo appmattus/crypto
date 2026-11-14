@@ -49,6 +49,8 @@ import com.appmattus.crypto.Panama
 import com.appmattus.crypto.RadioGatun
 import com.appmattus.crypto.Rapidhash
 import com.appmattus.crypto.RipeMD
+import com.appmattus.crypto.SHA1
+import com.appmattus.crypto.SHA2
 import com.appmattus.crypto.SHA3
 import com.appmattus.crypto.SHAvite
 import com.appmattus.crypto.SIMD
@@ -63,14 +65,6 @@ import com.appmattus.crypto.Tiger
 import com.appmattus.crypto.Whirlpool
 import com.appmattus.crypto.Wyhash
 import com.appmattus.crypto.XXHash
-import com.appmattus.crypto.internal.core.SHA512_224
-import com.appmattus.crypto.internal.core.SHA512_256
-import com.appmattus.crypto.internal.core.sphlib.SHA0
-import com.appmattus.crypto.internal.core.sphlib.SHA1
-import com.appmattus.crypto.internal.core.sphlib.SHA224
-import com.appmattus.crypto.internal.core.sphlib.SHA256
-import com.appmattus.crypto.internal.core.sphlib.SHA384
-import com.appmattus.crypto.internal.core.sphlib.SHA512
 
 internal object CoreDigest {
 
@@ -312,14 +306,14 @@ internal object CoreDigest {
             is Algorithm.RipeMD256 -> RipeMD.ripeMD256.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.RipeMD320 -> RipeMD.ripeMD320.newHasher().toDigest(algorithm.blockLength)
 
-            is Algorithm.SHA_0 -> SHA0()
-            is Algorithm.SHA_1 -> SHA1()
-            is Algorithm.SHA_224 -> SHA224()
-            is Algorithm.SHA_256 -> SHA256()
-            is Algorithm.SHA_384 -> SHA384()
-            is Algorithm.SHA_512 -> SHA512()
-            is Algorithm.SHA_512_224 -> SHA512_224()
-            is Algorithm.SHA_512_256 -> SHA512_256()
+            is Algorithm.SHA_0 -> SHA1.sha0.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_1 -> SHA1.sha1.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_224 -> SHA2.sha224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_256 -> SHA2.sha256.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_384 -> SHA2.sha384.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_512 -> SHA2.sha512.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_512_224 -> SHA2.sha512_224.newHasher().toDigest(algorithm.blockLength)
+            is Algorithm.SHA_512_256 -> SHA2.sha512_256.newHasher().toDigest(algorithm.blockLength)
 
             is Algorithm.SHA3_224 -> SHA3.sha3_224.newHasher().toDigest(algorithm.blockLength)
             is Algorithm.SHA3_256 -> SHA3.sha3_256.newHasher().toDigest(algorithm.blockLength)

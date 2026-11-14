@@ -17,7 +17,6 @@
 package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.CoreDigest
-import com.appmattus.crypto.internal.platformDigest
 import com.appmattus.crypto.internal.xxhash.xxh3.XXH3_SECRET_SIZE_MIN
 
 @Suppress("ClassName")
@@ -1526,7 +1525,7 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
      * Where the platform has its own faster implementation of the algorithm, such as JVM `MessageDigest` or Apple
      * CommonCrypto, the digest uses it. The results are identical either way.
      */
-    public fun createDigest(): Digest = platformDigest(this) ?: CoreDigest.create(this)
+    public fun createDigest(): Digest = CoreDigest.create(this)
 
     /**
      * Create a hash of [input] using the [Algorithm]
