@@ -1,0 +1,43 @@
+/*
+ * Copyright 2022-2026 Appmattus Limited
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.appmattus.crypto.internal.cityhash
+
+import com.appmattus.crypto.CityHash
+import com.appmattus.crypto.internal.cityhash.CityHashTest.data
+import com.appmattus.crypto.internal.cityhash.CityHashTest.kSeed0
+import com.appmattus.crypto.internal.cityhash.CityHashTest.kSeed1
+import com.appmattus.crypto.internal.cityhash.CityHashTest.kTestSize
+import com.appmattus.crypto.internal.cityhash.CityHashTest.testData
+import com.appmattus.crypto.internal.testKat
+import kotlin.test.Test
+
+internal class CityHash64Test {
+
+    @Test
+    fun baseTest() {
+        for (i in 0 until kTestSize - 1) {
+            val data = data.copyOfRange(i * i, i * i + i)
+            testKat({ CityHash.cityHash64().newHasher() }, data, testData[i].hash64)
+            testKat({ CityHash.cityHash64(kSeed0).newHasher() }, data, testData[i].hash64WithSeed)
+            testKat({ CityHash.cityHash64(kSeed0, kSeed1).newHasher() }, data, testData[i].hash64WithSeeds)
+        }
+
+        testKat({ CityHash.cityHash64().newHasher() }, data, testData[kTestSize - 1].hash64)
+        testKat({ CityHash.cityHash64(kSeed0).newHasher() }, data, testData[kTestSize - 1].hash64WithSeed)
+        testKat({ CityHash.cityHash64(kSeed0, kSeed1).newHasher() }, data, testData[kTestSize - 1].hash64WithSeeds)
+    }
+}
