@@ -17,5 +17,5 @@
 // The SHA-2 family of hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

@@ -17,5 +17,5 @@
 // The RadioGatún family of hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

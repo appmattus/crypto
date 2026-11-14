@@ -17,7 +17,7 @@
 // The CityHash and FarmHash families of hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }
 
 kotlin {

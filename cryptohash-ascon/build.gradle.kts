@@ -17,5 +17,5 @@
 // The Ascon family of hashes from NIST SP 800-232
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

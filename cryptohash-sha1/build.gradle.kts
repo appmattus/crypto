@@ -17,5 +17,5 @@
 // The SHA-0 and SHA-1 hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

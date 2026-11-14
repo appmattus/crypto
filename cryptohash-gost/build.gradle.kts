@@ -17,5 +17,5 @@
 // GOST R 34.11-94 hash
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

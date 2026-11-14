@@ -17,5 +17,5 @@
 // The SM3 hash
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

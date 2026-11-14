@@ -17,5 +17,5 @@
 // The Keccak family of hashes, SHA-3 and the SP 800-185 functions
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

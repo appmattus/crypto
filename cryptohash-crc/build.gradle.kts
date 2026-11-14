@@ -17,5 +17,5 @@
 // The CRC family of checksums
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

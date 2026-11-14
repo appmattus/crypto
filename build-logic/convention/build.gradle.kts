@@ -32,7 +32,7 @@ gradlePlugin {
             implementationClass = "KmpLibraryConventionPlugin"
         }
         register("hashModule") {
-            id = "cryptohash.module"
+            id = "cryptohash.hash-module"
             implementationClass = "HashModuleConventionPlugin"
         }
         register("publish") {

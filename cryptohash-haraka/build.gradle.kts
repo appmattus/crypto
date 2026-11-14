@@ -17,5 +17,5 @@
 // The Haraka v2 family of hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

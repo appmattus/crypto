@@ -15,11 +15,11 @@
  */
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }
 
 // Targets, the source set hierarchy, the cryptohash-core and common-test dependencies and the Hermes test tasks come
-// from the cryptohash.module convention plugin in build-logic
+// from the cryptohash.hash-module convention plugin in build-logic
 kotlin {
     sourceSets {
         commonMain.dependencies {

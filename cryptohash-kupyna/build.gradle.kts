@@ -17,5 +17,5 @@
 // The Kupyna (DSTU 7564) family of hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

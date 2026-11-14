@@ -17,7 +17,7 @@
 // The t1ha family of fast hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }
 
 kotlin {

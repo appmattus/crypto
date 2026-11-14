@@ -17,5 +17,5 @@
 // The PANAMA hash
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

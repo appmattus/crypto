@@ -17,7 +17,7 @@
 // The Adler family of checksums, the first algorithm family moved to its own module on the new HashAlgorithm API
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }
 
 // Adler32PlatformTest's java.util.zip.Adler32 wrapper reads the checksum's private field to copy it

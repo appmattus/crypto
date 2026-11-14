@@ -17,5 +17,5 @@
 // The Streebog (GOST R 34.11-2012) family of hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }

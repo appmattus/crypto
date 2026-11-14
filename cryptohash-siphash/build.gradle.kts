@@ -17,5 +17,5 @@
 // The SipHash family of keyed hashes
 
 plugins {
-    id("cryptohash.module")
+    id("cryptohash.hash-module")
 }
