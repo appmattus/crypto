@@ -17,25 +17,5 @@
 // The Ascon family of hashes from NIST SP 800-232
 
 plugins {
-    id("cryptohash.kmp-library")
-    id("cryptohash.publish")
+    id("cryptohash.module")
 }
-
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            api(project(":cryptohash-core"))
-        }
-
-        commonTest.dependencies {
-            implementation(project(":common-test"))
-        }
-
-        // AsconBcTest compares against BouncyCastle's implementation
-        jvmTest.dependencies {
-            implementation(libs.bouncyCastle)
-        }
-    }
-}
-
-apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))

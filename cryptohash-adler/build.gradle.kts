@@ -17,20 +17,7 @@
 // The Adler family of checksums, the first algorithm family moved to its own module on the new HashAlgorithm API
 
 plugins {
-    id("cryptohash.kmp-library")
-    id("cryptohash.publish")
-}
-
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            api(project(":cryptohash-core"))
-        }
-
-        commonTest.dependencies {
-            implementation(project(":common-test"))
-        }
-    }
+    id("cryptohash.module")
 }
 
 // Adler32PlatformTest's java.util.zip.Adler32 wrapper reads the checksum's private field to copy it
@@ -39,5 +26,3 @@ tasks.withType<Test>().configureEach {
         "--add-opens=java.base/java.util.zip=ALL-UNNAMED",
     )
 }
-
-apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))

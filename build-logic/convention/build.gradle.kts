@@ -31,6 +31,10 @@ gradlePlugin {
             id = "cryptohash.kmp-library"
             implementationClass = "KmpLibraryConventionPlugin"
         }
+        register("hashModule") {
+            id = "cryptohash.module"
+            implementationClass = "HashModuleConventionPlugin"
+        }
         register("publish") {
             id = "cryptohash.publish"
             implementationClass = "PublishConventionPlugin"

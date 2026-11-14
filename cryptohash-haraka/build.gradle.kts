@@ -17,20 +17,5 @@
 // The Haraka v2 family of hashes
 
 plugins {
-    id("cryptohash.kmp-library")
-    id("cryptohash.publish")
+    id("cryptohash.module")
 }
-
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            api(project(":cryptohash-core"))
-        }
-
-        commonTest.dependencies {
-            implementation(project(":common-test"))
-        }
-    }
-}
-
-apply(from = rootProject.file("cryptohash/hermes/hermes.gradle.kts"))

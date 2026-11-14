@@ -15,16 +15,14 @@
  */
 
 plugins {
-    id("cryptohash.kmp-library")
-    id("cryptohash.publish")
+    id("cryptohash.module")
 }
 
-// Targets, the source set hierarchy and the common test dependencies come from the cryptohash.kmp-library convention
-// plugin in build-logic
+// Targets, the source set hierarchy, the cryptohash-core and common-test dependencies and the Hermes test tasks come
+// from the cryptohash.module convention plugin in build-logic
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            api(project(":cryptohash-core"))
             api(project(":cryptohash-adler"))
             api(project(":cryptohash-wyhash"))
             api(project(":cryptohash-rapidhash"))
@@ -68,23 +66,6 @@ kotlin {
             api(project(":cryptohash-cityhash"))
             api(project(":cryptohash-sha1"))
             api(project(":cryptohash-sha2"))
-            implementation(libs.uint128)
-        }
-
-        commonTest.dependencies {
-            implementation(project(":common-test"))
-        }
-
-        jvmTest.dependencies {
-            implementation(libs.bouncyCastle)
         }
     }
 }
-
-tasks.withType<Test>().configureEach {
-    jvmArgs(
-        "--add-opens=java.base/java.util.zip=ALL-UNNAMED",
-    )
-}
-
-apply(from = "hermes/hermes.gradle.kts")
