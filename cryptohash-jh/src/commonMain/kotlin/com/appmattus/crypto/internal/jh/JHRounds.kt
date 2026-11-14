@@ -39,7 +39,7 @@
 
 package com.appmattus.crypto.internal.jh
 
-import com.appmattus.crypto.internal.core.decodeBELong
+import com.appmattus.crypto.internal.core.decodeBeLong
 
 /**
  * Processes one 64-byte block of [data] into the 16-word JH state [h]: xors the message into the first half of the
@@ -53,14 +53,14 @@ internal expect fun jhProcessBlock(h: LongArray, data: ByteArray)
  * The [Long] implementation of [jhProcessBlock], for platforms whose [Long] is a 64-bit machine integer
  */
 internal fun jhProcessBlockLong(h: LongArray, data: ByteArray) {
-    val m0h = decodeBELong(data, 0)
-    val m0l = decodeBELong(data, 8)
-    val m1h = decodeBELong(data, 16)
-    val m1l = decodeBELong(data, 24)
-    val m2h = decodeBELong(data, 32)
-    val m2l = decodeBELong(data, 40)
-    val m3h = decodeBELong(data, 48)
-    val m3l = decodeBELong(data, 56)
+    val m0h = decodeBeLong(data, 0)
+    val m0l = decodeBeLong(data, 8)
+    val m1h = decodeBeLong(data, 16)
+    val m1l = decodeBeLong(data, 24)
+    val m2h = decodeBeLong(data, 32)
+    val m2l = decodeBeLong(data, 40)
+    val m3h = decodeBeLong(data, 48)
+    val m3l = decodeBeLong(data, 56)
     h[0] = h[0] xor m0h
     h[1] = h[1] xor m0l
     h[2] = h[2] xor m1h

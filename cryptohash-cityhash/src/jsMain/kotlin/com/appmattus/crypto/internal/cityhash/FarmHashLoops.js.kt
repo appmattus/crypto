@@ -17,7 +17,7 @@ package com.appmattus.crypto.internal.cityhash
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -68,10 +68,10 @@ private class FarmHashJs {
     private var wlL = 0
 
     // The result of weak, as upper and lower words
-    private var oUH = 0
-    private var oUL = 0
-    private var oLH = 0
-    private var oLL = 0
+    private var oUh = 0
+    private var oUl = 0
+    private var oLh = 0
+    private var oLl = 0
 
     @Suppress("LongMethod", "MagicNumber")
     fun naHash64(s: ByteBuffer): ULong {
@@ -244,19 +244,19 @@ private class FarmHashJs {
         var tl = add(xH, xL, wlH, wlL)
         var th = hi
         weak(pos, ah, al, th, tl)
-        vuH = oUH
-        vuL = oUL
-        vlH = oLH
-        vlL = oLL
+        vuH = oUh
+        vuL = oUl
+        vlH = oLh
+        vlL = oLl
         val cl = add(zH, zL, wuH, wuL)
         val ch = hi
         tl = add(yH, yL, fetchH(pos + 16), fetchL(pos + 16))
         th = hi
         weak(pos + 32, ch, cl, th, tl)
-        wuH = oUH
-        wuL = oUL
-        wlH = oLH
-        wlL = oLL
+        wuH = oUh
+        wuL = oUl
+        wlH = oLh
+        wlL = oLl
     }
 
     @Suppress("CyclomaticComplexMethod", "LongMethod", "MagicNumber")
@@ -468,20 +468,20 @@ private class FarmHashJs {
         tl = add(xh, xl, wlh, wll)
         th = hi
         weak(pos, ah, al, th, tl)
-        vuh = oUH
-        vul = oUL
-        vlh = oLH
-        vll = oLL
+        vuh = oUh
+        vul = oUl
+        vlh = oLh
+        vll = oLl
         // w = weak(pos + 32, z + w.upper, y + fetch(pos + 16))
         al = add(zh, zl, wuh, wul)
         ah = hi
         tl = add(yh, yl, fetchH(pos + 16), fetchL(pos + 16))
         th = hi
         weak(pos + 32, ah, al, th, tl)
-        wuh = oUH
-        wul = oUL
-        wlh = oLH
-        wll = oLL
+        wuh = oUh
+        wul = oUl
+        wlh = oLh
+        wll = oLl
 
         // uoH(hashLen16(v.lower + x, w.lower xor y, mul) + z - u, uoH(v.upper + y, w.upper + z, k2, 30) xor x, k2, 31)
         tl = add(vlh, vll, xh, xl)
@@ -541,10 +541,10 @@ private class FarmHashJs {
         th = hi
         bl = add(bh, bl, th, tl)
         bh = hi
-        oUL = add(bh, bl, ch, cl)
-        oUH = hi
-        oLL = add(ah, al, zh, zl)
-        oLH = hi
+        oUl = add(bh, bl, ch, cl)
+        oUh = hi
+        oLl = add(ah, al, zh, zl)
+        oLh = hi
     }
 
     /** hashLen16(u, v, mul): a = (u xor v) * mul, a ^= a ushr 47, b = (v xor a) * mul, b ^= b ushr 47, b * mul */
@@ -601,10 +601,10 @@ private class FarmHashJs {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun fetchL(o: Int): Int = readIntLE(bytes, o)
+    private inline fun fetchL(o: Int): Int = readIntLe(bytes, o)
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-    private inline fun fetchH(o: Int): Int = readIntLE(bytes, o + 4)
+    private inline fun fetchH(o: Int): Int = readIntLe(bytes, o + 4)
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
     private inline fun toULong(h: Int, l: Int): ULong = ((h.toLong() shl 32) or (l.toLong() and 0xffffffffL)).toULong()

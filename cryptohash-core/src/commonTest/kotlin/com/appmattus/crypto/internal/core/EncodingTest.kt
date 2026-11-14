@@ -25,21 +25,21 @@ class EncodingTest {
     @Test
     fun encodesBigEndianAtTheOffset() {
         val buf = ByteArray(6)
-        encodeBEInt(0x01020304, buf, 1)
+        encodeBeInt(0x01020304, buf, 1)
         assertContentEquals(byteArrayOf(0, 1, 2, 3, 4, 0), buf)
     }
 
     @Test
     fun encodesHighBytes() {
         val buf = ByteArray(4)
-        encodeBEInt(0x80ff7f01.toInt(), buf, 0)
+        encodeBeInt(0x80ff7f01.toInt(), buf, 0)
         assertContentEquals(byteArrayOf(0x80.toByte(), 0xff.toByte(), 0x7f, 0x01), buf)
     }
 
     @Test
     fun decodesLittleEndianShortAtTheOffset() {
         val buf = byteArrayOf(0x7f, 0x34, 0x12, 0xff.toByte(), 0x80.toByte())
-        assertEquals(0x1234.toShort(), buf.decodeLEShort(1))
-        assertEquals(0x80ff.toShort(), buf.decodeLEShort(3))
+        assertEquals(0x1234.toShort(), buf.decodeLeShort(1))
+        assertEquals(0x80ff.toShort(), buf.decodeLeShort(3))
     }
 }

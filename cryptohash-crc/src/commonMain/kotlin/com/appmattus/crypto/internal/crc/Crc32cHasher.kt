@@ -17,7 +17,7 @@
 package com.appmattus.crypto.internal.crc
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 
 internal class Crc32cHasher : Hasher {
 
@@ -43,7 +43,7 @@ internal class Crc32cHasher : Hasher {
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        encodeBEInt(checksum, digest, 0)
+        encodeBeInt(checksum, digest, 0)
 
         reset()
 

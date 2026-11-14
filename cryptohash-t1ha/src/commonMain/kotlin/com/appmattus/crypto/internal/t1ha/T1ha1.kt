@@ -19,8 +19,8 @@ package com.appmattus.crypto.internal.t1ha
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.NonIncrementalHasher
-import com.appmattus.crypto.internal.core.decodeLEULong
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.decodeLeULong
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.core.multiplyHigh
 import com.appmattus.crypto.internal.core.rotateRight
 
@@ -30,14 +30,14 @@ import com.appmattus.crypto.internal.core.rotateRight
 internal fun t1ha1Hasher(seed: ULong): Hasher =
     NonIncrementalHasher("t1ha1-le", 8) { input ->
         ByteArray(8).apply {
-            encodeBELong(T1ha1.t1ha1_le(input, seed).toLong(), this, 0)
+            encodeBeLong(T1ha1.t1ha1Le(input, seed).toLong(), this, 0)
         }
     }
 
 @Suppress("FunctionName")
 private object T1ha1 {
 
-    fun t1ha1_le(data: ByteBuffer, seed: ULong): ULong {
+    fun t1ha1Le(data: ByteBuffer, seed: ULong): ULong {
         var len = data.size
         var a: ULong = seed
         var b: ULong = len.toULong()
@@ -52,10 +52,10 @@ private object T1ha1 {
             val detent = len - 31
 
             do {
-                val w0: ULong = data.decodeLEULong(v + 0)
-                val w1: ULong = data.decodeLEULong(v + 8)
-                val w2: ULong = data.decodeLEULong(v + 16)
-                val w3: ULong = data.decodeLEULong(v + 24)
+                val w0: ULong = data.decodeLeULong(v + 0)
+                val w1: ULong = data.decodeLeULong(v + 8)
+                val w2: ULong = data.decodeLeULong(v + 16)
+                val w3: ULong = data.decodeLeULong(v + 24)
                 v += 32
 
                 val d02: ULong = w0 xor (w2 + d).rotateRight(17)
@@ -74,15 +74,15 @@ private object T1ha1 {
         }
 
         if (len >= 25) {
-            b += mux64(data.decodeLEULong(v), prime_4)
+            b += mux64(data.decodeLeULong(v), prime_4)
             v += 8
         }
         if (len >= 17) {
-            a += mux64(data.decodeLEULong(v), prime_3)
+            a += mux64(data.decodeLeULong(v), prime_3)
             v += 8
         }
         if (len >= 9) {
-            b += mux64(data.decodeLEULong(v), prime_2)
+            b += mux64(data.decodeLeULong(v), prime_2)
             v += 8
         }
         if (len >= 1) {
@@ -90,10 +90,10 @@ private object T1ha1 {
             v += 8
         }
 
-        return final_weak_avalanche(a, b)
+        return finalWeakAvalanche(a, b)
     }
 
-    private fun final_weak_avalanche(a: ULong, b: ULong): ULong {
+    private fun finalWeakAvalanche(a: ULong, b: ULong): ULong {
         /* LY: for performance reason on a some not high-end CPUs
          * I replaced the second mux64() operation by mix64().
          * Unfortunately this approach fails the "strict avalanche criteria",
@@ -111,7 +111,7 @@ private object T1ha1 {
     private fun tail64(data: ByteBuffer, v: Int, tail: Int): ULong {
         var r: ULong = 0u
         if (tail == 0) {
-            return data.decodeLEULong(v)
+            return data.decodeLeULong(v)
         }
         if (tail >= 7) {
             r = data[v + 6].toULong() and 0xFFu shl 8
@@ -125,7 +125,7 @@ private object T1ha1 {
             r = r shl 32
         }
         if (tail >= 4) {
-            return r + data.decodeLEUInt(v)
+            return r + data.decodeLeUInt(v)
         }
         if (tail >= 3) {
             r = data[v + 2].toULong() and 0xFFu shl 16

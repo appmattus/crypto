@@ -17,7 +17,7 @@
 package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.ascon.ASCON_CUSTOMISATION_MAX_SIZE
-import com.appmattus.crypto.internal.ascon.AsconCXof128Algorithm
+import com.appmattus.crypto.internal.ascon.AsconCxof128Algorithm
 import com.appmattus.crypto.internal.ascon.AsconHash256Algorithm
 import com.appmattus.crypto.internal.ascon.AsconXof128Algorithm
 import com.appmattus.crypto.internal.ascon.requireValidAsconOutputSize
@@ -55,6 +55,6 @@ public object Ascon {
             "customisation must be at most $ASCON_CUSTOMISATION_MAX_SIZE bytes, was ${customisation?.size}"
         }
         requireValidAsconOutputSize(outputSizeBits)
-        return AsconCXof128Algorithm(customisation ?: ByteArray(0), outputSizeBits)
+        return AsconCxof128Algorithm(customisation ?: ByteArray(0), outputSizeBits)
     }
 }

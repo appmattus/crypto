@@ -17,7 +17,7 @@ package com.appmattus.crypto.internal.cityhash
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 import com.appmattus.uint.UInt128
 
 /*
@@ -70,10 +70,10 @@ private class CityHashJs {
     private var wlL = 0
 
     // The result of weak, as upper and lower words
-    private var oUH = 0
-    private var oUL = 0
-    private var oLH = 0
-    private var oLL = 0
+    private var oUh = 0
+    private var oUl = 0
+    private var oLh = 0
+    private var oLl = 0
 
     @Suppress("MagicNumber")
     fun hash64(s: ByteBuffer): ULong {
@@ -92,18 +92,18 @@ private class CityHashJs {
         zH = hi
         // v = weakHashLen32WithSeeds(len - 64, len, z)
         weak(len - 64, 0, len, zH, zL)
-        vuH = oUH
-        vuL = oUL
-        vlH = oLH
-        vlL = oLL
+        vuH = oUh
+        vuL = oUl
+        vlH = oLh
+        vlL = oLl
         // w = weakHashLen32WithSeeds(len - 32, y + k1, x)
         tl = add(yH, yL, K1_HIGH, K1_LOW)
         th = hi
         weak(len - 32, th, tl, xH, xL)
-        wuH = oUH
-        wuL = oUL
-        wlH = oLH
-        wlL = oLL
+        wuH = oUh
+        wuL = oUl
+        wlH = oLh
+        wlL = oLl
         // x = x * k1 + fetch(0)
         tl = mul(xH, xL, K1_HIGH, K1_LOW)
         th = hi
@@ -248,9 +248,9 @@ private class CityHashJs {
             tl = add(vlH, vlL, zH, zL)
             th = hi
             weak(at, th, tl, vuH, vuL)
-            vuH = oUH
-            vuL = oUL
-            vlL = mul(oLH, oLL, K0_HIGH, K0_LOW)
+            vuH = oUh
+            vuL = oUl
+            vlL = mul(oLh, oLl, K0_HIGH, K0_LOW)
             vlH = hi
         }
 
@@ -320,20 +320,20 @@ private class CityHashJs {
         tl = add(xH, xL, wlH, wlL)
         th = hi
         weak(pos, ah, al, th, tl)
-        vuH = oUH
-        vuL = oUL
-        vlH = oLH
-        vlL = oLL
+        vuH = oUh
+        vuL = oUl
+        vlH = oLh
+        vlL = oLl
         // w = weakHashLen32WithSeeds(pos + 32, z + w.upper, y + fetch(pos + 16))
         val cl = add(zH, zL, wuH, wuL)
         val ch = hi
         tl = add(yH, yL, fetchH(pos + 16), fetchL(pos + 16))
         th = hi
         weak(pos + 32, ch, cl, th, tl)
-        wuH = oUH
-        wuL = oUL
-        wlH = oLH
-        wlL = oLL
+        wuH = oUh
+        wuL = oUl
+        wlH = oLh
+        wlL = oLl
         // Swap x and z
         th = xH
         tl = xL
@@ -369,10 +369,10 @@ private class CityHashJs {
         th = hi
         bl = add(bh, bl, th, tl)
         bh = hi
-        oUL = add(bh, bl, ch, cl)
-        oUH = hi
-        oLL = add(ah, al, zh, zl)
-        oLH = hi
+        oUl = add(bh, bl, ch, cl)
+        oUh = hi
+        oLl = add(ah, al, zh, zl)
+        oLh = hi
     }
 
     /** hashLen16(u, v): a = (u xor v) * kMul, a ^= a ushr 47, b = (v xor a) * kMul, b ^= b ushr 47, b * kMul */
@@ -423,10 +423,10 @@ private class CityHashJs {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun fetchL(o: Int): Int = readIntLE(bytes, o)
+    private inline fun fetchL(o: Int): Int = readIntLe(bytes, o)
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-    private inline fun fetchH(o: Int): Int = readIntLE(bytes, o + 4)
+    private inline fun fetchH(o: Int): Int = readIntLe(bytes, o + 4)
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
     private inline fun toULong(h: Int, l: Int): ULong = ((h.toLong() shl 32) or (l.toLong() and 0xffffffffL)).toULong()

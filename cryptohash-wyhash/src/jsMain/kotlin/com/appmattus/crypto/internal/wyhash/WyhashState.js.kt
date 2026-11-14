@@ -16,7 +16,7 @@
 package com.appmattus.crypto.internal.wyhash
 
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -101,26 +101,26 @@ internal actual class WyhashState actual constructor(seed: ULong, secret: List<U
         lastE2l = e2l
         // seed1 = wyMix(data[0] ^ secret[1], data[8] ^ seed1)
         s1l = mix(
-            readIntLE(data, 4) xor secretH[1],
-            readIntLE(data, 0) xor secretL[1],
-            readIntLE(data, 12) xor s1h,
-            readIntLE(data, 8) xor s1l
+            readIntLe(data, 4) xor secretH[1],
+            readIntLe(data, 0) xor secretL[1],
+            readIntLe(data, 12) xor s1h,
+            readIntLe(data, 8) xor s1l
         )
         s1h = hi
         // see1 = wyMix(data[16] ^ secret[2], data[24] ^ see1)
         e1l = mix(
-            readIntLE(data, 20) xor secretH[2],
-            readIntLE(data, 16) xor secretL[2],
-            readIntLE(data, 28) xor e1h,
-            readIntLE(data, 24) xor e1l
+            readIntLe(data, 20) xor secretH[2],
+            readIntLe(data, 16) xor secretL[2],
+            readIntLe(data, 28) xor e1h,
+            readIntLe(data, 24) xor e1l
         )
         e1h = hi
         // see2 = wyMix(data[32] ^ secret[3], data[40] ^ see2)
         e2l = mix(
-            readIntLE(data, 36) xor secretH[3],
-            readIntLE(data, 32) xor secretL[3],
-            readIntLE(data, 44) xor e2h,
-            readIntLE(data, 40) xor e2l
+            readIntLe(data, 36) xor secretH[3],
+            readIntLe(data, 32) xor secretL[3],
+            readIntLe(data, 44) xor e2h,
+            readIntLe(data, 40) xor e2l
         )
         e2h = hi
     }
@@ -160,10 +160,10 @@ internal actual class WyhashState actual constructor(seed: ULong, secret: List<U
                 while (i > 16) {
                     // seed1 = wyMix(data[p] ^ secret[1], data[p + 8] ^ seed1)
                     s1l = mix(
-                        readIntLE(blockBuffer, p + 4) xor secretH[1],
-                        readIntLE(blockBuffer, p) xor secretL[1],
-                        readIntLE(blockBuffer, p + 12) xor s1h,
-                        readIntLE(blockBuffer, p + 8) xor s1l
+                        readIntLe(blockBuffer, p + 4) xor secretH[1],
+                        readIntLe(blockBuffer, p) xor secretL[1],
+                        readIntLe(blockBuffer, p + 12) xor s1h,
+                        readIntLe(blockBuffer, p + 8) xor s1l
                     )
                     s1h = hi
                     i -= 16
@@ -180,10 +180,10 @@ internal actual class WyhashState actual constructor(seed: ULong, secret: List<U
             len >= 4 -> {
                 // a = (wyr4(0) << 32) | wyr4((len >>> 3) << 2), b = (wyr4(len - 4) << 32) | wyr4(len - 4 - ((len >>> 3) << 2))
                 val o = (len ushr 3) shl 2
-                ah = readIntLE(blockBuffer, 0)
-                al = readIntLE(blockBuffer, o)
-                bh = readIntLE(blockBuffer, len - 4)
-                bl = readIntLE(blockBuffer, len - 4 - o)
+                ah = readIntLe(blockBuffer, 0)
+                al = readIntLe(blockBuffer, o)
+                bh = readIntLe(blockBuffer, len - 4)
+                bl = readIntLe(blockBuffer, len - 4 - o)
             }
 
             len > 0 -> {

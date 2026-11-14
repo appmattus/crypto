@@ -61,8 +61,8 @@ package com.appmattus.crypto.internal.blake2
  */
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 
 /**
  * Implementation of the cryptographic hash function Blakbe2b.
@@ -216,26 +216,26 @@ internal class Blake2bHasher : Hasher {
     private fun init() {
         if (chainValue == null) {
             chainValue = LongArray(8)
-            chainValue!![0] = (blake2b_IV[0] xor (digestSize.toLong() or (keyLength.toLong() shl 8) or 0x1010000L))
+            chainValue!![0] = (blake2bIv[0] xor (digestSize.toLong() or (keyLength.toLong() shl 8) or 0x1010000L))
             // 0x1010000 = ((fanout << 16) | (depth << 24) | (leafLength <<
             // 32));
             // with fanout = 1; depth = 0; leafLength = 0;
-            chainValue!![1] = blake2b_IV[1] // ^ nodeOffset; with nodeOffset = 0;
-            chainValue!![2] = blake2b_IV[2] // ^ ( nodeDepth | (innerHashLength <<
+            chainValue!![1] = blake2bIv[1] // ^ nodeOffset; with nodeOffset = 0;
+            chainValue!![2] = blake2bIv[2] // ^ ( nodeDepth | (innerHashLength <<
             // 8) );
             // with nodeDepth = 0; innerHashLength = 0;
-            chainValue!![3] = blake2b_IV[3]
-            chainValue!![4] = blake2b_IV[4]
-            chainValue!![5] = blake2b_IV[5]
+            chainValue!![3] = blake2bIv[3]
+            chainValue!![4] = blake2bIv[4]
+            chainValue!![5] = blake2bIv[5]
             if (salt != null) {
-                chainValue!![4] = chainValue!![4] xor decodeLELong(salt!!, 0)
-                chainValue!![5] = chainValue!![5] xor decodeLELong(salt!!, 8)
+                chainValue!![4] = chainValue!![4] xor decodeLeLong(salt!!, 0)
+                chainValue!![5] = chainValue!![5] xor decodeLeLong(salt!!, 8)
             }
-            chainValue!![6] = blake2b_IV[6]
-            chainValue!![7] = blake2b_IV[7]
+            chainValue!![6] = blake2bIv[6]
+            chainValue!![7] = blake2bIv[7]
             if (personalization != null) {
-                chainValue!![6] = chainValue!![6] xor decodeLELong(personalization!!, 0)
-                chainValue!![7] = chainValue!![7] xor decodeLELong(personalization!!, 8)
+                chainValue!![6] = chainValue!![6] xor decodeLeLong(personalization!!, 0)
+                chainValue!![7] = chainValue!![7] xor decodeLeLong(personalization!!, 8)
             }
         }
     }
@@ -243,12 +243,12 @@ internal class Blake2bHasher : Hasher {
     private fun initializeInternalState() {
         // initialize v:
         chainValue!!.copyInto(internalState, 0, 0, chainValue!!.size)
-        blake2b_IV.copyInto(internalState, chainValue!!.size, 0, 4)
+        blake2bIv.copyInto(internalState, chainValue!!.size, 0, 4)
 
-        internalState[12] = t0 xor blake2b_IV[4]
-        internalState[13] = t1 xor blake2b_IV[5]
-        internalState[14] = f0 xor blake2b_IV[6]
-        internalState[15] = blake2b_IV[7] // ^ f1 with f1 = 0
+        internalState[12] = t0 xor blake2bIv[4]
+        internalState[13] = t1 xor blake2bIv[5]
+        internalState[14] = f0 xor blake2bIv[6]
+        internalState[15] = blake2bIv[7] // ^ f1 with f1 = 0
     }
 
     /**
@@ -354,7 +354,7 @@ internal class Blake2bHasher : Hasher {
         var i = 0
         while (i < chainValue!!.size && i * 8 < digestSize) {
             val bytes = ByteArray(8)
-            encodeLELong(chainValue!![i], bytes, 0)
+            encodeLeLong(chainValue!![i], bytes, 0)
             if (i * 8 < digestSize - 8) {
                 bytes.copyInto(out!!, outOffset + i * 8, 0, 8)
             } else {
@@ -425,7 +425,7 @@ internal class Blake2bHasher : Hasher {
 
     companion object {
         // Blake2b Initialization Vector:
-        private val blake2b_IV = longArrayOf(
+        private val blake2bIv = longArrayOf(
             0x6a09e667f3bcc908L,
             -0x4498517a7b3558c5L,
             0x3c6ef372fe94f82bL,

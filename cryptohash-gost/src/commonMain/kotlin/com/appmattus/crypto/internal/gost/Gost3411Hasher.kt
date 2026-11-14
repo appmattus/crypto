@@ -40,7 +40,7 @@
 package com.appmattus.crypto.internal.gost
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.encodeLeLong
 
 /**
  * implementation of GOST R 34.11-94
@@ -60,7 +60,7 @@ internal class Gost3411Hasher() : Hasher {
     private val xBuf = ByteArray(32)
     private var xBufOff = 0
     private var byteCount: Long = 0
-    private val cipher = GOST28147Engine()
+    private val cipher = Gost28147Engine()
 
     init {
         cipher.initWithSbox(sBox)
@@ -221,7 +221,7 @@ internal class Gost3411Hasher() : Hasher {
 
     private fun finish() {
         // get length into L (byteCount * 8 = bitCount)
-        encodeLELong(byteCount * 8, l, 0)
+        encodeLeLong(byteCount * 8, l, 0)
 
         while (xBufOff != 0) {
             update(0.toByte())

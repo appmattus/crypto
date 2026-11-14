@@ -31,13 +31,13 @@ internal data class AsconXof128Algorithm(private val outputSizeBits: Int) : Hash
     override fun toString(): String = "Ascon-XOF128"
 }
 
-internal class AsconCXof128Algorithm(customisation: ByteArray, private val outputSizeBits: Int) : HashAlgorithm {
+internal class AsconCxof128Algorithm(customisation: ByteArray, private val outputSizeBits: Int) : HashAlgorithm {
     private val customisation = customisation.copyOf()
 
     override fun newHasher(): Hasher = AsconHasher.cxof128(customisation, outputSizeBits / Byte.SIZE_BITS)
 
     override fun equals(other: Any?): Boolean =
-        other is AsconCXof128Algorithm && outputSizeBits == other.outputSizeBits && customisation.contentEquals(other.customisation)
+        other is AsconCxof128Algorithm && outputSizeBits == other.outputSizeBits && customisation.contentEquals(other.customisation)
 
     override fun hashCode(): Int = customisation.contentHashCode() * 31 + outputSizeBits
 

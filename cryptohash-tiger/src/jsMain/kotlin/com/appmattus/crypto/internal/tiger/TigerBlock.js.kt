@@ -16,7 +16,7 @@
 package com.appmattus.crypto.internal.tiger
 
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -59,8 +59,8 @@ private class TigerJs {
             sL[i] = state[i].toInt()
         }
         for (i in 0..7) {
-            xL[i] = readIntLE(data, 8 * i)
-            xH[i] = readIntLE(data, 8 * i + 4)
+            xL[i] = readIntLe(data, 8 * i)
+            xH[i] = readIntLe(data, 8 * i + 4)
         }
         pass(0, 1, 2, 5)
         keySchedule()

@@ -21,7 +21,7 @@ package com.appmattus.crypto.internal.cityhash
  * Only the low 32 bits of [crc] are used, and the result fits in 32 bits.
  */
 @Suppress("FunctionName", "MagicNumber")
-internal fun crc32_u64(crc: ULong, value: ULong): ULong {
+internal fun crc32U64(crc: ULong, value: ULong): ULong {
     // The two 32-bit halves of value, each folded in with four table lookups
     var c: UInt = crc.toUInt() xor value.toUInt()
     var r: UInt = crcTable3[c.toInt() and 0xff] xor

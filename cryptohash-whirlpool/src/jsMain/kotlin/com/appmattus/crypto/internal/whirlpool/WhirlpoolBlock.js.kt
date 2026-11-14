@@ -63,8 +63,8 @@ private class WhirlpoolJs {
     fun processBlock(state: LongArray, data: ByteArray, tables: Array<LongArray>, rc: LongArray) {
         val t = split(tables, rc)
         for (i in 0..7) {
-            mLow[i] = readIntLE(data, 8 * i)
-            mHigh[i] = readIntLE(data, 8 * i + 4)
+            mLow[i] = readIntLe(data, 8 * i)
+            mHigh[i] = readIntLe(data, 8 * i + 4)
             kHigh[i] = (state[i] ushr 32).toInt()
             kLow[i] = state[i].toInt()
             nHigh[i] = mHigh[i] xor kHigh[i]
@@ -119,7 +119,7 @@ private class WhirlpoolJs {
 }
 
 @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-private inline fun readIntLE(data: ByteArray, offset: Int): Int =
+private inline fun readIntLe(data: ByteArray, offset: Int): Int =
     (data[offset].toInt() and 0xff) or
         ((data[offset + 1].toInt() and 0xff) shl 8) or
         ((data[offset + 2].toInt() and 0xff) shl 16) or

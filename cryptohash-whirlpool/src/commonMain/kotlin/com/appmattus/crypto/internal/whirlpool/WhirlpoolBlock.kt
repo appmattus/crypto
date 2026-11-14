@@ -39,7 +39,7 @@
 
 package com.appmattus.crypto.internal.whirlpool
 
-import com.appmattus.crypto.internal.core.decodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
 
 /**
  * Processes one 64-byte block of [data] into the eight-word [state], with the eight 256-entry [tables] and the round
@@ -62,21 +62,21 @@ internal fun whirlpoolProcessBlockLong(state: LongArray, data: ByteArray, tables
     val tab5 = tables[5]
     val tab6 = tables[6]
     val tab7 = tables[7]
-    var n0 = decodeLELong(data, 0)
+    var n0 = decodeLeLong(data, 0)
     val sn0 = n0
-    var n1 = decodeLELong(data, 8)
+    var n1 = decodeLeLong(data, 8)
     val sn1 = n1
-    var n2 = decodeLELong(data, 16)
+    var n2 = decodeLeLong(data, 16)
     val sn2 = n2
-    var n3 = decodeLELong(data, 24)
+    var n3 = decodeLeLong(data, 24)
     val sn3 = n3
-    var n4 = decodeLELong(data, 32)
+    var n4 = decodeLeLong(data, 32)
     val sn4 = n4
-    var n5 = decodeLELong(data, 40)
+    var n5 = decodeLeLong(data, 40)
     val sn5 = n5
-    var n6 = decodeLELong(data, 48)
+    var n6 = decodeLeLong(data, 48)
     val sn6 = n6
-    var n7 = decodeLELong(data, 56)
+    var n7 = decodeLeLong(data, 56)
     val sn7 = n7
     var h0 = state[0]
     var h1 = state[1]

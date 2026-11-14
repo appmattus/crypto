@@ -17,7 +17,7 @@
 package com.appmattus.crypto.internal.crc
 
 import com.appmattus.crypto.Hasher
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 
 /**
  * CRC32B straight from `java.util.zip.CRC32`, as a reference for the CRC32B tests
@@ -44,7 +44,7 @@ internal class JavaUtilZipCrc32b : Hasher {
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        encodeBEInt(crc.value.toInt(), digest, 0)
+        encodeBeInt(crc.value.toInt(), digest, 0)
 
         reset()
 

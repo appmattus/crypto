@@ -19,17 +19,17 @@
 package com.appmattus.crypto.internal.t1ha
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
-import com.appmattus.crypto.internal.core.decodeLEULong
+import com.appmattus.crypto.internal.core.decodeLeULong
 import com.appmattus.crypto.internal.core.multiplyHigh
 import com.appmattus.crypto.internal.core.rotateRight
 import com.appmattus.uint.UInt128
 
-internal fun initAB(s: T1haState256, x: ULong, y: ULong) {
+internal fun initAb(s: T1haState256, x: ULong, y: ULong) {
     s.a = x
     s.b = y
 }
 
-internal fun initCD(s: T1haState256, x: ULong, y: ULong) {
+internal fun initCd(s: T1haState256, x: ULong, y: ULong) {
     s.c = y.rotateRight(23) + x.inv()
     s.d = y.inv() + x.rotateRight(19)
 }
@@ -67,10 +67,10 @@ internal inline fun t1ha2Loop(state: T1haState256, data: ByteBuffer, len: Int): 
 
 @Suppress("NOTHING_TO_INLINE")
 private inline fun t1ha2Update(s: T1haState256, data: ByteBuffer, offset: Int) {
-    val w0: ULong = data.decodeLEULong(offset)
-    val w1: ULong = data.decodeLEULong(offset + 8)
-    val w2: ULong = data.decodeLEULong(offset + 16)
-    val w3: ULong = data.decodeLEULong(offset + 24)
+    val w0: ULong = data.decodeLeULong(offset)
+    val w1: ULong = data.decodeLeULong(offset + 8)
+    val w2: ULong = data.decodeLeULong(offset + 16)
+    val w3: ULong = data.decodeLeULong(offset + 24)
 
     val d02: ULong = w0 + (w2 + s.d).rotateRight(56)
     val c13: ULong = w1 + (w3 + s.c).rotateRight(19)
@@ -82,10 +82,10 @@ private inline fun t1ha2Update(s: T1haState256, data: ByteBuffer, offset: Int) {
 
 @Suppress("NOTHING_TO_INLINE")
 internal inline fun t1ha2Update(s: T1haState256, data: ByteArray, offset: Int) {
-    val w0: ULong = data.decodeLEULong(offset)
-    val w1: ULong = data.decodeLEULong(offset + 8)
-    val w2: ULong = data.decodeLEULong(offset + 16)
-    val w3: ULong = data.decodeLEULong(offset + 24)
+    val w0: ULong = data.decodeLeULong(offset)
+    val w1: ULong = data.decodeLeULong(offset + 8)
+    val w2: ULong = data.decodeLeULong(offset + 16)
+    val w3: ULong = data.decodeLeULong(offset + 24)
 
     val d02: ULong = w0 + (w2 + s.d).rotateRight(56)
     val c13: ULong = w1 + (w3 + s.c).rotateRight(19)
@@ -95,11 +95,11 @@ internal inline fun t1ha2Update(s: T1haState256, data: ByteArray, offset: Int) {
     s.a = s.a xor (PRIME_5 * (d02 + w3))
 }
 
-internal fun t1ha2TailAB(s: T1haState256, data: ByteBuffer, offset: Int, len: Int): ULong {
+internal fun t1ha2TailAb(s: T1haState256, data: ByteBuffer, offset: Int, len: Int): ULong {
     var v = offset
 
     if (len >= 25) {
-        (s.b + data.decodeLEULong(v)).let {
+        (s.b + data.decodeLeULong(v)).let {
             s.a = s.a xor (it * PRIME_4)
             s.b += multiplyHigh(it, PRIME_4)
         }
@@ -107,7 +107,7 @@ internal fun t1ha2TailAB(s: T1haState256, data: ByteBuffer, offset: Int, len: In
         v += 8
     }
     if (len >= 17) {
-        (s.a + data.decodeLEULong(v)).let {
+        (s.a + data.decodeLeULong(v)).let {
             s.b = s.b xor (it * PRIME_3)
             s.a += multiplyHigh(it, PRIME_3)
         }
@@ -115,7 +115,7 @@ internal fun t1ha2TailAB(s: T1haState256, data: ByteBuffer, offset: Int, len: In
         v += 8
     }
     if (len >= 9) {
-        (s.b + data.decodeLEULong(v)).let {
+        (s.b + data.decodeLeULong(v)).let {
             s.a = s.a xor (it * PRIME_2)
             s.b += multiplyHigh(it, PRIME_2)
         }
@@ -133,11 +133,11 @@ internal fun t1ha2TailAB(s: T1haState256, data: ByteBuffer, offset: Int, len: In
     return final64(s.a, s.b)
 }
 
-internal fun t1ha2TailABCD(s: T1haState256, data: ByteBuffer, offset: Int, len: Int): UInt128 {
+internal fun t1ha2TailAbcd(s: T1haState256, data: ByteBuffer, offset: Int, len: Int): UInt128 {
     var v = offset
 
     if (len >= 25) {
-        (s.d + data.decodeLEULong(v)).let {
+        (s.d + data.decodeLeULong(v)).let {
             s.a = s.a xor (it * PRIME_4)
             s.d += multiplyHigh(it, PRIME_4)
         }
@@ -145,7 +145,7 @@ internal fun t1ha2TailABCD(s: T1haState256, data: ByteBuffer, offset: Int, len: 
         v += 8
     }
     if (len >= 17) {
-        (s.a + data.decodeLEULong(v)).let {
+        (s.a + data.decodeLeULong(v)).let {
             s.b = s.b xor (it * PRIME_3)
             s.a += multiplyHigh(it, PRIME_3)
         }
@@ -153,7 +153,7 @@ internal fun t1ha2TailABCD(s: T1haState256, data: ByteBuffer, offset: Int, len: 
         v += 8
     }
     if (len >= 9) {
-        (s.b + data.decodeLEULong(v)).let {
+        (s.b + data.decodeLeULong(v)).let {
             s.c = s.c xor (it * PRIME_2)
             s.b += multiplyHigh(it, PRIME_2)
         }
@@ -175,7 +175,7 @@ internal fun t1ha2TailABCD(s: T1haState256, data: ByteBuffer, offset: Int, len: 
 private fun tail64(data: ByteBuffer, v: Int, tail: Int): ULong {
     var r: ULong = 0u
     if (tail == 0) {
-        return data.decodeLEULong(v)
+        return data.decodeLeULong(v)
     }
     if (tail >= 7) {
         r = data[v + 6].toULong() and 0xFFu shl 8
@@ -189,7 +189,7 @@ private fun tail64(data: ByteBuffer, v: Int, tail: Int): ULong {
         r = r shl 32
     }
     if (tail >= 4) {
-        return r + data.decodeLEUInt(v)
+        return r + data.decodeLeUInt(v)
     }
     if (tail >= 3) {
         r = data[v + 2].toULong() and 0xFFu shl 16

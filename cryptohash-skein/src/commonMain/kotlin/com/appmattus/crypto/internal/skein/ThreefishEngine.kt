@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.skein
 
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 import com.appmattus.crypto.internal.core.rotateLeft
 import com.appmattus.crypto.internal.core.rotateRight
 
@@ -206,11 +206,11 @@ internal class ThreefishEngine(blocksizeBits: Int) {
         require(keyBytes.size == blockSize) { "Threefish key must be same size as block ($blockSize bytes)" }
         val keyWords = LongArray(blocksizeWords)
         for (i in keyWords.indices) {
-            keyWords[i] = decodeLELong(keyBytes, i * 8)
+            keyWords[i] = decodeLeLong(keyBytes, i * 8)
         }
         if (tweakBytes != null) {
             require(tweakBytes.size == TWEAK_SIZE_BYTES) { "Threefish tweak must be $TWEAK_SIZE_BYTES bytes" }
-            tweakWords = longArrayOf(decodeLELong(tweakBytes, 0), decodeLELong(tweakBytes, 8))
+            tweakWords = longArrayOf(decodeLeLong(tweakBytes, 0), decodeLeLong(tweakBytes, 8))
         }
         init(forEncryption, keyWords, tweakWords)
     }
@@ -274,14 +274,14 @@ internal class ThreefishEngine(blocksizeBits: Int) {
         run {
             var i = 0
             while (i < this.blockSize) {
-                currentBlock[i shr 3] = decodeLELong(input, inOff + i)
+                currentBlock[i shr 3] = decodeLeLong(input, inOff + i)
                 i += 8
             }
         }
         processBlock(currentBlock, currentBlock)
         var i = 0
         while (i < blockSize) {
-            encodeLELong(currentBlock[i shr 3], out, outOff + i)
+            encodeLeLong(currentBlock[i shr 3], out, outOff + i)
             i += 8
         }
         return blockSize

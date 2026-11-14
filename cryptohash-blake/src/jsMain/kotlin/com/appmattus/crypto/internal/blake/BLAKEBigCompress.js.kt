@@ -29,20 +29,20 @@ import com.appmattus.crypto.internal.core.carry
  */
 
 @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-private inline fun readIntBE(data: ByteArray, offset: Int): Int =
+private inline fun readIntBe(data: ByteArray, offset: Int): Int =
     (data[offset].toInt() shl 24) or
         ((data[offset + 1].toInt() and 0xff) shl 16) or
         ((data[offset + 2].toInt() and 0xff) shl 8) or
         (data[offset + 3].toInt() and 0xff)
 
-private val blakeBig = BLAKEBigJs()
+private val blakeBig = BlakeBigJs()
 
 // m is unused: the message words are held as Int pairs in BLAKEBigJs instead
 @Suppress("LongParameterList", "UnusedParameter")
 internal actual fun blakeBigCompress(h: LongArray, s: LongArray, t0: Long, t1: Long, data: ByteArray, m: LongArray) =
     blakeBig.compress(h, s, t0, t1, data)
 
-private class BLAKEBigJs {
+private class BlakeBigJs {
     private val cbHigh = IntArray(16) { (BLAKE_BIG_CB[it] ushr 32).toInt() }
     private val cbLow = IntArray(16) { BLAKE_BIG_CB[it].toInt() }
 
@@ -59,8 +59,8 @@ private class BLAKEBigJs {
         val vh = vHigh
         val vl = vLow
         for (i in 0..15) {
-            mh[i] = readIntBE(data, 8 * i)
-            ml[i] = readIntBE(data, 8 * i + 4)
+            mh[i] = readIntBe(data, 8 * i)
+            ml[i] = readIntBe(data, 8 * i + 4)
         }
         for (i in 0..7) {
             vh[i] = (h[i] ushr 32).toInt()

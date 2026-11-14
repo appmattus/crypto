@@ -18,7 +18,7 @@ package com.appmattus.crypto.internal.xxhash
 import com.appmattus.crypto.internal.core.carry
 import com.appmattus.crypto.internal.core.highOf
 import com.appmattus.crypto.internal.core.longOf
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -43,15 +43,15 @@ private const val P4_LOW = -0x3d4d519d
 private const val P5_HIGH = 0x27d4eb2f
 private const val P5_LOW = 0x165667c5
 
-private val xxh64 = XXH64Js()
+private val xxh64 = Xxh64Js()
 
-internal actual fun xxh64Stripes(state: XXHash64Hasher.State64, input: ByteArray, offset: Int, stripes: Int) =
+internal actual fun xxh64Stripes(state: XxHash64Hasher.State64, input: ByteArray, offset: Int, stripes: Int) =
     xxh64.stripes(state, input, offset, stripes)
 
-internal actual fun xxh64Finish(state: XXHash64Hasher.State64): Long = xxh64.finish(state)
+internal actual fun xxh64Finish(state: XxHash64Hasher.State64): Long = xxh64.finish(state)
 
 @Suppress("TooManyFunctions")
-private class XXH64Js {
+private class Xxh64Js {
     // The high half of the last helper's result
     private var hi = 0
 
@@ -59,7 +59,7 @@ private class XXH64Js {
     private val acc = IntArray(8)
 
     @Suppress("MagicNumber")
-    fun stripes(state: XXHash64Hasher.State64, input: ByteArray, offset: Int, stripes: Int) {
+    fun stripes(state: XxHash64Hasher.State64, input: ByteArray, offset: Int, stripes: Int) {
         val a = acc
         a[0] = highOf(state.v1)
         a[1] = state.v1.toInt()
@@ -85,12 +85,12 @@ private class XXH64Js {
 
     /** acc = round(acc, input), for the accumulator at [i] and the input word at [pos] */
     private fun stripeRound(a: IntArray, i: Int, input: ByteArray, pos: Int) {
-        a[i + 1] = round(a[i], a[i + 1], readIntLE(input, pos + 4), readIntLE(input, pos))
+        a[i + 1] = round(a[i], a[i + 1], readIntLe(input, pos + 4), readIntLe(input, pos))
         a[i] = hi
     }
 
     @Suppress("MagicNumber")
-    fun finish(state: XXHash64Hasher.State64): Long {
+    fun finish(state: XxHash64Hasher.State64): Long {
         val totalLen = state.totalLen
         var h: Int
         var l: Int
@@ -139,7 +139,7 @@ private class XXH64Js {
         val x = len and 31
         repeat(x shr 3) {
             // h ^= round(0, input), h = rotl(h, 27) * PRIME64_1 + PRIME64_4
-            val kl = round(0, 0, readIntLE(array, index + 4), readIntLE(array, index))
+            val kl = round(0, 0, readIntLe(array, index + 4), readIntLe(array, index))
             h = h xor hi
             l = l xor kl
             index += 8
@@ -149,7 +149,7 @@ private class XXH64Js {
         }
         repeat(x and 7 shr 2) {
             // h ^= uint32(input) * PRIME64_1, h = rotl(h, 23) * PRIME64_2 + PRIME64_3
-            val kl = mul(0, readIntLE(array, index), P1_HIGH, P1_LOW)
+            val kl = mul(0, readIntLe(array, index), P1_HIGH, P1_LOW)
             h = h xor hi
             l = l xor kl
             index += 4

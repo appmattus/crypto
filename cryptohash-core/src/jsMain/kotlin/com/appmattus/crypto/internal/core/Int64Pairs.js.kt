@@ -57,7 +57,7 @@ public inline fun carry(sum: Int, operand: Int): Int =
 
 @Suppress("NOTHING_TO_INLINE", "MagicNumber")
 @InternalCryptohash
-public inline fun readIntLE(data: ByteArray, offset: Int): Int =
+public inline fun readIntLe(data: ByteArray, offset: Int): Int =
     (data[offset].toInt() and 0xff) or
         ((data[offset + 1].toInt() and 0xff) shl 8) or
         ((data[offset + 2].toInt() and 0xff) shl 16) or

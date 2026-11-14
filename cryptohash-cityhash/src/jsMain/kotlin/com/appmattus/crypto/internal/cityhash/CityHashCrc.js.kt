@@ -17,7 +17,7 @@ package com.appmattus.crypto.internal.cityhash
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -356,10 +356,10 @@ private class CityHashCrcJs {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun fetchL(o: Int): Int = readIntLE(bytes, o)
+    private inline fun fetchL(o: Int): Int = readIntLe(bytes, o)
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-    private inline fun fetchH(o: Int): Int = readIntLE(bytes, o + 4)
+    private inline fun fetchH(o: Int): Int = readIntLe(bytes, o + 4)
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
     private inline fun toULong(h: Int, l: Int): ULong = ((h.toLong() shl 32) or (l.toLong() and 0xffffffffL)).toULong()

@@ -18,7 +18,7 @@ package com.appmattus.crypto.internal.crc
 
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.core.AbstractHasher
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 import java.util.zip.Checksum
 
 /**
@@ -60,7 +60,7 @@ internal class JvmCrc32 private constructor(
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        encodeBEInt(checksum, digest, 0)
+        encodeBeInt(checksum, digest, 0)
 
         reset()
 

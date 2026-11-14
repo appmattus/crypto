@@ -18,7 +18,7 @@ package com.appmattus.crypto.internal.crc
 
 import com.appmattus.crypto.Hasher
 import com.appmattus.crypto.internal.core.AbstractHasher
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.UnsafeNumber
@@ -64,7 +64,7 @@ internal class ZlibCrc32B : AbstractHasher() {
     override fun digest(): ByteArray {
         val digest = ByteArray(digestLength)
 
-        encodeBEInt(checksum, digest, 0)
+        encodeBeInt(checksum, digest, 0)
 
         reset()
 

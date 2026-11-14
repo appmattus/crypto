@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.panama
 
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.encodeLeInt
 import com.appmattus.crypto.internal.core.rotateLeft
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
@@ -138,14 +138,14 @@ internal class PanamaHasher : HasherEngine<PanamaHasher>() {
         for (i in pending + 1..31) update(0x00.toByte())
         flush()
         for (i in 0..31) oneStep(false)
-        encodeLEInt(state9, output, outputOffset + 0)
-        encodeLEInt(state10, output, outputOffset + 4)
-        encodeLEInt(state11, output, outputOffset + 8)
-        encodeLEInt(state12, output, outputOffset + 12)
-        encodeLEInt(state13, output, outputOffset + 16)
-        encodeLEInt(state14, output, outputOffset + 20)
-        encodeLEInt(state15, output, outputOffset + 24)
-        encodeLEInt(state16, output, outputOffset + 28)
+        encodeLeInt(state9, output, outputOffset + 0)
+        encodeLeInt(state10, output, outputOffset + 4)
+        encodeLeInt(state11, output, outputOffset + 8)
+        encodeLeInt(state12, output, outputOffset + 12)
+        encodeLeInt(state13, output, outputOffset + 16)
+        encodeLeInt(state14, output, outputOffset + 20)
+        encodeLeInt(state15, output, outputOffset + 24)
+        encodeLeInt(state16, output, outputOffset + 28)
     }
 
     override fun doInit() {
@@ -158,14 +158,14 @@ internal class PanamaHasher : HasherEngine<PanamaHasher>() {
     }
 
     override fun processBlock(data: ByteArray) {
-        inData0 = decodeLEInt(data, 0)
-        inData1 = decodeLEInt(data, 4)
-        inData2 = decodeLEInt(data, 8)
-        inData3 = decodeLEInt(data, 12)
-        inData4 = decodeLEInt(data, 16)
-        inData5 = decodeLEInt(data, 20)
-        inData6 = decodeLEInt(data, 24)
-        inData7 = decodeLEInt(data, 28)
+        inData0 = decodeLeInt(data, 0)
+        inData1 = decodeLeInt(data, 4)
+        inData2 = decodeLeInt(data, 8)
+        inData3 = decodeLeInt(data, 12)
+        inData4 = decodeLeInt(data, 16)
+        inData5 = decodeLeInt(data, 20)
+        inData6 = decodeLeInt(data, 24)
+        inData7 = decodeLeInt(data, 28)
         oneStep(true)
     }
 

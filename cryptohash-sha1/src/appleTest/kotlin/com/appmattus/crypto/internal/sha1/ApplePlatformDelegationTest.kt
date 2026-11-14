@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.sha1
 
-import com.appmattus.crypto.SHA1
+import com.appmattus.crypto.Sha1
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -27,13 +27,13 @@ class ApplePlatformDelegationTest {
 
     @Test
     fun delegatesToCommonCrypto() {
-        listOf(SHA1.sha1).forEach {
+        listOf(Sha1.sha1).forEach {
             assertEquals("CommonCryptoHasher", it.newHasher()::class.simpleName, it.toString())
         }
     }
 
     @Test
     fun keepsPortableForOtherAlgorithms() {
-        assertEquals("SHA0Hasher", SHA1.sha0.newHasher()::class.simpleName)
+        assertEquals("Sha0Hasher", Sha1.sha0.newHasher()::class.simpleName)
     }
 }

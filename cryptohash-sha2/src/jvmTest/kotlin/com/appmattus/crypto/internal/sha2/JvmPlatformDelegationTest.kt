@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.sha2
 
-import com.appmattus.crypto.SHA2
+import com.appmattus.crypto.Sha2
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -27,7 +27,7 @@ class JvmPlatformDelegationTest {
 
     @Test
     fun delegatesToMessageDigest() {
-        listOf(SHA2.sha224, SHA2.sha256, SHA2.sha384, SHA2.sha512, SHA2.sha512_224, SHA2.sha512_256).forEach {
+        listOf(Sha2.sha224, Sha2.sha256, Sha2.sha384, Sha2.sha512, Sha2.sha512_224, Sha2.sha512_256).forEach {
             assertEquals("JvmMessageDigestHasher", it.newHasher()::class.simpleName, it.toString())
             assertEquals("JvmMessageDigestHasher", it.newHasher().copy()::class.simpleName, it.toString())
         }

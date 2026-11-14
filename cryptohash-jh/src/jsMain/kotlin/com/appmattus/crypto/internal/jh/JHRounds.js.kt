@@ -29,11 +29,11 @@ package com.appmattus.crypto.internal.jh
  */
 
 // JS is single-threaded, so one shared instance is safe
-private val jh = JHJs()
+private val jh = JhJs()
 
 internal actual fun jhProcessBlock(h: LongArray, data: ByteArray) = jh.processBlock(h, data)
 
-private class JHJs {
+private class JhJs {
     private val constantsHigh = IntArray(JH_ROUND_CONSTANTS.size) { (JH_ROUND_CONSTANTS[it] ushr 32).toInt() }
     private val constantsLow = IntArray(JH_ROUND_CONSTANTS.size) { JH_ROUND_CONSTANTS[it].toInt() }
 
@@ -56,8 +56,8 @@ private class JHJs {
         val mh = messageHigh
         val ml = messageLow
         for (i in 0..7) {
-            mh[i] = readIntBE(data, i shl 3)
-            ml[i] = readIntBE(data, (i shl 3) + 4)
+            mh[i] = readIntBe(data, i shl 3)
+            ml[i] = readIntBe(data, (i shl 3) + 4)
             hi[i] = (h[i] ushr 32).toInt() xor mh[i]
             lo[i] = h[i].toInt() xor ml[i]
         }
@@ -102,7 +102,7 @@ private class JHJs {
     private inline fun toLong(h: Int, l: Int): Long = (h.toLong() shl 32) or (l.toLong() and 0xffffffffL)
 
     @Suppress("NOTHING_TO_INLINE", "MagicNumber")
-    private inline fun readIntBE(data: ByteArray, offset: Int): Int =
+    private inline fun readIntBe(data: ByteArray, offset: Int): Int =
         (data[offset].toInt() shl 24) or
             ((data[offset + 1].toInt() and 0xff) shl 16) or
             ((data[offset + 2].toInt() and 0xff) shl 8) or

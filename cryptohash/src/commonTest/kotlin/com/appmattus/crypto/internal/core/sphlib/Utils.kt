@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ package com.appmattus.crypto.internal.core.sphlib
 import com.appmattus.crypto.Algorithm
 import com.appmattus.crypto.Digest
 import com.appmattus.crypto.Hmac
-import com.appmattus.crypto.internal.core.encodeBEInt
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.encodeBeInt
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.executeInBackground
 import kotlin.test.assertEquals
 import kotlin.test.fail
@@ -121,13 +121,13 @@ fun ByteArray.toHexString(): String {
 }
 
 fun Int.toHexString(): String = ByteArray(4).also {
-    encodeBEInt(this, it, 0)
+    encodeBeInt(this, it, 0)
 }.toHexString()
 
 fun UInt.toHexString(): String = toInt().toHexString()
 
 fun Long.toHexString(): String = ByteArray(8).also {
-    encodeBELong(this, it, 0)
+    encodeBeLong(this, it, 0)
 }.toHexString()
 
 fun ULong.toHexString(): String = toLong().toHexString()

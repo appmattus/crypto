@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Appmattus Limited
+ * Copyright 2022-2026 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 
 package com.appmattus.crypto.internal.metrohash
 
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.decodeLEShort
-import com.appmattus.crypto.internal.core.encodeBELong
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.decodeLeShort
+import com.appmattus.crypto.internal.core.encodeBeLong
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 internal class MetroHash128Hasher(private val seed: ULong) : HasherEngine<MetroHash128Hasher>() {
@@ -61,16 +61,16 @@ internal class MetroHash128Hasher(private val seed: ULong) : HasherEngine<MetroH
     override fun processBlock(data: ByteArray) {
         hasBlock = true
 
-        v[0] += decodeLELong(data, 0).toULong() * k0
+        v[0] += decodeLeLong(data, 0).toULong() * k0
         v[0] = v[0].rotateRight(29) + v[2]
 
-        v[1] += decodeLELong(data, 8).toULong() * k1
+        v[1] += decodeLeLong(data, 8).toULong() * k1
         v[1] = v[1].rotateRight(29) + v[3]
 
-        v[2] += decodeLELong(data, 16).toULong() * k2
+        v[2] += decodeLeLong(data, 16).toULong() * k2
         v[2] = v[2].rotateRight(29) + v[0]
 
-        v[3] += decodeLELong(data, 24).toULong() * k3
+        v[3] += decodeLeLong(data, 24).toULong() * k3
         v[3] = v[3].rotateRight(29) + v[1]
     }
 
@@ -86,11 +86,11 @@ internal class MetroHash128Hasher(private val seed: ULong) : HasherEngine<MetroH
 
         var ptr = 0
         if (end - ptr >= 16) {
-            v[0] += decodeLELong(blockBuffer, ptr).toULong() * k2
+            v[0] += decodeLeLong(blockBuffer, ptr).toULong() * k2
             ptr += 8
             v[0] = v[0].rotateRight(33) * k3
 
-            v[1] += decodeLELong(blockBuffer, ptr).toULong() * k2
+            v[1] += decodeLeLong(blockBuffer, ptr).toULong() * k2
             ptr += 8
             v[1] = v[1].rotateRight(33) * k3
 
@@ -99,21 +99,21 @@ internal class MetroHash128Hasher(private val seed: ULong) : HasherEngine<MetroH
         }
 
         if (end - ptr >= 8) {
-            v[0] += decodeLELong(blockBuffer, ptr).toULong() * k2
+            v[0] += decodeLeLong(blockBuffer, ptr).toULong() * k2
             ptr += 8
             v[0] = v[0].rotateRight(33) * k3
             v[0] = v[0] xor (v[0] * k2 + v[1]).rotateRight(27) * k1
         }
 
         if (end - ptr >= 4) {
-            v[1] += decodeLEInt(blockBuffer, ptr).toULong() * k2
+            v[1] += decodeLeInt(blockBuffer, ptr).toULong() * k2
             ptr += 4
             v[1] = v[1].rotateRight(33) * k3
             v[1] = v[1] xor (v[1] * k3 + v[0]).rotateRight(46) * k0
         }
 
         if (end - ptr >= 2) {
-            v[0] += blockBuffer.decodeLEShort(ptr).toULong() * k2
+            v[0] += blockBuffer.decodeLeShort(ptr).toULong() * k2
             ptr += 2
             v[0] = v[0].rotateRight(33) * k3
             v[0] = v[0] xor (v[0] * k2 + v[1]).rotateRight(22) * k1
@@ -130,8 +130,8 @@ internal class MetroHash128Hasher(private val seed: ULong) : HasherEngine<MetroH
         v[0] += ((v[0] * k2) + v[1]).rotateRight(13)
         v[1] += ((v[1] * k3) + v[0]).rotateRight(37)
 
-        encodeBELong(v[1].toLong(), output, outputOffset)
-        encodeBELong(v[0].toLong(), output, outputOffset + 8)
+        encodeBeLong(v[1].toLong(), output, outputOffset)
+        encodeBeLong(v[0].toLong(), output, outputOffset + 8)
     }
 
     override fun doInit() = Unit

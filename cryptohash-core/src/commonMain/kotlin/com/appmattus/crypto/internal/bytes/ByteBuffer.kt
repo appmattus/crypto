@@ -18,9 +18,9 @@ package com.appmattus.crypto.internal.bytes
 
 import com.appmattus.crypto.InternalCryptohash
 import com.appmattus.crypto.internal.core.copyBytes
-import com.appmattus.crypto.internal.core.decodeBEInt
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.decodeLELong
+import com.appmattus.crypto.internal.core.decodeBeInt
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.decodeLeLong
 
 /**
  * Bytes added to a single growable array, of which the first [size] are the contents, so [get] is constant time
@@ -82,9 +82,9 @@ public class ByteBuffer private constructor(bytes: ByteArray, size: Int) : Itera
      *
      * @throws IndexOutOfBoundsException if the four bytes aren't all within [size]
      */
-    public inline fun decodeLEInt(off: Int): Int {
+    public inline fun decodeLeInt(off: Int): Int {
         checkRange(off, Int.SIZE_BYTES, size)
-        return decodeLEInt(bytes, off)
+        return decodeLeInt(bytes, off)
     }
 
     /**
@@ -92,16 +92,16 @@ public class ByteBuffer private constructor(bytes: ByteArray, size: Int) : Itera
      *
      * @throws IndexOutOfBoundsException if the four bytes aren't all within [size]
      */
-    public inline fun decodeLEUInt(off: Int): UInt = decodeLEInt(off).toUInt()
+    public inline fun decodeLeUInt(off: Int): UInt = decodeLeInt(off).toUInt()
 
     /**
      * Decodes the 32-bit big-endian integer at [off].
      *
      * @throws IndexOutOfBoundsException if the four bytes aren't all within [size]
      */
-    public inline fun decodeBEInt(off: Int): Int {
+    public inline fun decodeBeInt(off: Int): Int {
         checkRange(off, Int.SIZE_BYTES, size)
-        return decodeBEInt(bytes, off)
+        return decodeBeInt(bytes, off)
     }
 
     /**
@@ -109,9 +109,9 @@ public class ByteBuffer private constructor(bytes: ByteArray, size: Int) : Itera
      *
      * @throws IndexOutOfBoundsException if the eight bytes aren't all within [size]
      */
-    public inline fun decodeLELong(off: Int): Long {
+    public inline fun decodeLeLong(off: Int): Long {
         checkRange(off, Long.SIZE_BYTES, size)
-        return decodeLELong(bytes, off)
+        return decodeLeLong(bytes, off)
     }
 
     /**
@@ -119,7 +119,7 @@ public class ByteBuffer private constructor(bytes: ByteArray, size: Int) : Itera
      *
      * @throws IndexOutOfBoundsException if the eight bytes aren't all within [size]
      */
-    public inline fun decodeLEULong(off: Int): ULong = decodeLELong(off).toULong()
+    public inline fun decodeLeULong(off: Int): ULong = decodeLeLong(off).toULong()
 
     /** Creates an iterator over the contents. */
     override fun iterator(): Iterator<Byte> = iterator {

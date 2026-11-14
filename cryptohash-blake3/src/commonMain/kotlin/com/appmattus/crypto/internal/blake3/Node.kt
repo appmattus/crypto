@@ -41,7 +41,7 @@ package com.appmattus.crypto.internal.blake3
 import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.OUT_LEN
 import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.ROOT
 import com.appmattus.crypto.internal.blake3.Blake3Core.Companion.compress
-import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.encodeLeInt
 
 // Node of the Blake3 hash tree
 // Is either chained into the next node using chainingValue()
@@ -70,7 +70,7 @@ internal class Node(
         while (outputCounter < outputsNeeded) {
             val words = compress(inputChainingValue, blockWords, outputCounter.toLong(), blockLen, flags or ROOT)
             for (word in words) {
-                encodeLEInt(word, buffer, 0)
+                encodeLeInt(word, buffer, 0)
 
                 for (b in buffer) {
                     output[offset + i] = b

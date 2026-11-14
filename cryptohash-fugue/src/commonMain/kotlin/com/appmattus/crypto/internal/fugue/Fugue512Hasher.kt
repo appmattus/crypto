@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.fugue
 
-import com.appmattus.crypto.internal.core.decodeBEInt
-import com.appmattus.crypto.internal.core.encodeBEInt
+import com.appmattus.crypto.internal.core.decodeBeInt
+import com.appmattus.crypto.internal.core.encodeBeInt
 
 /**
  * This class implements the Fugue-512 hash function under the
@@ -103,7 +103,7 @@ internal class Fugue512Hasher : FugueCore<Fugue512Hasher>() {
                     rshift = 2
                     return
                 }
-                w = decodeBEInt(buf!!, off)
+                w = decodeBeInt(buf!!, off)
                 off += 4
                 s[34] = s[34] xor s[12]
                 s[12] = w
@@ -143,7 +143,7 @@ internal class Fugue512Hasher : FugueCore<Fugue512Hasher>() {
                     rshift = 0
                     return
                 }
-                w = decodeBEInt(buf, off)
+                w = decodeBeInt(buf, off)
                 off += 4
             }
 
@@ -186,7 +186,7 @@ internal class Fugue512Hasher : FugueCore<Fugue512Hasher>() {
                     rshift = 0
                     return
                 }
-                w = decodeBEInt(buf!!, off)
+                w = decodeBeInt(buf!!, off)
                 off += 4
             }
         }
@@ -230,7 +230,7 @@ internal class Fugue512Hasher : FugueCore<Fugue512Hasher>() {
                 rshift = 1
                 return
             }
-            w = decodeBEInt(buf!!, off)
+            w = decodeBeInt(buf!!, off)
             off += 4
             /* ================ */
             s[10] = s[10] xor s[24]
@@ -271,7 +271,7 @@ internal class Fugue512Hasher : FugueCore<Fugue512Hasher>() {
                 rshift = 2
                 return
             }
-            w = decodeBEInt(buf, off)
+            w = decodeBeInt(buf, off)
             off += 4
             /* ================ */
             s[34] = s[34] xor s[12]
@@ -312,7 +312,7 @@ internal class Fugue512Hasher : FugueCore<Fugue512Hasher>() {
                 rshift = 0
                 return
             }
-            w = decodeBEInt(buf, off)
+            w = decodeBeInt(buf, off)
             off += 4
         }
     }
@@ -354,22 +354,22 @@ internal class Fugue512Hasher : FugueCore<Fugue512Hasher>() {
         s[9] = s[9] xor s[0]
         s[18] = s[18] xor s[0]
         s[27] = s[27] xor s[0]
-        encodeBEInt(s[1], out!!, 0)
-        encodeBEInt(s[2], out, 4)
-        encodeBEInt(s[3], out, 8)
-        encodeBEInt(s[4], out, 12)
-        encodeBEInt(s[9], out, 16)
-        encodeBEInt(s[10], out, 20)
-        encodeBEInt(s[11], out, 24)
-        encodeBEInt(s[12], out, 28)
-        encodeBEInt(s[18], out, 32)
-        encodeBEInt(s[19], out, 36)
-        encodeBEInt(s[20], out, 40)
-        encodeBEInt(s[21], out, 44)
-        encodeBEInt(s[27], out, 48)
-        encodeBEInt(s[28], out, 52)
-        encodeBEInt(s[29], out, 56)
-        encodeBEInt(s[30], out, 60)
+        encodeBeInt(s[1], out!!, 0)
+        encodeBeInt(s[2], out, 4)
+        encodeBeInt(s[3], out, 8)
+        encodeBeInt(s[4], out, 12)
+        encodeBeInt(s[9], out, 16)
+        encodeBeInt(s[10], out, 20)
+        encodeBeInt(s[11], out, 24)
+        encodeBeInt(s[12], out, 28)
+        encodeBeInt(s[18], out, 32)
+        encodeBeInt(s[19], out, 36)
+        encodeBeInt(s[20], out, 40)
+        encodeBeInt(s[21], out, 44)
+        encodeBeInt(s[27], out, 48)
+        encodeBeInt(s[28], out, 52)
+        encodeBeInt(s[29], out, 56)
+        encodeBeInt(s[30], out, 60)
     }
 
     override val iV: IntArray

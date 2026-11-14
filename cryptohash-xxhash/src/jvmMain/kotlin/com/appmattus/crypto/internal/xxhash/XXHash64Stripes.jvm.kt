@@ -15,5 +15,5 @@
  */
 package com.appmattus.crypto.internal.xxhash
 
-internal actual fun xxh64Stripes(state: XXHash64Hasher.State64, input: ByteArray, offset: Int, stripes: Int) =
+internal actual fun xxh64Stripes(state: XxHash64Hasher.State64, input: ByteArray, offset: Int, stripes: Int) =
     xxh64StripesLong(state, input, offset, stripes)

@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.cubehash
 
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.encodeLeInt
 import com.appmattus.crypto.internal.core.rotateLeft
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
@@ -85,14 +85,14 @@ internal abstract class CubeHashCore<D : CubeHashCore<D>> : HasherEngine<D>() {
     private var xu = iV[30]
     private var xv = iV[31]
     private fun inputBlock(data: ByteArray) {
-        x0 = x0 xor decodeLEInt(data, 0)
-        x1 = x1 xor decodeLEInt(data, 4)
-        x2 = x2 xor decodeLEInt(data, 8)
-        x3 = x3 xor decodeLEInt(data, 12)
-        x4 = x4 xor decodeLEInt(data, 16)
-        x5 = x5 xor decodeLEInt(data, 20)
-        x6 = x6 xor decodeLEInt(data, 24)
-        x7 = x7 xor decodeLEInt(data, 28)
+        x0 = x0 xor decodeLeInt(data, 0)
+        x1 = x1 xor decodeLeInt(data, 4)
+        x2 = x2 xor decodeLeInt(data, 8)
+        x3 = x3 xor decodeLeInt(data, 12)
+        x4 = x4 xor decodeLeInt(data, 16)
+        x5 = x5 xor decodeLeInt(data, 20)
+        x6 = x6 xor decodeLeInt(data, 24)
+        x7 = x7 xor decodeLeInt(data, 28)
     }
 
     @Suppress("ReplaceWithOperatorAssignment", "LongMethod")
@@ -313,25 +313,25 @@ internal abstract class CubeHashCore<D : CubeHashCore<D>> : HasherEngine<D>() {
         xv = xv xor 1
         repeat(10) { sixteenRounds() }
         val dlen = digestLength
-        encodeLEInt(x0, output, outputOffset + 0)
-        encodeLEInt(x1, output, outputOffset + 4)
-        encodeLEInt(x2, output, outputOffset + 8)
-        encodeLEInt(x3, output, outputOffset + 12)
-        encodeLEInt(x4, output, outputOffset + 16)
-        encodeLEInt(x5, output, outputOffset + 20)
-        encodeLEInt(x6, output, outputOffset + 24)
+        encodeLeInt(x0, output, outputOffset + 0)
+        encodeLeInt(x1, output, outputOffset + 4)
+        encodeLeInt(x2, output, outputOffset + 8)
+        encodeLeInt(x3, output, outputOffset + 12)
+        encodeLeInt(x4, output, outputOffset + 16)
+        encodeLeInt(x5, output, outputOffset + 20)
+        encodeLeInt(x6, output, outputOffset + 24)
         if (dlen == 28) return
-        encodeLEInt(x7, output, outputOffset + 28)
+        encodeLeInt(x7, output, outputOffset + 28)
         if (dlen == 32) return
-        encodeLEInt(x8, output, outputOffset + 32)
-        encodeLEInt(x9, output, outputOffset + 36)
-        encodeLEInt(xa, output, outputOffset + 40)
-        encodeLEInt(xb, output, outputOffset + 44)
+        encodeLeInt(x8, output, outputOffset + 32)
+        encodeLeInt(x9, output, outputOffset + 36)
+        encodeLeInt(xa, output, outputOffset + 40)
+        encodeLeInt(xb, output, outputOffset + 44)
         if (dlen == 48) return
-        encodeLEInt(xc, output, outputOffset + 48)
-        encodeLEInt(xd, output, outputOffset + 52)
-        encodeLEInt(xe, output, outputOffset + 56)
-        encodeLEInt(xf, output, outputOffset + 60)
+        encodeLeInt(xc, output, outputOffset + 48)
+        encodeLeInt(xd, output, outputOffset + 52)
+        encodeLeInt(xe, output, outputOffset + 56)
+        encodeLeInt(xf, output, outputOffset + 60)
     }
 
     override fun doInit() {

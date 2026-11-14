@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.crc
 
-import com.appmattus.crypto.CRC
+import com.appmattus.crypto.Crc
 import com.appmattus.crypto.HashAlgorithm
 import com.appmattus.crypto.internal.testKat
 import com.appmattus.crypto.internal.testKatMillionA
@@ -37,98 +37,98 @@ class Crc64Test {
 
     @Test
     fun crc64Ecma182() {
-        testKat({ CRC.crc64Ecma182.newHasher() }, "", "0000000000000000")
-        testKat({ CRC.crc64Ecma182.newHasher() }, "a", "548f120162451c62")
-        testKat({ CRC.crc64Ecma182.newHasher() }, "abc", "66501a349a0e0855")
-        testKat({ CRC.crc64Ecma182.newHasher() }, "123456789", "6c40df5f0b497347")
-        testKat({ CRC.crc64Ecma182.newHasher() }, "message digest", "c04d61278997ba5e")
-        testKat({ CRC.crc64Ecma182.newHasher() }, "The quick brown fox jumps over the lazy dog", "41e05242ffa9883b")
-        testKat({ CRC.crc64Ecma182.newHasher() }, pattern, "8bb2536df3e80074")
-        testKatMillionA({ CRC.crc64Ecma182.newHasher() }, "3377cec7a585e11f")
+        testKat({ Crc.crc64Ecma182.newHasher() }, "", "0000000000000000")
+        testKat({ Crc.crc64Ecma182.newHasher() }, "a", "548f120162451c62")
+        testKat({ Crc.crc64Ecma182.newHasher() }, "abc", "66501a349a0e0855")
+        testKat({ Crc.crc64Ecma182.newHasher() }, "123456789", "6c40df5f0b497347")
+        testKat({ Crc.crc64Ecma182.newHasher() }, "message digest", "c04d61278997ba5e")
+        testKat({ Crc.crc64Ecma182.newHasher() }, "The quick brown fox jumps over the lazy dog", "41e05242ffa9883b")
+        testKat({ Crc.crc64Ecma182.newHasher() }, pattern, "8bb2536df3e80074")
+        testKatMillionA({ Crc.crc64Ecma182.newHasher() }, "3377cec7a585e11f")
     }
 
     @Test
     fun crc64Xz() {
-        testKat({ CRC.crc64Xz.newHasher() }, "", "0000000000000000")
-        testKat({ CRC.crc64Xz.newHasher() }, "a", "330284772e652b05")
-        testKat({ CRC.crc64Xz.newHasher() }, "abc", "2cd8094a1a277627")
-        testKat({ CRC.crc64Xz.newHasher() }, "123456789", "995dc9bbdf1939fa")
-        testKat({ CRC.crc64Xz.newHasher() }, "message digest", "5dbcc956318a9b6f")
-        testKat({ CRC.crc64Xz.newHasher() }, "The quick brown fox jumps over the lazy dog", "5b5eb8c2e54aa1c4")
-        testKat({ CRC.crc64Xz.newHasher() }, pattern, "6acf642f639ec036")
-        testKatMillionA({ CRC.crc64Xz.newHasher() }, "7a0d29398112e1ba")
+        testKat({ Crc.crc64Xz.newHasher() }, "", "0000000000000000")
+        testKat({ Crc.crc64Xz.newHasher() }, "a", "330284772e652b05")
+        testKat({ Crc.crc64Xz.newHasher() }, "abc", "2cd8094a1a277627")
+        testKat({ Crc.crc64Xz.newHasher() }, "123456789", "995dc9bbdf1939fa")
+        testKat({ Crc.crc64Xz.newHasher() }, "message digest", "5dbcc956318a9b6f")
+        testKat({ Crc.crc64Xz.newHasher() }, "The quick brown fox jumps over the lazy dog", "5b5eb8c2e54aa1c4")
+        testKat({ Crc.crc64Xz.newHasher() }, pattern, "6acf642f639ec036")
+        testKatMillionA({ Crc.crc64Xz.newHasher() }, "7a0d29398112e1ba")
     }
 
     @Test
     fun crc64We() {
-        testKat({ CRC.crc64We.newHasher() }, "", "0000000000000000")
-        testKat({ CRC.crc64We.newHasher() }, "a", "ce73f427acc0a99a")
-        testKat({ CRC.crc64We.newHasher() }, "abc", "048b813af9f49702")
-        testKat({ CRC.crc64We.newHasher() }, "123456789", "62ec59e3f1a4f00a")
-        testKat({ CRC.crc64We.newHasher() }, "message digest", "5273f9ea7a357bf4")
-        testKat({ CRC.crc64We.newHasher() }, "The quick brown fox jumps over the lazy dog", "bcd8bb366d256116")
-        testKat({ CRC.crc64We.newHasher() }, pattern, "7916025a27af5498")
-        testKatMillionA({ CRC.crc64We.newHasher() }, "7fba642ed2ce66d8")
+        testKat({ Crc.crc64We.newHasher() }, "", "0000000000000000")
+        testKat({ Crc.crc64We.newHasher() }, "a", "ce73f427acc0a99a")
+        testKat({ Crc.crc64We.newHasher() }, "abc", "048b813af9f49702")
+        testKat({ Crc.crc64We.newHasher() }, "123456789", "62ec59e3f1a4f00a")
+        testKat({ Crc.crc64We.newHasher() }, "message digest", "5273f9ea7a357bf4")
+        testKat({ Crc.crc64We.newHasher() }, "The quick brown fox jumps over the lazy dog", "bcd8bb366d256116")
+        testKat({ Crc.crc64We.newHasher() }, pattern, "7916025a27af5498")
+        testKatMillionA({ Crc.crc64We.newHasher() }, "7fba642ed2ce66d8")
     }
 
     @Test
     fun crc64GoIso() {
-        testKat({ CRC.crc64GoIso.newHasher() }, "", "0000000000000000")
-        testKat({ CRC.crc64GoIso.newHasher() }, "a", "3420000000000000")
-        testKat({ CRC.crc64GoIso.newHasher() }, "abc", "3776c42000000000")
-        testKat({ CRC.crc64GoIso.newHasher() }, "123456789", "b90956c775a41001")
-        testKat({ CRC.crc64GoIso.newHasher() }, "message digest", "863fb9c0bb55c3a2")
-        testKat({ CRC.crc64GoIso.newHasher() }, "The quick brown fox jumps over the lazy dog", "4ef14e19f4c6e28e")
-        testKat({ CRC.crc64GoIso.newHasher() }, pattern, "5c144259ee498a0d")
-        testKatMillionA({ CRC.crc64GoIso.newHasher() }, "ce43d31b3d00b82b")
+        testKat({ Crc.crc64GoIso.newHasher() }, "", "0000000000000000")
+        testKat({ Crc.crc64GoIso.newHasher() }, "a", "3420000000000000")
+        testKat({ Crc.crc64GoIso.newHasher() }, "abc", "3776c42000000000")
+        testKat({ Crc.crc64GoIso.newHasher() }, "123456789", "b90956c775a41001")
+        testKat({ Crc.crc64GoIso.newHasher() }, "message digest", "863fb9c0bb55c3a2")
+        testKat({ Crc.crc64GoIso.newHasher() }, "The quick brown fox jumps over the lazy dog", "4ef14e19f4c6e28e")
+        testKat({ Crc.crc64GoIso.newHasher() }, pattern, "5c144259ee498a0d")
+        testKatMillionA({ Crc.crc64GoIso.newHasher() }, "ce43d31b3d00b82b")
     }
 
     @Test
     fun crc64SwissProt() {
-        testKat({ CRC.crc64SwissProt.newHasher() }, "", "0000000000000000")
-        testKat({ CRC.crc64SwissProt.newHasher() }, "a", "5bb0000000000000")
-        testKat({ CRC.crc64SwissProt.newHasher() }, "abc", "58893bb000000000")
-        testKat({ CRC.crc64SwissProt.newHasher() }, "123456789", "46a5a9388a5beffe")
-        testKat({ CRC.crc64SwissProt.newHasher() }, "message digest", "79c0463f44aa6f5d")
-        testKat({ CRC.crc64SwissProt.newHasher() }, "The quick brown fox jumps over the lazy dog", "b10eb1b03e5a1d71")
-        testKat({ CRC.crc64SwissProt.newHasher() }, pattern, "63cb4b96db234538")
-        testKatMillionA({ CRC.crc64SwissProt.newHasher() }, "3cc9fd58a5365d50")
+        testKat({ Crc.crc64SwissProt.newHasher() }, "", "0000000000000000")
+        testKat({ Crc.crc64SwissProt.newHasher() }, "a", "5bb0000000000000")
+        testKat({ Crc.crc64SwissProt.newHasher() }, "abc", "58893bb000000000")
+        testKat({ Crc.crc64SwissProt.newHasher() }, "123456789", "46a5a9388a5beffe")
+        testKat({ Crc.crc64SwissProt.newHasher() }, "message digest", "79c0463f44aa6f5d")
+        testKat({ Crc.crc64SwissProt.newHasher() }, "The quick brown fox jumps over the lazy dog", "b10eb1b03e5a1d71")
+        testKat({ Crc.crc64SwissProt.newHasher() }, pattern, "63cb4b96db234538")
+        testKatMillionA({ Crc.crc64SwissProt.newHasher() }, "3cc9fd58a5365d50")
     }
 
     @Test
     fun crc64Redis() {
-        testKat({ CRC.crc64Redis.newHasher() }, "", "0000000000000000")
-        testKat({ CRC.crc64Redis.newHasher() }, "a", "5fb354025b277b14")
-        testKat({ CRC.crc64Redis.newHasher() }, "abc", "4431bb39b27363a7")
-        testKat({ CRC.crc64Redis.newHasher() }, "123456789", "e9c6d914c4b8d9ca")
-        testKat({ CRC.crc64Redis.newHasher() }, "message digest", "644474133412d35f")
-        testKat({ CRC.crc64Redis.newHasher() }, "The quick brown fox jumps over the lazy dog", "bf7ee596c3aa372b")
-        testKat({ CRC.crc64Redis.newHasher() }, pattern, "4b49bfd79e6b9e94")
-        testKatMillionA({ CRC.crc64Redis.newHasher() }, "8d928728881ba360")
+        testKat({ Crc.crc64Redis.newHasher() }, "", "0000000000000000")
+        testKat({ Crc.crc64Redis.newHasher() }, "a", "5fb354025b277b14")
+        testKat({ Crc.crc64Redis.newHasher() }, "abc", "4431bb39b27363a7")
+        testKat({ Crc.crc64Redis.newHasher() }, "123456789", "e9c6d914c4b8d9ca")
+        testKat({ Crc.crc64Redis.newHasher() }, "message digest", "644474133412d35f")
+        testKat({ Crc.crc64Redis.newHasher() }, "The quick brown fox jumps over the lazy dog", "bf7ee596c3aa372b")
+        testKat({ Crc.crc64Redis.newHasher() }, pattern, "4b49bfd79e6b9e94")
+        testKatMillionA({ Crc.crc64Redis.newHasher() }, "8d928728881ba360")
     }
 
     @Test
     fun crc64Nvme() {
-        testKat({ CRC.crc64Nvme.newHasher() }, "", "0000000000000000")
-        testKat({ CRC.crc64Nvme.newHasher() }, "a", "8c2f8445b4cbfc3c")
-        testKat({ CRC.crc64Nvme.newHasher() }, "abc", "05e5cabb3fc1faeb")
-        testKat({ CRC.crc64Nvme.newHasher() }, "123456789", "ae8b14860a799888")
-        testKat({ CRC.crc64Nvme.newHasher() }, "message digest", "dc4a92ab26fba23f")
-        testKat({ CRC.crc64Nvme.newHasher() }, "The quick brown fox jumps over the lazy dog", "d76c54054954c143")
-        testKat({ CRC.crc64Nvme.newHasher() }, pattern, "94a3966fa52d4ef7")
-        testKatMillionA({ CRC.crc64Nvme.newHasher() }, "38b0ef50419e0b4c")
+        testKat({ Crc.crc64Nvme.newHasher() }, "", "0000000000000000")
+        testKat({ Crc.crc64Nvme.newHasher() }, "a", "8c2f8445b4cbfc3c")
+        testKat({ Crc.crc64Nvme.newHasher() }, "abc", "05e5cabb3fc1faeb")
+        testKat({ Crc.crc64Nvme.newHasher() }, "123456789", "ae8b14860a799888")
+        testKat({ Crc.crc64Nvme.newHasher() }, "message digest", "dc4a92ab26fba23f")
+        testKat({ Crc.crc64Nvme.newHasher() }, "The quick brown fox jumps over the lazy dog", "d76c54054954c143")
+        testKat({ Crc.crc64Nvme.newHasher() }, pattern, "94a3966fa52d4ef7")
+        testKatMillionA({ Crc.crc64Nvme.newHasher() }, "38b0ef50419e0b4c")
     }
 
     @Test
     fun describesEachVariant() {
         listOf(
-            CRC.crc64Ecma182 to "CRC-64/ECMA-182",
-            CRC.crc64Xz to "CRC-64/XZ",
-            CRC.crc64We to "CRC-64/WE",
-            CRC.crc64GoIso to "CRC-64/GO-ISO",
-            CRC.crc64SwissProt to "CRC-64/SWISS-PROT",
-            CRC.crc64Redis to "CRC-64/REDIS",
-            CRC.crc64Nvme to "CRC-64/NVME"
+            Crc.crc64Ecma182 to "CRC-64/ECMA-182",
+            Crc.crc64Xz to "CRC-64/XZ",
+            Crc.crc64We to "CRC-64/WE",
+            Crc.crc64GoIso to "CRC-64/GO-ISO",
+            Crc.crc64SwissProt to "CRC-64/SWISS-PROT",
+            Crc.crc64Redis to "CRC-64/REDIS",
+            Crc.crc64Nvme to "CRC-64/NVME"
         ).forEach { (algorithm, name) ->
             assertEquals(name, algorithm.toString())
             assertEquals(name, algorithm.newHasher().toString())
@@ -160,7 +160,7 @@ class Crc64Test {
     }
 
     private val all: List<HashAlgorithm> =
-        listOf(CRC.crc64Ecma182, CRC.crc64Xz, CRC.crc64We, CRC.crc64GoIso, CRC.crc64SwissProt, CRC.crc64Redis, CRC.crc64Nvme)
+        listOf(Crc.crc64Ecma182, Crc.crc64Xz, Crc.crc64We, Crc.crc64GoIso, Crc.crc64SwissProt, Crc.crc64Redis, Crc.crc64Nvme)
 
     private companion object {
         const val MAX_LENGTH = 100

@@ -17,8 +17,8 @@
 package com.appmattus.crypto.internal.t1ha
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
-import com.appmattus.crypto.internal.core.encodeBELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.encodeBeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
 internal class T1ha2StreamHasher(private val seedX: ULong = 0u, private val seedY: ULong = 0u) : HasherEngine<T1ha2StreamHasher>() {
@@ -26,8 +26,8 @@ internal class T1ha2StreamHasher(private val seedX: ULong = 0u, private val seed
     private var state = T1haState256()
 
     init {
-        initAB(state, seedX, seedY)
-        initCD(state, seedX, seedY)
+        initAb(state, seedX, seedY)
+        initCd(state, seedX, seedY)
     }
 
     override val digestLength: Int
@@ -49,8 +49,8 @@ internal class T1ha2StreamHasher(private val seedX: ULong = 0u, private val seed
     override fun engineReset() {
         state = T1haState256()
 
-        initAB(state, seedX, seedY)
-        initCD(state, seedX, seedY)
+        initAb(state, seedX, seedY)
+        initCd(state, seedX, seedY)
     }
 
     override fun processBlock(data: ByteArray) = t1ha2Update(state, data, 0)
@@ -60,7 +60,7 @@ internal class T1ha2StreamHasher(private val seedX: ULong = 0u, private val seed
 
         val bits: ULong = (total shl 3) xor (1uL shl 63)
         val bytes = ByteArray(8)
-        encodeLELong(bits.toLong(), bytes, 0)
+        encodeLeLong(bits.toLong(), bytes, 0)
 
         update(bytes)
 
@@ -68,9 +68,9 @@ internal class T1ha2StreamHasher(private val seedX: ULong = 0u, private val seed
 
         squash(state)
 
-        val hash = t1ha2TailAB(state, ByteBuffer().apply { add(blockBuffer) }, 0, rem)
+        val hash = t1ha2TailAb(state, ByteBuffer().apply { add(blockBuffer) }, 0, rem)
 
-        encodeBELong(hash.toLong(), output, 0)
+        encodeBeLong(hash.toLong(), output, 0)
     }
 
     override fun doInit() = Unit

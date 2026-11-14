@@ -39,9 +39,9 @@
 
 package com.appmattus.crypto.internal.tiger
 
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
-import com.appmattus.crypto.internal.core.sphlib.HasherMDHelper
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
+import com.appmattus.crypto.internal.core.sphlib.HasherMdHelper
 
 /**
  * This class implements Tiger and Tiger2, which differ only by the
@@ -52,7 +52,7 @@ import com.appmattus.crypto.internal.core.sphlib.HasherMDHelper
  *
  * @param fbyte   the first padding byte
  */
-internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : HasherMDHelper<D>(true, 8, fbyte) {
+internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : HasherMdHelper<D>(true, 8, fbyte) {
 
     // The chaining values a, b and c, created in doInit, which the HasherEngine constructor calls before this class's
     // own initialisers run
@@ -76,10 +76,10 @@ internal abstract class TigerCore<D : TigerCore<D>>(fbyte: Byte) : HasherMDHelpe
     }
 
     override fun doPadding(output: ByteArray, outputOffset: Int) {
-        makeMDPadding()
-        encodeLELong(state[0], output, outputOffset)
-        encodeLELong(state[1], output, outputOffset + 8)
-        encodeLELong(state[2], output, outputOffset + 16)
+        makeMdPadding()
+        encodeLeLong(state[0], output, outputOffset)
+        encodeLeLong(state[1], output, outputOffset + 8)
+        encodeLeLong(state[2], output, outputOffset + 16)
     }
 
     override fun doInit() {
@@ -112,14 +112,14 @@ internal fun tigerProcessBlockLong(state: LongArray, data: ByteArray) {
     var a = state[0]
     var b = state[1]
     var c = state[2]
-    var x0 = decodeLELong(data, 0)
-    var x1 = decodeLELong(data, 8)
-    var x2 = decodeLELong(data, 16)
-    var x3 = decodeLELong(data, 24)
-    var x4 = decodeLELong(data, 32)
-    var x5 = decodeLELong(data, 40)
-    var x6 = decodeLELong(data, 48)
-    var x7 = decodeLELong(data, 56)
+    var x0 = decodeLeLong(data, 0)
+    var x1 = decodeLeLong(data, 8)
+    var x2 = decodeLeLong(data, 16)
+    var x3 = decodeLeLong(data, 24)
+    var x4 = decodeLeLong(data, 32)
+    var x5 = decodeLeLong(data, 40)
+    var x6 = decodeLeLong(data, 48)
+    var x7 = decodeLeLong(data, 56)
     c = c xor x0
     a -= lookupLow(c)
     b += lookupHigh(c)

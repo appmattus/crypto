@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.ascon
 
-import com.appmattus.crypto.internal.core.decodeLELong
-import com.appmattus.crypto.internal.core.encodeLELong
+import com.appmattus.crypto.internal.core.decodeLeLong
+import com.appmattus.crypto.internal.core.encodeLeLong
 import com.appmattus.crypto.internal.core.rotateRight
 
 /**
@@ -97,7 +97,7 @@ internal class AsconStateLong {
     }
 
     fun absorb(input: ByteArray, offset: Int) {
-        state[0] = state[0] xor decodeLELong(input, offset)
+        state[0] = state[0] xor decodeLeLong(input, offset)
         asconPermutationLong(state)
     }
 
@@ -115,7 +115,7 @@ internal class AsconStateLong {
     }
 
     fun squeeze(output: ByteArray, offset: Int) {
-        encodeLELong(state[0], output, offset)
+        encodeLeLong(state[0], output, offset)
     }
 }
 

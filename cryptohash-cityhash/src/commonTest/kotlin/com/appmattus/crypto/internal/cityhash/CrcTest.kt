@@ -23,11 +23,11 @@ class CrcTest {
 
     @Test
     fun crc() {
-        assertEquals(0u, crc32_u64(0u, 0u))
-        assertEquals(3494117012u, crc32_u64(0u, 10u))
-        assertEquals(0u, crc32_u64(10u, 10u))
-        assertEquals(3864973906u, crc32_u64(100u, 10u))
-        assertEquals(3442894525u, crc32_u64(2147483647u, 10u))
-        assertEquals(1943489909u, crc32_u64(2147483647u, 2147483648u))
+        assertEquals(0u, crc32U64(0u, 0u))
+        assertEquals(3494117012u, crc32U64(0u, 10u))
+        assertEquals(0u, crc32U64(10u, 10u))
+        assertEquals(3864973906u, crc32U64(100u, 10u))
+        assertEquals(3442894525u, crc32U64(2147483647u, 10u))
+        assertEquals(1943489909u, crc32U64(2147483647u, 2147483648u))
     }
 }

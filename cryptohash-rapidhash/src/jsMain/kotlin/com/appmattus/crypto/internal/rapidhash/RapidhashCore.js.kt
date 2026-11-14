@@ -17,7 +17,7 @@ package com.appmattus.crypto.internal.rapidhash
 
 import com.appmattus.crypto.internal.bytes.ByteBuffer
 import com.appmattus.crypto.internal.core.carry
-import com.appmattus.crypto.internal.core.readIntLE
+import com.appmattus.crypto.internal.core.readIntLe
 
 /*
  * Kotlin/JS stores a Long as an object holding two 32-bit halves, so every Long operation allocates a new one. Engines
@@ -91,17 +91,17 @@ private class RapidhashJs {
             when {
                 len >= 8 -> {
                     seedL = seedL xor len
-                    ah = readIntLE(input, 4)
-                    al = readIntLE(input, 0)
-                    bh = readIntLE(input, len - 4)
-                    bl = readIntLE(input, len - 8)
+                    ah = readIntLe(input, 4)
+                    al = readIntLe(input, 0)
+                    bh = readIntLe(input, len - 4)
+                    bl = readIntLe(input, len - 8)
                 }
                 len >= 4 -> {
                     seedL = seedL xor len
                     ah = 0
-                    al = readIntLE(input, 0)
+                    al = readIntLe(input, 0)
                     bh = 0
-                    bl = readIntLE(input, len - 4)
+                    bl = readIntLe(input, len - 4)
                 }
                 len > 0 -> {
                     // a = (input[0] << 45) | input[len - 1], b = input[len >> 1]
@@ -133,20 +133,20 @@ private class RapidhashJs {
                 val q = p + (k shl 4)
                 val s = tailSecrets[k]
                 seedL = mix(
-                    readIntLE(input, q + 4) xor secretH[s],
-                    readIntLE(input, q) xor secretL[s],
-                    readIntLE(input, q + 12) xor seedH,
-                    readIntLE(input, q + 8) xor seedL
+                    readIntLe(input, q + 4) xor secretH[s],
+                    readIntLe(input, q) xor secretL[s],
+                    readIntLe(input, q + 12) xor seedH,
+                    readIntLe(input, q + 8) xor seedL
                 )
                 seedH = hi
                 k++
             }
 
             // a = input[p + i - 16] ^ i, b = input[p + i - 8]
-            ah = readIntLE(input, p + i - 12)
-            al = readIntLE(input, p + i - 16) xor i
-            bh = readIntLE(input, p + i - 4)
-            bl = readIntLE(input, p + i - 8)
+            ah = readIntLe(input, p + i - 12)
+            al = readIntLe(input, p + i - 16) xor i
+            bh = readIntLe(input, p + i - 4)
+            bl = readIntLe(input, p + i - 8)
         }
 
         // The full 128-bit product of a ^ secret[1] and b ^ seed
@@ -170,10 +170,10 @@ private class RapidhashJs {
             for (k in 0 until lanes) {
                 val o = p + (k shl 4)
                 laneL[k] = mix(
-                    readIntLE(input, o + 4) xor secretH[k],
-                    readIntLE(input, o) xor secretL[k],
-                    readIntLE(input, o + 12) xor laneH[k],
-                    readIntLE(input, o + 8) xor laneL[k]
+                    readIntLe(input, o + 4) xor secretH[k],
+                    readIntLe(input, o) xor secretL[k],
+                    readIntLe(input, o + 12) xor laneH[k],
+                    readIntLe(input, o + 8) xor laneL[k]
                 )
                 laneH[k] = hi
             }

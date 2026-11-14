@@ -25,7 +25,7 @@ import com.appmattus.crypto.internal.keccak.KeccakHmacAlgorithm
 
 /**
  * The original [Keccak](https://keccak.team/keccak.html) hashes, as submitted to the SHA-3 competition, before
- * FIPS 202 changed their padding to make [SHA3]
+ * FIPS 202 changed their padding to make [Sha3]
  */
 public object Keccak {
 

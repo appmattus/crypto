@@ -16,7 +16,7 @@
 
 package com.appmattus.crypto.internal.crc
 
-import com.appmattus.crypto.CRC
+import com.appmattus.crypto.Crc
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -26,14 +26,14 @@ class JvmCrcTest {
 
     @Test
     fun usesJavaUtilZip() {
-        assertIs<JvmCrc32>(CRC.crc32b.newHasher())
-        assertIs<JvmCrc32>(CRC.crc32c.newHasher())
-        assertIs<JvmCrc32>(CRC.crc32b.newHasher().copy())
+        assertIs<JvmCrc32>(Crc.crc32b.newHasher())
+        assertIs<JvmCrc32>(Crc.crc32c.newHasher())
+        assertIs<JvmCrc32>(Crc.crc32b.newHasher().copy())
     }
 
     @Test
     fun keepsPureKotlinForCrc32() {
-        assertIs<Crc32Hasher>(CRC.crc32.newHasher())
+        assertIs<Crc32Hasher>(Crc.crc32.newHasher())
     }
 
     @Test

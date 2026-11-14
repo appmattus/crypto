@@ -344,19 +344,19 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data object CityHashCrc256 : Algorithm("CityHashCrc256", 32)
 
     /**
-     * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
+     * [Crc](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Used by bzip.
      */
     public data object CRC32 : Algorithm("CRC32", 32)
 
     /**
-     * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
+     * [Crc](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Used by ethernet (IEEE 802.3), gzip, zip, png, etc.
      */
     public data object CRC32B : Algorithm("CRC32B", 32)
 
     /**
-     * [CRC](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
+     * [Crc](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) with output size of 32 bits.
      * Castagnoli's CRC, used by iSCSI, SCTP, Btrfs, ext4, etc.
      */
     public data object CRC32C : Algorithm("CRC32C", 32)
@@ -408,22 +408,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data object CubeHash512 : Algorithm("CubeHash-512", 32)
 
     /**
-     * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 224 bits
+     * [Echo](https://crypto.orange-labs.fr/ECHO/) with output size 224 bits
      */
     public data object ECHO224 : Algorithm("ECHO-224", 192)
 
     /**
-     * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 256 bits
+     * [Echo](https://crypto.orange-labs.fr/ECHO/) with output size 256 bits
      */
     public data object ECHO256 : Algorithm("ECHO-256", 192)
 
     /**
-     * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 384 bits
+     * [Echo](https://crypto.orange-labs.fr/ECHO/) with output size 384 bits
      */
     public data object ECHO384 : Algorithm("ECHO-384", 128)
 
     /**
-     * [ECHO](https://crypto.orange-labs.fr/ECHO/) with output size 512 bits
+     * [Echo](https://crypto.orange-labs.fr/ECHO/) with output size 512 bits
      */
     public data object ECHO512 : Algorithm("ECHO-512", 128)
 
@@ -683,22 +683,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     }
 
     /**
-     * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 224 bits
+     * [Jh](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 224 bits
      */
     public data object JH224 : Algorithm("JH-224", 64)
 
     /**
-     * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 256 bits
+     * [Jh](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 256 bits
      */
     public data object JH256 : Algorithm("JH-256", 64)
 
     /**
-     * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 384 bits
+     * [Jh](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 384 bits
      */
     public data object JH384 : Algorithm("JH-384", 64)
 
     /**
-     * [JH](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 512 bits
+     * [Jh](https://en.wikipedia.org/wiki/JH_(hash_function)) with output size 512 bits
      */
     public data object JH512 : Algorithm("JH-512", 64)
 
@@ -1140,22 +1140,22 @@ public sealed class Algorithm(public val algorithmName: String, internal val blo
     public data object SHAvite512 : Algorithm("SHAvite-512", 128)
 
     /**
-     * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 224 bits
+     * [Simd](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 224 bits
      */
     public data object SIMD224 : Algorithm("SIMD-224", 64)
 
     /**
-     * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 256 bits
+     * [Simd](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 256 bits
      */
     public data object SIMD256 : Algorithm("SIMD-256", 64)
 
     /**
-     * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 384 bits
+     * [Simd](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 384 bits
      */
     public data object SIMD384 : Algorithm("SIMD-384", 128)
 
     /**
-     * [SIMD](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 512 bits
+     * [Simd](https://en.wikipedia.org/wiki/SIMD_(hash_function)) with output size of 512 bits
      */
     public data object SIMD512 : Algorithm("SIMD-512", 128)
 

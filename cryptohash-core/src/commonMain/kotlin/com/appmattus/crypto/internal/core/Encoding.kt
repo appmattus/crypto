@@ -30,7 +30,7 @@ import com.appmattus.crypto.InternalCryptohash
  * @param off   the destination offset
  */
 @InternalCryptohash
-public fun encodeBEInt(value: Int, buf: ByteArray, off: Int) {
+public fun encodeBeInt(value: Int, buf: ByteArray, off: Int) {
     buf[off + 0] = (value ushr 24).toByte()
     buf[off + 1] = (value ushr 16).toByte()
     buf[off + 2] = (value ushr 8).toByte()
@@ -47,7 +47,7 @@ public fun encodeBEInt(value: Int, buf: ByteArray, off: Int) {
  */
 @Suppress("NOTHING_TO_INLINE")
 @InternalCryptohash
-public inline fun decodeLEInt(buf: ByteArray, off: Int): Int {
+public inline fun decodeLeInt(buf: ByteArray, off: Int): Int {
     return (buf[off + 3].toInt() and 0xFF shl 24) or
             (buf[off + 2].toInt() and 0xFF shl 16) or
             (buf[off + 1].toInt() and 0xFF shl 8) or
@@ -63,13 +63,13 @@ public inline fun decodeLEInt(buf: ByteArray, off: Int): Int {
  */
 @Suppress("NOTHING_TO_INLINE")
 @InternalCryptohash
-public inline fun decodeLELong(buf: ByteArray, off: Int): Long {
-    return (decodeLEInt(buf, off + 4).toLong() shl 32) or (decodeLEInt(buf, off).toLong() and 0xFFFFFFFFL)
+public inline fun decodeLeLong(buf: ByteArray, off: Int): Long {
+    return (decodeLeInt(buf, off + 4).toLong() shl 32) or (decodeLeInt(buf, off).toLong() and 0xFFFFFFFFL)
 }
 
 @Suppress("NOTHING_TO_INLINE")
 @InternalCryptohash
-public inline fun ByteArray.decodeLEULong(off: Int): ULong = decodeLELong(this, off).toULong()
+public inline fun ByteArray.decodeLeULong(off: Int): ULong = decodeLeLong(this, off).toULong()
 
 /**
  * Decode a 16-bit little-endian word from this array at offset [off].
@@ -79,7 +79,7 @@ public inline fun ByteArray.decodeLEULong(off: Int): ULong = decodeLELong(this, 
  */
 @Suppress("NOTHING_TO_INLINE")
 @InternalCryptohash
-public inline fun ByteArray.decodeLEShort(off: Int): Short {
+public inline fun ByteArray.decodeLeShort(off: Int): Short {
     return ((this[off + 1].toInt() and 0xFF shl 8) or (this[off].toInt() and 0xFF)).toShort()
 }
 
@@ -92,7 +92,7 @@ public inline fun ByteArray.decodeLEShort(off: Int): Short {
  * @return the decoded value
  */
 @InternalCryptohash
-public fun decodeBEInt(buf: ByteArray, off: Int): Int {
+public fun decodeBeInt(buf: ByteArray, off: Int): Int {
     return buf[off].toInt() and 0xFF shl 24 or
             (buf[off + 1].toInt() and 0xFF shl 16) or
             (buf[off + 2].toInt() and 0xFF shl 8) or
@@ -109,7 +109,7 @@ public fun decodeBEInt(buf: ByteArray, off: Int): Int {
  * @param off   the destination offset
  */
 @InternalCryptohash
-public fun encodeBELong(value: Long, buf: ByteArray, off: Int) {
+public fun encodeBeLong(value: Long, buf: ByteArray, off: Int) {
     buf[off + 0] = (value ushr 56).toByte()
     buf[off + 1] = (value ushr 48).toByte()
     buf[off + 2] = (value ushr 40).toByte()
@@ -148,7 +148,7 @@ public const val SMALL_COPY_LIMIT: Int = 32
  * @param off   the destination offset
  */
 @InternalCryptohash
-public fun encodeLELong(value: Long, dst: ByteArray, off: Int) {
+public fun encodeLeLong(value: Long, dst: ByteArray, off: Int) {
     dst[off + 0] = value.toByte()
     dst[off + 1] = (value.toInt() ushr 8).toByte()
     dst[off + 2] = (value.toInt() ushr 16).toByte()
@@ -168,7 +168,7 @@ public fun encodeLELong(value: Long, dst: ByteArray, off: Int) {
  * @return the decoded value
  */
 @InternalCryptohash
-public fun decodeBELong(buf: ByteArray, off: Int): Long {
+public fun decodeBeLong(buf: ByteArray, off: Int): Long {
     return (buf[off].toLong() and 0xFF) shl 56 or
             ((buf[off + 1].toLong() and 0xFF) shl 48) or
             ((buf[off + 2].toLong() and 0xFF) shl 40) or
@@ -209,7 +209,7 @@ public fun ULong.reverseByteOrder(): ULong {
  * @param off   the destination offset
  */
 @InternalCryptohash
-public fun encodeLEInt(value: Int, buf: ByteArray, off: Int) {
+public fun encodeLeInt(value: Int, buf: ByteArray, off: Int) {
     buf[off + 0] = value.toByte()
     buf[off + 1] = (value ushr 8).toByte()
     buf[off + 2] = (value ushr 16).toByte()

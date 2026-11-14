@@ -39,8 +39,8 @@
 
 package com.appmattus.crypto.internal.haval
 
-import com.appmattus.crypto.internal.core.decodeLEInt
-import com.appmattus.crypto.internal.core.encodeLEInt
+import com.appmattus.crypto.internal.core.decodeLeInt
+import com.appmattus.crypto.internal.core.encodeLeInt
 import com.appmattus.crypto.internal.core.rotateLeft
 import com.appmattus.crypto.internal.core.sphlib.HasherEngine
 
@@ -120,8 +120,8 @@ internal class HavalHasher(private val outputLength: Int, private val passes: In
         val currentLength = (blockCount shl 7) + dataLen.toLong() shl 3
         padBuf[0] = (0x01 or (passes shl 3)).toByte()
         padBuf[1] = (olen shl 3).toByte()
-        encodeLEInt(currentLength.toInt(), padBuf, 2)
-        encodeLEInt((currentLength ushr 32).toInt(), padBuf, 6)
+        encodeLeInt(currentLength.toInt(), padBuf, 2)
+        encodeLeInt((currentLength ushr 32).toInt(), padBuf, 6)
         val endLen = dataLen + 138 and 127.inv()
         update(0x01.toByte())
         for (i in dataLen + 1 until endLen - 10) update(0.toByte())
@@ -137,7 +137,7 @@ internal class HavalHasher(private val outputLength: Int, private val passes: In
     }
 
     override fun processBlock(data: ByteArray) {
-        for (i in 0..31) inw[i] = decodeLEInt(data, 4 * i)
+        for (i in 0..31) inw[i] = decodeLeInt(data, 4 * i)
         val save0 = s0
         val save1 = s1
         val save2 = s2
@@ -549,48 +549,48 @@ internal class HavalHasher(private val outputLength: Int, private val passes: In
     }
 
     private fun write128(out: ByteArray, off: Int) {
-        encodeLEInt(s0 + mix128(s7, s4, s5, s6, 24), out, off)
-        encodeLEInt(s1 + mix128(s6, s7, s4, s5, 16), out, off + 4)
-        encodeLEInt(s2 + mix128(s5, s6, s7, s4, 8), out, off + 8)
-        encodeLEInt(s3 + mix128(s4, s5, s6, s7, 0), out, off + 12)
+        encodeLeInt(s0 + mix128(s7, s4, s5, s6, 24), out, off)
+        encodeLeInt(s1 + mix128(s6, s7, s4, s5, 16), out, off + 4)
+        encodeLeInt(s2 + mix128(s5, s6, s7, s4, 8), out, off + 8)
+        encodeLeInt(s3 + mix128(s4, s5, s6, s7, 0), out, off + 12)
     }
 
     private fun write160(out: ByteArray, off: Int) {
-        encodeLEInt(s0 + mix160_0(s5, s6, s7), out, off)
-        encodeLEInt(s1 + mix160_1(s5, s6, s7), out, off + 4)
-        encodeLEInt(s2 + mix160_2(s5, s6, s7), out, off + 8)
-        encodeLEInt(s3 + mix160_3(s5, s6, s7), out, off + 12)
-        encodeLEInt(s4 + mix160_4(s5, s6, s7), out, off + 16)
+        encodeLeInt(s0 + mix160_0(s5, s6, s7), out, off)
+        encodeLeInt(s1 + mix160_1(s5, s6, s7), out, off + 4)
+        encodeLeInt(s2 + mix160_2(s5, s6, s7), out, off + 8)
+        encodeLeInt(s3 + mix160_3(s5, s6, s7), out, off + 12)
+        encodeLeInt(s4 + mix160_4(s5, s6, s7), out, off + 16)
     }
 
     private fun write192(out: ByteArray, off: Int) {
-        encodeLEInt(s0 + mix192_0(s6, s7), out, off)
-        encodeLEInt(s1 + mix192_1(s6, s7), out, off + 4)
-        encodeLEInt(s2 + mix192_2(s6, s7), out, off + 8)
-        encodeLEInt(s3 + mix192_3(s6, s7), out, off + 12)
-        encodeLEInt(s4 + mix192_4(s6, s7), out, off + 16)
-        encodeLEInt(s5 + mix192_5(s6, s7), out, off + 20)
+        encodeLeInt(s0 + mix192_0(s6, s7), out, off)
+        encodeLeInt(s1 + mix192_1(s6, s7), out, off + 4)
+        encodeLeInt(s2 + mix192_2(s6, s7), out, off + 8)
+        encodeLeInt(s3 + mix192_3(s6, s7), out, off + 12)
+        encodeLeInt(s4 + mix192_4(s6, s7), out, off + 16)
+        encodeLeInt(s5 + mix192_5(s6, s7), out, off + 20)
     }
 
     private fun write224(out: ByteArray, off: Int) {
-        encodeLEInt(s0 + (s7 ushr 27 and 0x1F), out, off)
-        encodeLEInt(s1 + (s7 ushr 22 and 0x1F), out, off + 4)
-        encodeLEInt(s2 + (s7 ushr 18 and 0x0F), out, off + 8)
-        encodeLEInt(s3 + (s7 ushr 13 and 0x1F), out, off + 12)
-        encodeLEInt(s4 + (s7 ushr 9 and 0x0F), out, off + 16)
-        encodeLEInt(s5 + (s7 ushr 4 and 0x1F), out, off + 20)
-        encodeLEInt(s6 + (s7 and 0x0F), out, off + 24)
+        encodeLeInt(s0 + (s7 ushr 27 and 0x1F), out, off)
+        encodeLeInt(s1 + (s7 ushr 22 and 0x1F), out, off + 4)
+        encodeLeInt(s2 + (s7 ushr 18 and 0x0F), out, off + 8)
+        encodeLeInt(s3 + (s7 ushr 13 and 0x1F), out, off + 12)
+        encodeLeInt(s4 + (s7 ushr 9 and 0x0F), out, off + 16)
+        encodeLeInt(s5 + (s7 ushr 4 and 0x1F), out, off + 20)
+        encodeLeInt(s6 + (s7 and 0x0F), out, off + 24)
     }
 
     private fun write256(out: ByteArray, off: Int) {
-        encodeLEInt(s0, out, off)
-        encodeLEInt(s1, out, off + 4)
-        encodeLEInt(s2, out, off + 8)
-        encodeLEInt(s3, out, off + 12)
-        encodeLEInt(s4, out, off + 16)
-        encodeLEInt(s5, out, off + 20)
-        encodeLEInt(s6, out, off + 24)
-        encodeLEInt(s7, out, off + 28)
+        encodeLeInt(s0, out, off)
+        encodeLeInt(s1, out, off + 4)
+        encodeLeInt(s2, out, off + 8)
+        encodeLeInt(s3, out, off + 12)
+        encodeLeInt(s4, out, off + 16)
+        encodeLeInt(s5, out, off + 20)
+        encodeLeInt(s6, out, off + 24)
+        encodeLeInt(s7, out, off + 28)
     }
 
     private fun writeOutput(out: ByteArray, off: Int) {

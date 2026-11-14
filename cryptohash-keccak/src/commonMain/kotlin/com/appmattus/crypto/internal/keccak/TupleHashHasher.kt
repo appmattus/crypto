@@ -55,13 +55,13 @@ import com.appmattus.crypto.internal.core.AbstractHasher
 internal class TupleHashHasher private constructor(
     private val bitLength: Int,
     private val outputLength: Int,
-    private val cshake: CSHAKEHasher
+    private val cshake: CshakeHasher
 ) : AbstractHasher() {
 
     constructor(bitLength: Int, customisation: ByteArray?, outputLength: Int) : this(
         bitLength = bitLength,
         outputLength = outputLength,
-        cshake = CSHAKEHasher(bitLength, "TupleHash".encodeToByteArray(), customisation)
+        cshake = CshakeHasher(bitLength, "TupleHash".encodeToByteArray(), customisation)
     )
 
     override fun update(input: ByteArray, offset: Int, length: Int): Hasher {
@@ -83,7 +83,7 @@ internal class TupleHashHasher private constructor(
         cshake.reset()
     }
 
-    override fun copy(): TupleHashHasher = TupleHashHasher(bitLength, outputLength, CSHAKEHasher(cshake))
+    override fun copy(): TupleHashHasher = TupleHashHasher(bitLength, outputLength, CshakeHasher(cshake))
 
     override fun toString(): String = "TupleHash$bitLength"
 }

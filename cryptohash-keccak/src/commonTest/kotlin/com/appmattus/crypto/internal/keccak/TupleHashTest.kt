@@ -17,7 +17,7 @@
 package com.appmattus.crypto.internal.keccak
 
 import com.appmattus.crypto.HashAlgorithm
-import com.appmattus.crypto.SP800185
+import com.appmattus.crypto.Sp800185
 import com.appmattus.crypto.internal.strtobin
 import com.appmattus.crypto.internal.toHexString
 import kotlin.test.Test
@@ -36,23 +36,23 @@ class TupleHashTest {
 
     @Test
     fun tupleHash128Sample1() {
-        assertTuple(SP800185.tupleHash128(), tuple.take(2), "c5d8786c1afb9b82111ab34b65b2c0048fa64e6d48e263264ce1707d3ffc8ed1")
+        assertTuple(Sp800185.tupleHash128(), tuple.take(2), "c5d8786c1afb9b82111ab34b65b2c0048fa64e6d48e263264ce1707d3ffc8ed1")
     }
 
     @Test
     fun tupleHash128Sample2() {
-        assertTuple(SP800185.tupleHash128(tag), tuple.take(2), "75cdb20ff4db1154e841d758e24160c54bae86eb8c13e7f5f40eb35588e96dfb")
+        assertTuple(Sp800185.tupleHash128(tag), tuple.take(2), "75cdb20ff4db1154e841d758e24160c54bae86eb8c13e7f5f40eb35588e96dfb")
     }
 
     @Test
     fun tupleHash128Sample3() {
-        assertTuple(SP800185.tupleHash128(tag), tuple, "e60f202c89a2631eda8d4c588ca5fd07f39e5151998deccf973adb3804bb6e84")
+        assertTuple(Sp800185.tupleHash128(tag), tuple, "e60f202c89a2631eda8d4c588ca5fd07f39e5151998deccf973adb3804bb6e84")
     }
 
     @Test
     fun tupleHash256Sample4() {
         assertTuple(
-            SP800185.tupleHash256(),
+            Sp800185.tupleHash256(),
             tuple.take(2),
             "cfb7058caca5e668f81a12a20a2195ce97a925f1dba3e7449a56f82201ec607311ac2696b1ab5ea2352df1423bde7bd4bb78c9aed1a853c78672f9eb23bbe194"
         )
@@ -61,7 +61,7 @@ class TupleHashTest {
     @Test
     fun tupleHash256Sample5() {
         assertTuple(
-            SP800185.tupleHash256(tag),
+            Sp800185.tupleHash256(tag),
             tuple.take(2),
             "147c2191d5ed7efd98dbd96d7ab5a11692576f5fe2a5065f3e33de6bba9f3aa1c4e9a068a289c61c95aab30aee1e410b0b607de3620e24a4e3bf9852a1d4367e"
         )
@@ -70,7 +70,7 @@ class TupleHashTest {
     @Test
     fun tupleHash256Sample6() {
         assertTuple(
-            SP800185.tupleHash256(tag),
+            Sp800185.tupleHash256(tag),
             tuple,
             "45000be63f9b6bfd89f54717670f69a9bc763591a4f05c50d68891a744bcc6e7d6d5b5e82c018da999ed35b0bb49c9678e526abd8e85c13ed254021db9e790ce"
         )
@@ -78,14 +78,14 @@ class TupleHashTest {
 
     @Test
     fun eachUpdateIsOneTupleElement() {
-        val digest = SP800185.tupleHash128().newHasher()
+        val digest = Sp800185.tupleHash128().newHasher()
         digest.update(tuple[0] + tuple[1])
         assertNotEquals("c5d8786c1afb9b82111ab34b65b2c0048fa64e6d48e263264ce1707d3ffc8ed1", digest.digest().toHexString())
     }
 
     @Test
     fun copyContinuesFromTheSameState() {
-        val digest = SP800185.tupleHash128(tag).newHasher()
+        val digest = Sp800185.tupleHash128(tag).newHasher()
         digest.update(tuple[0])
         val copy = digest.copy()
         digest.update(tuple[1])
@@ -98,8 +98,8 @@ class TupleHashTest {
 
     @Test
     fun invalidOutputSizeIsRejected() {
-        assertFailsWith<IllegalArgumentException> { SP800185.tupleHash128(outputSizeBits = -8) }
-        assertFailsWith<IllegalArgumentException> { SP800185.tupleHash256(outputSizeBits = 7) }
+        assertFailsWith<IllegalArgumentException> { Sp800185.tupleHash128(outputSizeBits = -8) }
+        assertFailsWith<IllegalArgumentException> { Sp800185.tupleHash256(outputSizeBits = 7) }
     }
 
     private fun assertTuple(algorithm: HashAlgorithm, elements: List<ByteArray>, expected: String) {
