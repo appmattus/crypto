@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto
 
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -31,12 +29,15 @@ import kotlin.test.assertSame
 class PlatformDigestTest {
 
     private val input = "hello world".encodeToByteArray()
+
+    @Suppress("DEPRECATION")
     private val expected = Algorithm.SHA_256.hash(input)
 
     private fun mutableData(size: Int) = NSMutableData().apply { setLength(size.convert()) }
 
     @Test
     fun updateChains() {
+        @Suppress("DEPRECATION")
         val digest = Algorithm.SHA_256.createDigest().platform()
 
         assertSame(digest, digest.update(input[0]))
@@ -48,6 +49,7 @@ class PlatformDigestTest {
 
     @Test
     fun digestWritesIntoMutableDataAtOffset() {
+        @Suppress("DEPRECATION")
         val digest = Algorithm.SHA_256.createDigest().platform()
         val output = mutableData(40)
 
@@ -60,6 +62,7 @@ class PlatformDigestTest {
 
     @Test
     fun digestWritesTruncatedOutputWhenLengthIsShorterThanDigest() {
+        @Suppress("DEPRECATION")
         val digest = Algorithm.SHA_256.createDigest().platform()
         val output = mutableData(16)
 
@@ -72,6 +75,7 @@ class PlatformDigestTest {
 
     @Test
     fun digestRejectsOutputTooSmallWithoutResettingDigest() {
+        @Suppress("DEPRECATION")
         val digest = Algorithm.SHA_256.createDigest().platform()
         digest.update(input.toData())
 
@@ -85,6 +89,8 @@ class PlatformDigestTest {
     @Test
     fun updateWithOffsetAndLengthHashesOnlyThatRange() {
         val data = "xxhello worldyyy".encodeToByteArray()
+
+        @Suppress("DEPRECATION")
         val digest = Algorithm.SHA_256.createDigest().platform()
 
         digest.update(data.toData(), 2, input.size)
@@ -93,6 +99,7 @@ class PlatformDigestTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun updateWithRangeAtStartAndEndOfData() {
         val data = ByteArray(64) { it.toByte() }
         val digest = Algorithm.SHA_256.createDigest().platform()
@@ -107,6 +114,8 @@ class PlatformDigestTest {
     @Test
     fun updateRejectsOutOfBoundsRange() {
         val data = ByteArray(16).toData()
+
+        @Suppress("DEPRECATION")
         val digest = Algorithm.SHA_256.createDigest().platform()
 
         assertFailsWith<IndexOutOfBoundsException> { digest.update(data, -1, 4) }

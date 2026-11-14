@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -33,6 +31,7 @@ class RapidhashDelegationTest {
     private val input = ByteArray(200) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashRapidhash() {
         testDigestKat({ CoreDigest.create(Algorithm.Rapidhash()) }, "hello", 3327445792987248966uL.toString(16).padStart(16, '0'))
         testDigestKat({ CoreDigest.create(Algorithm.Rapidhash(5u)) }, input, Rapidhash.rapidhash(5u).hash(input).toHexString())
@@ -41,6 +40,7 @@ class RapidhashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(Algorithm.Rapidhash(), Algorithm.RapidhashMicro(), Algorithm.RapidhashNano()).forEach { algorithm ->
             val digest = algorithm.createDigest()

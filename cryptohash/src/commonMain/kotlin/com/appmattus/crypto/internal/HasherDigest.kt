@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Digest
@@ -28,8 +26,10 @@ import com.appmattus.crypto.Hasher
  *
  * The [Digest] shares this hasher's state, and [Digest.copy] copies the hasher.
  */
+@Suppress("DEPRECATION")
 internal fun Hasher.toDigest(blockLength: Int): Digest = HasherDigest(this, blockLength)
 
+@Suppress("DEPRECATION")
 private class HasherDigest(private val hasher: Hasher, override val blockLength: Int) : Digest {
 
     override fun update(input: Byte): Digest = apply { hasher.update(input) }

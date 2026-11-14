@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -39,6 +37,7 @@ class KeccakDelegationTest {
 
     private val customisation = "cryptohash delegation test".encodeToByteArray()
 
+    @Suppress("DEPRECATION")
     private val pairs = listOf(
         Algorithm.Keccak224 to Keccak.keccak224,
         Algorithm.Keccak256 to Keccak.keccak256,
@@ -76,6 +75,7 @@ class KeccakDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         listOf(
             Algorithm.Keccak256 to Keccak.keccak256,

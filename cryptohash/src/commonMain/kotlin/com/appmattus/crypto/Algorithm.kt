@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto
 
 import com.appmattus.crypto.internal.CoreDigest
 import com.appmattus.crypto.internal.xxhash.xxh3.XXH3_SECRET_SIZE_MIN
 
-@Suppress("ClassName")
+@Suppress("ClassName", "DEPRECATION")
 @Deprecated(
     "Use the algorithm family objects in the cryptohash modules, such as Sha2.sha256, which create a Hasher with " +
         "newHasher(), hash with hash() and, for HMAC, create a Mac with newHmac()"

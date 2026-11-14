@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -34,6 +32,7 @@ class BmwDelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashBmw() {
         testDigestKat({ CoreDigest.create(Algorithm.BMW224) }, input, Bmw.bmw224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.BMW256) }, input, Bmw.bmw256.hash(input).toHexString())
@@ -42,6 +41,7 @@ class BmwDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         assertContentEquals(Bmw.bmw224.newHmac(key).digest(input), Algorithm.BMW224.hmac(key, input))
         assertContentEquals(Bmw.bmw224.newHmac(key, outputLength = 10).digest(input), Algorithm.BMW224.hmac(key, input, outputLength = 10))
@@ -54,6 +54,7 @@ class BmwDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.BMW224 to 28,

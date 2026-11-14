@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -33,6 +31,7 @@ class SipHashDelegationTest {
     private val key = ByteArray(16) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashSipHash() {
         testDigestKat({ CoreDigest.create(Algorithm.SipHash(key)) }, input, SipHash.sipHash(key).hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.SipHash(key, 1, 3)) }, input, SipHash.sipHash(key, 1, 3).hash(input).toHexString())
@@ -41,6 +40,7 @@ class SipHashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.SipHash(key) to 8,
@@ -57,6 +57,7 @@ class SipHashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun algorithmToStringShowsRoundsButNotKey() {
         assertEquals("SipHash-2-4(key=ByteArray(size=16))", Algorithm.SipHash(key).toString())
     }

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -32,12 +30,14 @@ class RadioGatunDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashRadioGatun() {
         testDigestKat({ CoreDigest.create(Algorithm.RadioGatun32) }, input, RadioGatun.radioGatun32.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.RadioGatun64) }, input, RadioGatun.radioGatun64.hash(input).toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.RadioGatun32 to 32,

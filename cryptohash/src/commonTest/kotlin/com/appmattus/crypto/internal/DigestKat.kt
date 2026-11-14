@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Digest
@@ -25,6 +23,7 @@ import kotlin.test.assertEquals
  * The [Digest] counterpart of common-test's testKat: checks the digest of [data] is [ref] through every part of the
  * [Digest] API, including copy() part way through
  */
+@Suppress("DEPRECATION")
 fun testDigestKat(dig: () -> Digest, data: ByteArray, ref: String, inBackground: Boolean = true) {
     executeInBackground(inBackground) {
         val digest = dig()
@@ -53,6 +52,7 @@ fun testDigestKat(dig: () -> Digest, data: ByteArray, ref: String, inBackground:
     }
 }
 
+@Suppress("DEPRECATION")
 fun testDigestKat(dig: () -> Digest, data: String, ref: String, inBackground: Boolean = true) {
     testDigestKat(dig, data.encodeToByteArray(), ref, inBackground)
 }

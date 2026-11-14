@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -33,6 +31,7 @@ class Blake2DelegationTest {
     private val key = ByteArray(20) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashBlake2() {
         listOf(
             Algorithm.Blake2b_160 to Blake2.blake2b(160),
@@ -55,6 +54,7 @@ class Blake2DelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Blake2b_160 to 20,

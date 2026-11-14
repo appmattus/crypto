@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Adler
@@ -72,7 +70,7 @@ import com.appmattus.crypto.XxHash
 
 internal object CoreDigest {
 
-    @Suppress("LongMethod", "ComplexMethod")
+    @Suppress("LongMethod", "ComplexMethod", "DEPRECATION")
     fun create(algorithm: Algorithm): Digest {
         // Every branch is an is-check, objects included. An object's class has only that one instance, so is matches
         // exactly what == would, but it's a plain type check, where == calls Algorithm.equals and, on Kotlin/JS, the
@@ -418,10 +416,11 @@ internal object CoreDigest {
     /**
      * An HMAC of [algorithm] using [key], truncated to [outputLength] bytes if given, backed by its family module
      */
+    @Suppress("DEPRECATION")
     fun createHmac(algorithm: Hmac, key: ByteArray, outputLength: Int?): Digest =
         hmacAlgorithm(algorithm).newHmac(key, outputLength).toDigest()
 
-    @Suppress("CyclomaticComplexMethod")
+    @Suppress("CyclomaticComplexMethod", "DEPRECATION")
     private fun hmacAlgorithm(algorithm: Hmac): HmacAlgorithm = when (algorithm) {
         is Algorithm.BMW224 -> Bmw.bmw224
         is Algorithm.BMW256 -> Bmw.bmw256

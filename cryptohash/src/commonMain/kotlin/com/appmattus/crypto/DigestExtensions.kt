@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto
 
 /**
@@ -26,6 +24,7 @@ package com.appmattus.crypto
  * ```
  */
 @Deprecated("Use Hasher.update(String), on a Hasher from HashAlgorithm.newHasher()")
+@Suppress("DEPRECATION")
 public fun <T : Digest> T.update(input: String): T = apply { update(input.encodeToByteArray()) }
 
 /**
@@ -33,6 +32,7 @@ public fun <T : Digest> T.update(input: String): T = apply { update(input.encode
  * value. This resets the digest so it can be used again.
  */
 @Deprecated("Use Hasher.digest(String), on a Hasher from HashAlgorithm.newHasher()")
+@Suppress("DEPRECATION")
 public fun Digest.digest(input: String): ByteArray = digest(input.encodeToByteArray())
 
 /**

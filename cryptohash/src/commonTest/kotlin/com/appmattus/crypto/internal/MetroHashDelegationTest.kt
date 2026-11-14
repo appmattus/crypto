@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -32,6 +30,7 @@ class MetroHashDelegationTest {
     private val input = ByteArray(200) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashMetroHash() {
         testDigestKat({ CoreDigest.create(Algorithm.MetroHash64()) }, "hello world", "22d16db35723c197")
         testDigestKat({ CoreDigest.create(Algorithm.MetroHash64(5u)) }, input, MetroHash.metroHash64(5u).hash(input).toHexString())
@@ -40,6 +39,7 @@ class MetroHashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(Algorithm.MetroHash64() to 8, Algorithm.MetroHash128() to 16).forEach { (algorithm, digestLength) ->
             val digest = algorithm.createDigest()

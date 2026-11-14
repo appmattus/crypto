@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -34,12 +32,14 @@ class HarakaDelegationTest {
     private val input64 = ByteArray(64) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashHaraka() {
         testDigestKat({ CoreDigest.create(Algorithm.Haraka256_256) }, input32, Haraka.haraka256.hash(input32).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.Haraka512_256) }, input64, Haraka.haraka512.hash(input64).toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Haraka256_256 to 32,

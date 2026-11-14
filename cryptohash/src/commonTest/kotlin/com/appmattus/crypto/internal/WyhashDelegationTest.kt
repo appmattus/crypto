@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -30,17 +28,20 @@ import kotlin.test.assertEquals
 class WyhashDelegationTest {
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsWyhash64DigestsBackedByCryptohashWyhash() {
         testDigestKat({ CoreDigest.create(Algorithm.Wyhash(2u)) }, "abc", "0bc54887cfc9ecb1")
         testDigestKat({ CoreDigest.create(Algorithm.Wyhash(2u, extraProtection = true)) }, "abc", "e81bb997cc2cc450")
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsWyhash32DigestsBackedByCryptohashWyhash() {
         testDigestKat({ CoreDigest.create(Algorithm.Wyhash32(2u)) }, "abc", "fe40215d")
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun usesTheSecret() {
         val secret = Algorithm.Wyhash.makeSecret(1u)
 
@@ -52,6 +53,7 @@ class WyhashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         val wyhash = Algorithm.Wyhash().createDigest()
         assertEquals(Algorithm.Wyhash().blockLength, wyhash.blockLength)

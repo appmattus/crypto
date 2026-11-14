@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -31,6 +29,7 @@ class CubeHashDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashCubeHash() {
         testDigestKat({ CoreDigest.create(Algorithm.CubeHash224) }, input, CubeHash.cubeHash224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.CubeHash256) }, input, CubeHash.cubeHash256.hash(input).toHexString())
@@ -39,6 +38,7 @@ class CubeHashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.CubeHash224 to 28,

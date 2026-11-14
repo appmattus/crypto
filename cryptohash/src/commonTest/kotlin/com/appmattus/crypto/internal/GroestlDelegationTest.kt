@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -31,6 +29,7 @@ class GroestlDelegationTest {
     private val input = ByteArray(300) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashGroestl() {
         testDigestKat({ CoreDigest.create(Algorithm.Groestl224) }, input, Groestl.groestl224.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.Groestl256) }, input, Groestl.groestl256.hash(input).toHexString())
@@ -39,6 +38,7 @@ class GroestlDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Groestl224 to 28,

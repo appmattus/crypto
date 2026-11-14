@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -34,17 +32,20 @@ class Sm3DelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashSm3() {
         testDigestKat({ CoreDigest.create(Algorithm.SM3) }, input, Sm3.sm3.hash(input).toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         assertContentEquals(Sm3.sm3.newHmac(key).digest(input), Algorithm.SM3.hmac(key, input))
         assertContentEquals(Sm3.sm3.newHmac(key, outputLength = 10).digest(input), Algorithm.SM3.hmac(key, input, outputLength = 10))
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.SM3 to 32

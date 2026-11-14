@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto
 
 import kotlin.test.Test
@@ -29,6 +27,7 @@ class AlgorithmBlockLengthTest {
 
     @Test
     fun algorithmBlockLengthMatchesDigest() {
+        @Suppress("DEPRECATION")
         val algorithms = buildList { collectAlgorithms(Algorithm::class.java, this) }
         assertTrue(algorithms.size >= MIN_EXPECTED_ALGORITHMS, "Only found ${algorithms.size} algorithms")
 
@@ -47,6 +46,7 @@ class AlgorithmBlockLengthTest {
     /**
      * Collect every [Algorithm] object, plus every [Algorithm] class that can be created with its default parameters
      */
+    @Suppress("DEPRECATION")
     private fun collectAlgorithms(type: Class<*>, algorithms: MutableList<Algorithm>) {
         type.declaredClasses.filter { Algorithm::class.java.isAssignableFrom(it) }.forEach { nested ->
             val instance = runCatching { nested.getField("INSTANCE").get(null) as Algorithm }.getOrNull()

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -34,6 +32,7 @@ class SkeinDelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashSkein() {
         listOf(
             Algorithm.Skein256_128 to Skein.skein256_128,
@@ -58,6 +57,7 @@ class SkeinDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         listOf(
             Algorithm.Skein256_160 to Skein.skein256_160,
@@ -70,6 +70,7 @@ class SkeinDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Skein256_128 to 16,

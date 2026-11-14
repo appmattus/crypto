@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto
 
 /**
@@ -51,6 +49,7 @@ package com.appmattus.crypto
     "Use Hasher, created by HashAlgorithm.newHasher()",
     ReplaceWith("Hasher", "com.appmattus.crypto.Hasher")
 )
+@Suppress("DEPRECATION")
 public interface PlatformDigest {
 
     /**

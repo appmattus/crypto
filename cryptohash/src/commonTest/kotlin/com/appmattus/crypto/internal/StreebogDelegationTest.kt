@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -35,12 +33,14 @@ class StreebogDelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashStreebog() {
         testDigestKat({ CoreDigest.create(Algorithm.GOST3411_2012_256) }, input, Streebog.streebog256.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.GOST3411_2012_512) }, input, Streebog.streebog512.hash(input).toHexString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         assertContentEquals(Streebog.streebog256.newHmac(key).digest(input), Algorithm.GOST3411_2012_256.hmac(key, input))
         assertContentEquals(Streebog.streebog256.newHmac(key, outputLength = 10).digest(input), Algorithm.GOST3411_2012_256.hmac(key, input, outputLength = 10))
@@ -49,6 +49,7 @@ class StreebogDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.GOST3411_2012_256 to 32,

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -35,6 +33,7 @@ class WhirlpoolDelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashWhirlpool() {
         testDigestKat({ CoreDigest.create(Algorithm.Whirlpool) }, input, Whirlpool.whirlpool.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.Whirlpool0) }, input, Whirlpool.whirlpool0.hash(input).toHexString())
@@ -42,12 +41,14 @@ class WhirlpoolDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         assertContentEquals(Whirlpool.whirlpool.newHmac(key).digest(input), Algorithm.Whirlpool.hmac(key, input))
         assertContentEquals(Whirlpool.whirlpool.newHmac(key, outputLength = 10).digest(input), Algorithm.Whirlpool.hmac(key, input, outputLength = 10))
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.Whirlpool to 64,

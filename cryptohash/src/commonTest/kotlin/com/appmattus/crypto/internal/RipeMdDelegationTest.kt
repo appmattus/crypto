@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -34,6 +32,7 @@ class RipeMdDelegationTest {
     private val key = ByteArray(100) { (it * 31 + 7).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashRipeMd() {
         testDigestKat({ CoreDigest.create(Algorithm.RipeMD) }, input, RipeMd.ripeMd.hash(input).toHexString())
         testDigestKat({ CoreDigest.create(Algorithm.RipeMD128) }, input, RipeMd.ripeMd128.hash(input).toHexString())
@@ -43,6 +42,7 @@ class RipeMdDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsHmacsMatchingTheModule() {
         assertContentEquals(RipeMd.ripeMd128.newHmac(key).digest(input), Algorithm.RipeMD128.hmac(key, input))
         assertContentEquals(RipeMd.ripeMd128.newHmac(key, outputLength = 10).digest(input), Algorithm.RipeMD128.hmac(key, input, outputLength = 10))
@@ -55,6 +55,7 @@ class RipeMdDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.RipeMD to 16,

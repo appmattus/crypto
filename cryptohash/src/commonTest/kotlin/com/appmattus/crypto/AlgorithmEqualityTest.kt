@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto
 
 import kotlin.test.Test
@@ -26,12 +24,14 @@ import kotlin.test.assertTrue
 class AlgorithmEqualityTest {
 
     @Test
+    @Suppress("DEPRECATION")
     fun objectsPrintTheirName() {
         assertEquals("SHA_256", Algorithm.SHA_256.toString())
         assertEquals("Adler32", Algorithm.Adler32.toString())
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun parameterisedAlgorithmsWithSameParametersAreEqual() {
         assertEqualAndSameHash(Algorithm.CityHash64.Seed(1u), Algorithm.CityHash64.Seed(1u))
         assertEqualAndSameHash(Algorithm.CityHash64.Seeds(1u, 2u), Algorithm.CityHash64.Seeds(1u, 2u))
@@ -44,6 +44,7 @@ class AlgorithmEqualityTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun parameterisedAlgorithmsWithDifferentParametersAreNotEqual() {
         assertNotEquals<Algorithm>(Algorithm.CityHash64.Seed(1u), Algorithm.CityHash64.Seed(2u))
         assertNotEquals<Algorithm>(Algorithm.T1ha2_Stream(1u, 2u), Algorithm.T1ha2_Stream(1u, 3u))
@@ -53,6 +54,7 @@ class AlgorithmEqualityTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun differentClassesAreNotEqual() {
         assertNotEquals<Algorithm>(Algorithm.CityHash64(), Algorithm.CityHash64.Seed(0u))
         assertNotEquals<Algorithm>(Algorithm.FarmHash64.Seed(1u), Algorithm.CityHash64.Seed(1u))
@@ -62,6 +64,7 @@ class AlgorithmEqualityTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun parentInstancesWithoutParametersAreEqual() {
         assertEqualAndSameHash(Algorithm.CityHash64(), Algorithm.CityHash64())
         assertEqualAndSameHash(Algorithm.XXH3_128(), Algorithm.XXH3_128())
@@ -69,6 +72,7 @@ class AlgorithmEqualityTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun arrayParametersAreComparedByContent() {
         assertEqualAndSameHash(Algorithm.Blake2b.Keyed(byteArrayOf(1, 2)), Algorithm.Blake2b.Keyed(byteArrayOf(1, 2)))
         assertEqualAndSameHash(Algorithm.XXH3_64.Secret(ByteArray(136) { 7 }), Algorithm.XXH3_64.Secret(ByteArray(136) { 7 }))
@@ -80,6 +84,7 @@ class AlgorithmEqualityTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun algorithmsCanBeUsedAsKeys() {
         val algorithms = setOf(
             Algorithm.SHA_256,
@@ -93,6 +98,7 @@ class AlgorithmEqualityTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun toStringShowsParameters() {
         assertEquals("CityHash64", Algorithm.CityHash64().toString())
         assertEquals("CityHash64(seed=5)", Algorithm.CityHash64.Seed(5u).toString())
@@ -102,6 +108,7 @@ class AlgorithmEqualityTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun toStringShowsOnlySizeOfArrayAndListParameters() {
         assertEquals(
             "Blake2b-512(key=ByteArray(size=2), salt=null, personalisation=null)",
@@ -116,6 +123,7 @@ class AlgorithmEqualityTest {
         )
     }
 
+    @Suppress("DEPRECATION")
     private fun assertEqualAndSameHash(expected: Algorithm, actual: Algorithm) {
         assertEquals(expected, actual)
         assertEquals(expected.hashCode(), actual.hashCode())

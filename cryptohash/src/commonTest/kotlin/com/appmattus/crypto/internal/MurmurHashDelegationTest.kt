@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("DEPRECATION")
-
 package com.appmattus.crypto.internal
 
 import com.appmattus.crypto.Algorithm
@@ -32,6 +30,7 @@ class MurmurHashDelegationTest {
     private val input = ByteArray(200) { (it * 167 + 13).toByte() }
 
     @Test
+    @Suppress("DEPRECATION")
     fun createsDigestsBackedByCryptohashMurmurHash() {
         testDigestKat({ CoreDigest.create(Algorithm.MurmurHash1(0x12345678u)) }, "foo", "7BD65BCC")
         testDigestKat({ CoreDigest.create(Algorithm.MurmurHash2(5u)) }, input, MurmurHash.murmurHash2(5u).hash(input).toHexString())
@@ -52,6 +51,7 @@ class MurmurHashDelegationTest {
     }
 
     @Test
+    @Suppress("DEPRECATION")
     fun describesItselfAsTheAlgorithm() {
         listOf(
             Algorithm.MurmurHash1(),
