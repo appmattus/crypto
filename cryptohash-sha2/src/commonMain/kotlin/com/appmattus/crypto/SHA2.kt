@@ -60,11 +60,15 @@ public object SHA2 {
      * SHA-512/224, with output size of 224 bits, which also supports HMAC.
      * The platform's own implementation is used where it has one.
      */
-    public val sha512_224: HmacAlgorithm = SHA2HmacAlgorithm("SHA-512/224", 128) { platformHasher("SHA-512/224") ?: SHA512_224Hasher() }
+    public val sha512_224: HmacAlgorithm = SHA2HmacAlgorithm("SHA-512/224", 128) {
+        platformHasher("SHA-512/224") ?: SHA512_224Hasher()
+    }
 
     /**
      * SHA-512/256, with output size of 256 bits, which also supports HMAC.
      * The platform's own implementation is used where it has one.
      */
-    public val sha512_256: HmacAlgorithm = SHA2HmacAlgorithm("SHA-512/256", 128) { platformHasher("SHA-512/256") ?: SHA512_256Hasher() }
+    public val sha512_256: HmacAlgorithm = SHA2HmacAlgorithm("SHA-512/256", 128) {
+        platformHasher("SHA-512/256") ?: SHA512_256Hasher()
+    }
 }

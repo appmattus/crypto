@@ -62,9 +62,6 @@ internal class SHA512_224Hasher : Hasher {
         }
     }
 
-    override val blockLength: Int
-        get() = delegate.blockLength
-
     override fun toString() = "SHA-512/224"
 
     private class Hash : SHA2BigCore<Hash>() {

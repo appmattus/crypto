@@ -17,12 +17,10 @@
 package com.appmattus.crypto.internal.sha1
 
 import com.appmattus.crypto.SHA1
-import com.appmattus.crypto.internal.HMAC
-import com.appmattus.crypto.internal.SHA1
 import com.appmattus.crypto.internal.strtobin
 import com.appmattus.crypto.internal.testHmac
 import com.appmattus.crypto.internal.testHmacHex
-import com.appmattus.crypto.internal.testKat
+import com.appmattus.crypto.internal.testMacKat
 import kotlin.test.Test
 
 class HmacSHA1Test {
@@ -55,48 +53,31 @@ class HmacSHA1Test {
         )
 
         // From FIPS 198a.
-        testKat(
-            {
-                HMAC(
-                    SHA1(),
-                    strtobin(
+        testMacKat(
+            { SHA1.sha1.newHmac(strtobin(
                         "000102030405060708090A0B0C0D0E0F101112131" +
                                 "415161718191A1B1C1D1E1F20212223242526272" +
                                 "8292A2B2C2D2E2F303132333435363738393A3B3" +
                                 "C3D3E3F"
-                    )
-                )
-            }, "Sample #1",
+                    )) },
+            "Sample #1".encodeToByteArray(),
             "4F4CA3D5D68BA7CC0A1208C9C61E9C5DA0403C0A"
         )
-        testKat(
-            {
-                HMAC(
-                    SHA1(),
-                    strtobin("303132333435363738393A3B3C3D3E3F40414243")
-                )
-            }, "Sample #2",
+        testMacKat(
+            { SHA1.sha1.newHmac(strtobin("303132333435363738393A3B3C3D3E3F40414243")) },
+            "Sample #2".encodeToByteArray(),
             "0922D3405FAA3D194F82A45830737D5CC6C75D24"
         )
-        testKat(
-            {
-                HMAC(
-                    SHA1(),
-                    strtobin(
+        testMacKat(
+            { SHA1.sha1.newHmac(strtobin(
                         "505152535455565758595A5B5C5D5E5F606162636465666768696A6B6C6D6E6F707172737475767778797A7B7C7D7E7F808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9FA0A1A2A3A4A5A6A7A8A9AAABACADAEAFB0B1B2B3"
-                    )
-                )
-            }, "Sample #3",
+                    )) },
+            "Sample #3".encodeToByteArray(),
             "BCF41EAB8BB2D802F3D05CAF7CB092ECF8D1A3AA"
         )
-        testKat(
-            {
-                HMAC(
-                    SHA1(),
-                    strtobin("707172737475767778797A7B7C7D7E7F808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9FA0"),
-                    12
-                )
-            }, "Sample #4",
+        testMacKat(
+            { SHA1.sha1.newHmac(strtobin("707172737475767778797A7B7C7D7E7F808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9FA0"), outputLength = 12) },
+            "Sample #4".encodeToByteArray(),
             "9EA886EFE268DBECCE420C75"
         )
 

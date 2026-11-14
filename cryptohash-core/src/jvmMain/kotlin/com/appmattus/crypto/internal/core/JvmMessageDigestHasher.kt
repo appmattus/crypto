@@ -66,7 +66,6 @@ internal class JvmMessageDigestHasher private constructor(
 
     override fun copy(): JvmMessageDigestHasher = JvmMessageDigestHasher(name, messageDigest.clone() as MessageDigest)
 
-
     override fun toString() = name
 
     companion object {

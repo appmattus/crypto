@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("ClassName")
+
 package com.appmattus.crypto.internal.sha2
 
 internal class SHA512_256PlatformTest : SHA512_256Test() {

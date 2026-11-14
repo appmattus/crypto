@@ -119,7 +119,6 @@ internal class CommonCryptoHasher private constructor(
 
     override fun copy(): CommonCryptoHasher = CommonCryptoHasher(name, functions, context.copyOf())
 
-
     override fun toString() = name
 
     /**
