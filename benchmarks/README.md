@@ -5,19 +5,19 @@ built into each platform. This module is not published.
 
 | Benchmark                  | Platforms                | What it measures                                                                |
 |----------------------------|--------------------------|---------------------------------------------------------------------------------|
-| `CryptohashBenchmark`      | JVM, macOS, Linux        | `Algorithm.createDigest()` for each algorithm the platforms also provide        |
+| `CryptohashBenchmark`      | JVM, macOS, Linux        | `HashAlgorithm.newHasher()` for each algorithm the platforms also provide       |
 | `JvmPlatformBenchmark`     | JVM                      | `java.security.MessageDigest`, and `java.util.zip` for Adler32, CRC32B, CRC32C  |
 | `ApplePlatformBenchmark`   | macOS                    | CommonCrypto, and zlib for Adler32 and CRC32B                                   |
 | `OtherAlgorithmsBenchmark` | JVM, macOS, Linux        | popular algorithms only cryptohash provides, as a reference point               |
 
 Every benchmark hashes the same input in one `digest(input)` call. It is parameterised by the algorithm's
-`algorithmName` and by input sizes of 64, 1024 and 65536 bytes, so the results for each implementation line up. The
+name and by input sizes of 64, 1024 and 65536 bytes, so the results for each implementation line up. The
 platform benchmarks check during setup that the platform gives the same output as cryptohash, so they always compare
 like with like.
 
 The JVM has no MD4. Apple has no SHA-512/224, SHA-512/256, SHA-3 or CRC32C.
 
-`Algorithm.createDigest()` delegates SHA-1, SHA-2, CRC32B and CRC32C to the JVM, and SHA-1, SHA-224, SHA-256, SHA-384,
+cryptohash delegates SHA-1, SHA-2, CRC32B and CRC32C to the JVM, and SHA-1, SHA-224, SHA-256, SHA-384,
 SHA-512 and CRC32B to Apple, so `CryptohashBenchmark` measures that delegation for those algorithms. The other
 algorithms, and every algorithm on Linux, use cryptohash's own implementation.
 

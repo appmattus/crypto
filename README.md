@@ -7,7 +7,9 @@ A collection of Kotlin Multiplatform libraries to aid in mobile app
 development.
 
 [cryptohash](cryptohash/README.md): A set of cryptographic (and
-not so cryptographic) hashing functions.  
+not so cryptographic) hashing functions, in a module for each family of
+algorithms, such as [SHA-2](cryptohash-sha2/README.md) and
+[BLAKE3](cryptohash-blake3/README.md).  
 ![badge][badge-android]
 ![badge][badge-ios]
 ![badge][badge-watchos]
